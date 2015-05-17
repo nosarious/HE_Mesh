@@ -4,6 +4,7 @@
 package wblut.hemesh;
 
 import wblut.geom.WB_AABB;
+import wblut.geom.WB_Coordinate;
 
 /**
  * Axis Aligned Box.
@@ -63,6 +64,73 @@ public class HEC_Box extends HEC_Creator {
     }
 
     /**
+     * Create a box at (x,y,z).
+     *
+     *
+     * @param x
+     *            x-ordinate of center
+     * @param y
+     *            y-ordinate of center
+     * @param z
+     *            z-ordinate of center
+     * @param W
+     *            width (X)
+     * @param H
+     *            height (Y)
+     * @param D
+     *            depth (Z)
+     * @param L
+     *            number of width divisions
+     * @param M
+     *            number of height divisions
+     * @param N
+     *            number of depth divisions
+     */
+    public HEC_Box(final double x, final double y, final double z,
+	    final double W, final double H, final double D, final int L,
+	    final int M, final int N) {
+	this();
+	setCenter(x, y, z);
+	this.W = W;
+	this.H = H;
+	this.D = D;
+	this.L = Math.max(1, L);
+	this.M = Math.max(1, M);
+	this.N = Math.max(1, N);
+    }
+
+    /**
+     * Create a box at center.
+     *
+     *
+     * @param center
+     *            center
+     * @param W
+     *            width (X)
+     * @param H
+     *            height (Y)
+     * @param D
+     *            depth (Z)
+     * @param L
+     *            number of width divisions
+     * @param M
+     *            number of height divisions
+     * @param N
+     *            number of depth divisions
+     */
+    public HEC_Box(final WB_Coordinate center, final double W, final double H,
+	    final double D, final int L, final int M, final int N) {
+	this();
+	setCenter(center.xd(), center.yd(), center.zd());
+	this.W = W;
+	this.H = H;
+	this.D = D;
+	this.L = Math.max(1, L);
+	this.M = Math.max(1, M);
+	this.N = Math.max(1, N);
+    }
+
+    /**
      * Set box from AABB.
      *
      * @param AABB
@@ -76,6 +144,56 @@ public class HEC_Box extends HEC_Creator {
 	H = AABB.getHeight() + (2 * padding);
 	D = AABB.getDepth() + (2 * padding);
 	setCenter(AABB.getCenter());
+	return this;
+    }
+
+    /**
+     * 
+     * @param min
+     * @param max
+     * @return
+     */
+    public HEC_Box setFromCorners(final WB_Coordinate min,
+	    final WB_Coordinate max) {
+	W = max.xd() - min.xd();
+	H = max.yd() - min.yd();
+	D = max.zd() - min.zd();
+	setCenter(0.5 * (max.xd() + min.xd()), 0.5 * (max.yd() + min.yd()),
+		0.5 * (max.zd() + min.zd()));
+	return this;
+    }
+
+    /**
+     * 
+     * @param minx
+     * @param miny
+     * @param minz
+     * @param maxx
+     * @param maxy
+     * @param maxz
+     * @return
+     */
+    public HEC_Box setFromCorners(final double minx, final double miny,
+	    final double minz, final double maxx, final double maxy,
+	    final double maxz) {
+	W = maxx - minx;
+	H = maxy - miny;
+	D = maxz - minz;
+	setCenter(0.5 * (maxx + minx), 0.5 * (maxy + miny), 0.5 * (maxz + minz));
+	return this;
+    }
+
+    /**
+     * 
+     * @param L
+     * @param M
+     * @param N
+     * @return
+     */
+    public HEC_Box setSegments(final int L, final int M, final int N) {
+	this.L = L;
+	this.M = M;
+	this.N = N;
 	return this;
     }
 

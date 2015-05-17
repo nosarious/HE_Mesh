@@ -33,7 +33,6 @@ var searchData=
   ['fillquadrilateral',['fillQuadrilateral',['../classwblut_1_1geom_1_1_w_b___constrained_triangulation.html#a98e50b3e2f43fd201056b2fe0c84f081',1,'wblut::geom::WB_ConstrainedTriangulation']]],
   ['findface',['findFace',['../classwblut_1_1geom_1_1_w_b___constrained_triangulation.html#a1ebb8c73bf6e8ae4f2865b5d1aa5e52e',1,'wblut::geom::WB_ConstrainedTriangulation']]],
   ['findfacebruteforce',['findFaceBruteForce',['../classwblut_1_1geom_1_1_w_b___constrained_triangulation.html#a36ebac4565e5c9767c37a138c67a37f6',1,'wblut::geom::WB_ConstrainedTriangulation']]],
-  ['findhalfedge',['findHalfedge',['../classwblut_1_1hemesh_1_1_h_e___mesh.html#add7eaf105773358de4b8f947ec98bd87',1,'wblut::hemesh::HE_Mesh']]],
   ['findmachepsilon',['findMachEpsilon',['../classwblut_1_1geom_1_1_w_b___predicates.html#a078ec095a519a11af2c59823d0372463',1,'wblut::geom::WB_Predicates']]],
   ['findnearest',['findNearest',['../classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_w_b___k_d_node.html#a491d4ffa43fee31129b6b75c45015938',1,'wblut::geom::WB_KDTree::WB_KDNode']]],
   ['findoptimalsolution',['findOptimalSolution',['../classwblut_1_1hemesh_1_1_h_e___vertex.html#aed8fc373a7d31b5ccd9ab72e9c229952',1,'wblut::hemesh::HE_Vertex']]],

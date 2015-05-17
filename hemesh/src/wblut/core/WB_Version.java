@@ -22,7 +22,7 @@ public class WB_Version {
     /**
      *
      */
-    public static final int PATCH = 11;
+    public static final int PATCH = 13;
     /**
      *
      */
@@ -64,7 +64,7 @@ public class WB_Version {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#toString()
      */
     @Override

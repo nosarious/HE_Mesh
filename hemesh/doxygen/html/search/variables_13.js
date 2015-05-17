@@ -39,7 +39,7 @@ var searchData=
   ['smin',['smin',['../classwblut_1_1hemesh_1_1_h_e_c___sea_shell.html#a56cf0a73964bbc140ef49fdea5665d24',1,'wblut::hemesh::HEC_SeaShell']]],
   ['source',['source',['../classwblut_1_1hemesh_1_1_h_e_c___dual.html#a7d310daae116faed20786e3aa28c0d91',1,'wblut.hemesh.HEC_Dual.source()'],['../classwblut_1_1hemesh_1_1_h_e_c___from_mesh.html#a5e1a196526472066f72d941a35a096eb',1,'wblut.hemesh.HEC_FromMesh.source()'],['../classwblut_1_1hemesh_1_1_h_e_c___shrink_wrap.html#a51f77f8dda2825bf19f35715f8457208',1,'wblut.hemesh.HEC_ShrinkWrap.source()']]],
   ['spanning',['SPANNING',['../enumwblut_1_1geom_1_1_w_b___classification_geometry.html#ae1642dff420118d0e5e0dc557d990498',1,'wblut::geom::WB_ClassificationGeometry']]],
-  ['sphere',['sphere',['../classwblut_1_1hemesh_1_1_h_e_m___spherify.html#aa93de29d3266fc2db1f30dab3c7e12f9',1,'wblut.hemesh.HEM_Spherify.sphere()'],['../enumwblut_1_1geom_1_1_w_b___geometry_type.html#a293b689d8cd1a7a515c84948ced50237',1,'wblut.geom.WB_GeometryType.SPHERE()']]],
+  ['sphere',['SPHERE',['../enumwblut_1_1geom_1_1_w_b___geometry_type.html#a293b689d8cd1a7a515c84948ced50237',1,'wblut.geom.WB_GeometryType.SPHERE()'],['../classwblut_1_1hemesh_1_1_h_e_m___spherify.html#aa93de29d3266fc2db1f30dab3c7e12f9',1,'wblut.hemesh.HEM_Spherify.sphere()']]],
   ['spikes',['spikes',['../classwblut_1_1hemesh_1_1_h_e_m___crocodile.html#a46ca20f05e03e3b4bf4d3afe7860f664',1,'wblut::hemesh::HEM_Crocodile']]],
   ['spiky',['spiky',['../classwblut_1_1hemesh_1_1_h_e_c___data_cylinder.html#ad20cdf1c2cb323c624944bd417367fef',1,'wblut::hemesh::HEC_DataCylinder']]],
   ['split',['SPLIT',['../classwblut_1_1math_1_1_w_b___double_double.html#a779740b7839ae4413d32f8518ffefcb7',1,'wblut::math::WB_DoubleDouble']]],
