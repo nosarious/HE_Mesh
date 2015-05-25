@@ -56,6 +56,39 @@ public class WB_MeshGraph {
     /**
      *
      *
+     * @param mesh
+     * @param offset
+     */
+    public WB_MeshGraph(final WB_Mesh mesh, final double offset) {
+	vertices = new WB_GVertex[mesh.getNumberOfVertices()];
+	for (int i = 0; i < mesh.getNumberOfVertices(); i++) {
+	    vertices[i] = new WB_GVertex(i,
+		    new WB_Point(mesh.getVertex(i)).addMulSelf(offset,
+			    mesh.getVertexNormal(i)));
+	}
+	final int[][] meshedges = mesh.getEdgesAsInt();
+	WB_Coordinate p0;
+	WB_Coordinate p1;
+	WB_GVertex v0;
+	WB_GVertex v1;
+	double d;
+	for (int i = 0; i < meshedges.length; i++) {
+	    if (meshedges[i][0] != meshedges[i][1]) {
+		p0 = mesh.getVertex(meshedges[i][0]);
+		p1 = mesh.getVertex(meshedges[i][1]);
+		d = WB_GeometryOp.getDistance3D(p0, p1);
+		v0 = vertices[meshedges[i][0]];
+		v1 = vertices[meshedges[i][1]];
+		v0.adjacencies.add(new WB_GEdge(v1, d));
+		v1.adjacencies.add(new WB_GEdge(v0, d));
+	    }
+	}
+	lastSource = -1;
+    }
+
+    /**
+     *
+     *
      * @param i
      * @return
      */

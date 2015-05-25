@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
@@ -9,39 +9,34 @@ import java.util.List;
 import javolution.util.FastTable;
 
 /**
- * 
+ *
  */
 public class WB_Polygon extends WB_Ring {
-    
     /**
-     * 
+     *
      */
     int[][] triangles;
-    
     /**
-     * 
+     *
      */
     int numberOfContours;
-    
     /**
-     * 
+     *
      */
     int[] numberOfPointsPerContour;
-    
     /**
-     * 
+     *
      */
     int numberOfShellPoints;
-    
     /**
-     * 
+     *
      */
     private static final WB_GeometryFactory gf = WB_GeometryFactory.instance();
 
     /**
-     * 
      *
-     * @param points 
+     *
+     * @param points
      */
     protected WB_Polygon(final Collection<? extends WB_Coordinate> points) {
 	numberOfPoints = points.size();
@@ -53,9 +48,9 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @param points 
+     *
+     * @param points
      */
     protected WB_Polygon(final WB_Coordinate... points) {
 	numberOfPoints = points.length;
@@ -67,9 +62,9 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @param points 
+     *
+     * @param points
      */
     protected WB_Polygon(final WB_CoordinateSequence points) {
 	numberOfPoints = points.size();
@@ -81,10 +76,10 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param innerpoints 
+     *
+     * @param points
+     * @param innerpoints
      */
     protected WB_Polygon(final Collection<? extends WB_Coordinate> points,
 	    final Collection<? extends WB_Coordinate> innerpoints) {
@@ -101,10 +96,10 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param innerpoints 
+     *
+     * @param points
+     * @param innerpoints
      */
     protected WB_Polygon(final WB_Coordinate[] points,
 	    final WB_Coordinate[] innerpoints) {
@@ -125,10 +120,10 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param innerpoints 
+     *
+     * @param points
+     * @param innerpoints
      */
     protected WB_Polygon(final Collection<? extends WB_Coordinate> points,
 	    final List<? extends WB_Coordinate>[] innerpoints) {
@@ -154,10 +149,10 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param innerpoints 
+     *
+     * @param points
+     * @param innerpoints
      */
     protected WB_Polygon(final WB_Coordinate[] points,
 	    final WB_Coordinate[][] innerpoints) {
@@ -183,7 +178,7 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
+     *
      */
     private void calculateDirections() {
 	final List<WB_Vector> dirs = new ArrayList<WB_Vector>(numberOfPoints);
@@ -207,7 +202,9 @@ public class WB_Polygon extends WB_Ring {
 	directions = gf.createVectorSequence(dirs);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Ring#equals(java.lang.Object)
      */
     @Override
@@ -230,7 +227,9 @@ public class WB_Polygon extends WB_Ring {
 	return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Ring#getType()
      */
     @Override
@@ -238,7 +237,9 @@ public class WB_Polygon extends WB_Ring {
 	return WB_GeometryType.POLYGON;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Ring#getNumberOfPoints()
      */
     @Override
@@ -247,45 +248,45 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int getNumberOfShellPoints() {
 	return numberOfShellPoints;
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int getNumberOfHoles() {
 	return numberOfContours - 1;
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int getNumberOfContours() {
 	return numberOfContours;
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int[] getNumberOfPointsPerContour() {
 	return numberOfPointsPerContour;
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int[][] getTriangles() {
 	if (triangles == null) {
@@ -307,10 +308,10 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @param optimize 
-     * @return 
+     *
+     * @param optimize
+     * @return
      */
     public int[][] getTriangles(final boolean optimize) {
 	if (triangles == null) {
@@ -332,10 +333,10 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @return 
+     *
+     * @param d
+     * @return
      */
     public WB_Plane getPlane(final double d) {
 	final WB_Vector normal = gf.createVector();
@@ -356,18 +357,18 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_Plane getPlane() {
 	return getPlane(0);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_Vector getNormal() {
 	final WB_Vector normal = gf.createVector();
@@ -384,7 +385,9 @@ public class WB_Polygon extends WB_Ring {
 	return normal;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Ring#getPoint(int)
      */
     @Override
@@ -392,7 +395,9 @@ public class WB_Polygon extends WB_Ring {
 	return points.getPoint(i);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Ring#getd(int, int)
      */
     @Override
@@ -400,7 +405,9 @@ public class WB_Polygon extends WB_Ring {
 	return points.get(i, j);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Ring#getf(int, int)
      */
     @Override
@@ -409,18 +416,18 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public boolean isSimple() {
 	return numberOfContours == 1;
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_Polygon toPolygon2D() {
 	final List<WB_Point> shellpoints = new FastTable<WB_Point>();
@@ -445,9 +452,9 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_Polygon negate() {
 	final List<WB_Point> shellpoints = new FastTable<WB_Point>();
@@ -472,11 +479,11 @@ public class WB_Polygon extends WB_Ring {
 
     // TODO all functions below only support simple polygons
     /**
-     * 
      *
-     * @param poly 
-     * @param P 
-     * @return 
+     *
+     * @param poly
+     * @param P
+     * @return
      */
     public static WB_Polygon[] splitPolygon(final WB_Polygon poly,
 	    final WB_Plane P) {
@@ -530,21 +537,21 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @param P 
-     * @return 
+     *
+     * @param P
+     * @return
      */
     public WB_Polygon[] splitPolygon(final WB_Plane P) {
 	return splitPolygon(this, P);
     }
 
     /**
-     * 
      *
-     * @param poly 
-     * @param d 
-     * @return 
+     *
+     * @param poly
+     * @param d
+     * @return
      */
     public static WB_Polygon trimConvexPolygon(WB_Polygon poly, final double d) {
 	final WB_Polygon cpoly = new WB_Polygon(poly.points);
@@ -572,21 +579,21 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @return 
+     *
+     * @param d
+     * @return
      */
     public WB_Polygon trimConvexPolygon(final double d) {
 	return trimConvexPolygon(this, d);
     }
 
     /**
-     * 
      *
-     * @param poly 
-     * @param d 
-     * @return 
+     *
+     * @param poly
+     * @param d
+     * @return
      */
     public static WB_Polygon trimConvexPolygon(WB_Polygon poly, final double[] d) {
 	final WB_Polygon cpoly = new WB_Polygon(poly.points);
@@ -614,20 +621,20 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @return 
+     *
+     * @param d
+     * @return
      */
     public WB_Polygon trimConvexPolygon(final double[] d) {
 	return trimConvexPolygon(this, d);
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public WB_Coordinate closestPoint(final WB_Coordinate p) {
 	double d = Double.POSITIVE_INFINITY;
@@ -643,10 +650,10 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public int closestIndex(final WB_Coordinate p) {
 	double d = Double.POSITIVE_INFINITY;
@@ -662,9 +669,9 @@ public class WB_Polygon extends WB_Ring {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public List<WB_Segment> toSegments() {
 	final List<WB_Segment> segments = new FastTable<WB_Segment>();

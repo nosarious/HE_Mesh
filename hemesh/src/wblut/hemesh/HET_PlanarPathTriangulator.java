@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -23,39 +23,36 @@ import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * 
+ *
  */
 class HET_PlanarPathTriangulator {
-    
     /**
-     * 
+     *
      */
     private static GeometryFactory JTSgf = new GeometryFactory();
-    
     /**
-     * 
+     *
      */
     public static final HET_ProgressTracker tracker = HET_ProgressTracker
 	    .instance();
-    
     /**
-     * 
+     *
      */
     public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory
 	    .instance();
 
     /**
-     * 
+     *
      */
     public HET_PlanarPathTriangulator() {
     }
 
     /**
-     * 
      *
-     * @param paths 
-     * @param P 
-     * @return 
+     *
+     * @param paths
+     * @param P
+     * @return
      */
     public static long[][] getTriangleKeys(final List<? extends HE_Path> paths,
 	    final WB_Plane P) {
@@ -89,7 +86,7 @@ class HET_PlanarPathTriangulator {
 	final List<WB_Coordinate[]> triangles = new FastTable<WB_Coordinate[]>();
 	tracker.setDefaultStatus("Triangulating polygons.", polygons.size());
 	for (final WB_Polygon poly : polygons) {
-	    final int[][] tris = poly.getTriangles();
+	    final int[][] tris = poly.getTriangles(false);
 	    for (int i = 0; i < tris.length; i++) {
 		triangles.add(new WB_Coordinate[] { poly.getPoint(tris[i][0]),
 			poly.getPoint(tris[i][1]), poly.getPoint(tris[i][2]) });
@@ -110,11 +107,11 @@ class HET_PlanarPathTriangulator {
     }
 
     /**
-     * 
      *
-     * @param paths 
-     * @param P 
-     * @return 
+     *
+     * @param paths
+     * @param P
+     * @return
      */
     public static HE_Mesh getConstrainedCaps(
 	    final List<? extends HE_Path> paths, final WB_Plane P) {
@@ -164,10 +161,10 @@ class HET_PlanarPathTriangulator {
     }
 
     /**
-     * 
      *
-     * @param tri 
-     * @return 
+     *
+     * @param tri
+     * @return
      */
     static HE_Mesh toMesh(final WB_Triangulation2DWithPoints tri) {
 	final HEC_FromFacelist ffl = new HEC_FromFacelist().setFaces(
@@ -180,38 +177,33 @@ class HET_PlanarPathTriangulator {
     // hierarchical tree that orders rings from the outside in. All input has to
     // be well-ordered: CCW for shell, CW for hole.
     /**
-     * 
+     *
      */
     private static class RingNode {
-	
 	/**
-	 * 
+	 *
 	 */
 	@SuppressWarnings("unused")
 	RingNode parent;
-	
 	/**
-	 * 
+	 *
 	 */
 	List<RingNode> children;
-	
 	/**
-	 * 
+	 *
 	 */
 	LinearRing ring;
-	
 	/**
-	 * 
+	 *
 	 */
 	Polygon poly;// redundant, but useful for within/contains checks
-	
 	/**
-	 * 
+	 *
 	 */
 	boolean hole;
 
 	/**
-	 * 
+	 *
 	 */
 	RingNode() {
 	    parent = null;
@@ -221,10 +213,10 @@ class HET_PlanarPathTriangulator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param parent 
-	 * @param ring 
+	 *
+	 * @param parent
+	 * @param ring
 	 */
 	RingNode(final RingNode parent, final LinearRing ring) {
 	    this.parent = parent;
@@ -237,26 +229,25 @@ class HET_PlanarPathTriangulator {
     }
 
     /**
-     * 
+     *
      */
     private static class RingTree {
-	
 	/**
-	 * 
+	 *
 	 */
 	RingNode root;
 
 	/**
-	 * 
+	 *
 	 */
 	RingTree() {
 	    root = new RingNode();
 	}
 
 	/**
-	 * 
 	 *
-	 * @param ring 
+	 *
+	 * @param ring
 	 */
 	void add(final LinearRing ring) {
 	    final Polygon poly = JTSgf.createPolygon(ring);
@@ -289,9 +280,9 @@ class HET_PlanarPathTriangulator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	List<WB_Polygon> extractPolygons() {
 	    final List<WB_Polygon> polygons = new ArrayList<WB_Polygon>();
@@ -327,10 +318,10 @@ class HET_PlanarPathTriangulator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param parent 
-	 * @param shellNodes 
+	 *
+	 * @param parent
+	 * @param shellNodes
 	 */
 	void addExteriorNodes(final RingNode parent,
 		final List<RingNode> shellNodes) {
