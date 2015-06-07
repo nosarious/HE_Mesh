@@ -12,7 +12,7 @@ import wblut.math.WB_Epsilon;
 /**
  *
  */
-public class WB_AABB {
+public class WB_AABB implements WB_HasData {
     /**
      *
      */
@@ -906,7 +906,7 @@ public class WB_AABB {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -1078,6 +1078,7 @@ public class WB_AABB {
      * @param s
      * @param o
      */
+    @Override
     public void setData(final String s, final Object o) {
 	if (_data == null) {
 	    _data = new HashMap<String, Object>();
@@ -1091,6 +1092,7 @@ public class WB_AABB {
      * @param s
      * @return
      */
+    @Override
     public Object getData(final String s) {
 	return (_data == null) ? null : _data.get(s);
     }
@@ -1202,8 +1204,8 @@ public class WB_AABB {
 		.xd() > p2.xd() ? p1.xd() : p2.xd())))
 		&& ((q.yd() >= (p1.yd() < p2.yd() ? p1.yd() : p2.yd())) && (q
 			.yd() <= (p1.yd() > p2.yd() ? p1.yd() : p2.yd())))
-		&& ((q.zd() >= (p1.zd() < p2.zd() ? p1.zd() : p2.zd())) && (q
-			.zd() <= (p1.zd() > p2.zd() ? p1.yd() : p2.zd())))) {
+			&& ((q.zd() >= (p1.zd() < p2.zd() ? p1.zd() : p2.zd())) && (q
+				.zd() <= (p1.zd() > p2.zd() ? p1.yd() : p2.zd())))) {
 	    return true;
 	}
 	return false;
@@ -1549,7 +1551,7 @@ public class WB_AABB {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
