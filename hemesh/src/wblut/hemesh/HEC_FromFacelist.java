@@ -258,13 +258,16 @@ public class HEC_FromFacelist extends HEC_Creator {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.HE_Creator#create()
      */
     @Override
     protected HE_Mesh createBase() {
 	final HE_Mesh mesh = new HE_Mesh();
 	if ((faces != null) && (vertices != null)) {
+	    if (faces.length == 0) {
+		return mesh;
+	    }
 	    final boolean useUVW = (uvws != null)
 		    && (uvws.length == vertices.length);
 	    final HE_Vertex[] uniqueVertices = new HE_Vertex[vertices.length];
@@ -364,7 +367,7 @@ public class HEC_FromFacelist extends HEC_Creator {
 					    for (int k = 0; k < (fln / 2); k++) {
 						temp = faces[neighbor][k];
 						faces[neighbor][k] = faces[neighbor][fln
-						                                     - k - 1];
+							- k - 1];
 						faces[neighbor][fln - k - 1] = temp;
 					    }
 					}

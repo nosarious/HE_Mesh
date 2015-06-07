@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -14,37 +14,31 @@ import wblut.geom.WB_Point;
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
 public class HEC_IsoSurfaceNEP extends HEC_Creator {
-    
     /**
-     * 
+     *
      */
     final static int ONVERTEX = 0;
-    
     /**
-     * 
+     *
      */
     final static int ONEDGE = 1;
-    
     /**
-     * 
+     *
      */
     final static int NEGATIVE = 0;
-    
     /**
-     * 
+     *
      */
     final static int EQUAL = 1;
-    
     /**
-     * 
+     *
      */
     final static int POSITIVE = 2;
-    
     /**
-     * 
+     *
      */
     int[] digits = new int[8];
     /*
@@ -52,108 +46,95 @@ public class HEC_IsoSurfaceNEP extends HEC_Creator {
      * iJK=6 111 IJK=7
      */
     /**
-     * 
+     *
      */
     final static WB_Point[] gridvertices = new WB_Point[] {
-	    new WB_Point(0, 0, 0), new WB_Point(1, 0, 0),
-	    new WB_Point(0, 1, 0), new WB_Point(1, 1, 0),
-	    new WB_Point(0, 0, 1), new WB_Point(1, 0, 1),
-	    new WB_Point(0, 1, 1), new WB_Point(1, 1, 1), };
+	new WB_Point(0, 0, 0), new WB_Point(1, 0, 0),
+	new WB_Point(0, 1, 0), new WB_Point(1, 1, 0),
+	new WB_Point(0, 0, 1), new WB_Point(1, 0, 1),
+	new WB_Point(0, 1, 1), new WB_Point(1, 1, 1), };
     // EDGES: 2 vertices per edge
     /**
-     * 
+     *
      */
     final static int[][] edges = { { 0, 1 }, // x ijk
-	    { 0, 2 }, // y ijk
-	    { 1, 3 }, // y Ijk
-	    { 2, 3 }, // x iJk
-	    { 0, 4 }, // z ijk
-	    { 1, 5 }, // z Ijk
-	    { 2, 6 }, // z iJk
-	    { 3, 7 }, // z IJk
-	    { 4, 5 }, // x ijK
-	    { 4, 6 }, // y ijK
-	    { 5, 7 }, // y IjK
-	    { 6, 7 } // x iJK
+	{ 0, 2 }, // y ijk
+	{ 1, 3 }, // y Ijk
+	{ 2, 3 }, // x iJk
+	{ 0, 4 }, // z ijk
+	{ 1, 5 }, // z Ijk
+	{ 2, 6 }, // z iJk
+	{ 3, 7 }, // z IJk
+	{ 4, 5 }, // x ijK
+	{ 4, 6 }, // y ijK
+	{ 5, 7 }, // y IjK
+	{ 6, 7 } // x iJK
     };
     // ISOVERTICES: 20
     // type=ONVERTEX iso vertex on vertex, index in vertex list
     // type=ONEDGE iso vertex on edge, index in edge list
     /**
-     * 
+     *
      */
     final static int[][] isovertices = new int[][] { { 0, 0 }, { 0, 1 },
-	    { 0, 2 }, { 0, 3 }, { 0, 4 }, { 0, 5 }, { 0, 6 }, { 0, 7 },
-	    { 1, 0 }, { 1, 1 }, { 1, 2 }, { 1, 3 }, { 1, 4 }, { 1, 5 },
-	    { 1, 6 }, { 1, 7 }, { 1, 8 }, { 1, 9 }, { 1, 10 }, { 1, 11 } };
-    
+	{ 0, 2 }, { 0, 3 }, { 0, 4 }, { 0, 5 }, { 0, 6 }, { 0, 7 },
+	{ 1, 0 }, { 1, 1 }, { 1, 2 }, { 1, 3 }, { 1, 4 }, { 1, 5 },
+	{ 1, 6 }, { 1, 7 }, { 1, 8 }, { 1, 9 }, { 1, 10 }, { 1, 11 } };
     /**
-     * 
+     *
      */
     int[][] entries;
-    
     /**
-     * 
+     *
      */
     private double[][][] values;
-    
     /**
-     * 
+     *
      */
     private int resx, resy, resz;
-    
     /**
-     * 
+     *
      */
     private double cx, cy, cz;
-    
     /**
-     * 
+     *
      */
     private double dx, dy, dz;
-    
     /**
-     * 
+     *
      */
     private double isolevel;
-    
     /**
-     * 
+     *
      */
     private double boundary;
-    
     /**
-     * 
+     *
      */
     private TIntObjectMap<HE_Vertex> xedges;
-    
     /**
-     * 
+     *
      */
     private TIntObjectMap<HE_Vertex> yedges;
-    
     /**
-     * 
+     *
      */
     private TIntObjectMap<HE_Vertex> zedges;
-    
     /**
-     * 
+     *
      */
     private TIntObjectMap<HE_Vertex> vertices;
-    
     /**
-     * 
+     *
      */
     HE_Mesh mesh;
-    
     /**
-     * 
+     *
      */
     private boolean invert;
 
     /**
-     * 
+     *
      */
     public HEC_IsoSurfaceNEP() {
 	super();
@@ -266,7 +247,8 @@ public class HEC_IsoSurfaceNEP extends HEC_Creator {
     /**
      * Isolevel to render.
      *
-     * @param v            isolevel
+     * @param v
+     *            isolevel
      * @return self
      */
     public HEC_IsoSurfaceNEP setIsolevel(final double v) {
@@ -310,7 +292,7 @@ public class HEC_IsoSurfaceNEP extends HEC_Creator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HEC_Creator#setCenter(wblut.geom.WB_Point3d)
      */
     @Override
@@ -322,12 +304,12 @@ public class HEC_IsoSurfaceNEP extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param i 
-     * @param j 
-     * @param k 
-     * @return 
+     *
+     * @param i
+     * @param j
+     * @param k
+     * @return
      */
     private int index(final int i, final int j, final int k) {
 	return ((i + 1) + ((resx + 2) * (j + 1)) + ((resx + 2) * (resy + 2) * (k + 1)));
@@ -357,13 +339,13 @@ public class HEC_IsoSurfaceNEP extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param i 
-     * @param j 
-     * @param k 
-     * @param offset 
-     * @return 
+     *
+     * @param i
+     * @param j
+     * @param k
+     * @param offset
+     * @return
      */
     private HE_Vertex vertex(final int i, final int j, final int k,
 	    final WB_Point offset) {
@@ -381,10 +363,13 @@ public class HEC_IsoSurfaceNEP extends HEC_Creator {
     /**
      * Xedge.
      *
-     * @param i            i: -1 .. resx+1
-     * @param j            j: -1 .. resy+1
-     * @param k            k: -1 .. resz+1
-     * @param offset 
+     * @param i
+     *            i: -1 .. resx+1
+     * @param j
+     *            j: -1 .. resy+1
+     * @param k
+     *            k: -1 .. resz+1
+     * @param offset
      * @return edge vertex
      */
     private HE_Vertex xedge(final int i, final int j, final int k,
@@ -407,10 +392,13 @@ public class HEC_IsoSurfaceNEP extends HEC_Creator {
     /**
      * Yedge.
      *
-     * @param i            i: -1 .. resx+1
-     * @param j            j: -1 .. resy+1
-     * @param k            k: -1 .. resz+1
-     * @param offset 
+     * @param i
+     *            i: -1 .. resx+1
+     * @param j
+     *            j: -1 .. resy+1
+     * @param k
+     *            k: -1 .. resz+1
+     * @param offset
      * @return edge vertex
      */
     private HE_Vertex yedge(final int i, final int j, final int k,
@@ -433,10 +421,13 @@ public class HEC_IsoSurfaceNEP extends HEC_Creator {
     /**
      * Zedge.
      *
-     * @param i            i: -1 .. resx+1
-     * @param j            j: -1 .. resy+1
-     * @param k            k: -1 .. resz+1
-     * @param offset 
+     * @param i
+     *            i: -1 .. resx+1
+     * @param j
+     *            j: -1 .. resy+1
+     * @param k
+     *            k: -1 .. resz+1
+     * @param offset
      * @return edge vertex
      */
     private HE_Vertex zedge(final int i, final int j, final int k,
@@ -682,11 +673,15 @@ public class HEC_IsoSurfaceNEP extends HEC_Creator {
     /**
      * Gets the polygons.
      *
-     * @param i            the i
-     * @param j            the j
-     * @param k            the k
-     * @param cubeindex            the cubeindex
-     * @param offset 
+     * @param i
+     *            the i
+     * @param j
+     *            the j
+     * @param k
+     *            the k
+     * @param cubeindex
+     *            the cubeindex
+     * @param offset
      * @return the polygons
      */
     private void getPolygons(final int i, final int j, final int k,
@@ -708,6 +703,9 @@ public class HEC_IsoSurfaceNEP extends HEC_Creator {
 	    he1.setNext(he2);
 	    he2.setNext(he3);
 	    he3.setNext(he1);
+	    he2.setPrev(he1);
+	    he3.setPrev(he2);
+	    he1.setPrev(he3);
 	    he1.setFace(f);
 	    he2.setFace(f);
 	    he3.setFace(f);
@@ -727,7 +725,7 @@ public class HEC_IsoSurfaceNEP extends HEC_Creator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.creators.HEB_Creator#createBase()
      */
     @Override
@@ -741,14 +739,14 @@ public class HEC_IsoSurfaceNEP extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param isopointindex 
-     * @param i 
-     * @param j 
-     * @param k 
-     * @param offset 
-     * @return 
+     *
+     * @param isopointindex
+     * @param i
+     * @param j
+     * @param k
+     * @param offset
+     * @return
      */
     HE_Vertex getIsoVertex(final int isopointindex, final int i, final int j,
 	    final int k, final WB_Point offset) {

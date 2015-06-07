@@ -204,7 +204,7 @@ public class WB_Polygon extends WB_Ring {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Ring#equals(java.lang.Object)
      */
     @Override
@@ -229,7 +229,7 @@ public class WB_Polygon extends WB_Ring {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Ring#getType()
      */
     @Override
@@ -239,7 +239,7 @@ public class WB_Polygon extends WB_Ring {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Ring#getNumberOfPoints()
      */
     @Override
@@ -299,8 +299,8 @@ public class WB_Polygon extends WB_Ring {
 			points.getPoint(1), points.getPoint(2),
 			points.getPoint(3));
 	    } else {
-		final WB_Triangulation2D triangulation = WB_Triangulate
-			.getPolygonTriangulation2D(this, true);
+		final WB_Triangulation2D triangulation = new WB_Triangulate()
+		.getPolygonTriangulation2D(this, true);
 		triangles = triangulation.getTriangles();
 	    }
 	}
@@ -324,8 +324,8 @@ public class WB_Polygon extends WB_Ring {
 			points.getPoint(1), points.getPoint(2),
 			points.getPoint(3));
 	    } else {
-		final WB_Triangulation2D triangulation = WB_Triangulate
-			.getPolygonTriangulation2D(this, optimize);
+		final WB_Triangulation2D triangulation = new WB_Triangulate()
+		.getPolygonTriangulation2D(this, optimize);
 		triangles = triangulation.getTriangles();
 	    }
 	}
@@ -343,11 +343,11 @@ public class WB_Polygon extends WB_Ring {
 	for (int i = 0, j = getNumberOfShellPoints() - 1; i < getNumberOfShellPoints(); j = i, i++) {
 	    normal.addSelf(
 		    (points.get(j, 1) - points.get(i, 1))
-		    * (points.get(j, 2) + points.get(i, 2)),
+			    * (points.get(j, 2) + points.get(i, 2)),
 		    (points.get(j, 2) - points.get(i, 2))
-		    * (points.get(j, 0) + points.get(i, 0)),
+			    * (points.get(j, 0) + points.get(i, 0)),
 		    (points.get(j, 0) - points.get(i, 0))
-		    * (points.get(j, 1) + points.get(i, 1)));
+			    * (points.get(j, 1) + points.get(i, 1)));
 	}
 	normal.normalizeSelf();
 	if (normal.getSqLength3D() < 0.5) {
@@ -375,11 +375,11 @@ public class WB_Polygon extends WB_Ring {
 	for (int i = 0, j = getNumberOfShellPoints() - 1; i < getNumberOfShellPoints(); j = i, i++) {
 	    normal.addSelf(
 		    (points.get(j, 1) - points.get(i, 1))
-		    * (points.get(j, 2) + points.get(i, 2)),
+			    * (points.get(j, 2) + points.get(i, 2)),
 		    (points.get(j, 2) - points.get(i, 2))
-		    * (points.get(j, 0) + points.get(i, 0)),
+			    * (points.get(j, 0) + points.get(i, 0)),
 		    (points.get(j, 0) - points.get(i, 0))
-		    * (points.get(j, 1) + points.get(i, 1)));
+			    * (points.get(j, 1) + points.get(i, 1)));
 	}
 	normal.normalizeSelf();
 	return normal;
@@ -387,7 +387,7 @@ public class WB_Polygon extends WB_Ring {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Ring#getPoint(int)
      */
     @Override
@@ -397,7 +397,7 @@ public class WB_Polygon extends WB_Ring {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Ring#getd(int, int)
      */
     @Override
@@ -407,7 +407,7 @@ public class WB_Polygon extends WB_Ring {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Ring#getf(int, int)
      */
     @Override

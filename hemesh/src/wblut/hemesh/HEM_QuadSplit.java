@@ -40,7 +40,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -127,6 +127,8 @@ public class HEM_QuadSplit extends HEM_Modifier {
 		he3[c].setVertex(vi);
 		he2[c].setNext(he3[c]);
 		he3[c].setNext(he);
+		he3[c].setPrev(he2[c]);
+		he.setPrev(he3[c]);
 		he1[c].setFace(fc);
 		he2[c].setFace(fc);
 		he3[c].setFace(fc);
@@ -136,6 +138,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 	    vi.setHalfedge(he3[0]);
 	    for (int j = 0; j < c; j++) {
 		he1[j].setNext(he2[j]);
+		he2[j].setPrev(he1[j]);
 	    }
 	    tracker.incrementCounter();
 	}
@@ -146,7 +149,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -236,6 +239,8 @@ public class HEM_QuadSplit extends HEM_Modifier {
 		he3[c].setVertex(vi);
 		he2[c].setNext(he3[c]);
 		he3[c].setNext(he);
+		he3[c].setPrev(he2[c]);
+		he.setPrev(he3[c]);
 		he1[c].setFace(f);
 		he2[c].setFace(f);
 		he3[c].setFace(f);
@@ -245,6 +250,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 	    vi.setHalfedge(he3[0]);
 	    for (int j = 0; j < c; j++) {
 		he1[j].setNext(he2[j]);
+		he2[j].setPrev(he1[j]);
 	    }
 	    tracker.incrementCounter();
 	}

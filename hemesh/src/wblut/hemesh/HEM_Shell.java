@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -14,14 +14,13 @@ import java.util.Map;
  *
  */
 public class HEM_Shell extends HEM_Modifier {
-    
     /**
-     * 
+     *
      */
     private double d;
 
     /**
-     * 
+     *
      */
     public HEM_Shell() {
 	super();
@@ -29,10 +28,10 @@ public class HEM_Shell extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @return 
+     *
+     * @param d
+     * @return
      */
     public HEM_Shell setThickness(final double d) {
 	this.d = d;
@@ -41,7 +40,7 @@ public class HEM_Shell extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -86,6 +85,10 @@ public class HEM_Shell extends HEM_Modifier {
 	    heio.setNext(he2);
 	    he2.setNext(heoi);
 	    heoi.setNext(he1);
+	    heio.setPrev(he1);
+	    he2.setPrev(heio);
+	    heoi.setPrev(he2);
+	    he1.setPrev(heoi);
 	    fNew = new HE_Face();
 	    mesh.add(fNew);
 	    fNew.setHalfedge(he1);
@@ -103,7 +106,7 @@ public class HEM_Shell extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override

@@ -27,7 +27,6 @@ import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_GeometryType;
 import wblut.geom.WB_HasColor;
-import wblut.geom.WB_HasData;
 import wblut.geom.WB_IndexedSegment;
 import wblut.geom.WB_IntersectionResult;
 import wblut.geom.WB_KDTree;
@@ -1462,6 +1461,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	    tracker.incrementCounter(newHalfedges.size());
 	}
 	caps = triangulateConcaveFaces(caps).getFacesAsList();
+	// System.out.println(caps.size());
 	tracker.setDefaultStatus("Capped simple, planar holes.");
 	return caps;
     }
@@ -1875,7 +1875,9 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	    final HE_Halfedge he0p = he0.getPair();
 	    final HE_Halfedge he1p = he1.getPair();
 	    he0p.setNext(he1n);
+	    he1n.setPrev(he0p);
 	    he1p.setNext(he0n);
+	    he0n.setPrev(he1p);
 	    if (he0.getFace() != null) {
 		he0.getFace().setHalfedge(he1p);
 	    }
@@ -3275,8 +3277,11 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		if (he.getHalfedgeTangent().isParallel(
 			he.getNextInVertex().getHalfedgeTangent())) {
 		    he.getPrevInFace().setNext(he.getNextInFace());
+		    he.getNextInFace().setPrev(he.getPrevInFace());
 		    he.getPair().getPrevInFace()
 			    .setNext(he.getPair().getNextInFace());
+		    he.getPair().getNextInFace()
+			    .setPrev(he.getPair().getPrevInFace());
 		    he.getPair().getNextInFace()
 			    .setVertex(he.getNextInFace().getVertex());
 		    if (he.getFace() != null) {

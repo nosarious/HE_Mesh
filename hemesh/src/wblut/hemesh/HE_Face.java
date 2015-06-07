@@ -505,7 +505,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 		// " faces.");
 		// tracker.setStatus("Triangulating face with " + fo
 		// + " vertices.");
-		triangles = WB_Triangulate.getPolygonTriangulation2D(
+		triangles = new WB_Triangulate().getPolygonTriangulation2D(
 			this.toPolygon(), true).getTriangles();
 	    }
 	}

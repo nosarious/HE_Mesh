@@ -140,8 +140,10 @@ public class HET_MeshOp {
 	he1new.setVertex(vNew);
 	vNew.setHalfedge(he0new);
 	he0new.setNext(he0n);
+	he0n.setPrev(he0new);
 	he0new.copyProperties(he0);
 	he1new.setNext(he1n);
+	he1n.setPrev(he1new);
 	he1new.copyProperties(he1);
 	if (he0.hasTexture() && he0n.hasTexture()) {
 	    he0new.setUVW(new HE_TextureCoordinate(f0, he0.getUVW(), he0n
@@ -152,7 +154,9 @@ public class HET_MeshOp {
 		    .getUVW()));
 	}
 	he0.setNext(he0new);
+	he0new.setPrev(he0);
 	he1.setNext(he1new);
+	he1new.setPrev(he1);
 	he0.setPair(he1new);
 	he1new.setPair(he0);
 	he0new.setPair(he1);
@@ -416,9 +420,13 @@ public class HET_MeshOp {
 		    he1new.setUVW(ti);
 		}
 		he0new.setNext(hei);
+		hei.setPrev(he0new);
 		he1new.setNext(hej);
+		hej.setPrev(he1new);
 		heiPrev.setNext(he1new);
+		he1new.setPrev(heiPrev);
 		hejPrev.setNext(he0new);
+		he0new.setPrev(hejPrev);
 		he0new.setPair(he1new);
 		he1new.setPair(he0new);
 		he0new.setInternalLabel(1);
@@ -1525,6 +1533,8 @@ public class HET_MeshOp {
 	for (int i = 0; i < n; i++) {
 	    if (sel.get(i).getFaceType() == WB_ClassificationConvex.CONCAVE) {
 		out.union(triangulate(sel.get(i).key(), mesh));
+	    } else {
+		out.add(sel.get(i));
 	    }
 	}
 	return out;

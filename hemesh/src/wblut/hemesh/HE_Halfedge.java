@@ -27,7 +27,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
     /** Next halfedge in face. */
     private HE_Halfedge _next;
     /** Previous halfedge in face. */
-    // private HE_Halfedge _prev;
+    private HE_Halfedge _prev;
     /** Associated face. */
     private HE_Face _face;
     /** The _data. */
@@ -60,11 +60,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
      * @return previous halfedge
      */
     public HE_Halfedge getPrevInFace() {
-	HE_Halfedge he = this;
-	do {
-	    he = he.getNextInFace();
-	} while (he.getNextInFace() != this);
-	return he;
+	return _prev;
     }
 
     /**
@@ -114,7 +110,6 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
      */
     public void setNext(final HE_Halfedge he) {
 	_next = he;
-	he.setPrev(this);
     }
 
     /**
@@ -124,7 +119,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
      *            next halfedge
      */
     public void setPrev(final HE_Halfedge he) {
-	// _prev = he;
+	_prev = he;
     }
 
     /**

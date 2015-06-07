@@ -84,6 +84,8 @@ public class HEM_Triangulate extends HEM_Modifier {
 	}
 	selection.parent.pairHalfedges();
 	selection.parent.capHalfedges();
+	selection.clearFaces();
+	selection.add(triangles);
 	tracker.setDefaultStatus("Exiting HEM_Triangulate.");
 	return selection.parent;
     }
@@ -134,6 +136,9 @@ public class HEM_Triangulate extends HEM_Modifier {
 		he1.setNext(he2);
 		he2.setNext(he3);
 		he3.setNext(he1);
+		he2.setPrev(he1);
+		he3.setPrev(he2);
+		he1.setPrev(he3);
 		f.setHalfedge(he1);
 		mesh.add(he1);
 		mesh.add(he2);

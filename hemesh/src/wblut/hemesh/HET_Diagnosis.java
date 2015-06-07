@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -382,10 +382,10 @@ public class HET_Diagnosis {
     }
 
     /**
-     * 
      *
-     * @param v 
-     * @param mesh 
+     *
+     * @param v
+     * @param mesh
      */
     public static void validateVertex(final HE_Vertex v, final HE_Mesh mesh) {
 	System.out.println("Checking " + v);
@@ -428,10 +428,10 @@ public class HET_Diagnosis {
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @param mesh 
+     *
+     * @param f
+     * @param mesh
      */
     public static void validateFace(final HE_Face f, final HE_Mesh mesh) {
 	System.out.println("Checking " + f);
@@ -482,11 +482,11 @@ public class HET_Diagnosis {
     }
 
     /**
-     * 
      *
-     * @param tri 
-     * @param tree 
-     * @return 
+     *
+     * @param tri
+     * @param tree
+     * @return
      */
     static List<HET_SelfIntersection> checkSelfIntersection(final HE_Face tri,
 	    final WB_AABBTree tree) {
@@ -521,10 +521,10 @@ public class HET_Diagnosis {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @return 
+     *
+     * @param mesh
+     * @return
      */
     public static List<HET_SelfIntersection> checkSelfIntersection(
 	    final HE_Mesh mesh) {
@@ -547,31 +547,28 @@ public class HET_Diagnosis {
     }
 
     /**
-     * 
+     *
      */
     public static class HET_SelfIntersection {
-	
 	/**
-	 * 
+	 *
 	 */
 	HE_Face f1;
-	
 	/**
-	 * 
+	 *
 	 */
 	HE_Face f2;
-	
 	/**
-	 * 
+	 *
 	 */
 	WB_Segment segment;
 
 	/**
-	 * 
 	 *
-	 * @param f1 
-	 * @param f2 
-	 * @param seg 
+	 *
+	 * @param f1
+	 * @param f2
+	 * @param seg
 	 */
 	public HET_SelfIntersection(final HE_Face f1, final HE_Face f2,
 		final WB_Segment seg) {
@@ -581,27 +578,27 @@ public class HET_Diagnosis {
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public HE_Face getFace1() {
 	    return f1;
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public HE_Face getFace2() {
 	    return f2;
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public WB_Segment getSegment() {
 	    return segment;

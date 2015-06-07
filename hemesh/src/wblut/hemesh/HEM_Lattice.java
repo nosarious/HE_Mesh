@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -13,52 +13,44 @@ import wblut.geom.WB_Polygon;
 import wblut.geom.WB_Vector;
 
 /**
- * 
+ *
  */
 public class HEM_Lattice extends HEM_Modifier {
-    
     /**
-     * 
+     *
      */
     private static final WB_GeometryFactory gf = WB_GeometryFactory.instance();
-    
     /**
-     * 
+     *
      */
     private double d;
-    
     /**
-     * 
+     *
      */
     private double sew;
-    
     /**
-     * 
+     *
      */
     private double hew;
-    
     /**
-     * 
+     *
      */
     private double thresholdAngle;
-    
     /**
-     * 
+     *
      */
     private boolean fuse;
-    
     /**
-     * 
+     *
      */
     private double fuseAngle;
-    
     /**
-     * 
+     *
      */
     private double ibulge, obulge;
 
     /**
-     * 
+     *
      */
     public HEM_Lattice() {
 	super();
@@ -71,10 +63,10 @@ public class HEM_Lattice extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @return 
+     *
+     * @param d
+     * @return
      */
     public HEM_Lattice setDepth(final double d) {
 	this.d = d;
@@ -82,10 +74,10 @@ public class HEM_Lattice extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param w 
-     * @return 
+     *
+     * @param w
+     * @return
      */
     public HEM_Lattice setWidth(final double w) {
 	sew = 0.5 * w;
@@ -94,11 +86,11 @@ public class HEM_Lattice extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param w 
-     * @param hew 
-     * @return 
+     *
+     * @param w
+     * @param hew
+     * @return
      */
     public HEM_Lattice setWidth(final double w, final double hew) {
 	sew = 0.5 * w;
@@ -107,10 +99,10 @@ public class HEM_Lattice extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @return 
+     *
+     * @param d
+     * @return
      */
     public HEM_Lattice setBulge(final double d) {
 	ibulge = obulge = d;
@@ -118,11 +110,11 @@ public class HEM_Lattice extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param inner 
-     * @param outer 
-     * @return 
+     *
+     * @param inner
+     * @param outer
+     * @return
      */
     public HEM_Lattice setBulge(final double inner, final double outer) {
 	ibulge = inner;
@@ -131,10 +123,10 @@ public class HEM_Lattice extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
+     *
+     * @param b
+     * @return
      */
     public HEM_Lattice setFuse(final boolean b) {
 	fuse = b;
@@ -142,10 +134,10 @@ public class HEM_Lattice extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @return 
+     *
+     * @param a
+     * @return
      */
     public HEM_Lattice setThresholdAngle(final double a) {
 	thresholdAngle = a;
@@ -153,10 +145,10 @@ public class HEM_Lattice extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @return 
+     *
+     * @param a
+     * @return
      */
     public HEM_Lattice setFuseAngle(final double a) {
 	fuseAngle = a;
@@ -165,7 +157,7 @@ public class HEM_Lattice extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -269,17 +261,22 @@ public class HEM_Lattice extends HEM_Modifier {
 		    heoi.setVertex(heon.getVertex());
 		    heio.setVertex(hein.getVertex());
 		    heoc.setNext(heoi);
+		    heoi.setPrev(heoc);
 		    heoc.setFace(fNew);
 		    if (cic == cin) {
 			heoi.setNext(heio);
+			heio.setPrev(heoi);
 			heoi.setFace(fNew);
 		    } else {
 			heoi.setNext(heic);
+			heic.setPrev(heoi);
 			heoi.setFace(fNew);
 			heic.setNext(heio);
+			heio.setPrev(heic);
 			heic.setFace(fNew);
 		    }
 		    heio.setNext(heoc);
+		    heoc.setPrev(heio);
 		    heio.setFace(fNew);
 		    fNew.setHalfedge(heoc);
 		    mesh.add(heio);
@@ -309,6 +306,10 @@ public class HEM_Lattice extends HEM_Modifier {
 	    heio.setNext(he2);
 	    he2.setNext(heoi);
 	    heoi.setNext(he1);
+	    heio.setPrev(he1);
+	    he2.setPrev(heio);
+	    heoi.setPrev(he2);
+	    he1.setPrev(heoi);
 	    fNew = new HE_Face();
 	    mesh.add(fNew);
 	    fNew.setHalfedge(he1);
@@ -328,7 +329,7 @@ public class HEM_Lattice extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -431,17 +432,22 @@ public class HEM_Lattice extends HEM_Modifier {
 		    heoi.setVertex(heon.getVertex());
 		    heio.setVertex(hein.getVertex());
 		    heoc.setNext(heoi);
+		    heoi.setPrev(heoc);
 		    heoc.setFace(fNew);
 		    if (cic == cin) {
 			heoi.setNext(heio);
+			heio.setPrev(heoi);
 			heoi.setFace(fNew);
 		    } else {
 			heoi.setNext(heic);
+			heic.setPrev(heoi);
 			heoi.setFace(fNew);
 			heic.setNext(heio);
+			heio.setPrev(heic);
 			heic.setFace(fNew);
 		    }
 		    heio.setNext(heoc);
+		    heoc.setPrev(heio);
 		    heio.setFace(fNew);
 		    fNew.setHalfedge(heoc);
 		    selection.parent.add(heio);
@@ -471,6 +477,10 @@ public class HEM_Lattice extends HEM_Modifier {
 	    heio.setNext(he2);
 	    he2.setNext(heoi);
 	    heoi.setNext(he1);
+	    heio.setPrev(he1);
+	    he2.setPrev(heio);
+	    heoi.setPrev(he2);
+	    he1.setPrev(heoi);
 	    fNew = new HE_Face();
 	    selection.parent.add(fNew);
 	    fNew.setHalfedge(he1);
