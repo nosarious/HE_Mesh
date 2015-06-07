@@ -22,23 +22,7 @@ public class WB_Danzer {
      * 
      */
     public static enum Type {
-	
-	/**
-	 * 
-	 */
-	A, 
- /**
-  * 
-  */
- B, 
- /**
-  * 
-  */
- C, 
- /**
-  * 
-  */
- K
+	A, B, C, K
     }
 
     /**
