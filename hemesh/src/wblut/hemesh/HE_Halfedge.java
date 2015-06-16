@@ -224,6 +224,14 @@ public class HE_Halfedge extends HE_Element implements WB_HasData, WB_HasColor {
 	return null;
     }
 
+    public WB_Point getEdgeCenter(final double f) {
+	if ((_next != null) && (_vertex != null) && (_next.getVertex() != null)) {
+	    return gf.createMidpoint(_next.getVertex(), _vertex).addMulSelf(f,
+		    getEdgeNormal());
+	}
+	return null;
+    }
+
     /**
      * Get edge of halfedge.
      *
@@ -413,7 +421,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.Point3D#toString()
      */
     @Override
@@ -425,7 +433,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.core.WB_HasData#setData(java.lang.String, java.lang.Object)
      */
     @Override
@@ -438,7 +446,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.core.WB_HasData#getData(java.lang.String)
      */
     @Override
@@ -448,7 +456,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_HasColor#getColor()
      */
     @Override
@@ -458,7 +466,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_HasColor#setColor(int)
      */
     @Override
@@ -581,7 +589,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Element#clear()
      */
     @Override
