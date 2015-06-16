@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -17,184 +17,157 @@ import wblut.math.WB_ConstantParameter;
 import wblut.math.WB_Parameter;
 
 /**
- * 
+ *
  */
 public class HEC_FromFrame extends HEC_Creator {
-    
     /**
-     * 
+     *
      */
     private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
-    
     /**
-     * 
+     *
      */
     private WB_Frame frame;
-    
     /**
-     * 
+     *
      */
     private int numberOfNodes, numberOfStruts;
-    
     /**
-     * 
+     *
      */
     private NodeType[] nodeTypes;
-    
     /**
-     * 
+     *
      */
     private StrutNodeConnection[] strutNodeConnections;
-    
     /**
-     * 
+     *
      */
     private WB_Parameter<Double> strutRadius;
-    
     /**
-     * 
+     *
      */
     private int strutFacets;
-    
     /**
-     * 
+     *
      */
     private double fidget;
-    
     /**
-     * 
+     *
      */
     private double fillfactor;
-    
     /**
-     * 
+     *
      */
     private HE_Mesh mesh;
-    
     /**
-     * 
+     *
      */
     private double maximumStrutLength;
-    
     /**
-     * 
+     *
      */
     private double minimumBalljointAngle;
-    
     /**
-     * 
+     *
      */
     private WB_Parameter<Double> maximumStrutOffset;
-    
     /**
-     * 
+     *
      */
     private boolean taper;
-    
     /**
-     * 
+     *
      */
     private boolean cap;
-    
     /**
-     * 
+     *
      */
     private boolean useNodeValues;
-    
     /**
-     * 
+     *
      */
     private boolean createIsolatedNodes;
-    
     /**
-     * 
+     *
      */
     private WB_Parameter<Double> angleFactor;
-    
     /**
-     * 
+     *
      */
     private boolean suppressBalljoint;
 
     /**
-     * 
+     *
      */
     enum NodeType {
-	
 	/**
-	 * 
+	 *
 	 */
-	ISOLATED, 
- /**
-  * 
-  */
- ENDPOINT, 
- /**
-  * 
-  */
- STRAIGHT, 
- /**
-  * 
-  */
- BEND, 
- /**
-  * 
-  */
- TURN, 
- /**
-  * 
-  */
- STAR
+	ISOLATED,
+	/**
+	 *
+	 */
+	ENDPOINT,
+	/**
+	 *
+	 */
+	STRAIGHT,
+	/**
+	 *
+	 */
+	BEND,
+	/**
+	 *
+	 */
+	TURN,
+	/**
+	 *
+	 */
+	STAR
     }
 
     /**
-     * 
+     *
      */
     class StrutNodeConnection {
-	
 	/**
-	 * 
+	 *
 	 */
 	double maxoffset;
-	
 	/**
-	 * 
+	 *
 	 */
 	double offset;
-	
 	/**
-	 * 
+	 *
 	 */
 	double radius;
-	
 	/**
-	 * 
+	 *
 	 */
 	ArrayList<HE_Vertex> vertices;
-	
 	/**
-	 * 
+	 *
 	 */
 	WB_Vector dir;
-	
 	/**
-	 * 
+	 *
 	 */
 	WB_FrameNode node;
-	
 	/**
-	 * 
+	 *
 	 */
 	WB_FrameStrut strut;
 
 	/**
-	 * 
 	 *
-	 * @param node 
-	 * @param strut 
-	 * @param mo 
-	 * @param o 
-	 * @param r 
+	 *
+	 * @param node
+	 * @param strut
+	 * @param mo
+	 * @param o
+	 * @param r
 	 */
 	StrutNodeConnection(final WB_FrameNode node, final WB_FrameStrut strut,
 		final double mo, final double o, final double r) {
@@ -208,7 +181,7 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
+     *
      */
     public HEC_FromFrame() {
 	strutRadius = new WB_ConstantParameter<Double>(10.0);
@@ -225,10 +198,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param r 
-     * @return 
+     *
+     * @param r
+     * @return
      */
     public HEC_FromFrame setStrutRadius(final double r) {
 	strutRadius = new WB_ConstantParameter<Double>(r);
@@ -236,10 +209,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param r 
-     * @return 
+     *
+     * @param r
+     * @return
      */
     public HEC_FromFrame setStrutRadius(final WB_Parameter<Double> r) {
 	strutRadius = r;
@@ -247,10 +220,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param o 
-     * @return 
+     *
+     * @param o
+     * @return
      */
     public HEC_FromFrame setMaximumStrutOffset(final WB_Parameter<Double> o) {
 	maximumStrutOffset = o;
@@ -258,10 +231,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param o 
-     * @return 
+     *
+     * @param o
+     * @return
      */
     public HEC_FromFrame setMaximumStrutOffset(final double o) {
 	maximumStrutOffset = new WB_ConstantParameter<Double>(o);
@@ -269,10 +242,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @return 
+     *
+     * @param a
+     * @return
      */
     public HEC_FromFrame setMinimumBalljointAngle(final double a) {
 	minimumBalljointAngle = a;
@@ -280,10 +253,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @return 
+     *
+     * @param d
+     * @return
      */
     public HEC_FromFrame setMaximumStrutLength(final double d) {
 	maximumStrutLength = d;
@@ -291,10 +264,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @return 
+     *
+     * @param f
+     * @return
      */
     public HEC_FromFrame setStrutFacets(final int f) {
 	strutFacets = f;
@@ -302,10 +275,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
+     *
+     * @param b
+     * @return
      */
     public HEC_FromFrame setTaper(final boolean b) {
 	taper = b;
@@ -313,10 +286,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
+     *
+     * @param b
+     * @return
      */
     public HEC_FromFrame setCap(final boolean b) {
 	cap = b;
@@ -324,10 +297,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
+     *
+     * @param b
+     * @return
      */
     public HEC_FromFrame setSuppressBalljoint(final boolean b) {
 	suppressBalljoint = b;
@@ -335,10 +308,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
+     *
+     * @param b
+     * @return
      */
     public HEC_FromFrame setUseNodeValues(final boolean b) {
 	useNodeValues = b;
@@ -346,10 +319,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
+     *
+     * @param b
+     * @return
      */
     public HEC_FromFrame setCreateIsolatedNodes(final boolean b) {
 	createIsolatedNodes = b;
@@ -357,10 +330,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @return 
+     *
+     * @param f
+     * @return
      */
     public HEC_FromFrame setFidget(final double f) {
 	fidget = f;
@@ -368,10 +341,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param ff 
-     * @return 
+     *
+     * @param ff
+     * @return
      */
     public HEC_FromFrame setFillFactor(final double ff) {
 	fillfactor = 0.99;
@@ -379,10 +352,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param af 
-     * @return 
+     *
+     * @param af
+     * @return
      */
     public HEC_FromFrame setAngleOffset(final double af) {
 	angleFactor = new WB_ConstantParameter<Double>(af);
@@ -390,10 +363,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param af 
-     * @return 
+     *
+     * @param af
+     * @return
      */
     public HEC_FromFrame setAngleOffset(final WB_Parameter<Double> af) {
 	angleFactor = af;
@@ -401,7 +374,7 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
+     *
      */
     private void getNodeTypes() {
 	int i = 0;
@@ -428,7 +401,7 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
+     *
      */
     private void getStrutNodeConnections() {
 	int i = 0;
@@ -495,8 +468,8 @@ public class HEC_FromFrame extends HEC_Creator {
 				mo,
 				mso,
 				(mso / fidget)
-					* Math.min(1.0,
-						Math.tan(0.5 * minLocSpan)));
+				* Math.min(1.0,
+					Math.tan(0.5 * minLocSpan)));
 		    } else {
 			createNodeStrutConnection(node, j, mo, o, r);
 		    }
@@ -515,13 +488,13 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param node 
-     * @param i 
-     * @param maxoff 
-     * @param off 
-     * @param rad 
+     *
+     * @param node
+     * @param i
+     * @param maxoff
+     * @param off
+     * @param rad
      */
     private void createNodeStrutConnection(final WB_FrameNode node,
 	    final int i, final double maxoff, final double off, final double rad) {
@@ -532,7 +505,7 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
+     *
      */
     private void createVertices() {
 	final double da = (2 * Math.PI) / strutFacets;
@@ -567,11 +540,11 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param node 
-     * @param strut 
-     * @return 
+     *
+     * @param node
+     * @param strut
+     * @return
      */
     private int getStrutIndex(final WB_FrameNode node, final WB_FrameStrut strut) {
 	if (node == strut.start()) {
@@ -582,7 +555,7 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
+     *
      */
     private void createStruts() {
 	int i = 0;
@@ -602,9 +575,9 @@ public class HEC_FromFrame extends HEC_Creator {
 		    extraVertices[j][k] = new HE_Vertex(
 			    gf.createInterpolatedPoint(
 				    strutNodeConnections[offsets].vertices
-					    .get(j),
+				    .get(j),
 				    strutNodeConnections[offsete].vertices
-					    .get(j), (k + 1) / (double) ns));
+				    .get(j), (k + 1) / (double) ns));
 		    mesh.add(extraVertices[j][k]);
 		}
 	    }
@@ -632,6 +605,10 @@ public class HEC_FromFrame extends HEC_Creator {
 		    he1.setNext(he2);
 		    he2.setNext(he3);
 		    he3.setNext(he0);
+		    he1.setPrev(he0);
+		    he2.setPrev(he1);
+		    he3.setPrev(he2);
+		    he0.setPrev(he3);
 		    he0.setFace(f);
 		    f.setHalfedge(he0);
 		    f.setInternalLabel(1);
@@ -660,7 +637,7 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
+     *
      */
     private void createNodes() {
 	int i = 0;
@@ -697,10 +674,12 @@ public class HEC_FromFrame extends HEC_Creator {
 		    if (node == struts.get(0).start()) {
 			for (int k = 0, j = strutFacets - 1; k < strutFacets; j = k, k++) {
 			    hes.get(k).setNext(hes.get(j));
+			    hes.get(j).setPrev(hes.get(k));
 			}
 		    } else {
 			for (int k = 0, j = strutFacets - 1; k < strutFacets; j = k, k++) {
 			    hes.get(j).setNext(hes.get(k));
+			    hes.get(k).setPrev(hes.get(j));
 			}
 		    }
 		}
@@ -717,8 +696,8 @@ public class HEC_FromFrame extends HEC_Creator {
 			}
 			for (int k = 0; k < strutFacets; k++) {
 			    hullPoints
-				    .add(strutNodeConnections[offset].vertices
-					    .get(k));
+			    .add(strutNodeConnections[offset].vertices
+				    .get(k));
 			    br = Math.min(br,
 				    strutNodeConnections[offset].radius);
 			}
@@ -729,12 +708,12 @@ public class HEC_FromFrame extends HEC_Creator {
 			    && (nodeTypes[i] != NodeType.BEND)
 			    && (!suppressBalljoint)) {
 			final HE_Mesh ball = new HE_Mesh(new HEC_Sphere()
-				.setRadius(br).setUFacets(strutFacets)
-				.setVFacets(strutFacets).setCenter(node));
+			.setRadius(br).setUFacets(strutFacets)
+			.setVFacets(strutFacets).setCenter(node));
 			hullPoints.addAll(ball.getVerticesAsList());
 		    }
 		    final HEC_ConvexHull ch = new HEC_ConvexHull()
-			    .setPointsFromVertices(hullPoints);
+		    .setPointsFromVertices(hullPoints);
 		    try {
 			final HE_Mesh tmp = new HE_Mesh(ch);
 			final Map<Long, Integer> vertexToPointIndex = ch.vertexToPointIndex;
@@ -781,7 +760,7 @@ public class HEC_FromFrame extends HEC_Creator {
 				    - strutNodeConnections[offset].maxoffset);
 			    for (int k = 0; k < strutFacets; k++) {
 				strutNodeConnections[offset].vertices.get(k)
-					.getPoint().addSelf(v);
+				.getPoint().addSelf(v);
 			    }
 			}
 			final Iterator<HE_Halfedge> tmpheItr = tmp.heItr();
@@ -805,7 +784,9 @@ public class HEC_FromFrame extends HEC_Creator {
 	}
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.hemesh.HEC_Creator#createBase()
      */
     @Override
@@ -829,10 +810,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param frame 
-     * @return 
+     *
+     * @param frame
+     * @return
      */
     public HEC_FromFrame setFrame(final WB_Frame frame) {
 	this.frame = frame;
@@ -840,10 +821,10 @@ public class HEC_FromFrame extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @return 
+     *
+     * @param mesh
+     * @return
      */
     public HEC_FromFrame setFrame(final HE_Mesh mesh) {
 	frame = mesh.getFrame();

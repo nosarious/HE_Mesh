@@ -1,39 +1,35 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 import wblut.math.WB_DoubleDouble;
 
 /**
- * 
+ *
  */
 public class WB_Predicates {
-    
     /**
-     * 
+     *
      */
     private static double orientErrorBound = -1;
-    
     /**
-     * 
+     *
      */
     private static double insphereErrorBound = -1;
-    
     /**
-     * 
+     *
      */
     private static double orientErrorBound2D = -1;
-    
     /**
-     * 
+     *
      */
     private static double incircleErrorBound2D = -1;
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     private static double findMachEpsilon() {
 	double epsilon, check, lastcheck;
@@ -48,7 +44,7 @@ public class WB_Predicates {
     }
 
     /**
-     * 
+     *
      */
     private static void init() {
 	final double epsilon = findMachEpsilon();
@@ -63,7 +59,7 @@ public class WB_Predicates {
     // = 0 if on plane
     /**
      * Orient.
-     * 
+     *
      * @param pa
      *            the pa
      * @param pb
@@ -136,7 +132,7 @@ public class WB_Predicates {
 
     /**
      * Orient exact.
-     * 
+     *
      * @param pa
      *            the pa
      * @param pb
@@ -188,7 +184,7 @@ public class WB_Predicates {
     // =0 if on sphere
     /**
      * Insphere.
-     * 
+     *
      * @param pa
      *            the pa
      * @param pb
@@ -280,10 +276,10 @@ public class WB_Predicates {
 		+ ((dexbeyplus + bexdeyplus) * cezplus) + ((bexceyplus + cexbeyplus) * dezplus)) * alift)
 		+ ((((dexaeyplus + aexdeyplus) * cezplus)
 			+ ((aexceyplus + cexaeyplus) * dezplus) + ((cexdeyplus + dexceyplus) * aezplus)) * blift)
-		+ ((((aexbeyplus + bexaeyplus) * dezplus)
-			+ ((bexdeyplus + dexbeyplus) * aezplus) + ((dexaeyplus + aexdeyplus) * bezplus)) * clift)
-		+ ((((bexceyplus + cexbeyplus) * aezplus)
-			+ ((cexaeyplus + aexceyplus) * bezplus) + ((aexbeyplus + bexaeyplus) * cezplus)) * dlift);
+			+ ((((aexbeyplus + bexaeyplus) * dezplus)
+				+ ((bexdeyplus + dexbeyplus) * aezplus) + ((dexaeyplus + aexdeyplus) * bezplus)) * clift)
+				+ ((((bexceyplus + cexbeyplus) * aezplus)
+					+ ((cexaeyplus + aexceyplus) * bezplus) + ((aexbeyplus + bexaeyplus) * cezplus)) * dlift);
 	errbound = insphereErrorBound * permanent;
 	if ((det > errbound) || (-det > errbound)) {
 	    return (det > 0) ? 1 : ((det == 0) ? 0 : -1);
@@ -293,7 +289,7 @@ public class WB_Predicates {
 
     /**
      * Insphere exact.
-     * 
+     *
      * @param pa
      *            the pa
      * @param pb
@@ -385,7 +381,7 @@ public class WB_Predicates {
     // =0 if on sphere
     /**
      * In sphere orient.
-     * 
+     *
      * @param pa
      *            the pa
      * @param pb
@@ -418,7 +414,7 @@ public class WB_Predicates {
     // expanded by p1,p2, and p3.
     /**
      * Diff sides.
-     * 
+     *
      * @param p1
      *            the p1
      * @param p2
@@ -442,7 +438,7 @@ public class WB_Predicates {
 
     /**
      * Inside tetrahedron.
-     * 
+     *
      * @param p1
      *            the p1
      * @param p2
@@ -460,7 +456,7 @@ public class WB_Predicates {
 	    final WB_Coordinate p4, final WB_Coordinate q) {
 	return (!diffSides(p1, p2, p3, q, p4) && !diffSides(p2, p3, p4, q, p1)
 		&& !diffSides(p1, p2, p4, q, p3) && !diffSides(p1, p3, p4, q,
-		    p2));
+			p2));
     }
 
     /**
@@ -472,7 +468,7 @@ public class WB_Predicates {
 
     /**
      * Orient tetra.
-     * 
+     *
      * @param p0
      *            the p0
      * @param p1
@@ -510,8 +506,8 @@ public class WB_Predicates {
 		: -(cdxbdy))) * ((adz) >= 0.0 ? (adz) : -(adz)))
 		+ ((((cdxady) >= 0.0 ? (cdxady) : -(cdxady)) + ((adxcdy) >= 0.0 ? (adxcdy)
 			: -(adxcdy))) * ((bdz) >= 0.0 ? (bdz) : -(bdz)))
-		+ ((((adxbdy) >= 0.0 ? (adxbdy) : -(adxbdy)) + ((bdxady) >= 0.0 ? (bdxady)
-			: -(bdxady))) * ((cdz) >= 0.0 ? (cdz) : -(cdz)));
+			+ ((((adxbdy) >= 0.0 ? (adxbdy) : -(adxbdy)) + ((bdxady) >= 0.0 ? (bdxady)
+				: -(bdxady))) * ((cdz) >= 0.0 ? (cdz) : -(cdz)));
 	errbound = o3derrboundA * permanent;
 	if ((det > errbound) || (-det > errbound)) {
 	    return (det > 0) ? 1 : ((det == 0) ? 0 : -1);
@@ -521,7 +517,7 @@ public class WB_Predicates {
 
     /**
      * _orient tetra adapt.
-     * 
+     *
      * @param pa
      *            the pa
      * @param pb
@@ -1981,7 +1977,7 @@ public class WB_Predicates {
 
     /**
      * Orient tri.
-     * 
+     *
      * @param p0
      *            the p0
      * @param p1
@@ -2021,7 +2017,7 @@ public class WB_Predicates {
 
     /**
      * _orient tri adapt.
-     * 
+     *
      * @param p0
      *            the p0
      * @param p1
@@ -2306,7 +2302,7 @@ public class WB_Predicates {
 
     /**
      * Insphere tetra.
-     * 
+     *
      * @param p0
      *            the p0
      * @param p1
@@ -2340,7 +2336,7 @@ public class WB_Predicates {
 
     /**
      * _insphere tetra.
-     * 
+     *
      * @param pa
      *            the pa
      * @param pb
@@ -2428,10 +2424,10 @@ public class WB_Predicates {
 		+ ((dexbeyplus + bexdeyplus) * cezplus) + ((bexceyplus + cexbeyplus) * dezplus)) * alift)
 		+ ((((dexaeyplus + aexdeyplus) * cezplus)
 			+ ((aexceyplus + cexaeyplus) * dezplus) + ((cexdeyplus + dexceyplus) * aezplus)) * blift)
-		+ ((((aexbeyplus + bexaeyplus) * dezplus)
-			+ ((bexdeyplus + dexbeyplus) * aezplus) + ((dexaeyplus + aexdeyplus) * bezplus)) * clift)
-		+ ((((bexceyplus + cexbeyplus) * aezplus)
-			+ ((cexaeyplus + aexceyplus) * bezplus) + ((aexbeyplus + bexaeyplus) * cezplus)) * dlift);
+			+ ((((aexbeyplus + bexaeyplus) * dezplus)
+				+ ((bexdeyplus + dexbeyplus) * aezplus) + ((dexaeyplus + aexdeyplus) * bezplus)) * clift)
+				+ ((((bexceyplus + cexbeyplus) * aezplus)
+					+ ((cexaeyplus + aexceyplus) * bezplus) + ((aexbeyplus + bexaeyplus) * cezplus)) * dlift);
 	errbound = isperrboundA * permanent;
 	if ((det > errbound) || (-det > errbound)) {
 	    return (det > 0) ? 1 : ((det == 0) ? 0 : -1);
@@ -2441,7 +2437,7 @@ public class WB_Predicates {
 
     /**
      * _insphere tetra adapt.
-     * 
+     *
      * @param pa
      *            the pa
      * @param pb
@@ -2960,17 +2956,17 @@ public class WB_Predicates {
 		- ((bey * dextail) + (dex * beytail));
 	det += (((((bex * bex) + (bey * bey) + (bez * bez)) * (((cez * daeps)
 		+ (dez * aceps) + (aez * cdeps)) + ((ceztail * da3)
-		+ (deztail * ac3) + (aeztail * cd3)))) + (((dex * dex)
-		+ (dey * dey) + (dez * dez)) * ((((aez * bceps) - (bez * aceps)) + (cez * abeps)) + (((aeztail * bc3) - (beztail * ac3)) + (ceztail * ab3))))) - ((((aex * aex)
-		+ (aey * aey) + (aez * aez)) * ((((bez * cdeps) - (cez * bdeps)) + (dez * bceps)) + (((beztail * cd3) - (ceztail * bd3)) + (deztail * bc3)))) + (((cex * cex)
-		+ (cey * cey) + (cez * cez)) * (((dez * abeps) + (aez * bdeps) + (bez * daeps)) + ((deztail * ab3)
-		+ (aeztail * bd3) + (beztail * da3))))))
-		+ (2.0 * (((((bex * bextail) + (bey * beytail) + (bez * beztail)) * ((cez * da3)
-			+ (dez * ac3) + (aez * cd3))) + (((dex * dextail)
-			+ (dey * deytail) + (dez * deztail)) * (((aez * bc3) - (bez * ac3)) + (cez * ab3)))) - ((((aex * aextail)
-			+ (aey * aeytail) + (aez * aeztail)) * (((bez * cd3) - (cez * bd3)) + (dez * bc3))) + (((cex * cextail)
-			+ (cey * ceytail) + (cez * ceztail)) * ((dez * ab3)
-			+ (aez * bd3) + (bez * da3))))));
+			+ (deztail * ac3) + (aeztail * cd3)))) + (((dex * dex)
+				+ (dey * dey) + (dez * dez)) * ((((aez * bceps) - (bez * aceps)) + (cez * abeps)) + (((aeztail * bc3) - (beztail * ac3)) + (ceztail * ab3))))) - ((((aex * aex)
+					+ (aey * aey) + (aez * aez)) * ((((bez * cdeps) - (cez * bdeps)) + (dez * bceps)) + (((beztail * cd3) - (ceztail * bd3)) + (deztail * bc3)))) + (((cex * cex)
+						+ (cey * cey) + (cez * cez)) * (((dez * abeps) + (aez * bdeps) + (bez * daeps)) + ((deztail * ab3)
+							+ (aeztail * bd3) + (beztail * da3))))))
+							+ (2.0 * (((((bex * bextail) + (bey * beytail) + (bez * beztail)) * ((cez * da3)
+								+ (dez * ac3) + (aez * cd3))) + (((dex * dextail)
+									+ (dey * deytail) + (dez * deztail)) * (((aez * bc3) - (bez * ac3)) + (cez * ab3)))) - ((((aex * aextail)
+										+ (aey * aeytail) + (aez * aeztail)) * (((bez * cd3) - (cez * bd3)) + (dez * bc3))) + (((cex * cextail)
+											+ (cey * ceytail) + (cez * ceztail)) * ((dez * ab3)
+												+ (aez * bd3) + (bez * da3))))));
 	if ((det >= errbound) || (-det >= errbound)) {
 	    return (det > 0) ? 1 : ((det == 0) ? 0 : -1);
 	}
@@ -2979,7 +2975,7 @@ public class WB_Predicates {
 
     /**
      * _insphere tetra exact.
-     * 
+     *
      * @param pa
      *            the pa
      * @param pb
@@ -3704,7 +3700,7 @@ public class WB_Predicates {
 
     /**
      * Insphere tri.
-     * 
+     *
      * @param p0
      *            the p0
      * @param p1
@@ -3730,7 +3726,7 @@ public class WB_Predicates {
 
     /**
      * _insphere tri.
-     * 
+     *
      * @param a1
      *            the a1
      * @param a2
@@ -3797,7 +3793,7 @@ public class WB_Predicates {
 
     /**
      * Incircle tri.
-     * 
+     *
      * @param p0
      *            the p0
      * @param p1
@@ -3836,8 +3832,8 @@ public class WB_Predicates {
 		: -(cdxbdy))) * alift)
 		+ ((((cdxady) >= 0.0 ? (cdxady) : -(cdxady)) + ((adxcdy) >= 0.0 ? (adxcdy)
 			: -(adxcdy))) * blift)
-		+ ((((adxbdy) >= 0.0 ? (adxbdy) : -(adxbdy)) + ((bdxady) >= 0.0 ? (bdxady)
-			: -(bdxady))) * clift);
+			+ ((((adxbdy) >= 0.0 ? (adxbdy) : -(adxbdy)) + ((bdxady) >= 0.0 ? (bdxady)
+				: -(bdxady))) * clift);
 	errbound = iccerrboundA * permanent;
 	if ((det > errbound) || (-det > errbound)) {
 	    return (det > 0) ? 1 : ((det == 0) ? 0 : -1);
@@ -3847,7 +3843,7 @@ public class WB_Predicates {
 
     /**
      * _incircle tri adapt.
-     * 
+     *
      * @param pa
      *            the pa
      * @param pb
@@ -5157,7 +5153,7 @@ public class WB_Predicates {
 
     /**
      * Diffsides.
-     * 
+     *
      * @param p0
      *            the p0
      * @param p1
@@ -5196,7 +5192,7 @@ public class WB_Predicates {
 
     /**
      * Inplane.
-     * 
+     *
      * @param p0
      *            the p0
      * @param p1
@@ -5232,13 +5228,13 @@ public class WB_Predicates {
     private double isperrboundA, isperrboundB, isperrboundC;
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @param p3 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @param p3
+     * @return
      */
     public double orientTetra(final WB_Coordinate p0, final WB_Coordinate p1,
 	    final WB_Coordinate p2, final WB_Coordinate p3) {
@@ -5267,8 +5263,8 @@ public class WB_Predicates {
 		: -(cdxbdy))) * ((adz) >= 0.0 ? (adz) : -(adz)))
 		+ ((((cdxady) >= 0.0 ? (cdxady) : -(cdxady)) + ((adxcdy) >= 0.0 ? (adxcdy)
 			: -(adxcdy))) * ((bdz) >= 0.0 ? (bdz) : -(bdz)))
-		+ ((((adxbdy) >= 0.0 ? (adxbdy) : -(adxbdy)) + ((bdxady) >= 0.0 ? (bdxady)
-			: -(bdxady))) * ((cdz) >= 0.0 ? (cdz) : -(cdz)));
+			+ ((((adxbdy) >= 0.0 ? (adxbdy) : -(adxbdy)) + ((bdxady) >= 0.0 ? (bdxady)
+				: -(bdxady))) * ((cdz) >= 0.0 ? (cdz) : -(cdz)));
 	errbound = o3derrboundA * permanent;
 	if ((det > errbound) || (-det > errbound)) {
 	    return (det > 0) ? 1 : ((det == 0) ? 0 : -1);
@@ -5281,14 +5277,14 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param pa 
-     * @param pb 
-     * @param pc 
-     * @param pd 
-     * @param permanent 
-     * @return 
+     *
+     * @param pa
+     * @param pb
+     * @param pc
+     * @param pd
+     * @param permanent
+     * @return
      */
     private double _orientTetraAdapt(final WB_Coordinate pa,
 	    final WB_Coordinate pb, final WB_Coordinate pc,
@@ -6737,12 +6733,12 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @return
      */
     public double orientTri(final WB_Coordinate p0, final WB_Coordinate p1,
 	    final WB_Coordinate p2) {
@@ -6775,13 +6771,13 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @param detsum 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @param detsum
+     * @return
      */
     private double _orientTriAdapt(final WB_Coordinate p0,
 	    final WB_Coordinate p1, final WB_Coordinate p2, final double detsum) {
@@ -7056,14 +7052,14 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @param p3 
-     * @param q 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @param p3
+     * @param q
+     * @return
      */
     public WB_ClassificationGeometry insphereTetra(final WB_Coordinate p0,
 	    final WB_Coordinate p1, final WB_Coordinate p2,
@@ -7085,14 +7081,14 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param pa 
-     * @param pb 
-     * @param pc 
-     * @param pd 
-     * @param pe 
-     * @return 
+     *
+     * @param pa
+     * @param pb
+     * @param pc
+     * @param pd
+     * @param pe
+     * @return
      */
     private double _insphereTetra(final WB_Coordinate pa,
 	    final WB_Coordinate pb, final WB_Coordinate pc,
@@ -7170,10 +7166,10 @@ public class WB_Predicates {
 		+ ((dexbeyplus + bexdeyplus) * cezplus) + ((bexceyplus + cexbeyplus) * dezplus)) * alift)
 		+ ((((dexaeyplus + aexdeyplus) * cezplus)
 			+ ((aexceyplus + cexaeyplus) * dezplus) + ((cexdeyplus + dexceyplus) * aezplus)) * blift)
-		+ ((((aexbeyplus + bexaeyplus) * dezplus)
-			+ ((bexdeyplus + dexbeyplus) * aezplus) + ((dexaeyplus + aexdeyplus) * bezplus)) * clift)
-		+ ((((bexceyplus + cexbeyplus) * aezplus)
-			+ ((cexaeyplus + aexceyplus) * bezplus) + ((aexbeyplus + bexaeyplus) * cezplus)) * dlift);
+			+ ((((aexbeyplus + bexaeyplus) * dezplus)
+				+ ((bexdeyplus + dexbeyplus) * aezplus) + ((dexaeyplus + aexdeyplus) * bezplus)) * clift)
+				+ ((((bexceyplus + cexbeyplus) * aezplus)
+					+ ((cexaeyplus + aexceyplus) * bezplus) + ((aexbeyplus + bexaeyplus) * cezplus)) * dlift);
 	errbound = isperrboundA * permanent;
 	if ((det > errbound) || (-det > errbound)) {
 	    return (det > 0) ? 1 : ((det == 0) ? 0 : -1);
@@ -7182,15 +7178,15 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param pa 
-     * @param pb 
-     * @param pc 
-     * @param pd 
-     * @param pe 
-     * @param permanent 
-     * @return 
+     *
+     * @param pa
+     * @param pb
+     * @param pc
+     * @param pd
+     * @param pe
+     * @param permanent
+     * @return
      */
     private double _insphereTetraAdapt(final WB_Coordinate pa,
 	    final WB_Coordinate pb, final WB_Coordinate pc,
@@ -7697,17 +7693,17 @@ public class WB_Predicates {
 		- ((bey * dextail) + (dex * beytail));
 	det += (((((bex * bex) + (bey * bey) + (bez * bez)) * (((cez * daeps)
 		+ (dez * aceps) + (aez * cdeps)) + ((ceztail * da3)
-		+ (deztail * ac3) + (aeztail * cd3)))) + (((dex * dex)
-		+ (dey * dey) + (dez * dez)) * ((((aez * bceps) - (bez * aceps)) + (cez * abeps)) + (((aeztail * bc3) - (beztail * ac3)) + (ceztail * ab3))))) - ((((aex * aex)
-		+ (aey * aey) + (aez * aez)) * ((((bez * cdeps) - (cez * bdeps)) + (dez * bceps)) + (((beztail * cd3) - (ceztail * bd3)) + (deztail * bc3)))) + (((cex * cex)
-		+ (cey * cey) + (cez * cez)) * (((dez * abeps) + (aez * bdeps) + (bez * daeps)) + ((deztail * ab3)
-		+ (aeztail * bd3) + (beztail * da3))))))
-		+ (2.0 * (((((bex * bextail) + (bey * beytail) + (bez * beztail)) * ((cez * da3)
-			+ (dez * ac3) + (aez * cd3))) + (((dex * dextail)
-			+ (dey * deytail) + (dez * deztail)) * (((aez * bc3) - (bez * ac3)) + (cez * ab3)))) - ((((aex * aextail)
-			+ (aey * aeytail) + (aez * aeztail)) * (((bez * cd3) - (cez * bd3)) + (dez * bc3))) + (((cex * cextail)
-			+ (cey * ceytail) + (cez * ceztail)) * ((dez * ab3)
-			+ (aez * bd3) + (bez * da3))))));
+			+ (deztail * ac3) + (aeztail * cd3)))) + (((dex * dex)
+				+ (dey * dey) + (dez * dez)) * ((((aez * bceps) - (bez * aceps)) + (cez * abeps)) + (((aeztail * bc3) - (beztail * ac3)) + (ceztail * ab3))))) - ((((aex * aex)
+					+ (aey * aey) + (aez * aez)) * ((((bez * cdeps) - (cez * bdeps)) + (dez * bceps)) + (((beztail * cd3) - (ceztail * bd3)) + (deztail * bc3)))) + (((cex * cex)
+						+ (cey * cey) + (cez * cez)) * (((dez * abeps) + (aez * bdeps) + (bez * daeps)) + ((deztail * ab3)
+							+ (aeztail * bd3) + (beztail * da3))))))
+							+ (2.0 * (((((bex * bextail) + (bey * beytail) + (bez * beztail)) * ((cez * da3)
+								+ (dez * ac3) + (aez * cd3))) + (((dex * dextail)
+									+ (dey * deytail) + (dez * deztail)) * (((aez * bc3) - (bez * ac3)) + (cez * ab3)))) - ((((aex * aextail)
+										+ (aey * aeytail) + (aez * aeztail)) * (((bez * cd3) - (cez * bd3)) + (dez * bc3))) + (((cex * cextail)
+											+ (cey * ceytail) + (cez * ceztail)) * ((dez * ab3)
+												+ (aez * bd3) + (bez * da3))))));
 	if ((det >= errbound) || (-det >= errbound)) {
 	    return (det > 0) ? 1 : ((det == 0) ? 0 : -1);
 	}
@@ -7715,14 +7711,14 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param pa 
-     * @param pb 
-     * @param pc 
-     * @param pd 
-     * @param pe 
-     * @return 
+     *
+     * @param pa
+     * @param pb
+     * @param pc
+     * @param pd
+     * @param pe
+     * @return
      */
     private double _insphereTetraExact(final WB_Coordinate pa,
 	    final WB_Coordinate pb, final WB_Coordinate pc,
@@ -8436,13 +8432,13 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @param q 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @param q
+     * @return
      */
     public WB_ClassificationGeometry insphereTri(final WB_Coordinate p0,
 	    final WB_Coordinate p1, final WB_Coordinate p2,
@@ -8460,13 +8456,13 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @param q 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @param q
+     * @return
      */
     public double incircleTri(final WB_Coordinate p0, final WB_Coordinate p1,
 	    final WB_Coordinate p2, final WB_Coordinate q) {
@@ -8496,8 +8492,8 @@ public class WB_Predicates {
 		: -(cdxbdy))) * alift)
 		+ ((((cdxady) >= 0.0 ? (cdxady) : -(cdxady)) + ((adxcdy) >= 0.0 ? (adxcdy)
 			: -(adxcdy))) * blift)
-		+ ((((adxbdy) >= 0.0 ? (adxbdy) : -(adxbdy)) + ((bdxady) >= 0.0 ? (bdxady)
-			: -(bdxady))) * clift);
+			+ ((((adxbdy) >= 0.0 ? (adxbdy) : -(adxbdy)) + ((bdxady) >= 0.0 ? (bdxady)
+				: -(bdxady))) * clift);
 	errbound = iccerrboundA * permanent;
 	if ((det > errbound) || (-det > errbound)) {
 	    return (det > 0) ? 1 : ((det == 0) ? 0 : -1);
@@ -8506,14 +8502,14 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param pa 
-     * @param pb 
-     * @param pc 
-     * @param pd 
-     * @param permanent 
-     * @return 
+     *
+     * @param pa
+     * @param pb
+     * @param pc
+     * @param pd
+     * @param permanent
+     * @return
      */
     private double _incircleTriAdapt(final WB_Coordinate pa,
 	    final WB_Coordinate pb, final WB_Coordinate pc,
@@ -9812,14 +9808,14 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @param q0 
-     * @param q1 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @param q0
+     * @param q1
+     * @return
      */
     public WB_ClassificationGeometry diffsides(final WB_Coordinate p0,
 	    final WB_Coordinate p1, final WB_Coordinate p2,
@@ -9846,13 +9842,13 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @param p3 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @param p3
+     * @return
      */
     public boolean inplane(final WB_Coordinate p0, final WB_Coordinate p1,
 	    final WB_Coordinate p2, final WB_Coordinate p3) {
@@ -9865,7 +9861,7 @@ public class WB_Predicates {
 
     /**
      * _estimate.
-     * 
+     *
      * @param elen
      *            the elen
      * @param e
@@ -9883,7 +9879,7 @@ public class WB_Predicates {
     }
 
     /**
-     * 
+     *
      */
     private void _exactinit() {
 	double half;
@@ -9920,14 +9916,14 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param elen 
-     * @param e 
-     * @param flen 
-     * @param f 
-     * @param h 
-     * @return 
+     *
+     * @param elen
+     * @param e
+     * @param flen
+     * @param f
+     * @param h
+     * @return
      */
     private int _fast_expansion_sum_zeroelim(final int elen, final double[] e,
 	    final int flen, final double[] f, final double[] h) {
@@ -10022,13 +10018,13 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param elen 
-     * @param e 
-     * @param b 
-     * @param h 
-     * @return 
+     *
+     * @param elen
+     * @param e
+     * @param b
+     * @param h
+     * @return
      */
     private int _scale_expansion_zeroelim(final int elen, final double[] e,
 	    final double b, final double[] h) {
@@ -10095,13 +10091,13 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param b 
-     * @param c 
-     * @param d 
-     * @return 
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     * @return
      */
     public double[] circumcenterTetra(final double[] a, final double[] b,
 	    final double[] c, final double[] d) {
@@ -10109,16 +10105,16 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param b 
-     * @param c 
-     * @param d 
-     * @param xi 
-     * @param eta 
-     * @param zeta 
-     * @return 
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     * @param xi
+     * @param eta
+     * @param zeta
+     * @return
      */
     public double[] circumcenterTetra(final double[] a, final double[] b,
 	    final double[] c, final double[] d, final double[] xi,
@@ -10175,13 +10171,13 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param b 
-     * @param c 
-     * @param d 
-     * @return 
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     * @return
      */
     public double[] circumcenterTetra(final WB_Coordinate a,
 	    final WB_Coordinate b, final WB_Coordinate c, final WB_Coordinate d) {
@@ -10189,16 +10185,16 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param b 
-     * @param c 
-     * @param d 
-     * @param xi 
-     * @param eta 
-     * @param zeta 
-     * @return 
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     * @param xi
+     * @param eta
+     * @param zeta
+     * @return
      */
     public double[] circumcenterTetra(final WB_Coordinate a,
 	    final WB_Coordinate b, final WB_Coordinate c,
@@ -10257,7 +10253,7 @@ public class WB_Predicates {
 
     /**
      * Circumradius tetra.
-     * 
+     *
      * @param p0
      *            the p0
      * @param p1
@@ -10283,13 +10279,13 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @param p3 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @param p3
+     * @return
      */
     public double circumradiusTetra(final WB_Coordinate p0,
 	    final WB_Coordinate p1, final WB_Coordinate p2,
@@ -10307,13 +10303,13 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @param p3 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @param p3
+     * @return
      */
     public WB_Sphere circumsphereTetra(final double[] p0, final double[] p1,
 	    final double[] p2, final double[] p3) {
@@ -10331,13 +10327,13 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @param p3 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @param p3
+     * @return
      */
     public WB_Sphere circumsphereTetra(final WB_Coordinate p0,
 	    final WB_Coordinate p1, final WB_Coordinate p2,
@@ -10357,7 +10353,7 @@ public class WB_Predicates {
 
     /**
      * Circumcenter tri.
-     * 
+     *
      * @param a
      *            the a
      * @param b
@@ -10399,12 +10395,12 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param b 
-     * @param c 
-     * @return 
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @return
      */
     public double[] circumcenterTri(final WB_Coordinate a,
 	    final WB_Coordinate b, final WB_Coordinate c) {
@@ -10439,12 +10435,12 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @return
      */
     public double circumradiusTri(final WB_Coordinate p0,
 	    final WB_Coordinate p1, final WB_Coordinate p2) {
@@ -10461,7 +10457,7 @@ public class WB_Predicates {
 
     /**
      * Circumradius tri.
-     * 
+     *
      * @param p0
      *            the p0
      * @param p1
@@ -10484,12 +10480,12 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @return
      */
     public WB_Sphere circumsphereTri(final WB_Coordinate p0,
 	    final WB_Coordinate p1, final WB_Coordinate p2) {
@@ -10506,12 +10502,12 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param p2 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param p2
+     * @return
      */
     public WB_Sphere circumsphereTri(final double[] p0, final double[] p1,
 	    final double[] p2) {
@@ -10531,12 +10527,12 @@ public class WB_Predicates {
     // <0 if pa,pb,pc cw
     // =0 if colinear
     /**
-     * 
      *
-     * @param pa 
-     * @param pb 
-     * @param pc 
-     * @return 
+     *
+     * @param pa
+     * @param pb
+     * @param pc
+     * @return
      */
     public static double orient2D(final WB_Coordinate pa,
 	    final WB_Coordinate pb, final WB_Coordinate pc) {
@@ -10571,12 +10567,12 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param pa 
-     * @param pb 
-     * @param pc 
-     * @return 
+     *
+     * @param pa
+     * @param pb
+     * @param pc
+     * @return
      */
     public static double orientDD2D(final WB_Coordinate pa,
 	    final WB_Coordinate pb, final WB_Coordinate pc) {
@@ -10604,13 +10600,13 @@ public class WB_Predicates {
     // <0 if pd outside circle through pa,pb,pc (if ccw)
     // =0 if on circle
     /**
-     * 
      *
-     * @param pa 
-     * @param pb 
-     * @param pc 
-     * @param pd 
-     * @return 
+     *
+     * @param pa
+     * @param pb
+     * @param pc
+     * @param pd
+     * @return
      */
     public static double incircle2D(final WB_Coordinate pa,
 	    final WB_Coordinate pb, final WB_Coordinate pc,
@@ -10668,13 +10664,13 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param pa 
-     * @param pb 
-     * @param pc 
-     * @param pd 
-     * @return 
+     *
+     * @param pa
+     * @param pb
+     * @param pc
+     * @param pd
+     * @return
      */
     public static double incircleDD2D(final WB_Coordinate pa,
 	    final WB_Coordinate pb, final WB_Coordinate pc,
@@ -10727,13 +10723,13 @@ public class WB_Predicates {
     // <0 if pd outside circle through pa,pb,pc (cw or ccw)
     // =0 if on circle
     /**
-     * 
      *
-     * @param pa 
-     * @param pb 
-     * @param pc 
-     * @param pd 
-     * @return 
+     *
+     * @param pa
+     * @param pb
+     * @param pc
+     * @param pd
+     * @return
      */
     public static double incircle2DOrient(final WB_Coordinate pa,
 	    final WB_Coordinate pb, final WB_Coordinate pc,
@@ -10752,13 +10748,13 @@ public class WB_Predicates {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param b 
-     * @param c 
-     * @param d 
-     * @return 
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     * @return
      */
     public static boolean getIntersection2DProper(final WB_Coordinate a,
 	    final WB_Coordinate b, final WB_Coordinate c, final WB_Coordinate d) {
@@ -10775,7 +10771,7 @@ public class WB_Predicates {
 
     /**
      * The main method.
-     * 
+     *
      * @param args
      *            the arguments
      */
@@ -10784,6 +10780,6 @@ public class WB_Predicates {
 	System.out.println(predicates.incircleTri(new double[] { 0,
 		1.0000000000033 }, new double[] { 0, -1.0000000000033 },
 		new double[] { 1.0000000000033, 0 }, new double[] {
-			-1.0000000000033, 0 }));
+		-1.0000000000033, 0 }));
     }
 }

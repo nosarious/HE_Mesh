@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * 
+ *
  */
 public class HES_PlanarMidEdge extends HES_Subdividor {
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Subdividor#subdivide(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -41,6 +41,8 @@ public class HES_PlanarMidEdge extends HES_Subdividor {
 		faceHalfedges.add(newHEp);
 		origHE2.setNext(newHE);
 		newHE.setNext(origHE1);
+		origHE1.setPrev(newHE);
+		newHE.setPrev(origHE2);
 		newHE.setVertex(origHE3.getVertex());
 		newHE.setFace(newFace);
 		origHE1.setFace(newFace);
@@ -61,7 +63,7 @@ public class HES_PlanarMidEdge extends HES_Subdividor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * wblut.hemesh.subdividors.HEB_Subdividor#subdivideSelected(wblut.hemesh
      * .HE_Mesh, wblut.hemesh.HE_Selection)
@@ -92,6 +94,8 @@ public class HES_PlanarMidEdge extends HES_Subdividor {
 		faceHalfedges.add(newHEp);
 		origHE2.setNext(newHE);
 		newHE.setNext(origHE1);
+		origHE1.setPrev(newHE);
+		newHE.setPrev(origHE2);
 		newHE.setVertex(origHE3.getVertex());
 		newHE.setFace(newFace);
 		origHE1.setFace(newFace);

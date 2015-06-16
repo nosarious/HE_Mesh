@@ -161,7 +161,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -181,7 +181,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 	mesh.resetFaceInternalLabels();
 	final HEM_Slice slice = new HEM_Slice();
 	slice.setReverse(reverse).setCap(capHoles).setOffset(offset)
-	.setSimpleCap(simpleCap);
+		.setSimpleCap(simpleCap);
 	if (center != null) {
 	    final double[] r = new double[planes.size()];
 	    for (int i = 0; i < planes.size(); i++) {
@@ -221,6 +221,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 		slice.setKeepCenter(true);
 		slice.apply(mesh);
 		fItr = slice.cap.fItr();
+		// System.out.println(slice.cap.getNumberOfFaces());
 		HE_Face f;
 		while (fItr.hasNext()) {
 		    f = fItr.next();
@@ -246,7 +247,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * wblut.hemesh.modifiers.HEB_Modifier#modifySelected(wblut.hemesh.HE_Mesh)
      */

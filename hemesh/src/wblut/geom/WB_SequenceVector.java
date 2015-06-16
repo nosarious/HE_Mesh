@@ -204,6 +204,17 @@ public class WB_SequenceVector extends WB_SimpleSequenceVector implements
 	return this;
     }
 
+    @Override
+    public void scaleInto(final WB_MutableCoordinate result, final double f) {
+	result.set(xd() * f, yd() * f, zd() * f);
+    }
+
+    @Override
+    public void scaleInto(final WB_MutableCoordinate result, final double fx,
+	    final double fy, final double fz) {
+	result.set(xd() * fx, yd() * fy, zd() * fz);
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -370,9 +381,26 @@ public class WB_SequenceVector extends WB_SimpleSequenceVector implements
      * @see wblut.geom.WB_CoordinateTransform#applyInto(wblut.geom.WB_Transform,
      * wblut.geom.WB_MutableCoordinate)
      */
+    /**
+     * @deprecated Use {@link #applyInto(WB_MutableCoordinate,WB_Transform)}
+     *             instead
+     */
+    @Deprecated
     @Override
     public void applyInto(final WB_Transform T,
 	    final WB_MutableCoordinate result) {
+	applyInto(result, T);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see wblut.geom.WB_CoordinateTransform#applyInto(wblut.geom.WB_Transform,
+     * wblut.geom.WB_MutableCoordinate)
+     */
+    @Override
+    public void applyInto(final WB_MutableCoordinate result,
+	    final WB_Transform T) {
 	T.applyAsVector(this, result);
     }
 
@@ -407,9 +435,28 @@ public class WB_SequenceVector extends WB_SimpleSequenceVector implements
      * wblut.geom.WB_CoordinateTransform#applyAsNormalInto(wblut.geom.WB_Transform
      * , wblut.geom.WB_MutableCoordinate)
      */
+    /**
+     * @deprecated Use
+     *             {@link #applyAsNormalInto(WB_MutableCoordinate,WB_Transform)}
+     *             instead
+     */
+    @Deprecated
     @Override
     public void applyAsNormalInto(final WB_Transform T,
 	    final WB_MutableCoordinate result) {
+	applyAsNormalInto(result, T);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * wblut.geom.WB_CoordinateTransform#applyAsNormalInto(wblut.geom.WB_Transform
+     * , wblut.geom.WB_MutableCoordinate)
+     */
+    @Override
+    public void applyAsNormalInto(final WB_MutableCoordinate result,
+	    final WB_Transform T) {
 	T.applyAsNormal(this, result);
     }
 
@@ -433,9 +480,28 @@ public class WB_SequenceVector extends WB_SimpleSequenceVector implements
      * wblut.geom.WB_CoordinateTransform#applyAsPointInto(wblut.geom.WB_Transform
      * , wblut.geom.WB_MutableCoordinate)
      */
+    /**
+     * @deprecated Use
+     *             {@link #applyAsPointInto(WB_MutableCoordinate,WB_Transform)}
+     *             instead
+     */
+    @Deprecated
     @Override
     public void applyAsPointInto(final WB_Transform T,
 	    final WB_MutableCoordinate result) {
+	applyAsPointInto(result, T);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * wblut.geom.WB_CoordinateTransform#applyAsPointInto(wblut.geom.WB_Transform
+     * , wblut.geom.WB_MutableCoordinate)
+     */
+    @Override
+    public void applyAsPointInto(final WB_MutableCoordinate result,
+	    final WB_Transform T) {
 	T.applyAsPoint(this, result);
     }
 
@@ -459,9 +525,28 @@ public class WB_SequenceVector extends WB_SimpleSequenceVector implements
      * wblut.geom.WB_CoordinateTransform#applyAsVectorInto(wblut.geom.WB_Transform
      * , wblut.geom.WB_MutableCoordinate)
      */
+    /**
+     * @deprecated Use
+     *             {@link #applyAsVectorInto(WB_MutableCoordinate,WB_Transform)}
+     *             instead
+     */
+    @Deprecated
     @Override
     public void applyAsVectorInto(final WB_Transform T,
 	    final WB_MutableCoordinate result) {
+	applyAsVectorInto(result, T);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * wblut.geom.WB_CoordinateTransform#applyAsVectorInto(wblut.geom.WB_Transform
+     * , wblut.geom.WB_MutableCoordinate)
+     */
+    @Override
+    public void applyAsVectorInto(final WB_MutableCoordinate result,
+	    final WB_Transform T) {
 	T.applyAsVector(this, result);
     }
 
@@ -736,8 +821,22 @@ public class WB_SequenceVector extends WB_SimpleSequenceVector implements
      * 
      * @see wblut.geom.WB_CoordinateMetric#heading2D()
      */
+    /**
+     * @deprecated Use {@link #getHeading2D()} instead
+     */
+    @Deprecated
     @Override
     public double heading2D() {
+	return getHeading2D();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see wblut.geom.WB_CoordinateMetric#heading2D()
+     */
+    @Override
+    public double getHeading2D() {
 	return Math.atan2(yd(), xd());
     }
 
@@ -835,7 +934,7 @@ public class WB_SequenceVector extends WB_SimpleSequenceVector implements
      */
     @Override
     public void mulInto(final WB_MutableCoordinate result, final double f) {
-	scale(f, result);
+	scaleInto(result, f);
     }
 
     /*
@@ -973,16 +1072,6 @@ public class WB_SequenceVector extends WB_SimpleSequenceVector implements
     public double scalarTriple(final WB_Coordinate v, final WB_Coordinate w) {
 	return WB_CoordinateOp.scalarTriple(xd(), yd(), zd(), v.xd(), v.yd(),
 		v.zd(), w.xd(), w.yd(), w.zd());
-    }
-
-    /**
-     *
-     *
-     * @param f
-     * @param result
-     */
-    public void scale(final double f, final WB_MutableCoordinate result) {
-	result.set(xd() * f, yd() * f, zd() * f);
     }
 
     /**

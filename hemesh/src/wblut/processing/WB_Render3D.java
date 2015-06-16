@@ -45,6 +45,7 @@ import wblut.geom.WB_Transform;
 import wblut.geom.WB_Triangle;
 import wblut.geom.WB_Triangulation2D;
 import wblut.geom.WB_Vector;
+import wblut.hemesh.HET_ProgressTracker;
 import wblut.hemesh.HE_EdgeIterator;
 import wblut.hemesh.HE_Face;
 import wblut.hemesh.HE_FaceEdgeCirculator;
@@ -69,11 +70,13 @@ public class WB_Render3D {
     /**
      *
      */
-    private final PGraphics3D home;
+    protected final PGraphics3D home;
     /**
      *
      */
     public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory
+	    .instance();
+    public static final HET_ProgressTracker tracker = HET_ProgressTracker
 	    .instance();
 
     /**
@@ -100,6 +103,10 @@ public class WB_Render3D {
      */
     public WB_Render3D(final PGraphics3D home) {
 	this.home = home;
+    }
+
+    public PGraphics3D getHome() {
+	return home;
     }
 
     /**
@@ -372,24 +379,24 @@ public class WB_Render3D {
 	home.beginShape(PConstants.QUAD);
 	home.vertex((float) (P.getOrigin().xd() - (d * P.getU().xd()) - (d * P
 		.getV().xd())), (float) (P.getOrigin().yd()
-			- (d * P.getU().yd()) - (d * P.getV().yd())), (float) (P
-				.getOrigin().zd() - (d * P.getU().zd()) - (d * P.getV().zd())));
+		- (d * P.getU().yd()) - (d * P.getV().yd())), (float) (P
+		.getOrigin().zd() - (d * P.getU().zd()) - (d * P.getV().zd())));
 	home.vertex(
 		(float) ((P.getOrigin().xd() - (d * P.getU().xd())) + (d * P
 			.getV().xd())), (float) ((P.getOrigin().yd() - (d * P
-				.getU().yd())) + (d * P.getV().yd())), (float) ((P
-					.getOrigin().zd() - (d * P.getU().zd())) + (d * P
-						.getV().zd())));
+			.getU().yd())) + (d * P.getV().yd())), (float) ((P
+			.getOrigin().zd() - (d * P.getU().zd())) + (d * P
+			.getV().zd())));
 	home.vertex((float) (P.getOrigin().xd() + (d * P.getU().xd()) + (d * P
 		.getV().xd())), (float) (P.getOrigin().yd()
-			+ (d * P.getU().yd()) + (d * P.getV().yd())), (float) (P
-				.getOrigin().zd() + (d * P.getU().zd()) + (d * P.getV().zd())));
+		+ (d * P.getU().yd()) + (d * P.getV().yd())), (float) (P
+		.getOrigin().zd() + (d * P.getU().zd()) + (d * P.getV().zd())));
 	home.vertex(
 		(float) ((P.getOrigin().xd() + (d * P.getU().xd())) - (d * P
 			.getV().xd())), (float) ((P.getOrigin().yd() + (d * P
-				.getU().yd())) - (d * P.getV().yd())), (float) ((P
-					.getOrigin().zd() + (d * P.getU().zd())) - (d * P
-						.getV().zd())));
+			.getU().yd())) - (d * P.getV().yd())), (float) ((P
+			.getOrigin().zd() + (d * P.getU().zd())) - (d * P
+			.getV().zd())));
 	home.endShape();
     }
 
@@ -703,6 +710,45 @@ public class WB_Render3D {
 	    } while (he != f.getHalfedge());
 	}
 	retained.endShape();
+	return retained;
+    }
+
+    public PShape toFacetedPShape(final HE_MeshStructure mesh,
+	    final double offset) {
+	tracker.setStatus("Creating PShape.", 0);
+	final PShape retained = home.createShape();
+	retained.beginShape(PConstants.TRIANGLES);
+	tracker.setStatus("Writing faces.", mesh.getNumberOfFaces(), 0);
+	final Iterator<HE_Face> fItr = mesh.fItr();
+	HE_Face f;
+	List<HE_Vertex> vertices;
+	HE_Vertex v;
+	WB_Vector fn;
+	final float df = (float) offset;
+	while (fItr.hasNext()) {
+	    f = fItr.next();
+	    vertices = f.getFaceVertices();
+	    if (vertices.size() > 2) {
+		final int[][] tris = f.getTriangles();
+		for (final int[] tri : tris) {
+		    v = vertices.get(tri[0]);
+		    fn = v.getVertexNormal();
+		    retained.vertex(v.xf() + df * fn.xf(),
+			    v.yf() + df * fn.yf(), v.zf() + df * fn.zf());
+		    v = vertices.get(tri[1]);
+		    fn = v.getVertexNormal();
+		    retained.vertex(v.xf() + df * fn.xf(),
+			    v.yf() + df * fn.yf(), v.zf() + df * fn.zf());
+		    v = vertices.get(tri[2]);
+		    fn = v.getVertexNormal();
+		    retained.vertex(v.xf() + df * fn.xf(),
+			    v.yf() + df * fn.yf(), v.zf() + df * fn.zf());
+		}
+	    }
+	    tracker.incrementCounter();
+	}
+	retained.endShape();
+	tracker.setStatus("Pshape created.", 0);
 	return retained;
     }
 
@@ -1194,6 +1240,16 @@ public class WB_Render3D {
 	}
     }
 
+    public void drawEdges(final HE_Face f) {
+	HE_Halfedge e = f.getHalfedge();
+	do {
+	    home.line(e.getVertex().xf(), e.getVertex().yf(), e.getVertex()
+		    .zf(), e.getEndVertex().xf(), e.getEndVertex().yf(), e
+		    .getEndVertex().zf());
+	    e = e.getNextInFace();
+	} while (e != f.getHalfedge());
+    }
+
     /**
      *
      *
@@ -1650,6 +1706,49 @@ public class WB_Render3D {
 	final HE_Face f = mesh.getFaceByKey(key);
 	if (f != null) {
 	    drawFace(f, false);
+	}
+    }
+
+    public void drawFaceOffset(final HE_Face f, final double d) {
+	final int fo = f.getFaceOrder();
+	final List<HE_Vertex> vertices = f.getFaceVertices();
+	if (fo < 3 || vertices.size() < 3) {
+	} else if (fo == 3) {
+	    final WB_Vector fn = f.getFaceNormal();
+	    final int[] tri = new int[] { 0, 1, 2 };
+	    HE_Vertex v0, v1, v2;
+	    final float df = (float) d;
+	    home.beginShape(PConstants.TRIANGLES);
+	    v0 = vertices.get(tri[0]);
+	    v1 = vertices.get(tri[1]);
+	    v2 = vertices.get(tri[2]);
+	    home.vertex(v0.xf() + df * fn.xf(), v0.yf() + df * fn.yf(), v0.zf()
+		    + df * fn.zf());
+	    home.vertex(v1.xf() + df * fn.xf(), v1.yf() + df * fn.yf(), v1.zf()
+		    + df * fn.zf());
+	    home.vertex(v2.xf() + df * fn.xf(), v2.yf() + df * fn.yf(), v2.zf()
+		    + df * fn.zf());
+	    home.endShape();
+	} else {
+	    final int[][] tris = f.getTriangles();
+	    final WB_Vector fn = f.getFaceNormal();
+	    HE_Vertex v0, v1, v2;
+	    int[] tri;
+	    final float df = (float) d;
+	    for (int i = 0; i < tris.length; i++) {
+		tri = tris[i];
+		home.beginShape(PConstants.TRIANGLES);
+		v0 = vertices.get(tri[0]);
+		v1 = vertices.get(tri[1]);
+		v2 = vertices.get(tri[2]);
+		home.vertex(v0.xf() + df * fn.xf(), v0.yf() + df * fn.yf(),
+			v0.zf() + df * fn.zf());
+		home.vertex(v1.xf() + df * fn.xf(), v1.yf() + df * fn.yf(),
+			v1.zf() + df * fn.zf());
+		home.vertex(v2.xf() + df * fn.xf(), v2.yf() + df * fn.yf(),
+			v2.zf() + df * fn.zf());
+		home.endShape();
+	    }
 	}
     }
 
@@ -2425,7 +2524,7 @@ public class WB_Render3D {
     class EyeProximityComparator implements Comparator<HE_Face> {
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override
@@ -2804,7 +2903,7 @@ public class WB_Render3D {
 		home.line(he.getVertex().xf(), he.getVertex().yf(), he
 			.getVertex().zf(), he.getNextInFace().getVertex().xf(),
 			he.getNextInFace().getVertex().yf(), he.getNextInFace()
-			.getVertex().zf());
+				.getVertex().zf());
 	    }
 	}
     }
@@ -2825,7 +2924,7 @@ public class WB_Render3D {
 		home.line(he.getVertex().xf(), he.getVertex().yf(), he
 			.getVertex().zf(), he.getNextInFace().getVertex().xf(),
 			he.getNextInFace().getVertex().yf(), he.getNextInFace()
-			.getVertex().zf());
+				.getVertex().zf());
 	    }
 	}
 	home.popStyle();

@@ -1,114 +1,122 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 /**
- * 
+ *
  */
 public interface WB_CoordinateMetric {
-    
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public double getAngle(final WB_Coordinate p);
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public double getAngleNorm(final WB_Coordinate p);
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public double getDistance2D(final WB_Coordinate p);
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public double getDistance3D(final WB_Coordinate p);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double getLength2D();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double getLength3D();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_Coordinate getOrthoNormal2D();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_Coordinate getOrthoNormal3D();
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public double getSqDistance2D(final WB_Coordinate p);
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public double getSqDistance3D(final WB_Coordinate p);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double getSqLength2D();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double getSqLength3D();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
+     * @deprecated Use {@link #getHeading2D()} instead
      */
+    @Deprecated
     public double heading2D();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
+     */
+    public double getHeading2D();
+
+    /**
+     *
+     *
+     * @return
      */
     public boolean isZero();
 }

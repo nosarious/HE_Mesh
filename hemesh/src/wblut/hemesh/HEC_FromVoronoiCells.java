@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -9,35 +9,43 @@ import javolution.util.FastTable;
 import wblut.geom.WB_Point;
 
 /**
- * 
+ *
  */
 public class HEC_FromVoronoiCells extends HEC_Creator {
-    
     /**
-     * 
+     *
      */
     private HE_Mesh[] cells;
-    
     /**
-     * 
+     *
      */
     private boolean[] on;
+    /**
+     *
+     */
+    private boolean surface;
+    /**
+     *
+     */
+    private boolean membrane;
 
     /**
-     * 
+     *
      */
     public HEC_FromVoronoiCells() {
 	super();
 	override = true;
 	cells = null;
 	on = null;
+	surface = false;
+	membrane = false;
     }
 
     /**
-     * 
      *
-     * @param cells 
-     * @return 
+     *
+     * @param cells
+     * @return
      */
     public HEC_FromVoronoiCells setCells(final HE_Mesh[] cells) {
 	this.cells = cells;
@@ -45,10 +53,10 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param cells 
-     * @return 
+     *
+     * @param cells
+     * @return
      */
     public HEC_FromVoronoiCells setCells(final Collection<HE_Mesh> cells) {
 	this.cells = new HE_Mesh[cells.size()];
@@ -60,19 +68,35 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param on 
-     * @return 
+     *
+     * @param on
+     * @return
      */
     public HEC_FromVoronoiCells setActive(final boolean[] on) {
 	this.on = on;
 	return this;
     }
 
+    /**
+     *
+     *
+     * @param b
+     * @return
+     */
+    public HEC_FromVoronoiCells setSurface(final boolean b) {
+	this.surface = b;
+	return this;
+    }
+
+    public HEC_FromVoronoiCells setMembrane(final boolean b) {
+	this.membrane = b;
+	return this;
+    }
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.creators.HEC_Creator#createBase()
      */
     @Override
@@ -96,9 +120,11 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 		while (fItr.hasNext()) {
 		    final HE_Face f = fItr.next();
 		    if (f.getInternalLabel() == -1) {
-			tmpfaces.add(f);
-			nv += f.getFaceOrder();
-		    } else if (!on[f.getInternalLabel()]) {
+			if (!surface) {
+			    tmpfaces.add(f);
+			    nv += f.getFaceOrder();
+			}
+		    } else if (!on[f.getInternalLabel()] || membrane) {
 			tmpfaces.add(f);
 			nv += f.getFaceOrder();
 		    }
@@ -115,7 +141,9 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 	    final HE_Face f = tmpfaces.get(i);
 	    faces[i] = new int[f.getFaceOrder()];
 	    labels[i] = f.getLabel();
+	    // System.out.println(f.getLabel());
 	    intlabels[i] = f.getInternalLabel();
+	    // System.out.println(f.getInternalLabel());
 	    colors[i] = f.getColor();
 	    HE_Halfedge he = f.getHalfedge();
 	    for (int j = 0; j < f.getFaceOrder(); j++) {
@@ -126,7 +154,7 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 	    }
 	}
 	final HEC_FromFacelist ffl = new HEC_FromFacelist()
-		.setVertices(vertices).setFaces(faces).setDuplicate(true);
+	.setVertices(vertices).setFaces(faces).setDuplicate(true);
 	final HE_Mesh result = ffl.createBase();
 	final Iterator<HE_Face> fItr = result.fItr();
 	int i = 0;
@@ -137,6 +165,11 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 	    f.setInternalLabel(intlabels[i]);
 	    f.setColor(colors[i]);
 	    i++;
+	}
+	if (membrane) {
+	    do {
+		// fixManifoldVertices returns false if nothing is left to fix.
+	    } while (result.fixNonManifoldVertices());
 	}
 	return result;
     }

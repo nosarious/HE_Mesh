@@ -42,7 +42,7 @@ public class HEM_TriSplit extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -55,7 +55,7 @@ public class HEM_TriSplit extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -172,13 +172,15 @@ public class HEM_TriSplit extends HEM_Modifier {
 		he2[c] = new HE_Halfedge();
 		mesh.add(he1[c]);
 		mesh.add(he2[c]);
-		if (he.getNextInFace().hasTexture()) {
+		if (he.getNextInFace().hasHalfedgeTexture()) {
 		    he1[c].setUVW(he.getNextInFace().getUVW());
 		}
 		he1[c].setVertex(he.getNextInFace().getVertex());
 		he2[c].setVertex(vi);
 		he1[c].setNext(he2[c]);
 		he2[c].setNext(he);
+		he2[c].setPrev(he1[c]);
+		he.setPrev(he2[c]);
 		he1[c].setFace(f);
 		he2[c].setFace(f);
 		c++;
@@ -187,6 +189,7 @@ public class HEM_TriSplit extends HEM_Modifier {
 	    vi.setHalfedge(he2[0]);
 	    for (int i = 0; i < c; i++) {
 		he0[i].setNext(he1[i]);
+		he1[i].setPrev(he0[i]);
 		he1[i].setPair(he2[i == (c - 1) ? 0 : i + 1]);
 		he2[i == (c - 1) ? 0 : i + 1].setPair(he1[i]);
 	    }

@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -28,9 +28,8 @@ import wblut.math.WB_Parameter;
  *
  */
 public class HEM_Extrude extends HEM_Modifier {
-    
     /**
-     * 
+     *
      */
     private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
     /** Extrusion distance. */
@@ -59,9 +58,8 @@ public class HEM_Extrude extends HEM_Modifier {
     private TLongDoubleMap _halfedgeEWs;
     /** Face centers. */
     private Map<Long, WB_Point> _faceCenters;
-    
     /**
-     * 
+     *
      */
     private double[] heights;
     /** The walls. */
@@ -70,9 +68,8 @@ public class HEM_Extrude extends HEM_Modifier {
     public HE_Selection extruded;
     /** The failed faces. */
     private List<HE_Face> failedFaces;
-    
     /**
-     * 
+     *
      */
     private List<Double> failedHeights;
     /** The flat. */
@@ -210,10 +207,10 @@ public class HEM_Extrude extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param distances 
-     * @return 
+     *
+     * @param distances
+     * @return
      */
     public HEM_Extrude setDistances(final double[] distances) {
 	this.heights = distances;
@@ -221,10 +218,10 @@ public class HEM_Extrude extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param distances 
-     * @return 
+     *
+     * @param distances
+     * @return
      */
     public HEM_Extrude setDistances(final float[] distances) {
 	heights = new double[distances.length];
@@ -235,10 +232,10 @@ public class HEM_Extrude extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param distances 
-     * @return 
+     *
+     * @param distances
+     * @return
      */
     public HEM_Extrude setDistances(final int[] distances) {
 	heights = new double[distances.length];
@@ -479,11 +476,15 @@ public class HEM_Extrude extends HEM_Modifier {
     /**
      * Apply straight extrusion to one face.
      *
-     * @param id            the id
-     * @param selfaces            the selfaces
-     * @param mesh            the mesh
-     * @param visited            the visited
-     * @param d 
+     * @param id
+     *            the id
+     * @param selfaces
+     *            the selfaces
+     * @param mesh
+     *            the mesh
+     * @param visited
+     *            the visited
+     * @param d
      * @return true, if successful
      */
     private boolean applyStraightToOneFace(final int id,
@@ -551,6 +552,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	    outerVertices.add(outerHalfedges.get(i).getVertex());
 	    final HE_Vertex eov = new HE_Vertex(outerHalfedges.get(i)
 		    .getVertex());
+	    eov.copyProperties(outerHalfedges.get(i).getVertex());
 	    if (n != null) {
 		eov.getPoint().addMulSelf(d, n);
 	    }
@@ -600,20 +602,24 @@ public class HEM_Extrude extends HEM_Modifier {
 	    heNew1.setPair(heOrig2);
 	    heOrig2.setPair(heNew1);
 	    heNew1.setNext(heNew2);
+	    heNew2.setPrev(heNew1);
 	    heNew2.setVertex(v2);
 	    v2.setHalfedge(heNew2);
 	    heNew2.setFace(fNew);
 	    heNew2.setNext(heNew3);
+	    heNew3.setPrev(heNew2);
 	    heNew3.setVertex(v3);
 	    v3.setHalfedge(heNew3);
 	    heNew3.setFace(fNew);
 	    heNew3.setPair(heOrig1);
 	    heOrig1.setPair(heNew3);
 	    heNew3.setNext(heNew4);
+	    heNew4.setPrev(heNew3);
 	    heNew4.setVertex(v4);
 	    v4.setHalfedge(heNew4);
 	    heNew4.setFace(fNew);
 	    heNew4.setNext(heNew1);
+	    heNew1.setPrev(heNew4);
 	    heOrig1.setVertex(v4);
 	    mesh.add(fNew);
 	    mesh.add(heNew1);
@@ -671,10 +677,13 @@ public class HEM_Extrude extends HEM_Modifier {
     /**
      * Apply peaked extrusion to one face.
      *
-     * @param id            the id
-     * @param selFaces            the sel faces
-     * @param mesh            the mesh
-     * @param d 
+     * @param id
+     *            the id
+     * @param selFaces
+     *            the sel faces
+     * @param mesh
+     *            the mesh
+     * @param d
      */
     private void applyPeakToOneFace(final int id, final List<HE_Face> selFaces,
 	    final HE_Mesh mesh, final double d) {
@@ -881,20 +890,24 @@ public class HEM_Extrude extends HEM_Modifier {
 		heNew1.setPair(heOrig2);
 		heOrig2.setPair(heNew1);
 		heNew1.setNext(heNew2);
+		heNew2.setPrev(heNew1);
 		heNew2.setVertex(v2);
 		v2.setHalfedge(heNew2);
 		heNew2.setFace(fNew);
 		heNew2.setNext(heNew3);
+		heNew3.setPrev(heNew2);
 		heNew3.setVertex(v3);
 		v3.setHalfedge(heNew3);
 		heNew3.setFace(fNew);
 		heNew3.setPair(heOrig1);
 		heOrig1.setPair(heNew3);
 		heNew3.setNext(heNew4);
+		heNew4.setPrev(heNew3);
 		heNew4.setVertex(v4);
 		v4.setHalfedge(heNew4);
 		heNew4.setFace(fNew);
 		heNew4.setNext(heNew1);
+		heNew1.setPrev(heNew4);
 		heOrig1.setVertex(v4);
 		mesh.add(fNew);
 		mesh.add(v3);

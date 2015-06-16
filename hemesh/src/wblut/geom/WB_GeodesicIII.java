@@ -171,7 +171,7 @@ public class WB_GeodesicIII {
 	    }
 	}
 	zeropoints = new FastTable<WB_Point>();
-	final double angle = (Math.PI / 6.0) - p1.heading2D();
+	final double angle = (Math.PI / 6.0) - p1.getHeading2D();
 	final WB_Point center = gf.createMidpoint(p0, p1, p2).mulSelf(-1);
 	WB_Transform T = new WB_Transform().addTranslate(center)
 		.addRotateZ(angle).addTranslate(zshift)

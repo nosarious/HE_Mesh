@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -7,17 +7,16 @@ import java.util.List;
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
 public class HEM_Triangulate extends HEM_Modifier {
-    
     /**
-     * 
+     *
      */
     public HE_Selection triangles;
 
     /**
-     * 
+     *
      */
     public HEM_Triangulate() {
 	super();
@@ -85,15 +84,17 @@ public class HEM_Triangulate extends HEM_Modifier {
 	}
 	selection.parent.pairHalfedges();
 	selection.parent.capHalfedges();
+	selection.clearFaces();
+	selection.add(triangles);
 	tracker.setDefaultStatus("Exiting HEM_Triangulate.");
 	return selection.parent;
     }
 
     /**
-     * 
      *
-     * @param face 
-     * @param mesh 
+     *
+     * @param face
+     * @param mesh
      */
     private void triangulateNoPairing(final HE_Face face, final HE_Mesh mesh) {
 	if (face.getFaceOrder() == 3) {
@@ -101,8 +102,8 @@ public class HEM_Triangulate extends HEM_Modifier {
 	} else if (face.getFaceOrder() > 3) {
 	    final int[][] tris = face.getTriangles(false);
 	    final List<HE_Vertex> vertices = face.getFaceVertices();
+	    final List<HE_TextureCoordinate> UVWs = face.getFaceUVWs();
 	    HE_Halfedge he = face.getHalfedge();
-	    mesh.remove(face);
 	    do {
 		if (he.getPair() != null) {
 		    he.getPair().clearPair();
@@ -120,6 +121,9 @@ public class HEM_Triangulate extends HEM_Modifier {
 		final HE_Halfedge he1 = new HE_Halfedge();
 		final HE_Halfedge he2 = new HE_Halfedge();
 		final HE_Halfedge he3 = new HE_Halfedge();
+		he1.setUVW(UVWs.get(tri[0]));
+		he2.setUVW(UVWs.get(tri[1]));
+		he3.setUVW(UVWs.get(tri[2]));
 		he1.setVertex(vertices.get(tri[0]));
 		he2.setVertex(vertices.get(tri[1]));
 		he3.setVertex(vertices.get(tri[2]));
@@ -132,11 +136,15 @@ public class HEM_Triangulate extends HEM_Modifier {
 		he1.setNext(he2);
 		he2.setNext(he3);
 		he3.setNext(he1);
+		he2.setPrev(he1);
+		he3.setPrev(he2);
+		he1.setPrev(he3);
 		f.setHalfedge(he1);
 		mesh.add(he1);
 		mesh.add(he2);
 		mesh.add(he3);
 	    }
+	    mesh.remove(face);
 	}
     }
 }

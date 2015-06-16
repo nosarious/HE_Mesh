@@ -27,7 +27,6 @@ import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_GeometryType;
 import wblut.geom.WB_HasColor;
-import wblut.geom.WB_HasData;
 import wblut.geom.WB_IndexedSegment;
 import wblut.geom.WB_IntersectionResult;
 import wblut.geom.WB_KDTree;
@@ -50,8 +49,7 @@ import wblut.math.WB_Epsilon;
  * @author Frederik Vanhoutte (W:Blut)
  *
  */
-public class HE_Mesh extends HE_MeshStructure implements WB_HasData,
-WB_HasColor, WB_Mesh {
+public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      *
      */
@@ -1408,7 +1406,7 @@ WB_HasColor, WB_Mesh {
      */
     public List<HE_Face> capHoles() {
 	tracker.setDefaultStatus("Capping simple planar holes.");
-	List<HE_Face> caps = new FastTable<HE_Face>();
+	final List<HE_Face> caps = new FastTable<HE_Face>();
 	final List<HE_Halfedge> unpairedEdges = getUnpairedHalfedges();
 	HE_RAS<HE_Halfedge> loopedHalfedges;
 	HE_Halfedge start;
@@ -1462,7 +1460,8 @@ WB_HasColor, WB_Mesh {
 	    cycleHalfedgesReverse(newHalfedges.getObjects());
 	    tracker.incrementCounter(newHalfedges.size());
 	}
-	caps = triangulateConcaveFaces(caps).getFacesAsList();
+	// caps = triangulateConcaveFaces(caps).getFacesAsList();
+	// System.out.println(caps.size());
 	tracker.setDefaultStatus("Capped simple, planar holes.");
 	return caps;
     }
@@ -1876,7 +1875,9 @@ WB_HasColor, WB_Mesh {
 	    final HE_Halfedge he0p = he0.getPair();
 	    final HE_Halfedge he1p = he1.getPair();
 	    he0p.setNext(he1n);
+	    he1n.setPrev(he0p);
 	    he1p.setNext(he0n);
+	    he0n.setPrev(he1p);
 	    if (he0.getFace() != null) {
 		he0.getFace().setHalfedge(he1p);
 	    }
@@ -3276,8 +3277,11 @@ WB_HasColor, WB_Mesh {
 		if (he.getHalfedgeTangent().isParallel(
 			he.getNextInVertex().getHalfedgeTangent())) {
 		    he.getPrevInFace().setNext(he.getNextInFace());
+		    he.getNextInFace().setPrev(he.getPrevInFace());
 		    he.getPair().getPrevInFace()
 		    .setNext(he.getPair().getNextInFace());
+		    he.getPair().getNextInFace()
+		    .setPrev(he.getPair().getPrevInFace());
 		    he.getPair().getNextInFace()
 		    .setVertex(he.getNextInFace().getVertex());
 		    if (he.getFace() != null) {
@@ -3837,29 +3841,6 @@ WB_HasColor, WB_Mesh {
 	modify(new HEM_Clean());
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see wblut.core.WB_HasData#setData(java.lang.String, java.lang.Object)
-     */
-    @Override
-    public void setData(final String s, final Object o) {
-	if (data == null) {
-	    data = new HashMap<String, Object>();
-	}
-	data.put(s, o);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see wblut.core.WB_HasData#getData(java.lang.String)
-     */
-    @Override
-    public Object getData(final String s) {
-	return data.get(s);
-    }
-
     /**
      * Smooth.
      */
@@ -3894,7 +3875,7 @@ WB_HasColor, WB_Mesh {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_Geometry#getType()
      */
     @Override
@@ -3904,7 +3885,7 @@ WB_HasColor, WB_Mesh {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
      */
     @Override
@@ -3915,7 +3896,7 @@ WB_HasColor, WB_Mesh {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_Mesh#getFaceNormal(int)
      */
     @Override
@@ -3925,7 +3906,7 @@ WB_HasColor, WB_Mesh {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_Mesh#getFaceCenter(int)
      */
     @Override
@@ -3935,7 +3916,7 @@ WB_HasColor, WB_Mesh {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_Mesh#getVertexNormal(int)
      */
     @Override
@@ -3945,7 +3926,7 @@ WB_HasColor, WB_Mesh {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_Mesh#getVertex(int)
      */
     @Override
@@ -3955,7 +3936,7 @@ WB_HasColor, WB_Mesh {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_Mesh#getEdgesAsInt()
      */
     @Override
@@ -3983,7 +3964,7 @@ WB_HasColor, WB_Mesh {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_Mesh#getPoints()
      */
     @Override
@@ -3993,7 +3974,7 @@ WB_HasColor, WB_Mesh {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_HasColor#getColor()
      */
     @Override
@@ -4003,7 +3984,7 @@ WB_HasColor, WB_Mesh {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_HasColor#setColor(int)
      */
     @Override

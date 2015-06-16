@@ -35,7 +35,7 @@ import java.util.Set;
  * triangulation algorithms.
  * <P>
  */
-public abstract class WB_Delaunay {
+abstract class WB_Delaunay {
     /**
      * triangles/tetrahedra --> vertices.
      * <p>
@@ -58,7 +58,7 @@ public abstract class WB_Delaunay {
      * <p>
      * This pattern continues for higher dimensionalities.
      */
-    public int[][] Tri;
+    int[][] Tri;
     /**
      * vertices --> triangles/tetrahedra.
      * <p>
@@ -79,12 +79,11 @@ public abstract class WB_Delaunay {
      * you don't need to traverse, then you can probably ignore all arrays
      * except Tri.
      */
-    public int[][] Vertices;
-    
+    int[][] Vertices;
     /**
-     * 
+     *
      */
-    public int[][] Neighbors;
+    int[][] Neighbors;
     /**
      * triangles/tetrahedra --> triangles/tetrahedra.
      * <p>
@@ -94,7 +93,7 @@ public abstract class WB_Delaunay {
      * Also useful for traversing the triangulation, in this case giving the
      * indices of triangles that share edges with the current triangle.
      */
-    public int[][] Walk;
+    int[][] Walk;
     /**
      * tri/tetra edges --> global edge number.
      * <p>
@@ -105,22 +104,19 @@ public abstract class WB_Delaunay {
      * whole triangulation. This number is not an index into any array, but will
      * match for a shared edge between two triangles.
      */
-    public int[][] Edges;
-    
+    int[][] Edges;
     /**
-     *  number of unique global edge numbers.
+     * number of unique global edge numbers.
      */
-    public int NumEdges;
-    
+    int NumEdges;
     /**
-     * 
+     *
      */
-    public double[] circumradii;
-    
+    double[] circumradii;
     /**
-     * 
+     *
      */
-    public WB_Point[] circumcenters;
+    WB_Point[] circumcenters;
 
     /**
      * The abstract constructor initializes the class's data arrays.
@@ -135,13 +131,13 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param exact 
-     * @return 
+     *
+     * @param points
+     * @param exact
+     * @return
      */
-    public static WB_Delaunay getTriangulation2D(final WB_Coordinate[] points,
+    static WB_Delaunay getTriangulation2D(final WB_Coordinate[] points,
 	    final boolean exact) {
 	final double[][] samples = new double[2][points.length];
 	for (int i = 0; i < points.length; i++) {
@@ -152,12 +148,12 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @return 
+     *
+     * @param points
+     * @return
      */
-    public static WB_Delaunay getTriangulation2D(final WB_Coordinate[] points) {
+    static WB_Delaunay getTriangulation2D(final WB_Coordinate[] points) {
 	final double[][] samples = new double[2][points.length];
 	for (int i = 0; i < points.length; i++) {
 	    samples[0][i] = points[i].xd();
@@ -167,14 +163,14 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param epsilon 
-     * @param exact 
-     * @return 
+     *
+     * @param points
+     * @param epsilon
+     * @param exact
+     * @return
      */
-    public static WB_Delaunay getTriangulation2D(final WB_Coordinate[] points,
+    static WB_Delaunay getTriangulation2D(final WB_Coordinate[] points,
 	    final double epsilon, final boolean exact) {
 	final double[][] samples = new double[2][points.length];
 	for (int i = 0; i < points.length; i++) {
@@ -187,13 +183,13 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param epsilon 
-     * @return 
+     *
+     * @param points
+     * @param epsilon
+     * @return
      */
-    public static WB_Delaunay getTriangulation2D(final WB_Coordinate[] points,
+    static WB_Delaunay getTriangulation2D(final WB_Coordinate[] points,
 	    final double epsilon) {
 	final double[][] samples = new double[2][points.length];
 	for (int i = 0; i < points.length; i++) {
@@ -206,13 +202,13 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param closest 
-     * @return 
+     *
+     * @param points
+     * @param closest
+     * @return
      */
-    public static WB_Delaunay getTriangulation3D(final WB_Coordinate[] points,
+    static WB_Delaunay getTriangulation3D(final WB_Coordinate[] points,
 	    final double closest) {
 	final double[][] samples = new double[3][points.length];
 	for (int i = 0; i < points.length; i++) {
@@ -224,14 +220,14 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param closest 
-     * @param epsilon 
-     * @return 
+     *
+     * @param points
+     * @param closest
+     * @param epsilon
+     * @return
      */
-    public static WB_Delaunay getTriangulation3D(final WB_Coordinate[] points,
+    static WB_Delaunay getTriangulation3D(final WB_Coordinate[] points,
 	    final double closest, final double epsilon) {
 	final double[][] samples = new double[3][points.length];
 	for (int i = 0; i < points.length; i++) {
@@ -246,14 +242,14 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param closest 
-     * @return 
+     *
+     * @param points
+     * @param closest
+     * @return
      */
-    public static WB_Delaunay getTriangulation3D(
-	    final WB_CoordinateSequence points, final double closest) {
+    static WB_Delaunay getTriangulation3D(final WB_CoordinateSequence points,
+	    final double closest) {
 	final double[][] samples = new double[3][points.size()];
 	int id = 0;
 	for (int i = 0; i < points.size(); i++) {
@@ -266,16 +262,15 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param closest 
-     * @param epsilon 
-     * @return 
+     *
+     * @param points
+     * @param closest
+     * @param epsilon
+     * @return
      */
-    public static WB_Delaunay getTriangulation3D(
-	    final WB_CoordinateSequence points, final double closest,
-	    final double epsilon) {
+    static WB_Delaunay getTriangulation3D(final WB_CoordinateSequence points,
+	    final double closest, final double epsilon) {
 	final double[][] samples = new double[3][points.size()];
 	int id = 0;
 	for (int i = 0; i < points.size(); i++) {
@@ -291,13 +286,13 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param closest 
-     * @return 
+     *
+     * @param points
+     * @param closest
+     * @return
      */
-    public static WB_Delaunay getTriangulation4D(final WB_Coordinate[] points,
+    static WB_Delaunay getTriangulation4D(final WB_Coordinate[] points,
 	    final double closest) {
 	final double[][] samples = new double[4][points.length];
 	for (int i = 0; i < points.length; i++) {
@@ -310,14 +305,14 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param closest 
-     * @param epsilon 
-     * @return 
+     *
+     * @param points
+     * @param closest
+     * @param epsilon
+     * @return
      */
-    public static WB_Delaunay getTriangulation4D(final WB_Coordinate[] points,
+    static WB_Delaunay getTriangulation4D(final WB_Coordinate[] points,
 	    final double closest, final double epsilon) {
 	final double[][] samples = new double[4][points.length];
 	for (int i = 0; i < points.length; i++) {
@@ -341,17 +336,17 @@ public abstract class WB_Delaunay {
      * data. Copyright (C) 1996 - 2011 Bill Hibbard, Curtis Rueden, Tom Rink,
      * Dave Glowacki, Steve Emmerson, Tom Whittaker, Don Murray, and Tommy
      * Jasmin.
-     * 
+     *
      * This library is free software; you can redistribute it and/or modify it
      * under the terms of the GNU Library General Public License as published by
      * the Free Software Foundation; either version 2 of the License, or (at
      * your option) any later version.
-     * 
+     *
      * This library is distributed in the hope that it will be useful, but
      * WITHOUT ANY WARRANTY; without even the implied warranty of
      * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library
      * General Public License for more details.
-     * 
+     *
      * You should have received a copy of the GNU Library General Public License
      * along with this library; if not, write to the Free Software Foundation,
      * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
@@ -359,7 +354,7 @@ public abstract class WB_Delaunay {
     /*
      * The Delaunay triangulation algorithm in this class is originally from
      * hull by Ken Clarkson:
-     * 
+     *
      * Ken Clarkson wrote this. Copyright (c) 1995 by AT&T.. Permission to use,
      * copy, modify, and distribute this software for any purpose without fee is
      * hereby granted, provided that this entire notice is included in all
@@ -371,13 +366,13 @@ public abstract class WB_Delaunay {
      * THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR PURPOSE.
      */
     /**
-     * 
      *
-     * @param points 
-     * @param exact 
-     * @return 
+     *
+     * @param points
+     * @param exact
+     * @return
      */
-    public static WB_Delaunay getTriangulation2D(
+    static WB_Delaunay getTriangulation2D(
 	    final List<? extends WB_Coordinate> points, final boolean exact) {
 	final double[][] samples = new double[2][points.size()];
 	WB_Coordinate point;
@@ -390,16 +385,16 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param epsilon 
-     * @param exact 
-     * @return 
+     *
+     * @param points
+     * @param epsilon
+     * @param exact
+     * @return
      */
-    public static WB_Delaunay getTriangulation2D(
+    static WB_Delaunay getTriangulation2D(
 	    final List<? extends WB_Coordinate> points, final double epsilon,
-		    final boolean exact) {
+	    final boolean exact) {
 	final double[][] samples = new double[2][points.size()];
 	WB_Coordinate point;
 	for (int i = 0; i < points.size(); i++) {
@@ -411,12 +406,12 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @return 
+     *
+     * @param points
+     * @return
      */
-    public static WB_Delaunay getTriangulation2D(
+    static WB_Delaunay getTriangulation2D(
 	    final List<? extends WB_Coordinate> points) {
 	final double[][] samples = new double[2][points.size()];
 	WB_Coordinate point;
@@ -429,13 +424,13 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param epsilon 
-     * @return 
+     *
+     * @param points
+     * @param epsilon
+     * @return
      */
-    public static WB_Delaunay getTriangulation2D(
+    static WB_Delaunay getTriangulation2D(
 	    final List<? extends WB_Coordinate> points, final double epsilon) {
 	final double[][] samples = new double[2][points.size()];
 	WB_Coordinate point;
@@ -448,13 +443,13 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param closest 
-     * @return 
+     *
+     * @param points
+     * @param closest
+     * @return
      */
-    public static WB_Delaunay getTriangulation3D(
+    static WB_Delaunay getTriangulation3D(
 	    final List<? extends WB_Coordinate> points, final double closest) {
 	final double[][] samples = new double[3][points.size()];
 	WB_Coordinate point;
@@ -468,16 +463,16 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param closest 
-     * @param epsilon 
-     * @return 
+     *
+     * @param points
+     * @param closest
+     * @param epsilon
+     * @return
      */
-    public static WB_Delaunay getTriangulation3D(
+    static WB_Delaunay getTriangulation3D(
 	    final List<? extends WB_Coordinate> points, final double closest,
-		    final double epsilon) {
+	    final double epsilon) {
 	final double[][] samples = new double[3][points.size()];
 	WB_Coordinate point;
 	for (int i = 0; i < points.size(); i++) {
@@ -490,13 +485,13 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param closest 
-     * @return 
+     *
+     * @param points
+     * @param closest
+     * @return
      */
-    public static WB_Delaunay getTriangulation4D(
+    static WB_Delaunay getTriangulation4D(
 	    final List<? extends WB_Coordinate> points, final double closest) {
 	final double[][] samples = new double[4][points.size()];
 	WB_Coordinate point;
@@ -511,16 +506,16 @@ public abstract class WB_Delaunay {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param closest 
-     * @param epsilon 
-     * @return 
+     *
+     * @param points
+     * @param closest
+     * @param epsilon
+     * @return
      */
-    public static WB_Delaunay getTriangulation4D(
+    static WB_Delaunay getTriangulation4D(
 	    final List<? extends WB_Coordinate> points, final double closest,
-		    final double epsilon) {
+	    final double epsilon) {
 	final double[][] samples = new double[4][points.size()];
 	WB_Coordinate point;
 	for (int i = 0; i < points.size(); i++) {
@@ -544,7 +539,7 @@ public abstract class WB_Delaunay {
      *            locations of points for topology - dimensioned
      *            double[dimension][number_of_points]
      * @param closest
-     * 
+     *
      * @param exact
      *            flag indicating need for exact Delaunay triangulation
      * @return a topology using an appropriate sub-class of Delaunay
@@ -625,14 +620,17 @@ public abstract class WB_Delaunay {
     /**
      * alters the values of the samples by multiplying them by the mult factor.
      *
-     * @param samples            locations of points for topology - dimensioned
+     * @param samples
+     *            locations of points for topology - dimensioned
      *            double[dimension][number_of_points]
-     * @param mult            multiplication factor
-     * @param copy            specifies whether scale should modify and return the argument
+     * @param mult
+     *            multiplication factor
+     * @param copy
+     *            specifies whether scale should modify and return the argument
      *            samples array or a copy
      * @return array of scaled values
      */
-    public static double[][] scale(final double[][] samples, final double mult,
+    static double[][] scale(final double[][] samples, final double mult,
 	    final boolean copy) {
 	final int dim = samples.length;
 	int nrs = samples[0].length;
@@ -664,15 +662,18 @@ public abstract class WB_Delaunay {
      * epsilon, in order to eliminate triangulation problems such as co-linear
      * and co-located points.
      *
-     * @param samples            locations of points for topology - dimensioned
+     * @param samples
+     *            locations of points for topology - dimensioned
      *            double[dimension][number_of_points]
-     * @param epsilon            size limit on random perturbations
-     * @param copy            specifies whether perturb should modify and return the
+     * @param epsilon
+     *            size limit on random perturbations
+     * @param copy
+     *            specifies whether perturb should modify and return the
      *            argument samples array or a copy
      * @return array of perturbed values
      */
-    public static double[][] perturb(final double[][] samples,
-	    final double epsilon, final boolean copy) {
+    static double[][] perturb(final double[][] samples, final double epsilon,
+	    final boolean copy) {
 	final int dim = samples.length;
 	int nrs = samples[0].length;
 	for (int i = 1; i < dim; i++) {
@@ -709,18 +710,18 @@ public abstract class WB_Delaunay {
      * @return flag that is false to indicate there are problems with the
      *         triangulation
      */
-    public boolean test(final double[][] samples) {
+    boolean test(final double[][] samples) {
 	return test(samples, false);
     }
 
     /**
-     * 
      *
-     * @param samples 
-     * @param printErrors 
-     * @return 
+     *
+     * @param samples
+     * @param printErrors
+     * @return
      */
-    public boolean test(final double[][] samples, final boolean printErrors) {
+    boolean test(final double[][] samples, final boolean printErrors) {
 	final int dim = samples.length;
 	final int dim1 = dim + 1;
 	final int ntris = Tri.length;
@@ -745,13 +746,13 @@ public abstract class WB_Delaunay {
 		if ((Tri[i][j] < 0) || (Tri[i][j] >= nrs)) {
 		    if (printErrors) {
 			System.err
-			.println("Delaunay.test: illegal triangle vertex ("
-				+ "Tri["
-				+ i
-				+ "]["
-				+ j
-				+ "]="
-				+ Tri[i][j] + "; nrs=" + nrs + ")");
+				.println("Delaunay.test: illegal triangle vertex ("
+					+ "Tri["
+					+ i
+					+ "]["
+					+ j
+					+ "]="
+					+ Tri[i][j] + "; nrs=" + nrs + ")");
 		    }
 		    return false;
 		}
@@ -799,8 +800,8 @@ public abstract class WB_Delaunay {
 		if (mtot) {
 		    if (printErrors) {
 			System.err
-			.println("Delaunay.test: duplicate triangles (i="
-				+ i + "; j=" + j + ")");
+				.println("Delaunay.test: duplicate triangles (i="
+					+ i + "; j=" + j + ")");
 		    }
 		    return false;
 		}
@@ -819,8 +820,8 @@ public abstract class WB_Delaunay {
 		    if (!found) {
 			if (printErrors) {
 			    System.err
-			    .println("Delaunay.test: error in Walk array (i="
-				    + i + "; j=" + j + ")");
+				    .println("Delaunay.test: error in Walk array (i="
+					    + i + "; j=" + j + ")");
 			}
 			return false;
 		    }
@@ -836,13 +837,13 @@ public abstract class WB_Delaunay {
 		    if (sb != dim) {
 			if (printErrors) {
 			    System.err
-			    .println("Delaunay.test: error in Walk array (i="
-				    + i
-				    + "; j="
-				    + j
-				    + "; sb="
-				    + sb
-				    + "; dim=" + dim + ")");
+				    .println("Delaunay.test: error in Walk array (i="
+					    + i
+					    + "; j="
+					    + j
+					    + "; sb="
+					    + sb
+					    + "; dim=" + dim + ")");
 			}
 			return false;
 		    }
@@ -870,7 +871,7 @@ public abstract class WB_Delaunay {
      *            (however, the algorithm terminates if no edges are flipped for
      *            an entire pass).
      */
-    public void improve(final double[][] samples, final int pass) {
+    void improve(final double[][] samples, final int pass) {
 	final int dim = samples.length;
 	final int dim1 = dim + 1;
 	if (Tri[0].length != dim1) {
@@ -1078,7 +1079,7 @@ public abstract class WB_Delaunay {
      *            locations of points for topology - dimensioned
      *            double[dimension][number_of_points]
      */
-    public void finish_triang(final double[][] samples) {
+    void finish_triang(final double[][] samples) {
 	final int mdim = Tri[0].length - 1;
 	final int mdim1 = mdim + 1;
 	final int dim = samples.length;
@@ -1136,7 +1137,7 @@ public abstract class WB_Delaunay {
 				    }
 				} // end if (mdim == 3)
 			    } // end for (int l=0;
-			    // l<Vertices[Tri[i][v2]].length; l++)
+			      // l<Vertices[Tri[i][v2]].length; l++)
 			} // end if (temp != i)
 		    } // end for (int k=0; k<Vertices[Tri[i][v1]].length; k++)
 		} // end for (int j=0; j<mdim1; j++)
@@ -1296,7 +1297,7 @@ public abstract class WB_Delaunay {
      * @return a String representation of this, including samples if it is
      *         non-null
      */
-    public String sampleString(final double[][] samples) {
+    String sampleString(final double[][] samples) {
 	final StringBuffer s = new StringBuffer("");
 	if (samples != null) {
 	    s.append("\nsamples " + samples[0].length + "\n");
@@ -1349,17 +1350,17 @@ public abstract class WB_Delaunay {
      * data. Copyright (C) 1996 - 2011 Bill Hibbard, Curtis Rueden, Tom Rink,
      * Dave Glowacki, Steve Emmerson, Tom Whittaker, Don Murray, and Tommy
      * Jasmin.
-     * 
+     *
      * This library is free software; you can redistribute it and/or modify it
      * under the terms of the GNU Library General Public License as published by
      * the Free Software Foundation; either version 2 of the License, or (at
      * your option) any later version.
-     * 
+     *
      * This library is distributed in the hope that it will be useful, but
      * WITHOUT ANY WARRANTY; without even the implied warranty of
      * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library
      * General Public License for more details.
-     * 
+     *
      * You should have received a copy of the GNU Library General Public License
      * along with this library; if not, write to the Free Software Foundation,
      * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
@@ -1367,7 +1368,7 @@ public abstract class WB_Delaunay {
     /*
      * The Delaunay triangulation algorithm in this class is originally from
      * hull by Ken Clarkson:
-     * 
+     *
      * Ken Clarkson wrote this. Copyright (c) 1995 by AT&T.. Permission to use,
      * copy, modify, and distribute this software for any purpose without fee is
      * hereby granted, provided that this entire notice is included in all
@@ -1387,22 +1388,19 @@ public abstract class WB_Delaunay {
 	/* ******* BEGINNING OF CONVERTED HULL CODE ******* */
 	// <<<< Constants >>>>
 	/**
-	 * 
+	 *
 	 */
 	private static final double DBL_MANT_DIG = 53;
-	
 	/**
-	 * 
+	 *
 	 */
 	private static final double FLT_RADIX = 2;
-	
 	/**
-	 * 
+	 *
 	 */
 	private static final double DBL_EPSILON = 2.2204460492503131E-16;
-	
 	/**
-	 * 
+	 *
 	 */
 	private static final double ln2 = Math.log(2);
 	// <<<< Variables >>>>
@@ -1413,360 +1411,295 @@ public abstract class WB_Delaunay {
 	 */
 	// for the pseudo-pointers
 	/**
-	 * 
+	 *
 	 */
 	private static final int INFINITY = -2; // replaces infinity
-	
 	/**
-	 * 
+	 *
 	 */
 	private static final int NOVAL = -1; // replaces null
-	
 	/**
-	 * 
+	 *
 	 */
 	private double[][] site_blocks; // copy of samples array
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][] a3s; // output array
-	
 	/**
-	 * 
+	 *
 	 */
 	private int a3size; // output array maximum size
-	
 	/**
-	 * 
+	 *
 	 */
 	private int nts = 0; // # output objects
-	
 	/**
-	 * 
+	 *
 	 */
 	private static final int max_blocks = 10000; // max # basis/simplex
 	// blocks
 	/**
-	 * 
+	 *
 	 */
 	private static final int Nobj = 10000;
-	
 	/**
-	 * 
+	 *
 	 */
 	private static final int MAXDIM = 8; // max dimension
-	
 	/**
-	 * 
+	 *
 	 */
 	private final int dim;
-	
 	/**
-	 * 
+	 *
 	 */
 	private int p;
-	
 	/**
-	 * 
+	 *
 	 */
 	private long pnum;
-	
 	/**
-	 * 
+	 *
 	 */
 	private final int rdim; // # sites currently specifying region
-	
 	/**
-	 * 
+	 *
 	 */
 	private int cdim;
-	
 	/**
-	 * 
+	 *
 	 */
 	private final int exact_bits;
-	
 	/**
-	 * 
+	 *
 	 */
 	private final double b_err_min, b_err_min_sq;
-	
 	/**
-	 * 
+	 *
 	 */
 	private double ldetbound = 0;
-	
 	/**
-	 * 
+	 *
 	 */
 	private int failcount = 0; // static: reduce_inner
-	
 	/**
-	 * 
+	 *
 	 */
 	private int lscale; // static: reduce_inner
-	
 	/**
-	 * 
+	 *
 	 */
 	private double max_scale; // static: reduce_inner
-	
 	/**
-	 * 
+	 *
 	 */
 	private int nsb = 0; // # simplex blocks
-	
 	/**
-	 * 
+	 *
 	 */
 	private int nbb = 0; // # basis_s blocks
-	
 	/**
-	 * 
+	 *
 	 */
 	private int ss = MAXDIM; // static: search
-	
 	/**
-	 * 
+	 *
 	 */
 	private int ss2 = 2000; // static: visit_triang
-	
 	/**
-	 * 
+	 *
 	 */
 	private long vnum = -1; // static: visit_triang
 	// "void stuff" -- dummy variables to hold unused return information
 	/**
-	 * 
+	 *
 	 */
 	private final int[] voidp = new int[1];
-	
 	/**
-	 * 
+	 *
 	 */
 	private final int[] voidp_bn = new int[1];
 	// basis_s stuff
 	/**
-	 * 
+	 *
 	 */
 	private int[][] bbt_next = new int[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][] bbt_next_bn = new int[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][] bbt_ref_count = new int[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][] bbt_lscale = new int[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private double[][] bbt_sqa = new double[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private double[][] bbt_sqb = new double[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private double[][][] bbt_vecs = new double[max_blocks][][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private final int ttbp;
-	
 	/**
-	 * 
+	 *
 	 */
 	private final int ttbp_bn;
-	
 	/**
-	 * 
+	 *
 	 */
 	private final int ib;
-	
 	/**
-	 * 
+	 *
 	 */
 	private final int ib_bn;
-	
 	/**
-	 * 
+	 *
 	 */
 	private int basis_s_list = NOVAL;
-	
 	/**
-	 * 
+	 *
 	 */
 	private int basis_s_list_bn;
-	
 	/**
-	 * 
+	 *
 	 */
 	private int pnb = NOVAL;
-	
 	/**
-	 * 
+	 *
 	 */
 	private int pnb_bn;
-	
 	/**
-	 * 
+	 *
 	 */
 	private int b = NOVAL; // static: sees
-	
 	/**
-	 * 
+	 *
 	 */
 	private int b_bn;
 	// simplex stuff
 	/**
-	 * 
+	 *
 	 */
 	private int[][] sbt_next = new int[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][] sbt_next_bn = new int[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private long[][] sbt_visit = new long[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private short[][] sbt_mark = new short[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][] sbt_normal = new int[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][] sbt_normal_bn = new int[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][] sbt_peak_vert = new int[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][] sbt_peak_simp = new int[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][] sbt_peak_simp_bn = new int[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][] sbt_peak_basis = new int[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][] sbt_peak_basis_bn = new int[max_blocks][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][][] sbt_neigh_vert = new int[max_blocks][][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][][] sbt_neigh_simp = new int[max_blocks][][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][][] sbt_neigh_simp_bn = new int[max_blocks][][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][][] sbt_neigh_basis = new int[max_blocks][][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[][][] sbt_neigh_basis_bn = new int[max_blocks][][];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int simplex_list = NOVAL;
-	
 	/**
-	 * 
+	 *
 	 */
 	private int simplex_list_bn;
-	
 	/**
-	 * 
+	 *
 	 */
 	private final int ch_root;
-	
 	/**
-	 * 
+	 *
 	 */
 	private final int ch_root_bn;
-	
 	/**
-	 * 
+	 *
 	 */
 	private int ns; // static: make_facets
-	
 	/**
-	 * 
+	 *
 	 */
 	private int ns_bn;
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[] st = new int[ss + MAXDIM + 1]; // static: search
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[] st_bn = new int[ss + MAXDIM + 1];
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[] st2 = new int[ss2 + MAXDIM + 1]; // static: visit_triang
-	
 	/**
-	 * 
+	 *
 	 */
 	private int[] st2_bn = new int[ss2 + MAXDIM + 1];
 
 	// <<<< Functions >>>>
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	private int new_block_basis_s() {
 	    bbt_next[nbb] = new int[Nobj];
@@ -1798,14 +1731,14 @@ public abstract class WB_Delaunay {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param v 
-	 * @param v_bn 
-	 * @param s 
-	 * @param s_bn 
-	 * @param k 
-	 * @return 
+	 *
+	 * @param v
+	 * @param v_bn
+	 * @param s
+	 * @param s_bn
+	 * @param k
+	 * @return
 	 */
 	private int reduce_inner(final int v, final int v_bn, final int s,
 		final int s_bn, final int k) {
@@ -1916,15 +1849,15 @@ public abstract class WB_Delaunay {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param v 
-	 * @param v_bn 
-	 * @param rp 
-	 * @param s 
-	 * @param s_bn 
-	 * @param k 
-	 * @return 
+	 *
+	 * @param v
+	 * @param v_bn
+	 * @param rp
+	 * @param s
+	 * @param s_bn
+	 * @param k
+	 * @return
 	 */
 	private int reduce(final int[] v, final int[] v_bn, final int rp,
 		final int s, final int s_bn, final int k) {
@@ -1972,10 +1905,10 @@ public abstract class WB_Delaunay {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param s 
-	 * @param s_bn 
+	 *
+	 * @param s
+	 * @param s_bn
 	 */
 	private void get_basis_sede(final int s, final int s_bn) {
 	    int k = 1;
@@ -2055,12 +1988,12 @@ public abstract class WB_Delaunay {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param rp 
-	 * @param s 
-	 * @param s_bn 
-	 * @return 
+	 *
+	 * @param rp
+	 * @param s
+	 * @param s_bn
+	 * @return
 	 */
 	private int sees(final int rp, final int s, final int s_bn) {
 	    double dd, dds;
@@ -2224,9 +2157,9 @@ public abstract class WB_Delaunay {
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	private int new_block_simplex() {
 	    sbt_next[nsb] = new int[Nobj];
@@ -2279,11 +2212,11 @@ public abstract class WB_Delaunay {
 	 * is the i'th neighbor of s; apply visit function to all visited
 	 * simplices; when visit returns nonnull, exit and return its value.
 	 *
-	 * @param s 
-	 * @param s_bn 
-	 * @param whichfunc 
-	 * @param ret 
-	 * @param ret_bn 
+	 * @param s
+	 * @param s_bn
+	 * @param whichfunc
+	 * @param ret
+	 * @param ret_bn
 	 */
 	private void visit_triang_gen(final int s, final int s_bn,
 		final int whichfunc, final int[] ret, final int[] ret_bn) {
@@ -2343,7 +2276,7 @@ public abstract class WB_Delaunay {
 			    // JAVA: efficiency issue, hammering an array
 			    a3size += a3size;
 			    final int[][] newa3s = new int[rdim][a3size
-			                                         + MAXDIM + 1];
+				    + MAXDIM + 1];
 			    for (int i = 0; i < rdim; i++) {
 				System.arraycopy(a3s[i], 0, newa3s[i], 0,
 					a3s[i].length);
@@ -2369,8 +2302,8 @@ public abstract class WB_Delaunay {
 	 * make neighbor connections between newly created simplices incident to
 	 * p.
 	 *
-	 * @param s 
-	 * @param s_bn 
+	 * @param s
+	 * @param s_bn
 	 */
 	private void connect(final int s, final int s_bn) {
 	    int xb, xf;
@@ -2450,10 +2383,10 @@ public abstract class WB_Delaunay {
 	 * visit simplices s with sees(p,s), and make a facet for every neighbor
 	 * of s not seen by p.
 	 *
-	 * @param seen 
-	 * @param seen_bn 
-	 * @param ret 
-	 * @param ret_bn 
+	 * @param seen
+	 * @param seen_bn
+	 * @param ret
+	 * @param ret_bn
 	 */
 	private void make_facets(final int seen, final int seen_bn,
 		final int[] ret, final int[] ret_bn) {
@@ -2545,10 +2478,10 @@ public abstract class WB_Delaunay {
 	 * p lies outside flat containing previous sites; make p a vertex of
 	 * every current simplex, and create some new simplices.
 	 *
-	 * @param s 
-	 * @param s_bn 
-	 * @param ret 
-	 * @param ret_bn 
+	 * @param s
+	 * @param s_bn
+	 * @param ret
+	 * @param ret_bn
 	 */
 	private void extend_simplices(final int s, final int s_bn,
 		final int[] ret, final int[] ret_bn) {
@@ -2671,10 +2604,10 @@ public abstract class WB_Delaunay {
 	 * return a simplex s that corresponds to a facet of the current hull,
 	 * and sees(p, s).
 	 *
-	 * @param root 
-	 * @param root_bn 
-	 * @param ret 
-	 * @param ret_bn 
+	 * @param root
+	 * @param root_bn
+	 * @param ret
+	 * @param ret_bn
 	 */
 	private void search(final int root, final int root_bn, final int[] ret,
 		final int[] ret_bn) {
@@ -2731,11 +2664,12 @@ public abstract class WB_Delaunay {
 	 * construct a Delaunay triangulation of the points in the samples array
 	 * using Clarkson's algorithm.
 	 *
-	 * @param samples            locations of points for topology - dimensioned
+	 * @param samples
+	 *            locations of points for topology - dimensioned
 	 *            double[dimension][number_of_points]
-	 * @param closest 
+	 * @param closest
 	 */
-	public DelaunayClarkson(final double[][] samples, final double closest) {
+	DelaunayClarkson(final double[][] samples, final double closest) {
 	    int s, s_bn, q, q_bn;
 	    int root, root_bn;
 	    final int[] retp = new int[1];
@@ -2779,7 +2713,7 @@ public abstract class WB_Delaunay {
 	    if (rdim > MAXDIM) {
 		throw new IllegalArgumentException(
 			"dimension bound MAXDIM exceeded; rdim=" + rdim
-			+ "; dim=" + dim);
+				+ "; dim=" + dim);
 	    }
 	    pnb = basis_s_list != NOVAL ? basis_s_list : new_block_basis_s();
 	    pnb_bn = basis_s_list_bn;
@@ -3011,17 +2945,17 @@ public abstract class WB_Delaunay {
      * data. Copyright (C) 1996 - 2011 Bill Hibbard, Curtis Rueden, Tom Rink,
      * Dave Glowacki, Steve Emmerson, Tom Whittaker, Don Murray, and Tommy
      * Jasmin.
-     * 
+     *
      * This library is free software; you can redistribute it and/or modify it
      * under the terms of the GNU Library General Public License as published by
      * the Free Software Foundation; either version 2 of the License, or (at
      * your option) any later version.
-     * 
+     *
      * This library is distributed in the hope that it will be useful, but
      * WITHOUT ANY WARRANTY; without even the implied warranty of
      * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library
      * General Public License for more details.
-     * 
+     *
      * You should have received a copy of the GNU Library General Public License
      * along with this library; if not, write to the Free Software Foundation,
      * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
@@ -3029,7 +2963,7 @@ public abstract class WB_Delaunay {
     /*
      * The Delaunay triangulation/tetrahedralization algorithm in this class is
      * originally from nnsort.c by David F. Watson:
-     * 
+     *
      * nnsort() finds the Delaunay triangulation of the two- or three-component
      * vectors in 'data_list' and returns a list of simplex vertices in
      * 'vertices' with the corresponding circumcentre and squared radius in the
@@ -3040,7 +2974,7 @@ public abstract class WB_Delaunay {
      * the algorithm described in - Watson, D.F., 1981, Computing the
      * n-dimensional Delaunay tessellation with application to Voronoi
      * polytopes: The Computer J., 24(2), p. 167-172.
-     * 
+     *
      * additional information about this algorithm can be found in - CONTOURING:
      * A guide to the analysis and display of spatial data, by David F. Watson,
      * Pergamon Press, 1992, ISBN 0 08 040286 0
@@ -3052,24 +2986,22 @@ public abstract class WB_Delaunay {
      * <P>
      */
     static class DelaunayWatson extends WB_Delaunay {
-	
 	/**
-	 * 
+	 *
 	 */
 	private static final double BIGNUM = 1E37;
-	
 	/**
-	 * 
+	 *
 	 */
 	private static final double EPSILON = 0.00001f;
 	// temporary storage size factor
 	/**
-	 * 
+	 *
 	 */
 	private static final int TSIZE = 75;
 	// factor (>=1) for radius of control points
 	/**
-	 * 
+	 *
 	 */
 	private static final double RANGE = 10.0f;
 
@@ -3077,10 +3009,11 @@ public abstract class WB_Delaunay {
 	 * construct a Delaunay triangulation of the points in the samples array
 	 * using Watson's algorithm.
 	 *
-	 * @param samples            locations of points for topology - dimensioned
+	 * @param samples
+	 *            locations of points for topology - dimensioned
 	 *            double[dimension][number_of_points]
 	 */
-	public DelaunayWatson(final double[][] samples) {
+	DelaunayWatson(final double[][] samples) {
 	    final int dim = samples.length;
 	    final int nrs = samples[0].length;
 	    double xx, bgs;
@@ -3244,13 +3177,13 @@ public abstract class WB_Delaunay {
 				/ xx;
 		    } else {
 			xx = ((wrk[0][0] * ((wrk[1][1] * wrk[2][2]) - (wrk[2][1] * wrk[1][2]))) - (wrk[0][1] * ((wrk[1][0] * wrk[2][2]) - (wrk[2][0] * wrk[1][2]))))
-					+ (wrk[0][2] * ((wrk[1][0] * wrk[2][1]) - (wrk[2][0] * wrk[1][1])));
+				+ (wrk[0][2] * ((wrk[1][0] * wrk[2][1]) - (wrk[2][0] * wrk[1][1])));
 			ccr[id[i4]][0] = (((wrk[0][3] * ((wrk[1][1] * wrk[2][2]) - (wrk[2][1] * wrk[1][2]))) - (wrk[0][1] * ((wrk[1][3] * wrk[2][2]) - (wrk[2][3] * wrk[1][2])))) + (wrk[0][2] * ((wrk[1][3] * wrk[2][1]) - (wrk[2][3] * wrk[1][1]))))
-						/ xx;
+				/ xx;
 			ccr[id[i4]][1] = (((wrk[0][0] * ((wrk[1][3] * wrk[2][2]) - (wrk[2][3] * wrk[1][2]))) - (wrk[0][3] * ((wrk[1][0] * wrk[2][2]) - (wrk[2][0] * wrk[1][2])))) + (wrk[0][2] * ((wrk[1][0] * wrk[2][3]) - (wrk[2][0] * wrk[1][3]))))
-						/ xx;
+				/ xx;
 			ccr[id[i4]][2] = (((wrk[0][0] * ((wrk[1][1] * wrk[2][3]) - (wrk[2][1] * wrk[1][3]))) - (wrk[0][1] * ((wrk[1][0] * wrk[2][3]) - (wrk[2][0] * wrk[1][3])))) + (wrk[0][3] * ((wrk[1][0] * wrk[2][1]) - (wrk[2][0] * wrk[1][1]))))
-						/ xx;
+				/ xx;
 		    }
 		    for (ccr[id[i4]][dim] = 0, i2 = 0; i2 < dim; i2++) {
 			ccr[id[i4]][dim] += (pts[i0][i2] - ccr[id[i4]][i2])
@@ -3271,7 +3204,7 @@ public abstract class WB_Delaunay {
 	     * or tetrahedra to neighboring triangles or tetrahedra Edges -
 	     * array of pointers from each triangle or tetrahedron's edges to
 	     * their corresponding triangles or tetrahedra
-	     * 
+	     *
 	     * helpers: nverts - number of triangles or tetrahedra per vertex
 	     */
 	    // compute number of triangles or tetrahedra
@@ -3364,17 +3297,17 @@ public abstract class WB_Delaunay {
      * data. Copyright (C) 1996 - 2011 Bill Hibbard, Curtis Rueden, Tom Rink,
      * Dave Glowacki, Steve Emmerson, Tom Whittaker, Don Murray, and Tommy
      * Jasmin.
-     * 
+     *
      * This library is free software; you can redistribute it and/or modify it
      * under the terms of the GNU Library General Public License as published by
      * the Free Software Foundation; either version 2 of the License, or (at
      * your option) any later version.
-     * 
+     *
      * This library is distributed in the hope that it will be useful, but
      * WITHOUT ANY WARRANTY; without even the implied warranty of
      * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library
      * General Public License for more details.
-     * 
+     *
      * You should have received a copy of the GNU Library General Public License
      * along with this library; if not, write to the Free Software Foundation,
      * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
@@ -3389,13 +3322,13 @@ public abstract class WB_Delaunay {
     static class DelaunayFast extends WB_Delaunay {
 	// <<< Modified quick sort routine >>>
 	/**
-	 * 
 	 *
-	 * @param array 
-	 * @param samples 
-	 * @param sIndex 
-	 * @param lo 
-	 * @param hi 
+	 *
+	 * @param array
+	 * @param samples
+	 * @param sIndex
+	 * @param lo
+	 * @param hi
 	 */
 	private final void qsort(final int[] array, final double[][] samples,
 		final int sIndex, final int lo, final int hi) {
@@ -3425,18 +3358,19 @@ public abstract class WB_Delaunay {
 	}
 
 	/**
-	 *  Number of radians to rotate points before triangulating.
+	 * Number of radians to rotate points before triangulating.
 	 */
-	public static final double ROTATE = Math.PI / 18; // (10 degrees)
+	static final double ROTATE = Math.PI / 18; // (10 degrees)
 
 	/**
 	 * construct an approximate Delaunay triangulation of the points in the
 	 * samples array using Curtis Rueden's algorithm.
 	 *
-	 * @param samples            locations of points for topology - dimensioned
+	 * @param samples
+	 *            locations of points for topology - dimensioned
 	 *            double[dimension][number_of_points]
 	 */
-	public DelaunayFast(final double[][] samples) {
+	DelaunayFast(final double[][] samples) {
 	    if ((samples.length < 2) || (samples.length > 3)) {
 		throw new IllegalArgumentException();
 	    }
@@ -3645,7 +3579,7 @@ public abstract class WB_Delaunay {
 			    upp1 = bob;
 			    bob = plus_dir ? (upp1 + 1) % hull1.length
 				    : ((upp1 + hull1.length) - 1)
-					    % hull1.length;
+				    % hull1.length;
 			    bamx = samp0[hull1[bob]] - ax;
 			    bamy = samp1[hull1[bob]] - ay;
 			    camx = samp0[hull1[upp1]] - ax;
@@ -3669,10 +3603,10 @@ public abstract class WB_Delaunay {
 			camy = samp1[hull2[upp2]] - ay;
 			u = (cvh) ? (double) (bamy / Math.sqrt((bamx * bamx)
 				+ (bamy * bamy))) : (double) (bamx / Math
-					.sqrt((bamx * bamx) + (bamy * bamy)));
+				.sqrt((bamx * bamx) + (bamy * bamy)));
 			v = (cvh) ? (double) (camy / Math.sqrt((camx * camx)
 				+ (camy * camy))) : (double) (camx / Math
-					.sqrt((camx * camx) + (camy * camy)));
+				.sqrt((camx * camx) + (camy * camy)));
 			plus_dir = (u < v);
 			if (!plus_dir) {
 			    bob = upp2;
@@ -3683,7 +3617,7 @@ public abstract class WB_Delaunay {
 			    upp2 = bob;
 			    bob = plus_dir ? (upp2 + 1) % hull2.length
 				    : ((upp2 + hull2.length) - 1)
-					    % hull2.length;
+				    % hull2.length;
 			    bamx = samp0[hull2[bob]] - ax;
 			    bamy = samp1[hull2[bob]] - ay;
 			    camx = samp0[hull2[upp2]] - ax;
@@ -3707,10 +3641,10 @@ public abstract class WB_Delaunay {
 			camy = samp1[hull1[low1]] - ay;
 			u = (cvh) ? (double) (bamy / Math.sqrt((bamx * bamx)
 				+ (bamy * bamy))) : (double) (bamx / Math
-					.sqrt((bamx * bamx) + (bamy * bamy)));
+				.sqrt((bamx * bamx) + (bamy * bamy)));
 			v = (cvh) ? (double) (camy / Math.sqrt((camx * camx)
 				+ (camy * camy))) : (double) (camx / Math
-					.sqrt((camx * camx) + (camy * camy)));
+				.sqrt((camx * camx) + (camy * camy)));
 			plus_dir = (u > v);
 			if (!plus_dir) {
 			    bob = low1;
@@ -3721,7 +3655,7 @@ public abstract class WB_Delaunay {
 			    low1 = bob;
 			    bob = plus_dir ? (low1 + 1) % hull1.length
 				    : ((low1 + hull1.length) - 1)
-					    % hull1.length;
+				    % hull1.length;
 			    bamx = samp0[hull1[bob]] - ax;
 			    bamy = samp1[hull1[bob]] - ay;
 			    camx = samp0[hull1[low1]] - ax;
@@ -3745,10 +3679,10 @@ public abstract class WB_Delaunay {
 			camy = samp1[hull2[low2]] - ay;
 			u = (cvh) ? (double) (bamy / Math.sqrt((bamx * bamx)
 				+ (bamy * bamy))) : (double) (bamx / Math
-					.sqrt((bamx * bamx) + (bamy * bamy)));
+				.sqrt((bamx * bamx) + (bamy * bamy)));
 			v = (cvh) ? (double) (camy / Math.sqrt((camx * camx)
 				+ (camy * camy))) : (double) (camx / Math
-					.sqrt((camx * camx) + (camy * camy)));
+				.sqrt((camx * camx) + (camy * camy)));
 			plus_dir = (u > v);
 			if (!plus_dir) {
 			    bob = low2;
@@ -3759,7 +3693,7 @@ public abstract class WB_Delaunay {
 			    low2 = bob;
 			    bob = plus_dir ? (low2 + 1) % hull2.length
 				    : ((low2 + hull2.length) - 1)
-					    % hull2.length;
+				    % hull2.length;
 			    bamx = samp0[hull2[bob]] - ax;
 			    bamy = samp1[hull2[bob]] - ay;
 			    camx = samp0[hull2[low2]] - ax;

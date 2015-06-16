@@ -39,7 +39,7 @@ public class HE_Vertex extends HE_Element implements WB_MutableCoordinate,
      *
      */
     private int vertexcolor;
-    private HE_TextureCoordinate uvw;
+    private HE_TextureCoordinate uvw = null;
 
     /**
      * Instantiates a new HE_Vertex.
@@ -88,9 +88,7 @@ public class HE_Vertex extends HE_Element implements WB_MutableCoordinate,
      */
     public HE_Vertex get() {
 	final HE_Vertex copy = new HE_Vertex(pos);
-	if (uvw != null) {
-	    copy.setUVW(uvw);
-	}
+	copy.copyProperties(this);
 	return copy;
     }
 
@@ -424,7 +422,7 @@ public class HE_Vertex extends HE_Element implements WB_MutableCoordinate,
      */
     @Override
     public Object getData(final String s) {
-	return _data.get(s);
+	return (_data == null) ? null : _data.get(s);
     }
 
     /**
@@ -877,7 +875,7 @@ public class HE_Vertex extends HE_Element implements WB_MutableCoordinate,
      * curvature. Guoliang Xu suggests improvements in his papers
      * http://lsec.cc.ac.cn/~xuguo/xuguo3.htm
      *
-     * 
+     *
      * @return
      */
     public double getGaussianCurvature() {
@@ -1120,6 +1118,72 @@ public class HE_Vertex extends HE_Element implements WB_MutableCoordinate,
 	return result;
     }
 
+    public HE_Halfedge getHalfedge(final HE_Face f) {
+	HE_Halfedge he = _halfedge;
+	if (he == null) {
+	    return null;
+	}
+	if (f == null) {
+	    do {
+		if (he.getFace() == null) {
+		    return he;
+		}
+		he = he.getNextInVertex();
+	    } while (he != _halfedge);
+	} else {
+	    do {
+		if (he.getFace() == f) {
+		    return he;
+		}
+		he = he.getNextInVertex();
+	    } while (he != _halfedge);
+	}
+	return null;
+    }
+
+    public void clearUVW() {
+	uvw = null;
+    }
+
+    public void setUVW(final double u, final double v, final double w) {
+	uvw = new HE_TextureCoordinate(u, v, w);
+    }
+
+    public void setUVW(final WB_Coordinate uvw) {
+	if (uvw == null) {
+	    return;
+	}
+	this.uvw = new HE_TextureCoordinate(uvw);
+    }
+
+    public void setUVW(final HE_TextureCoordinate uvw) {
+	if (uvw == null) {
+	    return;
+	}
+	this.uvw = new HE_TextureCoordinate(uvw);
+    }
+
+    public boolean hasTexture(final HE_Face f) {
+	final HE_Halfedge he = getHalfedge(f);
+	if (he != null && he.hasHalfedgeTexture()) {
+	    return true;
+	} else {
+	    return uvw != null;
+	}
+    }
+
+    public boolean hasVertexTexture() {
+	return uvw != null;
+    }
+
+    public boolean hasHalfedgeTexture(final HE_Face f) {
+	final HE_Halfedge he = getHalfedge(f);
+	if (he != null && he.hasHalfedgeTexture()) {
+	    return true;
+	}
+	return false;
+    }
+
     public HE_TextureCoordinate getVertexUVW() {
 	if (uvw == null) {
 	    return HE_TextureCoordinate.ZERO;
@@ -1129,7 +1193,7 @@ public class HE_Vertex extends HE_Element implements WB_MutableCoordinate,
 
     public HE_TextureCoordinate getHalfedgeUVW(final HE_Face f) {
 	final HE_Halfedge he = getHalfedge(f);
-	if (he != null && he.hasTexture()) {
+	if (he != null && he.hasHalfedgeTexture()) {
 	    return he.getUVW();
 	} else {
 	    return HE_TextureCoordinate.ZERO;
@@ -1138,58 +1202,9 @@ public class HE_Vertex extends HE_Element implements WB_MutableCoordinate,
 
     public HE_TextureCoordinate getUVW(final HE_Face f) {
 	final HE_Halfedge he = getHalfedge(f);
-	if (he != null && he.hasTexture()) {
+	if (he != null) {
 	    return he.getUVW();
-	} else if (uvw == null) {
-	    return HE_TextureCoordinate.ZERO;
 	}
-	return uvw;
-    }
-
-    public HE_Halfedge getHalfedge(final HE_Face f) {
-	HE_Halfedge he = _halfedge;
-	if (he == null) {
-	    return null;
-	}
-	do {
-	    if (he.getFace() == f) {
-		return he;
-	    }
-	    he = he.getNextInVertex();
-	} while (he != _halfedge);
-	return null;
-    }
-
-    public void setUVW(final double u, final double v, final double w) {
-	uvw = new HE_TextureCoordinate(u, v, w);
-    }
-
-    public void setUVW(final WB_Coordinate uvw) {
-	this.uvw = new HE_TextureCoordinate(uvw);
-    }
-
-    public void setUVW(final HE_TextureCoordinate uvw) {
-	this.uvw = new HE_TextureCoordinate(uvw);
-    }
-
-    public boolean hasVertexTexture() {
-	return uvw != null;
-    }
-
-    public boolean hasHalfedgeTexture(final HE_Face f) {
-	final HE_Halfedge he = getHalfedge(f);
-	if (he != null && he.hasTexture()) {
-	    return true;
-	}
-	return false;
-    }
-
-    public boolean hasTexture(final HE_Face f) {
-	final HE_Halfedge he = getHalfedge(f);
-	if (he != null && he.hasTexture()) {
-	    return true;
-	} else {
-	    return uvw != null;
-	}
+	return uvw == null ? HE_TextureCoordinate.ZERO : uvw;
     }
 }
