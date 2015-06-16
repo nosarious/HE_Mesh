@@ -26,7 +26,7 @@ import wblut.math.WB_M33;
  *
  */
 public class HE_Vertex extends HE_Element implements WB_MutableCoordinate,
-WB_HasData, WB_HasColor {
+	WB_HasData, WB_HasColor {
     /**
      *
      */
@@ -88,9 +88,7 @@ WB_HasData, WB_HasColor {
      */
     public HE_Vertex get() {
 	final HE_Vertex copy = new HE_Vertex(pos);
-	if (uvw != null) {
-	    copy.setUVW(uvw);
-	}
+	copy.copyProperties(this);
 	return copy;
     }
 
@@ -196,7 +194,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.Point3D#toString()
      */
     @Override
@@ -406,7 +404,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.core.WB_HasData#setData(java.lang.String, java.lang.Object)
      */
     @Override
@@ -419,7 +417,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.core.WB_HasData#getData(java.lang.String)
      */
     @Override
@@ -454,7 +452,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Coordinate#xd()
      */
     @Override
@@ -464,7 +462,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Coordinate#yd()
      */
     @Override
@@ -474,7 +472,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Coordinate#zd()
      */
     @Override
@@ -484,7 +482,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Coordinate#zd()
      */
     @Override
@@ -494,7 +492,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Coordinate#getd(int)
      */
     @Override
@@ -504,7 +502,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Coordinate#xf()
      */
     @Override
@@ -514,7 +512,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Coordinate#yf()
      */
     @Override
@@ -524,7 +522,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Coordinate#zf()
      */
     @Override
@@ -534,7 +532,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Coordinate#zf()
      */
     @Override
@@ -544,7 +542,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Coordinate#getf(int)
      */
     @Override
@@ -607,7 +605,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_MutableCoordinate#setX(double)
      */
     @Override
@@ -617,7 +615,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_MutableCoordinate#setY(double)
      */
     @Override
@@ -627,7 +625,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_MutableCoordinate#setZ(double)
      */
     @Override
@@ -637,7 +635,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_MutableCoordinate#setW(double)
      */
     @Override
@@ -647,7 +645,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_MutableCoordinate#setCoord(int, double)
      */
     @Override
@@ -657,7 +655,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_MutableCoordinate#set(wblut.geom.WB_Coordinate)
      */
     @Override
@@ -667,7 +665,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_MutableCoordinate#set(double, double)
      */
     @Override
@@ -677,7 +675,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_MutableCoordinate#set(double, double, double)
      */
     @Override
@@ -687,7 +685,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_MutableCoordinate#set(double, double, double, double)
      */
     @Override
@@ -698,7 +696,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_HasColor#getColor()
      */
     @Override
@@ -708,7 +706,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_HasColor#setColor(int)
      */
     @Override
@@ -765,7 +763,7 @@ WB_HasData, WB_HasColor {
 	    }
 	    final double area = computeNormal3D(pos,
 		    _halfedge.getEndVertex().pos, _halfedge.getPrevInFace()
-		    .getVertex().pos, temp[0], temp[1], temp[2]);
+			    .getVertex().pos, temp[0], temp[1], temp[2]);
 	    normal.addMulSelf(area, temp[2]);
 	} while (_halfedge.getEndVertex() != d);
 	final double n = normal.getLength3D();
@@ -998,7 +996,7 @@ WB_HasData, WB_HasColor {
 		+ (tempD1.yd() * tempD1.yd())
 		+ (tempD1.zd() * tempD1.zd())
 		+ (tempD2.xd() * tempD2.xd()) + (tempD2.yd() * tempD2.yd()) + (tempD2
-			.zd() * tempD2.zd())))) {
+		.zd() * tempD2.zd())))) {
 	    ret.mulSelf(1.0 / norm);
 	} else {
 	    ret.set(0, 0, 0);
@@ -1092,7 +1090,7 @@ WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.HE_Element#clear()
      */
     @Override

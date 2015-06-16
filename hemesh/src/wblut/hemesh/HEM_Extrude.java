@@ -247,7 +247,7 @@ public class HEM_Extrude extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -276,9 +276,9 @@ public class HEM_Extrude extends HEM_Modifier {
 	    do {
 		_halfedgeNormals.put(he.key(), he.getHalfedgeNormal());
 		_halfedgeEWs
-			.put(he.key(),
-				(he.getHalfedgeDihedralAngle() < thresholdAngle) ? hardEdgeChamfer
-					: chamfer);
+		.put(he.key(),
+			(he.getHalfedgeDihedralAngle() < thresholdAngle) ? hardEdgeChamfer
+				: chamfer);
 		he = he.getNextInFace();
 	    } while (he != f.getHalfedge());
 	    tracker.incrementCounter();
@@ -313,7 +313,7 @@ public class HEM_Extrude extends HEM_Modifier {
 			    he = f.getHalfedge();
 			    do {
 				he.getVertex().getPoint()
-					.addMulSelf(heights[i], n);
+				.addMulSelf(heights[i], n);
 				he = he.getNextInFace();
 			    } while (he != f.getHalfedge());
 			}
@@ -331,9 +331,9 @@ public class HEM_Extrude extends HEM_Modifier {
 			do {
 			    final HE_Vertex v = he.getVertex();
 			    he.getVertex()
-				    .getPoint()
-				    .addMulSelf(
-					    d.value(v.xd(), v.yd(), v.zd()), n);
+			    .getPoint()
+			    .addMulSelf(
+				    d.value(v.xd(), v.yd(), v.zd()), n);
 			    he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		    }
@@ -346,7 +346,7 @@ public class HEM_Extrude extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -378,9 +378,9 @@ public class HEM_Extrude extends HEM_Modifier {
 	    do {
 		_halfedgeNormals.put(he.key(), he.getHalfedgeNormal());
 		_halfedgeEWs
-			.put(he.key(),
-				(he.getHalfedgeDihedralAngle() < thresholdAngle) ? hardEdgeChamfer
-					: chamfer);
+		.put(he.key(),
+			(he.getHalfedgeDihedralAngle() < thresholdAngle) ? hardEdgeChamfer
+				: chamfer);
 		he = he.getNextInFace();
 	    } while (he != f.getHalfedge());
 	    tracker.incrementCounter();
@@ -552,6 +552,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	    outerVertices.add(outerHalfedges.get(i).getVertex());
 	    final HE_Vertex eov = new HE_Vertex(outerHalfedges.get(i)
 		    .getVertex());
+	    eov.copyProperties(outerHalfedges.get(i).getVertex());
 	    if (n != null) {
 		eov.getPoint().addMulSelf(d, n);
 	    }

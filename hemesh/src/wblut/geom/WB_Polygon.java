@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javolution.util.FastTable;
+import wblut.math.WB_Epsilon;
 
 /**
  *
@@ -339,17 +340,7 @@ public class WB_Polygon extends WB_Ring {
      * @return
      */
     public WB_Plane getPlane(final double d) {
-	final WB_Vector normal = gf.createVector();
-	for (int i = 0, j = getNumberOfShellPoints() - 1; i < getNumberOfShellPoints(); j = i, i++) {
-	    normal.addSelf(
-		    (points.get(j, 1) - points.get(i, 1))
-			    * (points.get(j, 2) + points.get(i, 2)),
-		    (points.get(j, 2) - points.get(i, 2))
-			    * (points.get(j, 0) + points.get(i, 0)),
-		    (points.get(j, 0) - points.get(i, 0))
-			    * (points.get(j, 1) + points.get(i, 1)));
-	}
-	normal.normalizeSelf();
+	final WB_Vector normal = getNormal();
 	if (normal.getSqLength3D() < 0.5) {
 	    return null;
 	}
@@ -424,6 +415,36 @@ public class WB_Polygon extends WB_Ring {
 	return numberOfContours == 1;
     }
 
+    public boolean isCW2D() {
+	// Find shell point with min x and if equal x, max y
+	int index = 0;
+	WB_SequencePoint extremum = points.getPoint(0);
+	for (int i = 1; i < points.size(); i++) {
+	    if (points.getPoint(i).xd() < extremum.xd()) {
+		extremum = points.getPoint(i);
+		index = i;
+	    } else if (points.getPoint(i).xd() == extremum.xd()
+		    && points.getPoint(i).yd() > extremum.yd()) {
+		extremum = points.getPoint(i);
+		index = i;
+	    }
+	}
+	WB_SequencePoint previous;
+	if (index == 0) {
+	    previous = points.getPoint(numberOfShellPoints - 1);
+	} else {
+	    previous = points.getPoint(index - 1);
+	}
+	WB_SequencePoint next;
+	if (index == numberOfShellPoints - 1) {
+	    next = points.getPoint(0);
+	} else {
+	    next = points.getPoint(index + 1);
+	}
+	// get orientation
+	return WB_Predicates.orient2D(previous, extremum, next) <= 0;
+    }
+
     /**
      *
      *
@@ -449,6 +470,90 @@ public class WB_Polygon extends WB_Ring {
 	    }
 	    return new WB_Polygon(shellpoints, holepoints);
 	}
+    }
+
+    public boolean is2D() {
+	final WB_Plane P = getPlane(0);
+	for (int i = 0; i < numberOfShellPoints; i++) {
+	    if (!WB_Epsilon.isZero(points.getPoint(i).zd())) {
+		return false;
+	    }
+	}
+	int index = numberOfShellPoints;
+	for (int i = 0; i < (numberOfContours - 1); i++) {
+	    for (int j = 0; j < numberOfPointsPerContour[i + 1]; j++) {
+		if (!WB_Epsilon.isZero(points.getPoint(index++).zd())) {
+		    return false;
+		}
+	    }
+	}
+	return true;
+    }
+
+    public boolean isPlanar() {
+	final WB_Plane P = getPlane(0);
+	for (int i = 0; i < numberOfShellPoints; i++) {
+	    if (!WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(
+		    points.getPoint(i), P))) {
+		return false;
+	    }
+	}
+	int index = numberOfShellPoints;
+	for (int i = 0; i < (numberOfContours - 1); i++) {
+	    for (int j = 0; j < numberOfPointsPerContour[i + 1]; j++) {
+		if (!WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(
+			points.getPoint(index++), P))) {
+		    return false;
+		}
+	    }
+	}
+	return true;
+    }
+
+    public boolean isConvex2D(final int i, final boolean CW) {
+	final WB_SequencePoint extremum = points.getPoint(i);
+	WB_SequencePoint previous;
+	if (i == 0) {
+	    previous = points.getPoint(numberOfShellPoints - 1);
+	} else {
+	    previous = points.getPoint(i - 1);
+	}
+	WB_SequencePoint next;
+	if (i == numberOfShellPoints - 1) {
+	    next = points.getPoint(0);
+	} else {
+	    next = points.getPoint(i + 1);
+	}
+	final boolean vertexIsCW = WB_Predicates.orient2D(previous, extremum,
+		next) <= 0;
+	return (vertexIsCW == CW);
+    }
+
+    public boolean isConvex2D() {
+	double dx1, dy1, dx2, dy2, zcrossproduct;
+	double sign = Double.NaN;
+	for (int i = 0, im = numberOfShellPoints - 1, imm = numberOfShellPoints - 2; i < numberOfShellPoints; imm = im, im = i, i++) {
+	    dx1 = getPoint(i).xd() - points.getPoint(im).xd();
+	    dy1 = getPoint(i).yd() - points.getPoint(im).yd();
+	    dx2 = getPoint(imm).xd() - points.getPoint(im).xd();
+	    dy2 = getPoint(imm).yd() - points.getPoint(im).yd();
+	    zcrossproduct = dx1 * dy2 - dy1 * dx2;
+	    if (Double.isNaN(sign)) {
+		if (zcrossproduct != 0.0) {
+		    sign = (zcrossproduct < 0) ? -1 : 1;
+		}
+	    } else {
+		if (zcrossproduct < 0 && sign > 0) {
+		    return false;
+		} else if (zcrossproduct > 0 && sign < 0) {
+		    return false;
+		}
+	    }
+	}
+	if (Double.isNaN(sign)) {
+	    return false;
+	}
+	return true;
     }
 
     /**
