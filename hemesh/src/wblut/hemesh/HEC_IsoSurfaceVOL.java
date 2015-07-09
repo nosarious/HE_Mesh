@@ -3,13 +3,14 @@
  */
 package wblut.hemesh;
 
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import wblut.geom.WB_Coordinate;
 import wblut.geom.WB_Point;
 import wblut.math.WB_Epsilon;
 
@@ -49,9 +50,8 @@ public class HEC_IsoSurfaceVOL extends HEC_Creator {
      *
      */
     final static WB_Point[] gridvertices = new WB_Point[] {
-	    new WB_Point(0, 0, 0), new WB_Point(1, 0, 0),
-	    new WB_Point(0, 1, 0), new WB_Point(1, 1, 0),
-	    new WB_Point(0, 0, 1), new WB_Point(1, 0, 1),
+	    new WB_Point(0, 0, 0), new WB_Point(1, 0, 0), new WB_Point(0, 1, 0),
+	    new WB_Point(1, 1, 0), new WB_Point(0, 0, 1), new WB_Point(1, 0, 1),
 	    new WB_Point(0, 1, 1), new WB_Point(1, 1, 1), };
     // EDGES: 2 vertices per edge
     /**
@@ -294,13 +294,7 @@ public class HEC_IsoSurfaceVOL extends HEC_Creator {
 	return this;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see wblut.hemesh.HEC_Creator#setCenter(wblut.geom.WB_Point3d)
-     */
-    @Override
-    public HEC_IsoSurfaceVOL setCenter(final WB_Point c) {
+    public HEC_IsoSurfaceVOL setGridCenter(final WB_Coordinate c) {
 	cx = c.xd();
 	cy = c.yd();
 	cz = c.zd();
@@ -316,7 +310,8 @@ public class HEC_IsoSurfaceVOL extends HEC_Creator {
      * @return
      */
     private int index(final int i, final int j, final int k) {
-	return ((i + 1) + ((resx + 2) * (j + 1)) + ((resx + 2) * (resy + 2) * (k + 1)));
+	return ((i + 1) + ((resx + 2) * (j + 1))
+		+ ((resx + 2) * (resy + 2) * (k + 1)));
     }
 
     /**
@@ -483,9 +478,9 @@ public class HEC_IsoSurfaceVOL extends HEC_Creator {
 	    return (new HE_Vertex(p1));
 	}
 	mu = (isolevel - valp1) / (valp2 - valp1);
-	return new HE_Vertex(p1.xd() + (mu * (p2.xd() - p1.xd())), p1.yd()
-		+ (mu * (p2.yd() - p1.yd())), p1.zd()
-		+ (mu * (p2.zd() - p1.zd())));
+	return new HE_Vertex(p1.xd() + (mu * (p2.xd() - p1.xd())),
+		p1.yd() + (mu * (p2.yd() - p1.yd())),
+		p1.zd() + (mu * (p2.zd() - p1.zd())));
     }
 
     /**
@@ -649,8 +644,8 @@ public class HEC_IsoSurfaceVOL extends HEC_Creator {
 	yedges = new TIntObjectHashMap<HE_Vertex>(1024, 0.5f, -1);
 	zedges = new TIntObjectHashMap<HE_Vertex>(1024, 0.5f, -1);
 	vertices = new TIntObjectHashMap<HE_Vertex>(1024, 0.5f, -1);
-	final WB_Point offset = new WB_Point(cx - (0.5 * resx * dx), cy
-		- (0.5 * resy * dy), cz - (0.5 * resz * dz));
+	final WB_Point offset = new WB_Point(cx - (0.5 * resx * dx),
+		cy - (0.5 * resy * dy), cz - (0.5 * resz * dz));
 	if (Double.isNaN(boundary)) {
 	    for (int i = 0; i < resx; i++) {
 		// System.out.println("HEC_IsoSurface: " + (i + 1) + " of " +
