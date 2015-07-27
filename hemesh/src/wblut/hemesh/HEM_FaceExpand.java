@@ -69,7 +69,7 @@ public class HEM_FaceExpand extends HEM_Modifier {
 	int vertexCount = 0;
 	while (fItr.hasNext()) {
 	    f = fItr.next();
-	    final WB_Plane planef = f.toPlane(d);
+	    final WB_Plane planef = f.getPlane(d);
 	    he = f.getHalfedge();
 	    fn = f.getFaceNormal();
 	    do {
@@ -80,7 +80,7 @@ public class HEM_FaceExpand extends HEM_Modifier {
 		    p = new WB_Point(v);
 		    p.addMulSelf(d, fn);
 		} else {
-		    final WB_Plane planef2 = he.getPair().getFace().toPlane(d);
+		    final WB_Plane planef2 = he.getPair().getFace().getPlane(d);
 		    final WB_IntersectionResult ir = WB_GeometryOp
 			    .getIntersection3D(planef, planef2);
 		    final WB_Line lineff;

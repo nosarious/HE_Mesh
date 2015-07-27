@@ -12,6 +12,7 @@ import wblut.geom.WB_ClassificationConvex;
 import wblut.geom.WB_Context2D;
 import wblut.geom.WB_Coordinate;
 import wblut.geom.WB_GeometryFactory;
+import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_HasColor;
 import wblut.geom.WB_HasData;
 import wblut.geom.WB_Plane;
@@ -409,8 +410,19 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
      *
      *
      * @return
+     * @deprecated Use {@link #getPlane()} instead
      */
+    @Deprecated
     public WB_Plane toPlane() {
+	return getPlane();
+    }
+
+    /**
+     *
+     *
+     * @return
+     */
+    public WB_Plane getPlane() {
 	WB_Vector fn = getFaceNormal();
 	if (fn.getSqLength3D() < 0.5) {
 	    if (WB_Epsilon.isEqualAbs(_halfedge.getVertex().xd(), _halfedge
@@ -428,8 +440,20 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
      *
      * @param d
      * @return
+     * @deprecated Use {@link #getPlane(double)} instead
      */
+    @Deprecated
     public WB_Plane toPlane(final double d) {
+	return getPlane(d);
+    }
+
+    /**
+     *
+     *
+     * @param d
+     * @return
+     */
+    public WB_Plane getPlane(final double d) {
 	final WB_Vector fn = getFaceNormal();
 	return new WB_Plane(getFaceCenter().addMulSelf(d, fn), fn);
     }
@@ -581,7 +605,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 	    return null;
 	}
 	final WB_Point[] points = new WB_Point[n];
-	final WB_Plane P = toPlane();
+	final WB_Plane P = getPlane();
 	int i = 0;
 	HE_Halfedge he = _halfedge;
 	do {
@@ -619,7 +643,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.Point3D#toString()
      */
     @Override
@@ -637,7 +661,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.core.WB_HasData#setData(java.lang.String, java.lang.Object)
      */
     @Override
@@ -650,7 +674,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.core.WB_HasData#getData(java.lang.String)
      */
     @Override
@@ -660,7 +684,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_HasColor#getColor()
      */
     @Override
@@ -670,12 +694,25 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_HasColor#setColor(int)
      */
     @Override
     public void setColor(final int color) {
 	facecolor = color;
+    }
+
+    public boolean isPlanar() {
+	final WB_Plane P = getPlane();
+	HE_Halfedge he = getHalfedge();
+	do {
+	    if (!WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(he.getVertex(),
+		    P))) {
+		return false;
+	    }
+	    he = he.getNextInFace();
+	} while (he != getHalfedge());
+	return true;
     }
 
     /**
@@ -716,7 +753,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.HE_Element#clear()
      */
     @Override
@@ -733,7 +770,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 	final Coordinate[] coords = new Coordinate[getFaceOrder() + 1];
 	final WB_Point point = geometryfactory.createPoint();
 	final WB_Context2D context = geometryfactory
-		.createEmbeddedPlane(toPlane());
+		.createEmbeddedPlane(getPlane());
 	HE_Halfedge he = _halfedge;
 	int i = 0;
 	do {
@@ -746,7 +783,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 	coords[i] = new Coordinate(point.xd(), point.yd(), i);
 	he = he.getNextInFace();
 	final Polygon inputPolygon = new GeometryFactory()
-		.createPolygon(coords);
+	.createPolygon(coords);
 	final IsValidOp isValidOp = new IsValidOp(inputPolygon);
 	if (!IsValidOp.isValid(inputPolygon)) {
 	    System.out.println(this);

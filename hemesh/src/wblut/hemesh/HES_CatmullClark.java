@@ -349,7 +349,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 		for (int i = 0; i < faceStar.size(); i++) {
 		    f = faceStar.get(i);
 		    if (!selection.contains(f)) {
-			P = f.toPlane();
+			P = f.getPlane();
 			boolean unique = true;
 			for (int j = 0; j < planes.size(); j++) {
 			    if (WB_Plane.isEqual(planes.get(j), P)) {

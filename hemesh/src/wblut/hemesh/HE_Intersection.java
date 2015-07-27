@@ -31,7 +31,7 @@ public class HE_Intersection {
      */
     public static HE_FaceIntersection getIntersection(final HE_Face face,
 	    final WB_Line line) {
-	final WB_Plane P = face.toPlane();
+	final WB_Plane P = face.getPlane();
 	HE_FaceIntersection p = null;
 	final WB_IntersectionResult lpi = WB_GeometryOp.getIntersection3D(line,
 		P);
@@ -55,7 +55,7 @@ public class HE_Intersection {
      */
     public static HE_FaceIntersection getIntersection(final HE_Face face,
 	    final WB_Ray ray) {
-	final WB_Plane P = face.toPlane();
+	final WB_Plane P = face.getPlane();
 	HE_FaceIntersection p = null;
 	final WB_IntersectionResult lpi = WB_GeometryOp.getIntersection3D(ray,
 		P);
@@ -79,7 +79,7 @@ public class HE_Intersection {
      */
     public static HE_FaceIntersection getIntersection(final HE_Face face,
 	    final WB_Segment segment) {
-	final WB_Plane P = face.toPlane();
+	final WB_Plane P = face.getPlane();
 	HE_FaceIntersection p = null;
 	final WB_IntersectionResult lpi = WB_GeometryOp.getIntersection3D(
 		segment, P);

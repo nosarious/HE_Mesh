@@ -1,59 +1,65 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 /**
- * 
+ *
  */
 public class WB_SimpleSequenceVector implements Comparable<WB_Coordinate>,
 WB_MutableCoordinate {
     /** Coordinates. */
     private int i;
-    
+    private final long revision;
     /**
-     * 
+     *
      */
     private final WB_CoordinateSequence seq;
-    
     /**
-     * 
+     *
      */
     private int offset;
 
     /**
-     * 
      *
-     * @param i 
-     * @param seq 
+     *
+     * @param i
+     * @param seq
      */
     public WB_SimpleSequenceVector(final int i, final WB_CoordinateSequence seq) {
 	this.i = i;
 	this.offset = 4 * i;
 	this.seq = seq;
+	this.revision = seq.getRevision();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_MutableCoordinate#set(double, double)
      */
     @Override
     public void set(final double x, final double y) {
-	seq._setRaw(offset, x);
-	seq._setRaw(offset + 1, y);
-	seq._setRaw(offset + 2, 0);
+	seq.setRaw(offset, x);
+	seq.setRaw(offset + 1, y);
+	seq.setRaw(offset + 2, 0);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_MutableCoordinate#set(double, double, double)
      */
     @Override
     public void set(final double x, final double y, final double z) {
-	seq._setRaw(offset, x);
-	seq._setRaw(offset + 1, y);
-	seq._setRaw(offset + 2, z);
+	seq.setRaw(offset, x);
+	seq.setRaw(offset + 1, y);
+	seq.setRaw(offset + 2, z);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_MutableCoordinate#set(double, double, double, double)
      */
     @Override
@@ -62,7 +68,9 @@ WB_MutableCoordinate {
 	set(x, y, z);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_MutableCoordinate#set(wblut.geom.WB_Coordinate)
      */
     @Override
@@ -70,54 +78,66 @@ WB_MutableCoordinate {
 	set(v.xd(), v.yd(), v.zd());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_MutableCoordinate#setW(double)
      */
     @Override
     public void setW(final double w) {
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_MutableCoordinate#setX(double)
      */
     @Override
     public void setX(final double x) {
-	seq._setRaw(offset, x);
+	seq.setRaw(offset, x);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_MutableCoordinate#setY(double)
      */
     @Override
     public void setY(final double y) {
-	seq._setRaw(offset + 1, y);
+	seq.setRaw(offset + 1, y);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_MutableCoordinate#setZ(double)
      */
     @Override
     public void setZ(final double z) {
-	seq._setRaw(offset + 2, z);
+	seq.setRaw(offset + 2, z);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_MutableCoordinate#setCoord(int, double)
      */
     @Override
     public void setCoord(final int i, final double v) {
 	if (i == 0) {
-	    seq._setRaw(offset, v);
+	    seq.setRaw(offset, v);
 	}
 	if (i == 1) {
-	    seq._setRaw(offset + 1, v);
+	    seq.setRaw(offset + 1, v);
 	}
 	if (i == 2) {
-	    seq._setRaw(offset + 2, v);
+	    seq.setRaw(offset + 2, v);
 	}
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Coordinate#wd()
      */
     @Override
@@ -125,7 +145,9 @@ WB_MutableCoordinate {
 	return 0;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Coordinate#wf()
      */
     @Override
@@ -133,7 +155,9 @@ WB_MutableCoordinate {
 	return 0;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Coordinate#xd()
      */
     @Override
@@ -141,7 +165,9 @@ WB_MutableCoordinate {
 	return seq.getRaw(offset);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Coordinate#xf()
      */
     @Override
@@ -149,7 +175,9 @@ WB_MutableCoordinate {
 	return (float) seq.getRaw(offset);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Coordinate#yd()
      */
     @Override
@@ -157,7 +185,9 @@ WB_MutableCoordinate {
 	return seq.getRaw(offset + 1);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Coordinate#yf()
      */
     @Override
@@ -165,7 +195,9 @@ WB_MutableCoordinate {
 	return (float) seq.getRaw(offset + 1);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Coordinate#zd()
      */
     @Override
@@ -173,7 +205,9 @@ WB_MutableCoordinate {
 	return seq.getRaw(offset + 2);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Coordinate#zf()
      */
     @Override
@@ -181,7 +215,9 @@ WB_MutableCoordinate {
 	return (float) seq.getRaw(offset + 2);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Coordinate#getd(int)
      */
     @Override
@@ -198,7 +234,9 @@ WB_MutableCoordinate {
 	return Double.NaN;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.geom.WB_Coordinate#getf(int)
      */
     @Override
@@ -215,7 +253,9 @@ WB_MutableCoordinate {
 	return Float.NaN;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     @Override
@@ -236,21 +276,25 @@ WB_MutableCoordinate {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int getIndex() {
 	return i;
     }
 
     /**
-     * 
      *
-     * @param i 
+     *
+     * @param i
      */
     public void setIndex(final int i) {
 	this.i = i;
 	this.offset = 4 * i;
+    }
+
+    public boolean isValid() {
+	return (revision == seq.getRevision());
     }
 }

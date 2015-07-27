@@ -17,11 +17,12 @@ public class WB_CoordinateSequence {
     /**
      *
      */
-    private TDoubleArrayList ordinates;
+    protected TDoubleArrayList ordinates;
+    protected long revision;
     /**
      *
      */
-    private int n;
+    protected int n;
     /**
      *
      */
@@ -31,7 +32,9 @@ public class WB_CoordinateSequence {
     /**
      *
      */
-    protected WB_CoordinateSequence() {
+    public WB_CoordinateSequence() {
+	ordinates = new TDoubleArrayList(100, Double.NaN);
+	revision = 0;
     }
 
     /**
@@ -39,7 +42,7 @@ public class WB_CoordinateSequence {
      *
      * @param tuples
      */
-    protected WB_CoordinateSequence(
+    public WB_CoordinateSequence(
 	    final Collection<? extends WB_Coordinate> tuples) {
 	ordinates = new TDoubleArrayList(4 * tuples.size(), Double.NaN);
 	n = tuples.size();
@@ -49,6 +52,7 @@ public class WB_CoordinateSequence {
 	    ordinates.add(p.zd());
 	    ordinates.add(p.wd());
 	}
+	revision = 0;
     }
 
     /**
@@ -56,7 +60,7 @@ public class WB_CoordinateSequence {
      *
      * @param tuples
      */
-    protected WB_CoordinateSequence(final WB_Coordinate[] tuples) {
+    public WB_CoordinateSequence(final WB_Coordinate[] tuples) {
 	ordinates = new TDoubleArrayList(4 * tuples.length, Double.NaN);
 	n = tuples.length;
 	for (final WB_Coordinate p : tuples) {
@@ -65,6 +69,7 @@ public class WB_CoordinateSequence {
 	    ordinates.add(p.zd());
 	    ordinates.add(p.wd());
 	}
+	revision = 0;
     }
 
     /**
@@ -72,12 +77,13 @@ public class WB_CoordinateSequence {
      *
      * @param tuples
      */
-    protected WB_CoordinateSequence(final WB_CoordinateSequence tuples) {
+    public WB_CoordinateSequence(final WB_CoordinateSequence tuples) {
 	ordinates = new TDoubleArrayList(4 * tuples.size(), Double.NaN);
 	n = tuples.size();
 	for (int i = 0; i < (4 * n); i++) {
 	    ordinates.add(tuples.getRaw(i));
 	}
+	revision = 0;
     }
 
     /**
@@ -85,12 +91,13 @@ public class WB_CoordinateSequence {
      *
      * @param ordinates
      */
-    protected WB_CoordinateSequence(final double[] ordinates) {
+    public WB_CoordinateSequence(final double[] ordinates) {
 	this.ordinates = new TDoubleArrayList(ordinates.length, Double.NaN);
 	n = ordinates.length / 4;
 	for (int i = 0; i < ordinates.length; i++) {
 	    this.ordinates.add(ordinates[i]);
 	}
+	revision = 0;
     }
 
     /**
@@ -98,7 +105,7 @@ public class WB_CoordinateSequence {
      *
      * @param tuples
      */
-    protected WB_CoordinateSequence(final double[][] tuples) {
+    public WB_CoordinateSequence(final double[][] tuples) {
 	ordinates = new TDoubleArrayList(tuples.length, Double.NaN);
 	n = tuples.length;
 	for (final double[] p : tuples) {
@@ -107,6 +114,7 @@ public class WB_CoordinateSequence {
 	    ordinates.add(p[2]);
 	    ordinates.add(p[3]);
 	}
+	revision = 0;
     }
 
     /**
@@ -189,6 +197,19 @@ public class WB_CoordinateSequence {
     /**
      *
      *
+     * @param i
+     * @return
+     */
+    public WB_Coordinate getCoordinate(final int i) {
+	if (i >= n) {
+	    throw (new IndexOutOfBoundsException());
+	}
+	return new WB_SequenceVector(i, this);
+    }
+
+    /**
+     *
+     *
      * @return
      */
     public int size() {
@@ -201,7 +222,7 @@ public class WB_CoordinateSequence {
      * @param i
      * @param p
      */
-    public void _set(final int i, final WB_Coordinate p) {
+    public void set(final int i, final WB_Coordinate p) {
 	int id = i * 4;
 	ordinates.set(id++, p.xd());
 	ordinates.set(id++, p.yd());
@@ -217,7 +238,7 @@ public class WB_CoordinateSequence {
      * @param y
      * @param z
      */
-    public void _set(final int i, final double x, final double y, final double z) {
+    public void set(final int i, final double x, final double y, final double z) {
 	int id = i * 4;
 	ordinates.set(id++, x);
 	ordinates.set(id++, y);
@@ -230,7 +251,7 @@ public class WB_CoordinateSequence {
      * @param i
      * @param v
      */
-    public void _setRaw(final int i, final double v) {
+    public void setRaw(final int i, final double v) {
 	ordinates.set(i, v);
     }
 
@@ -388,5 +409,14 @@ public class WB_CoordinateSequence {
 	    T.applyAsVector(x1, y1, z1, getVector(j));
 	}
 	return this;
+    }
+
+    public void clear() {
+	ordinates = new TDoubleArrayList(100, Double.NaN);
+	revision++;
+    }
+
+    public long getRevision() {
+	return revision;
     }
 }
