@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -290,8 +290,8 @@ public class HEC_VoronoiSphere extends HEC_Creator {
 			    * r.zd());
 		    d2self = WB_GeometryOp.getSqDistance3D(p, c);
 		    final WB_KDEntry<WB_Point, Integer>[] closest = kdtree
-			    .getNearestNeighbors(p, 2);
-		    j = closest[1].value;
+			    .getNearestNeighbors(p, 1);
+		    j = closest[0].value;
 		}
 		if (j != index) {
 		    p.subSelf(stepSize * r.xd(), stepSize * r.yd(), stepSize

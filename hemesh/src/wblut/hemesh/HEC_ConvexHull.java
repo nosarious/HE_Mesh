@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -41,7 +41,10 @@ public class HEC_ConvexHull extends HEC_Creator {
      * @return self
      */
     public HEC_ConvexHull setPoints(final WB_Point[] points) {
-	this.points = points;
+	this.points = new WB_Point[points.length];
+	for (int i = 0; i < points.length; i++) {
+	    this.points[i] = new WB_Point(points[i]);
+	}
 	return this;
     }
 
@@ -162,7 +165,7 @@ public class HEC_ConvexHull extends HEC_Creator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Creator#create()
      */
     @Override
@@ -171,9 +174,9 @@ public class HEC_ConvexHull extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public HE_Mesh createWithQuickHull() {
 	if (points == null) {
@@ -186,8 +189,8 @@ public class HEC_ConvexHull extends HEC_Creator {
 	final int[][] faceIndices = hull.getFaces();
 	final int[] originalindices = hull.getVertexPointIndices();
 	final HEC_FromFacelist ffl = new HEC_FromFacelist()
-	.setVertices(hull.getVertices()).setFaces(faceIndices)
-	.setDuplicate(false).setCheckNormals(false);
+		.setVertices(hull.getVertices()).setFaces(faceIndices)
+		.setDuplicate(false).setCheckNormals(false);
 	final HE_Mesh result = ffl.createBase();
 	vertexToPointIndex = new FastMap<Long, Integer>();
 	final Iterator<HE_Vertex> vItr = result.vItr();
