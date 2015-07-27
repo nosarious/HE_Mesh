@@ -22,11 +22,11 @@ public class WB_Version {
     /**
      *
      */
-    public static final int PATCH = 14;
+    public static final int PATCH = 13;
     /**
      *
      */
-    private static final String releaseInfo = "Quidam";
+    private static final String releaseInfo = "Persephone";
 
     /**
      * @param args
@@ -64,7 +64,7 @@ public class WB_Version {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#toString()
      */
     @Override

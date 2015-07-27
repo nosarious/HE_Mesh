@@ -1,12 +1,11 @@
 /*
- *
+ * 
  */
 package wblut.hemesh;
 
 import java.util.Iterator;
 import processing.core.PApplet;
 import processing.opengl.PGraphics3D;
-import wblut.geom.WB_Coordinate;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
@@ -56,8 +55,7 @@ public abstract class HEC_Creator extends HE_Machine {
      *            z-coordinate of center
      * @return self
      */
-    public HEC_Creator setCenter(final double x, final double y,
-	    final double z) {
+    public HEC_Creator setCenter(final double x, final double y, final double z) {
 	center.set(x, y, z);
 	return this;
     }
@@ -69,7 +67,7 @@ public abstract class HEC_Creator extends HE_Machine {
      *            center
      * @return self
      */
-    public HEC_Creator setCenter(final WB_Coordinate c) {
+    public HEC_Creator setCenter(final WB_Point c) {
 	center.set(c);
 	return this;
     }
@@ -97,8 +95,7 @@ public abstract class HEC_Creator extends HE_Machine {
      *            z-coordinate of axis vector
      * @return self
      */
-    public HEC_Creator setZAxis(final double x, final double y,
-	    final double z) {
+    public HEC_Creator setZAxis(final double x, final double y, final double z) {
 	zaxis.set(x, y, z);
 	zaxis.normalizeSelf();
 	return this;
@@ -136,7 +133,7 @@ public abstract class HEC_Creator extends HE_Machine {
      *            axis vector
      * @return self
      */
-    public HEC_Creator setZAxis(final WB_Coordinate p) {
+    public HEC_Creator setZAxis(final WB_Point p) {
 	zaxis.set(p);
 	zaxis.normalizeSelf();
 	return this;
@@ -151,9 +148,8 @@ public abstract class HEC_Creator extends HE_Machine {
      *            second point on axis
      * @return self
      */
-    public HEC_Creator setZAxis(final WB_Coordinate p0,
-	    final WB_Coordinate p1) {
-	zaxis.set(p1.xd() - p0.xd(), p1.yd() - p0.yd(), p1.zd() - p0.zd());
+    public HEC_Creator setZAxis(final WB_Point p0, final WB_Point p1) {
+	zaxis.set(p1.sub(p0));
 	zaxis.normalizeSelf();
 	return this;
     }
@@ -199,14 +195,15 @@ public abstract class HEC_Creator extends HE_Machine {
 	if (!override) {
 	    if (zangle != 0) {
 		base.rotateAboutAxis(zangle, center.xd(), center.yd(),
-			center.zd(), 0, 0, 1);
+			center.zd(), center.xd(), center.yd(), center.zd() + 1);
 	    }
 	    final WB_Vector tmp = zaxis.cross(Z);
 	    if (!WB_Epsilon.isZeroSq(tmp.getSqLength3D())) {
 		base.rotateAboutAxis(
 			-Math.acos(WB_Math.clamp(zaxis.dot(Z), -1, 1)),
-			center.xd(), center.yd(), center.zd(), +tmp.xd(),
-			+tmp.yd(), +tmp.zd());
+			center.xd(), center.yd(), center.zd(), center.xd()
+				+ tmp.xd(), center.yd() + tmp.yd(), center.zd()
+				+ tmp.zd());
 	    } else if (zaxis.dot(Z) < (-1 + WB_Epsilon.EPSILON)) {
 		base.scale(1, 1, -1);
 	    }
@@ -230,9 +227,7 @@ public abstract class HEC_Creator extends HE_Machine {
 	return base;
     }
 
-    /*
-     * (non-Javadoc)
-     *
+    /* (non-Javadoc)
      * @see wblut.hemesh.HE_Machine#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -241,9 +236,7 @@ public abstract class HEC_Creator extends HE_Machine {
 	return mesh;
     }
 
-    /*
-     * (non-Javadoc)
-     *
+    /* (non-Javadoc)
      * @see wblut.hemesh.HE_Machine#apply(wblut.hemesh.HE_Selection)
      */
     @Override
