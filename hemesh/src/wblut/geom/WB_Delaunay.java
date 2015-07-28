@@ -35,7 +35,7 @@ import java.util.Set;
  * triangulation algorithms.
  * <P>
  */
-abstract class WB_Delaunay {
+public abstract class WB_Delaunay {
     /**
      * triangles/tetrahedra --> vertices.
      * <p>
@@ -58,7 +58,7 @@ abstract class WB_Delaunay {
      * <p>
      * This pattern continues for higher dimensionalities.
      */
-    int[][] Tri;
+    public int[][] Tri;
     /**
      * vertices --> triangles/tetrahedra.
      * <p>
@@ -79,11 +79,11 @@ abstract class WB_Delaunay {
      * you don't need to traverse, then you can probably ignore all arrays
      * except Tri.
      */
-    int[][] Vertices;
+    public int[][] Vertices;
     /**
      *
      */
-    int[][] Neighbors;
+    public int[][] Neighbors;
     /**
      * triangles/tetrahedra --> triangles/tetrahedra.
      * <p>
@@ -93,7 +93,7 @@ abstract class WB_Delaunay {
      * Also useful for traversing the triangulation, in this case giving the
      * indices of triangles that share edges with the current triangle.
      */
-    int[][] Walk;
+    public int[][] Walk;
     /**
      * tri/tetra edges --> global edge number.
      * <p>
@@ -104,19 +104,19 @@ abstract class WB_Delaunay {
      * whole triangulation. This number is not an index into any array, but will
      * match for a shared edge between two triangles.
      */
-    int[][] Edges;
+    public int[][] Edges;
     /**
      * number of unique global edge numbers.
      */
-    int NumEdges;
+    public int NumEdges;
     /**
      *
      */
-    double[] circumradii;
+    public double[] circumradii;
     /**
      *
      */
-    WB_Point[] circumcenters;
+    public WB_Point[] circumcenters;
 
     /**
      * The abstract constructor initializes the class's data arrays.
@@ -292,7 +292,7 @@ abstract class WB_Delaunay {
      * @param closest
      * @return
      */
-    static WB_Delaunay getTriangulation4D(final WB_Coordinate[] points,
+    public static WB_Delaunay getTriangulation4D(final WB_Coordinate[] points,
 	    final double closest) {
 	final double[][] samples = new double[4][points.length];
 	for (int i = 0; i < points.length; i++) {
@@ -312,7 +312,7 @@ abstract class WB_Delaunay {
      * @param epsilon
      * @return
      */
-    static WB_Delaunay getTriangulation4D(final WB_Coordinate[] points,
+    public static WB_Delaunay getTriangulation4D(final WB_Coordinate[] points,
 	    final double closest, final double epsilon) {
 	final double[][] samples = new double[4][points.length];
 	for (int i = 0; i < points.length; i++) {
@@ -336,17 +336,17 @@ abstract class WB_Delaunay {
      * data. Copyright (C) 1996 - 2011 Bill Hibbard, Curtis Rueden, Tom Rink,
      * Dave Glowacki, Steve Emmerson, Tom Whittaker, Don Murray, and Tommy
      * Jasmin.
-     *
+     * 
      * This library is free software; you can redistribute it and/or modify it
      * under the terms of the GNU Library General Public License as published by
      * the Free Software Foundation; either version 2 of the License, or (at
      * your option) any later version.
-     *
+     * 
      * This library is distributed in the hope that it will be useful, but
      * WITHOUT ANY WARRANTY; without even the implied warranty of
      * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library
      * General Public License for more details.
-     *
+     * 
      * You should have received a copy of the GNU Library General Public License
      * along with this library; if not, write to the Free Software Foundation,
      * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
@@ -354,7 +354,7 @@ abstract class WB_Delaunay {
     /*
      * The Delaunay triangulation algorithm in this class is originally from
      * hull by Ken Clarkson:
-     *
+     * 
      * Ken Clarkson wrote this. Copyright (c) 1995 by AT&T.. Permission to use,
      * copy, modify, and distribute this software for any purpose without fee is
      * hereby granted, provided that this entire notice is included in all
@@ -394,7 +394,7 @@ abstract class WB_Delaunay {
      */
     static WB_Delaunay getTriangulation2D(
 	    final List<? extends WB_Coordinate> points, final double epsilon,
-	    final boolean exact) {
+		    final boolean exact) {
 	final double[][] samples = new double[2][points.size()];
 	WB_Coordinate point;
 	for (int i = 0; i < points.size(); i++) {
@@ -472,7 +472,7 @@ abstract class WB_Delaunay {
      */
     static WB_Delaunay getTriangulation3D(
 	    final List<? extends WB_Coordinate> points, final double closest,
-	    final double epsilon) {
+		    final double epsilon) {
 	final double[][] samples = new double[3][points.size()];
 	WB_Coordinate point;
 	for (int i = 0; i < points.size(); i++) {
@@ -491,7 +491,7 @@ abstract class WB_Delaunay {
      * @param closest
      * @return
      */
-    static WB_Delaunay getTriangulation4D(
+    public static WB_Delaunay getTriangulation4D(
 	    final List<? extends WB_Coordinate> points, final double closest) {
 	final double[][] samples = new double[4][points.size()];
 	WB_Coordinate point;
@@ -513,9 +513,9 @@ abstract class WB_Delaunay {
      * @param epsilon
      * @return
      */
-    static WB_Delaunay getTriangulation4D(
+    public static WB_Delaunay getTriangulation4D(
 	    final List<? extends WB_Coordinate> points, final double closest,
-	    final double epsilon) {
+		    final double epsilon) {
 	final double[][] samples = new double[4][points.size()];
 	WB_Coordinate point;
 	for (int i = 0; i < points.size(); i++) {
@@ -746,13 +746,13 @@ abstract class WB_Delaunay {
 		if ((Tri[i][j] < 0) || (Tri[i][j] >= nrs)) {
 		    if (printErrors) {
 			System.err
-				.println("Delaunay.test: illegal triangle vertex ("
-					+ "Tri["
-					+ i
-					+ "]["
-					+ j
-					+ "]="
-					+ Tri[i][j] + "; nrs=" + nrs + ")");
+			.println("Delaunay.test: illegal triangle vertex ("
+				+ "Tri["
+				+ i
+				+ "]["
+				+ j
+				+ "]="
+				+ Tri[i][j] + "; nrs=" + nrs + ")");
 		    }
 		    return false;
 		}
@@ -800,8 +800,8 @@ abstract class WB_Delaunay {
 		if (mtot) {
 		    if (printErrors) {
 			System.err
-				.println("Delaunay.test: duplicate triangles (i="
-					+ i + "; j=" + j + ")");
+			.println("Delaunay.test: duplicate triangles (i="
+				+ i + "; j=" + j + ")");
 		    }
 		    return false;
 		}
@@ -820,8 +820,8 @@ abstract class WB_Delaunay {
 		    if (!found) {
 			if (printErrors) {
 			    System.err
-				    .println("Delaunay.test: error in Walk array (i="
-					    + i + "; j=" + j + ")");
+			    .println("Delaunay.test: error in Walk array (i="
+				    + i + "; j=" + j + ")");
 			}
 			return false;
 		    }
@@ -837,13 +837,13 @@ abstract class WB_Delaunay {
 		    if (sb != dim) {
 			if (printErrors) {
 			    System.err
-				    .println("Delaunay.test: error in Walk array (i="
-					    + i
-					    + "; j="
-					    + j
-					    + "; sb="
-					    + sb
-					    + "; dim=" + dim + ")");
+			    .println("Delaunay.test: error in Walk array (i="
+				    + i
+				    + "; j="
+				    + j
+				    + "; sb="
+				    + sb
+				    + "; dim=" + dim + ")");
 			}
 			return false;
 		    }
@@ -1137,7 +1137,7 @@ abstract class WB_Delaunay {
 				    }
 				} // end if (mdim == 3)
 			    } // end for (int l=0;
-			      // l<Vertices[Tri[i][v2]].length; l++)
+			    // l<Vertices[Tri[i][v2]].length; l++)
 			} // end if (temp != i)
 		    } // end for (int k=0; k<Vertices[Tri[i][v1]].length; k++)
 		} // end for (int j=0; j<mdim1; j++)
@@ -1350,17 +1350,17 @@ abstract class WB_Delaunay {
      * data. Copyright (C) 1996 - 2011 Bill Hibbard, Curtis Rueden, Tom Rink,
      * Dave Glowacki, Steve Emmerson, Tom Whittaker, Don Murray, and Tommy
      * Jasmin.
-     *
+     * 
      * This library is free software; you can redistribute it and/or modify it
      * under the terms of the GNU Library General Public License as published by
      * the Free Software Foundation; either version 2 of the License, or (at
      * your option) any later version.
-     *
+     * 
      * This library is distributed in the hope that it will be useful, but
      * WITHOUT ANY WARRANTY; without even the implied warranty of
      * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library
      * General Public License for more details.
-     *
+     * 
      * You should have received a copy of the GNU Library General Public License
      * along with this library; if not, write to the Free Software Foundation,
      * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
@@ -1368,7 +1368,7 @@ abstract class WB_Delaunay {
     /*
      * The Delaunay triangulation algorithm in this class is originally from
      * hull by Ken Clarkson:
-     *
+     * 
      * Ken Clarkson wrote this. Copyright (c) 1995 by AT&T.. Permission to use,
      * copy, modify, and distribute this software for any purpose without fee is
      * hereby granted, provided that this entire notice is included in all
@@ -2276,7 +2276,7 @@ abstract class WB_Delaunay {
 			    // JAVA: efficiency issue, hammering an array
 			    a3size += a3size;
 			    final int[][] newa3s = new int[rdim][a3size
-				    + MAXDIM + 1];
+			                                         + MAXDIM + 1];
 			    for (int i = 0; i < rdim; i++) {
 				System.arraycopy(a3s[i], 0, newa3s[i], 0,
 					a3s[i].length);
@@ -2713,7 +2713,7 @@ abstract class WB_Delaunay {
 	    if (rdim > MAXDIM) {
 		throw new IllegalArgumentException(
 			"dimension bound MAXDIM exceeded; rdim=" + rdim
-				+ "; dim=" + dim);
+			+ "; dim=" + dim);
 	    }
 	    pnb = basis_s_list != NOVAL ? basis_s_list : new_block_basis_s();
 	    pnb_bn = basis_s_list_bn;
@@ -2945,17 +2945,17 @@ abstract class WB_Delaunay {
      * data. Copyright (C) 1996 - 2011 Bill Hibbard, Curtis Rueden, Tom Rink,
      * Dave Glowacki, Steve Emmerson, Tom Whittaker, Don Murray, and Tommy
      * Jasmin.
-     *
+     * 
      * This library is free software; you can redistribute it and/or modify it
      * under the terms of the GNU Library General Public License as published by
      * the Free Software Foundation; either version 2 of the License, or (at
      * your option) any later version.
-     *
+     * 
      * This library is distributed in the hope that it will be useful, but
      * WITHOUT ANY WARRANTY; without even the implied warranty of
      * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library
      * General Public License for more details.
-     *
+     * 
      * You should have received a copy of the GNU Library General Public License
      * along with this library; if not, write to the Free Software Foundation,
      * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
@@ -2963,7 +2963,7 @@ abstract class WB_Delaunay {
     /*
      * The Delaunay triangulation/tetrahedralization algorithm in this class is
      * originally from nnsort.c by David F. Watson:
-     *
+     * 
      * nnsort() finds the Delaunay triangulation of the two- or three-component
      * vectors in 'data_list' and returns a list of simplex vertices in
      * 'vertices' with the corresponding circumcentre and squared radius in the
@@ -2974,7 +2974,7 @@ abstract class WB_Delaunay {
      * the algorithm described in - Watson, D.F., 1981, Computing the
      * n-dimensional Delaunay tessellation with application to Voronoi
      * polytopes: The Computer J., 24(2), p. 167-172.
-     *
+     * 
      * additional information about this algorithm can be found in - CONTOURING:
      * A guide to the analysis and display of spatial data, by David F. Watson,
      * Pergamon Press, 1992, ISBN 0 08 040286 0
@@ -3204,7 +3204,7 @@ abstract class WB_Delaunay {
 	     * or tetrahedra to neighboring triangles or tetrahedra Edges -
 	     * array of pointers from each triangle or tetrahedron's edges to
 	     * their corresponding triangles or tetrahedra
-	     *
+	     * 
 	     * helpers: nverts - number of triangles or tetrahedra per vertex
 	     */
 	    // compute number of triangles or tetrahedra
@@ -3297,17 +3297,17 @@ abstract class WB_Delaunay {
      * data. Copyright (C) 1996 - 2011 Bill Hibbard, Curtis Rueden, Tom Rink,
      * Dave Glowacki, Steve Emmerson, Tom Whittaker, Don Murray, and Tommy
      * Jasmin.
-     *
+     * 
      * This library is free software; you can redistribute it and/or modify it
      * under the terms of the GNU Library General Public License as published by
      * the Free Software Foundation; either version 2 of the License, or (at
      * your option) any later version.
-     *
+     * 
      * This library is distributed in the hope that it will be useful, but
      * WITHOUT ANY WARRANTY; without even the implied warranty of
      * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library
      * General Public License for more details.
-     *
+     * 
      * You should have received a copy of the GNU Library General Public License
      * along with this library; if not, write to the Free Software Foundation,
      * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
@@ -3579,7 +3579,7 @@ abstract class WB_Delaunay {
 			    upp1 = bob;
 			    bob = plus_dir ? (upp1 + 1) % hull1.length
 				    : ((upp1 + hull1.length) - 1)
-				    % hull1.length;
+					    % hull1.length;
 			    bamx = samp0[hull1[bob]] - ax;
 			    bamy = samp1[hull1[bob]] - ay;
 			    camx = samp0[hull1[upp1]] - ax;
@@ -3603,10 +3603,10 @@ abstract class WB_Delaunay {
 			camy = samp1[hull2[upp2]] - ay;
 			u = (cvh) ? (double) (bamy / Math.sqrt((bamx * bamx)
 				+ (bamy * bamy))) : (double) (bamx / Math
-				.sqrt((bamx * bamx) + (bamy * bamy)));
+					.sqrt((bamx * bamx) + (bamy * bamy)));
 			v = (cvh) ? (double) (camy / Math.sqrt((camx * camx)
 				+ (camy * camy))) : (double) (camx / Math
-				.sqrt((camx * camx) + (camy * camy)));
+					.sqrt((camx * camx) + (camy * camy)));
 			plus_dir = (u < v);
 			if (!plus_dir) {
 			    bob = upp2;
@@ -3617,7 +3617,7 @@ abstract class WB_Delaunay {
 			    upp2 = bob;
 			    bob = plus_dir ? (upp2 + 1) % hull2.length
 				    : ((upp2 + hull2.length) - 1)
-				    % hull2.length;
+					    % hull2.length;
 			    bamx = samp0[hull2[bob]] - ax;
 			    bamy = samp1[hull2[bob]] - ay;
 			    camx = samp0[hull2[upp2]] - ax;
@@ -3641,10 +3641,10 @@ abstract class WB_Delaunay {
 			camy = samp1[hull1[low1]] - ay;
 			u = (cvh) ? (double) (bamy / Math.sqrt((bamx * bamx)
 				+ (bamy * bamy))) : (double) (bamx / Math
-				.sqrt((bamx * bamx) + (bamy * bamy)));
+					.sqrt((bamx * bamx) + (bamy * bamy)));
 			v = (cvh) ? (double) (camy / Math.sqrt((camx * camx)
 				+ (camy * camy))) : (double) (camx / Math
-				.sqrt((camx * camx) + (camy * camy)));
+					.sqrt((camx * camx) + (camy * camy)));
 			plus_dir = (u > v);
 			if (!plus_dir) {
 			    bob = low1;
@@ -3655,7 +3655,7 @@ abstract class WB_Delaunay {
 			    low1 = bob;
 			    bob = plus_dir ? (low1 + 1) % hull1.length
 				    : ((low1 + hull1.length) - 1)
-				    % hull1.length;
+					    % hull1.length;
 			    bamx = samp0[hull1[bob]] - ax;
 			    bamy = samp1[hull1[bob]] - ay;
 			    camx = samp0[hull1[low1]] - ax;
@@ -3679,10 +3679,10 @@ abstract class WB_Delaunay {
 			camy = samp1[hull2[low2]] - ay;
 			u = (cvh) ? (double) (bamy / Math.sqrt((bamx * bamx)
 				+ (bamy * bamy))) : (double) (bamx / Math
-				.sqrt((bamx * bamx) + (bamy * bamy)));
+					.sqrt((bamx * bamx) + (bamy * bamy)));
 			v = (cvh) ? (double) (camy / Math.sqrt((camx * camx)
 				+ (camy * camy))) : (double) (camx / Math
-				.sqrt((camx * camx) + (camy * camy)));
+					.sqrt((camx * camx) + (camy * camy)));
 			plus_dir = (u > v);
 			if (!plus_dir) {
 			    bob = low2;
@@ -3693,7 +3693,7 @@ abstract class WB_Delaunay {
 			    low2 = bob;
 			    bob = plus_dir ? (low2 + 1) % hull2.length
 				    : ((low2 + hull2.length) - 1)
-				    % hull2.length;
+					    % hull2.length;
 			    bamx = samp0[hull2[bob]] - ax;
 			    bamy = samp1[hull2[bob]] - ay;
 			    camx = samp0[hull2[low2]] - ax;
