@@ -1790,7 +1790,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	    final HE_Vertex vp = hePair.getVertex();
 	    if (v.isBoundary()) {
 		if (vp.isBoundary()) {
-		    if ((!he.isBoundary()) || strict) {
+		    if ((!he.isInnerBoundary()) || strict) {
 			return false;
 		    }
 		    vp.getPoint().addSelf(v).mulSelf(0.5);
@@ -3116,7 +3116,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	HE_Halfedge he;
 	while (heItr.hasNext()) {
 	    he = heItr.next();
-	    if (he.isBoundary()) {
+	    if (he.isInnerBoundary()) {
 		_selection.add(he);
 	    }
 	}
@@ -4236,5 +4236,20 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      */
     public int getGenus() {
 	return (2 - ((getNumberOfVertices() - getNumberOfEdges()) + getNumberOfFaces())) / 2;
+    }
+
+    public void clearVisitedElements() {
+	final HE_FaceIterator fitr = fItr();
+	while (fitr.hasNext()) {
+	    fitr.next().clearVisited();
+	}
+	final HE_VertexIterator vitr = vItr();
+	while (vitr.hasNext()) {
+	    vitr.next().clearVisited();
+	}
+	final HE_HalfedgeIterator heitr = heItr();
+	while (heitr.hasNext()) {
+	    heitr.next().clearVisited();
+	}
     }
 }

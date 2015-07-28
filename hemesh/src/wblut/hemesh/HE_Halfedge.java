@@ -412,7 +412,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.Point3D#toString()
      */
     @Override
@@ -424,7 +424,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_HasColor#getColor()
      */
     @Override
@@ -434,7 +434,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_HasColor#setColor(int)
      */
     @Override
@@ -470,12 +470,30 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
      *
      *
      * @return
+     * @deprecated Use {@link #isInnerBoundary()} instead
      */
+    @Deprecated
     public boolean isBoundary() {
+	return isInnerBoundary();
+    }
+
+    /**
+     *
+     *
+     * @return
+     */
+    public boolean isInnerBoundary() {
 	if ((_face == null) || (_pair == null)) {
 	    return false;
 	}
 	if (_pair._face == null) {
+	    return true;
+	}
+	return false;
+    }
+
+    public boolean isOuterBoundary() {
+	if (_face == null) {
 	    return true;
 	}
 	return false;
@@ -557,7 +575,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Element#clear()
      */
     @Override

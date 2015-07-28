@@ -35,7 +35,7 @@ public class HE_Selection extends HE_MeshStructure {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_MeshStructure#getNumberOfEdges()
      */
     @Override
@@ -241,12 +241,59 @@ public class HE_Selection extends HE_MeshStructure {
     }
 
     /**
-     *
+     * Creates a submesh from the faces in the selection. The original mesh is
+     * not modified. It is not necessary to use {@link #completeFromFaces()
+     * completeFromFaces} before using this operation.
      *
      * @return
      */
     public HE_Mesh getAsMesh() {
 	return new HE_Mesh(new HEC_Copy(this));
+    }
+
+    /**
+     * Add all halfedges and vertices belonging to the faces of the selection,
+     * except the outer boundary halfedges that belong to other faces. This
+     * clears all vertices and halfedges that might have been part of the
+     * selection. It also makes sure that vertices only refer to halfedges
+     * inside the selection. After this operation is done, the selection is in
+     * essence a self-consistent, open submesh, lacking only the halfedge caps
+     * on the boundaries that could refer to non-included faces.
+     */
+    public void completeFromFaces() {
+	this.clearHalfedges();
+	this.clearVertices();
+	HE_FaceIterator fitr = this.fItr();
+	HE_Face f;
+	HE_Halfedge he;
+	while (fitr.hasNext()) {
+	    f = fitr.next();
+	    final HE_FaceVertexCirculator fvcrc = new HE_FaceVertexCirculator(f);
+	    while (fvcrc.hasNext()) {
+		add(fvcrc.next());
+	    }
+	    final HE_FaceHalfedgeInnerCirculator fheicrc = new HE_FaceHalfedgeInnerCirculator(
+		    f);
+	    while (fheicrc.hasNext()) {
+		he = fheicrc.next();
+		add(he);
+		if (he.getPair().isOuterBoundary()) {
+		    add(he.getPair());
+		}
+	    }
+	}
+	fitr = this.fItr();
+	while (fitr.hasNext()) {
+	    f = fitr.next();
+	    final HE_FaceHalfedgeInnerCirculator fheicrc = new HE_FaceHalfedgeInnerCirculator(
+		    f);
+	    while (fheicrc.hasNext()) {
+		he = fheicrc.next();
+		if (!contains(he.getVertex().getHalfedge())) {
+		    he.getVertex().setHalfedge(he);
+		}
+	    }
+	}
     }
 
     /**
@@ -720,7 +767,7 @@ public class HE_Selection extends HE_MeshStructure {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * wblut.hemesh.HE_MeshStructure#getFacesWithNormal(wblut.geom.WB_Coordinate
      * , double)

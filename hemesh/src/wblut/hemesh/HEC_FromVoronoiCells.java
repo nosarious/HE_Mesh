@@ -23,7 +23,7 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
     /**
      *
      */
-    private boolean surface;
+    private boolean capBoundaries;
     /**
      *
      */
@@ -37,7 +37,7 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 	override = true;
 	cells = null;
 	on = null;
-	surface = false;
+	capBoundaries = false;
 	membrane = false;
     }
 
@@ -84,8 +84,20 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
      * @param b
      * @return
      */
+    @Deprecated
     public HEC_FromVoronoiCells setSurface(final boolean b) {
-	this.surface = b;
+	this.capBoundaries = !b;
+	return this;
+    }
+
+    /**
+     *
+     *
+     * @param b
+     * @return
+     */
+    public HEC_FromVoronoiCells setCapBoundaries(final boolean b) {
+	this.capBoundaries = b;
 	return this;
     }
 
@@ -120,10 +132,8 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 		while (fItr.hasNext()) {
 		    final HE_Face f = fItr.next();
 		    if (f.getInternalLabel() == -1) {
-			if (!surface) {
-			    tmpfaces.add(f);
-			    nv += f.getFaceOrder();
-			}
+			tmpfaces.add(f);
+			nv += f.getFaceOrder();
 		    } else if (!on[f.getInternalLabel()] || membrane) {
 			tmpfaces.add(f);
 			nv += f.getFaceOrder();
@@ -141,9 +151,7 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 	    final HE_Face f = tmpfaces.get(i);
 	    faces[i] = new int[f.getFaceOrder()];
 	    labels[i] = f.getLabel();
-	    // System.out.println(f.getLabel());
 	    intlabels[i] = f.getInternalLabel();
-	    // System.out.println(f.getInternalLabel());
 	    colors[i] = f.getColor();
 	    HE_Halfedge he = f.getHalfedge();
 	    for (int j = 0; j < f.getFaceOrder(); j++) {
@@ -166,10 +174,17 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 	    f.setColor(colors[i]);
 	    i++;
 	}
-	if (membrane) {
-	    do {
-		// fixManifoldVertices returns false if nothing is left to fix.
-	    } while (result.fixNonManifoldVertices());
+	do {
+	    // fixManifoldVertices returns false if nothing is left to fix.
+	} while (result.fixNonManifoldVertices());
+	if (!capBoundaries) {
+	    final HE_Selection sel = result.selectFacesWithInternalLabel(-1);
+	    final HE_FaceIterator fitr = sel.fItr();
+	    while (fitr.hasNext()) {
+		result.deleteFace(fitr.next());
+	    }
+	    result.cleanUnusedElementsByFace();
+	    result.capHalfedges();
 	}
 	return result;
     }

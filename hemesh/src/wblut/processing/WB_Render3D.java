@@ -1188,7 +1188,7 @@ public class WB_Render3D {
 	    f = fItr.next();
 	    e = f.getHalfedge();
 	    do {
-		if (e.isEdge() || e.isBoundary()
+		if (e.isEdge() || e.isInnerBoundary()
 			|| !selection.contains(e.getPair().getFace())) {
 		    home.line(e.getVertex().xf(), e.getVertex().yf(), e
 			    .getVertex().zf(), e.getEndVertex().xf(), e

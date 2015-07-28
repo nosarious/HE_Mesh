@@ -49,7 +49,7 @@ public class HEM_EqualizeValence extends HEM_Modifier {
 	    final HE_EdgeIterator eitr = mesh.eItr();
 	    while (eitr.hasNext()) {
 		e = eitr.next();
-		if (!e.isBoundary() && (e.getEdgeDihedralAngle() > threshold)) {
+		if (!e.isInnerBoundary() && (e.getEdgeDihedralAngle() > threshold)) {
 		    a = e.getVertex();
 		    b = e.getPair().getVertex();
 		    c = e.getNextInFace().getEndVertex();
@@ -95,7 +95,7 @@ public class HEM_EqualizeValence extends HEM_Modifier {
 	int devpre, devpost;
 	for (int r = 0; r < 2; r++) {
 	    for (final HE_Halfedge e : edges) {
-		if (!e.isBoundary() && (e.getEdgeDihedralAngle() > threshold)) {
+		if (!e.isInnerBoundary() && (e.getEdgeDihedralAngle() > threshold)) {
 		    a = e.getVertex();
 		    b = e.getPair().getVertex();
 		    c = e.getNextInFace().getEndVertex();

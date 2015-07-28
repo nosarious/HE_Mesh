@@ -30,6 +30,7 @@ public abstract class HE_Element {
      */
     protected final static WB_GeometryFactory geometryfactory = WB_GeometryFactory
 	    .instance();
+    protected boolean visited;
 
     /**
      *
@@ -39,6 +40,7 @@ public abstract class HE_Element {
 	_currentKey++;
 	_label = -1;
 	_internalLabel = -1;
+	visited = false;
     }
 
     /**
@@ -57,6 +59,18 @@ public abstract class HE_Element {
      */
     public final void setLabel(final int label) {
 	_label = label;
+    }
+
+    public void clearVisited() {
+	visited = false;
+    }
+
+    public void setVisited() {
+	visited = true;
+    }
+
+    public boolean isVisited() {
+	return visited;
     }
 
     /**

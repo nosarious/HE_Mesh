@@ -49,7 +49,7 @@ public class HEM_Diagrid extends HEM_Modifier {
 	HE_Halfedge e;
 	while (eitr.hasNext()) {
 	    e = eitr.next();
-	    if (!e.isBoundary() && (e.getEdgeDihedralAngle() > (limitAngle))) {
+	    if (!e.isInnerBoundary() && (e.getEdgeDihedralAngle() > (limitAngle))) {
 		mesh.deleteEdge(e);
 	    }
 	}

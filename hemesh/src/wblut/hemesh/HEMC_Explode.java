@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -48,23 +48,22 @@ public class HEMC_Explode extends HEMC_MultiCreator {
 	    _numberOfMeshes = 0;
 	    return new HE_Mesh[0];
 	}
-	mesh.resetFaceInternalLabels();
+	mesh.clearVisitedElements();
 	HE_Face start = mesh.getFaceByIndex(0);
-	final int index = 0;
 	int lastfound = 0;
 	HE_Selection submesh;
 	do {
 	    for (int i = lastfound; i < mesh.getNumberOfFaces(); i++) {
 		start = mesh.getFaceByIndex(i);
 		lastfound = i;
-		if (start.getInternalLabel() == -1) {
+		if (!start.isVisited()) {
 		    break;
 		}
 	    }
-	    if (start.getInternalLabel() != -1) {
+	    if (start.isVisited()) {
 		break;
 	    }
-	    start.setInternalLabel(index);// visited
+	    start.setVisited();// visited
 	    submesh = new HE_Selection(mesh);
 	    submesh.add(start);
 	    HE_RAS<HE_Face> facesToProcess = new HE_RASTrove<HE_Face>();
@@ -76,8 +75,8 @@ public class HEMC_Explode extends HEMC_MultiCreator {
 		for (final HE_Face f : facesToProcess) {
 		    neighbors = f.getNeighborFaces();
 		    for (final HE_Face neighbor : neighbors) {
-			if (neighbor.getInternalLabel() == -1) {
-			    neighbor.setInternalLabel(index);// visited
+			if (!neighbor.isVisited()) {
+			    neighbor.setVisited();// visited
 			    submesh.add(neighbor);
 			    newFacesToProcess.add(neighbor);
 			}

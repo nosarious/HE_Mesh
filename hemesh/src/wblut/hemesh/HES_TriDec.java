@@ -274,7 +274,7 @@ public class HES_TriDec extends HES_Simplifier {
 		    // boundary vertices, never collapse
 		    // boundary inward
 		    for (int i = 0; i < vstar.size(); i++) {
-			if (vstar.get(i).isBoundary()) {
+			if (vstar.get(i).isInnerBoundary()) {
 			    c = halfedgeCollapseCost(vstar.get(i));
 			    if (c < min) {
 				min = c;
@@ -327,7 +327,7 @@ public class HES_TriDec extends HES_Simplifier {
 		    // boundary vertices, never collapse
 		    // boundary inward
 		    for (int i = 0; i < vstar.size(); i++) {
-			if (vstar.get(i).isBoundary()) {
+			if (vstar.get(i).isInnerBoundary()) {
 			    c = halfedgeCollapseCost(vstar.get(i));
 			    if (c < min) {
 				min = c;
