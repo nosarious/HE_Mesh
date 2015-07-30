@@ -1,6 +1,7 @@
 package wblut.hemesh;
 
 import wblut.geom.WB_Vector;
+import wblut.math.WB_MTRandom;
 import colorlib.Palette;
 
 public class HET_Texture {
@@ -62,6 +63,23 @@ public class HET_Texture {
 	while (vitr.hasNext()) {
 	    v = vitr.next();
 	    final int choice = (int) (Math.min(size - 1, Math.random() * size));
+	    ;
+	    color = palette.getColor(choice);
+	    v.setColor(color);
+	}
+    }
+
+    public static void setRandomVertexColorFromPalette(final HE_Mesh mesh,
+	    final Palette palette, final long seed) {
+	final HE_VertexIterator vitr = mesh.vItr();
+	HE_Vertex v;
+	final int size = palette.numSwatches();
+	int color;
+	final WB_MTRandom random = new WB_MTRandom(seed);
+	while (vitr.hasNext()) {
+	    v = vitr.next();
+	    final int choice = (int) (Math.min(size - 1, random.nextDouble()
+		    * size));
 	    ;
 	    color = palette.getColor(choice);
 	    v.setColor(color);
@@ -150,6 +168,22 @@ public class HET_Texture {
 	while (fitr.hasNext()) {
 	    f = fitr.next();
 	    final int choice = (int) (Math.min(size - 1, Math.random() * size));
+	    color = palette.getColor(choice);
+	    f.setColor(color);
+	}
+    }
+
+    public static void setRandomFaceColorFromPalette(final HE_Mesh mesh,
+	    final Palette palette, final long seed) {
+	final HE_FaceIterator fitr = mesh.fItr();
+	HE_Face f;
+	final int size = palette.numSwatches();
+	int color;
+	final WB_MTRandom random = new WB_MTRandom(seed);
+	while (fitr.hasNext()) {
+	    f = fitr.next();
+	    final int choice = (int) (Math.min(size - 1, random.nextDouble()
+		    * size));
 	    color = palette.getColor(choice);
 	    f.setColor(color);
 	}

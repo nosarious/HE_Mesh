@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -18,6 +18,7 @@ import wblut.math.WB_RandomOnSphere;
 public class HEM_Noise extends HEM_Modifier {
     /** Expansion distance. */
     private WB_Parameter<Double> d;
+    private final WB_RandomOnSphere rs;
 
     /**
      * Instantiates a new hE m_ noise.
@@ -25,6 +26,7 @@ public class HEM_Noise extends HEM_Modifier {
     public HEM_Noise() {
 	super();
 	setDistance(0);
+	rs = new WB_RandomOnSphere();
     }
 
     /**
@@ -36,6 +38,11 @@ public class HEM_Noise extends HEM_Modifier {
      */
     public HEM_Noise setDistance(final double d) {
 	this.d = new WB_ConstantParameter<Double>(d);
+	return this;
+    }
+
+    public HEM_Noise setSeed(final long seed) {
+	rs.setSeed(seed);
 	return this;
     }
 
@@ -58,12 +65,12 @@ public class HEM_Noise extends HEM_Modifier {
      */
     @Override
     public HE_Mesh apply(final HE_Mesh mesh) {
+	rs.reset();
 	if ((d == null)) {
 	    return mesh;
 	}
 	HE_Vertex v;
 	final Iterator<HE_Vertex> vItr = mesh.vItr();
-	final WB_RandomOnSphere rs = new WB_RandomOnSphere();
 	WB_Vector n;
 	while (vItr.hasNext()) {
 	    v = vItr.next();
@@ -81,10 +88,10 @@ public class HEM_Noise extends HEM_Modifier {
      */
     @Override
     public HE_Mesh apply(final HE_Selection selection) {
+	rs.reset();
 	selection.collectVertices();
 	final Iterator<HE_Vertex> vItr = selection.vItr();
 	HE_Vertex v;
-	final WB_RandomOnSphere rs = new WB_RandomOnSphere();
 	WB_Vector n;
 	while (vItr.hasNext()) {
 	    v = vItr.next();

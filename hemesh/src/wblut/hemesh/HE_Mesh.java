@@ -41,6 +41,7 @@ import wblut.geom.WB_Transform;
 import wblut.geom.WB_Triangle;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
+import wblut.math.WB_MTRandom;
 
 /**
  * Half-edge mesh data structure.
@@ -2820,6 +2821,20 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	return _selection;
     }
 
+    public HE_Selection selectRandomFaces(final double chance, final long seed) {
+	final WB_MTRandom random = new WB_MTRandom(seed);
+	final HE_Selection _selection = new HE_Selection(this);
+	HE_Face f;
+	final Iterator<HE_Face> fItr = fItr();
+	while (fItr.hasNext()) {
+	    f = fItr.next();
+	    if (random.nextFloat() <= chance) {
+		_selection.add(f);
+	    }
+	}
+	return _selection;
+    }
+
     /**
      * Select all faces with given label.
      *
@@ -3680,11 +3695,11 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     }
 
     /**
-     * @deprecated Use {@link #fixNonManifoldVertices()} instead
+     * @deprecated Use {@link #fixNonManifoldVerticesOnePass()} instead
      */
     @Deprecated
     public void resolvePinchPoints() {
-	fixNonManifoldVertices();
+	fixNonManifoldVerticesOnePass();
     }
 
     /**
@@ -3692,7 +3707,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      *
      * @return
      */
-    public boolean fixNonManifoldVertices() {
+    public boolean fixNonManifoldVerticesOnePass() {
 	class VertexInfo {
 	    FastTable<HE_Halfedge> out;
 
@@ -3752,6 +3767,17 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	    tracker.incrementCounter();
 	}
 	return (toUnweld.size() > 0);
+    }
+
+    public void fixNonManifoldVertices() {
+	int counter = 0;
+	do {
+	    counter++;
+	} while (fixNonManifoldVerticesOnePass() || counter < 10);// Normally
+	// this should
+	// run at most
+	// 3 or 4
+	// times
     }
 
     /**

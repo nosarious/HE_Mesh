@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -28,21 +28,18 @@ public class HEM_SliceSurface extends HEM_Modifier {
     private WB_Plane P;
     /** Stores cut faces. */
     public HE_Selection cut;
-    
     /**
-     * 
+     *
      */
     public HE_Selection front;
-    
     /**
-     * 
+     *
      */
     public HE_Selection back;
     /** Stores new edges. */
     public HE_Selection cutEdges;
-    
     /**
-     * 
+     *
      */
     private List<HE_Path> paths;
 
@@ -66,15 +63,15 @@ public class HEM_SliceSurface extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param ox 
-     * @param oy 
-     * @param oz 
-     * @param nx 
-     * @param ny 
-     * @param nz 
-     * @return 
+     *
+     * @param ox
+     * @param oy
+     * @param oz
+     * @param nx
+     * @param ny
+     * @param nz
+     * @return
      */
     public HEM_SliceSurface setPlane(final double ox, final double oy,
 	    final double oz, final double nx, final double ny, final double nz) {
@@ -83,7 +80,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
     }
 
     /**
-     * 
+     *
      */
     private double offset;
 
@@ -437,20 +434,22 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		}
 		tracker.incrementCounter();
 	    }
-	    buildPaths(cutEdges);
+	    paths = new FastTable<HE_Path>();
+	    if (cutEdges.getNumberOfEdges() > 1) {
+		buildPaths(cutEdges);
+	    }
 	}
 	tracker.setDefaultStatus("Exiting HEM_SliceSurface.");
 	return lsel.parent;
     }
 
     /**
-     * 
      *
-     * @param cutEdges 
+     *
+     * @param cutEdges
      */
     private void buildPaths(final HE_Selection cutEdges) {
 	tracker.setDefaultStatus("Building slice paths.");
-	paths = new FastTable<HE_Path>();
 	if (cutEdges.getNumberOfEdges() == 0) {
 	    return;
 	}

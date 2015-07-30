@@ -174,9 +174,7 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 	    f.setColor(colors[i]);
 	    i++;
 	}
-	do {
-	    // fixManifoldVertices returns false if nothing is left to fix.
-	} while (result.fixNonManifoldVertices());
+	result.fixNonManifoldVertices();
 	if (!capBoundaries) {
 	    final HE_Selection sel = result.selectFacesWithInternalLabel(-1);
 	    final HE_FaceIterator fitr = sel.fItr();

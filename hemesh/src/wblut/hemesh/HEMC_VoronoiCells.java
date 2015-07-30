@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -25,9 +25,8 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
     private boolean surface;
     /** The simple cap. */
     private boolean simpleCap;
-    
     /**
-     * 
+     *
      */
     private boolean bruteForce;
     /** Offset. */
@@ -38,17 +37,16 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
     public HE_Selection[] outer;
     /** Create divided skin of container. */
     private boolean createSkin;
-    
     /**
-     * 
+     *
      */
     public static final HET_ProgressTracker tracker = HET_ProgressTracker
 	    .instance();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public static String getStatus() {
 	return tracker.getStatus();
@@ -224,10 +222,10 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
+     *
+     * @param b
+     * @return
      */
     public HEMC_VoronoiCells setBruteForce(final boolean b) {
 	bruteForce = b;

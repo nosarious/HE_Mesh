@@ -204,6 +204,7 @@ public class HEC_VoronoiSphere extends HEC_Creator {
      */
     @Override
     public HE_Mesh createBase() {
+	randomGen.reset();
 	if (cutoff == 0) {
 	    return new HE_Mesh();
 	}
@@ -255,7 +256,7 @@ public class HEC_VoronoiSphere extends HEC_Creator {
 	    }
 	    final HEM_MultiSlice msm = new HEM_MultiSlice();
 	    msm.setPlanes(cutPlanes).setSimpleCap(true)
-	    .setCenter(new WB_Point(points[cellIndex]));
+		    .setCenter(new WB_Point(points[cellIndex]));
 	    result.modify(msm);
 	}
 	return result;

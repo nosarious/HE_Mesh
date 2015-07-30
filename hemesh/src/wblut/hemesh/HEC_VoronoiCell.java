@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -11,9 +11,9 @@ import wblut.geom.WB_Vector;
 /**
  * Creates the Voronoi cell of one point in a collection of points, constrained
  * by a mesh.
- * 
+ *
  * @author Frederik Vanhoutte (W:Blut)
- * 
+ *
  */
 public class HEC_VoronoiCell extends HEC_Creator {
     /** Points. */
@@ -41,7 +41,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 
     /**
      * Instantiates a new HEC_VoronoiCell.
-     * 
+     *
      */
     public HEC_VoronoiCell() {
 	super();
@@ -50,7 +50,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 
     /**
      * Set points that define cell centers.
-     * 
+     *
      * @param points
      *            array of vertex positions
      * @return self
@@ -62,7 +62,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 
     /**
      * Set points that define cell centers.
-     * 
+     *
      * @param points
      *            2D array of double of vertex positions
      * @return self
@@ -79,7 +79,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 
     /**
      * Set points that define cell centers.
-     * 
+     *
      * @param points
      *            2D array of float of vertex positions
      * @return self
@@ -96,7 +96,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 
     /**
      * Sets the points to use.
-     * 
+     *
      * @param pointsToUse
      *            the points to use
      * @return the hE c_ voronoi cell
@@ -108,7 +108,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 
     /**
      * Sets the points to use.
-     * 
+     *
      * @param pointsToUse
      *            the points to use
      * @return the hE c_ voronoi cell
@@ -124,7 +124,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 
     /**
      * Set number of points.
-     * 
+     *
      * @param N
      *            number of points
      * @return self
@@ -136,7 +136,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 
     /**
      * Set index of cell to create.
-     * 
+     *
      * @param i
      *            index
      * @return self
@@ -148,7 +148,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 
     /**
      * Set voronoi cell offset.
-     * 
+     *
      * @param o
      *            offset
      * @return self
@@ -160,7 +160,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 
     /**
      * Set enclosing mesh limiting cells.
-     * 
+     *
      * @param container
      *            enclosing mesh
      * @return self
@@ -173,7 +173,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
     /**
      * Limit the points considered to those indices specified in the
      * pointsToUseArray.
-     * 
+     *
      * @param b
      *            true, false
      * @return self
@@ -185,7 +185,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 
     /**
      * Set optional surface mesh mode.
-     * 
+     *
      * @param b
      *            true, false
      * @return self
@@ -197,7 +197,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 
     /**
      * Sets the simple cap.
-     * 
+     *
      * @param b
      *            the b
      * @return the hE c_ voronoi cell
@@ -275,10 +275,24 @@ public class HEC_VoronoiCell extends HEC_Creator {
 	}
 	final HEM_MultiSlice msm = new HEM_MultiSlice();
 	msm.setPlanes(cutPlanes).setCenter(new WB_Point(points[cellIndex]))
-		.setCap(!surface).setKeepCenter(true).setLabels(labels)
-		.setSimpleCap(simpleCap);
+	.setCap(!surface).setKeepCenter(true).setLabels(labels)
+	.setSimpleCap(simpleCap);
 	result.modify(msm);
-	inner = msm.newFaces;
+	inner = new HE_Selection(result);
+	for (int i = 0; i < labels.length; i++) {
+	    final HE_Selection sel = result
+		    .selectFacesWithInternalLabel(labels[i]);
+	    if (sel.getNumberOfFaces() > 0) {
+		final HE_FaceIterator fitr = sel.fItr();
+		while (fitr.hasNext()) {
+		    result.deleteFace(fitr.next());
+		}
+		result.cleanUnusedElementsByFace();
+		for (final HE_Face f : result.capHoles()) {
+		    f.copyProperties(sel.getFaceByIndex(0));
+		}
+	    }
+	}
 	outer = msm.origFaces;
 	return result;
     }

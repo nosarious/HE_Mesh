@@ -347,7 +347,7 @@ public class HEC_IsoSurfaceSNAP extends HEC_Creator {
 	int cleaner = 0;
 	do {
 	    cleaner++;
-	} while (mesh.fixNonManifoldVertices() && (cleaner < 10));
+	} while (mesh.fixNonManifoldVerticesOnePass() && (cleaner < 10));
 	return mesh;
     }
 

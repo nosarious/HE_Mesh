@@ -227,6 +227,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 		    f = fItr.next();
 		    f.setInternalLabel(labels[i]);
 		}
+		mesh.triangulateConcaveFaces();
 	    }
 	}
 	fItr = mesh.fItr();

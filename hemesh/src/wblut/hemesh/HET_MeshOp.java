@@ -1,5 +1,6 @@
 package wblut.hemesh;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -1587,5 +1588,59 @@ public class HET_MeshOp {
 	    }
 	}
 	return triangulate(vf, mesh);
+    }
+
+    public static HE_Face createFaceFromHalfedgeLoop(final HE_Halfedge he,
+	    final HE_Mesh mesh) {
+	if (mesh == null || he == null) {
+	    return null;
+	}
+	if (he.getFace() != null) {
+	    return null;
+	}
+	if (!mesh.contains(he)) {
+	    return null;
+	}
+	HE_Halfedge hen = he;
+	final HE_Face newFace = new HE_Face();
+	newFace.setHalfedge(he);
+	do {
+	    hen.setFace(newFace);
+	    hen = hen.getNextInFace();
+	} while (hen != he);
+	mesh.add(newFace);
+	return newFace;
+    }
+
+    public List<HE_Face> createFaceFromHalfedgeLoop(
+	    final List<HE_Halfedge> hes, final HE_Mesh mesh) {
+	final List<HE_Face> newFaces = new ArrayList<HE_Face>();
+	if (mesh == null || hes == null) {
+	    return newFaces;
+	}
+	for (final HE_Halfedge he : hes) {
+	    he.clearVisited();
+	}
+	for (final HE_Halfedge he : hes) {
+	    if (he.getFace() != null) {
+		continue;
+	    }
+	    if (!mesh.contains(he)) {
+		continue;
+	    }
+	    HE_Halfedge hen = he;
+	    final HE_Face newFace = new HE_Face();
+	    newFace.setHalfedge(he);
+	    do {
+		hen.setFace(newFace);
+		if (hes.contains(hen)) {
+		    hen.setVisited();
+		}
+		hen = hen.getNextInFace();
+	    } while (hen != he);
+	    mesh.add(newFace);
+	    newFaces.add(newFace);
+	}
+	return newFaces;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -33,6 +33,7 @@ public abstract class HEC_Creator extends HE_Machine {
     protected boolean toModelview;
     /** Base Z-axis. */
     protected WB_Vector Z;
+    protected boolean manifoldCheck;
 
     /**
      * Constructor.
@@ -178,6 +179,16 @@ public abstract class HEC_Creator extends HE_Machine {
 	return this;
     }
 
+    public HEC_Creator setManifoldCheck(final boolean b) {
+	manifoldCheck = b;
+	return this;
+    }
+
+    public HEC_Creator setOverride(final boolean b) {
+	override = b;
+	return this;
+    }
+
     /**
      * Creates the base.
      *
@@ -224,10 +235,15 @@ public abstract class HEC_Creator extends HE_Machine {
 		}
 	    }
 	}
+	if (manifoldCheck) {
+	    base.fixNonManifoldVertices();
+	}
 	return base;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.hemesh.HE_Machine#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -236,7 +252,9 @@ public abstract class HEC_Creator extends HE_Machine {
 	return mesh;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see wblut.hemesh.HE_Machine#apply(wblut.hemesh.HE_Selection)
      */
     @Override

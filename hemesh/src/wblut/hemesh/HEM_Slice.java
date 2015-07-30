@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -38,9 +38,8 @@ public class HEM_Slice extends HEM_Modifier {
     public HE_Selection cap;
     /** The offset. */
     private double offset;
-    
     /**
-     * 
+     *
      */
     HEM_SliceSurface ss;
 
@@ -148,7 +147,7 @@ public class HEM_Slice extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -242,14 +241,13 @@ public class HEM_Slice extends HEM_Modifier {
 	if (!keepCenter) {
 	    mesh.resetCenter();
 	}
-	// mesh.triangulateConcaveFaces();
 	tracker.setDefaultStatus("Ending HEM_Slice.");
 	return mesh;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * wblut.hemesh.modifiers.HEB_Modifier#modifySelected(wblut.hemesh.HE_Mesh)
      */

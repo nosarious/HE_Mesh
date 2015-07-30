@@ -102,6 +102,7 @@ public class HES_Planar extends HES_Subdividor {
      */
     @Override
     public HE_Mesh apply(final HE_Mesh mesh) {
+	randomGen.reset();
 	final TLongObjectMap<HE_Vertex> faceVertices = new TLongObjectHashMap<HE_Vertex>(
 		1024, 0.5f, -1L);
 	HE_Face face;
@@ -298,6 +299,7 @@ public class HES_Planar extends HES_Subdividor {
      */
     @Override
     public HE_Mesh apply(final HE_Selection selection) {
+	randomGen.reset();
 	FastTable<HE_Halfedge> unpairedhes = new FastTable<HE_Halfedge>();
 	selection.cleanSelection();
 	if (selection.getNumberOfFaces() == 0) {

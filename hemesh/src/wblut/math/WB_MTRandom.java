@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.math;
 
@@ -10,14 +10,14 @@ import java.io.Serializable;
 
 /**
  * Mersenne Twister random number generator.
- * 
+ *
  * @author NOT Frederik Vanhoutte
- * 
- * 
+ *
+ *
  *         This code is by Sean Luke. http://www.cs.gmu.edu/~sean/research/
- * 
+ *
  *         Original comments:
- * 
+ *
  *         <h3>MersenneTwister and MersenneTwisterFast</h3>
  *         <p>
  *         <b>Version 13</b>, based on version MT199937(99/10/29) of the
@@ -25,13 +25,13 @@ import java.io.Serializable;
  *         href="http://www.math.keio.ac.jp/matumoto/emt.html"> The Mersenne
  *         Twister Home Page</a>, with the initialization improved using the new
  *         2002/1/26 initialization algorithm By Sean Luke, October 2004.
- * 
+ *
  *         <p>
  *         <b>MersenneTwister</b> is a drop-in subclass replacement for
  *         java.util.Random. It is properly synchronized and can be used in a
  *         multithreaded environment. On modern VMs such as HotSpot, it is
  *         approximately 1/3 slower than java.util.Random.
- * 
+ *
  *         <p>
  *         <b>MersenneTwisterFast</b> is not a subclass of java.util.Random. It
  *         has the same public methods as Random does, however, and it is
@@ -43,7 +43,7 @@ import java.io.Serializable;
  *         MersenneTwisterFast achieve well over twice the speed of
  *         MersenneTwister. java.util.Random is about 1/3 slower than
  *         MersenneTwisterFast.
- * 
+ *
  *         <h3>About the Mersenne Twister</h3>
  *         <p>
  *         This is a Java version of the C-program for MT19937: Integer version.
@@ -51,40 +51,40 @@ import java.io.Serializable;
  *         Nishimura, who ask: "When you use this, send an email to:
  *         matumoto@math.keio.ac.jp with an appropriate reference to your work".
  *         Indicate that this is a translation of their algorithm into Java.
- * 
+ *
  *         <p>
  *         <b>Reference. </b> Makato Matsumoto and Takuji Nishimura, "Mersenne
  *         Twister: A 623-Dimensionally Equidistributed Uniform Pseudo-Random
  *         Number Generator", <i>ACM Transactions on Modeling and. Computer
  *         Simulation,</i> Vol. 8, No. 1, January 1998, pp 3--30.
- * 
+ *
  *         <h3>About this Version</h3>
- * 
+ *
  *         <p>
  *         <b>Changes Since V12:</b> clone() method added.
- * 
+ *
  *         <p>
  *         <b>Changes Since V11:</b> stateEquals(...) method added.
  *         MersenneTwisterFast is equal to other MersenneTwisterFasts with
  *         identical state; likewise MersenneTwister is equal to other
  *         MersenneTwister with identical state. This isn't equals(...) because
  *         that requires a contract of immutability to compare by value.
- * 
+ *
  *         <p>
  *         <b>Changes Since V10:</b> A documentation error suggested that
  *         setSeed(int[]) required an int[] array 624 long. In fact, the array
  *         can be any non-zero length. The new version also checks for this
  *         fact.
- * 
+ *
  *         <p>
  *         <b>Changes Since V9:</b> readState(stream) and writeState(stream)
  *         provided.
- * 
+ *
  *         <p>
  *         <b>Changes Since V8:</b> setSeed(int) was only using the first 28
  *         bits of the seed; it should have been 32 bits. For small-number seeds
  *         the behavior is identical.
- * 
+ *
  *         <p>
  *         <b>Changes Since V7:</b> A documentation error in MersenneTwisterFast
  *         (but not MersenneTwister) stated that nextDouble selects uniformly
@@ -93,7 +93,7 @@ import java.io.Serializable;
  *         java.util.Random, namely, selection in the half-open interval [0,1).
  *         That is, 1.0 should not be returned. A similar contract exists in
  *         nextFloat.
- * 
+ *
  *         <p>
  *         <b>Changes Since V6:</b> License has changed from LGPL to BSD. New
  *         timing information to compare against java.util.Random. Recent
@@ -101,26 +101,26 @@ import java.io.Serializable;
  *         where it is faster than MersenneTwister but slower than
  *         MersenneTwisterFast (which should be the case, as it's a less complex
  *         algorithm but is synchronized).
- * 
+ *
  *         <p>
  *         <b>Changes Since V5:</b> New empty constructor made to work the same
  *         as java.util.Random -- namely, it seeds based on the current time in
  *         milliseconds.
- * 
+ *
  *         <p>
  *         <b>Changes Since V4:</b> New initialization algorithms. See (see <a
  *         href="http://www.math.keio.ac.jp/matumoto/MT2002/emt19937ar.html"</a>
  *         http://www.math.keio.ac.jp/matumoto/MT2002/emt19937ar.html</a>)
- * 
+ *
  *         <p>
  *         The MersenneTwister code is based on standard MT19937 C/C++ code by
  *         Takuji Nishimura, with suggestions from Topher Cooper and Marc
  *         Rieffel, July 1997. The code was originally translated into Java by
  *         Michael Lecuyer, January 1999, and the original code is Copyright (c)
  *         1999 by Michael Lecuyer.
- * 
+ *
  *         <h3>Java notes</h3>
- * 
+ *
  *         <p>
  *         This implementation implements the bug fixes made in Java 1.2's
  *         version of Random, which means it can be used with earlier versions
@@ -130,25 +130,25 @@ import java.io.Serializable;
  *         documentation on the random-number generation contracts made.
  *         Additionally, there's an undocumented bug in the JDK
  *         java.util.Random.nextBytes() method, which this code fixes.
- * 
+ *
  *         <p>
  *         Just like java.util.Random, this generator accepts a long seed but
  *         doesn't use all of it. java.util.Random uses 48 bits. The Mersenne
  *         Twister instead uses 32 bits (int size). So it's best if your seed
  *         does not exceed the int range.
- * 
+ *
  *         <p>
  *         MersenneTwister can be used reliably on JDK version 1.1.5 or above.
  *         Earlier Java versions have serious bugs in java.util.Random; only
  *         MersenneTwisterFast (and not MersenneTwister nor java.util.Random)
  *         should be used with them.
- * 
+ *
  *         <h3>License</h3>
- * 
+ *
  *         Copyright (c) 2003 by Sean Luke. <br>
  *         Portions copyright (c) 1993 by Michael Lecuyer. <br>
  *         All rights reserved. <br>
- * 
+ *
  *         <p>
  *         Redistribution and use in source and binary forms, with or without
  *         modification, are permitted provided that the following conditions
@@ -179,11 +179,6 @@ import java.io.Serializable;
  *         POSSIBILITY OF SUCH DAMAGE.
  * @version 13
  */
-// Note: this class is hard-inlined in all of its methods. This makes some of
-// the methods well-nigh unreadable in their complexity. In fact, the Mersenne
-// Twister is fairly easy code to understand: if you're trying to get a handle
-// on the code, I strongly suggest looking at MersenneTwister.java first.
-// -- Sean
 public class WB_MTRandom implements Serializable, Cloneable {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 3636987267914792302L;
@@ -230,6 +225,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
     private double __nextNextGaussian;
     /** The __have next next gaussian. */
     private boolean __haveNextNextGaussian;
+    private long seed;
 
     /*
      * We're overriding all internal data, to my knowledge, so this should be
@@ -250,7 +246,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 
     /**
      * State equals.
-     * 
+     *
      * @param o
      *            the o
      * @return true, if successful
@@ -281,7 +277,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 
     /**
      * Reads the entire state of the MersenneTwister RNG from the stream.
-     * 
+     *
      * @param stream
      *            the stream
      * @throws IOException
@@ -303,7 +299,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 
     /**
      * Writes the entire state of the MersenneTwister RNG to the stream.
-     * 
+     *
      * @param stream
      *            the stream
      * @throws IOException
@@ -333,7 +329,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
     /**
      * Constructor using a given seed. Though you pass this seed in as a long,
      * it's best to make sure it's actually an integer.
-     * 
+     *
      * @param seed
      *            the seed
      */
@@ -342,29 +338,17 @@ public class WB_MTRandom implements Serializable, Cloneable {
     }
 
     /**
-     * Constructor using an array of integers as seed. Your array must have a
-     * non-zero length. Only the first 624 integers in the array are used; if
-     * the array is shorter than this then integers are repeatedly used in a
-     * wrap-around fashion.
-     * 
-     * @param array
-     *            the array
-     */
-    public WB_MTRandom(final int[] array) {
-	setSeed(array);
-    }
-
-    /**
      * Initalize the pseudo random number generator. Don't pass in a long that's
      * bigger than an int (Mersenne Twister only uses the first 32 bits for its
      * seed).
-     * 
+     *
      * @param seed
      *            the new seed
      */
     synchronized public void setSeed(final long seed) {
 	// Due to a bug in java.util.Random clear up to 1.2, we're
 	// doing our own Gaussian variable.
+	this.seed = seed;
 	__haveNextNextGaussian = false;
 	mt = new int[N];
 	mag01 = new int[2];
@@ -382,55 +366,13 @@ public class WB_MTRandom implements Serializable, Cloneable {
 	}
     }
 
-    /**
-     * Sets the seed of the MersenneTwister using an array of integers. Your
-     * array must have a non-zero length. Only the first 624 integers in the
-     * array are used; if the array is shorter than this then integers are
-     * repeatedly used in a wrap-around fashion.
-     * 
-     * @param array
-     *            the new seed
-     */
-    synchronized public void setSeed(final int[] array) {
-	if (array.length == 0) {
-	    throw new IllegalArgumentException(
-		    "Array length must be greater than zero");
-	}
-	int i, j, k;
-	setSeed(19650218);
-	i = 1;
-	j = 0;
-	k = (N > array.length ? N : array.length);
-	for (; k != 0; k--) {
-	    mt[i] = (mt[i] ^ ((mt[i - 1] ^ (mt[i - 1] >>> 30)) * 1664525))
-		    + array[j] + j; /* non linear */
-	    mt[i] &= 0xffffffff; /* for WORDSIZE > 32 machines */
-	    i++;
-	    j++;
-	    if (i >= N) {
-		mt[0] = mt[N - 1];
-		i = 1;
-	    }
-	    if (j >= array.length) {
-		j = 0;
-	    }
-	}
-	for (k = N - 1; k != 0; k--) {
-	    mt[i] = (mt[i] ^ ((mt[i - 1] ^ (mt[i - 1] >>> 30)) * 1566083941))
-		    - i; /* non linear */
-	    mt[i] &= 0xffffffff; /* for WORDSIZE > 32 machines */
-	    i++;
-	    if (i >= N) {
-		mt[0] = mt[N - 1];
-		i = 1;
-	    }
-	}
-	mt[0] = 0x80000000; /* MSB is 1; assuring non-zero initial array */
+    synchronized public void reset() {
+	setSeed(seed);
     }
 
     /**
      * Next int.
-     * 
+     *
      * @return next random integer
      */
     public final int nextInt() {
@@ -462,7 +404,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 
     /**
      * Next short.
-     * 
+     *
      * @return next random short
      */
     public final short nextShort() {
@@ -494,7 +436,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 
     /**
      * Next char.
-     * 
+     *
      * @return next random char
      */
     public final char nextChar() {
@@ -526,7 +468,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 
     /**
      * Next boolean.
-     * 
+     *
      * @return next random boolean
      */
     public final boolean nextBoolean() {
@@ -562,7 +504,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
      * between 0.0 and 1.0, inclusive. Not as precise a random real event as
      * nextBoolean(double), but twice as fast. To explicitly use this, remember
      * you may need to cast to float first.
-     * 
+     *
      * @param probability
      *            the probability
      * @return next random coin flip
@@ -607,7 +549,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
      * This generates a coin flip with a probability <tt>probability</tt> of
      * returning true, else returning false. <tt>probability</tt> must be
      * between 0.0 and 1.0, inclusive.
-     * 
+     *
      * @param probability
      *            the probability
      * @return next random coin flip
@@ -674,7 +616,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 
     /**
      * Next byte.
-     * 
+     *
      * @return next random byte
      */
     public final byte nextByte() {
@@ -706,7 +648,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 
     /**
      * Fill array of bytes with random values.
-     * 
+     *
      * @param bytes
      *            the bytes
      */
@@ -741,7 +683,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 
     /**
      * Next long.
-     * 
+     *
      * @return next random long
      */
     public final long nextLong() {
@@ -797,7 +739,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
     /**
      * Returns a long drawn uniformly from 0 to n-1. Suffice it to say, n must
      * be > 0, or an IllegalArgumentException is raised.
-     * 
+     *
      * @param n
      *            the n
      * @return next random long between 0 and n-1
@@ -863,7 +805,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
     /**
      * Returns a random double in the half-open range from [0.0,1.0). Thus 0.0
      * is a valid result but 1.0 is not.
-     * 
+     *
      * @return next random double in range [0,1)
      */
     public final double nextDouble() {
@@ -919,7 +861,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 
     /**
      * Next gaussian.
-     * 
+     *
      * @return the double
      */
     public final double nextGaussian() {
@@ -1044,7 +986,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
     /**
      * Returns a random float in the half-open range from [0.0f,1.0f). Thus 0.0f
      * is a valid result but 1.0f is not.
-     * 
+     *
      * @return next random float in range [0,1)
      */
     public final float nextFloat() {
@@ -1077,7 +1019,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
     /**
      * Returns an integer drawn uniformly from 0 to n-1. Suffice it to say, n
      * must be > 0, or an IllegalArgumentException is raised.
-     * 
+     *
      * @param n
      *            the n
      * @return next random integer in range 0 to n-1.

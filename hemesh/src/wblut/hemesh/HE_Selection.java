@@ -7,6 +7,7 @@ import java.util.List;
 import javolution.util.FastTable;
 import wblut.geom.WB_Coordinate;
 import wblut.geom.WB_Vector;
+import wblut.math.WB_MTRandom;
 
 /**
  * Collection of mesh elements. Contains methods to manipulate selections
@@ -578,6 +579,25 @@ public class HE_Selection extends HE_MeshStructure {
     /**
      *
      *
+     * @param r
+     * @return
+     */
+    public HE_Selection selectRandomFaces(final double r, final long seed) {
+	clear();
+	final WB_MTRandom random = new WB_MTRandom(seed);
+	for (final HE_Face f : parent.faces) {
+	    if (f != null) {
+		if (random.nextFloat() < r) {
+		    faces.add(f);
+		}
+	    }
+	}
+	return this;
+    }
+
+    /**
+     *
+     *
      * @return
      */
     public HE_Selection selectAllEdges() {
@@ -816,7 +836,7 @@ public class HE_Selection extends HE_MeshStructure {
 	final FastTable<HE_Halfedge> newhalfedges = new FastTable<HE_Halfedge>();
 	n = halfedges.size();
 	for (int i = 0; i < n; i++) {
-	    newhalfedges.add(getHalfedgeByIndex(i).getNextInFace().getPair());
+	    newhalfedges.add(getHalfedgeByIndex(i).getPair());
 	}
 	addHalfedges(newhalfedges);
     }

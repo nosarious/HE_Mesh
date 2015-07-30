@@ -1,13 +1,15 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
+import wblut.math.WB_MTRandom;
+
 /**
  * Planar cut of a mesh. Both parts are returned as separate meshes.
- * 
+ *
  * @author Frederik Vanhoutte (W:Blut)
- * 
+ *
  */
 public class HEMC_Panelizer extends HEMC_MultiCreator {
     /** Source mesh. */
@@ -16,10 +18,11 @@ public class HEMC_Panelizer extends HEMC_MultiCreator {
     private double thickness;
     /** The range. */
     private double range;
+    private WB_MTRandom random;
 
     /**
      * Set thickness.
-     * 
+     *
      * @param d
      *            offset
      * @return self
@@ -27,12 +30,13 @@ public class HEMC_Panelizer extends HEMC_MultiCreator {
     public HEMC_Panelizer setThickness(final double d) {
 	thickness = d;
 	range = 0;
+	random = new WB_MTRandom();
 	return this;
     }
 
     /**
      * Sets the thickness.
-     * 
+     *
      * @param dmin
      *            the dmin
      * @param dmax
@@ -45,9 +49,17 @@ public class HEMC_Panelizer extends HEMC_MultiCreator {
 	return this;
     }
 
+    public HEMC_Panelizer setThickness(final double dmin, final double dmax,
+	    final long seed) {
+	thickness = dmin;
+	range = dmax - dmin;
+	random.setSeed(seed);
+	return this;
+    }
+
     /**
      * Set source mesh.
-     * 
+     *
      * @param mesh
      *            mesh to panelize
      * @return self
@@ -59,7 +71,7 @@ public class HEMC_Panelizer extends HEMC_MultiCreator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_MultiCreator#create()
      */
     @Override
@@ -72,7 +84,8 @@ public class HEMC_Panelizer extends HEMC_MultiCreator {
 	int id = 0;
 	final HEC_Polygon pc = new HEC_Polygon().setThickness(thickness);
 	for (final HE_Face f : mesh.getFacesAsList()) {
-	    pc.setThickness(thickness + (Math.random() * range));
+	    pc.setThickness(thickness + range > 0 ? random.nextDouble() * range
+		    : 0);
 	    pc.setPolygon(f.toPolygon());
 	    result[id] = new HE_Mesh(pc);
 	    id++;
