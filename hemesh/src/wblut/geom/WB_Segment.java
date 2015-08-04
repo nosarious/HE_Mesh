@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
@@ -8,22 +8,20 @@ import javolution.util.FastTable;
 import wblut.math.WB_Math;
 
 /**
- * 
+ *
  */
 public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
-    
     /**
-     * 
+     *
      */
     protected double length;
-    
     /**
-     * 
+     *
      */
     private final WB_Point endpoint;
 
     /**
-     * 
+     *
      */
     public WB_Segment() {
 	super();
@@ -32,11 +30,11 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param o 
-     * @param d 
-     * @param l 
+     *
+     * @param o
+     * @param d
+     * @param l
      */
     public WB_Segment(final WB_Coordinate o, final WB_Coordinate d,
 	    final double l) {
@@ -47,10 +45,10 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param p1 
-     * @param p2 
+     *
+     * @param p1
+     * @param p2
      */
     public WB_Segment(final WB_Coordinate p1, final WB_Coordinate p2) {
 	super(p1, new WB_Vector(p1, p2));
@@ -59,14 +57,14 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param p1x 
-     * @param p1y 
-     * @param p1z 
-     * @param p2x 
-     * @param p2y 
-     * @param p2z 
+     *
+     * @param p1x
+     * @param p1y
+     * @param p1z
+     * @param p2x
+     * @param p2y
+     * @param p2z
      */
     public WB_Segment(final double p1x, final double p1y, final double p1z,
 	    final double p2x, final double p2y, final double p2z) {
@@ -77,10 +75,10 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param t 
-     * @return 
+     *
+     * @param t
+     * @return
      */
     public WB_Point getParametricPointOnSegment(final double t) {
 	final WB_Point result = new WB_Point(direction);
@@ -90,10 +88,10 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param t 
-     * @param result 
+     *
+     * @param t
+     * @param result
      */
     public void getParametricPointOnSegmentInto(final double t,
 	    final WB_MutableCoordinate result) {
@@ -102,15 +100,17 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_Point getEndpoint() {
 	return endpoint;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Simplex#getCenter()
      */
     @Override
@@ -119,19 +119,19 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double getLength() {
 	return length;
     }
 
     /**
-     * 
      *
-     * @param segs 
-     * @return 
+     *
+     * @param segs
+     * @return
      */
     public static List<WB_Segment> negate(final List<WB_Segment> segs) {
 	final List<WB_Segment> neg = new FastTable<WB_Segment>();
@@ -142,22 +142,24 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_Segment negate() {
 	return new WB_Segment(endpoint, origin);
     }
 
     /**
-     * 
+     *
      */
     public void reverse() {
 	set(endpoint, origin);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Simplex#getPoint(int)
      */
     @Override
@@ -171,7 +173,9 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
 	return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Geometry#getType()
      */
     @Override
@@ -179,7 +183,9 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
 	return WB_GeometryType.SEGMENT;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
      */
     @Override
@@ -188,27 +194,36 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
 		endpoint.applyAsPoint(T));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Curve#curvePoint(double)
      */
     @Override
     public WB_Point curvePoint(final double u) {
+	if (u < 0 || u > 1) {
+	    return null;
+	}
 	return this.getParametricPointOnSegment(u);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Curve#loweru()
      */
     @Override
-    public double loweru() {
+    public double getLowerU() {
 	return 0;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Curve#upperu()
      */
     @Override
-    public double upperu() {
+    public double getUpperU() {
 	return 1;
     }
 }

@@ -13,8 +13,8 @@ import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Vector;
-import wblut.math.WB_ConstantParameter;
-import wblut.math.WB_Parameter;
+import wblut.math.WB_ConstantScalarParameter;
+import wblut.math.WB_ScalarParameter;
 
 /**
  *
@@ -43,7 +43,7 @@ public class HEC_FromFrame extends HEC_Creator {
     /**
      *
      */
-    private WB_Parameter<Double> strutRadius;
+    private WB_ScalarParameter strutRadius;
     /**
      *
      */
@@ -71,7 +71,7 @@ public class HEC_FromFrame extends HEC_Creator {
     /**
      *
      */
-    private WB_Parameter<Double> maximumStrutOffset;
+    private WB_ScalarParameter maximumStrutOffset;
     /**
      *
      */
@@ -91,7 +91,7 @@ public class HEC_FromFrame extends HEC_Creator {
     /**
      *
      */
-    private WB_Parameter<Double> angleFactor;
+    private WB_ScalarParameter angleFactor;
     /**
      *
      */
@@ -184,15 +184,15 @@ public class HEC_FromFrame extends HEC_Creator {
      *
      */
     public HEC_FromFrame() {
-	strutRadius = new WB_ConstantParameter<Double>(10.0);
+	strutRadius = new WB_ConstantScalarParameter(10.0);
 	strutFacets = 6;
 	maximumStrutLength = 100.0;
 	override = true;
 	fidget = 1.0001;
 	fillfactor = 0.99;
 	minimumBalljointAngle = 0.55 * Math.PI;
-	maximumStrutOffset = new WB_ConstantParameter<Double>(Double.MAX_VALUE);
-	angleFactor = new WB_ConstantParameter<Double>(0.0);
+	maximumStrutOffset = new WB_ConstantScalarParameter(Double.MAX_VALUE);
+	angleFactor = new WB_ConstantScalarParameter(0.0);
 	cap = true;
 	useNodeValues = true;
     }
@@ -204,7 +204,7 @@ public class HEC_FromFrame extends HEC_Creator {
      * @return
      */
     public HEC_FromFrame setStrutRadius(final double r) {
-	strutRadius = new WB_ConstantParameter<Double>(r);
+	strutRadius = new WB_ConstantScalarParameter(r);
 	return this;
     }
 
@@ -214,7 +214,7 @@ public class HEC_FromFrame extends HEC_Creator {
      * @param r
      * @return
      */
-    public HEC_FromFrame setStrutRadius(final WB_Parameter<Double> r) {
+    public HEC_FromFrame setStrutRadius(final WB_ScalarParameter r) {
 	strutRadius = r;
 	return this;
     }
@@ -225,7 +225,7 @@ public class HEC_FromFrame extends HEC_Creator {
      * @param o
      * @return
      */
-    public HEC_FromFrame setMaximumStrutOffset(final WB_Parameter<Double> o) {
+    public HEC_FromFrame setMaximumStrutOffset(final WB_ScalarParameter o) {
 	maximumStrutOffset = o;
 	return this;
     }
@@ -237,7 +237,7 @@ public class HEC_FromFrame extends HEC_Creator {
      * @return
      */
     public HEC_FromFrame setMaximumStrutOffset(final double o) {
-	maximumStrutOffset = new WB_ConstantParameter<Double>(o);
+	maximumStrutOffset = new WB_ConstantScalarParameter(o);
 	return this;
     }
 
@@ -358,7 +358,7 @@ public class HEC_FromFrame extends HEC_Creator {
      * @return
      */
     public HEC_FromFrame setAngleOffset(final double af) {
-	angleFactor = new WB_ConstantParameter<Double>(af);
+	angleFactor = new WB_ConstantScalarParameter(af);
 	return this;
     }
 
@@ -368,7 +368,7 @@ public class HEC_FromFrame extends HEC_Creator {
      * @param af
      * @return
      */
-    public HEC_FromFrame setAngleOffset(final WB_Parameter<Double> af) {
+    public HEC_FromFrame setAngleOffset(final WB_ScalarParameter af) {
 	angleFactor = af;
 	return this;
     }
@@ -407,17 +407,20 @@ public class HEC_FromFrame extends HEC_Creator {
 	int i = 0;
 	for (final WB_FrameNode node : frame.getNodes()) {
 	    if (nodeTypes[i] == NodeType.ENDPOINT) {
-		double r = strutRadius.value(node.xd(), node.yd(), node.zd());
+		double r = strutRadius
+			.evaluate(node.xd(), node.yd(), node.zd());
 		if (useNodeValues) {
 		    r *= node.getValue();
 		}
 		createNodeStrutConnection(node, 0, 0.0, 0.0, r);
 	    } else if (nodeTypes[i] == NodeType.STRAIGHT) {
-		double r = strutRadius.value(node.xd(), node.yd(), node.zd());
+		double r = strutRadius
+			.evaluate(node.xd(), node.yd(), node.zd());
 		if (useNodeValues) {
 		    r *= node.getValue();
 		}
-		double o = strutRadius.value(node.xd(), node.yd(), node.zd());
+		double o = strutRadius
+			.evaluate(node.xd(), node.yd(), node.zd());
 		if (useNodeValues) {
 		    o *= node.getValue();
 		}
@@ -426,7 +429,8 @@ public class HEC_FromFrame extends HEC_Creator {
 	    } else if ((nodeTypes[i] == NodeType.TURN)
 		    || (nodeTypes[i] == NodeType.BEND)) {
 		final double minSpan = node.findSmallestSpan();
-		double r = strutRadius.value(node.xd(), node.yd(), node.zd());
+		double r = strutRadius
+			.evaluate(node.xd(), node.yd(), node.zd());
 		double o = (fidget * r)
 			/ Math.min(1.0, Math.tan(0.5 * minSpan));
 		if (useNodeValues) {
@@ -439,7 +443,8 @@ public class HEC_FromFrame extends HEC_Creator {
 		createNodeStrutConnection(node, 1, o, o, r);
 	    } else if (nodeTypes[i] == NodeType.STAR) {
 		final double minSpan = node.findSmallestSpan();
-		double r = strutRadius.value(node.xd(), node.yd(), node.zd());
+		double r = strutRadius
+			.evaluate(node.xd(), node.yd(), node.zd());
 		double mo = (fidget * r)
 			/ Math.min(1.0, Math.tan(0.5 * minSpan));
 		if (useNodeValues) {
@@ -456,8 +461,8 @@ public class HEC_FromFrame extends HEC_Creator {
 		    if (useNodeValues) {
 			o *= node.getValue();
 		    }
-		    double mso = maximumStrutOffset.value(node.xd(), node.yd(),
-			    node.zd());
+		    double mso = maximumStrutOffset.evaluate(node.xd(),
+			    node.yd(), node.zd());
 		    if (useNodeValues) {
 			mso *= node.getValue();
 		    }
@@ -522,7 +527,7 @@ public class HEC_FromFrame extends HEC_Creator {
 	    final WB_Vector u = P.getU();
 	    for (int j = 0; j < strutFacets; j++) {
 		final WB_Point p = new WB_Point(strutNodeConnections[id].node);
-		final double af = angleFactor.value(
+		final double af = angleFactor.evaluate(
 			strutNodeConnections[id].node.xd(),
 			strutNodeConnections[id].node.yd(),
 			strutNodeConnections[id].node.zd());
@@ -685,7 +690,7 @@ public class HEC_FromFrame extends HEC_Creator {
 		}
 	    } else {
 		if ((nodeTypes[i] != NodeType.ISOLATED) || createIsolatedNodes) {
-		    double br = strutRadius.value(node.xd(), node.yd(),
+		    double br = strutRadius.evaluate(node.xd(), node.yd(),
 			    node.zd());
 		    for (int j = 0; j < struts.size(); j++) {
 			int offset;

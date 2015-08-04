@@ -1,16 +1,16 @@
 /*
- * 
+ *
  */
 package wblut.math;
 
 /**
- * 
+ *
  */
 public class WB_Bernstein {
     /**
      * Calculate the (n+1) coefficients of the Bernstein polynomial of order n,
      * for the value u (0..1)
-     * 
+     *
      * @param u
      *            value at which to evaluate the Bernstein coefficients
      * @param order
@@ -38,11 +38,11 @@ public class WB_Bernstein {
     /**
      * Calculate the (n+1) coefficients of the Bernstein polynomial of order n,
      * for the value u ranging from (0..1) in the number of steps requested.
-     * 
+     *
      * @param steps
      *            values at which to evaluate the Bernstein coefficients,
-     *            minimal 2, first and last value are caluckated at 0 and 1, the
-     *            other are caluclated equidistant.
+     *            minimal 2, first and last value are calculated at 0 and 1, the
+     *            other are calculated equidistant.
      * @param order
      *            order of the Bernstein polynomial
      * @return steps * n+1 coefficients, first index is the step, second index

@@ -8,18 +8,15 @@ import wblut.geom.WB_Vector;
 
 /**
  *
- * Random generator for vectors uniformly distributed inside the unit sphere.
+ * Random generator for vectors uniformly distributed inside a sphere with
+ * radius 1.
  *
  * @author Frederik Vanhoutte, W:Blut
  *
  */
 public class WB_RandomInSphere implements WB_RandomPoint {
-    /** The random gen. */
     private final WB_MTRandom randomGen;
 
-    /**
-     * Instantiates a new w b_ random sphere.
-     */
     public WB_RandomInSphere() {
 	randomGen = new WB_MTRandom();
     }
@@ -28,24 +25,12 @@ public class WB_RandomInSphere implements WB_RandomPoint {
 	randomGen = new WB_MTRandom(seed);
     }
 
-    /**
-     * Set random seed.
-     *
-     * @param seed
-     *            seed
-     * @return self
-     */
     @Override
     public WB_RandomInSphere setSeed(final long seed) {
 	randomGen.setSeed(seed);
 	return this;
     }
 
-    /**
-     * Next point.
-     *
-     * @return next random WB_Normal on unit sphere
-     */
     @Override
     public WB_Point nextPoint() {
 	final double elevation = Math.asin((2.0 * randomGen.nextDouble()) - 1);
@@ -56,11 +41,6 @@ public class WB_RandomInSphere implements WB_RandomPoint {
 		* Math.sin(elevation));
     }
 
-    /**
-     * Next vector.
-     *
-     * @return next random WB_Normal on unit sphere
-     */
     @Override
     public WB_Vector nextVector() {
 	final double elevation = Math.asin((2.0 * randomGen.nextDouble()) - 1);
@@ -71,6 +51,7 @@ public class WB_RandomInSphere implements WB_RandomPoint {
 		* Math.sin(elevation));
     }
 
+    @Override
     public void reset() {
 	randomGen.reset();
     }

@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
@@ -8,119 +8,101 @@ import java.util.List;
 import javolution.util.FastTable;
 
 /**
- * 
+ *
  */
-public class WB_GeodesicI {
-    
+class WB_GeodesicI {
     /**
-     * 
+     *
      */
     public static final int TETRAHEDRON = 0;
-    
     /**
-     * 
+     *
      */
     public static final int OCTAHEDRON = 1;
-    
     /**
-     * 
+     *
      */
     public static final int ICOSAHEDRON = 2;
-    
     /**
-     * 
+     *
      */
     public static final int EQUALCHORD = 0;
-    
     /**
-     * 
+     *
      */
     public static final int EQUALARC = 1;
-    
     /**
-     * 
+     *
      */
     public static final int EQUALARC2GC = 2;
-    
     /**
-     * 
+     *
      */
     public static final int MIDARC = 3;
-    
     /**
-     * 
+     *
      */
     private static double[][] deltahedron = new double[][] {
-	    { 0.471405, 0.816497, -0.333333 }, { 0.707107, 0.707107, 0 },
-	    { 0.723607, 0.525731, 0.447214 } };
-    
+	{ 0.471405, 0.816497, -0.333333 }, { 0.707107, 0.707107, 0 },
+	{ 0.723607, 0.525731, 0.447214 } };
     /**
-     * 
+     *
      */
     public WB_Point[] apices;
-    
     /**
-     * 
+     *
      */
     public WB_Point[] refpoints;
-    
     /**
-     * 
+     *
      */
     public WB_Point[] PPTpoints;
-    
     /**
-     * 
+     *
      */
     private WB_Plane P;
-    
     /**
-     * 
+     *
      */
     private final int v;
-    
     /**
-     * 
+     *
      */
     private WB_FaceListMesh mesh;
-    
     /**
-     * 
+     *
      */
     private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
-    
     /**
-     * 
+     *
      */
     private final double radius;
-    
     /**
-     * 
+     *
      */
     private final int type;
-    
     /**
-     * 
+     *
      */
     private final int div;
 
     /**
-     * 
      *
-     * @param radius 
-     * @param v 
+     *
+     * @param radius
+     * @param v
      */
     public WB_GeodesicI(final double radius, final int v) {
 	this(radius, v, ICOSAHEDRON, EQUALARC);
     }
 
     /**
-     * 
      *
-     * @param radius 
-     * @param v 
-     * @param type 
-     * @param div 
+     *
+     * @param radius
+     * @param v
+     * @param type
+     * @param div
      */
     public WB_GeodesicI(final double radius, final int v, final int type,
 	    final int div) {
@@ -140,9 +122,9 @@ public class WB_GeodesicI {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_FaceListMesh getMesh() {
 	createMesh();
@@ -150,7 +132,7 @@ public class WB_GeodesicI {
     }
 
     /**
-     * 
+     *
      */
     private void createMesh() {
 	apices = new WB_Point[3];
@@ -417,12 +399,12 @@ public class WB_GeodesicI {
     }
 
     /**
-     * 
      *
-     * @param gci 
-     * @param apices 
-     * @param type 
-     * @return 
+     *
+     * @param gci
+     * @param apices
+     * @param type
+     * @return
      */
     private WB_Point selectPoint(
 	    final WB_GeodesicMath.WB_GreatCircleIntersection gci,
@@ -430,17 +412,17 @@ public class WB_GeodesicI {
 	if (type == TETRAHEDRON) {
 	    return (Math.abs(WB_GeometryOp.getDistance3D(gci.p0, P)) < Math
 		    .abs(WB_GeometryOp.getDistance3D(gci.p1, P))) ? gf
-		    .createPoint(gci.p0) : gf.createPoint(gci.p1);
+			    .createPoint(gci.p0) : gf.createPoint(gci.p1);
 	}
 	return (gci.p0[2] > 0) ? gf.createPoint(gci.p0) : gf
 		.createPoint(gci.p1);
     }
 
     /**
-     * 
      *
-     * @param log2v 
-     * @return 
+     *
+     * @param log2v
+     * @return
      */
     private WB_Point[][] midpoint(final int log2v) {
 	final WB_Point[][] points = new WB_Point[v + 1][v + 1];
@@ -452,17 +434,17 @@ public class WB_GeodesicI {
     }
 
     /**
-     * 
      *
-     * @param points 
-     * @param i0 
-     * @param j0 
-     * @param i1 
-     * @param j1 
-     * @param i2 
-     * @param j2 
-     * @param r 
-     * @param n 
+     *
+     * @param points
+     * @param i0
+     * @param j0
+     * @param i1
+     * @param j1
+     * @param i2
+     * @param j2
+     * @param r
+     * @param n
      */
     private void recdivtriangle(final WB_Point[][] points, final int i0,
 	    final int j0, final int i1, final int j1, final int i2,

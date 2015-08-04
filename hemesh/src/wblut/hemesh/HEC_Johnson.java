@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -26,7 +26,7 @@ public class HEC_Johnson extends HEC_Creator {
 
     /**
      * Instantiates a new dodecahedron.
-     * 
+     *
      */
     public HEC_Johnson() {
 	super();
@@ -37,7 +37,7 @@ public class HEC_Johnson extends HEC_Creator {
 
     /**
      * Instantiates a new Johnson polyhedron.
-     * 
+     *
      * @param type
      *            the type
      * @param E
@@ -65,7 +65,7 @@ public class HEC_Johnson extends HEC_Creator {
 
     /**
      * Set edge length.
-     * 
+     *
      * @param E
      *            edge length
      * @return self
@@ -77,7 +77,7 @@ public class HEC_Johnson extends HEC_Creator {
 
     /**
      * Set type.
-     * 
+     *
      * @param type
      *            the type
      * @return self
@@ -102,7 +102,7 @@ public class HEC_Johnson extends HEC_Creator {
 
     /**
      * Gets the name.
-     * 
+     *
      * @return the name
      */
     public String getName() {
@@ -136,5 +136,21 @@ public class HEC_Johnson extends HEC_Creator {
 	final HE_Mesh result = fl.create();
 	result.scale(R);
 	return result;
+    }
+
+    public static void printTypes() {
+	for (int i = 1; i <= 92; i++) {
+	    String name = "";
+	    if (i < 24) {
+		name = WB_JohnsonPolyhedraData01.names[i - 1];
+	    } else if (i < 47) {
+		name = WB_JohnsonPolyhedraData02.names[i - 24];
+	    } else if (i < 71) {
+		name = WB_JohnsonPolyhedraData03.names[i - 47];
+	    } else {
+		name = WB_JohnsonPolyhedraData04.names[i - 71];
+	    }
+	    System.out.println(i + ": " + name);
+	}
     }
 }

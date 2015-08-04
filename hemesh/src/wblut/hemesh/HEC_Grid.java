@@ -3,7 +3,7 @@
  */
 package wblut.hemesh;
 
-import wblut.math.WB_Function2D;
+import wblut.math.WB_ScalarParameter;
 
 /**
  *
@@ -138,12 +138,12 @@ public class HEC_Grid extends HEC_Creator {
      * @param dv
      * @return
      */
-    public HEC_Grid setWValues(final WB_Function2D<Double> height,
+    public HEC_Grid setWValues(final WB_ScalarParameter height,
 	    final double ui, final double vi, final double du, final double dv) {
 	values = new double[U + 1][V + 1];
 	for (int i = 0; i < (U + 1); i++) {
 	    for (int j = 0; j < (V + 1); j++) {
-		values[i][j] = height.f(ui + (i * du), vi + (j * dv));
+		values[i][j] = height.evaluate(ui + (i * du), vi + (j * dv));
 		maxWValue = Math.max(maxWValue, values[i][j]);
 		minWValue = Math.min(minWValue, values[i][j]);
 	    }

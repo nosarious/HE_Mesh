@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
@@ -11,21 +11,20 @@ import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
 
 /**
- * 
+ *
  */
 public class WB_GeometryOp {
-    
     /**
-     * 
+     *
      */
     private static final WB_GeometryFactory gf = WB_GeometryFactory.instance();
 
     /**
-     * 
      *
-     * @param S 
-     * @param P 
-     * @return 
+     *
+     * @param S
+     * @param P
+     * @return
      */
     public static WB_IntersectionResult getIntersection3D(final WB_Segment S,
 	    final WB_Plane P) {
@@ -52,12 +51,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param b 
-     * @param P 
-     * @return 
+     *
+     * @param a
+     * @param b
+     * @param P
+     * @return
      */
     public static WB_IntersectionResult getIntersection3D(
 	    final WB_Coordinate a, final WB_Coordinate b, final WB_Plane P) {
@@ -85,11 +84,11 @@ public class WB_GeometryOp {
 
     // RAY-PLANE
     /**
-     * 
      *
-     * @param R 
-     * @param P 
-     * @return 
+     *
+     * @param R
+     * @param P
+     * @return
      */
     public static WB_IntersectionResult getIntersection3D(final WB_Ray R,
 	    final WB_Plane P) {
@@ -116,11 +115,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param R 
-     * @param aabb 
-     * @return 
+     *
+     * @param R
+     * @param aabb
+     * @return
      */
     public static WB_IntersectionResult getIntersection3D(final WB_Ray R,
 	    final WB_AABB aabb) {
@@ -227,11 +226,11 @@ public class WB_GeometryOp {
 
     // LINE-PLANE
     /**
-     * 
      *
-     * @param L 
-     * @param P 
-     * @return 
+     *
+     * @param L
+     * @param P
+     * @return
      */
     public static WB_IntersectionResult getIntersection3D(final WB_Line L,
 	    final WB_Plane P) {
@@ -259,11 +258,11 @@ public class WB_GeometryOp {
 
     // PLANE-PLANE
     /**
-     * 
      *
-     * @param P1 
-     * @param P2 
-     * @return 
+     *
+     * @param P1
+     * @param P2
+     * @return
      */
     public static WB_IntersectionResult getIntersection3D(final WB_Plane P1,
 	    final WB_Plane P2) {
@@ -299,12 +298,12 @@ public class WB_GeometryOp {
 
     // PLANE-PLANE-PLANE
     /**
-     * 
      *
-     * @param P1 
-     * @param P2 
-     * @param P3 
-     * @return 
+     *
+     * @param P1
+     * @param P2
+     * @param P3
+     * @return
      */
     public static WB_IntersectionResult getIntersection3D(final WB_Plane P1,
 	    final WB_Plane P2, final WB_Plane P3) {
@@ -343,11 +342,11 @@ public class WB_GeometryOp {
 
     // AABB-AABB
     /**
-     * 
      *
-     * @param one 
-     * @param other 
-     * @return 
+     *
+     * @param one
+     * @param other
+     * @return
      */
     public static boolean checkIntersection3D(final WB_AABB one,
 	    final WB_AABB other) {
@@ -367,11 +366,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param AABB 
-     * @param P 
-     * @return 
+     *
+     * @param AABB
+     * @param P
+     * @return
      */
     public static boolean checkIntersection3D(final WB_AABB AABB,
 	    final WB_Plane P) {
@@ -385,11 +384,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param AABB 
-     * @param S 
-     * @return 
+     *
+     * @param AABB
+     * @param S
+     * @return
      */
     public static boolean checkIntersection3D(final WB_AABB AABB,
 	    final WB_Sphere S) {
@@ -398,11 +397,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param T 
-     * @param S 
-     * @return 
+     *
+     * @param T
+     * @param S
+     * @return
      */
     public static boolean checkIntersection3D(final WB_Triangle T,
 	    final WB_Sphere S) {
@@ -413,11 +412,11 @@ public class WB_GeometryOp {
 
     // TRIANGLE-AABB
     /**
-     * 
      *
-     * @param T 
-     * @param AABB 
-     * @return 
+     *
+     * @param T
+     * @param AABB
+     * @return
      */
     public static boolean checkIntersection3D(final WB_Triangle T,
 	    final WB_AABB AABB) {
@@ -628,11 +627,11 @@ public class WB_GeometryOp {
 
     // SEGMENT-AABB
     /**
-     * 
      *
-     * @param S 
-     * @param AABB 
-     * @return 
+     *
+     * @param S
+     * @param AABB
+     * @return
      */
     public static boolean checkIntersection3D(final WB_Segment S,
 	    final WB_AABB AABB) {
@@ -641,7 +640,7 @@ public class WB_GeometryOp {
 	final WB_Point m = new WB_Point((S.getEndpoint().xd() + S.getOrigin()
 		.xd()) - AABB.getMinX() - AABB.getMaxX(),
 		(S.getEndpoint().yd() + S.getOrigin().yd()) - AABB.getMinY()
-			- AABB.getMaxY(), (S.getEndpoint().zd() + S.getOrigin()
+		- AABB.getMaxY(), (S.getEndpoint().zd() + S.getOrigin()
 			.zd()) - AABB.getMinZ() - AABB.getMaxZ());
 	double adx = WB_Math.fastAbs(d.xd());
 	if (WB_Math.fastAbs(m.xd()) > (e.xd() + adx)) {
@@ -675,11 +674,11 @@ public class WB_GeometryOp {
 
     // SPHERE-SPHERE
     /**
-     * 
      *
-     * @param S1 
-     * @param S2 
-     * @return 
+     *
+     * @param S1
+     * @param S2
+     * @return
      */
     public static boolean checkIntersection3D(final WB_Sphere S1,
 	    final WB_Sphere S2) {
@@ -691,11 +690,11 @@ public class WB_GeometryOp {
 
     // RAY-SPHERE
     /**
-     * 
      *
-     * @param R 
-     * @param S 
-     * @return 
+     *
+     * @param R
+     * @param S
+     * @return
      */
     public static boolean checkIntersection3D(final WB_Ray R, final WB_Sphere S) {
 	final WB_Vector m = R.getOrigin().subToVector3D(S.getCenter());
@@ -715,11 +714,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param R 
-     * @param AABB 
-     * @return 
+     *
+     * @param R
+     * @param AABB
+     * @return
      */
     public static boolean checkIntersection3D(final WB_Ray R, final WB_AABB AABB) {
 	double t0 = 0;
@@ -767,11 +766,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param R 
-     * @param tree 
-     * @return 
+     *
+     * @param R
+     * @param tree
+     * @return
      */
     public static ArrayList<WB_AABBNode> getIntersection3D(final WB_Ray R,
 	    final WB_AABBTree tree) {
@@ -801,11 +800,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param aabb 
-     * @param tree 
-     * @return 
+     *
+     * @param aabb
+     * @param tree
+     * @return
      */
     public static ArrayList<WB_AABBNode> getIntersection3D(final WB_AABB aabb,
 	    final WB_AABBTree tree) {
@@ -835,11 +834,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param L 
-     * @param AABB 
-     * @return 
+     *
+     * @param L
+     * @param AABB
+     * @return
      */
     public static boolean checkIntersection3D(final WB_Line L,
 	    final WB_AABB AABB) {
@@ -888,11 +887,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param L 
-     * @param tree 
-     * @return 
+     *
+     * @param L
+     * @param tree
+     * @return
      */
     public static ArrayList<WB_AABBNode> getIntersection3D(final WB_Line L,
 	    final WB_AABBTree tree) {
@@ -922,11 +921,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param S 
-     * @param tree 
-     * @return 
+     *
+     * @param S
+     * @param tree
+     * @return
      */
     public static ArrayList<WB_AABBNode> getIntersection3D(final WB_Segment S,
 	    final WB_AABBTree tree) {
@@ -956,11 +955,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param P 
-     * @param tree 
-     * @return 
+     *
+     * @param P
+     * @param tree
+     * @return
      */
     public static ArrayList<WB_AABBNode> getIntersection3D(final WB_Plane P,
 	    final WB_AABBTree tree) {
@@ -990,11 +989,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param T 
-     * @param tree 
-     * @return 
+     *
+     * @param T
+     * @param tree
+     * @return
      */
     public static ArrayList<WB_AABBNode> getIntersection3D(final WB_Triangle T,
 	    final WB_AABBTree tree) {
@@ -1025,11 +1024,11 @@ public class WB_GeometryOp {
 
     // TODO: implement for polygons with holes
     /**
-     * 
      *
-     * @param poly 
-     * @param P 
-     * @return 
+     *
+     * @param poly
+     * @param P
+     * @return
      */
     public static ArrayList<WB_Segment> getIntersection3D(
 	    final WB_Polygon poly, final WB_Plane P) {
@@ -1081,11 +1080,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param S1 
-     * @param S2 
-     * @return 
+     *
+     * @param S1
+     * @param S2
+     * @return
      */
     public static WB_IntersectionResult getIntersection3D(final WB_Segment S1,
 	    final WB_Segment S2) {
@@ -1228,11 +1227,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param P 
-     * @return 
+     *
+     * @param p
+     * @param P
+     * @return
      */
     public static WB_Point getClosestPoint3D(final WB_Coordinate p,
 	    final WB_Plane P) {
@@ -1243,11 +1242,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param P 
-     * @param p 
-     * @return 
+     *
+     * @param P
+     * @param p
+     * @return
      */
     public static WB_Point getClosestPoint3D(final WB_Plane P,
 	    final WB_Coordinate p) {
@@ -1255,11 +1254,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param S 
-     * @return 
+     *
+     * @param p
+     * @param S
+     * @return
      */
     public static WB_Point getClosestPoint3D(final WB_Coordinate p,
 	    final WB_Segment S) {
@@ -1282,11 +1281,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param S 
-     * @param p 
-     * @return 
+     *
+     * @param S
+     * @param p
+     * @return
      */
     public static WB_Point getClosestPoint3D(final WB_Segment S,
 	    final WB_Coordinate p) {
@@ -1294,11 +1293,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param S 
-     * @return 
+     *
+     * @param p
+     * @param S
+     * @return
      */
     public static double getClosestPointT3D(final WB_Coordinate p,
 	    final WB_Segment S) {
@@ -1320,11 +1319,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param S 
-     * @param p 
-     * @return 
+     *
+     * @param S
+     * @param p
+     * @return
      */
     public static double getClosestPointT3D(final WB_Segment S,
 	    final WB_Coordinate p) {
@@ -1332,12 +1331,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @return
      */
     public static WB_Point getClosestPointToSegment3D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b) {
@@ -1361,11 +1360,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param L 
-     * @return 
+     *
+     * @param p
+     * @param L
+     * @return
      */
     public static WB_Point getClosestPoint3D(final WB_Coordinate p,
 	    final WB_Line L) {
@@ -1375,12 +1374,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @return
      */
     public static WB_Coordinate getClosestPointToLine3D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b) {
@@ -1388,11 +1387,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param R 
-     * @return 
+     *
+     * @param p
+     * @param R
+     * @return
      */
     public static WB_Point getClosestPoint3D(final WB_Coordinate p,
 	    final WB_Ray R) {
@@ -1407,12 +1406,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @return
      */
     public static WB_Point getClosestPointToRay3D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b) {
@@ -1420,11 +1419,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param AABB 
-     * @return 
+     *
+     * @param p
+     * @param AABB
+     * @return
      */
     public static WB_Point getClosestPoint3D(final WB_Coordinate p,
 	    final WB_AABB AABB) {
@@ -1457,11 +1456,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param AABB 
-     * @param result 
+     *
+     * @param p
+     * @param AABB
+     * @param result
      */
     public static void getClosestPoint3D(final WB_Coordinate p,
 	    final WB_AABB AABB, final WB_MutableCoordinate result) {
@@ -1493,11 +1492,11 @@ public class WB_GeometryOp {
 
     // POINT-TRIANGLE
     /**
-     * 
      *
-     * @param p 
-     * @param T 
-     * @return 
+     *
+     * @param p
+     * @param T
+     * @return
      */
     public static WB_Point getClosestPoint3D(final WB_Coordinate p,
 	    final WB_Triangle T) {
@@ -1543,13 +1542,13 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @param c 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @param c
+     * @return
      */
     public static WB_Point getClosestPointToTriangle3D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b, final WB_Coordinate c) {
@@ -1595,11 +1594,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param T 
-     * @return 
+     *
+     * @param p
+     * @param T
+     * @return
      */
     public static WB_Point getClosestPointOnPeriphery3D(final WB_Coordinate p,
 	    final WB_Triangle T) {
@@ -1669,11 +1668,11 @@ public class WB_GeometryOp {
 
     // POINT-POLYGON
     /**
-     * 
      *
-     * @param p 
-     * @param tris 
-     * @return 
+     *
+     * @param p
+     * @param tris
+     * @return
      */
     public static WB_Point getClosestPoint3D(final WB_Coordinate p,
 	    final List<? extends WB_Triangle> tris) {
@@ -1696,11 +1695,11 @@ public class WB_GeometryOp {
 
     // LINE-LINE
     /**
-     * 
      *
-     * @param L1 
-     * @param L2 
-     * @return 
+     *
+     * @param L1
+     * @param L2
+     * @return
      */
     public static WB_IntersectionResult getClosestPoint3D(final WB_Line L1,
 	    final WB_Line L2) {
@@ -1753,11 +1752,11 @@ public class WB_GeometryOp {
 
     // POINT-TETRAHEDRON
     /**
-     * 
      *
-     * @param p 
-     * @param T 
-     * @return 
+     *
+     * @param p
+     * @param T
+     * @return
      */
     public static WB_Point getClosestPoint3D(final WB_Coordinate p,
 	    final WB_Tetrahedron T) {
@@ -1818,45 +1817,42 @@ public class WB_GeometryOp {
 	    final WB_Coordinate q, final WB_Coordinate a,
 	    final WB_Coordinate b, final WB_Coordinate c) {
 	final double signp = new WB_Vector(a, p).dot(new WB_Vector(a, b)
-	.crossSelf(new WB_Vector(a, c)));
+		.crossSelf(new WB_Vector(a, c)));
 	final double signq = new WB_Vector(a, q).dot(new WB_Vector(a, b)
-	.crossSelf(new WB_Vector(a, c)));
+		.crossSelf(new WB_Vector(a, c)));
 	return (signp * signq) <= 0;
     }
 
     /**
-     * 
+     *
      */
     protected static class TriangleIntersection {
-	
 	/**
-	 * 
+	 *
 	 */
 	public WB_Point p0; // the first point of the line
-	
 	/**
-	 * 
+	 *
 	 */
 	public WB_Point p1; // the second point of the line
-	
 	/**
-	 * 
+	 *
 	 */
 	public double s0; // the distance along the line to the first
 	// intersection with the triangle
 	/**
-	 * 
+	 *
 	 */
 	public double s1; // the distance along the line to the second
 	// intersection with the triangle
     }
 
     /**
-     * 
      *
-     * @param v 
-     * @param u 
-     * @return 
+     *
+     * @param v
+     * @param u
+     * @return
      */
     public static WB_IntersectionResult getIntersection3D(final WB_Triangle v,
 	    final WB_Triangle u) {
@@ -2032,18 +2028,18 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param v 
-     * @param vv0 
-     * @param vv1 
-     * @param vv2 
-     * @param d0 
-     * @param d1 
-     * @param d2 
-     * @param d0d1 
-     * @param d0d2 
-     * @return 
+     *
+     * @param v
+     * @param vv0
+     * @param vv1
+     * @param vv2
+     * @param d0
+     * @param d1
+     * @param d2
+     * @param d0d1
+     * @param d0d2
+     * @return
      */
     protected static TriangleIntersection compute_intervals_isectline(
 	    final WB_Triangle v, final double vv0, final double vv1,
@@ -2066,18 +2062,18 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param v0 
-     * @param v1 
-     * @param v2 
-     * @param vv0 
-     * @param vv1 
-     * @param vv2 
-     * @param d0 
-     * @param d1 
-     * @param d2 
-     * @return 
+     *
+     * @param v0
+     * @param v1
+     * @param v2
+     * @param vv0
+     * @param vv1
+     * @param vv2
+     * @param d0
+     * @param d1
+     * @param d2
+     * @return
      */
     protected static TriangleIntersection intersect(final WB_Point v0,
 	    final WB_Point v1, final WB_Point v2, final double vv0,
@@ -2098,12 +2094,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param n 
-     * @param v 
-     * @param u 
-     * @return 
+     *
+     * @param n
+     * @param v
+     * @param u
+     * @return
      */
     protected static boolean coplanarTriangles(final WB_Vector n,
 	    final WB_Triangle v, final WB_Triangle u) {
@@ -2166,16 +2162,16 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param v0 
-     * @param v1 
-     * @param u0 
-     * @param u1 
-     * @param u2 
-     * @param i0 
-     * @param i1 
-     * @return 
+     *
+     * @param v0
+     * @param v1
+     * @param u0
+     * @param u1
+     * @param u2
+     * @param i0
+     * @param i1
+     * @return
      */
     protected static boolean triangleEdgeTest(final double[] v0,
 	    final double[] v1, final double[] u0, final double[] u1,
@@ -2197,16 +2193,16 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param v0 
-     * @param u0 
-     * @param u1 
-     * @param i0 
-     * @param i1 
-     * @param ax 
-     * @param ay 
-     * @return 
+     *
+     * @param v0
+     * @param u0
+     * @param u1
+     * @param i0
+     * @param i1
+     * @param ax
+     * @param ay
+     * @return
      */
     protected static boolean edgeEdgeTest(final double[] v0, final double[] u0,
 	    final double[] u1, final int i0, final int i1, final double ax,
@@ -2234,15 +2230,15 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param v0 
-     * @param u0 
-     * @param u1 
-     * @param u2 
-     * @param i0 
-     * @param i1 
-     * @return 
+     *
+     * @param v0
+     * @param u0
+     * @param u1
+     * @param u2
+     * @param i0
+     * @param i1
+     * @return
      */
     protected static boolean pointInTri(final double[] v0, final double[] u0,
 	    final double[] u1, final double[] u2, final int i0, final int i1) {
@@ -2262,9 +2258,9 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     private static WB_IntersectionResult empty() {
 	final WB_IntersectionResult i = new WB_IntersectionResult();
@@ -2274,11 +2270,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param S1 
-     * @param S2 
-     * @return 
+     *
+     * @param S1
+     * @param S2
+     * @return
      */
     public static WB_IntersectionResult getIntersection2D(final WB_Segment S1,
 	    final WB_Segment S2) {
@@ -2312,11 +2308,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param S1 
-     * @param S2 
-     * @param i 
+     *
+     * @param S1
+     * @param S2
+     * @param i
      */
     public static void getIntersection2DInto(final WB_Segment S1,
 	    final WB_Segment S2, final WB_IntersectionResult i) {
@@ -2347,11 +2343,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param S 
-     * @param L 
-     * @return 
+     *
+     * @param S
+     * @param L
+     * @return
      */
     public static WB_Segment[] splitSegment2D(final WB_Segment S,
 	    final WB_Line L) {
@@ -2377,13 +2373,13 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param u0 
-     * @param u1 
-     * @param v0 
-     * @param v1 
-     * @return 
+     *
+     * @param u0
+     * @param u1
+     * @param v0
+     * @param v1
+     * @return
      */
     public static double[] getIntervalIntersection2D(final double u0,
 	    final double u1, final double v0, final double v1) {
@@ -2420,11 +2416,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param poly 
-     * @param L 
-     * @return 
+     *
+     * @param poly
+     * @param L
+     * @return
      */
     public static WB_Polygon[] splitPolygon2D(final WB_Polygon poly,
 	    final WB_Line L) {
@@ -2488,11 +2484,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param C0 
-     * @param C1 
-     * @return 
+     *
+     * @param C0
+     * @param C1
+     * @return
      */
     public static ArrayList<WB_Point> getIntersection2D(final WB_Circle C0,
 	    final WB_Circle C1) {
@@ -2533,23 +2529,23 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param L 
-     * @param C 
-     * @return 
+     *
+     * @param L
+     * @param C
+     * @return
      */
     public static ArrayList<WB_Point> getIntersection2D(final WB_Line L,
 	    final WB_Circle C) {
 	final ArrayList<WB_Point> result = new ArrayList<WB_Point>();
 	final double b = 2 * ((L.getDirection().xd() * (L.getOrigin().xd() - C
 		.getCenter().xd())) + (L.getDirection().yd() * (L.getOrigin()
-		.yd() - C.getCenter().yd())));
+			.yd() - C.getCenter().yd())));
 	final double c = (C.getCenter().getSqLength3D() + L.getOrigin()
 		.getSqLength3D())
 		- (2 * ((C.getCenter().xd() * L.getOrigin().xd()) + (C
 			.getCenter().yd() * L.getOrigin().yd())))
-		- (C.getRadius() * C.getRadius());
+			- (C.getRadius() * C.getRadius());
 	double disc = (b * b) - (4 * c);
 	if (disc < -WB_Epsilon.EPSILON) {
 	    return result;
@@ -2565,13 +2561,13 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param b 
-     * @param c 
-     * @param d 
-     * @return 
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     * @return
      */
     public static boolean getIntersection2DProper(final WB_Coordinate a,
 	    final WB_Coordinate b, final WB_Coordinate c, final WB_Coordinate d) {
@@ -2591,11 +2587,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param S 
-     * @return 
+     *
+     * @param p
+     * @param S
+     * @return
      */
     public static WB_Point getClosestPoint2D(final WB_Coordinate p,
 	    final WB_Segment S) {
@@ -2618,11 +2614,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param S 
-     * @param p 
-     * @return 
+     *
+     * @param S
+     * @param p
+     * @return
      */
     public static WB_Point getClosestPoint2D(final WB_Segment S,
 	    final WB_Coordinate p) {
@@ -2630,12 +2626,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @return
      */
     public static WB_Point getClosestPointToSegment2D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b) {
@@ -2659,11 +2655,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param L 
-     * @return 
+     *
+     * @param p
+     * @param L
+     * @return
      */
     public static WB_Point getClosestPoint2D(final WB_Coordinate p,
 	    final WB_Line L) {
@@ -2681,12 +2677,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @return
      */
     public static WB_Point getClosestPointToLine2D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b) {
@@ -2696,11 +2692,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param R 
-     * @return 
+     *
+     * @param p
+     * @param R
+     * @return
      */
     public static WB_Point getClosestPoint2D(final WB_Coordinate p,
 	    final WB_Ray R) {
@@ -2715,12 +2711,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @return
      */
     public static WB_Point getClosestPointToRay2D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b) {
@@ -2730,11 +2726,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param S1 
-     * @param S2 
-     * @return 
+     *
+     * @param S1
+     * @param S2
+     * @return
      */
     public static WB_IntersectionResult getClosestPoint2D(final WB_Segment S1,
 	    final WB_Segment S2) {
@@ -2800,11 +2796,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param L1 
-     * @param L2 
-     * @return 
+     *
+     * @param L1
+     * @param L2
+     * @return
      */
     public static WB_IntersectionResult getClosestPoint2D(final WB_Line L1,
 	    final WB_Line L2) {
@@ -2845,11 +2841,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param L 
-     * @param S 
-     * @return 
+     *
+     * @param L
+     * @param S
+     * @return
      */
     public static WB_IntersectionResult getClosestPoint2D(final WB_Line L,
 	    final WB_Segment S) {
@@ -2878,11 +2874,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param S 
-     * @param L 
-     * @return 
+     *
+     * @param S
+     * @param L
+     * @return
      */
     public static WB_IntersectionResult getClosestPoint2D(final WB_Segment S,
 	    final WB_Line L) {
@@ -2890,11 +2886,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param L 
-     * @param S 
-     * @return 
+     *
+     * @param L
+     * @param S
+     * @return
      */
     public static WB_IntersectionResult getClosestPoint3D(final WB_Line L,
 	    final WB_Segment S) {
@@ -2924,11 +2920,11 @@ public class WB_GeometryOp {
 
     // POINT-TRIANGLE
     /**
-     * 
      *
-     * @param p 
-     * @param T 
-     * @return 
+     *
+     * @param p
+     * @param T
+     * @return
      */
     public static WB_Point getClosestPoint2D(final WB_Coordinate p,
 	    final WB_Triangle T) {
@@ -2974,13 +2970,13 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @param c 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @param c
+     * @return
      */
     public static WB_Point getClosestPointToTriangle2D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b, final WB_Coordinate c) {
@@ -3026,11 +3022,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param T 
-     * @return 
+     *
+     * @param p
+     * @param T
+     * @return
      */
     public static WB_Point getClosestPointOnPeriphery2D(final WB_Coordinate p,
 	    final WB_Triangle T) {
@@ -3100,11 +3096,11 @@ public class WB_GeometryOp {
 
     // POINT-POLYGON
     /**
-     * 
      *
-     * @param p 
-     * @param poly 
-     * @return 
+     *
+     * @param p
+     * @param poly
+     * @return
      */
     public static WB_Point getClosestPoint2D(final WB_Coordinate p,
 	    final WB_Polygon poly) {
@@ -3128,11 +3124,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param tris 
-     * @return 
+     *
+     * @param p
+     * @param tris
+     * @return
      */
     public static WB_Point getClosestPoint2D(final WB_Coordinate p,
 	    final ArrayList<? extends WB_Triangle> tris) {
@@ -3154,11 +3150,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param poly 
-     * @return 
+     *
+     * @param p
+     * @param poly
+     * @return
      */
     public static WB_Point getClosestPointOnPeriphery2D(final WB_Coordinate p,
 	    final WB_Polygon poly) {
@@ -3196,12 +3192,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param poly 
-     * @param tris 
-     * @return 
+     *
+     * @param p
+     * @param poly
+     * @param tris
+     * @return
      */
     public static WB_Point getClosestPointOnPeriphery2D(final WB_Coordinate p,
 	    final WB_Polygon poly, final ArrayList<WB_Triangle> tris) {
@@ -3237,11 +3233,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param S1 
-     * @param S2 
-     * @return 
+     *
+     * @param S1
+     * @param S2
+     * @return
      */
     public static WB_IntersectionResult getClosestPoint3D(final WB_Segment S1,
 	    final WB_Segment S2) {
@@ -3308,11 +3304,11 @@ public class WB_GeometryOp {
 
     // POINT-POLYGON
     /**
-     * 
      *
-     * @param p 
-     * @param poly 
-     * @return 
+     *
+     * @param p
+     * @param poly
+     * @return
      */
     public static WB_Point getClosestPoint3D(final WB_Coordinate p,
 	    final WB_Polygon poly) {
@@ -3336,11 +3332,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param poly 
-     * @return 
+     *
+     * @param p
+     * @param poly
+     * @return
      */
     public static WB_Point getClosestPointOnPeriphery3D(final WB_Coordinate p,
 	    final WB_Polygon poly) {
@@ -3379,12 +3375,12 @@ public class WB_GeometryOp {
 
     // TODO: correct for polygons with holes
     /**
-     * 
      *
-     * @param p 
-     * @param poly 
-     * @param tris 
-     * @return 
+     *
+     * @param p
+     * @param poly
+     * @param tris
+     * @return
      */
     public static WB_Point getClosestPointOnPeriphery3D(final WB_Coordinate p,
 	    final WB_Polygon poly, final List<? extends WB_Triangle> tris) {
@@ -3420,11 +3416,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param ray 
-     * @param poly 
-     * @return 
+     *
+     * @param ray
+     * @param poly
+     * @return
      */
     public static WB_IntersectionResult getIntersection3D(final WB_Ray ray,
 	    final WB_Polygon poly) {
@@ -3443,11 +3439,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param line 
-     * @param poly 
-     * @return 
+     *
+     * @param line
+     * @param poly
+     * @return
      */
     public static WB_IntersectionResult getIntersection3D(final WB_Line line,
 	    final WB_Polygon poly) {
@@ -3467,11 +3463,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param segment 
-     * @param poly 
-     * @return 
+     *
+     * @param segment
+     * @param poly
+     * @return
      */
     public static WB_IntersectionResult getIntersection3D(
 	    final WB_Segment segment, final WB_Polygon poly) {
@@ -3491,12 +3487,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param b 
-     * @param c 
-     * @return 
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @return
      */
     public static boolean between2D(final WB_Coordinate a,
 	    final WB_Coordinate b, final WB_Coordinate c) {
@@ -3516,12 +3512,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param b 
-     * @param c 
-     * @return 
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @return
      */
     public static boolean betweenStrict2D(final WB_Coordinate a,
 	    final WB_Coordinate b, final WB_Coordinate c) {
@@ -3541,11 +3537,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param b 
-     * @return 
+     *
+     * @param a
+     * @param b
+     * @return
      */
     public static boolean coincident2D(final WB_Coordinate a,
 	    final WB_Coordinate b) {
@@ -3556,12 +3552,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param b 
-     * @param p 
-     * @return 
+     *
+     * @param a
+     * @param b
+     * @param p
+     * @return
      */
     public static double projectedDistanceNorm(final WB_Coordinate a,
 	    final WB_Coordinate b, final WB_Coordinate p) {
@@ -3574,11 +3570,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param L 
-     * @return 
+     *
+     * @param p
+     * @param L
+     * @return
      */
     public static double pointAlongLine(final WB_Coordinate p, final WB_Line L) {
 	final WB_Vector ab = L.getDirection();
@@ -3588,11 +3584,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param tree 
-     * @return 
+     *
+     * @param p
+     * @param tree
+     * @return
      */
     public static boolean contains(final WB_Coordinate p, final WB_AABBTree tree) {
 	final LinkedList<WB_AABBNode> queue = new LinkedList<WB_AABBNode>();
@@ -3620,11 +3616,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param AABB 
-     * @return 
+     *
+     * @param p
+     * @param AABB
+     * @return
      */
     public static boolean contains(final WB_Coordinate p, final WB_AABB AABB) {
 	return (p.xd() >= AABB.getMinX()) && (p.yd() >= AABB.getMinY())
@@ -3633,13 +3629,13 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p1 
-     * @param p2 
-     * @param A 
-     * @param B 
-     * @return 
+     *
+     * @param p1
+     * @param p2
+     * @param A
+     * @param B
+     * @return
      */
     public static boolean sameSide(final WB_Coordinate p1,
 	    final WB_Coordinate p2, final WB_Coordinate A, final WB_Coordinate B) {
@@ -3656,13 +3652,13 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param A 
-     * @param B 
-     * @param C 
-     * @return 
+     *
+     * @param p
+     * @param A
+     * @param B
+     * @param C
+     * @return
      */
     public static boolean contains(final WB_Coordinate p,
 	    final WB_Coordinate A, final WB_Coordinate B, final WB_Coordinate C) {
@@ -3677,22 +3673,22 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param T 
-     * @return 
+     *
+     * @param p
+     * @param T
+     * @return
      */
     public static boolean contains(final WB_Coordinate p, final WB_Triangle T) {
 	return contains(p, T.p1(), T.p2(), T.p3());
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param P 
-     * @return 
+     *
+     * @param p
+     * @param P
+     * @return
      */
     public static WB_Point projectOnPlane(final WB_Coordinate p,
 	    final WB_Plane P) {
@@ -3703,33 +3699,33 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param L 
-     * @return 
+     *
+     * @param p
+     * @param L
+     * @return
      */
     public static double distanceToLine2D(final WB_Coordinate p, final WB_Line L) {
 	return Math.sqrt(getSqDistanceToLine2D(p, L));
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param S 
-     * @return 
+     *
+     * @param p
+     * @param S
+     * @return
      */
     public static double getDistance2D(final WB_Coordinate p, final WB_Segment S) {
 	return Math.sqrt(getSqDistance2D(p, S));
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param q 
-     * @return 
+     *
+     * @param p
+     * @param q
+     * @return
      */
     public static double getDistance2D(final WB_Coordinate p,
 	    final WB_Coordinate q) {
@@ -3737,55 +3733,55 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param L 
-     * @return 
+     *
+     * @param p
+     * @param L
+     * @return
      */
     public static double getDistance2D(final WB_Coordinate p, final WB_Line L) {
 	return Math.sqrt(getSqDistance2D(p, L));
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param R 
-     * @return 
+     *
+     * @param p
+     * @param R
+     * @return
      */
     public static double getDistance2D(final WB_Coordinate p, final WB_Ray R) {
 	return Math.sqrt(getSqDistance2D(p, R));
     }
 
     /**
-     * 
      *
-     * @param S 
-     * @param T 
-     * @return 
+     *
+     * @param S
+     * @param T
+     * @return
      */
     public static double getDistance3D(final WB_Segment S, final WB_Segment T) {
 	return Math.sqrt(WB_GeometryOp.getIntersection3D(S, T).sqDist);
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param S 
-     * @return 
+     *
+     * @param p
+     * @param S
+     * @return
      */
     public static double getDistance3D(final WB_Coordinate p, final WB_Segment S) {
 	return Math.sqrt(getSqDistance3D(p, S));
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param poly 
-     * @return 
+     *
+     * @param p
+     * @param poly
+     * @return
      */
     public static double getDistance3D(final WB_Coordinate p,
 	    final WB_Polygon poly) {
@@ -3793,22 +3789,22 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param AABB 
-     * @return 
+     *
+     * @param p
+     * @param AABB
+     * @return
      */
     public static double getDistance3D(final WB_Coordinate p, final WB_AABB AABB) {
 	return Math.sqrt(getSqDistance3D(p, AABB));
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param q 
-     * @return 
+     *
+     * @param p
+     * @param q
+     * @return
      */
     public static double getDistance3D(final WB_Coordinate p,
 	    final WB_Coordinate q) {
@@ -3816,33 +3812,33 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param L 
-     * @return 
+     *
+     * @param p
+     * @param L
+     * @return
      */
     public static double getDistance3D(final WB_Coordinate p, final WB_Line L) {
 	return Math.sqrt(getSqDistance3D(p, L));
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param P 
-     * @return 
+     *
+     * @param p
+     * @param P
+     * @return
      */
     public static double getDistance3D(final WB_Coordinate p, final WB_Plane P) {
 	return P.getNormal().dot(p) - P.d();
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param P 
-     * @return 
+     *
+     * @param p
+     * @param P
+     * @return
      */
     public static double getDistance3D(final double p[], final WB_Plane P) {
 	final WB_Vector n = P.getNormal();
@@ -3850,23 +3846,23 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param R 
-     * @return 
+     *
+     * @param p
+     * @param R
+     * @return
      */
     public static double getDistance3D(final WB_Coordinate p, final WB_Ray R) {
 	return Math.sqrt(getSqDistance3D(p, R));
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @return
      */
     public static double getDistanceToLine2D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b) {
@@ -3901,11 +3897,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param P 
-     * @return 
+     *
+     * @param p
+     * @param P
+     * @return
      */
     public static double getDistanceToPlane3D(final WB_Coordinate p,
 	    final WB_Plane P) {
@@ -3914,11 +3910,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param P 
-     * @return 
+     *
+     * @param p
+     * @param P
+     * @return
      */
     public static double getDistanceToPlane3D(final double[] p, final WB_Plane P) {
 	final WB_Vector v = P.getNormal();
@@ -3952,12 +3948,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @return
      */
     public static double getDistanceToRay2D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b) {
@@ -3992,12 +3988,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @return
      */
     public static double getDistanceToSegment2D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b) {
@@ -4032,40 +4028,40 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public static double getSqLength2D(final WB_Coordinate p) {
 	return ((p.xd() * p.xd()) + (p.yf() * p.yf()));
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public static double getSqLength3D(final WB_Coordinate p) {
 	return ((p.xd() * p.xd()) + (p.yf() * p.yf()) + (p.zf() * p.zf()));
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public static double getLength2D(final WB_Coordinate p) {
 	return Math.sqrt((p.xd() * p.xd()) + (p.yf() * p.yf()));
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public static double getLength3D(final WB_Coordinate p) {
 	return Math.sqrt((p.xd() * p.xd()) + (p.yf() * p.yf())
@@ -4073,11 +4069,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param S 
-     * @return 
+     *
+     * @param p
+     * @param S
+     * @return
      */
     public static double getSqDistance2D(final WB_Coordinate p,
 	    final WB_Segment S) {
@@ -4096,11 +4092,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param q 
-     * @return 
+     *
+     * @param p
+     * @param q
+     * @return
      */
     public static double getSqDistance2D(final WB_Coordinate p,
 	    final WB_Coordinate q) {
@@ -4109,11 +4105,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param L 
-     * @return 
+     *
+     * @param p
+     * @param L
+     * @return
      */
     public static double getSqDistance2D(final WB_Coordinate p, final WB_Line L) {
 	final WB_Vector ab = L.getDirection();
@@ -4124,11 +4120,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param R 
-     * @return 
+     *
+     * @param p
+     * @param R
+     * @return
      */
     public static double getSqDistance2D(final WB_Coordinate p, final WB_Ray R) {
 	final WB_Vector ab = R.getDirection();
@@ -4142,22 +4138,22 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param S 
-     * @param T 
-     * @return 
+     *
+     * @param S
+     * @param T
+     * @return
      */
     public static double getSqDistance3D(final WB_Segment S, final WB_Segment T) {
 	return WB_GeometryOp.getIntersection3D(S, T).sqDist;
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param S 
-     * @return 
+     *
+     * @param p
+     * @param S
+     * @return
      */
     public static double getSqDistance3D(final WB_Coordinate p,
 	    final WB_Segment S) {
@@ -4176,11 +4172,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param poly 
-     * @return 
+     *
+     * @param p
+     * @param poly
+     * @return
      */
     public static double getSqDistance3D(final WB_Coordinate p,
 	    final WB_Polygon poly) {
@@ -4206,11 +4202,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param AABB 
-     * @return 
+     *
+     * @param p
+     * @param AABB
+     * @return
      */
     public static double getSqDistance3D(final WB_Coordinate p,
 	    final WB_AABB AABB) {
@@ -4241,25 +4237,25 @@ public class WB_GeometryOp {
 
     // POINT-POINT
     /**
-     * 
      *
-     * @param p 
-     * @param q 
-     * @return 
+     *
+     * @param p
+     * @param q
+     * @return
      */
     public static double getSqDistance3D(final WB_Coordinate p,
 	    final WB_Coordinate q) {
 	return (((q.xd() - p.xd()) * (q.xd() - p.xd()))
 		+ ((q.yd() - p.yd()) * (q.yd() - p.yd())) + ((q.zd() - p.zd()) * (q
-		.zd() - p.zd())));
+			.zd() - p.zd())));
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param L 
-     * @return 
+     *
+     * @param p
+     * @param L
+     * @return
      */
     public static double getSqDistance3D(final WB_Coordinate p, final WB_Line L) {
 	final WB_Vector ab = L.getDirection();
@@ -4271,11 +4267,11 @@ public class WB_GeometryOp {
 
     // POINT-PLANE
     /**
-     * 
      *
-     * @param p 
-     * @param P 
-     * @return 
+     *
+     * @param p
+     * @param P
+     * @return
      */
     public static double getSqDistance3D(final WB_Coordinate p, final WB_Plane P) {
 	final double d = P.getNormal().dot(p) - P.d();
@@ -4283,11 +4279,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param R 
-     * @return 
+     *
+     * @param p
+     * @param R
+     * @return
      */
     public static double getSqDistance3D(final WB_Coordinate p, final WB_Ray R) {
 	final WB_Vector ab = R.getDirection();
@@ -4302,12 +4298,12 @@ public class WB_GeometryOp {
 
     // POINT-SEGMENT
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @return
      */
     public static double getSqDistanceToLine2D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b) {
@@ -4372,11 +4368,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param P 
-     * @return 
+     *
+     * @param p
+     * @param P
+     * @return
      */
     public static double getSqDistanceToPlane3D(final WB_Coordinate p,
 	    final WB_Plane P) {
@@ -4409,16 +4405,16 @@ public class WB_GeometryOp {
 	    final WB_Coordinate q) {
 	return (((q.xd() - p.xd()) * (q.xd() - p.xd()))
 		+ ((q.yd() - p.yd()) * (q.yd() - p.yd())) + ((q.zd() - p.zd()) * (q
-		.zd() - p.zd())));
+			.zd() - p.zd())));
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @return
      */
     public static double getSqDistanceToRay2D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b) {
@@ -4475,12 +4471,12 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param a 
-     * @param b 
-     * @return 
+     *
+     * @param p
+     * @param a
+     * @param b
+     * @return
      */
     public static double getSqDistanceToSegment2D(final WB_Coordinate p,
 	    final WB_Coordinate a, final WB_Coordinate b) {
@@ -4548,11 +4544,11 @@ public class WB_GeometryOp {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param P 
-     * @return 
+     *
+     * @param p
+     * @param P
+     * @return
      */
     public static double signedDistanceToPlane3D(final WB_Coordinate p,
 	    final WB_Plane P) {

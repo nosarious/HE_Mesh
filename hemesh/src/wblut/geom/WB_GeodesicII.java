@@ -1,129 +1,110 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 import java.security.InvalidParameterException;
 
 /**
- * 
+ *
  */
-public class WB_GeodesicII {
-    
+class WB_GeodesicII {
     /**
-     * 
+     *
      */
     public static final int TETRAHEDRON = 0;
-    
     /**
-     * 
+     *
      */
     public static final int OCTAHEDRON = 1;
-    
     /**
-     * 
+     *
      */
     public static final int CUBE = 2;
-    
     /**
-     * 
+     *
      */
     public static final int DODECAHEDRON = 3;
-    
     /**
-     * 
+     *
      */
     public static final int ICOSAHEDRON = 4;
-    
     /**
-     * 
+     *
      */
     private final double[][] centralanglesabc;
-    
     /**
-     * 
+     *
      */
     private static double PI = Math.PI;
-    
     /**
-     * 
+     *
      */
     private static double[][] surfaceanglesABC = new double[][] {
-	    { PI / 3.0, PI / 3.0, PI / 2.0 }, { PI / 3.0, PI / 4.0, PI / 2.0 },
-	    { PI / 4.0, PI / 3.0, PI / 2.0 }, { PI / 5.0, PI / 3.0, PI / 2.0 },
-	    { PI / 3.0, PI / 5.0, PI / 2.0 } };
-    
+	{ PI / 3.0, PI / 3.0, PI / 2.0 }, { PI / 3.0, PI / 4.0, PI / 2.0 },
+	{ PI / 4.0, PI / 3.0, PI / 2.0 }, { PI / 5.0, PI / 3.0, PI / 2.0 },
+	{ PI / 3.0, PI / 5.0, PI / 2.0 } };
     /**
-     * 
+     *
      */
     private WB_Point[][] LCDPoints;
-    
     /**
-     * 
+     *
      */
     private WB_Point[] triacon;
-    
     /**
-     * 
+     *
      */
     private WB_Point[] points;
-    
     /**
-     * 
+     *
      */
     private int[][] faces;
-    
     /**
-     * 
+     *
      */
     private final int v, hv;
-    
     /**
-     * 
+     *
      */
     private WB_FaceListMesh mesh;
-    
     /**
-     * 
+     *
      */
     private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
-    
     /**
-     * 
+     *
      */
     private final double radius;
-    
     /**
-     * 
+     *
      */
     private final int type;
-    
     /**
-     * 
+     *
      */
     private int vertexoffset;
-    
     /**
-     * 
+     *
      */
     private int faceoffset;
 
     /**
-     * 
      *
-     * @param radius 
-     * @param v 
+     *
+     * @param radius
+     * @param v
      */
     public WB_GeodesicII(final double radius, final int v) {
 	this(radius, v, ICOSAHEDRON);
     }
 
     /**
-     * 
      *
-     * @param radius 
-     * @param v 
-     * @param type 
+     *
+     * @param radius
+     * @param v
+     * @param type
      */
     public WB_GeodesicII(final double radius, final int v, final int type) {
 	if (v <= 0) {
@@ -149,9 +130,9 @@ public class WB_GeodesicII {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_FaceListMesh getMesh() {
 	createMesh();
@@ -159,7 +140,7 @@ public class WB_GeodesicII {
     }
 
     /**
-     * 
+     *
      */
     private void createMesh() {
 	LCDPoints = new WB_Point[hv + 1][hv + 1];
@@ -200,20 +181,20 @@ public class WB_GeodesicII {
 		    if (j != 0) {
 			triacon[index(qv + ((i + j) / 2.0), qv
 				+ ((i - j) / 2.0), hv)] = new WB_Point(
-				LCDPoints[i][j].xd(), -LCDPoints[i][j].yd(),
-				LCDPoints[i][j].zd());
+					LCDPoints[i][j].xd(), -LCDPoints[i][j].yd(),
+					LCDPoints[i][j].zd());
 		    }
 		    if (i != 0) {
 			triacon[index(qv - ((i + j) / 2.0), qv
 				- ((i - j) / 2.0), hv)] = new WB_Point(
-				-LCDPoints[i][j].xd(), LCDPoints[i][j].yd(),
-				LCDPoints[i][j].zd());
+					-LCDPoints[i][j].xd(), LCDPoints[i][j].yd(),
+					LCDPoints[i][j].zd());
 		    }
 		    if ((i != 0) && (j != 0)) {
 			triacon[index(qv - ((i - j) / 2.0), qv
 				- ((i + j) / 2.0), hv)] = new WB_Point(
-				-LCDPoints[i][j].xd(), -LCDPoints[i][j].yd(),
-				LCDPoints[i][j].zd());
+					-LCDPoints[i][j].xd(), -LCDPoints[i][j].yd(),
+					LCDPoints[i][j].zd());
 		    }
 		}
 	    }
@@ -294,90 +275,90 @@ public class WB_GeodesicII {
 	    break;
 	case CUBE:
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateZ((Math.PI / 180.0) * 35)
-		    .addRotateY(Math.PI / 3.0)
-		    .addRotateZ((Math.PI / 180.0) * 35));
+	    .addRotateZ((Math.PI / 180.0) * 35)
+	    .addRotateY(Math.PI / 3.0)
+	    .addRotateZ((Math.PI / 180.0) * 35));
 	    addTransformedFaces(new WB_Transform().addRotateX(-0.5 * Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateZ((-Math.PI / 180.0) * 35)
-		    .addRotateY(-Math.PI / 3.0)
-		    .addRotateZ((-Math.PI / 180.0) * 35));
+	    .addRotateZ((-Math.PI / 180.0) * 35)
+	    .addRotateY(-Math.PI / 3.0)
+	    .addRotateZ((-Math.PI / 180.0) * 35));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateZ((Math.PI / 180.0) * 35)
-		    .addRotateY(-Math.PI / 3.0)
-		    .addRotateZ((Math.PI / 180.0) * 35));
+	    .addRotateZ((Math.PI / 180.0) * 35)
+	    .addRotateY(-Math.PI / 3.0)
+	    .addRotateZ((Math.PI / 180.0) * 35));
 	    addTransformedFaces(new WB_Transform().addRotateX(0.5 * Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateZ((-Math.PI / 180.0) * 35)
-		    .addRotateY(Math.PI / 3.0)
-		    .addRotateZ((-Math.PI / 180.0) * 35));
+	    .addRotateZ((-Math.PI / 180.0) * 35)
+	    .addRotateY(Math.PI / 3.0)
+	    .addRotateZ((-Math.PI / 180.0) * 35));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateZ((-Math.PI / 180.0) * 35)
-		    .addRotateY(Math.PI / 3.0)
-		    .addRotateZ((-Math.PI / 180.0) * 35).addRotateX(Math.PI));
+	    .addRotateZ((-Math.PI / 180.0) * 35)
+	    .addRotateY(Math.PI / 3.0)
+	    .addRotateZ((-Math.PI / 180.0) * 35).addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateZ((Math.PI / 180.0) * 35)
-		    .addRotateY(-Math.PI / 3.0)
-		    .addRotateZ((Math.PI / 180.0) * 35).addRotateX(Math.PI));
+	    .addRotateZ((Math.PI / 180.0) * 35)
+	    .addRotateY(-Math.PI / 3.0)
+	    .addRotateZ((Math.PI / 180.0) * 35).addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateZ((-Math.PI / 180.0) * 35)
-		    .addRotateY(-Math.PI / 3.0)
-		    .addRotateZ((-Math.PI / 180.0) * 35).addRotateX(Math.PI));
+	    .addRotateZ((-Math.PI / 180.0) * 35)
+	    .addRotateY(-Math.PI / 3.0)
+	    .addRotateZ((-Math.PI / 180.0) * 35).addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateZ((Math.PI / 180.0) * 35)
-		    .addRotateY(Math.PI / 3.0)
-		    .addRotateZ((Math.PI / 180.0) * 35).addRotateX(Math.PI));
+	    .addRotateZ((Math.PI / 180.0) * 35)
+	    .addRotateY(Math.PI / 3.0)
+	    .addRotateZ((Math.PI / 180.0) * 35).addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform().addRotateX(Math.PI));
 	    break;
 	case DODECAHEDRON:
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(Math.PI / 2.5)
-		    .addRotateX((-Math.PI / 180.0) * 31.7170));
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(Math.PI / 2.5)
+	    .addRotateX((-Math.PI / 180.0) * 31.7170));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(-Math.PI / 5.0)
-		    .addRotateX((-Math.PI / 180.0) * 31.7170));
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(-Math.PI / 5.0)
+	    .addRotateX((-Math.PI / 180.0) * 31.7170));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(Math.PI / 5.0)
-		    .addRotateX((-Math.PI / 180.0) * 31.7170));
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(Math.PI / 5.0)
+	    .addRotateX((-Math.PI / 180.0) * 31.7170));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(-Math.PI / 2.5)
-		    .addRotateX((-Math.PI / 180.0) * 31.7170));
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(-Math.PI / 2.5)
+	    .addRotateX((-Math.PI / 180.0) * 31.7170));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(Math.PI / 2.5)
-		    .addRotateX((Math.PI / 180.0) * 31.7170));
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(Math.PI / 2.5)
+	    .addRotateX((Math.PI / 180.0) * 31.7170));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(-Math.PI / 5.0)
-		    .addRotateX((Math.PI / 180.0) * 31.7170));
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(-Math.PI / 5.0)
+	    .addRotateX((Math.PI / 180.0) * 31.7170));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(Math.PI / 5.0)
-		    .addRotateX((Math.PI / 180.0) * 31.7170));
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(Math.PI / 5.0)
+	    .addRotateX((Math.PI / 180.0) * 31.7170));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(-Math.PI / 2.5)
-		    .addRotateX((Math.PI / 180.0) * 31.7170));
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(-Math.PI / 2.5)
+	    .addRotateX((Math.PI / 180.0) * 31.7170));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(-Math.PI / 10.0)
-		    .addRotateY((Math.PI / 180.0) * 58.2350));
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(-Math.PI / 10.0)
+	    .addRotateY((Math.PI / 180.0) * 58.2350));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(Math.PI / 10.0)
-		    .addRotateY((-Math.PI / 180.0) * 58.2350));
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(Math.PI / 10.0)
+	    .addRotateY((-Math.PI / 180.0) * 58.2350));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(-Math.PI / 10.0)
-		    .addRotateY((-Math.PI / 180.0) * 58.2350));
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(-Math.PI / 10.0)
+	    .addRotateY((-Math.PI / 180.0) * 58.2350));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(Math.PI / 10.0)
-		    .addRotateY((Math.PI / 180.0) * 58.2350));
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(Math.PI / 10.0)
+	    .addRotateY((Math.PI / 180.0) * 58.2350));
 	    addTransformedFaces(new WB_Transform().addRotateZ(0.5 * Math.PI)
 		    .addRotateY(0.5 * Math.PI));
 	    addTransformedFaces(new WB_Transform().addRotateZ(0.5 * Math.PI)
@@ -388,65 +369,65 @@ public class WB_GeodesicII {
 		    .addRotateX(0.5 * Math.PI));
 	    addTransformedFaces(new WB_Transform().addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(Math.PI / 2.5)
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateX(Math.PI));
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(Math.PI / 2.5)
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(-Math.PI / 5.0)
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateX(Math.PI));
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(-Math.PI / 5.0)
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(Math.PI / 5.0)
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateX(Math.PI));
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(Math.PI / 5.0)
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(-Math.PI / 2.5)
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateX(Math.PI));
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(-Math.PI / 2.5)
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(Math.PI / 2.5)
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateX(Math.PI));
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(Math.PI / 2.5)
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(-Math.PI / 5.0)
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateX(Math.PI));
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(-Math.PI / 5.0)
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(Math.PI / 5.0)
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateX(Math.PI));
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(Math.PI / 5.0)
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(-Math.PI / 2.5)
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateX(Math.PI));
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(-Math.PI / 2.5)
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(-Math.PI / 10.0)
-		    .addRotateY((Math.PI / 180.0) * 58.2350)
-		    .addRotateX(Math.PI));
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(-Math.PI / 10.0)
+	    .addRotateY((Math.PI / 180.0) * 58.2350)
+	    .addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((-Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(Math.PI / 10.0)
-		    .addRotateY((-Math.PI / 180.0) * 58.2350)
-		    .addRotateX(Math.PI));
+	    .addRotateX((-Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(Math.PI / 10.0)
+	    .addRotateY((-Math.PI / 180.0) * 58.2350)
+	    .addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(-Math.PI / 10.0)
-		    .addRotateY((-Math.PI / 180.0) * 58.2350)
-		    .addRotateX(Math.PI));
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(-Math.PI / 10.0)
+	    .addRotateY((-Math.PI / 180.0) * 58.2350)
+	    .addRotateX(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateX((Math.PI / 180.0) * 31.7170)
-		    .addRotateZ(Math.PI / 10.0)
-		    .addRotateY((Math.PI / 180.0) * 58.2350)
-		    .addRotateX(Math.PI));
+	    .addRotateX((Math.PI / 180.0) * 31.7170)
+	    .addRotateZ(Math.PI / 10.0)
+	    .addRotateY((Math.PI / 180.0) * 58.2350)
+	    .addRotateX(Math.PI));
 	    break;
 	case ICOSAHEDRON:
 	default:
@@ -460,116 +441,116 @@ public class WB_GeodesicII {
 		    .addRotateX(0.5 * Math.PI));
 	    addTransformedFaces(new WB_Transform().addRotateY(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateZ((Math.PI / 180.0) * 108.0)
-		    .addRotateY((Math.PI / 180.0) * 31.7175));
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateZ((Math.PI / 180.0) * 108.0)
+	    .addRotateY((Math.PI / 180.0) * 31.7175));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateZ((-Math.PI / 180.0) * 108.0)
-		    .addRotateY((-Math.PI / 180.0) * 31.71749));
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateZ((-Math.PI / 180.0) * 108.0)
+	    .addRotateY((-Math.PI / 180.0) * 31.71749));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateZ((Math.PI / 180.0) * 108.0)
-		    .addRotateY((-Math.PI / 180.0) * 31.71749));
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateZ((Math.PI / 180.0) * 108.0)
+	    .addRotateY((-Math.PI / 180.0) * 31.71749));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateZ((-Math.PI / 180.0) * 108.0)
-		    .addRotateY((Math.PI / 180.0) * 31.7175));
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateZ((-Math.PI / 180.0) * 108.0)
+	    .addRotateY((Math.PI / 180.0) * 31.7175));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateZ((Math.PI / 180.0) * 198.0)
-		    .addRotateX((-Math.PI / 180.0) * 58.28255));
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateZ((Math.PI / 180.0) * 198.0)
+	    .addRotateX((-Math.PI / 180.0) * 58.28255));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateZ((-Math.PI / 180.0) * 144.0)
-		    .addRotateY((Math.PI / 180.0) * 31.7175));
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateZ((-Math.PI / 180.0) * 144.0)
+	    .addRotateY((Math.PI / 180.0) * 31.7175));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateZ((Math.PI / 180.0) * 144.0)
-		    .addRotateY((Math.PI / 180.0) * 31.7175));
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateZ((Math.PI / 180.0) * 144.0)
+	    .addRotateY((Math.PI / 180.0) * 31.7175));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateZ((-Math.PI / 180.0) * 198.0)
-		    .addRotateX((Math.PI / 180.0) * 58.2826));
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateZ((-Math.PI / 180.0) * 198.0)
+	    .addRotateX((Math.PI / 180.0) * 58.2826));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateZ((Math.PI / 180.0) * 198.0)
-		    .addRotateX((Math.PI / 180.0) * 58.2826));
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateZ((Math.PI / 180.0) * 198.0)
+	    .addRotateX((Math.PI / 180.0) * 58.2826));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateZ((-Math.PI / 180.0) * 144.0)
-		    .addRotateY((-Math.PI / 180.0) * 31.71749));
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateZ((-Math.PI / 180.0) * 144.0)
+	    .addRotateY((-Math.PI / 180.0) * 31.71749));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateZ((Math.PI / 180.0) * 144.0)
-		    .addRotateY((-Math.PI / 180.0) * 31.71749));
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateZ((Math.PI / 180.0) * 144.0)
+	    .addRotateY((-Math.PI / 180.0) * 31.71749));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateZ((-Math.PI / 180.0) * 198.0)
-		    .addRotateX((-Math.PI / 180.0) * 58.28255));
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateZ((-Math.PI / 180.0) * 198.0)
+	    .addRotateX((-Math.PI / 180.0) * 58.28255));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateZ((Math.PI / 180.0) * 108.0)
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateY(Math.PI));
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateZ((Math.PI / 180.0) * 108.0)
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateY(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateZ((-Math.PI / 180.0) * 108.0)
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateY(Math.PI));
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateZ((-Math.PI / 180.0) * 108.0)
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateY(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateZ((Math.PI / 180.0) * 108.0)
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateY(Math.PI));
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateZ((Math.PI / 180.0) * 108.0)
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateY(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateZ((-Math.PI / 180.0) * 108.0)
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateY(Math.PI));
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateZ((-Math.PI / 180.0) * 108.0)
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateY(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateZ((Math.PI / 180.0) * 198.0)
-		    .addRotateX((-Math.PI / 180.0) * 58.28255)
-		    .addRotateY(Math.PI));
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateZ((Math.PI / 180.0) * 198.0)
+	    .addRotateX((-Math.PI / 180.0) * 58.28255)
+	    .addRotateY(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateZ((-Math.PI / 180.0) * 144.0)
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateY(Math.PI));
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateZ((-Math.PI / 180.0) * 144.0)
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateY(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateZ((Math.PI / 180.0) * 144.0)
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateY(Math.PI));
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateZ((Math.PI / 180.0) * 144.0)
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateY(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateZ((-Math.PI / 180.0) * 198.0)
-		    .addRotateX((Math.PI / 180.0) * 58.2826)
-		    .addRotateY(Math.PI));
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateZ((-Math.PI / 180.0) * 198.0)
+	    .addRotateX((Math.PI / 180.0) * 58.2826)
+	    .addRotateY(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateZ((Math.PI / 180.0) * 198.0)
-		    .addRotateX((Math.PI / 180.0) * 58.2826)
-		    .addRotateY(Math.PI));
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateZ((Math.PI / 180.0) * 198.0)
+	    .addRotateX((Math.PI / 180.0) * 58.2826)
+	    .addRotateY(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateZ((-Math.PI / 180.0) * 144.0)
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateY(Math.PI));
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateZ((-Math.PI / 180.0) * 144.0)
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateY(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateZ((Math.PI / 180.0) * 144.0)
-		    .addRotateY((-Math.PI / 180.0) * 31.71749)
-		    .addRotateY(Math.PI));
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateZ((Math.PI / 180.0) * 144.0)
+	    .addRotateY((-Math.PI / 180.0) * 31.71749)
+	    .addRotateY(Math.PI));
 	    addTransformedFaces(new WB_Transform()
-		    .addRotateY((Math.PI / 180.0) * 31.7175)
-		    .addRotateZ((-Math.PI / 180.0) * 198.0)
-		    .addRotateX((-Math.PI / 180.0) * 58.28255)
-		    .addRotateY(Math.PI));
+	    .addRotateY((Math.PI / 180.0) * 31.7175)
+	    .addRotateZ((-Math.PI / 180.0) * 198.0)
+	    .addRotateX((-Math.PI / 180.0) * 58.28255)
+	    .addRotateY(Math.PI));
 	}
 	final WB_Transform T = new WB_Transform()
-	.addRotateY(-centralanglesabc[type][0]);
+		.addRotateY(-centralanglesabc[type][0]);
 	if ((type == OCTAHEDRON) || (type == DODECAHEDRON)) {
 	    T.addRotateZ(surfaceanglesABC[type][1]);
 	}
@@ -582,9 +563,9 @@ public class WB_GeodesicII {
     }
 
     /**
-     * 
      *
-     * @param T 
+     *
+     * @param T
      */
     private void addTransformedFaces(final WB_Transform T) {
 	int index = faceoffset;
@@ -608,12 +589,12 @@ public class WB_GeodesicII {
     }
 
     /**
-     * 
      *
-     * @param i 
-     * @param j 
-     * @param hv 
-     * @return 
+     *
+     * @param i
+     * @param j
+     * @param hv
+     * @return
      */
     private int index(final double i, final double j, final int hv) {
 	return (int) i + ((int) j * (hv + 1));

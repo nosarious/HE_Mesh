@@ -1,13 +1,13 @@
 /*
- * 
+ *
  */
 package wblut.math;
 
 /**
  * WB_Binomial.
- * 
+ *
  * @author Frederik Vanhoutte, W:Blut
- * 
+ *
  *         Calculates binomial coefficients.
  */
 public class WB_Binomial {
@@ -17,14 +17,14 @@ public class WB_Binomial {
     /**
      * An instance of WB_Binomial stores a N by K matrix of binomial
      * coefficients.
-     * 
+     *
      * n! / (n-k)! k!
-     * 
+     *
      * This is efficient if the same coefficients are need over and over. The
      * precalculated coefficient are retrieved with binPreCalc(). If only a few
      * coefficients are needed, the static function bin() can be more efficient.
      * It can be directly called as WB_Binomial.bin(n,k)
-     * 
+     *
      * @param N
      *            n-value
      * @param K
@@ -39,7 +39,6 @@ public class WB_Binomial {
 	for (int n = 0; n <= N; n++) {
 	    binomial[n][0] = 1;
 	}
-	// bottom-up dynamic programming
 	for (int n = 1; n <= N; n++) {
 	    for (int k = 1; k <= K; k++) {
 		binomial[n][k] = binomial[n - 1][k - 1] + binomial[n - 1][k];
@@ -50,7 +49,7 @@ public class WB_Binomial {
     /**
      * Retrieve the precalculated binomial coefficient from an instance of
      * WB_Binomial.
-     * 
+     *
      * @param n
      *            n-value, <=N of WB_Binomial instance
      * @param k
@@ -63,7 +62,7 @@ public class WB_Binomial {
 
     /**
      * Retrieve arbitrary binomial coefficient.
-     * 
+     *
      * @param N
      *            n-value
      * @param K
@@ -78,7 +77,6 @@ public class WB_Binomial {
 	for (int n = 0; n <= N; n++) {
 	    binomial[n][0] = 1;
 	}
-	// bottom-up dynamic programming
 	for (int n = 1; n <= N; n++) {
 	    for (int k = 1; k <= K; k++) {
 		binomial[n][k] = binomial[n - 1][k - 1] + binomial[n - 1][k];

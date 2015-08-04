@@ -498,7 +498,7 @@ public class WB_Line extends WB_Linear implements WB_Curve {
      * @see wblut.geom.WB_Curve#loweru()
      */
     @Override
-    public double loweru() {
+    public double getLowerU() {
 	return Double.NEGATIVE_INFINITY;
     }
 
@@ -506,7 +506,7 @@ public class WB_Line extends WB_Linear implements WB_Curve {
      * @see wblut.geom.WB_Curve#upperu()
      */
     @Override
-    public double upperu() {
+    public double getUpperU() {
 	return Double.POSITIVE_INFINITY;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -9,18 +9,18 @@ import wblut.geom.WB_ClassificationConvex;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Vector;
-import wblut.math.WB_ConstantParameter;
-import wblut.math.WB_Parameter;
+import wblut.math.WB_ConstantScalarParameter;
+import wblut.math.WB_ScalarParameter;
 
 /**
  * Chamfer all convex corners.
- * 
+ *
  * @author Frederik Vanhoutte (W:Blut)
- * 
+ *
  */
 public class HEM_ChamferCorners extends HEM_Modifier {
     /** Chamfer distance. */
-    private WB_Parameter<Double> distance;
+    private WB_ScalarParameter distance;
 
     /**
      * Instantiates a new HEM_ChamferCorners.
@@ -31,31 +31,31 @@ public class HEM_ChamferCorners extends HEM_Modifier {
 
     /**
      * Set chamfer distance along vertex normals.
-     * 
+     *
      * @param d
      *            distance
      * @return self
      */
     public HEM_ChamferCorners setDistance(final double d) {
-	distance = new WB_ConstantParameter<Double>(d);
+	distance = new WB_ConstantScalarParameter(d);
 	return this;
     }
 
     /**
      * Set chamfer distance along vertex normals.
-     * 
+     *
      * @param d
      *            WB_Parameter
      * @return self
      */
-    public HEM_ChamferCorners setDistance(final WB_Parameter<Double> d) {
+    public HEM_ChamferCorners setDistance(final WB_ScalarParameter d) {
 	distance = d;
 	return this;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.modifiers.HEB_Modifier#modify(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -70,7 +70,7 @@ public class HEM_ChamferCorners extends HEM_Modifier {
 	    v = vItr.next();
 	    if (v.getVertexType() == WB_ClassificationConvex.CONVEX) {
 		final WB_Vector N = new WB_Vector(v.getVertexNormal());
-		final WB_Point O = new WB_Point(N).mulSelf(-distance.value(
+		final WB_Point O = new WB_Point(N).mulSelf(-distance.evaluate(
 			v.xd(), v.yd(), v.zd()));
 		N.mulSelf(-1);
 		O.addSelf(v);
@@ -86,7 +86,7 @@ public class HEM_ChamferCorners extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * wblut.hemesh.modifiers.HEB_Modifier#modifySelected(wblut.hemesh.HE_Mesh)
      */
@@ -103,7 +103,7 @@ public class HEM_ChamferCorners extends HEM_Modifier {
 	    v = vItr.next();
 	    if (v.getVertexType() == WB_ClassificationConvex.CONVEX) {
 		final WB_Vector N = new WB_Vector(v.getVertexNormal());
-		final WB_Point O = new WB_Point(N).mulSelf(-distance.value(
+		final WB_Point O = new WB_Point(N).mulSelf(-distance.evaluate(
 			v.xd(), v.yd(), v.zd()));
 		N.mulSelf(-1);
 		O.addSelf(v);

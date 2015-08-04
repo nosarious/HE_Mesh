@@ -8,18 +8,14 @@ import wblut.geom.WB_Vector;
 
 /**
  *
- * Random generator for vectors uniformly distributed on the unit disk.
+ * Random generator for vectors uniformly distributed on a disk with radius 1.
  *
  * @author Frederik Vanhoutte, W:Blut
  *
  */
 public class WB_RandomDisk implements WB_RandomPoint {
-    /** The random gen. */
     private final WB_MTRandom randomGen;
 
-    /**
-     * Instantiates a new w b_ random disc.
-     */
     public WB_RandomDisk() {
 	randomGen = new WB_MTRandom();
     }
@@ -28,24 +24,12 @@ public class WB_RandomDisk implements WB_RandomPoint {
 	randomGen = new WB_MTRandom(seed);
     }
 
-    /**
-     * Set random seed.
-     *
-     * @param seed
-     *            seed
-     * @return self
-     */
     @Override
     public WB_RandomDisk setSeed(final long seed) {
 	randomGen.setSeed(seed);
 	return this;
     }
 
-    /**
-     * Next point.
-     *
-     * @return next random WB_Point on unit disk
-     */
     @Override
     public WB_Point nextPoint() {
 	final double r = Math.sqrt(randomGen.nextDouble());
@@ -53,11 +37,6 @@ public class WB_RandomDisk implements WB_RandomPoint {
 	return new WB_Point(r * Math.cos(t), r * Math.sin(t), 0);
     }
 
-    /**
-     * Next vector.
-     *
-     * @return next random WB_Vector on unit disk
-     */
     @Override
     public WB_Vector nextVector() {
 	final double r = Math.sqrt(randomGen.nextDouble());
@@ -65,6 +44,7 @@ public class WB_RandomDisk implements WB_RandomPoint {
 	return new WB_Vector(r * Math.cos(t), r * Math.sin(t), 0);
     }
 
+    @Override
     public void reset() {
 	randomGen.reset();
     }

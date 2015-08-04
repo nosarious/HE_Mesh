@@ -16,7 +16,7 @@ public class WB_NurbsRuledSurface {
      * @return 
      */
     public static WB_BSplineSurface getRuledSurface(WB_BSpline CA, WB_BSpline CB) {
-	if ((CA.loweru() != CB.loweru()) || (CA.upperu() != CB.upperu())) {
+	if ((CA.getLowerU() != CB.getLowerU()) || (CA.getUpperU() != CB.getUpperU())) {
 	    throw new IllegalArgumentException(
 		    "Curves not defined on same parameter range.");
 	}
@@ -52,7 +52,7 @@ public class WB_NurbsRuledSurface {
      */
     public static WB_RBSplineSurface getRuledSurface(WB_RBSpline CA,
 	    WB_RBSpline CB) {
-	if ((CA.loweru() != CB.loweru()) || (CA.upperu() != CB.upperu())) {
+	if ((CA.getLowerU() != CB.getLowerU()) || (CA.getUpperU() != CB.getUpperU())) {
 	    throw new IllegalArgumentException(
 		    "Curves not defined on same parameter range.");
 	}

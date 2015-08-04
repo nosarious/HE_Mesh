@@ -21,12 +21,12 @@ public interface WB_Curve {
      *
      * @return 
      */
-    public double loweru();
+    public double getLowerU();
 
     /**
      * 
      *
      * @return 
      */
-    public double upperu();
+    public double getUpperU();
 }

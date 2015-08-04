@@ -631,7 +631,7 @@ public class WB_BSpline implements WB_Curve {
      * @see wblut.nurbs.WB_Curve#loweru()
      */
     @Override
-    public double loweru() {
+    public double getLowerU() {
 	return knot.value(0);
     }
 
@@ -641,7 +641,7 @@ public class WB_BSpline implements WB_Curve {
      * @see wblut.nurbs.WB_Curve#upperu()
      */
     @Override
-    public double upperu() {
+    public double getUpperU() {
 	return knot.value(knot.m);
     }
 }

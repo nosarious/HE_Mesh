@@ -17,9 +17,9 @@ import wblut.geom.WB_Point;
 import wblut.geom.WB_Polygon;
 import wblut.geom.WB_Segment;
 import wblut.geom.WB_Vector;
-import wblut.math.WB_ConstantParameter;
+import wblut.math.WB_ConstantScalarParameter;
 import wblut.math.WB_Epsilon;
-import wblut.math.WB_Parameter;
+import wblut.math.WB_ScalarParameter;
 
 /**
  * Extrudes and scales a face along its face normal.
@@ -33,7 +33,7 @@ public class HEM_Extrude extends HEM_Modifier {
      */
     private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
     /** Extrusion distance. */
-    private WB_Parameter<Double> d;
+    private WB_ScalarParameter d;
     /** Threshold angle for hard edges. */
     private double thresholdAngle;
     /** Chamfer factor or distance. */
@@ -80,7 +80,7 @@ public class HEM_Extrude extends HEM_Modifier {
      */
     public HEM_Extrude() {
 	super();
-	d = new WB_ConstantParameter<Double>(0.0);
+	d = new WB_ConstantScalarParameter(0.0);
 	flat = true;
 	thresholdAngle = -1;
 	chamfer = 0;
@@ -100,7 +100,7 @@ public class HEM_Extrude extends HEM_Modifier {
      * @return self
      */
     public HEM_Extrude setDistance(final double d) {
-	this.d = new WB_ConstantParameter<Double>(d);
+	this.d = new WB_ConstantScalarParameter(d);
 	flat = (WB_Epsilon.isZero(d));
 	return this;
     }
@@ -112,7 +112,7 @@ public class HEM_Extrude extends HEM_Modifier {
      *            the d
      * @return the hE m_ extrude
      */
-    public HEM_Extrude setDistance(final WB_Parameter<Double> d) {
+    public HEM_Extrude setDistance(final WB_ScalarParameter d) {
 	this.d = d;
 	flat = false;
 	return this;
@@ -333,7 +333,8 @@ public class HEM_Extrude extends HEM_Modifier {
 			    he.getVertex()
 			    .getPoint()
 			    .addMulSelf(
-				    d.value(v.xd(), v.yd(), v.zd()), n);
+				    d.evaluate(v.xd(), v.yd(), v.zd()),
+				    n);
 			    he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		    }
@@ -428,7 +429,7 @@ public class HEM_Extrude extends HEM_Modifier {
 		    do {
 			final HE_Vertex v = he.getVertex();
 			v.getPoint().addMulSelf(
-				d.value(v.xd(), v.yd(), v.zd()), n);
+				d.evaluate(v.xd(), v.yd(), v.zd()), n);
 			he = he.getNextInFace();
 		    } while (he != f.getHalfedge());
 		}
@@ -466,7 +467,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	    for (int i = 0; i < nf; i++) {
 		fc = faces.get(i).getFaceCenter();
 		applyStraightToOneFace(i, faces, mesh, visited,
-			d.value(fc.xd(), fc.yd(), fc.zd()));
+			d.evaluate(fc.xd(), fc.yd(), fc.zd()));
 		tracker.incrementCounter();
 	    }
 	}
@@ -667,7 +668,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	    for (int i = 0; i < nf; i++) {
 		fc = faces.get(i).getFaceCenter();
 		applyPeakToOneFace(i, faces, mesh,
-			d.value(fc.xd(), fc.yd(), fc.zd()));
+			d.evaluate(fc.xd(), fc.yd(), fc.zd()));
 		tracker.incrementCounter();
 	    }
 	}
@@ -738,7 +739,7 @@ public class HEM_Extrude extends HEM_Modifier {
 		if (!applyFlatToOneFace(i, faces, mesh)) {
 		    failedFaces.add(faces.get(i));
 		    fc = faces.get(i).getFaceCenter();
-		    failedHeights.add(d.value(fc.xd(), fc.yd(), fc.zd()));
+		    failedHeights.add(d.evaluate(fc.xd(), fc.yd(), fc.zd()));
 		}
 	    }
 	    tracker.incrementCounter();

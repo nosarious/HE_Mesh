@@ -5,9 +5,9 @@ package wblut.hemesh;
 
 import java.util.Iterator;
 import wblut.geom.WB_Vector;
-import wblut.math.WB_ConstantParameter;
-import wblut.math.WB_Parameter;
+import wblut.math.WB_ConstantScalarParameter;
 import wblut.math.WB_RandomOnSphere;
+import wblut.math.WB_ScalarParameter;
 
 /**
  * Expands or contracts all vertices along the vertex normals.
@@ -17,7 +17,7 @@ import wblut.math.WB_RandomOnSphere;
  */
 public class HEM_Noise extends HEM_Modifier {
     /** Expansion distance. */
-    private WB_Parameter<Double> d;
+    private WB_ScalarParameter d;
     private final WB_RandomOnSphere rs;
 
     /**
@@ -37,7 +37,7 @@ public class HEM_Noise extends HEM_Modifier {
      * @return this
      */
     public HEM_Noise setDistance(final double d) {
-	this.d = new WB_ConstantParameter<Double>(d);
+	this.d = new WB_ConstantScalarParameter(d);
 	return this;
     }
 
@@ -53,7 +53,7 @@ public class HEM_Noise extends HEM_Modifier {
      *            the d
      * @return the hE m_ noise
      */
-    public HEM_Noise setDistance(final WB_Parameter<Double> d) {
+    public HEM_Noise setDistance(final WB_ScalarParameter d) {
 	this.d = d;
 	return this;
     }
@@ -75,7 +75,7 @@ public class HEM_Noise extends HEM_Modifier {
 	while (vItr.hasNext()) {
 	    v = vItr.next();
 	    n = rs.nextVector();
-	    v.getPoint().addSelf(n.mulSelf(d.value(v.xd(), v.yd(), v.zd())));
+	    v.getPoint().addSelf(n.mulSelf(d.evaluate(v.xd(), v.yd(), v.zd())));
 	}
 	mesh.resetFaces();
 	return mesh;
@@ -96,7 +96,7 @@ public class HEM_Noise extends HEM_Modifier {
 	while (vItr.hasNext()) {
 	    v = vItr.next();
 	    n = rs.nextVector();
-	    v.getPoint().addSelf(n.mulSelf(d.value(v.xd(), v.yd(), v.zd())));
+	    v.getPoint().addSelf(n.mulSelf(d.evaluate(v.xd(), v.yd(), v.zd())));
 	}
 	selection.parent.resetFaces();
 	return selection.parent;

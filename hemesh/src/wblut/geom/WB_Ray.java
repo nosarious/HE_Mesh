@@ -1,44 +1,43 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 import wblut.math.WB_Math;
 
 /**
- * 
+ *
  */
 public class WB_Ray extends WB_Linear implements WB_Curve {
-    
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public static WB_Ray X() {
 	return new WB_Ray(0, 0, 0, 1, 0, 0);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public static WB_Ray Y() {
 	return new WB_Ray(0, 0, 0, 0, 1, 0);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public static WB_Ray Z() {
 	return new WB_Ray(0, 0, 0, 0, 0, 1);
     }
 
     /**
-     * 
+     *
      */
     public WB_Ray() {
 	origin = new WB_Point();
@@ -46,10 +45,10 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param o 
-     * @param d 
+     *
+     * @param o
+     * @param d
      */
     public WB_Ray(final WB_Coordinate o, final WB_Coordinate d) {
 	origin = new WB_Point(o);
@@ -58,14 +57,14 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param ox 
-     * @param oy 
-     * @param oz 
-     * @param dx 
-     * @param dy 
-     * @param dz 
+     *
+     * @param ox
+     * @param oy
+     * @param oz
+     * @param dx
+     * @param dy
+     * @param dz
      */
     public WB_Ray(final double ox, final double oy, final double oz,
 	    final double dx, final double dy, final double dz) {
@@ -74,7 +73,9 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 	direction.normalizeSelf();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
@@ -82,8 +83,11 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 	return "Ray: " + origin.toString() + " " + direction.toString();
     }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Linear#set(wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see wblut.geom.WB_Linear#set(wblut.geom.WB_Coordinate,
+     * wblut.geom.WB_Coordinate)
      */
     @Override
     public void set(final WB_Coordinate o, final WB_Coordinate d) {
@@ -93,10 +97,10 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param p1 
-     * @param p2 
+     *
+     * @param p1
+     * @param p2
      */
     public void setFromPoints(final WB_Coordinate p1, final WB_Coordinate p2) {
 	origin = new WB_Point(p1);
@@ -104,7 +108,9 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 	direction.normalizeSelf();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Linear#getPointOnLine(double)
      */
     @Override
@@ -116,10 +122,10 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param t 
-     * @param p 
+     *
+     * @param t
+     * @param p
      */
     public void getPointOnLineInto(final double t, final WB_Point p) {
 	p.set(direction);
@@ -129,7 +135,9 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 	p.addSelf(origin);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Linear#getOrigin()
      */
     @Override
@@ -137,7 +145,9 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 	return origin;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Linear#getDirection()
      */
     @Override
@@ -145,27 +155,36 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 	return direction;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Curve#curvePoint(double)
      */
     @Override
     public WB_Point curvePoint(final double u) {
+	if (u < 0) {
+	    return null;
+	}
 	return this.getPointOnLine(u);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Curve#loweru()
      */
     @Override
-    public double loweru() {
+    public double getLowerU() {
 	return 0;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Curve#upperu()
      */
     @Override
-    public double upperu() {
+    public double getUpperU() {
 	return Double.POSITIVE_INFINITY;
     }
 }

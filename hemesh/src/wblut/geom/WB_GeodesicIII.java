@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
@@ -9,89 +9,75 @@ import javolution.util.FastTable;
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
-public class WB_GeodesicIII {
-    
+class WB_GeodesicIII {
     /**
-     * 
+     *
      */
     public static final int TETRAHEDRON = 0;
-    
     /**
-     * 
+     *
      */
     public static final int OCTAHEDRON = 1;
-    
     /**
-     * 
+     *
      */
     public static final int ICOSAHEDRON = 2;
-    
     /**
-     * 
+     *
      */
     private final double[][] centralanglesabc;
-    
     /**
-     * 
+     *
      */
     private static double PI = Math.PI;
-    
     /**
-     * 
+     *
      */
     private static double[][] surfaceanglesABC = new double[][] {
-	{ PI / 3.0, PI / 3.0, PI / 2.0 }, { PI / 3.0, PI / 4.0, PI / 2.0 },
-	{ PI / 3.0, PI / 5.0, PI / 2.0 } };
-    
+	    { PI / 3.0, PI / 3.0, PI / 2.0 }, { PI / 3.0, PI / 4.0, PI / 2.0 },
+	    { PI / 3.0, PI / 5.0, PI / 2.0 } };
     /**
-     * 
+     *
      */
     private final int b, c, v;
-    
     /**
-     * 
+     *
      */
     private final double radius;
-    
     /**
-     * 
+     *
      */
     private final int type;
-    
     /**
-     * 
+     *
      */
     private WB_FaceListMesh mesh;
-    
     /**
-     * 
+     *
      */
     private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
-    
     /**
-     * 
+     *
      */
     public List<WB_Point> points;
-    
     /**
-     * 
+     *
      */
     public List<WB_Point> PPT;
-    
     /**
-     * 
+     *
      */
     public List<WB_Point> zeropoints;
 
     /**
-     * 
      *
-     * @param radius 
-     * @param b 
-     * @param c 
-     * @param type 
+     *
+     * @param radius
+     * @param b
+     * @param c
+     * @param type
      */
     public WB_GeodesicIII(final double radius, final int b, final int c,
 	    final int type) {
@@ -119,9 +105,9 @@ public class WB_GeodesicIII {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_FaceListMesh getMesh() {
 	createMesh();
@@ -129,7 +115,7 @@ public class WB_GeodesicIII {
     }
 
     /**
-     * 
+     *
      */
     private void createMesh() {
 	final WB_TriGrid trigrid = new WB_TriGrid();
@@ -154,7 +140,7 @@ public class WB_GeodesicIII {
 	    scalefactor = 1.0 / Math.sin(0.4 * Math.PI) / p1.getLength3D();
 	    zshift = new WB_Vector(0, 0,
 		    ((Math.sqrt(3) / 12.0) * (3 + Math.sqrt(5)))
-			    / Math.sin(0.4 * Math.PI));
+		    / Math.sin(0.4 * Math.PI));
 	}
 	p0.mulSelf(scalefactor);
 	p1.mulSelf(scalefactor);
@@ -190,7 +176,7 @@ public class WB_GeodesicIII {
 	/*
 	 * T = new WB_Transform().addRotateY(Math.PI / 180 * 36); for (WB_Point
 	 * pos : zeropoints) { pos._applyAsPointSelf(T);
-	 * 
+	 *
 	 * }
 	 */
 	points = new FastTable<WB_Point>();

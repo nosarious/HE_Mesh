@@ -1053,6 +1053,19 @@ public class WB_Render3D {
 	}
     }
 
+    public void drawCurve(final WB_Curve C, final double minU,
+	    final double maxU, final int steps) {
+	final int n = Math.max(1, steps);
+	WB_Point p0 = C.curvePoint(minU);
+	WB_Point p1;
+	final double du = (maxU - minU) / n;
+	for (int i = 0; i < n; i++) {
+	    p1 = C.curvePoint(minU + (i + 1) * du);
+	    home.line(p0.xf(), p0.yf(), p0.zf(), p1.xf(), p1.yf(), p1.zf());
+	    p0 = p1;
+	}
+    }
+
     /**
      *
      *

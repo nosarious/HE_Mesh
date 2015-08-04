@@ -1,118 +1,110 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
-import wblut.math.WB_ConstantParameter;
-import wblut.math.WB_Parameter;
+import wblut.math.WB_ConstantScalarParameter;
+import wblut.math.WB_ScalarParameter;
 
 /**
- * 
+ *
  */
 public class HEM_Wireframe extends HEM_Modifier {
-    
     /**
-     * 
+     *
      */
-    private WB_Parameter<Double> strutR;
-    
+    private WB_ScalarParameter strutR;
     /**
-     * 
+     *
      */
-    private WB_Parameter<Double> maxStrutOffset;
-    
+    private WB_ScalarParameter maxStrutOffset;
     /**
-     * 
+     *
      */
     private int facetN;
-    
     /**
-     * 
+     *
      */
-    private WB_Parameter<Double> angleFactor;
-    
+    private WB_ScalarParameter angleFactor;
     /**
-     * 
+     *
      */
     private double fillFactor;
-    
     /**
-     * 
+     *
      */
     private double fidget;
-    
     /**
-     * 
+     *
      */
     private boolean cap;
-    
     /**
-     * 
+     *
      */
     private boolean taper;
 
     /**
-     * 
+     *
      */
     public HEM_Wireframe() {
 	facetN = 4;
-	angleFactor = new WB_ConstantParameter<Double>(0.5);
+	angleFactor = new WB_ConstantScalarParameter(0.5);
 	fidget = 1.0001;
 	fillFactor = 0.99;
-	maxStrutOffset = new WB_ConstantParameter<Double>(Double.MAX_VALUE);
+	maxStrutOffset = new WB_ConstantScalarParameter(Double.MAX_VALUE);
 	cap = true;
 	taper = false;
     }
 
     /**
-     * 
      *
-     * @param r 
-     * @return 
+     *
+     * @param r
+     * @return
      */
     public HEM_Wireframe setStrutRadius(final double r) {
-	strutR = new WB_ConstantParameter<Double>(r);
+	strutR = new WB_ConstantScalarParameter(r);
 	return this;
     }
 
     /**
-     * 
      *
-     * @param r 
-     * @return 
+     *
+     * @param r
+     * @return
      */
-    public HEM_Wireframe setStrutRadius(final WB_Parameter<Double> r) {
+    public HEM_Wireframe setStrutRadius(final WB_ScalarParameter r) {
 	strutR = r;
 	return this;
     }
 
     /**
-     * 
      *
-     * @param r 
-     * @return 
+     *
+     * @param r
+     * @return
      */
     public HEM_Wireframe setMaximumStrutOffset(final double r) {
-	maxStrutOffset = new WB_ConstantParameter<Double>(r);
+	maxStrutOffset = new WB_ConstantScalarParameter(r);
 	return this;
     }
 
     /**
-     * 
      *
-     * @param r 
-     * @return 
+     *
+     * @param r
+     * @return
      */
-    public HEM_Wireframe setMaximumStrutOffset(final WB_Parameter<Double> r) {
+    public HEM_Wireframe setMaximumStrutOffset(final WB_ScalarParameter r) {
 	maxStrutOffset = r;
 	return this;
     }
 
     /**
-     * 
      *
-     * @param N 
-     * @return 
+     *
+     * @param N
+     * @return
      */
     public HEM_Wireframe setStrutFacets(final int N) {
 	facetN = N;
@@ -120,32 +112,32 @@ public class HEM_Wireframe extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param af 
-     * @return 
+     *
+     * @param af
+     * @return
      */
     public HEM_Wireframe setAngleOffset(final double af) {
-	angleFactor = new WB_ConstantParameter<Double>(af);
+	angleFactor = new WB_ConstantScalarParameter(af);
 	return this;
     }
 
     /**
-     * 
      *
-     * @param af 
-     * @return 
+     *
+     * @param af
+     * @return
      */
-    public HEM_Wireframe setAngleOffset(final WB_Parameter<Double> af) {
+    public HEM_Wireframe setAngleOffset(final WB_ScalarParameter af) {
 	angleFactor = af;
 	return this;
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @return 
+     *
+     * @param f
+     * @return
      */
     public HEM_Wireframe setFidget(final double f) {
 	fidget = f;
@@ -153,10 +145,10 @@ public class HEM_Wireframe extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param ff 
-     * @return 
+     *
+     * @param ff
+     * @return
      */
     public HEM_Wireframe setFillFactor(final double ff) {
 	fillFactor = ff;
@@ -164,10 +156,10 @@ public class HEM_Wireframe extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
+     *
+     * @param b
+     * @return
      */
     public HEM_Wireframe setCap(final boolean b) {
 	cap = b;
@@ -175,10 +167,10 @@ public class HEM_Wireframe extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
+     *
+     * @param b
+     * @return
      */
     public HEM_Wireframe setTaper(final boolean b) {
 	taper = b;
@@ -187,7 +179,7 @@ public class HEM_Wireframe extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.creators.HEC_Creator#createBase()
      */
     @Override
@@ -211,7 +203,7 @@ public class HEM_Wireframe extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @seewblut.hemesh.modifiers.HEM_Modifier#applySelected(wblut.hemesh.core.
      * HE_Selection)
      */

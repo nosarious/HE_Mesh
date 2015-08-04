@@ -4,27 +4,19 @@
 package wblut.hemesh;
 
 import wblut.geom.WB_Point;
-import wblut.math.WB_Function2D;
+import wblut.math.WB_VectorParameter;
 
-/**
- * Creates a new mesh from a parametric uv equation.
- *
- * @author David Bollinger
- *
- */
 public class HEC_UVParametric extends HEC_FromFacelist { // Creator {
     /** Number of subdivisions along u-axis. */
     protected int usteps;
     /** Number of subdivisions along v-axis. */
     protected int vsteps;
-    /** The u wrap. */
-    protected boolean uWrap;
-    /** The v wrap. */
-    protected boolean vWrap;
     /** Scale factor. */
-    protected double radius;
+    protected double scale;
     /** The parametric evaluator. */
-    protected WB_Function2D<WB_Point> evaluator;
+    protected WB_VectorParameter evaluator;
+    protected double uRange, vRange, uMin, uMax, vMin, vMax;
+    protected boolean fixDuplicatedVertices;
 
     /**
      * Instantiates a new HEC_UVParametric.
@@ -34,20 +26,21 @@ public class HEC_UVParametric extends HEC_FromFacelist { // Creator {
 	override = true;
 	usteps = 32;
 	vsteps = 32;
-	radius = 1.0;
-	uWrap = false;
-	vWrap = false;
+	scale = 1.0;
+	uMin = vMin = 0;
+	uMax = vMax = 1.0;
+	uRange = 1.0;
+	vRange = 1.0;
+	fixDuplicatedVertices = true;
     }
 
-    /**
-     * Sets the evaluator.
-     *
-     * @param eval
-     *            an implementation of HET_UVEvaluator
-     * @return self
-     */
-    public HEC_UVParametric setEvaluator(final WB_Function2D<WB_Point> eval) {
+    public HEC_UVParametric setEvaluator(final WB_VectorParameter eval) {
 	evaluator = eval;
+	return this;
+    }
+
+    public HEC_UVParametric setFixDuplicatedVertices(final boolean b) {
+	fixDuplicatedVertices = b;
 	return this;
     }
 
@@ -73,32 +66,22 @@ public class HEC_UVParametric extends HEC_FromFacelist { // Creator {
      *            the r
      * @return self
      */
-    public HEC_UVParametric setRadius(final double r) {
-	radius = r;
+    public HEC_UVParametric setScale(final double r) {
+	scale = r;
 	return this;
     }
 
-    /**
-     * is u a periodic parameter?.
-     *
-     * @param b
-     *            true/false
-     * @return self
-     */
-    public HEC_UVParametric setUWrap(final boolean b) {
-	uWrap = b;
+    public HEC_UVParametric setURange(final double umin, final double umax) {
+	this.uMin = umin;
+	this.uMax = umax;
+	uRange = umax - umin;
 	return this;
     }
 
-    /**
-     * is v a periodic parameter?.
-     *
-     * @param b
-     *            true/false
-     * @return self
-     */
-    public HEC_UVParametric setVWrap(final boolean b) {
-	vWrap = b;
+    public HEC_UVParametric setVRange(final double vmin, final double vmax) {
+	this.vMin = vmin;
+	this.vMax = vmax;
+	vRange = vmax - vmin;
 	return this;
     }
 
@@ -117,11 +100,13 @@ public class HEC_UVParametric extends HEC_FromFacelist { // Creator {
 	    final WB_Point[] uvws = new WB_Point[N];
 	    int index = 0;
 	    for (int iv = 0; iv < lvsteps; iv++) {
-		final double v = (double) (iv) / (double) (vsteps);
+		final double v = (iv == usteps) ? vMax : vMin + iv
+			/ (double) (vsteps) * vRange;
 		for (int iu = 0; iu < lusteps; iu++) {
-		    final double u = (double) (iu) / (double) (usteps);
-		    vertices[index] = evaluator.f(u, v);
-		    vertices[index].scaleSelf(radius);
+		    final double u = (iu == usteps) ? uMax : uMin + iu
+			    / (double) (usteps) * uRange;
+		    vertices[index] = new WB_Point(evaluator.evaluate(u, v));
+		    vertices[index].scaleSelf(scale);
 		    uvws[index] = new WB_Point(iu * 1.0 / lusteps, iv * 1.0
 			    / lusteps, 0);
 		    index++;
@@ -140,7 +125,7 @@ public class HEC_UVParametric extends HEC_FromFacelist { // Creator {
 		} // for iu
 	    } // for iv
 	    this.setVertices(vertices).setFaces(faces).setUVW(uvws)
-		    .setDuplicate(true);
+		    .setDuplicate(fixDuplicatedVertices);
 	    return super.createBase();
 	}
 	return null;
