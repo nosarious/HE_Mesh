@@ -73,8 +73,8 @@ public class HEM_Shell extends HEM_Modifier {
 	HE_Face fNew;
 	while (it.hasNext()) {
 	    final Map.Entry<Long, Long> pairs = it.next();
-	    he1 = mesh.getHalfedgeByKey(pairs.getKey());
-	    he2 = mesh.getHalfedgeByKey(pairs.getValue());
+	    he1 = mesh.getHalfedgeWithKey(pairs.getKey());
+	    he2 = mesh.getHalfedgeWithKey(pairs.getValue());
 	    heio = new HE_Halfedge();
 	    heoi = new HE_Halfedge();
 	    mesh.add(heio);

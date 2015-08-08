@@ -97,17 +97,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">wblut.math.WB_RandomSquare Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for wblut.math.WB_RandomSquare:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+ <div class="center">
+  <img src="classwblut_1_1math_1_1_w_b___random_square.png" usemap="#wblut.math.WB_RandomSquare_map" alt=""/>
+  <map id="wblut.math.WB_RandomSquare_map" name="wblut.math.WB_RandomSquare_map">
+<area href="interfacewblut_1_1math_1_1_w_b___random_point.html" alt="wblut.math.WB_RandomPoint" shape="rect" coords="0,0,186,24"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ae1e659839bd42c7d1ef8fc27f070cc17"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1math_1_1_w_b___random_square.html#ae1e659839bd42c7d1ef8fc27f070cc17">WB_RandomSquare</a> ()</td></tr>
 <tr class="separator:ae1e659839bd42c7d1ef8fc27f070cc17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7387c581b1ed45ee158a22a2f476127a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1math_1_1_w_b___random_square.html#a7387c581b1ed45ee158a22a2f476127a">WB_RandomSquare</a> (final long seed)</td></tr>
+<tr class="separator:a7387c581b1ed45ee158a22a2f476127a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a6432f8759ea0e0968613b2f571ad71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1math_1_1_w_b___random_square.html">WB_RandomSquare</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1math_1_1_w_b___random_square.html#a7a6432f8759ea0e0968613b2f571ad71">setSeed</a> (final long seed)</td></tr>
 <tr class="separator:a7a6432f8759ea0e0968613b2f571ad71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3c3bf945b239c99c7c7823e9d1ae820"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1math_1_1_w_b___random_square.html#aa3c3bf945b239c99c7c7823e9d1ae820">nextPoint</a> ()</td></tr>
 <tr class="separator:aa3c3bf945b239c99c7c7823e9d1ae820"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab63c67984e7aede6641a56dc0a32ad15"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1math_1_1_w_b___random_square.html#ab63c67984e7aede6641a56dc0a32ad15">nextVector</a> ()</td></tr>
 <tr class="separator:ab63c67984e7aede6641a56dc0a32ad15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d5c0d9d61f8540c925282bf2366c14c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1math_1_1_w_b___random_square.html#a1d5c0d9d61f8540c925282bf2366c14c">reset</a> ()</td></tr>
+<tr class="separator:a1d5c0d9d61f8540c925282bf2366c14c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -115,7 +130,7 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a9e8dadd5bd257a338495343bce048f67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Random generator for vectors uniformly distributed in the unit square.</p>
+<div class="textblock"><p>Random generator for vectors uniformly distributed in the halfopen square [0,0]-(1,1).</p>
 <dl class="section author"><dt>Author</dt><dd>Frederik Vanhoutte, W:Blut </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ae1e659839bd42c7d1ef8fc27f070cc17"></a>
@@ -126,6 +141,22 @@ Private Attributes</h2></td></tr>
           <td class="memname">wblut.math.WB_RandomSquare.WB_RandomSquare </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a7387c581b1ed45ee158a22a2f476127a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">wblut.math.WB_RandomSquare.WB_RandomSquare </td>
+          <td>(</td>
+          <td class="paramtype">final long&#160;</td>
+          <td class="paramname"><em>seed</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -146,7 +177,10 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get the next random point</p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p>Implements <a class="el" href="interfacewblut_1_1math_1_1_w_b___random_point.html#aab875966823cd65069b93cb27af5e084">wblut.math.WB_RandomPoint</a>.</p>
 
 </div>
 </div>
@@ -162,7 +196,28 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get the next random vector</p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p>Implements <a class="el" href="interfacewblut_1_1math_1_1_w_b___random_point.html#ace2fc598fb6ec4cde9071cdf278ef86d">wblut.math.WB_RandomPoint</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1d5c0d9d61f8540c925282bf2366c14c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wblut.math.WB_RandomSquare.reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reset the RNG </p>
+
+<p>Implements <a class="el" href="interfacewblut_1_1math_1_1_w_b___random_point.html#aa5039a022c551b085611f3313b4949f7">wblut.math.WB_RandomPoint</a>.</p>
 
 </div>
 </div>
@@ -179,13 +234,16 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Set the seed for the RNG</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">seed</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>this </dd></dl>
+
+<p>Implements <a class="el" href="interfacewblut_1_1math_1_1_w_b___random_point.html#ac03ae9a1d49af86a6da030fb00b153ed">wblut.math.WB_RandomPoint</a>.</p>
 
 </div>
 </div>
@@ -216,7 +274,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 17 2015 19:16:59 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 4 2015 22:21:53 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

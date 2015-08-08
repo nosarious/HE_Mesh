@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -18,16 +18,15 @@ import wblut.geom.WB_Triangle;
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
 public class HE_Intersection {
-    
     /**
-     * 
      *
-     * @param face 
-     * @param line 
-     * @return 
+     *
+     * @param face
+     * @param line
+     * @return
      */
     public static HE_FaceIntersection getIntersection(final HE_Face face,
 	    final WB_Line line) {
@@ -37,9 +36,8 @@ public class HE_Intersection {
 		P);
 	if (lpi.intersection) {
 	    p = new HE_FaceIntersection(face, (WB_Point) lpi.object);
-	    final WB_Point cp = WB_GeometryOp.getClosestPoint3D(p.point,
-		    face.toPlanarPolygon());
-	    if (WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(cp, p.point))) {
+	    if (WB_Epsilon.isZero(WB_GeometryOp.getDistanceToClosestPoint3D(
+		    p.point, face.toPolygon()))) {
 		return p;
 	    }
 	}
@@ -47,11 +45,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param face 
-     * @param ray 
-     * @return 
+     *
+     * @param face
+     * @param ray
+     * @return
      */
     public static HE_FaceIntersection getIntersection(final HE_Face face,
 	    final WB_Ray ray) {
@@ -61,9 +59,8 @@ public class HE_Intersection {
 		P);
 	if (lpi.intersection) {
 	    p = new HE_FaceIntersection(face, (WB_Point) lpi.object);
-	    final WB_Point cp = WB_GeometryOp.getClosestPoint3D(p.point,
-		    face.toPlanarPolygon());
-	    if (WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(cp, p.point))) {
+	    if (WB_Epsilon.isZero(WB_GeometryOp.getDistanceToClosestPoint3D(
+		    p.point, face.toPolygon()))) {
 		return new HE_FaceIntersection(face, p.point);
 	    }
 	}
@@ -71,11 +68,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param face 
-     * @param segment 
-     * @return 
+     *
+     * @param face
+     * @param segment
+     * @return
      */
     public static HE_FaceIntersection getIntersection(final HE_Face face,
 	    final WB_Segment segment) {
@@ -85,9 +82,8 @@ public class HE_Intersection {
 		segment, P);
 	if (lpi.intersection) {
 	    p = new HE_FaceIntersection(face, (WB_Point) lpi.object);
-	    final WB_Point cp = WB_GeometryOp.getClosestPoint3D(p.point,
-		    face.toPlanarPolygon());
-	    if (WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(cp, p.point))) {
+	    if (WB_Epsilon.isZero(WB_GeometryOp.getDistanceToClosestPoint3D(
+		    p.point, face.toPolygon()))) {
 		return p;
 	    }
 	}
@@ -95,11 +91,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param e 
-     * @param P 
-     * @return 
+     *
+     * @param e
+     * @param P
+     * @return
      */
     public static double getIntersection(final HE_Halfedge e, final WB_Plane P) {
 	final WB_IntersectionResult i = WB_GeometryOp.getIntersection3D(
@@ -111,11 +107,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param ray 
-     * @return 
+     *
+     * @param tree
+     * @param ray
+     * @return
      */
     public static List<HE_FaceIntersection> getIntersection(
 	    final WB_AABBTree tree, final WB_Ray ray) {
@@ -136,11 +132,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param segment 
-     * @return 
+     *
+     * @param tree
+     * @param segment
+     * @return
      */
     public static List<HE_FaceIntersection> getIntersection(
 	    final WB_AABBTree tree, final WB_Segment segment) {
@@ -161,11 +157,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param line 
-     * @return 
+     *
+     * @param tree
+     * @param line
+     * @return
      */
     public static List<HE_FaceIntersection> getIntersection(
 	    final WB_AABBTree tree, final WB_Line line) {
@@ -186,11 +182,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param P 
-     * @return 
+     *
+     * @param tree
+     * @param P
+     * @return
      */
     public static List<WB_Segment> getIntersection(final WB_AABBTree tree,
 	    final WB_Plane P) {
@@ -208,11 +204,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param P 
-     * @return 
+     *
+     * @param tree
+     * @param P
+     * @return
      */
     public static List<HE_Face> getPotentialIntersectedFaces(
 	    final WB_AABBTree tree, final WB_Plane P) {
@@ -226,11 +222,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param T 
-     * @return 
+     *
+     * @param tree
+     * @param T
+     * @return
      */
     public static List<HE_Face> getPotentialIntersectedFaces(
 	    final WB_AABBTree tree, final WB_Triangle T) {
@@ -244,11 +240,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param R 
-     * @return 
+     *
+     * @param tree
+     * @param R
+     * @return
      */
     public static List<HE_Face> getPotentialIntersectedFaces(
 	    final WB_AABBTree tree, final WB_Ray R) {
@@ -262,11 +258,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param L 
-     * @return 
+     *
+     * @param tree
+     * @param L
+     * @return
      */
     public static List<HE_Face> getPotentialIntersectedFaces(
 	    final WB_AABBTree tree, final WB_Line L) {
@@ -280,11 +276,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param segment 
-     * @return 
+     *
+     * @param tree
+     * @param segment
+     * @return
      */
     public static List<HE_Face> getPotentialIntersectedFaces(
 	    final WB_AABBTree tree, final WB_Segment segment) {
@@ -298,11 +294,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param ray 
-     * @return 
+     *
+     * @param tree
+     * @param ray
+     * @return
      */
     public static HE_FaceIntersection getClosestIntersection(
 	    final WB_AABBTree tree, final WB_Ray ray) {
@@ -328,11 +324,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param ray 
-     * @return 
+     *
+     * @param tree
+     * @param ray
+     * @return
      */
     public static HE_FaceIntersection getFurthestIntersection(
 	    final WB_AABBTree tree, final WB_Ray ray) {
@@ -358,11 +354,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param line 
-     * @return 
+     *
+     * @param tree
+     * @param line
+     * @return
      */
     public static HE_FaceIntersection getClosestIntersection(
 	    final WB_AABBTree tree, final WB_Line line) {
@@ -388,11 +384,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param line 
-     * @return 
+     *
+     * @param tree
+     * @param line
+     * @return
      */
     public static HE_FaceIntersection getFurthestIntersection(
 	    final WB_AABBTree tree, final WB_Line line) {
@@ -418,11 +414,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param segment 
-     * @return 
+     *
+     * @param tree
+     * @param segment
+     * @return
      */
     public static HE_FaceIntersection getClosestIntersection(
 	    final WB_AABBTree tree, final WB_Segment segment) {
@@ -448,11 +444,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param tree 
-     * @param segment 
-     * @return 
+     *
+     * @param tree
+     * @param segment
+     * @return
      */
     public static HE_FaceIntersection getFurthestIntersection(
 	    final WB_AABBTree tree, final WB_Segment segment) {
@@ -478,11 +474,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param ray 
-     * @return 
+     *
+     * @param mesh
+     * @param ray
+     * @return
      */
     public static List<HE_FaceIntersection> getIntersection(final HE_Mesh mesh,
 	    final WB_Ray ray) {
@@ -490,11 +486,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param segment 
-     * @return 
+     *
+     * @param mesh
+     * @param segment
+     * @return
      */
     public static List<HE_FaceIntersection> getIntersection(final HE_Mesh mesh,
 	    final WB_Segment segment) {
@@ -502,11 +498,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param line 
-     * @return 
+     *
+     * @param mesh
+     * @param line
+     * @return
      */
     public static List<HE_FaceIntersection> getIntersection(final HE_Mesh mesh,
 	    final WB_Line line) {
@@ -514,11 +510,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param P 
-     * @return 
+     *
+     * @param mesh
+     * @param P
+     * @return
      */
     public static List<WB_Segment> getIntersection(final HE_Mesh mesh,
 	    final WB_Plane P) {
@@ -526,11 +522,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param P 
-     * @return 
+     *
+     * @param mesh
+     * @param P
+     * @return
      */
     public static List<HE_Face> getPotentialIntersectedFaces(
 	    final HE_Mesh mesh, final WB_Plane P) {
@@ -538,11 +534,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param R 
-     * @return 
+     *
+     * @param mesh
+     * @param R
+     * @return
      */
     public static List<HE_Face> getPotentialIntersectedFaces(
 	    final HE_Mesh mesh, final WB_Ray R) {
@@ -550,11 +546,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param L 
-     * @return 
+     *
+     * @param mesh
+     * @param L
+     * @return
      */
     public static List<HE_Face> getPotentialIntersectedFaces(
 	    final HE_Mesh mesh, final WB_Line L) {
@@ -562,11 +558,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param segment 
-     * @return 
+     *
+     * @param mesh
+     * @param segment
+     * @return
      */
     public static List<HE_Face> getPotentialIntersectedFaces(
 	    final HE_Mesh mesh, final WB_Segment segment) {
@@ -574,11 +570,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param ray 
-     * @return 
+     *
+     * @param mesh
+     * @param ray
+     * @return
      */
     public static HE_FaceIntersection getClosestIntersection(
 	    final HE_Mesh mesh, final WB_Ray ray) {
@@ -586,11 +582,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param ray 
-     * @return 
+     *
+     * @param mesh
+     * @param ray
+     * @return
      */
     public static HE_FaceIntersection getFurthestIntersection(
 	    final HE_Mesh mesh, final WB_Ray ray) {
@@ -598,11 +594,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param line 
-     * @return 
+     *
+     * @param mesh
+     * @param line
+     * @return
      */
     public static HE_FaceIntersection getClosestIntersection(
 	    final HE_Mesh mesh, final WB_Line line) {
@@ -610,11 +606,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param line 
-     * @return 
+     *
+     * @param mesh
+     * @param line
+     * @return
      */
     public static HE_FaceIntersection getFurthestIntersection(
 	    final HE_Mesh mesh, final WB_Line line) {
@@ -622,11 +618,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param segment 
-     * @return 
+     *
+     * @param mesh
+     * @param segment
+     * @return
      */
     public static HE_FaceIntersection getClosestIntersection(
 	    final HE_Mesh mesh, final WB_Segment segment) {
@@ -634,11 +630,11 @@ public class HE_Intersection {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param segment 
-     * @return 
+     *
+     * @param mesh
+     * @param segment
+     * @return
      */
     public static HE_FaceIntersection getFurthestIntersection(
 	    final HE_Mesh mesh, final WB_Segment segment) {

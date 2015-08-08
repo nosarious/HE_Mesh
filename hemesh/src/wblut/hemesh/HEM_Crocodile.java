@@ -141,7 +141,7 @@ public class HEM_Crocodile extends HEM_Modifier {
 	    tracker.setDefaultStatus("Splitting edges.", umbrellapoints.size());
 	    for (final long he : umbrellapoints.keySet()) {
 		selection.parent.splitEdge(
-			selection.parent.getHalfedgeByKey(he),
+			selection.parent.getHalfedgeWithKey(he),
 			umbrellapoints.get(he));
 		tracker.incrementCounter();
 	    }

@@ -379,24 +379,24 @@ public class WB_Render3D {
 	home.beginShape(PConstants.QUAD);
 	home.vertex((float) (P.getOrigin().xd() - (d * P.getU().xd()) - (d * P
 		.getV().xd())), (float) (P.getOrigin().yd()
-		- (d * P.getU().yd()) - (d * P.getV().yd())), (float) (P
-		.getOrigin().zd() - (d * P.getU().zd()) - (d * P.getV().zd())));
+			- (d * P.getU().yd()) - (d * P.getV().yd())), (float) (P
+				.getOrigin().zd() - (d * P.getU().zd()) - (d * P.getV().zd())));
 	home.vertex(
 		(float) ((P.getOrigin().xd() - (d * P.getU().xd())) + (d * P
 			.getV().xd())), (float) ((P.getOrigin().yd() - (d * P
-			.getU().yd())) + (d * P.getV().yd())), (float) ((P
-			.getOrigin().zd() - (d * P.getU().zd())) + (d * P
-			.getV().zd())));
+				.getU().yd())) + (d * P.getV().yd())), (float) ((P
+					.getOrigin().zd() - (d * P.getU().zd())) + (d * P
+						.getV().zd())));
 	home.vertex((float) (P.getOrigin().xd() + (d * P.getU().xd()) + (d * P
 		.getV().xd())), (float) (P.getOrigin().yd()
-		+ (d * P.getU().yd()) + (d * P.getV().yd())), (float) (P
-		.getOrigin().zd() + (d * P.getU().zd()) + (d * P.getV().zd())));
+			+ (d * P.getU().yd()) + (d * P.getV().yd())), (float) (P
+				.getOrigin().zd() + (d * P.getU().zd()) + (d * P.getV().zd())));
 	home.vertex(
 		(float) ((P.getOrigin().xd() + (d * P.getU().xd())) - (d * P
 			.getV().xd())), (float) ((P.getOrigin().yd() + (d * P
-			.getU().yd())) - (d * P.getV().yd())), (float) ((P
-			.getOrigin().zd() + (d * P.getU().zd())) - (d * P
-			.getV().zd())));
+				.getU().yd())) - (d * P.getV().yd())), (float) ((P
+					.getOrigin().zd() + (d * P.getU().zd())) - (d * P
+						.getV().zd())));
 	home.endShape();
     }
 
@@ -1151,7 +1151,7 @@ public class WB_Render3D {
      * @param mesh
      */
     public void drawEdge(final long key, final HE_Mesh mesh) {
-	final HE_Halfedge e = mesh.getHalfedgeByKey(key);
+	final HE_Halfedge e = mesh.getHalfedgeWithKey(key);
 	if (e != null) {
 	    drawEdge(e);
 	}
@@ -1703,7 +1703,7 @@ public class WB_Render3D {
      */
     public void drawFace(final Long key, final boolean smooth,
 	    final HE_MeshStructure mesh) {
-	final HE_Face f = mesh.getFaceByKey(key);
+	final HE_Face f = mesh.getFaceWithKey(key);
 	if (f != null) {
 	    drawFace(f, smooth);
 	}
@@ -1716,7 +1716,7 @@ public class WB_Render3D {
      * @param mesh
      */
     public void drawFace(final Long key, final HE_MeshStructure mesh) {
-	final HE_Face f = mesh.getFaceByKey(key);
+	final HE_Face f = mesh.getFaceWithKey(key);
 	if (f != null) {
 	    drawFace(f, false);
 	}
@@ -1914,7 +1914,7 @@ public class WB_Render3D {
      */
     public void drawFaceSmooth(final Long key, final HE_MeshStructure mesh) {
 	new ArrayList<HE_Vertex>();
-	final HE_Face f = mesh.getFaceByKey(key);
+	final HE_Face f = mesh.getFaceWithKey(key);
 	if (f != null) {
 	    drawFace(f, true);
 	}
@@ -1938,7 +1938,7 @@ public class WB_Render3D {
      */
     public void drawFaceSmoothFC(final Long key, final HE_MeshStructure mesh) {
 	new ArrayList<HE_Vertex>();
-	final HE_Face f = mesh.getFaceByKey(key);
+	final HE_Face f = mesh.getFaceWithKey(key);
 	if (f != null) {
 	    drawFaceFC(f, true);
 	}
@@ -1962,7 +1962,7 @@ public class WB_Render3D {
      */
     public void drawFaceSmoothVC(final Long key, final HE_MeshStructure mesh) {
 	new ArrayList<HE_Vertex>();
-	final HE_Face f = mesh.getFaceByKey(key);
+	final HE_Face f = mesh.getFaceWithKey(key);
 	if (f != null) {
 	    drawFaceVC(f, true);
 	}
@@ -1986,7 +1986,7 @@ public class WB_Render3D {
      */
     public void drawFaceSmoothHC(final Long key, final HE_MeshStructure mesh) {
 	new ArrayList<HE_Vertex>();
-	final HE_Face f = mesh.getFaceByKey(key);
+	final HE_Face f = mesh.getFaceWithKey(key);
 	if (f != null) {
 	    drawFaceHC(f, true);
 	}
@@ -2498,7 +2498,7 @@ public class WB_Render3D {
      */
     public void drawVertex(final Long key, final double d,
 	    final HE_MeshStructure mesh) {
-	final HE_Vertex v = mesh.getVertexByKey(key);
+	final HE_Vertex v = mesh.getVertexWithKey(key);
 	if (v != null) {
 	    home.pushMatrix();
 	    home.translate((v.xf()), (v.yf()), (v.zf()));
@@ -2537,7 +2537,7 @@ public class WB_Render3D {
     class EyeProximityComparator implements Comparator<HE_Face> {
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override
@@ -2916,7 +2916,7 @@ public class WB_Render3D {
 		home.line(he.getVertex().xf(), he.getVertex().yf(), he
 			.getVertex().zf(), he.getNextInFace().getVertex().xf(),
 			he.getNextInFace().getVertex().yf(), he.getNextInFace()
-				.getVertex().zf());
+			.getVertex().zf());
 	    }
 	}
     }
@@ -2937,7 +2937,7 @@ public class WB_Render3D {
 		home.line(he.getVertex().xf(), he.getVertex().yf(), he
 			.getVertex().zf(), he.getNextInFace().getVertex().xf(),
 			he.getNextInFace().getVertex().yf(), he.getNextInFace()
-				.getVertex().zf());
+			.getVertex().zf());
 	    }
 	}
 	home.popStyle();
@@ -3064,7 +3064,7 @@ public class WB_Render3D {
      */
     public void drawHalfedge(final Long key, final double d, final double s,
 	    final HE_MeshStructure mesh) {
-	final HE_Halfedge he = mesh.getHalfedgeByKey(key);
+	final HE_Halfedge he = mesh.getHalfedgeWithKey(key);
 	drawHalfedge(he, d, s);
     }
 

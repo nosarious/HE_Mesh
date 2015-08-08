@@ -186,7 +186,7 @@ public class HET_MeshOp {
      * @return selection of new vertex and new edge
      */
     public static HE_Selection splitEdge(final long key, final HE_Mesh mesh) {
-	final HE_Halfedge edge = mesh.getHalfedgeByKey(key);
+	final HE_Halfedge edge = mesh.getHalfedgeWithKey(key);
 	final WB_Point v = gf.createMidpoint(edge.getVertex(),
 		edge.getEndVertex());
 	return splitEdge(edge, v, mesh);
@@ -203,7 +203,7 @@ public class HET_MeshOp {
      */
     public static HE_Selection splitEdge(final long key, final double f,
 	    final HE_Mesh mesh) {
-	final HE_Halfedge edge = mesh.getHalfedgeByKey(key);
+	final HE_Halfedge edge = mesh.getHalfedgeWithKey(key);
 	return splitEdge(edge, f, mesh);
     }
 
@@ -234,7 +234,7 @@ public class HET_MeshOp {
      */
     public static void splitEdge(final long key, final double[] f,
 	    final HE_Mesh mesh) {
-	final HE_Halfedge edge = mesh.getHalfedgeByKey(key);
+	final HE_Halfedge edge = mesh.getHalfedgeWithKey(key);
 	splitEdge(edge, f, mesh);
     }
 
@@ -248,7 +248,7 @@ public class HET_MeshOp {
      */
     public static void splitEdge(final long key, final float[] f,
 	    final HE_Mesh mesh) {
-	final HE_Halfedge edge = mesh.getHalfedgeByKey(key);
+	final HE_Halfedge edge = mesh.getHalfedgeWithKey(key);
 	splitEdge(edge, f, mesh);
     }
 
@@ -263,7 +263,7 @@ public class HET_MeshOp {
      */
     public static HE_Selection splitEdge(final Long key, final WB_Point v,
 	    final HE_Mesh mesh) {
-	final HE_Halfedge edge = mesh.getHalfedgeByKey(key);
+	final HE_Halfedge edge = mesh.getHalfedgeWithKey(key);
 	return splitEdge(edge, v, mesh);
     }
 
@@ -370,7 +370,7 @@ public class HET_MeshOp {
 
     public static void divideEdge(final long key, final int n,
 	    final HE_Mesh mesh) {
-	divideEdge(mesh.getHalfedgeByKey(key), n, mesh);
+	divideEdge(mesh.getHalfedgeWithKey(key), n, mesh);
     }
 
     /**
@@ -486,8 +486,8 @@ public class HET_MeshOp {
      */
     public static HE_Selection splitFace(final long fkey, final long vkeyi,
 	    final long vkeyj, final HE_Mesh mesh) {
-	return splitFace(mesh.getFaceByKey(fkey), mesh.getVertexByKey(vkeyi),
-		mesh.getVertexByKey(vkeyj), mesh);
+	return splitFace(mesh.getFaceWithKey(fkey), mesh.getVertexWithKey(vkeyi),
+		mesh.getVertexWithKey(vkeyj), mesh);
     }
 
     /**
@@ -1476,7 +1476,7 @@ public class HET_MeshOp {
      * @return
      */
     public static HE_Selection triangulate(final long key, final HE_Mesh mesh) {
-	return triangulate(mesh.getFaceByKey(key), mesh);
+	return triangulate(mesh.getFaceWithKey(key), mesh);
     }
 
     /**
@@ -1503,7 +1503,7 @@ public class HET_MeshOp {
      */
     public static HE_Selection triangulateConcaveFace(final long key,
 	    final HE_Mesh mesh) {
-	return triangulateConcaveFace(mesh.getFaceByKey(key), mesh);
+	return triangulateConcaveFace(mesh.getFaceWithKey(key), mesh);
     }
 
     /**
@@ -1575,7 +1575,7 @@ public class HET_MeshOp {
 	    final HE_Mesh mesh) {
 	final HE_Selection vf = new HE_Selection(mesh);
 	final HE_VertexFaceCirculator vfc = new HE_VertexFaceCirculator(
-		mesh.getVertexByKey(vertexkey));
+		mesh.getVertexWithKey(vertexkey));
 	HE_Face f;
 	while (vfc.hasNext()) {
 	    f = vfc.next();

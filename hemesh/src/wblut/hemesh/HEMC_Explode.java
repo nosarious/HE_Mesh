@@ -49,12 +49,12 @@ public class HEMC_Explode extends HEMC_MultiCreator {
 	    return new HE_Mesh[0];
 	}
 	mesh.clearVisitedElements();
-	HE_Face start = mesh.getFaceByIndex(0);
+	HE_Face start = mesh.getFaceWithIndex(0);
 	int lastfound = 0;
 	HE_Selection submesh;
 	do {
 	    for (int i = lastfound; i < mesh.getNumberOfFaces(); i++) {
-		start = mesh.getFaceByIndex(i);
+		start = mesh.getFaceWithIndex(i);
 		lastfound = i;
 		if (!start.isVisited()) {
 		    break;

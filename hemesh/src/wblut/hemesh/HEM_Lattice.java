@@ -230,7 +230,7 @@ public class HEM_Lattice extends HEM_Modifier {
 	    fo = origFaces[i];
 	    final Long innerKey = faceCorrelation.get(fo.key());
 	    if (extm.extruded.contains(fo)) {
-		fi = mesh.getFaceByKey(innerKey);
+		fi = mesh.getFaceWithKey(innerKey);
 		if (obulge != 0) {
 		    no = fo.getFaceNormal();
 		    fo.push(no.mulSelf(obulge));
@@ -294,8 +294,8 @@ public class HEM_Lattice extends HEM_Modifier {
 		.iterator();
 	while (it.hasNext()) {
 	    final Map.Entry<Long, Long> pairs = it.next();
-	    he1 = mesh.getHalfedgeByKey(pairs.getKey());
-	    he2 = mesh.getHalfedgeByKey(pairs.getValue());
+	    he1 = mesh.getHalfedgeWithKey(pairs.getKey());
+	    he2 = mesh.getHalfedgeWithKey(pairs.getValue());
 	    heio = new HE_Halfedge();
 	    heoi = new HE_Halfedge();
 	    mesh.add(heio);
@@ -401,7 +401,7 @@ public class HEM_Lattice extends HEM_Modifier {
 	    fo = origFaces[i];
 	    final Long innerKey = faceCorrelation.get(fo.key());
 	    if (extm.extruded.contains(fo)) {
-		fi = selection.parent.getFaceByKey(innerKey);
+		fi = selection.parent.getFaceWithKey(innerKey);
 		if (obulge != 0) {
 		    no = fo.getFaceNormal();
 		    fo.push(no.mulSelf(obulge));
@@ -465,8 +465,8 @@ public class HEM_Lattice extends HEM_Modifier {
 		.iterator();
 	while (it.hasNext()) {
 	    final Map.Entry<Long, Long> pairs = it.next();
-	    he1 = selection.parent.getHalfedgeByKey(pairs.getKey());
-	    he2 = selection.parent.getHalfedgeByKey(pairs.getValue());
+	    he1 = selection.parent.getHalfedgeWithKey(pairs.getKey());
+	    he2 = selection.parent.getHalfedgeWithKey(pairs.getValue());
 	    heio = new HE_Halfedge();
 	    heoi = new HE_Halfedge();
 	    selection.parent.add(heio);

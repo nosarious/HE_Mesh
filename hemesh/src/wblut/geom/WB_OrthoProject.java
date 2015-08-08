@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
@@ -11,66 +11,57 @@ package wblut.geom;
  *
  */
 public class WB_OrthoProject implements WB_Context2D {
-    
     /**
-     * 
+     *
      */
     int id;
-    
     /**
-     * 
+     *
      */
     private int mode;
-    
     /**
-     * 
+     *
      */
     public static final int X = 0;
-    
     /**
-     * 
+     *
      */
     public static final int Y = 1;
-    
     /**
-     * 
+     *
      */
     public static final int Z = 2;
-    
     /**
-     * 
+     *
      */
     public static final int Xrev = 3;
-    
     /**
-     * 
+     *
      */
     public static final int Yrev = 4;
-    
     /**
-     * 
+     *
      */
     public static final int Zrev = 5;
-    
     /**
-     * 
+     *
      */
     public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory
 	    .instance();
 
     /**
-     * 
+     *
      */
-    protected WB_OrthoProject() {
+    public WB_OrthoProject() {
 	this(Z);
     }
 
     /**
-     * 
      *
-     * @param mode 
+     *
+     * @param mode
      */
-    protected WB_OrthoProject(final int mode) {
+    public WB_OrthoProject(final int mode) {
 	super();
 	if ((mode < 0) || (mode > 2)) {
 	    throw (new IndexOutOfBoundsException());
@@ -79,17 +70,18 @@ public class WB_OrthoProject implements WB_Context2D {
     }
 
     /**
-     * 
      *
-     * @param v 
+     *
+     * @param v
      */
-    protected WB_OrthoProject(final WB_Coordinate v) {
+    public WB_OrthoProject(final WB_Coordinate v) {
+	set(v);
     }
 
     /**
-     * 
      *
-     * @param c 
+     *
+     * @param c
      */
     public void set(final WB_Coordinate c) {
 	if (c.xd() > c.yd()) {
@@ -99,8 +91,11 @@ public class WB_OrthoProject implements WB_Context2D {
 	}
     }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Context2D#pointTo2D(wblut.geom.WB_Coordinate, wblut.geom.WB_MutableCoordinate)
+    /*
+     * (non-Javadoc)
+     *
+     * @see wblut.geom.WB_Context2D#pointTo2D(wblut.geom.WB_Coordinate,
+     * wblut.geom.WB_MutableCoordinate)
      */
     @Override
     public void pointTo2D(final WB_Coordinate p,
@@ -127,8 +122,11 @@ public class WB_OrthoProject implements WB_Context2D {
 	}
     }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Context2D#pointTo2D(double, double, double, wblut.geom.WB_MutableCoordinate)
+    /*
+     * (non-Javadoc)
+     *
+     * @see wblut.geom.WB_Context2D#pointTo2D(double, double, double,
+     * wblut.geom.WB_MutableCoordinate)
      */
     @Override
     public void pointTo2D(final double x, final double y, final double z,
@@ -155,8 +153,11 @@ public class WB_OrthoProject implements WB_Context2D {
 	}
     }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Context2D#pointTo3D(wblut.geom.WB_Coordinate, wblut.geom.WB_MutableCoordinate)
+    /*
+     * (non-Javadoc)
+     *
+     * @see wblut.geom.WB_Context2D#pointTo3D(wblut.geom.WB_Coordinate,
+     * wblut.geom.WB_MutableCoordinate)
      */
     @Override
     public void pointTo3D(final WB_Coordinate p,
@@ -183,8 +184,11 @@ public class WB_OrthoProject implements WB_Context2D {
 	}
     }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Context2D#pointTo3D(double, double, double, wblut.geom.WB_MutableCoordinate)
+    /*
+     * (non-Javadoc)
+     *
+     * @see wblut.geom.WB_Context2D#pointTo3D(double, double, double,
+     * wblut.geom.WB_MutableCoordinate)
      */
     @Override
     public void pointTo3D(final double u, final double v, final double w,
@@ -211,8 +215,11 @@ public class WB_OrthoProject implements WB_Context2D {
 	}
     }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Context2D#pointTo3D(double, double, wblut.geom.WB_MutableCoordinate)
+    /*
+     * (non-Javadoc)
+     *
+     * @see wblut.geom.WB_Context2D#pointTo3D(double, double,
+     * wblut.geom.WB_MutableCoordinate)
      */
     @Override
     public void pointTo3D(final double u, final double v,
@@ -239,8 +246,11 @@ public class WB_OrthoProject implements WB_Context2D {
 	}
     }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Context2D#vectorTo2D(wblut.geom.WB_Coordinate, wblut.geom.WB_MutableCoordinate)
+    /*
+     * (non-Javadoc)
+     *
+     * @see wblut.geom.WB_Context2D#vectorTo2D(wblut.geom.WB_Coordinate,
+     * wblut.geom.WB_MutableCoordinate)
      */
     @Override
     public void vectorTo2D(final WB_Coordinate v,
@@ -267,8 +277,11 @@ public class WB_OrthoProject implements WB_Context2D {
 	}
     }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Context2D#vectorTo2D(double, double, double, wblut.geom.WB_MutableCoordinate)
+    /*
+     * (non-Javadoc)
+     *
+     * @see wblut.geom.WB_Context2D#vectorTo2D(double, double, double,
+     * wblut.geom.WB_MutableCoordinate)
      */
     @Override
     public void vectorTo2D(final double x, final double y, final double z,
@@ -295,8 +308,11 @@ public class WB_OrthoProject implements WB_Context2D {
 	}
     }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Context2D#vectorTo3D(wblut.geom.WB_Coordinate, wblut.geom.WB_MutableCoordinate)
+    /*
+     * (non-Javadoc)
+     *
+     * @see wblut.geom.WB_Context2D#vectorTo3D(wblut.geom.WB_Coordinate,
+     * wblut.geom.WB_MutableCoordinate)
      */
     @Override
     public void vectorTo3D(final WB_Coordinate v,
@@ -323,8 +339,11 @@ public class WB_OrthoProject implements WB_Context2D {
 	}
     }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Context2D#vectorTo3D(double, double, double, wblut.geom.WB_MutableCoordinate)
+    /*
+     * (non-Javadoc)
+     *
+     * @see wblut.geom.WB_Context2D#vectorTo3D(double, double, double,
+     * wblut.geom.WB_MutableCoordinate)
      */
     @Override
     public void vectorTo3D(final double u, final double v, final double w,
@@ -351,8 +370,11 @@ public class WB_OrthoProject implements WB_Context2D {
 	}
     }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Context2D#vectorTo3D(double, double, wblut.geom.WB_MutableCoordinate)
+    /*
+     * (non-Javadoc)
+     *
+     * @see wblut.geom.WB_Context2D#vectorTo3D(double, double,
+     * wblut.geom.WB_MutableCoordinate)
      */
     @Override
     public void vectorTo3D(final double u, final double v,

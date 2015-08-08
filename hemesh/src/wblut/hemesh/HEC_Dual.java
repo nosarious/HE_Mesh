@@ -90,7 +90,7 @@ public class HEC_Dual extends HEC_Creator {
 		faceHalfedges.add(hen);
 		hen.setFace(nf);
 		final Long key = faceVertexCorrelation.get(he.getFace().key());
-		hen.setVertex(result.getVertexByKey(key));
+		hen.setVertex(result.getVertexWithKey(key));
 		p.addSelf(hen.getVertex());
 		n++;
 		if (hen.getVertex().getHalfedge() == null) {

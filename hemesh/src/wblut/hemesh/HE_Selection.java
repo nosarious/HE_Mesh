@@ -128,7 +128,7 @@ public class HE_Selection extends HE_MeshStructure {
 	HE_Vertex v;
 	final int n = sel.vertices.size();
 	for (int i = 0; i < n; i++) {
-	    v = sel.getVertexByIndex(i);
+	    v = sel.getVertexWithIndex(i);
 	    if (!outerVertices.contains(v)) {
 		result.add(v);
 	    }
@@ -172,7 +172,7 @@ public class HE_Selection extends HE_MeshStructure {
 	HE_Halfedge he;
 	final int n = sel.halfedges.size();
 	for (int i = 0; i < n; i++) {
-	    he = sel.getHalfedgeByIndex(i);
+	    he = sel.getHalfedgeWithIndex(i);
 	    final HE_Face f1 = he.getFace();
 	    if ((f1 == null) || (!contains(f1))) {
 		result.add(he);
@@ -193,7 +193,7 @@ public class HE_Selection extends HE_MeshStructure {
 	HE_Halfedge he;
 	final int n = sel.halfedges.size();
 	for (int i = 0; i < n; i++) {
-	    he = sel.getHalfedgeByIndex(i);
+	    he = sel.getHalfedgeWithIndex(i);
 	    final HE_Face f1 = he.getPair().getFace();
 	    if ((f1 == null) || (!contains(f1))) {
 		result.add(he);
@@ -214,7 +214,7 @@ public class HE_Selection extends HE_MeshStructure {
 	HE_Halfedge he;
 	final int n = sel.halfedges.size();
 	for (int i = 0; i < n; i++) {
-	    he = sel.getHalfedgeByIndex(i);
+	    he = sel.getHalfedgeWithIndex(i);
 	    if (contains(he.getPair().getFace()) && contains(he.getFace())) {
 		result.add(he);
 	    }
@@ -388,7 +388,7 @@ public class HE_Selection extends HE_MeshStructure {
 	HE_Face f;
 	final int n = faces.size();
 	for (int i = 0; i < n; i++) {
-	    f = getFaceByIndex(i);
+	    f = getFaceWithIndex(i);
 	    currentFaces.add(f);
 	    addFaces(f.getNeighborFaces());
 	}
@@ -444,7 +444,7 @@ public class HE_Selection extends HE_MeshStructure {
 	HE_Face face;
 	final int n = faces.size();
 	for (int i = 0; i < n; i++) {
-	    face = getFaceByIndex(i);
+	    face = getFaceWithIndex(i);
 	    currentFaces.add(face);
 	    addFaces(face.getNeighborFaces());
 	}
@@ -475,7 +475,7 @@ public class HE_Selection extends HE_MeshStructure {
 	HE_Halfedge hei;
 	final int n = halfedges.size();
 	for (int i = 0; i < n; i++) {
-	    hei = getHalfedgeByIndex(i);
+	    hei = getHalfedgeWithIndex(i);
 	    currentHalfedges.add(hei);
 	}
 	for (int i = 0; i < currentHalfedges.size(); i++) {
@@ -508,7 +508,7 @@ public class HE_Selection extends HE_MeshStructure {
 	HE_Halfedge hei;
 	final int n = halfedges.size();
 	for (int i = 0; i < n; i++) {
-	    hei = getHalfedgeByIndex(i);
+	    hei = getHalfedgeWithIndex(i);
 	    currentHalfedges.add(hei);
 	}
 	for (int i = 0; i < currentHalfedges.size(); i++) {
@@ -755,14 +755,14 @@ public class HE_Selection extends HE_MeshStructure {
 	HE_Face f;
 	int n = faces.size();
 	for (int i = 0; i < n; i++) {
-	    f = getFaceByIndex(i);
+	    f = getFaceWithIndex(i);
 	    tmpVertices = f.getFaceVertices();
 	    addVertices(tmpVertices);
 	}
 	HE_Halfedge he;
 	n = halfedges.size();
 	for (int i = 0; i < n; i++) {
-	    he = getHalfedgeByIndex(i);
+	    he = getHalfedgeWithIndex(i);
 	    add(he.getVertex());
 	}
     }
@@ -774,13 +774,13 @@ public class HE_Selection extends HE_MeshStructure {
 	HE_Vertex v;
 	int n = vertices.size();
 	for (int i = 0; i < n; i++) {
-	    v = getVertexByIndex(i);
+	    v = getVertexWithIndex(i);
 	    addFaces(v.getFaceStar());
 	}
 	HE_Halfedge he;
 	n = halfedges.size();
 	for (int i = 0; i < n; i++) {
-	    he = getHalfedgeByIndex(i);
+	    he = getHalfedgeWithIndex(i);
 	    add(he.getFace());
 	}
     }
@@ -830,13 +830,13 @@ public class HE_Selection extends HE_MeshStructure {
 	HE_Face f;
 	int n = faces.size();
 	for (int i = 0; i < n; i++) {
-	    f = getFaceByIndex(i);
+	    f = getFaceWithIndex(i);
 	    addHalfedges(f.getFaceHalfedges());
 	}
 	final FastTable<HE_Halfedge> newhalfedges = new FastTable<HE_Halfedge>();
 	n = halfedges.size();
 	for (int i = 0; i < n; i++) {
-	    newhalfedges.add(getHalfedgeByIndex(i).getPair());
+	    newhalfedges.add(getHalfedgeWithIndex(i).getPair());
 	}
 	addHalfedges(newhalfedges);
     }

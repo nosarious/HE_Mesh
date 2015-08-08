@@ -184,7 +184,7 @@ public class HEM_Mirror extends HEM_Modifier {
 	    final WB_Vector dv = v.getPoint().subToVector3D(p);
 	    if (dv.getLength3D() <= WB_Epsilon.EPSILON) {
 		final List<HE_Halfedge> star = v.getHalfedgeStar();
-		origv = mesh.getVertexByIndex(i);
+		origv = mesh.getVertexWithIndex(i);
 		for (final HE_Halfedge he : star) {
 		    he.setVertex(origv);
 		}

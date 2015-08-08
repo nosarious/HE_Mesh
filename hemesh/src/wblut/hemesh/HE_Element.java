@@ -102,7 +102,7 @@ public abstract class HE_Element {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -112,7 +112,7 @@ public abstract class HE_Element {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -137,6 +137,7 @@ public abstract class HE_Element {
     public void copyProperties(final HE_Element el) {
 	_label = el.getLabel();
 	_internalLabel = el.getInternalLabel();
+	visited = el.visited;
     }
 
     /**

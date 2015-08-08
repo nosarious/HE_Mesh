@@ -530,7 +530,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 		// tracker.setStatus("Triangulating face with " + fo
 		// + " vertices.");
 		triangles = new WB_Triangulate().getPolygonTriangulation2D(
-			this.toPolygon(), true).getTriangles();
+			this.toPolygon(), optimize).getTriangles();
 	    }
 	}
 	// // logger.debug("Returning triangles.");
@@ -643,7 +643,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.Point3D#toString()
      */
     @Override
@@ -661,7 +661,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.core.WB_HasData#setData(java.lang.String, java.lang.Object)
      */
     @Override
@@ -674,7 +674,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.core.WB_HasData#getData(java.lang.String)
      */
     @Override
@@ -684,7 +684,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_HasColor#getColor()
      */
     @Override
@@ -694,7 +694,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_HasColor#setColor(int)
      */
     @Override
@@ -753,7 +753,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Element#clear()
      */
     @Override
@@ -783,7 +783,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 	coords[i] = new Coordinate(point.xd(), point.yd(), i);
 	he = he.getNextInFace();
 	final Polygon inputPolygon = new GeometryFactory()
-	.createPolygon(coords);
+		.createPolygon(coords);
 	final IsValidOp isValidOp = new IsValidOp(inputPolygon);
 	if (!IsValidOp.isValid(inputPolygon)) {
 	    System.out.println(this);

@@ -209,9 +209,9 @@ public class HEM_Slice extends HEM_Modifier {
 		HE_Halfedge he0, he1, he2;
 		for (int i = 0; i < triKeys.length; i++) {
 		    tri = new HE_Face();
-		    v0 = mesh.getVertexByKey(triKeys[i][0]);
-		    v1 = mesh.getVertexByKey(triKeys[i][1]);
-		    v2 = mesh.getVertexByKey(triKeys[i][2]);
+		    v0 = mesh.getVertexWithKey(triKeys[i][0]);
+		    v1 = mesh.getVertexWithKey(triKeys[i][1]);
+		    v2 = mesh.getVertexWithKey(triKeys[i][2]);
 		    he0 = new HE_Halfedge();
 		    he1 = new HE_Halfedge();
 		    he2 = new HE_Halfedge();

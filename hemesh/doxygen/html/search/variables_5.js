@@ -19,10 +19,7 @@ var searchData=
   ['entries',['entries',['../classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_query_result.html#a7c57ff9745c69d0736c9685091eaf1cf',1,'wblut::geom::WB_KDTree::QueryResult']]],
   ['eps',['EPS',['../classwblut_1_1math_1_1_w_b___double_double.html#a94f74708854c81672d52c2cdc25389a8',1,'wblut::math::WB_DoubleDouble']]],
   ['epsilon',['epsilon',['../classwblut_1_1geom_1_1_w_b___predicates.html#a5344a9eb358737aa57cc3bc658b70d06',1,'wblut.geom.WB_Predicates.epsilon()'],['../classwblut_1_1math_1_1_w_b___epsilon.html#a8719c4a7e110b6d40c3863351157410e',1,'wblut.math.WB_Epsilon.EPSILON()']]],
-  ['equalarc',['EQUALARC',['../classwblut_1_1geom_1_1_w_b___geodesic_i.html#a05fbbfb2968463969a0bfc86fbf1b0da',1,'wblut::geom::WB_GeodesicI']]],
-  ['equalarc2gc',['EQUALARC2GC',['../classwblut_1_1geom_1_1_w_b___geodesic_i.html#ac2ff9fcf9426e59b2fccdc73b30242c2',1,'wblut::geom::WB_GeodesicI']]],
-  ['equalchord',['EQUALCHORD',['../classwblut_1_1geom_1_1_w_b___geodesic_i.html#a04484819451480fe7246dfa82f790112',1,'wblut::geom::WB_GeodesicI']]],
-  ['evaluator',['evaluator',['../classwblut_1_1hemesh_1_1_h_e_c___u_v_parametric.html#a06873dec90b3723007348b7c9df24950',1,'wblut::hemesh::HEC_UVParametric']]],
+  ['evaluator',['evaluator',['../classwblut_1_1hemesh_1_1_h_e_c___u_v_parametric.html#a3f183e8cf240bff8ffd9f6711a0f1b5e',1,'wblut::hemesh::HEC_UVParametric']]],
   ['extents',['extents',['../classwblut_1_1hemesh_1_1_h_e_m_c___weaire_phelan.html#a45007f3aee7396280ff5a57451033bb1',1,'wblut::hemesh::HEMC_WeairePhelan']]],
   ['extruded',['extruded',['../classwblut_1_1hemesh_1_1_h_e_m___extrude.html#adb2c0679bcafc3b80af3b3039fa51e94',1,'wblut::hemesh::HEM_Extrude']]]
 ];

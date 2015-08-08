@@ -326,7 +326,7 @@ public class WB_Polygon extends WB_Ring {
 			points.getPoint(3));
 	    } else {
 		final WB_Triangulation2D triangulation = new WB_Triangulate()
-		.getPolygonTriangulation2D(this, optimize);
+		.getPolygonTriangulation2D(this.toPolygon2D(), optimize);
 		triangles = triangulation.getTriangles();
 	    }
 	}
@@ -363,14 +363,17 @@ public class WB_Polygon extends WB_Ring {
      */
     public WB_Vector getNormal() {
 	final WB_Vector normal = gf.createVector();
-	for (int i = 0, j = getNumberOfShellPoints() - 1; i < getNumberOfShellPoints(); j = i, i++) {
+	int ni;
+	final int nsp = getNumberOfShellPoints();
+	for (int i = 0; i < nsp; i++) {
+	    ni = (i + 1) % nsp;
 	    normal.addSelf(
-		    (points.get(j, 1) - points.get(i, 1))
-			    * (points.get(j, 2) + points.get(i, 2)),
-		    (points.get(j, 2) - points.get(i, 2))
-			    * (points.get(j, 0) + points.get(i, 0)),
-		    (points.get(j, 0) - points.get(i, 0))
-			    * (points.get(j, 1) + points.get(i, 1)));
+		    (points.get(i, 1) - points.get(ni, 1))
+			    * (points.get(i, 2) + points.get(ni, 2)),
+		    (points.get(i, 2) - points.get(ni, 2))
+			    * (points.get(i, 0) + points.get(ni, 0)),
+		    (points.get(i, 0) - points.get(ni, 0))
+			    * (points.get(i, 1) + points.get(ni, 1)));
 	}
 	normal.normalizeSelf();
 	return normal;
@@ -453,8 +456,11 @@ public class WB_Polygon extends WB_Ring {
     public WB_Polygon toPolygon2D() {
 	final List<WB_Point> shellpoints = new FastTable<WB_Point>();
 	final WB_Plane P = getPlane(0);
+	final WB_EmbeddedPlane EP = new WB_EmbeddedPlane(P);
 	for (int i = 0; i < numberOfShellPoints; i++) {
-	    shellpoints.add(P.localPoint2D(points.getPoint(i)));
+	    final WB_Point p2D = new WB_Point();
+	    EP.pointTo2D(points.getPoint(i), p2D);
+	    shellpoints.add(p2D);
 	}
 	if (isSimple()) {
 	    return new WB_Polygon(shellpoints);
@@ -465,7 +471,9 @@ public class WB_Polygon extends WB_Ring {
 	    for (int i = 0; i < (numberOfContours - 1); i++) {
 		holepoints[i] = new FastTable<WB_Point>();
 		for (int j = 0; j < numberOfPointsPerContour[i + 1]; j++) {
-		    holepoints[i].add(P.localPoint2D(points.getPoint(index++)));
+		    final WB_Point p2D = new WB_Point();
+		    EP.pointTo2D(points.getPoint(index++), p2D);
+		    holepoints[i].add(p2D);
 		}
 	    }
 	    return new WB_Polygon(shellpoints, holepoints);

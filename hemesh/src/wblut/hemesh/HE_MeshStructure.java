@@ -335,8 +335,19 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
      *
      * @param i
      * @return
+     * @deprecated Use {@link #getFaceWithIndex(int)} instead
      */
     public final HE_Face getFaceByIndex(final int i) {
+        return getFaceWithIndex(i);
+    }
+
+    /**
+     *
+     *
+     * @param i
+     * @return
+     */
+    public final HE_Face getFaceWithIndex(final int i) {
 	return faces.get(i);
     }
 
@@ -345,9 +356,10 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
      *
      * @param i
      * @return
+     * @deprecated Use {@link #getHalfedgeWithIndex(int)} instead
      */
     public final HE_Halfedge getHalfedgeByIndex(final int i) {
-	return halfedges.get(i);
+        return getHalfedgeWithIndex(i);
     }
 
     /**
@@ -356,7 +368,28 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
      * @param i
      * @return
      */
+    public final HE_Halfedge getHalfedgeWithIndex(final int i) {
+	return halfedges.get(i);
+    }
+
+    /**
+     *
+     *
+     * @param i
+     * @return
+     * @deprecated Use {@link #getVertexWithIndex(int)} instead
+     */
     public final HE_Vertex getVertexByIndex(final int i) {
+        return getVertexWithIndex(i);
+    }
+
+    /**
+     *
+     *
+     * @param i
+     * @return
+     */
+    public final HE_Vertex getVertexWithIndex(final int i) {
 	return vertices.get(i);
     }
 
@@ -375,7 +408,7 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
 	}
 	HE_Vertex v;
 	for (int i = 0; i < vertices.size(); i++) {
-	    v = getVertexByIndex(i);
+	    v = getVertexWithIndex(i);
 	    result[0] = Math.min(result[0], v.xd());
 	    result[1] = Math.min(result[1], v.yd());
 	    result[2] = Math.min(result[2], v.zd());
@@ -401,7 +434,7 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
 	}
 	HE_Vertex v;
 	for (int i = 0; i < vertices.size(); i++) {
-	    v = getVertexByIndex(i);
+	    v = getVertexWithIndex(i);
 	    result[0] = Math.min(result[0], v.xd());
 	    result[1] = Math.min(result[1], v.yd());
 	    result[2] = Math.min(result[2], v.zd());
@@ -877,8 +910,20 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
      * @param key
      *            face key
      * @return face
+     * @deprecated Use {@link #getFaceWithKey(long)} instead
      */
     public final HE_Face getFaceByKey(final long key) {
+        return getFaceWithKey(key);
+    }
+
+    /**
+     * Get face.
+     *
+     * @param key
+     *            face key
+     * @return face
+     */
+    public final HE_Face getFaceWithKey(final long key) {
 	return faces.getByKey(key);
     }
 
@@ -915,8 +960,20 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
      * @param key
      *            halfedge key
      * @return halfedge
+     * @deprecated Use {@link #getHalfedgeWithKey(long)} instead
      */
     public final HE_Halfedge getHalfedgeByKey(final long key) {
+        return getHalfedgeWithKey(key);
+    }
+
+    /**
+     * Get halfedge.
+     *
+     * @param key
+     *            halfedge key
+     * @return halfedge
+     */
+    public final HE_Halfedge getHalfedgeWithKey(final long key) {
 	return halfedges.getByKey(key);
     }
 
@@ -953,8 +1010,20 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
      * @param key
      *            vertex key
      * @return vertex
+     * @deprecated Use {@link #getVertexWithKey(long)} instead
      */
     public final HE_Vertex getVertexByKey(final long key) {
+        return getVertexWithKey(key);
+    }
+
+    /**
+     * Get vertex.
+     *
+     * @param key
+     *            vertex key
+     * @return vertex
+     */
+    public final HE_Vertex getVertexWithKey(final long key) {
 	return vertices.getByKey(key);
     }
 
@@ -1023,8 +1092,8 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
 	if (vertices.length > 1) {
 	    HE_Halfedge he;
 	    for (int i = 0; i < (vertices.length - 1); i++) {
-		he = searchHalfedgeFromTo(getVertexByIndex(vertices[i]),
-			getVertexByIndex(vertices[i + 1]));
+		he = searchHalfedgeFromTo(getVertexWithIndex(vertices[i]),
+			getVertexWithIndex(vertices[i + 1]));
 		if (he == null) {
 		    throw new IllegalArgumentException("Two vertices "
 			    + vertices[i] + " and " + vertices[i + 1]
@@ -1034,8 +1103,8 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
 	    }
 	    if (loop) {
 		he = searchHalfedgeFromTo(
-			getVertexByIndex(vertices[vertices.length - 1]),
-			getVertexByIndex(vertices[0]));
+			getVertexWithIndex(vertices[vertices.length - 1]),
+			getVertexWithIndex(vertices[0]));
 		if (he == null) {
 		    throw new IllegalArgumentException("Vertices "
 			    + vertices[vertices.length - 1] + " and "

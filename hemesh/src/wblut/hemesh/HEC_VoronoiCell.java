@@ -289,7 +289,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 		}
 		result.cleanUnusedElementsByFace();
 		for (final HE_Face f : result.capHoles()) {
-		    f.copyProperties(sel.getFaceByIndex(0));
+		    f.copyProperties(sel.getFaceWithIndex(0));
 		}
 	    }
 	}

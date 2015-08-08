@@ -234,7 +234,7 @@ public class WB_DebugRender3D {
      */
     public void drawHalfedge(final Long key, final double d, final double s,
 	    final HE_MeshStructure mesh) {
-	final HE_Halfedge he = mesh.getHalfedgeByKey(key);
+	final HE_Halfedge he = mesh.getHalfedgeWithKey(key);
 	drawHalfedge(he, d, s);
     }
 

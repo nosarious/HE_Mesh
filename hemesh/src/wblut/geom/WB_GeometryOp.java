@@ -3314,21 +3314,52 @@ public class WB_GeometryOp {
 	    final WB_Polygon poly) {
 	final int[][] tris = poly.getTriangles();
 	final int n = tris.length;
-	double dmax2 = Double.POSITIVE_INFINITY;
+	double dmin2 = Double.POSITIVE_INFINITY;
 	WB_Point closest = new WB_Point();
 	WB_Point tmp;
 	int[] T;
 	for (int i = 0; i < n; i++) {
 	    T = tris[i];
-	    tmp = getClosestPointToTriangle3D(p, poly.getPoint(T[0]),
+	    WB_Coordinate q = p;
+	    if (n > 1) {
+		q = projectOnPlane(p,
+			new WB_Plane(poly.getPoint(T[0]), poly.getPoint(T[1]),
+				poly.getPoint(T[2])));
+	    }
+	    tmp = getClosestPointToTriangle3D(q, poly.getPoint(T[0]),
 		    poly.getPoint(T[1]), poly.getPoint(T[2]));
-	    final double d2 = getSqDistance3D(tmp, p);
-	    if (d2 < dmax2) {
+	    final double d2 = getSqDistance3D(tmp, q);
+	    if (d2 < dmin2) {
 		closest = tmp;
-		dmax2 = d2;
+		dmin2 = d2;
 	    }
 	}
 	return closest;
+    }
+
+    public static double getDistanceToClosestPoint3D(final WB_Coordinate p,
+	    final WB_Polygon poly) {
+	final int[][] tris = poly.getTriangles();
+	final int n = tris.length;
+	double dmin2 = Double.POSITIVE_INFINITY;
+	WB_Point tmp;
+	int[] T;
+	for (int i = 0; i < n; i++) {
+	    T = tris[i];
+	    WB_Coordinate q = p;
+	    if (n > 1) {
+		q = projectOnPlane(p,
+			new WB_Plane(poly.getPoint(T[0]), poly.getPoint(T[1]),
+				poly.getPoint(T[2])));
+	    }
+	    tmp = getClosestPointToTriangle3D(q, poly.getPoint(T[0]),
+		    poly.getPoint(T[1]), poly.getPoint(T[2]));
+	    final double d2 = getSqDistance3D(tmp, q);
+	    if (d2 < dmin2) {
+		dmin2 = d2;
+	    }
+	}
+	return Math.sqrt(dmin2);
     }
 
     /**
@@ -3429,9 +3460,7 @@ public class WB_GeometryOp {
 	    return ir;
 	}
 	final WB_Point p = (WB_Point) ir.object;
-	final WB_Point q = getClosestPoint3D(p, poly);
-	final double d2 = getSqDistance3D(q, p);
-	if (WB_Epsilon.isZeroSq(d2)) {
+	if (WB_Epsilon.isZero(getDistanceToClosestPoint3D(p, poly))) {
 	    return ir;
 	}
 	ir.intersection = false;
@@ -3453,9 +3482,7 @@ public class WB_GeometryOp {
 	    return ir;
 	}
 	final WB_Point p = (WB_Point) ir.object;
-	final WB_Point q = getClosestPoint3D(p, poly);
-	final double d2 = getSqDistance3D(q, p);
-	if (WB_Epsilon.isZeroSq(d2)) {
+	if (WB_Epsilon.isZero(getDistanceToClosestPoint3D(p, poly))) {
 	    return ir;
 	}
 	ir.intersection = false;
@@ -3477,9 +3504,7 @@ public class WB_GeometryOp {
 	    return ir;
 	}
 	final WB_Point p = (WB_Point) ir.object;
-	final WB_Point q = getClosestPoint3D(p, poly);
-	final double d2 = getSqDistance3D(q, p);
-	if (WB_Epsilon.isZeroSq(d2)) {
+	if (WB_Epsilon.isZero(getDistanceToClosestPoint3D(p, poly))) {
 	    return ir;
 	}
 	ir.intersection = false;
@@ -4034,7 +4059,7 @@ public class WB_GeometryOp {
      * @return
      */
     public static double getSqLength2D(final WB_Coordinate p) {
-	return ((p.xd() * p.xd()) + (p.yf() * p.yf()));
+	return ((p.xd() * p.xd()) + (p.yd() * p.yd()));
     }
 
     /**
@@ -4044,7 +4069,7 @@ public class WB_GeometryOp {
      * @return
      */
     public static double getSqLength3D(final WB_Coordinate p) {
-	return ((p.xd() * p.xd()) + (p.yf() * p.yf()) + (p.zf() * p.zf()));
+	return ((p.xd() * p.xd()) + (p.yd() * p.yd()) + (p.zd() * p.zd()));
     }
 
     /**
@@ -4054,7 +4079,7 @@ public class WB_GeometryOp {
      * @return
      */
     public static double getLength2D(final WB_Coordinate p) {
-	return Math.sqrt((p.xd() * p.xd()) + (p.yf() * p.yf()));
+	return Math.sqrt((p.xd() * p.xd()) + (p.yd() * p.yd()));
     }
 
     /**
@@ -4064,8 +4089,8 @@ public class WB_GeometryOp {
      * @return
      */
     public static double getLength3D(final WB_Coordinate p) {
-	return Math.sqrt((p.xd() * p.xd()) + (p.yf() * p.yf())
-		+ (p.zf() * p.zf()));
+	return Math.sqrt((p.xd() * p.xd()) + (p.yd() * p.yd())
+		+ (p.zd() * p.zd()));
     }
 
     /**

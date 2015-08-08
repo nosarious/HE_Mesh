@@ -178,7 +178,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 	}
 	tracker.setDefaultStatus("Indexing edge intersection.", edgeInt.size());
 	for (final Map.Entry<Long, Double> en : edgeInt.entrySet()) {
-	    final HE_Halfedge ce = mesh.getHalfedgeByKey(en.getKey());
+	    final HE_Halfedge ce = mesh.getHalfedgeWithKey(en.getKey());
 	    final double u = en.getValue();
 	    if (ce.getFace() != null) {
 		split.add(ce.getFace());
@@ -359,7 +359,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		    edgeInt.size());
 	    for (final Map.Entry<Long, Double> en : edgeInt.entrySet()) {
 		final HE_Halfedge ce = lsel.parent
-			.getHalfedgeByKey(en.getKey());
+			.getHalfedgeWithKey(en.getKey());
 		final double u = en.getValue();
 		if (lsel.contains(ce.getFace())) {
 		    split.add(ce.getFace());

@@ -123,7 +123,7 @@ public class HEC_Copy extends HEC_Creator {
 		if (sv.getHalfedge() != null) {
 		    key = halfedgeCorrelation.get(sv.getHalfedge().key());
 		    if (key >= 0) {
-			tv.setHalfedge(result.getHalfedgeByKey(key));
+			tv.setHalfedge(result.getHalfedgeWithKey(key));
 		    }
 		}
 		tracker.incrementCounter();
@@ -140,7 +140,7 @@ public class HEC_Copy extends HEC_Creator {
 		if (sf.getHalfedge() != null) {
 		    key = halfedgeCorrelation.get(sf.getHalfedge().key());
 		    if (key >= 0) {
-			tf.setHalfedge(result.getHalfedgeByKey(key));
+			tf.setHalfedge(result.getHalfedgeWithKey(key));
 		    }
 		}
 		tracker.incrementCounter();
@@ -157,27 +157,27 @@ public class HEC_Copy extends HEC_Creator {
 		if (she.getPair() != null) {
 		    key = halfedgeCorrelation.get(she.getPair().key());
 		    if (key >= 0) {
-			the.setPair(result.getHalfedgeByKey(key));
-			result.getHalfedgeByKey(key).setPair(the);
+			the.setPair(result.getHalfedgeWithKey(key));
+			result.getHalfedgeWithKey(key).setPair(the);
 		    }
 		}
 		if (she.getNextInFace() != null) {
 		    key = halfedgeCorrelation.get(she.getNextInFace().key());
 		    if (key >= 0) {
-			the.setNext(result.getHalfedgeByKey(key));
-			result.getHalfedgeByKey(key).setPrev(the);
+			the.setNext(result.getHalfedgeWithKey(key));
+			result.getHalfedgeWithKey(key).setPrev(the);
 		    }
 		}
 		if (she.getVertex() != null) {
 		    key = vertexCorrelation.get(she.getVertex().key());
 		    if (key >= 0) {
-			the.setVertex(result.getVertexByKey(key));
+			the.setVertex(result.getVertexWithKey(key));
 		    }
 		}
 		if (she.getFace() != null) {
 		    key = faceCorrelation.get(she.getFace().key());
 		    if (key >= 0) {
-			the.setFace(result.getFaceByKey(key));
+			the.setFace(result.getFaceWithKey(key));
 		    }
 		}
 		tracker.incrementCounter();
@@ -244,7 +244,7 @@ public class HEC_Copy extends HEC_Creator {
 		if (sv.getHalfedge() != null) {
 		    key = halfedgeCorrelation.get(sv.getHalfedge().key());
 		    if (key >= 0) {
-			tv.setHalfedge(result.getHalfedgeByKey(key));
+			tv.setHalfedge(result.getHalfedgeWithKey(key));
 		    }
 		}
 		tracker.incrementCounter();
@@ -261,7 +261,7 @@ public class HEC_Copy extends HEC_Creator {
 		if (sf.getHalfedge() != null) {
 		    key = halfedgeCorrelation.get(sf.getHalfedge().key());
 		    if (key >= 0) {
-			tf.setHalfedge(result.getHalfedgeByKey(key));
+			tf.setHalfedge(result.getHalfedgeWithKey(key));
 		    }
 		}
 		tracker.incrementCounter();
@@ -278,27 +278,27 @@ public class HEC_Copy extends HEC_Creator {
 		if (she.getPair() != null) {
 		    key = halfedgeCorrelation.get(she.getPair().key());
 		    if (key >= 0) {
-			the.setPair(result.getHalfedgeByKey(key));
-			result.getHalfedgeByKey(key).setPair(the);
+			the.setPair(result.getHalfedgeWithKey(key));
+			result.getHalfedgeWithKey(key).setPair(the);
 		    }
 		}
 		if (she.getNextInFace() != null) {
 		    key = halfedgeCorrelation.get(she.getNextInFace().key());
 		    if (key >= 0) {
-			the.setNext(result.getHalfedgeByKey(key));
-			result.getHalfedgeByKey(key).setPrev(the);
+			the.setNext(result.getHalfedgeWithKey(key));
+			result.getHalfedgeWithKey(key).setPrev(the);
 		    }
 		}
 		if (she.getVertex() != null) {
 		    key = vertexCorrelation.get(she.getVertex().key());
 		    if (key >= 0) {
-			the.setVertex(result.getVertexByKey(key));
+			the.setVertex(result.getVertexWithKey(key));
 		    }
 		}
 		if (she.getFace() != null) {
 		    key = faceCorrelation.get(she.getFace().key());
 		    if (key >= 0) {
-			the.setFace(result.getFaceByKey(key));
+			the.setFace(result.getFaceWithKey(key));
 		    }
 		}
 		tracker.incrementCounter();

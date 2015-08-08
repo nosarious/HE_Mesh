@@ -97,17 +97,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">wblut.math.WB_RandomCircle Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for wblut.math.WB_RandomCircle:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+ <div class="center">
+  <img src="classwblut_1_1math_1_1_w_b___random_circle.png" usemap="#wblut.math.WB_RandomCircle_map" alt=""/>
+  <map id="wblut.math.WB_RandomCircle_map" name="wblut.math.WB_RandomCircle_map">
+<area href="interfacewblut_1_1math_1_1_w_b___random_point.html" alt="wblut.math.WB_RandomPoint" shape="rect" coords="0,0,180,24"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a7b3e7c239119efb544894de05961308a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1math_1_1_w_b___random_circle.html#a7b3e7c239119efb544894de05961308a">WB_RandomCircle</a> ()</td></tr>
 <tr class="separator:a7b3e7c239119efb544894de05961308a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f03d073e89caba1ffe386d8fbb69d42"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1math_1_1_w_b___random_circle.html#a6f03d073e89caba1ffe386d8fbb69d42">WB_RandomCircle</a> (final long seed)</td></tr>
+<tr class="separator:a6f03d073e89caba1ffe386d8fbb69d42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd483b1699f58c7ecb1ac27e1368dec0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1math_1_1_w_b___random_circle.html">WB_RandomCircle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1math_1_1_w_b___random_circle.html#acd483b1699f58c7ecb1ac27e1368dec0">setSeed</a> (final long seed)</td></tr>
 <tr class="separator:acd483b1699f58c7ecb1ac27e1368dec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e31116f903c2c2fd64ea7b3e51fbf93"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1math_1_1_w_b___random_circle.html#a5e31116f903c2c2fd64ea7b3e51fbf93">nextPoint</a> ()</td></tr>
 <tr class="separator:a5e31116f903c2c2fd64ea7b3e51fbf93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61ae1083f59b756b68def02cffd53920"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1math_1_1_w_b___random_circle.html#a61ae1083f59b756b68def02cffd53920">nextVector</a> ()</td></tr>
 <tr class="separator:a61ae1083f59b756b68def02cffd53920"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cf425c210c579b1470aad2aeb1990c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1math_1_1_w_b___random_circle.html#a4cf425c210c579b1470aad2aeb1990c0">reset</a> ()</td></tr>
+<tr class="separator:a4cf425c210c579b1470aad2aeb1990c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -115,7 +130,7 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a7dd9f1990e4a7e74246ba26b14875b3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Random generator for vectors uniformly distributed on the unit circle.</p>
+<div class="textblock"><p>Random generator for vectors or points uniformly distributed on a circle with radius 1.</p>
 <dl class="section author"><dt>Author</dt><dd>Frederik Vanhoutte, W:Blut </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a7b3e7c239119efb544894de05961308a"></a>
@@ -130,7 +145,22 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Instantiates a new w b_ random disc. </p>
+
+</div>
+</div>
+<a class="anchor" id="a6f03d073e89caba1ffe386d8fbb69d42"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">wblut.math.WB_RandomCircle.WB_RandomCircle </td>
+          <td>(</td>
+          <td class="paramtype">final long&#160;</td>
+          <td class="paramname"><em>seed</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -147,8 +177,10 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Next point.</p>
-<dl class="section return"><dt>Returns</dt><dd>next random WB_Point on unit circle </dd></dl>
+<p>Get the next random point</p>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p>Implements <a class="el" href="interfacewblut_1_1math_1_1_w_b___random_point.html#aab875966823cd65069b93cb27af5e084">wblut.math.WB_RandomPoint</a>.</p>
 
 </div>
 </div>
@@ -164,8 +196,28 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Next vector.</p>
-<dl class="section return"><dt>Returns</dt><dd>next random WB_Vector on unit circle </dd></dl>
+<p>Get the next random vector</p>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p>Implements <a class="el" href="interfacewblut_1_1math_1_1_w_b___random_point.html#ace2fc598fb6ec4cde9071cdf278ef86d">wblut.math.WB_RandomPoint</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4cf425c210c579b1470aad2aeb1990c0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wblut.math.WB_RandomCircle.reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reset the RNG </p>
+
+<p>Implements <a class="el" href="interfacewblut_1_1math_1_1_w_b___random_point.html#aa5039a022c551b085611f3313b4949f7">wblut.math.WB_RandomPoint</a>.</p>
 
 </div>
 </div>
@@ -182,14 +234,16 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set random seed.</p>
+<p>Set the seed for the RNG</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">seed</td><td>seed </td></tr>
+    <tr><td class="paramname">seed</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>self </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>this </dd></dl>
+
+<p>Implements <a class="el" href="interfacewblut_1_1math_1_1_w_b___random_point.html#ac03ae9a1d49af86a6da030fb00b153ed">wblut.math.WB_RandomPoint</a>.</p>
 
 </div>
 </div>
@@ -211,7 +265,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>The random gen. </p>
 
 </div>
 </div>
@@ -221,7 +274,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 17 2015 19:16:59 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 4 2015 22:21:52 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>
