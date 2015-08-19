@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.processing;
 
@@ -8,6 +8,7 @@ import java.util.List;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
+import processing.opengl.PGraphicsOpenGL;
 import wblut.geom.WB_ClassificationConvex;
 import wblut.geom.WB_Coordinate;
 import wblut.geom.WB_GeometryFactory;
@@ -19,44 +20,50 @@ import wblut.hemesh.HE_MeshStructure;
 import wblut.hemesh.HE_Vertex;
 
 /**
- * 
+ *
  */
 public class WB_DebugRender3D {
-    
     /**
-     * 
+     *
      */
     private final PGraphics home;
-    
     /**
-     * 
+     *
      */
     public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory
 	    .instance();
 
     /**
-     * 
      *
-     * @param home 
+     *
+     * @param home
      */
     public WB_DebugRender3D(final PApplet home) {
+	if (home.g == null) {
+	    throw new IllegalArgumentException(
+		    "WB_DebugRender3D can only be used after size()");
+	}
+	if (!(home.g instanceof PGraphicsOpenGL)) {
+	    throw new IllegalArgumentException(
+		    "WB_DebugRender3D can only be used with P3D, OPENGL or derived ProcessingPGraphics object");
+	}
 	this.home = home.g;
     }
 
     /**
-     * 
      *
-     * @param home 
+     *
+     * @param home
      */
     public WB_DebugRender3D(final PGraphics home) {
 	this.home = home;
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @param mesh 
+     *
+     * @param d
+     * @param mesh
      */
     public void drawBadVertices(final double d, final HE_MeshStructure mesh) {
 	HE_Vertex v;
@@ -73,9 +80,9 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param mesh 
+     *
+     * @param mesh
      */
     public void drawBoundaryEdges(final HE_MeshStructure mesh) {
 	HE_Halfedge he;
@@ -83,18 +90,19 @@ public class WB_DebugRender3D {
 	while (heItr.hasNext()) {
 	    he = heItr.next();
 	    if (he.getFace() == null) {
-		home.line(he.getVertex().xf(), he.getVertex().yf(), he
-			.getVertex().zf(), he.getNextInFace().getVertex().xf(),
-			he.getNextInFace().getVertex().yf(), he.getNextInFace()
-				.getVertex().zf());
+		home.line(he.getVertex().xf(), he.getVertex().yf(),
+			he.getVertex().zf(),
+			he.getNextInFace().getVertex().xf(),
+			he.getNextInFace().getVertex().yf(),
+			he.getNextInFace().getVertex().zf());
 	    }
 	}
     }
 
     /**
-     * 
      *
-     * @param mesh 
+     *
+     * @param mesh
      */
     public void drawBoundaryHalfedges(final HE_MeshStructure mesh) {
 	HE_Halfedge he;
@@ -104,20 +112,21 @@ public class WB_DebugRender3D {
 	    he = heItr.next();
 	    if (he.getPair().getFace() == null) {
 		home.stroke(255, 0, 0);
-		home.line(he.getVertex().xf(), he.getVertex().yf(), he
-			.getVertex().zf(), he.getNextInFace().getVertex().xf(),
-			he.getNextInFace().getVertex().yf(), he.getNextInFace()
-				.getVertex().zf());
+		home.line(he.getVertex().xf(), he.getVertex().yf(),
+			he.getVertex().zf(),
+			he.getNextInFace().getVertex().xf(),
+			he.getNextInFace().getVertex().yf(),
+			he.getNextInFace().getVertex().zf());
 	    }
 	}
 	home.popStyle();
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @param d 
+     *
+     * @param f
+     * @param d
      */
     public void drawFaceNormal(final HE_Face f, final double d) {
 	final WB_Point p1 = f.getFaceCenter();
@@ -126,10 +135,10 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @param mesh 
+     *
+     * @param d
+     * @param mesh
      */
     public void drawFaceNormals(final double d, final HE_MeshStructure mesh) {
 	final Iterator<HE_Face> fItr = mesh.fItr();
@@ -148,9 +157,9 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param mesh 
+     *
+     * @param mesh
      */
     public void drawFaceTypes(final HE_MeshStructure mesh) {
 	final Iterator<HE_Face> fItr = mesh.fItr();
@@ -169,19 +178,19 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param he 
-     * @param d 
-     * @param s 
+     *
+     * @param he
+     * @param d
+     * @param s
      */
     public void drawHalfedge(final HE_Halfedge he, final double d,
 	    final double s) {
 	final WB_Point c = he.getHalfedgeCenter();
 	c.addSelf(he.getHalfedgeNormal().mulSelf(d));
 	home.stroke(255, 0, 0);
-	home.line(he.getVertex().xf(), he.getVertex().yf(),
-		he.getVertex().zf(), c.xf(), c.yf(), c.zf());
+	home.line(he.getVertex().xf(), he.getVertex().yf(), he.getVertex().zf(),
+		c.xf(), c.yf(), c.zf());
 	if (he.getHalfedgeType() == WB_ClassificationConvex.CONVEX) {
 	    home.stroke(0, 255, 0);
 	} else if (he.getHalfedgeType() == WB_ClassificationConvex.CONCAVE) {
@@ -196,21 +205,21 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param he 
-     * @param d 
-     * @param s 
-     * @param f 
+     *
+     * @param he
+     * @param d
+     * @param s
+     * @param f
      */
     public void drawHalfedge(final HE_Halfedge he, final double d,
 	    final double s, final double f) {
-	final WB_Point c = geometryfactory.createInterpolatedPoint(
-		he.getVertex(), he.getEndVertex(), f);
+	final WB_Point c = geometryfactory
+		.createInterpolatedPoint(he.getVertex(), he.getEndVertex(), f);
 	c.addSelf(he.getHalfedgeNormal().mulSelf(d));
 	home.stroke(255, 0, 0);
-	home.line(he.getVertex().xf(), he.getVertex().yf(),
-		he.getVertex().zf(), c.xf(), c.yf(), c.zf());
+	home.line(he.getVertex().xf(), he.getVertex().yf(), he.getVertex().zf(),
+		c.xf(), c.yf(), c.zf());
 	if (he.getHalfedgeType() == WB_ClassificationConvex.CONVEX) {
 	    home.stroke(0, 255, 0);
 	} else if (he.getHalfedgeType() == WB_ClassificationConvex.CONCAVE) {
@@ -225,12 +234,12 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param key 
-     * @param d 
-     * @param s 
-     * @param mesh 
+     *
+     * @param key
+     * @param d
+     * @param s
+     * @param mesh
      */
     public void drawHalfedge(final Long key, final double d, final double s,
 	    final HE_MeshStructure mesh) {
@@ -239,11 +248,11 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @param f 
-     * @param mesh 
+     *
+     * @param d
+     * @param f
+     * @param mesh
      */
     public void drawHalfedges(final double d, final double f,
 	    final HE_MeshStructure mesh) {
@@ -258,12 +267,13 @@ public class WB_DebugRender3D {
 			he.getEndVertex(), f);
 		c.addSelf(he.getHalfedgeNormal().mulSelf(d));
 		home.stroke(255, 0, 0);
-		home.line(he.getVertex().xf(), he.getVertex().yf(), he
-			.getVertex().zf(), c.xf(), c.yf(), c.zf());
+		home.line(he.getVertex().xf(), he.getVertex().yf(),
+			he.getVertex().zf(), c.xf(), c.yf(), c.zf());
 		if (he.getHalfedgeType() == WB_ClassificationConvex.CONVEX) {
 		    home.stroke(0, 255, 0);
 		    home.fill(0, 255, 0);
-		} else if (he.getHalfedgeType() == WB_ClassificationConvex.CONCAVE) {
+		} else if (he
+			.getHalfedgeType() == WB_ClassificationConvex.CONCAVE) {
 		    home.stroke(255, 0, 0);
 		    home.fill(255, 0, 0);
 		} else {
@@ -279,8 +289,8 @@ public class WB_DebugRender3D {
 			he.getEndVertex(), f);
 		c.addSelf(he.getPair().getHalfedgeNormal().mulSelf(-d));
 		home.stroke(255, 0, 0);
-		home.line(he.getVertex().xf(), he.getVertex().yf(), he
-			.getVertex().zf(), c.xf(), c.yf(), c.zf());
+		home.line(he.getVertex().xf(), he.getVertex().yf(),
+			he.getVertex().zf(), c.xf(), c.yf(), c.zf());
 		home.stroke(0, 255, 255);
 		home.pushMatrix();
 		home.translate(c.xf(), c.yf(), c.zf());
@@ -292,10 +302,10 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @param mesh 
+     *
+     * @param d
+     * @param mesh
      */
     public void drawHalfedges(final double d, final HE_MeshStructure mesh) {
 	WB_Point c;
@@ -308,12 +318,13 @@ public class WB_DebugRender3D {
 		c = he.getHalfedgeCenter();
 		c.addSelf(he.getHalfedgeNormal().mulSelf(d));
 		home.stroke(255, 0, 0);
-		home.line(he.getVertex().xf(), he.getVertex().yf(), he
-			.getVertex().zf(), c.xf(), c.yf(), c.zf());
+		home.line(he.getVertex().xf(), he.getVertex().yf(),
+			he.getVertex().zf(), c.xf(), c.yf(), c.zf());
 		if (he.getHalfedgeType() == WB_ClassificationConvex.CONVEX) {
 		    home.stroke(0, 255, 0);
 		    home.fill(0, 255, 0);
-		} else if (he.getHalfedgeType() == WB_ClassificationConvex.CONCAVE) {
+		} else if (he
+			.getHalfedgeType() == WB_ClassificationConvex.CONCAVE) {
 		    home.stroke(255, 0, 0);
 		    home.fill(255, 0, 0);
 		} else {
@@ -328,8 +339,8 @@ public class WB_DebugRender3D {
 		c = he.getHalfedgeCenter();
 		c.addSelf(he.getPair().getHalfedgeNormal().mulSelf(-d));
 		home.stroke(255, 0, 0);
-		home.line(he.getVertex().xf(), he.getVertex().yf(), he
-			.getVertex().zf(), c.xf(), c.yf(), c.zf());
+		home.line(he.getVertex().xf(), he.getVertex().yf(),
+			he.getVertex().zf(), c.xf(), c.yf(), c.zf());
 		home.stroke(0, 255, 255);
 		home.pushMatrix();
 		home.translate(c.xf(), c.yf(), c.zf());
@@ -341,18 +352,18 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param he 
-     * @param d 
-     * @param s 
+     *
+     * @param he
+     * @param d
+     * @param s
      */
     public void drawHalfedgeSimple(final HE_Halfedge he, final double d,
 	    final double s) {
 	final WB_Point c = he.getHalfedgeCenter();
 	c.addSelf(he.getHalfedgeNormal().mulSelf(d));
-	home.line(he.getVertex().xf(), he.getVertex().yf(),
-		he.getVertex().zf(), c.xf(), c.yf(), c.zf());
+	home.line(he.getVertex().xf(), he.getVertex().yf(), he.getVertex().zf(),
+		c.xf(), c.yf(), c.zf());
 	home.pushMatrix();
 	home.translate(c.xf(), c.yf(), c.zf());
 	home.box((float) s);
@@ -360,10 +371,10 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @param mesh 
+     *
+     * @param d
+     * @param mesh
      */
     public void drawVertexNormals(final double d, final HE_MeshStructure mesh) {
 	final Iterator<HE_Vertex> vItr = mesh.vItr();
@@ -377,21 +388,22 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param v 
-     * @param d 
+     *
+     * @param p
+     * @param v
+     * @param d
      */
-    private void draw(final WB_Coordinate p, final WB_Vector v, final double d) {
-	home.line(p.xf(), p.yf(), p.zf(), p.xf() + ((float) d * v.xf()), p.yf()
-		+ ((float) d * v.yf()), p.zf() + ((float) d * v.zf()));
+    private void draw(final WB_Coordinate p, final WB_Vector v,
+	    final double d) {
+	home.line(p.xf(), p.yf(), p.zf(), p.xf() + ((float) d * v.xf()),
+		p.yf() + ((float) d * v.yf()), p.zf() + ((float) d * v.zf()));
     }
 
     /**
-     * 
      *
-     * @param f 
+     *
+     * @param f
      */
     private void drawFace(final HE_Face f) {
 	if (f.getFaceOrder() > 2) {

@@ -13,7 +13,7 @@ import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PMatrix3D;
 import processing.core.PShape;
-import processing.opengl.PGraphics3D;
+import processing.opengl.PGraphicsOpenGL;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_AABBTree;
 import wblut.geom.WB_AABBTree.WB_AABBNode;
@@ -70,7 +70,7 @@ public class WB_Render3D {
     /**
      *
      */
-    protected final PGraphics3D home;
+    protected final PGraphicsOpenGL home;
     /**
      *
      */
@@ -89,11 +89,11 @@ public class WB_Render3D {
 	    throw new IllegalArgumentException(
 		    "WB_Render3D can only be used after size()");
 	}
-	if (!(home.g instanceof PGraphics3D)) {
+	if (!(home.g instanceof PGraphicsOpenGL)) {
 	    throw new IllegalArgumentException(
-		    "WB_Render3D can only be with P3D, OPENGL or derived ProcessingPGraphics object");
+		    "WB_Render3D can only be used with P3D, OPENGL or derived ProcessingPGraphics object");
 	}
-	this.home = (PGraphics3D) home.g;
+	this.home = (PGraphicsOpenGL) home.g;
     }
 
     /**
@@ -101,11 +101,11 @@ public class WB_Render3D {
      *
      * @param home
      */
-    public WB_Render3D(final PGraphics3D home) {
+    public WB_Render3D(final PGraphicsOpenGL home) {
 	this.home = home;
     }
 
-    public PGraphics3D getHome() {
+    public PGraphicsOpenGL getHome() {
 	return home;
     }
 
@@ -288,7 +288,8 @@ public class WB_Render3D {
 	home.rotateZ(angles.zf());
 	home.rotateY(angles.yf());
 	home.rotateX(angles.xf());
-	home.ellipse(0, 0, 2 * (float) C.getRadius(), 2 * (float) C.getRadius());
+	home.ellipse(0, 0, 2 * (float) C.getRadius(),
+		2 * (float) C.getRadius());
 	home.popMatrix();
     }
 
@@ -377,26 +378,34 @@ public class WB_Render3D {
      */
     public void drawPlane(final WB_Plane P, final double d) {
 	home.beginShape(PConstants.QUAD);
-	home.vertex((float) (P.getOrigin().xd() - (d * P.getU().xd()) - (d * P
-		.getV().xd())), (float) (P.getOrigin().yd()
-			- (d * P.getU().yd()) - (d * P.getV().yd())), (float) (P
-				.getOrigin().zd() - (d * P.getU().zd()) - (d * P.getV().zd())));
 	home.vertex(
-		(float) ((P.getOrigin().xd() - (d * P.getU().xd())) + (d * P
-			.getV().xd())), (float) ((P.getOrigin().yd() - (d * P
-				.getU().yd())) + (d * P.getV().yd())), (float) ((P
-					.getOrigin().zd() - (d * P.getU().zd())) + (d * P
-						.getV().zd())));
-	home.vertex((float) (P.getOrigin().xd() + (d * P.getU().xd()) + (d * P
-		.getV().xd())), (float) (P.getOrigin().yd()
-			+ (d * P.getU().yd()) + (d * P.getV().yd())), (float) (P
-				.getOrigin().zd() + (d * P.getU().zd()) + (d * P.getV().zd())));
+		(float) (P.getOrigin().xd() - (d * P.getU().xd())
+			- (d * P.getV().xd())),
+		(float) (P.getOrigin().yd() - (d * P.getU().yd())
+			- (d * P.getV().yd())),
+		(float) (P.getOrigin().zd() - (d * P.getU().zd())
+			- (d * P.getV().zd())));
 	home.vertex(
-		(float) ((P.getOrigin().xd() + (d * P.getU().xd())) - (d * P
-			.getV().xd())), (float) ((P.getOrigin().yd() + (d * P
-				.getU().yd())) - (d * P.getV().yd())), (float) ((P
-					.getOrigin().zd() + (d * P.getU().zd())) - (d * P
-						.getV().zd())));
+		(float) ((P.getOrigin().xd() - (d * P.getU().xd()))
+			+ (d * P.getV().xd())),
+		(float) ((P.getOrigin().yd() - (d * P.getU().yd()))
+			+ (d * P.getV().yd())),
+		(float) ((P.getOrigin().zd() - (d * P.getU().zd()))
+			+ (d * P.getV().zd())));
+	home.vertex(
+		(float) (P.getOrigin().xd() + (d * P.getU().xd())
+			+ (d * P.getV().xd())),
+		(float) (P.getOrigin().yd() + (d * P.getU().yd())
+			+ (d * P.getV().yd())),
+		(float) (P.getOrigin().zd() + (d * P.getU().zd())
+			+ (d * P.getV().zd())));
+	home.vertex(
+		(float) ((P.getOrigin().xd() + (d * P.getU().xd()))
+			- (d * P.getV().xd())),
+		(float) ((P.getOrigin().yd() + (d * P.getU().yd()))
+			- (d * P.getV().yd())),
+		(float) ((P.getOrigin().zd() + (d * P.getU().zd()))
+			- (d * P.getV().zd())));
 	home.endShape();
     }
 
@@ -917,7 +926,8 @@ public class WB_Render3D {
      * @param indices
      * @param points
      */
-    public void drawTetrahedra(final int[] indices, final WB_Coordinate[] points) {
+    public void drawTetrahedra(final int[] indices,
+	    final WB_Coordinate[] points) {
 	if ((points != null) && (indices != null)) {
 	    for (int i = 0; i < indices.length; i += 4) {
 		drawTetrahedron(points[indices[i]], points[indices[i + 1]],
@@ -933,8 +943,8 @@ public class WB_Render3D {
      */
     public void drawAABB(final WB_AABB AABB) {
 	home.pushMatrix();
-	home.translate(AABB.getCenter().xf(), AABB.getCenter().yf(), AABB
-		.getCenter().zf());
+	home.translate(AABB.getCenter().xf(), AABB.getCenter().yf(),
+		AABB.getCenter().zf());
 	home.box((float) AABB.getWidth(), (float) AABB.getHeight(),
 		(float) AABB.getDepth());
 	home.popMatrix();
@@ -1031,8 +1041,8 @@ public class WB_Render3D {
      * @param d
      */
     public void draw(final WB_Coordinate p, final WB_Vector v, final double d) {
-	home.line(p.xf(), p.yf(), p.zf(), p.xf() + ((float) d * v.xf()), p.yf()
-		+ ((float) d * v.yf()), p.zf() + ((float) d * v.zf()));
+	home.line(p.xf(), p.yf(), p.zf(), p.xf() + ((float) d * v.xf()),
+		p.yf() + ((float) d * v.yf()), p.zf() + ((float) d * v.zf()));
     }
 
     /**
@@ -1139,9 +1149,9 @@ public class WB_Render3D {
      *            edge
      */
     public void drawEdge(final HE_Halfedge e) {
-	home.line(e.getStartVertex().xf(), e.getStartVertex().yf(), e
-		.getStartVertex().zf(), e.getEndVertex().xf(), e.getEndVertex()
-		.yf(), e.getEndVertex().zf());
+	home.line(e.getStartVertex().xf(), e.getStartVertex().yf(),
+		e.getStartVertex().zf(), e.getEndVertex().xf(),
+		e.getEndVertex().yf(), e.getEndVertex().zf());
     }
 
     /**
@@ -1181,9 +1191,9 @@ public class WB_Render3D {
 	HE_Halfedge e;
 	while (eItr.hasNext()) {
 	    e = eItr.next();
-	    home.line(e.getVertex().xf(), e.getVertex().yf(), e.getVertex()
-		    .zf(), e.getEndVertex().xf(), e.getEndVertex().yf(), e
-		    .getEndVertex().zf());
+	    home.line(e.getVertex().xf(), e.getVertex().yf(),
+		    e.getVertex().zf(), e.getEndVertex().xf(),
+		    e.getEndVertex().yf(), e.getEndVertex().zf());
 	}
     }
 
@@ -1203,9 +1213,9 @@ public class WB_Render3D {
 	    do {
 		if (e.isEdge() || e.isInnerBoundary()
 			|| !selection.contains(e.getPair().getFace())) {
-		    home.line(e.getVertex().xf(), e.getVertex().yf(), e
-			    .getVertex().zf(), e.getEndVertex().xf(), e
-			    .getEndVertex().yf(), e.getEndVertex().zf());
+		    home.line(e.getVertex().xf(), e.getVertex().yf(),
+			    e.getVertex().zf(), e.getEndVertex().xf(),
+			    e.getEndVertex().yf(), e.getEndVertex().zf());
 		}
 		e = e.getNextInFace();
 	    } while (e != f.getHalfedge());
@@ -1220,15 +1230,16 @@ public class WB_Render3D {
      * @param mesh
      *            the mesh
      */
-    public void drawEdgesWithLabel(final int label, final HE_MeshStructure mesh) {
+    public void drawEdgesWithLabel(final int label,
+	    final HE_MeshStructure mesh) {
 	final Iterator<HE_Halfedge> eItr = mesh.eItr();
 	HE_Halfedge e;
 	while (eItr.hasNext()) {
 	    e = eItr.next();
 	    if (e.getLabel() == label) {
-		home.line(e.getVertex().xf(), e.getVertex().yf(), e.getVertex()
-			.zf(), e.getEndVertex().xf(), e.getEndVertex().yf(), e
-			.getEndVertex().zf());
+		home.line(e.getVertex().xf(), e.getVertex().yf(),
+			e.getVertex().zf(), e.getEndVertex().xf(),
+			e.getEndVertex().yf(), e.getEndVertex().zf());
 	    }
 	}
     }
@@ -1246,9 +1257,9 @@ public class WB_Render3D {
 	while (eItr.hasNext()) {
 	    e = eItr.next();
 	    if (e.getInternalLabel() == label) {
-		home.line(e.getVertex().xf(), e.getVertex().yf(), e.getVertex()
-			.zf(), e.getEndVertex().xf(), e.getEndVertex().yf(), e
-			.getEndVertex().zf());
+		home.line(e.getVertex().xf(), e.getVertex().yf(),
+			e.getVertex().zf(), e.getEndVertex().xf(),
+			e.getEndVertex().yf(), e.getEndVertex().zf());
 	    }
 	}
     }
@@ -1256,9 +1267,9 @@ public class WB_Render3D {
     public void drawEdges(final HE_Face f) {
 	HE_Halfedge e = f.getHalfedge();
 	do {
-	    home.line(e.getVertex().xf(), e.getVertex().yf(), e.getVertex()
-		    .zf(), e.getEndVertex().xf(), e.getEndVertex().yf(), e
-		    .getEndVertex().zf());
+	    home.line(e.getVertex().xf(), e.getVertex().yf(),
+		    e.getVertex().zf(), e.getEndVertex().xf(),
+		    e.getEndVertex().yf(), e.getEndVertex().zf());
 	    e = e.getNextInFace();
 	} while (e != f.getHalfedge());
     }
@@ -1377,14 +1388,14 @@ public class WB_Render3D {
 		v2 = vertices.get(tri[2]);
 		n2 = v2.getVertexNormal();
 		home.normal(n0.xf(), n0.yf(), n0.zf());
-		home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0
-			.getUVW(f).vf());
+		home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(),
+			v0.getUVW(f).vf());
 		home.normal(n1.xf(), n1.yf(), n1.zf());
-		home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1
-			.getUVW(f).vf());
+		home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(),
+			v1.getUVW(f).vf());
 		home.normal(n2.xf(), n2.yf(), n2.zf());
-		home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2
-			.getUVW(f).vf());
+		home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(),
+			v2.getUVW(f).vf());
 		home.endShape();
 	    } else {
 		home.beginShape(PConstants.TRIANGLES);
@@ -1392,12 +1403,12 @@ public class WB_Render3D {
 		v0 = vertices.get(tri[0]);
 		v1 = vertices.get(tri[1]);
 		v2 = vertices.get(tri[2]);
-		home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0
-			.getUVW(f).vf());
-		home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1
-			.getUVW(f).vf());
-		home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2
-			.getUVW(f).vf());
+		home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(),
+			v0.getUVW(f).vf());
+		home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(),
+			v1.getUVW(f).vf());
+		home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(),
+			v2.getUVW(f).vf());
 		home.endShape();
 	    }
 	} else {
@@ -1467,14 +1478,14 @@ public class WB_Render3D {
 		v2 = vertices.get(tri[2]);
 		n2 = v2.getVertexNormal();
 		home.normal(n0.xf(), n0.yf(), n0.zf());
-		home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0
-			.getUVW(f).vf());
+		home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(),
+			v0.getUVW(f).vf());
 		home.normal(n1.xf(), n1.yf(), n1.zf());
-		home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1
-			.getUVW(f).vf());
+		home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(),
+			v1.getUVW(f).vf());
 		home.normal(n2.xf(), n2.yf(), n2.zf());
-		home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2
-			.getUVW(f).vf());
+		home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(),
+			v2.getUVW(f).vf());
 		home.endShape();
 	    } else {
 		home.beginShape(PConstants.TRIANGLES);
@@ -1482,12 +1493,12 @@ public class WB_Render3D {
 		v0 = vertices.get(tri[0]);
 		v1 = vertices.get(tri[1]);
 		v2 = vertices.get(tri[2]);
-		home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0
-			.getUVW(f).vf());
-		home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1
-			.getUVW(f).vf());
-		home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2
-			.getUVW(f).vf());
+		home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(),
+			v0.getUVW(f).vf());
+		home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(),
+			v1.getUVW(f).vf());
+		home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(),
+			v2.getUVW(f).vf());
 		home.endShape();
 	    }
 	} else {
@@ -1735,12 +1746,12 @@ public class WB_Render3D {
 	    v0 = vertices.get(tri[0]);
 	    v1 = vertices.get(tri[1]);
 	    v2 = vertices.get(tri[2]);
-	    home.vertex(v0.xf() + df * fn.xf(), v0.yf() + df * fn.yf(), v0.zf()
-		    + df * fn.zf());
-	    home.vertex(v1.xf() + df * fn.xf(), v1.yf() + df * fn.yf(), v1.zf()
-		    + df * fn.zf());
-	    home.vertex(v2.xf() + df * fn.xf(), v2.yf() + df * fn.yf(), v2.zf()
-		    + df * fn.zf());
+	    home.vertex(v0.xf() + df * fn.xf(), v0.yf() + df * fn.yf(),
+		    v0.zf() + df * fn.zf());
+	    home.vertex(v1.xf() + df * fn.xf(), v1.yf() + df * fn.yf(),
+		    v1.zf() + df * fn.zf());
+	    home.vertex(v2.xf() + df * fn.xf(), v2.yf() + df * fn.yf(),
+		    v2.zf() + df * fn.zf());
 	    home.endShape();
 	} else {
 	    final int[][] tris = f.getTriangles();
@@ -1824,7 +1835,8 @@ public class WB_Render3D {
 	}
     }
 
-    public void drawFaces(final HE_MeshStructure mesh, final PImage[] textures) {
+    public void drawFaces(final HE_MeshStructure mesh,
+	    final PImage[] textures) {
 	final Iterator<HE_Face> fItr = mesh.fItr();
 	while (fItr.hasNext()) {
 	    drawFace(fItr.next(), textures);
@@ -1839,7 +1851,8 @@ public class WB_Render3D {
      * @param mesh
      *            the mesh
      */
-    public void drawFacesWithLabel(final int label, final HE_MeshStructure mesh) {
+    public void drawFacesWithLabel(final int label,
+	    final HE_MeshStructure mesh) {
 	final Iterator<HE_Face> fItr = mesh.fItr();
 	HE_Face f;
 	while (fItr.hasNext()) {
@@ -2206,7 +2219,8 @@ public class WB_Render3D {
      *
      * @param polygons
      */
-    public void drawPolygonEdges(final Collection<? extends WB_Polygon> polygons) {
+    public void drawPolygonEdges(
+	    final Collection<? extends WB_Polygon> polygons) {
 	final Iterator<? extends WB_Polygon> polyItr = polygons.iterator();
 	while (polyItr.hasNext()) {
 	    drawPolygonEdges(polyItr.next());
@@ -2348,8 +2362,8 @@ public class WB_Render3D {
      * @param segment
      */
     public void drawSegment2D(final WB_Segment segment) {
-	home.line(segment.getOrigin().xf(), segment.getOrigin().yf(), segment
-		.getEndpoint().xf(), segment.getEndpoint().yf());
+	home.line(segment.getOrigin().xf(), segment.getOrigin().yf(),
+		segment.getEndpoint().xf(), segment.getEndpoint().yf());
     }
 
     /**
@@ -2368,7 +2382,8 @@ public class WB_Render3D {
      *
      * @param triangles
      */
-    public void drawTriangle(final Collection<? extends WB_Triangle> triangles) {
+    public void drawTriangle(
+	    final Collection<? extends WB_Triangle> triangles) {
 	final Iterator<? extends WB_Triangle> triItr = triangles.iterator();
 	while (triItr.hasNext()) {
 	    drawTriangle(triItr.next());
@@ -2393,7 +2408,8 @@ public class WB_Render3D {
      *
      * @param triangles
      */
-    public void drawTriangle2D(final Collection<? extends WB_Triangle> triangles) {
+    public void drawTriangle2D(
+	    final Collection<? extends WB_Triangle> triangles) {
 	final Iterator<? extends WB_Triangle> triItr = triangles.iterator();
 	while (triItr.hasNext()) {
 	    drawTriangle2D(triItr.next());
@@ -2537,7 +2553,7 @@ public class WB_Render3D {
     class EyeProximityComparator implements Comparator<HE_Face> {
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override
@@ -2619,7 +2635,7 @@ public class WB_Render3D {
 	 *
 	 * @param g3d
 	 */
-	public void captureViewMatrix(final PGraphics3D g3d) {
+	public void captureViewMatrix(final PGraphicsOpenGL g3d) {
 	    // Call this to capture the selection matrix after
 	    // you have called perspective() or ortho() and applied
 	    // your pan, zoom and camera angles - but before
@@ -2657,7 +2673,8 @@ public class WB_Render3D {
 	    // Transform to normalized screen coordinates (-1 to 1).
 	    in[0] = (((winx - m_aiViewport[0]) / m_aiViewport[2]) * 2.0) - 1.0;
 	    in[1] = (((winy - m_aiViewport[1]) / m_aiViewport[3]) * 2.0) - 1.0;
-	    in[2] = (((winz > 1) ? 1.0 : ((winz < 0) ? 0.0 : winz)) * 2.0) - 1.0;
+	    in[2] = (((winz > 1) ? 1.0 : ((winz < 0) ? 0.0 : winz)) * 2.0)
+		    - 1.0;
 	    in[3] = 1.0;
 	    // Calculate homogeneous coordinates.
 	    out[0] = (m_pMatrix.m00 * in[0]) + (m_pMatrix.m01 * in[1])
@@ -2721,8 +2738,8 @@ public class WB_Render3D {
     public HE_Face pickClosestFace(final HE_Mesh mesh, final double x,
 	    final double y) {
 	final WB_Ray mouseRay3d = getPickingRay(x, y);
-	final HE_FaceIntersection p = HE_Intersection.getClosestIntersection(
-		mesh, mouseRay3d);
+	final HE_FaceIntersection p = HE_Intersection
+		.getClosestIntersection(mesh, mouseRay3d);
 	return (p == null) ? null : p.face;
     }
 
@@ -2737,8 +2754,8 @@ public class WB_Render3D {
     public HE_Vertex pickVertex(final HE_Mesh mesh, final double x,
 	    final double y) {
 	final WB_Ray mouseRay3d = getPickingRay(x, y);
-	final HE_FaceIntersection p = HE_Intersection.getClosestIntersection(
-		mesh, mouseRay3d);
+	final HE_FaceIntersection p = HE_Intersection
+		.getClosestIntersection(mesh, mouseRay3d);
 	if (p == null) {
 	    return null;
 	}
@@ -2770,8 +2787,8 @@ public class WB_Render3D {
     public HE_Halfedge pickEdge(final HE_Mesh mesh, final double x,
 	    final double y) {
 	final WB_Ray mouseRay3d = getPickingRay(x, y);
-	final HE_FaceIntersection p = HE_Intersection.getClosestIntersection(
-		mesh, mouseRay3d);
+	final HE_FaceIntersection p = HE_Intersection
+		.getClosestIntersection(mesh, mouseRay3d);
 	if (p == null) {
 	    return null;
 	}
@@ -2783,9 +2800,9 @@ public class WB_Render3D {
 	double d2min = Double.MAX_VALUE;
 	while (fec.hasNext()) {
 	    trial = fec.next();
-	    d2 = WB_GeometryOp.getDistanceToSegment3D(p.point, trial
-		    .getStartVertex().getPoint(), trial.getEndVertex()
-		    .getPoint());
+	    d2 = WB_GeometryOp.getDistanceToSegment3D(p.point,
+		    trial.getStartVertex().getPoint(),
+		    trial.getEndVertex().getPoint());
 	    if (d2 < d2min) {
 		d2min = d2;
 		closest = trial;
@@ -2805,8 +2822,8 @@ public class WB_Render3D {
     public HE_Face pickFurthestFace(final HE_Mesh mesh, final double x,
 	    final double y) {
 	final WB_Ray mouseRay3d = getPickingRay(x, y);
-	final HE_FaceIntersection p = HE_Intersection.getFurthestIntersection(
-		mesh, mouseRay3d);
+	final HE_FaceIntersection p = HE_Intersection
+		.getFurthestIntersection(mesh, mouseRay3d);
 	return (p == null) ? null : p.face;
     }
 
@@ -2821,8 +2838,8 @@ public class WB_Render3D {
     public HE_Face pickClosestFace(final WB_AABBTree meshtree, final double x,
 	    final double y) {
 	final WB_Ray mouseRay3d = getPickingRay(x, y);
-	final HE_FaceIntersection p = HE_Intersection.getClosestIntersection(
-		meshtree, mouseRay3d);
+	final HE_FaceIntersection p = HE_Intersection
+		.getClosestIntersection(meshtree, mouseRay3d);
 	return (p == null) ? null : p.face;
     }
 
@@ -2837,8 +2854,8 @@ public class WB_Render3D {
     public HE_Face pickFurthestFace(final WB_AABBTree meshtree, final double x,
 	    final double y) {
 	final WB_Ray mouseRay3d = getPickingRay(x, y);
-	final HE_FaceIntersection p = HE_Intersection.getFurthestIntersection(
-		meshtree, mouseRay3d);
+	final HE_FaceIntersection p = HE_Intersection
+		.getFurthestIntersection(meshtree, mouseRay3d);
 	return (p == null) ? null : p.face;
     }
 
@@ -2853,8 +2870,8 @@ public class WB_Render3D {
     public List<HE_Face> pickFaces(final HE_Mesh mesh, final double x,
 	    final double y) {
 	final WB_Ray mouseRay3d = getPickingRay(x, y);
-	final List<HE_FaceIntersection> p = HE_Intersection.getIntersection(
-		mesh, mouseRay3d);
+	final List<HE_FaceIntersection> p = HE_Intersection
+		.getIntersection(mesh, mouseRay3d);
 	final List<HE_Face> result = new ArrayList<HE_Face>();
 	for (final HE_FaceIntersection fi : p) {
 	    result.add(fi.face);
@@ -2873,8 +2890,8 @@ public class WB_Render3D {
     public List<HE_Face> pickFaces(final WB_AABBTree meshtree, final double x,
 	    final double y) {
 	final WB_Ray mouseRay3d = getPickingRay(x, y);
-	final List<HE_FaceIntersection> p = HE_Intersection.getIntersection(
-		meshtree, mouseRay3d);
+	final List<HE_FaceIntersection> p = HE_Intersection
+		.getIntersection(meshtree, mouseRay3d);
 	final List<HE_Face> result = new ArrayList<HE_Face>();
 	for (final HE_FaceIntersection fi : p) {
 	    result.add(fi.face);
@@ -2913,10 +2930,11 @@ public class WB_Render3D {
 	while (heItr.hasNext()) {
 	    he = heItr.next();
 	    if (he.getFace() == null) {
-		home.line(he.getVertex().xf(), he.getVertex().yf(), he
-			.getVertex().zf(), he.getNextInFace().getVertex().xf(),
-			he.getNextInFace().getVertex().yf(), he.getNextInFace()
-			.getVertex().zf());
+		home.line(he.getVertex().xf(), he.getVertex().yf(),
+			he.getVertex().zf(),
+			he.getNextInFace().getVertex().xf(),
+			he.getNextInFace().getVertex().yf(),
+			he.getNextInFace().getVertex().zf());
 	    }
 	}
     }
@@ -2934,10 +2952,11 @@ public class WB_Render3D {
 	    he = heItr.next();
 	    if (he.getPair().getFace() == null) {
 		home.stroke(255, 0, 0);
-		home.line(he.getVertex().xf(), he.getVertex().yf(), he
-			.getVertex().zf(), he.getNextInFace().getVertex().xf(),
-			he.getNextInFace().getVertex().yf(), he.getNextInFace()
-			.getVertex().zf());
+		home.line(he.getVertex().xf(), he.getVertex().yf(),
+			he.getVertex().zf(),
+			he.getNextInFace().getVertex().xf(),
+			he.getNextInFace().getVertex().yf(),
+			he.getNextInFace().getVertex().zf());
 	    }
 	}
 	home.popStyle();
@@ -3010,8 +3029,8 @@ public class WB_Render3D {
 	final WB_Point c = he.getHalfedgeCenter();
 	c.addSelf(he.getHalfedgeNormal().mulSelf(d));
 	home.stroke(255, 0, 0);
-	home.line(he.getVertex().xf(), he.getVertex().yf(),
-		he.getVertex().zf(), c.xf(), c.yf(), c.zf());
+	home.line(he.getVertex().xf(), he.getVertex().yf(), he.getVertex().zf(),
+		c.xf(), c.yf(), c.zf());
 	if (he.getHalfedgeType() == WB_ClassificationConvex.CONVEX) {
 	    home.stroke(0, 255, 0);
 	} else if (he.getHalfedgeType() == WB_ClassificationConvex.CONCAVE) {
@@ -3035,12 +3054,12 @@ public class WB_Render3D {
      */
     public void drawHalfedge(final HE_Halfedge he, final double d,
 	    final double s, final double f) {
-	final WB_Point c = geometryfactory.createInterpolatedPoint(
-		he.getVertex(), he.getEndVertex(), f);
+	final WB_Point c = geometryfactory
+		.createInterpolatedPoint(he.getVertex(), he.getEndVertex(), f);
 	c.addSelf(he.getHalfedgeNormal().mulSelf(d));
 	home.stroke(255, 0, 0);
-	home.line(he.getVertex().xf(), he.getVertex().yf(),
-		he.getVertex().zf(), c.xf(), c.yf(), c.zf());
+	home.line(he.getVertex().xf(), he.getVertex().yf(), he.getVertex().zf(),
+		c.xf(), c.yf(), c.zf());
 	if (he.getHalfedgeType() == WB_ClassificationConvex.CONVEX) {
 	    home.stroke(0, 255, 0);
 	} else if (he.getHalfedgeType() == WB_ClassificationConvex.CONCAVE) {
@@ -3088,12 +3107,13 @@ public class WB_Render3D {
 			he.getEndVertex(), f);
 		c.addSelf(he.getHalfedgeNormal().mulSelf(d));
 		home.stroke(255, 0, 0);
-		home.line(he.getVertex().xf(), he.getVertex().yf(), he
-			.getVertex().zf(), c.xf(), c.yf(), c.zf());
+		home.line(he.getVertex().xf(), he.getVertex().yf(),
+			he.getVertex().zf(), c.xf(), c.yf(), c.zf());
 		if (he.getHalfedgeType() == WB_ClassificationConvex.CONVEX) {
 		    home.stroke(0, 255, 0);
 		    home.fill(0, 255, 0);
-		} else if (he.getHalfedgeType() == WB_ClassificationConvex.CONCAVE) {
+		} else if (he
+			.getHalfedgeType() == WB_ClassificationConvex.CONCAVE) {
 		    home.stroke(255, 0, 0);
 		    home.fill(255, 0, 0);
 		} else {
@@ -3109,8 +3129,8 @@ public class WB_Render3D {
 			he.getEndVertex(), f);
 		c.addSelf(he.getPair().getHalfedgeNormal().mulSelf(-d));
 		home.stroke(255, 0, 0);
-		home.line(he.getVertex().xf(), he.getVertex().yf(), he
-			.getVertex().zf(), c.xf(), c.yf(), c.zf());
+		home.line(he.getVertex().xf(), he.getVertex().yf(),
+			he.getVertex().zf(), c.xf(), c.yf(), c.zf());
 		home.stroke(0, 255, 255);
 		home.pushMatrix();
 		home.translate(c.xf(), c.yf(), c.zf());
@@ -3138,12 +3158,13 @@ public class WB_Render3D {
 		c = he.getHalfedgeCenter();
 		c.addSelf(he.getHalfedgeNormal().mulSelf(d));
 		home.stroke(255, 0, 0);
-		home.line(he.getVertex().xf(), he.getVertex().yf(), he
-			.getVertex().zf(), c.xf(), c.yf(), c.zf());
+		home.line(he.getVertex().xf(), he.getVertex().yf(),
+			he.getVertex().zf(), c.xf(), c.yf(), c.zf());
 		if (he.getHalfedgeType() == WB_ClassificationConvex.CONVEX) {
 		    home.stroke(0, 255, 0);
 		    home.fill(0, 255, 0);
-		} else if (he.getHalfedgeType() == WB_ClassificationConvex.CONCAVE) {
+		} else if (he
+			.getHalfedgeType() == WB_ClassificationConvex.CONCAVE) {
 		    home.stroke(255, 0, 0);
 		    home.fill(255, 0, 0);
 		} else {
@@ -3158,8 +3179,8 @@ public class WB_Render3D {
 		c = he.getHalfedgeCenter();
 		c.addSelf(he.getPair().getHalfedgeNormal().mulSelf(-d));
 		home.stroke(255, 0, 0);
-		home.line(he.getVertex().xf(), he.getVertex().yf(), he
-			.getVertex().zf(), c.xf(), c.yf(), c.zf());
+		home.line(he.getVertex().xf(), he.getVertex().yf(),
+			he.getVertex().zf(), c.xf(), c.yf(), c.zf());
 		home.stroke(0, 255, 255);
 		home.pushMatrix();
 		home.translate(c.xf(), c.yf(), c.zf());
@@ -3181,8 +3202,8 @@ public class WB_Render3D {
 	    final double s) {
 	final WB_Point c = he.getHalfedgeCenter();
 	c.addSelf(he.getHalfedgeNormal().mulSelf(d));
-	home.line(he.getVertex().xf(), he.getVertex().yf(),
-		he.getVertex().zf(), c.xf(), c.yf(), c.zf());
+	home.line(he.getVertex().xf(), he.getVertex().yf(), he.getVertex().zf(),
+		c.xf(), c.yf(), c.zf());
 	home.pushMatrix();
 	home.translate(c.xf(), c.yf(), c.zf());
 	home.box((float) s);
@@ -3236,7 +3257,8 @@ public class WB_Render3D {
 	}
     }
 
-    public void setFaceColorFromTexture(final HE_Mesh mesh, final PImage texture) {
+    public void setFaceColorFromTexture(final HE_Mesh mesh,
+	    final PImage texture) {
 	final HE_FaceIterator fitr = mesh.fItr();
 	HE_Face f;
 	HE_Vertex v;
@@ -3259,10 +3281,10 @@ public class WB_Render3D {
 
     private int getColorFromPImage(final double u, final double v,
 	    final PImage texture) {
-	return texture
-		.get(Math.max(0,
+	return texture.get(
+		Math.max(0,
 			Math.min((int) (u * texture.width), texture.width - 1)),
-			Math.max(0, Math.min((int) (v * texture.height),
-				texture.height - 1)));
+		Math.max(0, Math.min((int) (v * texture.height),
+			texture.height - 1)));
     }
 }
