@@ -36,7 +36,7 @@ public class HE_Selection extends HE_MeshStructure {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.HE_MeshStructure#getNumberOfEdges()
      */
     @Override
@@ -787,7 +787,7 @@ public class HE_Selection extends HE_MeshStructure {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * wblut.hemesh.HE_MeshStructure#getFacesWithNormal(wblut.geom.WB_Coordinate
      * , double)
@@ -797,7 +797,7 @@ public class HE_Selection extends HE_MeshStructure {
 	final WB_Vector nn = geometryfactory.createNormalizedVector(n);
 	final double cta = Math.cos(ta);
 	for (final HE_Face f : parent.faces) {
-	    if (f.getFaceNormal().dot(nn) > cta) {
+	    if (nn.dot(f.getFaceNormal()) > cta) {
 		add(f);
 	    }
 	}

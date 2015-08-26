@@ -55,7 +55,7 @@ public class HEM_ChamferCorners extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.modifiers.HEB_Modifier#modify(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -79,14 +79,14 @@ public class HEM_ChamferCorners extends HEM_Modifier {
 	    }
 	}
 	final HEM_MultiSlice msm = new HEM_MultiSlice();
-	msm.setPlanes(cutPlanes);
+	msm.setPlanes(cutPlanes).setSimpleCap(true);
 	mesh.modify(msm);
 	return mesh;
     }
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * wblut.hemesh.modifiers.HEB_Modifier#modifySelected(wblut.hemesh.HE_Mesh)
      */
@@ -112,7 +112,7 @@ public class HEM_ChamferCorners extends HEM_Modifier {
 	    }
 	}
 	final HEM_MultiSlice msm = new HEM_MultiSlice();
-	msm.setPlanes(cutPlanes);
+	msm.setPlanes(cutPlanes).setSimpleCap(true);
 	selection.parent.modify(msm);
 	return selection.parent;
     }

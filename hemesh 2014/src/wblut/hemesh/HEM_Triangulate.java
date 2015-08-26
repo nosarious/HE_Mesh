@@ -4,6 +4,7 @@
 package wblut.hemesh;
 
 import java.util.List;
+import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
 
 /**
@@ -35,7 +36,7 @@ public class HEM_Triangulate extends HEM_Modifier {
 	final int n = mesh.getNumberOfFaces();
 	tracker.setDefaultStatus("Triangulating faces.", n);
 	for (int i = 0; i < n; i++) {
-	    if (!WB_Epsilon.isZero(f[i].getFaceNormal().getLength3D())) {
+	    if (!WB_Epsilon.isZero(WB_Vector.getLength3D(f[i].getFaceNormal()))) {
 		triangulateNoPairing(f[i], mesh);
 	    } else {
 		final HE_Halfedge he = f[i].getHalfedge();
@@ -68,7 +69,7 @@ public class HEM_Triangulate extends HEM_Modifier {
 	final int n = selection.getNumberOfFaces();
 	tracker.setDefaultStatus("Triangulating faces.", n);
 	for (int i = 0; i < n; i++) {
-	    if (!WB_Epsilon.isZero(f[i].getFaceNormal().getLength3D())) {
+	    if (!WB_Epsilon.isZero(WB_Vector.getLength3D(f[i].getFaceNormal()))) {
 		triangulateNoPairing(f[i], selection.parent);
 	    } else {
 		final HE_Halfedge he = f[i].getHalfedge();

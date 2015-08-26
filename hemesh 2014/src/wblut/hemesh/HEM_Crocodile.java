@@ -1,56 +1,52 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
 import java.util.List;
 import java.util.Map;
 import javolution.util.FastMap;
+import wblut.geom.WB_Coordinate;
 import wblut.geom.WB_GeometryFactory;
-import wblut.geom.WB_Point;
 
 /**
- * 
+ *
  */
 public class HEM_Crocodile extends HEM_Modifier {
-    
     /**
-     * 
+     *
      */
     private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
-    
     /**
-     * 
+     *
      */
     private double distance;
-    
     /**
-     * 
+     *
      */
     public HE_Selection spikes;
-    
     /**
-     * 
+     *
      */
     private double chamfer;
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.modifiers.HEB_Modifier#modify(wblut.hemesh.HE_Mesh)
      */
     /**
-     * 
+     *
      */
     public HEM_Crocodile() {
 	chamfer = 0.5;
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @return 
+     *
+     * @param d
+     * @return
      */
     public HEM_Crocodile setDistance(final double d) {
 	distance = d;
@@ -58,10 +54,10 @@ public class HEM_Crocodile extends HEM_Modifier {
     }
 
     /**
-     * 
      *
-     * @param c 
-     * @return 
+     *
+     * @param c
+     * @return
      */
     public HEM_Crocodile setChamfer(final double c) {
 	chamfer = c;
@@ -70,7 +66,7 @@ public class HEM_Crocodile extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HEM_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -81,7 +77,7 @@ public class HEM_Crocodile extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * wblut.hemesh.modifiers.HEB_Modifier#modifySelected(wblut.hemesh.HE_Mesh)
      */
@@ -90,7 +86,7 @@ public class HEM_Crocodile extends HEM_Modifier {
 	spikes = new HE_Selection(selection.parent);
 	selection.collectVertices();
 	tracker.setDefaultStatus("Starting HEM_Crocodile.");
-	final Map<Long, WB_Point> umbrellapoints = new FastMap<Long, WB_Point>();
+	final Map<Long, WB_Coordinate> umbrellapoints = new FastMap<Long, WB_Coordinate>();
 	HE_VertexIterator vitr = new HE_VertexIterator(selection);
 	HE_Vertex v;
 	if (chamfer == 0) {

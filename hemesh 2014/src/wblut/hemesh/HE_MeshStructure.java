@@ -82,12 +82,12 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
     }
 
     /*
-     *
+     * 
      * public void set(final HE_MeshStructure ms) { final HE_MeshStructure msc =
      * ms.get(); vertices = msc.vertices; halfedges = msc.halfedges; faces =
      * msc.faces; }
-     *
-     *
+     * 
+     * 
      * public HE_MeshStructure get() { final HE_MeshStructure copy = new
      * HE_MeshStructure(); for (final HE_Face f : faces) { copy.add(f); } for
      * (final HE_Halfedge he : halfedges) { copy.add(he); } for (final HE_Vertex
@@ -103,7 +103,7 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
 	final WB_Vector normal = geometryfactory.createNormalizedVector(n);
 	final double cta = Math.cos(ta);
 	for (final HE_Face f : faces) {
-	    if (f.getFaceNormal().dot(normal) > cta) {
+	    if (normal.dot(f.getFaceNormal()) > cta) {
 		add(f);
 	    }
 	}
@@ -337,8 +337,9 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
      * @return
      * @deprecated Use {@link #getFaceWithIndex(int)} instead
      */
+    @Deprecated
     public final HE_Face getFaceByIndex(final int i) {
-        return getFaceWithIndex(i);
+	return getFaceWithIndex(i);
     }
 
     /**
@@ -358,8 +359,9 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
      * @return
      * @deprecated Use {@link #getHalfedgeWithIndex(int)} instead
      */
+    @Deprecated
     public final HE_Halfedge getHalfedgeByIndex(final int i) {
-        return getHalfedgeWithIndex(i);
+	return getHalfedgeWithIndex(i);
     }
 
     /**
@@ -379,8 +381,9 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
      * @return
      * @deprecated Use {@link #getVertexWithIndex(int)} instead
      */
+    @Deprecated
     public final HE_Vertex getVertexByIndex(final int i) {
-        return getVertexWithIndex(i);
+	return getVertexWithIndex(i);
     }
 
     /**
@@ -912,8 +915,9 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
      * @return face
      * @deprecated Use {@link #getFaceWithKey(long)} instead
      */
+    @Deprecated
     public final HE_Face getFaceByKey(final long key) {
-        return getFaceWithKey(key);
+	return getFaceWithKey(key);
     }
 
     /**
@@ -962,8 +966,9 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
      * @return halfedge
      * @deprecated Use {@link #getHalfedgeWithKey(long)} instead
      */
+    @Deprecated
     public final HE_Halfedge getHalfedgeByKey(final long key) {
-        return getHalfedgeWithKey(key);
+	return getHalfedgeWithKey(key);
     }
 
     /**
@@ -1012,8 +1017,9 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
      * @return vertex
      * @deprecated Use {@link #getVertexWithKey(long)} instead
      */
+    @Deprecated
     public final HE_Vertex getVertexByKey(final long key) {
-        return getVertexWithKey(key);
+	return getVertexWithKey(key);
     }
 
     /**
@@ -1058,7 +1064,7 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.core.WB_HasData#setData(java.lang.String, java.lang.Object)
      */
     @Override
@@ -1071,7 +1077,7 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.core.WB_HasData#getData(java.lang.String)
      */
     @Override
@@ -1097,7 +1103,7 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
 		if (he == null) {
 		    throw new IllegalArgumentException("Two vertices "
 			    + vertices[i] + " and " + vertices[i + 1]
-				    + " in path are not connected.");
+			    + " in path are not connected.");
 		}
 		halfedges.add(he);
 	    }
@@ -1109,7 +1115,7 @@ public class HE_MeshStructure extends HE_Element implements WB_HasData {
 		    throw new IllegalArgumentException("Vertices "
 			    + vertices[vertices.length - 1] + " and "
 			    + vertices[0]
-				    + " in path are not connected: path is not a loop.");
+			    + " in path are not connected: path is not a loop.");
 		}
 	    }
 	}

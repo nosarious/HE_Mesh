@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -7,6 +7,7 @@ import gnu.trove.map.TLongIntMap;
 import gnu.trove.map.hash.TLongIntHashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
+import wblut.geom.WB_Coordinate;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_IntersectionResult;
 import wblut.geom.WB_Line;
@@ -15,7 +16,7 @@ import wblut.geom.WB_Point;
 import wblut.geom.WB_Vector;
 
 /**
- * 
+ *
  */
 public class HEM_FaceExpand extends HEM_Modifier {
     /*
@@ -25,21 +26,21 @@ public class HEM_FaceExpand extends HEM_Modifier {
      * wblut.hemesh.subdividors.HES_Subdividor#subdivide(wblut.hemesh.HE_Mesh)
      */
     /**
-     * 
+     *
      */
     private double d;
 
     /**
-     * 
+     *
      */
     public HEM_FaceExpand() {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @return 
+     *
+     * @param d
+     * @return
      */
     public HEM_FaceExpand setDistance(final double d) {
 	this.d = d;
@@ -62,9 +63,9 @@ public class HEM_FaceExpand extends HEM_Modifier {
 	final ArrayList<WB_Point> newVertices = new ArrayList<WB_Point>();
 	HE_Face f;
 	HE_Halfedge he;
-	WB_Vector fn;
-	WB_Vector vn;
-	WB_Vector en;
+	WB_Coordinate fn;
+	WB_Coordinate vn;
+	WB_Coordinate en;
 	HE_Vertex v;
 	int vertexCount = 0;
 	while (fItr.hasNext()) {
@@ -76,7 +77,7 @@ public class HEM_FaceExpand extends HEM_Modifier {
 		v = he.getVertex();
 		vn = v.getVertexNormal();
 		final WB_Point p;
-		if (vn.isParallel(fn)) {
+		if (WB_Vector.isParallel(vn, fn)) {
 		    p = new WB_Point(v);
 		    p.addMulSelf(d, fn);
 		} else {
