@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -14,32 +14,28 @@ import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
 public class HEC_ShrinkWrap extends HEC_Creator {
-    
     /**
-     * 
+     *
      */
     private HE_Mesh source;
-    
     /**
-     * 
+     *
      */
     private int level;
-    
     /**
-     * 
+     *
      */
     private WB_Point wcenter;
-    
     /**
-     * 
+     *
      */
     private WB_AABBTree tree;
 
     /**
-     * 
+     *
      */
     public HEC_ShrinkWrap() {
 	super();
@@ -49,10 +45,10 @@ public class HEC_ShrinkWrap extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @return 
+     *
+     * @param mesh
+     * @return
      */
     public HEC_ShrinkWrap setSource(final HE_Mesh mesh) {
 	source = mesh;
@@ -60,11 +56,11 @@ public class HEC_ShrinkWrap extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @param tree 
-     * @return 
+     *
+     * @param mesh
+     * @param tree
+     * @return
      */
     public HEC_ShrinkWrap setSource(final HE_Mesh mesh, final WB_AABBTree tree) {
 	source = mesh;
@@ -73,10 +69,10 @@ public class HEC_ShrinkWrap extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param level 
-     * @return 
+     *
+     * @param level
+     * @return
      */
     public HEC_ShrinkWrap setLevel(final int level) {
 	this.level = level;
@@ -84,10 +80,10 @@ public class HEC_ShrinkWrap extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param c 
-     * @return 
+     *
+     * @param c
+     * @return
      */
     public HEC_ShrinkWrap setWrapCenter(final WB_Point c) {
 	wcenter = c;
@@ -95,12 +91,12 @@ public class HEC_ShrinkWrap extends HEC_Creator {
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @return 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @return
      */
     public HEC_ShrinkWrap setWrapCenter(final double x, final double y,
 	    final double z) {
@@ -139,7 +135,7 @@ public class HEC_ShrinkWrap extends HEC_Creator {
 	while (vItr.hasNext()) {
 	    v = vItr.next();
 	    vmod = vmodItr.next();
-	    R = new WB_Ray(v, v.getVertexNormal().mulSelf(-1));
+	    R = new WB_Ray(v, WB_Vector.mul(v.getVertexNormal(), -1));
 	    final WB_Point p = HE_Intersection.getClosestIntersection(tree, R).point;
 	    if (p != null) {
 		if (WB_GeometryOp.getDistance3D(v, p) < radius) {

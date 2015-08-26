@@ -755,8 +755,8 @@ public class HEM_Extrude extends HEM_Modifier {
 		if ((f1 != null) && (f2 != null)) {
 		    if ((f1.getInternalLabel() == 2)
 			    && (f2.getInternalLabel() == 2)) {
-			if ((f1.getFaceNormal().cross((f2.getFaceNormal()))
-				.getSqLength3D()) < sin2FA) {
+			if (WB_Vector.cross(f1.getFaceNormal(),
+				f2.getFaceNormal()).getSqLength3D() < sin2FA) {
 			    final HE_Face f = mesh.deleteEdge(e);
 			    if (f != null) {
 				f.setInternalLabel(3);

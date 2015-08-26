@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_Point;
+import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
 
 /**
@@ -17,7 +18,7 @@ import wblut.math.WB_Epsilon;
 public class HES_DooSabin extends HES_Subdividor {
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * wblut.hemesh.subdividors.HES_Subdividor#subdivide(wblut.hemesh.HE_Mesh)
      */
@@ -95,7 +96,7 @@ public class HES_DooSabin extends HES_Subdividor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HES_Subdividor#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -126,9 +127,9 @@ public class HES_DooSabin extends HES_Subdividor {
 	    do {
 		final WB_Point p = fc.mul(faceFactor);
 		p.addSelf(he.getVertex());
-		p.addSelf(he.getHalfedgeCenter().mul(edgeFactor));
-		p.addSelf(he.getPrevInFace().getHalfedgeCenter()
-			.mul(edgeFactor));
+		p.addSelf(WB_Vector.mul(he.getHalfedgeCenter(), edgeFactor));
+		p.addSelf(WB_Vector.mul(he.getPrevInFace().getHalfedgeCenter(),
+			edgeFactor));
 		p.divSelf(div);
 		if (absolute) {
 		    final double dcurrent = WB_GeometryOp.getDistance3D(p,
@@ -144,9 +145,9 @@ public class HES_DooSabin extends HES_Subdividor {
 	    } while (he != f.getHalfedge());
 	}
 	final int[][] faces = new int[mesh.getNumberOfFaces()
-	                              + mesh.getNumberOfEdges() + mesh.getNumberOfVertices()][];
+		+ mesh.getNumberOfEdges() + mesh.getNumberOfVertices()][];
 	final int[] labels = new int[mesh.getNumberOfFaces()
-	                             + mesh.getNumberOfEdges() + mesh.getNumberOfVertices()];
+		+ mesh.getNumberOfEdges() + mesh.getNumberOfVertices()];
 	final int[] noe = { mesh.getNumberOfFaces(), mesh.getNumberOfEdges(),
 		mesh.getNumberOfVertices() };
 	int currentFace = 0;
@@ -222,7 +223,7 @@ public class HES_DooSabin extends HES_Subdividor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * wblut.hemesh.subdividors.HES_Subdividor#subdivideSelected(wblut.hemesh
      * .HE_Mesh, wblut.hemesh.HE_Selection)

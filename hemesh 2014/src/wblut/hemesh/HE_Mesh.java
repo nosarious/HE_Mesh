@@ -2901,7 +2901,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	final Iterator<HE_Face> fItr = fItr();
 	while (fItr.hasNext()) {
 	    f = fItr.next();
-	    if (f.getFaceNormal().dot(v) > (1.0 - WB_Epsilon.EPSILON)) {
+	    if (WB_Vector.dot(f.getFaceNormal(), v) > (1.0 - WB_Epsilon.EPSILON)) {
 		_selection.add(f);
 	    }
 	}
@@ -3217,8 +3217,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		for (int j = 0; j < neighbors.size(); j++) {
 		    fn = neighbors.get(j);
 		    if (!sel.contains(fn)) {
-			if (f.getFaceNormal()
-				.isParallel(fn.getFaceNormal(), sa)) {
+			if (WB_Vector.isParallel(f.getFaceNormal(),
+				fn.getFaceNormal(), sa)) {
 			    sel.add(fn);
 			    newFacesToCheck.add(fn);
 			}
@@ -3297,8 +3297,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	    v = vItr.next();
 	    if (v.getVertexOrder() == 2) {
 		he = v.getHalfedge();
-		if (he.getHalfedgeTangent().isParallel(
-			he.getNextInVertex().getHalfedgeTangent())) {
+		if (WB_Vector.isParallel(he.getHalfedgeTangent(), he
+			.getNextInVertex().getHalfedgeTangent())) {
 		    he.getPrevInFace().setNext(he.getNextInFace());
 		    he.getNextInFace().setPrev(he.getPrevInFace());
 		    he.getPair().getPrevInFace()

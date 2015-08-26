@@ -71,7 +71,7 @@ public class HEMC_Panelizer extends HEMC_MultiCreator {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.HE_MultiCreator#create()
      */
     @Override
@@ -84,8 +84,8 @@ public class HEMC_Panelizer extends HEMC_MultiCreator {
 	int id = 0;
 	final HEC_Polygon pc = new HEC_Polygon().setThickness(thickness);
 	for (final HE_Face f : mesh.getFacesAsList()) {
-	    pc.setThickness(thickness + range > 0 ? random.nextDouble() * range
-		    : 0);
+	    pc.setThickness(thickness + range > 0 ? thickness
+		    + random.nextDouble() * range : 0);
 	    pc.setPolygon(f.toPolygon());
 	    result[id] = new HE_Mesh(pc);
 	    id++;

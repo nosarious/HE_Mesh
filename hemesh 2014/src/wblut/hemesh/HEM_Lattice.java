@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import wblut.geom.WB_Coordinate;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Polygon;
@@ -223,8 +224,8 @@ public class HEM_Lattice extends HEM_Modifier {
 	WB_Polygon poly;
 	HE_Halfedge heoc, heic, heon, hein, heio, heoi;
 	HE_Face fNew;
-	WB_Vector ni;
-	WB_Vector no;
+	WB_Coordinate ni;
+	WB_Coordinate no;
 	tracker.setDefaultStatus("Connecting outer and inner faces.", nf);
 	for (int i = 0; i < nf; i++) {
 	    fo = origFaces[i];
@@ -233,11 +234,11 @@ public class HEM_Lattice extends HEM_Modifier {
 		fi = mesh.getFaceWithKey(innerKey);
 		if (obulge != 0) {
 		    no = fo.getFaceNormal();
-		    fo.push(no.mulSelf(obulge));
+		    fo.push(WB_Vector.mul(no, obulge));
 		}
 		if (ibulge != 0) {
 		    ni = fi.getFaceNormal();
-		    fi.push(ni.mulSelf(ibulge));
+		    fi.push(WB_Vector.mul(ni, ibulge));
 		}
 		final int nvo = fo.getFaceOrder();
 		final int nvi = fi.getFaceOrder();
@@ -395,7 +396,7 @@ public class HEM_Lattice extends HEM_Modifier {
 	WB_Polygon poly;
 	HE_Halfedge heoc, heic, heon, hein, heio, heoi;
 	HE_Face fNew;
-	WB_Vector ni, no;
+	WB_Coordinate ni, no;
 	tracker.setDefaultStatus("Connecting outer and inner faces.", nf);
 	for (int i = 0; i < nf; i++) {
 	    fo = origFaces[i];
@@ -404,11 +405,11 @@ public class HEM_Lattice extends HEM_Modifier {
 		fi = selection.parent.getFaceWithKey(innerKey);
 		if (obulge != 0) {
 		    no = fo.getFaceNormal();
-		    fo.push(no.mulSelf(obulge));
+		    fo.push(WB_Vector.mul(no, obulge));
 		}
 		if (ibulge != 0) {
 		    ni = fi.getFaceNormal();
-		    fi.push(ni.mulSelf(ibulge));
+		    fi.push(WB_Vector.mul(ni, ibulge));
 		}
 		final int nvo = fo.getFaceOrder();
 		final int nvi = fi.getFaceOrder();

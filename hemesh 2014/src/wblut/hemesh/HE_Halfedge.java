@@ -9,7 +9,6 @@ import wblut.geom.WB_CoordinateOp;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_HasColor;
-import wblut.geom.WB_Point;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Math;
 
@@ -147,13 +146,13 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 		_vertex);
 	vn.normalizeSelf();
 	v = v.cross(vn);
-	final WB_Vector n;
+	final WB_Coordinate n;
 	if (_face == null) {
-	    n = _pair._face.getFaceNormal().mulSelf(-1);
+	    n = WB_Vector.mul(_pair._face.getFaceNormal(), -1);
 	} else {
 	    n = _face.getFaceNormal();
 	}
-	final double dot = n.dot(v);
+	final double dot = v.dot(n);
 	if (v.isParallel(vn)) {
 	    return WB_ClassificationConvex.FLAT;
 	} else if (dot > 0) {
@@ -168,7 +167,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
      *
      * @return tangent
      */
-    public WB_Vector getHalfedgeTangent() {
+    public WB_Coordinate getHalfedgeTangent() {
 	if ((_pair != null) && (_vertex != null) && (_pair.getVertex() != null)) {
 	    final WB_Vector v = _pair.getVertex().getPoint()
 		    .subToVector3D(_vertex);
@@ -183,12 +182,12 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
      *
      * @return
      */
-    public WB_Vector getEdgeTangent() {
-	final WB_Vector v = getHalfedgeTangent();
+    public WB_Coordinate getEdgeTangent() {
+	final WB_Coordinate v = getHalfedgeTangent();
 	if (v == null) {
 	    return null;
 	}
-	return isEdge() ? v : v.mulSelf(-1);
+	return isEdge() ? v : WB_Vector.mul(v, -1);
     }
 
     /**
@@ -196,7 +195,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
      *
      * @return center
      */
-    public WB_Point getHalfedgeCenter() {
+    public WB_Coordinate getHalfedgeCenter() {
 	if ((_next != null) && (_vertex != null) && (_next.getVertex() != null)) {
 	    return gf.createMidpoint(_next.getVertex(), _vertex);
 	}
@@ -208,14 +207,14 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
      *
      * @return
      */
-    public WB_Point getEdgeCenter() {
+    public WB_Coordinate getEdgeCenter() {
 	if ((_next != null) && (_vertex != null) && (_next.getVertex() != null)) {
 	    return gf.createMidpoint(_next.getVertex(), _vertex);
 	}
 	return null;
     }
 
-    public WB_Point getEdgeCenter(final double f) {
+    public WB_Coordinate getEdgeCenter(final double f) {
 	if ((_next != null) && (_vertex != null) && (_next.getVertex() != null)) {
 	    return gf.createMidpoint(_next.getVertex(), _vertex).addMulSelf(f,
 		    getEdgeNormal());
@@ -341,7 +340,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
      *
      * @return
      */
-    public WB_Vector getEdgeNormal() {
+    public WB_Coordinate getEdgeNormal() {
 	if (_pair == null) {
 	    return null;
 	}
@@ -356,10 +355,10 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	if ((he1._face == null) && (he2._face == null)) {
 	    return null;
 	}
-	final WB_Vector n1 = (he1._face != null) ? he1._face.getFaceNormal()
-		: new WB_Vector(0, 0, 0);
-	final WB_Vector n2 = (he2._face != null) ? he2._face.getFaceNormal()
-		: new WB_Vector(0, 0, 0);
+	final WB_Coordinate n1 = (he1._face != null) ? he1._face
+		.getFaceNormal() : new WB_Vector(0, 0, 0);
+	final WB_Coordinate n2 = (he2._face != null) ? he2._face
+		.getFaceNormal() : new WB_Vector(0, 0, 0);
 	final WB_Vector n = new WB_Vector(n1.xd() + n2.xd(), n1.yd() + n2.yd(),
 		n1.zd() + n2.zd());
 	n.normalizeSelf();
@@ -371,8 +370,8 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
      *
      * @return in-face normal of face, points inwards
      */
-    public WB_Vector getHalfedgeNormal() {
-	WB_Vector fn;
+    public WB_Coordinate getHalfedgeNormal() {
+	WB_Coordinate fn;
 	if ((getFace() == null) && (getPair() == null)) {
 	    return null;
 	}
@@ -387,7 +386,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	final HE_Vertex vn = getNextInFace().getVertex();
 	final WB_Vector _normal = new WB_Vector(vn);
 	_normal.subSelf(getVertex());
-	_normal.set(fn.cross(_normal));
+	_normal.set(WB_Vector.cross(fn, _normal));
 	_normal.normalizeSelf();
 	return _normal;
     }
@@ -552,9 +551,10 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	if ((he1._face == null) || (he2._face == null)) {
 	    return Double.NaN;
 	} else {
-	    final WB_Vector n1 = he1._face.getFaceNormal();
-	    final WB_Vector n2 = he2._face.getFaceNormal();
-	    return Math.PI - Math.acos(WB_Math.clamp(n1.dot(n2), -1, 1));
+	    final WB_Coordinate n1 = he1._face.getFaceNormal();
+	    final WB_Coordinate n2 = he2._face.getFaceNormal();
+	    return Math.PI
+		    - Math.acos(WB_Math.clamp(WB_Vector.dot(n1, n2), -1, 1));
 	}
     }
 

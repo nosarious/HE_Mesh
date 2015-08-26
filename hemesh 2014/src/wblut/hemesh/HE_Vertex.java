@@ -162,7 +162,8 @@ public class HE_Vertex extends HE_Element implements WB_MutableCoordinate,
 	    if (fn == null) {
 		fn = he.getPair().getFace();
 	    }
-	    final WB_Vector c = f.getFaceNormal().cross(fn.getFaceNormal());
+	    final WB_Vector c = WB_Vector.cross(f.getFaceNormal(),
+		    fn.getFaceNormal());
 	    final double d = v.dot(c);
 	    if (Math.abs(d) < WB_Epsilon.EPSILON) {
 		nflat++;
@@ -720,7 +721,7 @@ public class HE_Vertex extends HE_Element implements WB_MutableCoordinate,
      * @return
      */
     public WB_CoordinateSystem getCS() {
-	final WB_Vector normal = getVertexNormal();
+	final WB_Vector normal = new WB_Vector(getVertexNormal());
 	if (normal == null) {
 	    return null;
 	}
@@ -746,7 +747,7 @@ public class HE_Vertex extends HE_Element implements WB_MutableCoordinate,
      *
      * @return
      */
-    public WB_Vector getVertexNormal() {
+    public WB_Coordinate getVertexNormal() {
 	if (_halfedge == null) {
 	    return null;
 	}
@@ -770,21 +771,21 @@ public class HE_Vertex extends HE_Element implements WB_MutableCoordinate,
 	if (n < WB_Epsilon.EPSILON) {
 	    HE_Halfedge he = _halfedge;
 	    normal = geometryfactory.createVector();
-	    final FastTable<WB_Vector> normals = new FastTable<WB_Vector>();
+	    final FastTable<WB_Coordinate> normals = new FastTable<WB_Coordinate>();
 	    do {
 		if (he.getFace() != null) {
-		    final WB_Vector fn = he.getFace().getFaceNormal();
+		    final WB_Coordinate fn = he.getFace().getFaceNormal();
 		    normals.add(fn);
 		}
 		he = he.getNextInVertex();
 	    } while (he != _halfedge);
-	    final WB_Vector tmp = geometryfactory.createVector();
+	    WB_Vector tmp = geometryfactory.createVector();
 	    for (int i = 0; i < normals.size(); i++) {
-		final WB_Vector ni = normals.get(i);
+		final WB_Coordinate ni = normals.get(i);
 		boolean degenerate = false;
 		for (int j = i + 1; j < normals.size(); j++) {
-		    final WB_Vector nj = normals.get(j);
-		    ni.crossInto(tmp, nj);
+		    final WB_Coordinate nj = normals.get(j);
+		    tmp = WB_Vector.cross(ni, nj);
 		    if (tmp.getSqLength3D() < WB_Epsilon.SQEPSILON) {
 			degenerate = true;
 			break;

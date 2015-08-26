@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -14,42 +14,36 @@ import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
 public class HES_TriDecLimit extends HES_Simplifier {
-    
     /**
-     * 
+     *
      */
     private double _lambda;
-    
     /**
-     * 
+     *
      */
     private HE_Mesh _mesh;
-    
     /**
-     * 
+     *
      */
     private Heap heap;
-    
     /**
-     * 
+     *
      */
     private int counter;
-    
     /**
-     * 
+     *
      */
     TLongDoubleMap vertexCost;
-    
     /**
-     * 
+     *
      */
     private double limit;
 
     /**
-     * 
+     *
      */
     public HES_TriDecLimit() {
 	_lambda = 20;
@@ -57,10 +51,10 @@ public class HES_TriDecLimit extends HES_Simplifier {
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @return 
+     *
+     * @param f
+     * @return
      */
     public HES_TriDecLimit setLambda(final double f) {
 	_lambda = f;
@@ -68,10 +62,10 @@ public class HES_TriDecLimit extends HES_Simplifier {
     }
 
     /**
-     * 
      *
-     * @param r 
-     * @return 
+     *
+     * @param r
+     * @return
      */
     public HES_TriDecLimit setLimit(final double r) {
 	limit = r;
@@ -79,10 +73,10 @@ public class HES_TriDecLimit extends HES_Simplifier {
     }
 
     /**
-     * 
      *
-     * @param mesh 
-     * @return 
+     *
+     * @param mesh
+     * @return
      */
     public static double[] getVertexColor(final HE_Mesh mesh) {
 	final HE_VertexIterator vItr = mesh.vItr();
@@ -114,7 +108,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * wblut.hemesh.simplifiers.HES_Simplifier#apply(wblut.hemesh.core.HE_Mesh)
      */
@@ -164,7 +158,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * wblut.hemesh.simplifiers.HES_Simplifier#apply(wblut.hemesh.core.HE_Selection
      * )
@@ -219,9 +213,9 @@ public class HES_TriDecLimit extends HES_Simplifier {
     }
 
     /**
-     * 
      *
-     * @param sel 
+     *
+     * @param sel
      */
     private void buildHeap(final HE_MeshStructure sel) {
 	tracker.setDefaultStatus("Building vertex removal heap.",
@@ -277,10 +271,10 @@ public class HES_TriDecLimit extends HES_Simplifier {
     }
 
     /**
-     * 
      *
-     * @param vertices 
-     * @param selection 
+     *
+     * @param vertices
+     * @param selection
      */
     private void updateHeap(final List<HE_Vertex> vertices,
 	    final HE_MeshStructure selection) {
@@ -329,10 +323,10 @@ public class HES_TriDecLimit extends HES_Simplifier {
     }
 
     /**
-     * 
      *
-     * @param v 
-     * @return 
+     *
+     * @param v
+     * @return
      */
     private static double visualImportance(final HE_Vertex v) {
 	final List<HE_Face> faces = v.getFaceStar();
@@ -358,10 +352,10 @@ public class HES_TriDecLimit extends HES_Simplifier {
     }
 
     /**
-     * 
      *
-     * @param he 
-     * @return 
+     *
+     * @param he
+     * @return
      */
     private double halfedgeCollapseCost(final HE_Halfedge he) {
 	final HE_Face f = he.getFace();
@@ -416,7 +410,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 			} else {
 			    cost += 0.5
 				    * (T.getArea() + fl.getFaceArea())
-				    * (1.0 - fl.getFaceNormal().dot(
+				    * (1.0 - WB_Vector.dot(fl.getFaceNormal(),
 					    T.getPlane().getNormal()));
 			}
 		    }
@@ -430,22 +424,20 @@ public class HES_TriDecLimit extends HES_Simplifier {
     }
 
     /**
-     * 
+     *
      */
     public class Heap {
-	
 	/**
-	 * 
+	 *
 	 */
 	private final List<Entry> heap;
-	
 	/**
-	 * 
+	 *
 	 */
 	private final List<Double> keys;
 
 	/**
-	 * 
+	 *
 	 */
 	public Heap() {
 	    heap = new FastTable<Entry>();
@@ -453,10 +445,10 @@ public class HES_TriDecLimit extends HES_Simplifier {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param key 
-	 * @param obj 
+	 *
+	 * @param key
+	 * @param obj
 	 */
 	public void push(final Double key, final HE_Vertex obj) {
 	    heap.add(new Entry(obj, obj.getInternalLabel()));
@@ -465,9 +457,9 @@ public class HES_TriDecLimit extends HES_Simplifier {
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public Entry pop() {
 	    if (heap.size() > 0) {
@@ -482,88 +474,88 @@ public class HES_TriDecLimit extends HES_Simplifier {
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public Entry getFirst() {
 	    return heap.get(0);
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public double getFirstKey() {
 	    return keys.get(0);
 	}
 
 	/**
-	 * 
 	 *
-	 * @param index 
-	 * @return 
+	 *
+	 * @param index
+	 * @return
 	 */
 	public Entry get(final int index) {
 	    return heap.get(index);
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public int size() {
 	    return heap.size();
 	}
 
 	/**
-	 * 
 	 *
-	 * @param i 
-	 * @return 
+	 *
+	 * @param i
+	 * @return
 	 */
 	protected int parent(final int i) {
 	    return (i - 1) / 2;
 	}
 
 	/**
-	 * 
 	 *
-	 * @param i 
-	 * @return 
+	 *
+	 * @param i
+	 * @return
 	 */
 	protected int left(final int i) {
 	    return (2 * i) + 1;
 	}
 
 	/**
-	 * 
 	 *
-	 * @param i 
-	 * @return 
+	 *
+	 * @param i
+	 * @return
 	 */
 	protected int right(final int i) {
 	    return (2 * i) + 2;
 	}
 
 	/**
-	 * 
 	 *
-	 * @param i 
-	 * @param j 
-	 * @return 
+	 *
+	 * @param i
+	 * @param j
+	 * @return
 	 */
 	protected boolean hasPriority(final int i, final int j) {
 	    return keys.get(i) <= keys.get(j);
 	}
 
 	/**
-	 * 
 	 *
-	 * @param i 
-	 * @param j 
+	 *
+	 * @param i
+	 * @param j
 	 */
 	protected void swap(final int i, final int j) {
 	    final Entry tmp = heap.get(i);
@@ -575,9 +567,9 @@ public class HES_TriDecLimit extends HES_Simplifier {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param i 
+	 *
+	 * @param i
 	 */
 	public void pushDown(final int i) {
 	    final int left = left(i);
@@ -596,9 +588,9 @@ public class HES_TriDecLimit extends HES_Simplifier {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param i 
+	 *
+	 * @param i
 	 */
 	public void pushUp(int i) {
 	    while ((i > 0) && !hasPriority(parent(i), i)) {
@@ -607,7 +599,9 @@ public class HES_TriDecLimit extends HES_Simplifier {
 	    }
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -629,25 +623,23 @@ public class HES_TriDecLimit extends HES_Simplifier {
     }
 
     /**
-     * 
+     *
      */
     class Entry {
-	
 	/**
-	 * 
+	 *
 	 */
 	HE_Vertex v;
-	
 	/**
-	 * 
+	 *
 	 */
 	int version;
 
 	/**
-	 * 
 	 *
-	 * @param v 
-	 * @param i 
+	 *
+	 * @param v
+	 * @param i
 	 */
 	Entry(final HE_Vertex v, final int i) {
 	    this.v = v;

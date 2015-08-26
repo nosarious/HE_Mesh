@@ -114,7 +114,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
      * @param d
      * @return
      */
-    public WB_Point getFaceCenter(final double d) {
+    public WB_Coordinate getFaceCenter(final double d) {
 	if (_halfedge == null) {
 	    return null;
 	}
@@ -135,7 +135,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
      *
      * @return
      */
-    public WB_Vector getFaceNormal() {
+    public WB_Coordinate getFaceNormal() {
 	if (_halfedge == null) {
 	    return null;
 	}
@@ -161,7 +161,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
      *
      * @return
      */
-    public WB_Vector getFaceNormalNN() {
+    public WB_Coordinate getNonNormFaceNormal() {
 	if (_halfedge == null) {
 	    return null;
 	}
@@ -190,8 +190,8 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 	if (_halfedge == null) {
 	    return 0;
 	}
-	final WB_Vector n = getFaceNormal();
-	if (n.getLength3D() < 0.5) {
+	final WB_Coordinate n = getFaceNormal();
+	if (WB_Vector.getLength3D(n) < 0.5) {
 	    return 0;
 	}
 	final double x = WB_Math.fastAbs(n.xd());
@@ -423,8 +423,8 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
      * @return
      */
     public WB_Plane getPlane() {
-	WB_Vector fn = getFaceNormal();
-	if (fn.getSqLength3D() < 0.5) {
+	WB_Coordinate fn = getFaceNormal();
+	if (WB_Vector.getSqLength3D(fn) < 0.5) {
 	    if (WB_Epsilon.isEqualAbs(_halfedge.getVertex().xd(), _halfedge
 		    .getEndVertex().xd())) {
 		fn = new WB_Vector(1, 0, 0);
@@ -454,8 +454,8 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
      * @return
      */
     public WB_Plane getPlane(final double d) {
-	final WB_Vector fn = getFaceNormal();
-	return new WB_Plane(new WB_Point(getFaceCenter()).addMulSelf(d, fn), fn);
+	final WB_Coordinate fn = getFaceNormal();
+	return new WB_Plane(WB_Point.addMul(getFaceCenter(), d, fn), fn);
     }
 
     /**
@@ -737,7 +737,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
      * @return
      */
     public boolean isDegenerate() {
-	return getFaceNormal().getLength3D() < 0.5;
+	return WB_Vector.getLength3D(getFaceNormal()) < 0.5;
     }
 
     /**

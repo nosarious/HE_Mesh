@@ -1,34 +1,33 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
 import java.util.Iterator;
 import javolution.util.FastTable;
-import wblut.geom.WB_Vector;
+import wblut.geom.WB_Coordinate;
 
 /**
- * 
+ *
  */
 public class HEM_VertexExpand extends HEM_Modifier {
-    
     /**
-     * 
+     *
      */
     private double d;
 
     /**
-     * 
+     *
      */
     public HEM_VertexExpand() {
 	super();
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @return 
+     *
+     * @param d
+     * @return
      */
     public HEM_VertexExpand setDistance(final double d) {
 	this.d = d;
@@ -37,7 +36,7 @@ public class HEM_VertexExpand extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -47,25 +46,25 @@ public class HEM_VertexExpand extends HEM_Modifier {
 	}
 	HE_Vertex v;
 	Iterator<HE_Vertex> vItr = mesh.vItr();
-	final FastTable<WB_Vector> normals = new FastTable<WB_Vector>();
+	final FastTable<WB_Coordinate> normals = new FastTable<WB_Coordinate>();
 	while (vItr.hasNext()) {
 	    v = vItr.next();
 	    normals.add(v.getVertexNormal());
 	}
-	final Iterator<WB_Vector> vnItr = normals.iterator();
+	final Iterator<WB_Coordinate> vnItr = normals.iterator();
 	vItr = mesh.vItr();
-	WB_Vector n;
+	WB_Coordinate n;
 	while (vItr.hasNext()) {
 	    v = vItr.next();
 	    n = vnItr.next();
-	    v.getPoint().addSelf(n.mulSelf(d));
+	    v.getPoint().addMulSelf(d, n);
 	}
 	return mesh;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -78,7 +77,7 @@ public class HEM_VertexExpand extends HEM_Modifier {
 	HE_Vertex v;
 	while (vItr.hasNext()) {
 	    v = vItr.next();
-	    v.getPoint().addSelf(v.getVertexNormal().mulSelf(d));
+	    v.getPoint().addMulSelf(d, v.getVertexNormal());
 	}
 	return selection.parent;
     }
