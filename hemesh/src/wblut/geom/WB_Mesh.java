@@ -1,91 +1,90 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 /**
- * 
+ *
  */
 public interface WB_Mesh extends WB_Geometry {
-    
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
-    public WB_Point getCenter();
+    public WB_Coordinate getCenter();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_AABB getAABB();
 
     /**
-     * 
      *
-     * @param id 
-     * @return 
+     *
+     * @param id
+     * @return
      */
-    public WB_Vector getFaceNormal(final int id);
+    public WB_Coordinate getFaceNormal(final int id);
 
     /**
-     * 
      *
-     * @param id 
-     * @return 
+     *
+     * @param id
+     * @return
      */
-    public WB_Point getFaceCenter(final int id);
+    public WB_Coordinate getFaceCenter(final int id);
 
     /**
-     * 
      *
-     * @param i 
-     * @return 
+     *
+     * @param i
+     * @return
      */
-    public WB_Vector getVertexNormal(final int i);
+    public WB_Coordinate getVertexNormal(final int i);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int getNumberOfFaces();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int getNumberOfVertices();
 
     /**
-     * 
      *
-     * @param i 
-     * @return 
+     *
+     * @param i
+     * @return
      */
     public WB_Coordinate getVertex(final int i);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_CoordinateSequence getPoints();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int[][] getFacesAsInt();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int[][] getEdgesAsInt();
 }

@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
@@ -9,37 +9,31 @@ import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
 
 /**
- * 
+ *
  */
 public class WB_GeomGrid {
-    
     /**
-     * 
+     *
      */
     private final FastMap<Integer, WB_GeomGridCell> cells;
-    
     /**
-     * 
+     *
      */
     private final int W, H, WH, D;
-    
     /**
-     * 
+     *
      */
     private final double dx, dy, dz, idx, idy, idz;
-    
     /**
-     * 
+     *
      */
     private final WB_Point min;
-    
     /**
-     * 
+     *
      */
     private final WB_Point max;
-    
     /**
-     * 
+     *
      */
     private final WB_AABB aabb;
 
@@ -53,12 +47,12 @@ public class WB_GeomGrid {
 	boolean inside;
 
 	/**
-	 * 
 	 *
-	 * @param i 
-	 * @param j 
-	 * @param k 
-	 * @param inside 
+	 *
+	 * @param i
+	 * @param j
+	 * @param k
+	 * @param inside
 	 */
 	Index(final int i, final int j, final int k, final boolean inside) {
 	    this.i = i;
@@ -68,19 +62,19 @@ public class WB_GeomGrid {
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	int index() {
 	    return i + (j * W) + (k * WH);
 	}
 
 	/**
-	 * 
 	 *
-	 * @param id 
-	 * @return 
+	 *
+	 * @param id
+	 * @return
 	 */
 	boolean equals(final Index id) {
 	    return (i == id.i) && (j == id.j) && (k == id.k);
@@ -88,7 +82,7 @@ public class WB_GeomGrid {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -97,9 +91,9 @@ public class WB_GeomGrid {
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public Index get() {
 	    return new Index(i, j, k, inside);
@@ -107,17 +101,17 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param minx 
-     * @param miny 
-     * @param minz 
-     * @param maxx 
-     * @param maxy 
-     * @param maxz 
-     * @param W 
-     * @param H 
-     * @param D 
+     *
+     * @param minx
+     * @param miny
+     * @param minz
+     * @param maxx
+     * @param maxy
+     * @param maxz
+     * @param W
+     * @param H
+     * @param D
      */
     public WB_GeomGrid(final double minx, final double miny, final double minz,
 	    final double maxx, final double maxy, final double maxz,
@@ -139,9 +133,9 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param p 
+     *
+     * @param p
      */
     public void addPoint(final WB_Coordinate p) {
 	final Index id = safeijk(p);
@@ -159,10 +153,10 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param r 
+     *
+     * @param p
+     * @param r
      */
     public void addPoint(final WB_Coordinate p, final double r) {
 	final ArrayList<WB_GeomGridCell> fatcells = getCellsInNeighborhood(p,
@@ -180,9 +174,9 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param p 
+     *
+     * @param p
      */
     public void removePoint(final WB_Point p) {
 	final Index id = safeijk(p);
@@ -198,10 +192,10 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param r 
+     *
+     * @param p
+     * @param r
      */
     public void removePoint(final WB_Point p, final double r) {
 	final ArrayList<WB_GeomGridCell> fatcells = getCellsInNeighborhood(p,
@@ -219,10 +213,10 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param S 
-     * @param r 
+     *
+     * @param S
+     * @param r
      */
     public void addSegment(final WB_Segment S, final double r) {
 	final ArrayList<WB_GeomGridCell> fatcells = getCellsInNeighborhood(S,
@@ -240,9 +234,9 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param S 
+     *
+     * @param S
      */
     public void addSegment(final WB_Segment S) {
 	final ArrayList<Index> traversedIndices = indicesTraversed(S);
@@ -260,9 +254,9 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param S 
+     *
+     * @param S
      */
     public void removeSegment(final WB_Segment S) {
 	final ArrayList<Index> traversedIndices = indicesTraversed(S);
@@ -278,10 +272,10 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param S 
-     * @param r 
+     *
+     * @param S
+     * @param r
      */
     public void removeSegment(final WB_Segment S, final double r) {
 	final ArrayList<WB_GeomGridCell> fatcells = getCellsInNeighborhood(S,
@@ -299,10 +293,10 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public WB_Point index(final WB_Coordinate p) {
 	final Index id = ijk(p);
@@ -310,10 +304,10 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public WB_Point safeIndex(final WB_Coordinate p) {
 	final Index id = safeijk(p);
@@ -324,12 +318,12 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param i 
-     * @param j 
-     * @param k 
-     * @return 
+     *
+     * @param i
+     * @param j
+     * @param k
+     * @return
      */
     public ArrayList<WB_Point> getPoints(final int i, final int j, final int k) {
 	if (i < 0) {
@@ -358,10 +352,10 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public ArrayList<WB_Point> getPointsInSameCell(final WB_Coordinate p) {
 	final Index id = safeijk(p);
@@ -376,12 +370,12 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param r 
-     * @param all 
-     * @return 
+     *
+     * @param p
+     * @param r
+     * @param all
+     * @return
      */
     public ArrayList<WB_GeomGridCell> getCellsInNeighborhood(
 	    final WB_Coordinate p, final double r, final boolean all) {
@@ -420,12 +414,12 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @param S 
-     * @param r 
-     * @param all 
-     * @return 
+     *
+     * @param S
+     * @param r
+     * @param all
+     * @return
      */
     public ArrayList<WB_GeomGridCell> getCellsInNeighborhood(
 	    final WB_Segment S, final double r, final boolean all) {
@@ -477,9 +471,9 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public ArrayList<WB_GeomGridCell> getCells() {
 	final ArrayList<WB_GeomGridCell> cellList = new ArrayList<WB_GeomGridCell>();
@@ -488,43 +482,43 @@ public class WB_GeomGrid {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_AABB getAABB() {
 	return aabb;
     }
 
     /**
-     * 
      *
-     * @param i 
-     * @param j 
-     * @param k 
-     * @return 
+     *
+     * @param i
+     * @param j
+     * @param k
+     * @return
      */
     private int index(final int i, final int j, final int k) {
 	return i + (j * W) + (k * WH);
     }
 
     /**
-     * 
      *
-     * @param id 
-     * @return 
+     *
+     * @param id
+     * @return
      */
     private int index(final Index id) {
 	return id.i + (id.j * W) + (id.k * WH);
     }
 
     /**
-     * 
      *
-     * @param i 
-     * @param j 
-     * @param k 
-     * @return 
+     *
+     * @param i
+     * @param j
+     * @param k
+     * @return
      */
     private int safeIndex(final int i, final int j, final int k) {
 	if (i < 0) {
@@ -636,7 +630,7 @@ public class WB_GeomGrid {
 	if (start.equals(end)) {
 	    return indicesTraversed;
 	}
-	final WB_Vector dir = segment.getDirection();
+	final WB_Coordinate dir = segment.getDirection();
 	double x, y, z;
 	Index current;
 	Index prev;

@@ -486,8 +486,9 @@ public class HET_MeshOp {
      */
     public static HE_Selection splitFace(final long fkey, final long vkeyi,
 	    final long vkeyj, final HE_Mesh mesh) {
-	return splitFace(mesh.getFaceWithKey(fkey), mesh.getVertexWithKey(vkeyi),
-		mesh.getVertexWithKey(vkeyj), mesh);
+	return splitFace(mesh.getFaceWithKey(fkey),
+		mesh.getVertexWithKey(vkeyi), mesh.getVertexWithKey(vkeyj),
+		mesh);
     }
 
     /**
@@ -662,7 +663,7 @@ public class HET_MeshOp {
     public static HE_Selection splitFacesHybrid(final HE_Mesh mesh) {
 	final HE_Selection selectionOut = new HE_Selection(mesh);
 	final int n = mesh.getNumberOfFaces();
-	final WB_Point[] faceCenters = new WB_Point[n];
+	final WB_Coordinate[] faceCenters = new WB_Coordinate[n];
 	final int[] faceOrders = new int[n];
 	HE_Face f;
 	int i = 0;
@@ -828,7 +829,7 @@ public class HET_MeshOp {
 	    final HE_Mesh mesh) {
 	final HE_Selection selectionOut = new HE_Selection(mesh);
 	final int n = sel.getNumberOfFaces();
-	final WB_Point[] faceCenters = new WB_Point[n];
+	final WB_Coordinate[] faceCenters = new WB_Coordinate[n];
 	final int[] faceOrders = new int[n];
 	HE_Face f;
 	int i = 0;

@@ -1,32 +1,30 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 /**
- * 
+ *
  */
 public class WB_RBSplineSurface extends WB_BSplineSurface {
-    
     /**
-     * 
+     *
      */
     private final double[][] weights;
-    
     /**
-     * 
+     *
      */
     protected WB_PointHomogeneous[][] wpoints;
 
     /**
-     * 
      *
-     * @param controlPoints 
-     * @param uknot 
-     * @param vknot 
-     * @param weights 
+     *
+     * @param controlPoints
+     * @param uknot
+     * @param vknot
+     * @param weights
      */
-    public WB_RBSplineSurface(final WB_Point[][] controlPoints,
+    public WB_RBSplineSurface(final WB_Coordinate[][] controlPoints,
 	    final WB_NurbsKnot uknot, final WB_NurbsKnot vknot,
 	    final double[][] weights) {
 	super(controlPoints, uknot, vknot);
@@ -46,12 +44,12 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
     }
 
     /**
-     * 
      *
-     * @param controlPoints 
-     * @param udegree 
-     * @param vdegree 
-     * @param weights 
+     *
+     * @param controlPoints
+     * @param udegree
+     * @param vdegree
+     * @param weights
      */
     public WB_RBSplineSurface(final WB_Point[][] controlPoints,
 	    final int udegree, final int vdegree, final double[][] weights) {
@@ -72,11 +70,11 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
     }
 
     /**
-     * 
      *
-     * @param controlPoints 
-     * @param udegree 
-     * @param vdegree 
+     *
+     * @param controlPoints
+     * @param udegree
+     * @param vdegree
      */
     public WB_RBSplineSurface(final WB_Point[][] controlPoints,
 	    final int udegree, final int vdegree) {
@@ -97,11 +95,11 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
     }
 
     /**
-     * 
      *
-     * @param controlPoints 
-     * @param uknot 
-     * @param vknot 
+     *
+     * @param controlPoints
+     * @param uknot
+     * @param vknot
      */
     public WB_RBSplineSurface(final WB_PointHomogeneous[][] controlPoints,
 	    final WB_NurbsKnot uknot, final WB_NurbsKnot vknot) {
@@ -132,11 +130,11 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
     }
 
     /**
-     * 
      *
-     * @param i 
-     * @param j 
-     * @param w 
+     *
+     * @param i
+     * @param j
+     * @param w
      */
     public void setWeight(final int i, final int j, final double w) {
 	if ((i < 0) || (i > n) || (j < 0) || (j > m)) {
@@ -149,7 +147,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.nurbs.WB_Surface#surfacePoint(double, double)
      */
     @Override
@@ -176,7 +174,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
     }
 
     /**
-     * 
+     *
      */
     public void updateWeights() {
 	for (int i = 0; i < (n + 1); i++) {
@@ -189,7 +187,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_BSplineSurface#insertUKnot(double)
      */
     @Override
@@ -199,7 +197,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_BSplineSurface#insertUKnotMax(double)
      */
     @Override
@@ -210,7 +208,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_BSplineSurface#insertUKnot(double, int)
      */
     @Override
@@ -271,7 +269,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_BSplineSurface#insertVKnot(double)
      */
     @Override
@@ -281,7 +279,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_BSplineSurface#insertVKnotMax(double)
      */
     @Override
@@ -292,7 +290,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_BSplineSurface#insertVKnot(double, int)
      */
     @Override
@@ -353,7 +351,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_BSplineSurface#isoCurveU(double)
      */
     @Override
@@ -375,7 +373,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_BSplineSurface#isoCurveV(double)
      */
     @Override
@@ -397,7 +395,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_BSplineSurface#splitU(double)
      */
     @Override
@@ -412,7 +410,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 	knot1.setValue(knot1.m, u);
 	knot1.normalize();
 	final WB_PointHomogeneous[][] wpoints1 = new WB_PointHomogeneous[(k + 1)
-		- p][m + 1];
+	                                                                 - p][m + 1];
 	for (int j = 0; j <= m; j++) {
 	    for (int i = 0; i < ((k + 1) - p); i++) {
 		wpoints1[i][j] = newRBSplineSurface.wpoints[i][j];
@@ -440,7 +438,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_BSplineSurface#splitV(double)
      */
     @Override
@@ -455,7 +453,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 	knot1.setValue(knot1.m, v);
 	knot1.normalize();
 	final WB_PointHomogeneous[][] wpoints1 = new WB_PointHomogeneous[n + 1][(k + 1)
-		- q];
+	                                                                        - q];
 	for (int j = 0; j <= n; j++) {
 	    for (int i = 0; i < ((k + 1) - q); i++) {
 		wpoints1[j][i] = newRBSplineSurface.wpoints[j][i];
@@ -470,7 +468,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 	}
 	knot2.normalize();
 	final WB_PointHomogeneous[][] wpoints2 = new WB_PointHomogeneous[n + 1][km
-		- k];
+	                                                                        - k];
 	for (int j = 0; j <= n; j++) {
 	    for (int i = 0; i < (km - k); i++) {
 		wpoints2[j][i] = newRBSplineSurface.wpoints[j][(k - q) + i];
@@ -484,7 +482,7 @@ public class WB_RBSplineSurface extends WB_BSplineSurface {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.geom.WB_BSplineSurface#split(double, double)
      */
     @Override

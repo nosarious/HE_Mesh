@@ -5,6 +5,7 @@ package wblut.hemesh;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import wblut.geom.WB_Coordinate;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Voronoi;
 
@@ -16,7 +17,7 @@ import wblut.geom.WB_Voronoi;
  */
 public class HEMC_VoronoiCells extends HEMC_MultiCreator {
     /** Points. */
-    private WB_Point[] points;
+    private WB_Coordinate[] points;
     /** Number of points. */
     private int numberOfPoints;
     /** Container. */
@@ -72,8 +73,8 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
      */
     public HEMC_VoronoiCells setMesh(final HE_Mesh mesh, final boolean addCenter) {
 	if (addCenter) {
-	    points = new WB_Point[mesh.getNumberOfVertices() + 1];
-	    final WB_Point[] tmp = mesh.getVerticesAsPoint();
+	    points = new WB_Coordinate[mesh.getNumberOfVertices() + 1];
+	    final WB_Coordinate[] tmp = mesh.getVerticesAsPoint();
 	    for (int i = 0; i < mesh.getNumberOfVertices(); i++) {
 		points[i] = tmp[i];
 	    }

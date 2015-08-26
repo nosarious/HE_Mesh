@@ -6,6 +6,7 @@ package wblut.hemesh;
 import wblut.geom.WB_Coordinate;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_Plane;
+import wblut.geom.WB_Point;
 import wblut.math.WB_Epsilon;
 
 /**
@@ -100,7 +101,7 @@ public class HEM_TriSplit extends HEM_Modifier {
     private HE_Selection splitFaceTri(final HE_Face face, final double d,
 	    final HE_Mesh mesh) {
 	return splitFaceTri(mesh, face,
-		face.getFaceCenter().addMulSelf(d, face.getFaceNormal()));
+		WB_Point.addMul(face.getFaceCenter(), d, face.getFaceNormal()));
     }
 
     /**

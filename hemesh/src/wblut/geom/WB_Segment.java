@@ -18,7 +18,7 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
     /**
      *
      */
-    private final WB_Point endpoint;
+    private final WB_Coordinate endpoint;
 
     /**
      *
@@ -40,8 +40,7 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
 	    final double l) {
 	super(o, d);
 	length = l;
-	endpoint = new WB_Point(direction);
-	endpoint.mulSelf(l).addSelf(origin);
+	endpoint = new WB_Point(direction).mulSelf(l).addSelf(origin);
     }
 
     /**
@@ -95,8 +94,8 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
      */
     public void getParametricPointOnSegmentInto(final double t,
 	    final WB_MutableCoordinate result) {
-	result.set(direction.mul(WB_Math.clamp(t, 0, 1) * length).addSelf(
-		origin));
+	result.set(new WB_Vector(direction).mulSelf(
+		WB_Math.clamp(t, 0, 1) * length).addSelf(origin));
     }
 
     /**
@@ -104,7 +103,7 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
      *
      * @return
      */
-    public WB_Point getEndpoint() {
+    public WB_Coordinate getEndpoint() {
 	return endpoint;
     }
 
@@ -114,8 +113,8 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
      * @see wblut.geom.WB_Simplex#getCenter()
      */
     @Override
-    public WB_Point getCenter() {
-	return endpoint.add(origin).mulSelf(0.5);
+    public WB_Coordinate getCenter() {
+	return new WB_Point(endpoint).addSelf(origin).mulSelf(0.5);
     }
 
     /**
@@ -163,7 +162,7 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
      * @see wblut.geom.WB_Simplex#getPoint(int)
      */
     @Override
-    public WB_Point getPoint(final int i) {
+    public WB_Coordinate getPoint(final int i) {
 	if (i == 0) {
 	    return origin;
 	}
@@ -190,8 +189,9 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
      */
     @Override
     public WB_Geometry apply(final WB_Transform T) {
-	return geometryfactory.createSegment(origin.applyAsPoint(T),
-		endpoint.applyAsPoint(T));
+	return geometryfactory.createSegment(
+		new WB_Point(origin).applyAsPoint(T),
+		new WB_Point(endpoint).applyAsPoint(T));
     }
 
     /*

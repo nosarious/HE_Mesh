@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import wblut.geom.WB_Point;
+import wblut.geom.WB_Coordinate;
 
 /**
  * Helper class for HE_Export.saveToSimpleMesh.
@@ -38,9 +38,9 @@ public class HET_SimpleMeshWriter {
     }
 
     /**
-     * 
      *
-     * @param file 
+     *
+     * @param file
      */
     static private void createDirectories(final File file) {
 	try {
@@ -60,8 +60,9 @@ public class HET_SimpleMeshWriter {
     /**
      * Begin save.
      *
-     * @param fn            the fn
-     * @param name 
+     * @param fn
+     *            the fn
+     * @param name
      */
     public void beginSave(final String fn, final String name) {
 	try {
@@ -130,7 +131,7 @@ public class HET_SimpleMeshWriter {
      * @param v
      *            the v
      */
-    public void vertices(final WB_Point[] v) {
+    public void vertices(final WB_Coordinate[] v) {
 	int i = 0;
 	for (i = 0; i < v.length; i++) {
 	    simpleMeshWriter.println(v[i].xd() + " " + v[i].yd() + " "

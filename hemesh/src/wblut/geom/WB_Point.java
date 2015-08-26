@@ -4,6 +4,7 @@
 package wblut.geom;
 
 import wblut.math.WB_Epsilon;
+import wblut.math.WB_Math;
 
 /**
  *
@@ -112,7 +113,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#addMulSelf(double, double, double, double)
      */
     @Override
@@ -124,7 +125,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#addMulSelf(double, wblut.geom.WB_Coordinate)
      */
     @Override
@@ -135,7 +136,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#addSelf(double, double, double)
      */
     @Override
@@ -146,7 +147,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#addSelf(wblut.geom.WB_Coordinate)
      */
     @Override
@@ -157,7 +158,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#applyAsNormalSelf(wblut.geom.WB_Transform)
      */
     @Override
@@ -168,7 +169,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#applyAsPointSelf(wblut.geom.WB_Transform)
      */
     @Override
@@ -179,7 +180,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#applyAsVectorSelf(wblut.geom.WB_Transform)
      */
     @Override
@@ -190,7 +191,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#crossSelf(wblut.geom.WB_Coordinate)
      */
     @Override
@@ -202,7 +203,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#divSelf(double)
      */
     @Override
@@ -212,7 +213,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#mulAddMulSelf(double, double,
      * wblut.geom.WB_Coordinate)
      */
@@ -226,7 +227,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#mulSelf(double)
      */
     @Override
@@ -237,7 +238,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#scaleSelf(double)
      */
     @Override
@@ -248,7 +249,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#scale(double)
      */
     @Override
@@ -258,7 +259,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#scaleSelf(double, double, double)
      */
     @Override
@@ -269,7 +270,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#scale(double, double, double)
      */
     @Override
@@ -279,7 +280,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#subSelf(double, double, double)
      */
     @Override
@@ -290,7 +291,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#subSelf(wblut.geom.WB_Coordinate)
      */
     @Override
@@ -301,7 +302,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#trimSelf(double)
      */
     @Override
@@ -326,7 +327,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#add(wblut.geom.WB_Coordinate)
      */
     @Override
@@ -345,9 +346,15 @@ public class WB_Point extends WB_Vector {
 		this.zd() + (f * x[2]));
     }
 
+    public static WB_Point addMul(final WB_Coordinate p, final double f,
+	    final WB_Coordinate q) {
+	return new WB_Point(p.xd() + (f * q.xd()), p.yd() + (f * q.yd()),
+		p.zd() + (f * q.zd()));
+    }
+
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#addMul(double, wblut.geom.WB_Coordinate)
      */
     @Override
@@ -358,7 +365,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#apply(wblut.geom.WB_Transform)
      */
     @Override
@@ -369,7 +376,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#applySelf(wblut.geom.WB_Transform)
      */
     @Override
@@ -379,7 +386,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#applyAsNormal(wblut.geom.WB_Transform)
      */
     @Override
@@ -391,7 +398,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#applyAsPoint(wblut.geom.WB_Transform)
      */
     @Override
@@ -403,7 +410,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#applyAsVector(wblut.geom.WB_Transform)
      */
     @Override
@@ -415,7 +422,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#cross(wblut.geom.WB_Coordinate)
      */
     @Override
@@ -426,7 +433,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#div(double)
      */
     @Override
@@ -436,7 +443,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#equals(java.lang.Object)
      */
     @Override
@@ -465,7 +472,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#get()
      */
     @Override
@@ -475,7 +482,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#hashCode()
      */
     @Override
@@ -485,7 +492,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#mul(double)
      */
     @Override
@@ -495,7 +502,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#mulAddMul(double, double,
      * wblut.geom.WB_Coordinate)
      */
@@ -519,7 +526,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#sub(wblut.geom.WB_Coordinate)
      */
     @Override
@@ -528,9 +535,13 @@ public class WB_Point extends WB_Vector {
 		- p.zd());
     }
 
+    public static WB_Point sub(final WB_Coordinate p, final WB_Coordinate q) {
+	return new WB_Point(p.xd() - q.xd(), p.yd() - q.yd(), p.zd() - q.zd());
+    }
+
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#toString()
      */
     @Override
@@ -540,7 +551,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#getOrthoNormal2D()
      */
     @Override
@@ -552,7 +563,7 @@ public class WB_Point extends WB_Vector {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.geom.WB_Vector#getOrthoNormal3D()
      */
     @Override
@@ -746,5 +757,164 @@ public class WB_Point extends WB_Vector {
 	raa.addRotateAboutAxis(angle, p, a);
 	raa.applySelfAsPoint(this);
 	return this;
+    }
+
+    public static double absDot(final WB_Coordinate p, final WB_Coordinate q) {
+	return WB_Math.fastAbs(WB_CoordinateOp.dot(p.xd(), p.yd(), p.zd(),
+		q.xd(), q.yd(), q.zd()));
+    }
+
+    public static double absDot2D(final WB_Coordinate p, final WB_Coordinate q) {
+	return WB_Math.fastAbs(WB_CoordinateOp.dot2D(p.xd(), p.yd(), q.xd(),
+		q.yd()));
+    }
+
+    public static WB_Vector add(final WB_Coordinate p, final WB_Coordinate q) {
+	return new WB_Vector(q.xd() + p.xd(), q.yd() + p.yd(), q.zd() + p.zd());
+    }
+
+    public static WB_Point cross(final WB_Coordinate p, final WB_Coordinate q) {
+	return new WB_Point((p.yd() * q.zd()) - (p.zd() * q.yd()),
+		(p.zd() * q.xd()) - (p.xd() * q.zd()), (p.xd() * q.yd())
+			- (p.yd() * q.xd()));
+    }
+
+    public static WB_Point div(final WB_Coordinate p, final double f) {
+	return WB_Point.mul(p, 1.0 / f);
+    }
+
+    public static double dot(final WB_Coordinate p, final WB_Coordinate q) {
+	return WB_CoordinateOp.dot(p.xd(), p.yd(), p.zd(), q.xd(), q.yd(),
+		q.zd());
+    }
+
+    public static double dot2D(final WB_Coordinate p, final WB_Coordinate q) {
+	return WB_CoordinateOp.dot2D(p.xd(), p.yd(), q.xd(), q.yd());
+    }
+
+    public static double getDistance2D(final WB_Coordinate q,
+	    final WB_Coordinate p) {
+	return WB_CoordinateOp.getDistance2D(q.xd(), q.yd(), p.xd(), p.yd());
+    }
+
+    public static double getDistance3D(final WB_Coordinate q,
+	    final WB_Coordinate p) {
+	return WB_CoordinateOp.getDistance3D(q.xd(), q.yd(), q.zd(), p.xd(),
+		p.yd(), p.zd());
+    }
+
+    public static double getHeading2D(final WB_Coordinate p) {
+	return Math.atan2(p.yd(), p.xd());
+    }
+
+    public static double getLength2D(final WB_Coordinate p) {
+	return WB_CoordinateOp.getLength2D(p.xd(), p.yd());
+    }
+
+    public static double getLength3D(final WB_Coordinate p) {
+	return WB_CoordinateOp.getLength3D(p.xd(), p.yd(), p.zd());
+    }
+
+    public static WB_Point getOrthoNormal2D(final WB_Coordinate p) {
+	final WB_Point a = new WB_Point(-p.yd(), p.xd(), 0);
+	a.normalizeSelf();
+	return a;
+    }
+
+    public static WB_Point getOrthoNormal3D(final WB_Coordinate p) {
+	if (Math.abs(p.zd()) > WB_Epsilon.EPSILON) {
+	    final WB_Point a = new WB_Point(1, 0, -p.xd() / p.zd());
+	    a.normalizeSelf();
+	    return a;
+	} else {
+	    return new WB_Point(0, 0, 1);
+	}
+    }
+
+    public static double getSqDistance2D(final WB_Coordinate q,
+	    final WB_Coordinate p) {
+	return WB_CoordinateOp.getSqDistance2D(q.xd(), q.yd(), p.xd(), p.yd());
+    }
+
+    public static double getSqDistance3D(final WB_Coordinate q,
+	    final WB_Coordinate p) {
+	return WB_CoordinateOp.getSqDistance3D(q.xd(), q.yd(), q.zd(), p.xd(),
+		p.yd(), p.zd());
+    }
+
+    public static double getSqLength2D(final WB_Coordinate v) {
+	return WB_CoordinateOp.getSqLength2D(v.xd(), v.yd());
+    }
+
+    public static double getSqLength3D(final WB_Coordinate v) {
+	return WB_CoordinateOp.getSqLength3D(v.xd(), v.yd(), v.zd());
+    }
+
+    public static boolean isCollinear(final WB_Coordinate o,
+	    final WB_Coordinate p, final WB_Coordinate q) {
+	if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(p, q))) {
+	    return true;
+	}
+	if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(o, q))) {
+	    return true;
+	}
+	if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(o, p))) {
+	    return true;
+	}
+	return WB_Epsilon.isZeroSq(cross(sub(o, p), sub(o, q)).getSqLength3D());
+    }
+
+    public static boolean isParallel(final WB_Coordinate p,
+	    final WB_Coordinate q) {
+	final double pm2 = (p.xd() * p.xd()) + (p.yd() * p.yd())
+		+ (p.zd() * p.zd());
+	final double qm2 = (q.xd() * q.xd()) + (q.yd() * q.yd())
+		+ (q.zd() * q.zd());
+	return ((cross(p, q).getSqLength3D() / (pm2 * qm2)) < WB_Epsilon.SQEPSILON);
+    }
+
+    public static boolean isParallel(final WB_Coordinate p,
+	    final WB_Coordinate q, final double t) {
+	final double pm2 = (p.xd() * p.xd()) + (p.yd() * p.yd())
+		+ (p.zd() * p.zd());
+	final double qm2 = (q.xd() * q.xd()) + (q.yd() * q.yd())
+		+ (q.zd() * q.zd());
+	return ((cross(p, q).getSqLength3D() / (pm2 * qm2)) < (t + WB_Epsilon.SQEPSILON));
+    }
+
+    public static boolean isParallelNorm(final WB_Coordinate p,
+	    final WB_Coordinate q) {
+	return (cross(p, q).getLength3D() < WB_Epsilon.EPSILON);
+    }
+
+    public static boolean isParallelNorm(final WB_Coordinate p,
+	    final WB_Coordinate q, final double t) {
+	return (cross(p, q).getLength3D() < (t + WB_Epsilon.EPSILON));
+    }
+
+    public static WB_Point mul(final WB_Coordinate p, final double f) {
+	return new WB_Point(p.xd() * f, p.yd() * f, p.zd() * f);
+    }
+
+    public static WB_Point mulAddMul(final double f, final WB_Coordinate p,
+	    final double g, final WB_Coordinate q) {
+	return new WB_Point(f * p.xd() + (g * q.xd()), f * p.yd()
+		+ (g * q.yd()), f * p.zd() + (g * q.zd()));
+    }
+
+    public static double scalarTriple(final WB_Coordinate u,
+	    final WB_Coordinate v, final WB_Coordinate w) {
+	return WB_CoordinateOp.scalarTriple(u.xd(), u.yd(), u.zd(), v.xd(),
+		v.yd(), v.zd(), w.xd(), w.yd(), w.zd());
+    }
+
+    public static WB_Vector subToVector2D(final WB_Coordinate p,
+	    final WB_Coordinate q) {
+	return new WB_Vector(p.xd() - q.xd(), p.yd() - q.yd());
+    }
+
+    public static WB_Vector subToVector3D(final WB_Coordinate p,
+	    final WB_Coordinate q) {
+	return new WB_Vector(p.xd() - q.xd(), p.yd() - q.yd(), p.zd() - q.zd());
     }
 }

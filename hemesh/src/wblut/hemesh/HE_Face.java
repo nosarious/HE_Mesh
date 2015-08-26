@@ -92,7 +92,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
      *
      * @return
      */
-    public WB_Point getFaceCenter() {
+    public WB_Coordinate getFaceCenter() {
 	if (_halfedge == null) {
 	    return null;
 	}
@@ -105,7 +105,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 	    he = he.getNextInFace();
 	} while (he != _halfedge);
 	_center.divSelf(c);
-	return _center;
+	return new WB_Point(_center);
     }
 
     /**
@@ -455,7 +455,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
      */
     public WB_Plane getPlane(final double d) {
 	final WB_Vector fn = getFaceNormal();
-	return new WB_Plane(getFaceCenter().addMulSelf(d, fn), fn);
+	return new WB_Plane(new WB_Point(getFaceCenter()).addMulSelf(d, fn), fn);
     }
 
     /**

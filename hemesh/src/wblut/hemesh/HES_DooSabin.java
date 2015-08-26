@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -12,7 +12,7 @@ import wblut.geom.WB_Point;
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
 public class HES_DooSabin extends HES_Subdividor {
     /*
@@ -22,42 +22,36 @@ public class HES_DooSabin extends HES_Subdividor {
      * wblut.hemesh.subdividors.HES_Subdividor#subdivide(wblut.hemesh.HE_Mesh)
      */
     /**
-     * 
+     *
      */
     private double faceFactor;
-    
     /**
-     * 
+     *
      */
     private double edgeFactor;
-    
     /**
-     * 
+     *
      */
     private boolean absolute;
-    
     /**
-     * 
+     *
      */
     private double d;
-    
     /**
-     * 
+     *
      */
     public HE_Selection faceFaces;
-    
     /**
-     * 
+     *
      */
     public HE_Selection edgeFaces;
-    
     /**
-     * 
+     *
      */
     public HE_Selection vertexFaces;
 
     /**
-     * 
+     *
      */
     public HES_DooSabin() {
 	faceFactor = 1.0;
@@ -65,11 +59,11 @@ public class HES_DooSabin extends HES_Subdividor {
     }
 
     /**
-     * 
      *
-     * @param ff 
-     * @param ef 
-     * @return 
+     *
+     * @param ff
+     * @param ef
+     * @return
      */
     public HES_DooSabin setFactors(final double ff, final double ef) {
 	faceFactor = ff;
@@ -78,10 +72,10 @@ public class HES_DooSabin extends HES_Subdividor {
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
+     *
+     * @param b
+     * @return
      */
     public HES_DooSabin setAbsolute(final boolean b) {
 	absolute = b;
@@ -89,10 +83,10 @@ public class HES_DooSabin extends HES_Subdividor {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @return 
+     *
+     * @param d
+     * @return
      */
     public HES_DooSabin setDistance(final double d) {
 	this.d = d;
@@ -128,7 +122,7 @@ public class HES_DooSabin extends HES_Subdividor {
 	while (fItr.hasNext()) {
 	    f = fItr.next();
 	    he = f.getHalfedge();
-	    fc = f.getFaceCenter();
+	    fc = new WB_Point(f.getFaceCenter());
 	    do {
 		final WB_Point p = fc.mul(faceFactor);
 		p.addSelf(he.getVertex());

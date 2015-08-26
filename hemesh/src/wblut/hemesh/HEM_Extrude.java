@@ -10,6 +10,7 @@ import java.util.Map;
 import javolution.util.FastMap;
 import javolution.util.FastTable;
 import wblut.geom.WB_ClassificationConvex;
+import wblut.geom.WB_Coordinate;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_IntersectionResult;
@@ -51,13 +52,13 @@ public class HEM_Extrude extends HEM_Modifier {
     /** sin(fuseAngle). */
     private double sin2FA;
     /** Vertex normals. */
-    private Map<Long, WB_Vector> _faceNormals;
+    private Map<Long, WB_Coordinate> _faceNormals;
     /** Halfedge normals. */
-    private Map<Long, WB_Vector> _halfedgeNormals;
+    private Map<Long, WB_Coordinate> _halfedgeNormals;
     /** Extrusion widths. */
     private TLongDoubleMap _halfedgeEWs;
     /** Face centers. */
-    private Map<Long, WB_Point> _faceCenters;
+    private Map<Long, WB_Coordinate> _faceCenters;
     /**
      *
      */
@@ -247,7 +248,7 @@ public class HEM_Extrude extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -256,7 +257,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	mesh.resetFaceInternalLabels();
 	walls = new HE_Selection(mesh);
 	extruded = new HE_Selection(mesh);
-	_halfedgeNormals = new FastMap<Long, WB_Vector>();
+	_halfedgeNormals = new FastMap<Long, WB_Coordinate>();
 	_halfedgeEWs = new TLongDoubleHashMap(10, 0.5f, -1L, Double.NaN);
 	if ((chamfer == 0) && (d == null) && (heights == null)) {
 	    tracker.setDefaultStatus("Exiting HEM_Extrude.");
@@ -276,9 +277,9 @@ public class HEM_Extrude extends HEM_Modifier {
 	    do {
 		_halfedgeNormals.put(he.key(), he.getHalfedgeNormal());
 		_halfedgeEWs
-		.put(he.key(),
-			(he.getHalfedgeDihedralAngle() < thresholdAngle) ? hardEdgeChamfer
-				: chamfer);
+			.put(he.key(),
+				(he.getHalfedgeDihedralAngle() < thresholdAngle) ? hardEdgeChamfer
+					: chamfer);
 		he = he.getNextInFace();
 	    } while (he != f.getHalfedge());
 	    tracker.incrementCounter();
@@ -302,7 +303,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	if (peak) {
 	    applyPeaked(mesh, failedFaces);
 	}
-	WB_Vector n;
+	WB_Coordinate n;
 	if (!flat) {
 	    if (heights != null) {
 		if (heights.length == faces.size()) {
@@ -313,7 +314,7 @@ public class HEM_Extrude extends HEM_Modifier {
 			    he = f.getHalfedge();
 			    do {
 				he.getVertex().getPoint()
-				.addMulSelf(heights[i], n);
+					.addMulSelf(heights[i], n);
 				he = he.getNextInFace();
 			    } while (he != f.getHalfedge());
 			}
@@ -331,10 +332,10 @@ public class HEM_Extrude extends HEM_Modifier {
 			do {
 			    final HE_Vertex v = he.getVertex();
 			    he.getVertex()
-			    .getPoint()
-			    .addMulSelf(
-				    d.evaluate(v.xd(), v.yd(), v.zd()),
-				    n);
+				    .getPoint()
+				    .addMulSelf(
+					    d.evaluate(v.xd(), v.yd(), v.zd()),
+					    n);
 			    he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		    }
@@ -347,7 +348,7 @@ public class HEM_Extrude extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -360,7 +361,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	    tracker.setDefaultStatus("Exiting HEM_Extrude.");
 	    return selection.parent;
 	}
-	_halfedgeNormals = new FastMap<Long, WB_Vector>();
+	_halfedgeNormals = new FastMap<Long, WB_Coordinate>();
 	_halfedgeEWs = new TLongDoubleHashMap(10, 0.5f, -1L, Double.NaN);
 	if ((chamfer == 0) && flat && (heights == null)) {
 	    return selection.parent;
@@ -379,9 +380,9 @@ public class HEM_Extrude extends HEM_Modifier {
 	    do {
 		_halfedgeNormals.put(he.key(), he.getHalfedgeNormal());
 		_halfedgeEWs
-		.put(he.key(),
-			(he.getHalfedgeDihedralAngle() < thresholdAngle) ? hardEdgeChamfer
-				: chamfer);
+			.put(he.key(),
+				(he.getHalfedgeDihedralAngle() < thresholdAngle) ? hardEdgeChamfer
+					: chamfer);
 		he = he.getNextInFace();
 	    } while (he != f.getHalfedge());
 	    tracker.incrementCounter();
@@ -404,7 +405,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	if (peak) {
 	    applyPeaked(selection.parent, failedFaces);
 	}
-	WB_Vector n;
+	WB_Coordinate n;
 	if (!flat) {
 	    if (heights != null) {
 		if (heights.length == selFaces.size()) {
@@ -451,7 +452,7 @@ public class HEM_Extrude extends HEM_Modifier {
     private HE_Mesh applyStraight(final HE_Mesh mesh, final List<HE_Face> faces) {
 	final int nf = faces.size();
 	final boolean[] visited = new boolean[nf];
-	WB_Point fc;
+	WB_Coordinate fc;
 	tracker.setDefaultStatus("Creating straight extrusions.", nf);
 	if (heights != null) {
 	    if (heights.length == faces.size()) {
@@ -495,7 +496,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	    return false;
 	}
 	final HE_Face f = selfaces.get(id);
-	final WB_Vector n = _faceNormals.get(f.key());
+	final WB_Coordinate n = _faceNormals.get(f.key());
 	final List<HE_Face> neighborhood = new FastTable<HE_Face>();
 	neighborhood.add(f);
 	f.setInternalLabel(1);
@@ -511,7 +512,7 @@ public class HEM_Extrude extends HEM_Modifier {
 		    final HE_Face fj = faces.get(j);
 		    if ((_faceNormals.get(fi.key()) != null)
 			    && (_faceNormals.get(fj.key()) != null)) {
-			if (_faceNormals.get(fi.key()).isParallel(
+			if (WB_Vector.isParallel(_faceNormals.get(fi.key()),
 				_faceNormals.get(fj.key()))) {
 			    final int ij = selfaces.indexOf(fj);
 			    if (ij >= 0) {
@@ -648,7 +649,7 @@ public class HEM_Extrude extends HEM_Modifier {
     private HE_Mesh applyPeaked(final HE_Mesh mesh, final List<HE_Face> faces) {
 	final int nf = faces.size();
 	HE_Face f;
-	WB_Point fc;
+	WB_Coordinate fc;
 	tracker.setDefaultStatus("Creating peaked extrusions.", nf);
 	for (int i = 0; i < nf; i++) {
 	    f = faces.get(i);
@@ -689,8 +690,8 @@ public class HEM_Extrude extends HEM_Modifier {
     private void applyPeakToOneFace(final int id, final List<HE_Face> selFaces,
 	    final HE_Mesh mesh, final double d) {
 	final HE_Face f = selFaces.get(id);
-	final WB_Vector n = _faceNormals.get(f.key());
-	final WB_Point fc = _faceCenters.get(f.key());
+	final WB_Vector n = new WB_Vector(_faceNormals.get(f.key()));
+	final WB_Point fc = new WB_Point(_faceCenters.get(f.key()));
 	walls.add(f);
 	f.setInternalLabel(4);
 	final HE_Face[] newFaces = HEM_TriSplit.splitFaceTri(mesh, f,
@@ -720,7 +721,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	final List<HE_Halfedge> originalEdges = sel.getEdgesAsList();
 	final int nf = faces.size();
 	tracker.setDefaultStatus("Creating flat extrusions.", nf);
-	WB_Point fc;
+	WB_Coordinate fc;
 	if (heights != null) {
 	    if (heights.length == faces.size()) {
 		for (int i = 0; i < nf; i++) {
@@ -783,11 +784,11 @@ public class HEM_Extrude extends HEM_Modifier {
     private boolean applyFlatToOneFace(final int id,
 	    final List<HE_Face> selFaces, final HE_Mesh mesh) {
 	final HE_Face f = selFaces.get(id);
-	final WB_Point fc = _faceCenters.get(f.key());
+	final WB_Coordinate fc = _faceCenters.get(f.key());
 	final List<HE_Vertex> faceVertices = new FastTable<HE_Vertex>();
 	final List<HE_Halfedge> faceHalfedges = new FastTable<HE_Halfedge>();
-	final List<WB_Vector> faceHalfedgeNormals = new FastTable<WB_Vector>();
-	final List<WB_Point> faceEdgeCenters = new FastTable<WB_Point>();
+	final List<WB_Coordinate> faceHalfedgeNormals = new FastTable<WB_Coordinate>();
+	final List<WB_Coordinate> faceEdgeCenters = new FastTable<WB_Coordinate>();
 	final List<HE_Vertex> extFaceVertices = new FastTable<HE_Vertex>();
 	HE_Halfedge he = f.getHalfedge();
 	do {
@@ -804,7 +805,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	    double ch;
 	    for (int i = 0; i < n; i++) {
 		final HE_Vertex v = faceVertices.get(i);
-		final WB_Point diff = fc.sub(v);
+		final WB_Point diff = new WB_Point(fc).subSelf(v);
 		he = faceHalfedges.get(i);
 		ch = Math.max(_halfedgeEWs.get(he.key()),
 			_halfedgeEWs.get(he.getPrevInFace().key()));
@@ -844,8 +845,8 @@ public class HEM_Extrude extends HEM_Modifier {
 		WB_Point v1 = new WB_Point(faceVertices.get(n - 1));
 		WB_Point v2 = new WB_Point(faceVertices.get(0));
 		for (int i = 0, j = n - 1; i < n; j = i, i++) {
-		    final WB_Vector n1 = faceHalfedgeNormals.get(j);
-		    final WB_Vector n2 = faceHalfedgeNormals.get(i);
+		    final WB_Coordinate n1 = faceHalfedgeNormals.get(j);
+		    final WB_Coordinate n2 = faceHalfedgeNormals.get(i);
 		    final WB_Point v3 = faceVertices.get((i + 1) % n)
 			    .getPoint();
 		    final WB_Segment S1 = new WB_Segment(v1.addMul(d[j], n1),
@@ -854,7 +855,7 @@ public class HEM_Extrude extends HEM_Modifier {
 			    v3.addMul(d[i], n2));
 		    final WB_IntersectionResult ir = WB_GeometryOp
 			    .getIntersection3D(S1, S2);
-		    final WB_Point p = (ir.dimension == 0) ? (WB_Point) ir.object
+		    final WB_Coordinate p = (ir.dimension == 0) ? (WB_Point) ir.object
 			    : ((WB_Segment) ir.object).getCenter();
 		    extFaceVertices.get(i).set(p);
 		    v1 = v2;

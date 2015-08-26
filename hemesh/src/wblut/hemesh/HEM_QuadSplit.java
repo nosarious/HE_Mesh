@@ -40,7 +40,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -56,7 +56,8 @@ public class HEM_QuadSplit extends HEM_Modifier {
 	final Iterator<HE_Face> fItr = mesh.fItr();
 	while (fItr.hasNext()) {
 	    f = fItr.next();
-	    faceCenters[i] = f.getFaceCenter().addMul(d, f.getFaceNormal());
+	    faceCenters[i] = WB_Point.addMul(f.getFaceCenter(), d,
+		    f.getFaceNormal());
 	    faceOrders[i] = f.getFaceOrder();
 	    i++;
 	    tracker.incrementCounter();
@@ -149,7 +150,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
      */
     @Override
@@ -165,7 +166,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 	tracker.setDefaultStatus("Getting face centers.", n);
 	while (fItr.hasNext()) {
 	    face = fItr.next();
-	    faceCenters[i] = face.getFaceCenter().addMul(d,
+	    faceCenters[i] = WB_Point.addMul(face.getFaceCenter(), d,
 		    face.getFaceNormal());
 	    faceOrders[i] = face.getFaceOrder();
 	    i++;

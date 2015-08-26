@@ -1,48 +1,44 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 import wblut.math.WB_Math;
 
 /**
- * 
+ *
  */
 public class WB_IndexedSegment extends WB_Segment {
-    
     /**
-     * 
+     *
      */
     private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
-    
     /**
-     * 
+     *
      */
     private int i1;
-    
     /**
-     * 
+     *
      */
     private int i2;
-    
     /**
-     * 
+     *
      */
     private final double length;
-    
     /**
-     * 
+     *
      */
-    private final WB_Point[] points;
+    private final WB_Coordinate[] points;
 
     /**
-     * 
      *
-     * @param i1 
-     * @param i2 
-     * @param points 
+     *
+     * @param i1
+     * @param i2
+     * @param points
      */
-    public WB_IndexedSegment(final int i1, final int i2, final WB_Point[] points) {
+    public WB_IndexedSegment(final int i1, final int i2,
+	    final WB_Coordinate[] points) {
 	super(points[i1], new WB_Vector(points[i1], points[i2]));
 	this.i1 = i1;
 	this.i2 = i2;
@@ -50,7 +46,9 @@ public class WB_IndexedSegment extends WB_Segment {
 	length = WB_GeometryOp.getDistance3D(points[i1], points[i2]);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Segment#getParametricPointOnSegment(double)
      */
     @Override
@@ -61,17 +59,22 @@ public class WB_IndexedSegment extends WB_Segment {
 	return result;
     }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Segment#getParametricPointOnSegmentInto(double, wblut.geom.WB_MutableCoordinate)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see wblut.geom.WB_Segment#getParametricPointOnSegmentInto(double,
+     * wblut.geom.WB_MutableCoordinate)
      */
     @Override
     public void getParametricPointOnSegmentInto(final double t,
 	    final WB_MutableCoordinate result) {
-	result.set(direction.mul(WB_Math.clamp(t, 0, 1) * length).addSelf(
-		points[i1]));
+	result.set(new WB_Point(direction).mulSelf(
+		WB_Math.clamp(t, 0, 1) * length).addSelf(points[i1]));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Segment#getCenter()
      */
     @Override
@@ -79,23 +82,29 @@ public class WB_IndexedSegment extends WB_Segment {
 	return gf.createMidpoint(points[i1], points[i2]);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Segment#getEndpoint()
      */
     @Override
-    public WB_Point getEndpoint() {
+    public WB_Coordinate getEndpoint() {
 	return points[i2];
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Linear#getOrigin()
      */
     @Override
-    public WB_Point getOrigin() {
+    public WB_Coordinate getOrigin() {
 	return points[i1];
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Segment#getLength()
      */
     @Override
@@ -104,33 +113,35 @@ public class WB_IndexedSegment extends WB_Segment {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int i1() {
 	return i1;
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int i2() {
 	return i2;
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
-    public WB_Point[] points() {
+    public WB_Coordinate[] points() {
 	return points;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Segment#negate()
      */
     @Override
@@ -138,23 +149,27 @@ public class WB_IndexedSegment extends WB_Segment {
 	return new WB_IndexedSegment(i2, i1, points);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Segment#reverse()
      */
     @Override
     public void reverse() {
-	direction.mulSelf(-1);
+	direction = new WB_Vector(direction).mulSelf(-1);
 	origin = points[i2];
 	final int tmp = i2;
 	i2 = i1;
 	i1 = tmp;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Segment#getPoint(int)
      */
     @Override
-    public WB_Point getPoint(final int i) {
+    public WB_Coordinate getPoint(final int i) {
 	if (i == 0) {
 	    return getOrigin();
 	}
@@ -164,7 +179,9 @@ public class WB_IndexedSegment extends WB_Segment {
 	return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Segment#getType()
      */
     @Override
@@ -172,12 +189,14 @@ public class WB_IndexedSegment extends WB_Segment {
 	return WB_GeometryType.SEGMENT;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Segment#apply(wblut.geom.WB_Transform)
      */
     @Override
     public WB_Geometry apply(final WB_Transform T) {
-	return geometryfactory.createSegment(getOrigin().applyAsPoint(T),
-		getEndpoint().applyAsPoint(T));
+	return geometryfactory.createSegment(new WB_Point(getOrigin())
+		.applyAsPoint(T), new WB_Point(getEndpoint()).applyAsPoint(T));
     }
 }

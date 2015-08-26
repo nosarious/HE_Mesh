@@ -53,7 +53,9 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
     public WB_Ray(final WB_Coordinate o, final WB_Coordinate d) {
 	origin = new WB_Point(o);
 	direction = new WB_Vector(d);
-	direction.normalizeSelf();
+	final WB_Vector dn = new WB_Vector(d);
+	dn.normalizeSelf();
+	direction = dn;
     }
 
     /**
@@ -69,8 +71,9 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
     public WB_Ray(final double ox, final double oy, final double oz,
 	    final double dx, final double dy, final double dz) {
 	origin = new WB_Point(ox, oy, oz);
-	direction = new WB_Vector(dx, dy, dz);
-	direction.normalizeSelf();
+	final WB_Vector dn = new WB_Vector(dx, dy, dz);
+	dn.normalizeSelf();
+	direction = dn;
     }
 
     /*
@@ -92,8 +95,9 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
     @Override
     public void set(final WB_Coordinate o, final WB_Coordinate d) {
 	origin = new WB_Point(o);
-	direction = new WB_Vector(d);
-	direction.normalizeSelf();
+	final WB_Vector dn = new WB_Vector(d);
+	dn.normalizeSelf();
+	direction = dn;
     }
 
     /**
@@ -104,8 +108,9 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
      */
     public void setFromPoints(final WB_Coordinate p1, final WB_Coordinate p2) {
 	origin = new WB_Point(p1);
-	direction = new WB_Vector(p1, p2);
-	direction.normalizeSelf();
+	final WB_Vector dn = new WB_Vector(p1, p2);
+	dn.normalizeSelf();
+	direction = dn;
     }
 
     /*
@@ -141,7 +146,7 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
      * @see wblut.geom.WB_Linear#getOrigin()
      */
     @Override
-    public WB_Point getOrigin() {
+    public WB_Coordinate getOrigin() {
 	return origin;
     }
 
@@ -151,7 +156,7 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
      * @see wblut.geom.WB_Linear#getDirection()
      */
     @Override
-    public WB_Vector getDirection() {
+    public WB_Coordinate getDirection() {
 	return direction;
     }
 

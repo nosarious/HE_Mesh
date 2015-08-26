@@ -57,7 +57,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      *
      */
-    private WB_Point center;
+    private WB_Coordinate center;
     /**
      *
      */
@@ -348,10 +348,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      * Return all vertex positions.
      *
-     * @return array of WB_Point, values are copied.
+     * @return array of WB_Coordinate, values are copied.
      */
-    public WB_Point[] getVerticesAsNewPoint() {
-	final WB_Point[] result = new WB_Point[getNumberOfVertices()];
+    public WB_Coordinate[] getVerticesAsNewPoint() {
+	final WB_Coordinate[] result = new WB_Coordinate[getNumberOfVertices()];
 	int i = 0;
 	HE_Vertex v;
 	final Iterator<HE_Vertex> vItr = vItr();
@@ -366,10 +366,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      * Return all vertex positions.
      *
-     * @return array of WB_Cooridnate, no copies are made.
+     * @return array of WB_Coordinate, no copies are made.
      */
-    public WB_Point[] getVerticesAsPoint() {
-	final WB_Point[] result = new WB_Point[getNumberOfVertices()];
+    public WB_Coordinate[] getVerticesAsPoint() {
+	final WB_Coordinate[] result = new WB_Coordinate[getNumberOfVertices()];
 	int i = 0;
 	HE_Vertex v;
 	final Iterator<HE_Vertex> vItr = vItr();
@@ -384,10 +384,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      * Return all vertex normal.
      *
-     * @return array of WB_Vector.
+     * @return array of WB_Coordinate.
      */
-    public WB_Vector[] getVertexNormals() {
-	final WB_Vector[] result = new WB_Vector[getNumberOfVertices()];
+    public WB_Coordinate[] getVertexNormals() {
+	final WB_Coordinate[] result = new WB_Coordinate[getNumberOfVertices()];
 	int i = 0;
 	HE_Vertex v;
 	final Iterator<HE_Vertex> vItr = vItr();
@@ -402,10 +402,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      * Return all vertex normal.
      *
-     * @return FastMap of WB_Vector.
+     * @return FastMap of WB_Coordinate.
      */
-    public Map<Long, WB_Vector> getKeyedVertexNormals() {
-	final Map<Long, WB_Vector> result = new FastMap<Long, WB_Vector>();
+    public Map<Long, WB_Coordinate> getKeyedVertexNormals() {
+	final Map<Long, WB_Coordinate> result = new FastMap<Long, WB_Coordinate>();
 	HE_Vertex v;
 	final Iterator<HE_Vertex> vItr = vItr();
 	while (vItr.hasNext()) {
@@ -453,10 +453,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      * Return all face normals.
      *
-     * @return array of WB_Vector.
+     * @return array of WB_Coordinate.
      */
-    public WB_Vector[] getFaceNormals() {
-	final WB_Vector[] result = new WB_Vector[getNumberOfFaces()];
+    public WB_Coordinate[] getFaceNormals() {
+	final WB_Coordinate[] result = new WB_Coordinate[getNumberOfFaces()];
 	int i = 0;
 	HE_Face f;
 	final Iterator<HE_Face> fItr = fItr();
@@ -471,10 +471,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      * Return all face normals.
      *
-     * @return FastMap of WB_Vector.
+     * @return FastMap of WB_Coordinate.
      */
-    public Map<Long, WB_Vector> getKeyedFaceNormals() {
-	final Map<Long, WB_Vector> result = new FastMap<Long, WB_Vector>();
+    public Map<Long, WB_Coordinate> getKeyedFaceNormals() {
+	final Map<Long, WB_Coordinate> result = new FastMap<Long, WB_Coordinate>();
 	HE_Face f;
 	final Iterator<HE_Face> fItr = fItr();
 	while (fItr.hasNext()) {
@@ -487,10 +487,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      * Return all face centers.
      *
-     * @return array of WB_Point.
+     * @return array of WB_Coordinate.
      */
-    public WB_Point[] getFaceCenters() {
-	final WB_Point[] result = new WB_Point[getNumberOfFaces()];
+    public WB_Coordinate[] getFaceCenters() {
+	final WB_Coordinate[] result = new WB_Coordinate[getNumberOfFaces()];
 	int i = 0;
 	HE_Face f;
 	final Iterator<HE_Face> fItr = fItr();
@@ -505,10 +505,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      * Return all face centers.
      *
-     * @return FastMap of WB_Point.
+     * @return FastMap of WB_Coordinate.
      */
-    public Map<Long, WB_Point> getKeyedFaceCenters() {
-	final Map<Long, WB_Point> result = new FastMap<Long, WB_Point>();
+    public Map<Long, WB_Coordinate> getKeyedFaceCenters() {
+	final Map<Long, WB_Coordinate> result = new FastMap<Long, WB_Coordinate>();
 	HE_Face f;
 	final Iterator<HE_Face> fItr = fItr();
 	while (fItr.hasNext()) {
@@ -521,10 +521,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      * Return all edge normals.
      *
-     * @return array of WB_Vector.
+     * @return array of WB_Coordinate.
      */
-    public WB_Vector[] getEdgeNormals() {
-	final WB_Vector[] result = new WB_Vector[getNumberOfEdges()];
+    public WB_Coordinate[] getEdgeNormals() {
+	final WB_Coordinate[] result = new WB_Coordinate[getNumberOfEdges()];
 	int i = 0;
 	HE_Halfedge e;
 	final Iterator<HE_Halfedge> eItr = eItr();
@@ -539,10 +539,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      * Return all edge normals.
      *
-     * @return FastMap of WB_Vector.
+     * @return FastMap of WB_Coordinate.
      */
-    public Map<Long, WB_Vector> getKeyedEdgeNormals() {
-	final Map<Long, WB_Vector> result = new FastMap<Long, WB_Vector>();
+    public Map<Long, WB_Coordinate> getKeyedEdgeNormals() {
+	final Map<Long, WB_Coordinate> result = new FastMap<Long, WB_Coordinate>();
 	HE_Halfedge e;
 	final Iterator<HE_Halfedge> eItr = eItr();
 	while (eItr.hasNext()) {
@@ -555,10 +555,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      * Return all edge centers.
      *
-     * @return array of WB_Point.
+     * @return array of WB_Coordinate.
      */
-    public WB_Point[] getEdgeCenters() {
-	final WB_Point[] result = new WB_Point[getNumberOfEdges()];
+    public WB_Coordinate[] getEdgeCenters() {
+	final WB_Coordinate[] result = new WB_Coordinate[getNumberOfEdges()];
 	int i = 0;
 	HE_Halfedge e;
 	final Iterator<HE_Halfedge> eItr = eItr();
@@ -573,10 +573,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
     /**
      * Return all edge centers.
      *
-     * @return FastMap of WB_Point.
+     * @return FastMap of WB_Coordinate.
      */
-    public Map<Long, WB_Point> getKeyedEdgeCenters() {
-	final Map<Long, WB_Point> result = new FastMap<Long, WB_Point>();
+    public Map<Long, WB_Coordinate> getKeyedEdgeCenters() {
+	final Map<Long, WB_Coordinate> result = new FastMap<Long, WB_Coordinate>();
 	HE_Halfedge e;
 	final Iterator<HE_Halfedge> eItr = eItr();
 	while (eItr.hasNext()) {
@@ -605,33 +605,38 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      */
     public void setVerticesFromFloat(final float[][] values) {
 	int i = 0;
-	center.set(0, 0, 0);
+	final WB_Point c = new WB_Point();
 	HE_Vertex v;
 	final Iterator<HE_Vertex> vItr = vItr();
 	while (vItr.hasNext()) {
 	    v = vItr.next();
 	    v.set(values[i][0], values[i][1], values[i][2]);
+	    c.addSelf(v);
 	    i++;
 	}
+	c.divSelf(i);
+	center = c;
     }
 
     /**
      * Set vertex positions to values in array.
      *
      * @param values
-     *            array of WB_Point.
+     *            array of WB_Coordinate.
      */
-    public void setVerticesFromPoint(final WB_Point[] values) {
+    public void setVerticesFromPoint(final WB_Coordinate[] values) {
 	int i = 0;
-	center.set(0, 0, 0);
+	final WB_Point c = new WB_Point();
 	HE_Vertex v;
 	final Iterator<HE_Vertex> vItr = vItr();
 	while (vItr.hasNext()) {
 	    v = vItr.next();
 	    v.set(values[i]);
+	    c.addSelf(v);
 	    i++;
 	}
-	;
+	c.divSelf(i);
+	center = c;
     }
 
     /**
@@ -643,14 +648,17 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      */
     public void setVerticesFromDouble(final double[][] values) {
 	int i = 0;
+	final WB_Point c = new WB_Point();
 	HE_Vertex v;
 	final Iterator<HE_Vertex> vItr = vItr();
 	while (vItr.hasNext()) {
 	    v = vItr.next();
 	    v.set(values[i][0], values[i][1], values[i][2]);
+	    c.addSelf(v);
 	    i++;
 	}
-	;
+	c.divSelf(i);
+	center = c;
     }
 
     /**
@@ -662,14 +670,17 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      */
     public void setVerticesFromInt(final int[][] values) {
 	int i = 0;
+	final WB_Point c = new WB_Point();
 	HE_Vertex v;
 	final Iterator<HE_Vertex> vItr = vItr();
 	while (vItr.hasNext()) {
 	    v = vItr.next();
 	    v.set(values[i][0], values[i][1], values[i][2]);
+	    c.addSelf(v);
 	    i++;
 	}
-	;
+	c.divSelf(i);
+	center = c;
     }
 
     /**
@@ -753,7 +764,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      */
     public WB_IndexedSegment[] getIndexedSegments() {
 	final WB_IndexedSegment[] result = new WB_IndexedSegment[getNumberOfEdges()];
-	final WB_Point[] points = getVerticesAsPoint();
+	final WB_Coordinate[] points = getVerticesAsPoint();
 	final TLongIntMap map = new TLongIntHashMap(10, 0.5f, -1L, -1);
 	map.putAll(vertexKeyToIndex());
 	final Iterator<HE_Halfedge> eItr = eItr();
@@ -815,7 +826,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      * @return self
      */
     public HE_Mesh move(final double x, final double y, final double z) {
-	center.addSelf(x, y, z);
+	center = new WB_Point(center).addSelf(x, y, z);
 	final Iterator<HE_Vertex> vItr = vItr();
 	while (vItr.hasNext()) {
 	    vItr.next().getPoint().addSelf(x, y, z);
@@ -854,7 +865,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	    vItr.next().getPoint()
 	    .addSelf(x - center.xd(), y - center.yd(), z - center.zd());
 	}
-	center.set(x, y, z);
+	center = new WB_Point(x, y, z);
 	return this;
     }
 
@@ -903,7 +914,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	    v = vItr.next();
 	    raa.applySelfAsPoint(v);
 	}
-	raa.applySelfAsPoint(center);
+	center = raa.applyAsPoint(center);
 	return this;
     }
 
@@ -931,7 +942,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	    v = vItr.next();
 	    raa.applySelfAsPoint(v);
 	}
-	raa.applySelfAsPoint(center);
+	center = raa.applyAsPoint(center);
 	return this;
     }
 
@@ -959,7 +970,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	    v = vItr.next();
 	    raa.applySelfAsPoint(v);
 	}
-	raa.applySelfAsPoint(center);
+	center = raa.applyAsPoint(center);
 	return this;
     }
 
@@ -978,7 +989,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	    v = vItr.next();
 	    raa.applySelfAsPoint(v);
 	}
-	raa.applySelfAsPoint(center);
+	center = raa.applyAsPoint(center);
 	return this;
     }
 
@@ -996,7 +1007,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      * @return self
      */
     public HE_Mesh scale(final double scaleFactorx, final double scaleFactory,
-	    final double scaleFactorz, final WB_Point c) {
+	    final double scaleFactorz, final WB_Coordinate c) {
 	if (!isCenterUpdated) {
 	    getCenter();
 	}
@@ -1008,9 +1019,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		    + (scaleFactory * (v.yd() - c.yd())), c.zd()
 		    + (scaleFactorz * (v.zd() - c.zd())));
 	}
-	center.set(c.xd() + (scaleFactorx * (-c.xd() + center.xd())), c.yd()
-		+ (scaleFactory * (-c.yd() + center.yd())), c.zd()
-		+ (scaleFactorz * (-c.zd() + center.zd())));
+	center = new WB_Point(
+		c.xd() + (scaleFactorx * (-c.xd() + center.xd())), c.yd()
+			+ (scaleFactory * (-c.yd() + center.yd())), c.zd()
+			+ (scaleFactorz * (-c.zd() + center.zd())));
 	;
 	return this;
     }
@@ -1024,7 +1036,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      *            center
      * @return self
      */
-    public HE_Mesh scale(final double scaleFactor, final WB_Point c) {
+    public HE_Mesh scale(final double scaleFactor, final WB_Coordinate c) {
 	return scale(scaleFactor, scaleFactor, scaleFactor, c);
     }
 
@@ -1073,7 +1085,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      * @return the center
      */
     @Override
-    public WB_Point getCenter() {
+    public WB_Coordinate getCenter() {
 	if (isCenterUpdated) {
 	    return center;
 	} else {
@@ -1087,12 +1099,13 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      *
      */
     public void resetCenter() {
-	center.set(0, 0, 0);
+	final WB_Point c = new WB_Point(0, 0, 0);
 	final Iterator<HE_Vertex> vItr = vItr();
 	while (vItr.hasNext()) {
-	    center.addSelf(vItr.next());
+	    c.addSelf(vItr.next());
 	}
-	center.divSelf(getNumberOfVertices());
+	c.divSelf(getNumberOfVertices());
+	center = c;
 	isCenterUpdated = true;
     }
 
@@ -2046,7 +2059,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      *            position of new vertex
      * @return selection of new vertex and new edge
      */
-    public HE_Selection splitEdge(final Long key, final WB_Point v) {
+    public HE_Selection splitEdge(final Long key, final WB_Coordinate v) {
 	final HE_Halfedge edge = getHalfedgeWithKey(key);
 	return splitEdge(edge, v);
     }
@@ -2610,7 +2623,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      *            position of new vertex
      */
     public void expandVertexToEdge(final HE_Vertex v, final HE_Face f1,
-	    final HE_Face f2, final WB_Point vn) {
+	    final HE_Face f2, final WB_Coordinate vn) {
 	if (f1 == f2) {
 	    return;
 	}
@@ -2715,7 +2728,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      *            the f
      * @return true/false
      */
-    public static boolean pointIsInFace(final WB_Point p, final HE_Face f) {
+    public static boolean pointIsInFace(final WB_Coordinate p, final HE_Face f) {
 	return isZero(WB_GeometryOp.getDistanceToClosestPoint3D(p,
 		f.toPolygon()));
     }
@@ -2880,9 +2893,9 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      * @param v
      * @return
      */
-    public HE_Selection selectFacesWithNormal(final WB_Vector v) {
+    public HE_Selection selectFacesWithNormal(final WB_Coordinate v) {
 	final HE_Selection _selection = new HE_Selection(this);
-	final WB_Vector w = v.get();
+	final WB_Vector w = new WB_Vector(v);
 	w.normalizeSelf();
 	HE_Face f;
 	final Iterator<HE_Face> fItr = fItr();
@@ -3497,8 +3510,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      *
      * @return WB_KDTree
      */
-    public WB_KDTree<WB_Point, Long> getFaceTree() {
-	final WB_KDTree<WB_Point, Long> tree = new WB_KDTree<WB_Point, Long>();
+    public WB_KDTree<WB_Coordinate, Long> getFaceTree() {
+	final WB_KDTree<WB_Coordinate, Long> tree = new WB_KDTree<WB_Coordinate, Long>();
 	HE_Face f;
 	final Iterator<HE_Face> fItr = fItr();
 	while (fItr.hasNext()) {
@@ -3533,9 +3546,9 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      *            KD-tree from mesh (from vertexTree())
      * @return HE_Vertex closest vertex
      */
-    public HE_Vertex getClosestVertex(final WB_Point p,
-	    final WB_KDTree<WB_Point, Long> vertexTree) {
-	final WB_KDEntry<WB_Point, Long>[] closestVertex = vertexTree
+    public HE_Vertex getClosestVertex(final WB_Coordinate p,
+	    final WB_KDTree<WB_Coordinate, Long> vertexTree) {
+	final WB_KDEntry<WB_Coordinate, Long>[] closestVertex = vertexTree
 		.getNearestNeighbors(p, 1);
 	if (closestVertex.length == 0) {
 	    return null;
@@ -3550,11 +3563,11 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      *            query point
      * @param vertexTree
      *            KD-tree from mesh (from vertexTree())
-     * @return WB_Point closest point
+     * @return WB_Coordinate closest point
      */
-    public WB_Point getClosestPoint(final WB_Point p,
-	    final WB_KDTree<WB_Point, Long> vertexTree) {
-	final WB_KDEntry<WB_Point, Long>[] closestVertex = vertexTree
+    public WB_Coordinate getClosestPoint(final WB_Coordinate p,
+	    final WB_KDTree<WB_Coordinate, Long> vertexTree) {
+	final WB_KDEntry<WB_Coordinate, Long>[] closestVertex = vertexTree
 		.getNearestNeighbors(p, 1);
 	final HE_Vertex v = getVertexWithKey(closestVertex[0].value);
 	if (v == null) {
@@ -3563,10 +3576,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	final List<HE_Face> faces = v.getFaceStar();
 	double d;
 	double dmin = Double.POSITIVE_INFINITY;
-	WB_Point result = new WB_Point();
+	WB_Coordinate result = new WB_Point();
 	for (int i = 0; i < faces.size(); i++) {
 	    final WB_Polygon poly = faces.get(i).toPolygon();
-	    final WB_Point tmp = WB_GeometryOp.getClosestPoint3D(p, poly);
+	    final WB_Coordinate tmp = WB_GeometryOp.getClosestPoint3D(p, poly);
 	    d = WB_GeometryOp.getSqDistance3D(tmp, p);
 	    if (d < dmin) {
 		dmin = d;
@@ -3584,7 +3597,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      * @param vertexTree
      *            KD-tree from mesh (from vertexTree())
      */
-    public void addPointInClosestFace(final WB_Point p,
+    public void addPointInClosestFace(final WB_Coordinate p,
 	    final WB_KDTree<WB_Coordinate, Long> vertexTree) {
 	final WB_KDEntry<WB_Coordinate, Long>[] closestVertex = vertexTree
 		.getNearestNeighbors(p, 1);
@@ -3595,7 +3608,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	HE_Face face = new HE_Face();
 	for (int i = 0; i < faces.size(); i++) {
 	    final WB_Polygon poly = faces.get(i).toPolygon();
-	    final WB_Point tmp = WB_GeometryOp.getClosestPoint3D(p, poly);
+	    final WB_Coordinate tmp = WB_GeometryOp.getClosestPoint3D(p, poly);
 	    d = WB_GeometryOp.getSqDistance3D(tmp, p);
 	    if (d < dmin) {
 		dmin = d;
@@ -3921,7 +3934,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      * @see wblut.geom.WB_Mesh#getFaceNormal(int)
      */
     @Override
-    public WB_Vector getFaceNormal(final int id) {
+    public WB_Coordinate getFaceNormal(final int id) {
 	return getFaceWithIndex(id).getFaceNormal();
     }
 
@@ -3931,7 +3944,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      * @see wblut.geom.WB_Mesh#getFaceCenter(int)
      */
     @Override
-    public WB_Point getFaceCenter(final int id) {
+    public WB_Coordinate getFaceCenter(final int id) {
 	return getFaceWithIndex(id).getFaceCenter();
     }
 
@@ -3941,7 +3954,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
      * @see wblut.geom.WB_Mesh#getVertexNormal(int)
      */
     @Override
-    public WB_Vector getVertexNormal(final int i) {
+    public WB_Coordinate getVertexNormal(final int i) {
 	return getVertexWithIndex(i).getVertexNormal();
     }
 

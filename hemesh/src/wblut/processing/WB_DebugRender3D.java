@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.processing;
 
@@ -19,44 +19,42 @@ import wblut.hemesh.HE_MeshStructure;
 import wblut.hemesh.HE_Vertex;
 
 /**
- * 
+ *
  */
 public class WB_DebugRender3D {
-    
     /**
-     * 
+     *
      */
     private final PGraphics home;
-    
     /**
-     * 
+     *
      */
     public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory
 	    .instance();
 
     /**
-     * 
      *
-     * @param home 
+     *
+     * @param home
      */
     public WB_DebugRender3D(final PApplet home) {
 	this.home = home.g;
     }
 
     /**
-     * 
      *
-     * @param home 
+     *
+     * @param home
      */
     public WB_DebugRender3D(final PGraphics home) {
 	this.home = home;
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @param mesh 
+     *
+     * @param d
+     * @param mesh
      */
     public void drawBadVertices(final double d, final HE_MeshStructure mesh) {
 	HE_Vertex v;
@@ -73,9 +71,9 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param mesh 
+     *
+     * @param mesh
      */
     public void drawBoundaryEdges(final HE_MeshStructure mesh) {
 	HE_Halfedge he;
@@ -86,15 +84,15 @@ public class WB_DebugRender3D {
 		home.line(he.getVertex().xf(), he.getVertex().yf(), he
 			.getVertex().zf(), he.getNextInFace().getVertex().xf(),
 			he.getNextInFace().getVertex().yf(), he.getNextInFace()
-				.getVertex().zf());
+			.getVertex().zf());
 	    }
 	}
     }
 
     /**
-     * 
      *
-     * @param mesh 
+     *
+     * @param mesh
      */
     public void drawBoundaryHalfedges(final HE_MeshStructure mesh) {
 	HE_Halfedge he;
@@ -107,33 +105,33 @@ public class WB_DebugRender3D {
 		home.line(he.getVertex().xf(), he.getVertex().yf(), he
 			.getVertex().zf(), he.getNextInFace().getVertex().xf(),
 			he.getNextInFace().getVertex().yf(), he.getNextInFace()
-				.getVertex().zf());
+			.getVertex().zf());
 	    }
 	}
 	home.popStyle();
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @param d 
+     *
+     * @param f
+     * @param d
      */
     public void drawFaceNormal(final HE_Face f, final double d) {
-	final WB_Point p1 = f.getFaceCenter();
+	final WB_Coordinate p1 = f.getFaceCenter();
 	final WB_Point p2 = new WB_Point(f.getFaceNormal().mul(d)).addSelf(p1);
 	home.line(p1.xf(), p1.yf(), p1.zf(), p2.xf(), p2.yf(), p2.zf());
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @param mesh 
+     *
+     * @param d
+     * @param mesh
      */
     public void drawFaceNormals(final double d, final HE_MeshStructure mesh) {
 	final Iterator<HE_Face> fItr = mesh.fItr();
-	WB_Point fc;
+	WB_Coordinate fc;
 	WB_Vector fn;
 	HE_Face f;
 	while (fItr.hasNext()) {
@@ -148,9 +146,9 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param mesh 
+     *
+     * @param mesh
      */
     public void drawFaceTypes(final HE_MeshStructure mesh) {
 	final Iterator<HE_Face> fItr = mesh.fItr();
@@ -169,11 +167,11 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param he 
-     * @param d 
-     * @param s 
+     *
+     * @param he
+     * @param d
+     * @param s
      */
     public void drawHalfedge(final HE_Halfedge he, final double d,
 	    final double s) {
@@ -196,12 +194,12 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param he 
-     * @param d 
-     * @param s 
-     * @param f 
+     *
+     * @param he
+     * @param d
+     * @param s
+     * @param f
      */
     public void drawHalfedge(final HE_Halfedge he, final double d,
 	    final double s, final double f) {
@@ -225,12 +223,12 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param key 
-     * @param d 
-     * @param s 
-     * @param mesh 
+     *
+     * @param key
+     * @param d
+     * @param s
+     * @param mesh
      */
     public void drawHalfedge(final Long key, final double d, final double s,
 	    final HE_MeshStructure mesh) {
@@ -239,11 +237,11 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @param f 
-     * @param mesh 
+     *
+     * @param d
+     * @param f
+     * @param mesh
      */
     public void drawHalfedges(final double d, final double f,
 	    final HE_MeshStructure mesh) {
@@ -292,10 +290,10 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @param mesh 
+     *
+     * @param d
+     * @param mesh
      */
     public void drawHalfedges(final double d, final HE_MeshStructure mesh) {
 	WB_Point c;
@@ -341,11 +339,11 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param he 
-     * @param d 
-     * @param s 
+     *
+     * @param he
+     * @param d
+     * @param s
      */
     public void drawHalfedgeSimple(final HE_Halfedge he, final double d,
 	    final double s) {
@@ -360,10 +358,10 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param d 
-     * @param mesh 
+     *
+     * @param d
+     * @param mesh
      */
     public void drawVertexNormals(final double d, final HE_MeshStructure mesh) {
 	final Iterator<HE_Vertex> vItr = mesh.vItr();
@@ -377,11 +375,11 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param v 
-     * @param d 
+     *
+     * @param p
+     * @param v
+     * @param d
      */
     private void draw(final WB_Coordinate p, final WB_Vector v, final double d) {
 	home.line(p.xf(), p.yf(), p.zf(), p.xf() + ((float) d * v.xf()), p.yf()
@@ -389,9 +387,9 @@ public class WB_DebugRender3D {
     }
 
     /**
-     * 
      *
-     * @param f 
+     *
+     * @param f
      */
     private void drawFace(final HE_Face f) {
 	if (f.getFaceOrder() > 2) {

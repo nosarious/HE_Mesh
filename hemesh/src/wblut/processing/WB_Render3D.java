@@ -2690,7 +2690,7 @@ public class WB_Render3D {
 	unproject.captureViewMatrix(home);
 	unproject.calculatePickPoints(x, y, home.height);
 	WB_Ray ray = new WB_Ray(unproject.ptStartPos, unproject.ptEndPos);
-	final WB_Point o = ray.getOrigin();
+	final WB_Coordinate o = ray.getOrigin();
 	WB_Point e = ray.getPointOnLine(1000);
 	double error = WB_CoordinateOp.getSqDistance2D(x, y,
 		home.screenX(e.xf(), e.yf(), e.zf()),
@@ -2950,7 +2950,7 @@ public class WB_Render3D {
      * @param d
      */
     public void drawFaceNormal(final HE_Face f, final double d) {
-	final WB_Point p1 = f.getFaceCenter();
+	final WB_Coordinate p1 = f.getFaceCenter();
 	final WB_Point p2 = new WB_Point(f.getFaceNormal().mul(d)).addSelf(p1);
 	home.line(p1.xf(), p1.yf(), p1.zf(), p2.xf(), p2.yf(), p2.zf());
     }
@@ -2963,7 +2963,7 @@ public class WB_Render3D {
      */
     public void drawFaceNormals(final double d, final HE_MeshStructure mesh) {
 	final Iterator<HE_Face> fItr = mesh.fItr();
-	WB_Point fc;
+	WB_Coordinate fc;
 	WB_Vector fn;
 	HE_Face f;
 	while (fItr.hasNext()) {

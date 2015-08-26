@@ -20,6 +20,7 @@ import wblut.geom.WB_Point;
 public class HEC_Dual extends HEC_Creator {
     /** Source mesh. */
     private HE_Mesh source;
+    private boolean fixNonPlanarFaces;
 
     /**
      * Instantiates a new HEC_Dual.
@@ -40,6 +41,7 @@ public class HEC_Dual extends HEC_Creator {
     public HEC_Dual(final HE_Mesh mesh) {
 	this();
 	source = mesh;
+	fixNonPlanarFaces = true;
     }
 
     /**
@@ -51,6 +53,11 @@ public class HEC_Dual extends HEC_Creator {
      */
     public HEC_Dual setSource(final HE_Mesh mesh) {
 	source = mesh;
+	return this;
+    }
+
+    public HEC_Dual setFixNonPlanarFaces(final boolean b) {
+	fixNonPlanarFaces = b;
 	return this;
     }
 
@@ -112,7 +119,7 @@ public class HEC_Dual extends HEC_Creator {
 	final List<HE_Face> faces = result.getFaces();
 	final int fs = faces.size();
 	for (int i = 0; i < fs; i++) {
-	    if (!faces.get(i).isPlanar()) {
+	    if (!faces.get(i).isPlanar() && fixNonPlanarFaces) {
 		HEM_TriSplit.splitFaceTri(result, faces.get(i), centers.get(i));
 	    }
 	}

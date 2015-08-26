@@ -1,21 +1,20 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 /**
- * 
+ *
  */
 public class WB_NurbsSurfaceOfRevolution {
-    
     /**
-     * 
      *
-     * @param C 
-     * @param p 
-     * @param axis 
-     * @param theta 
-     * @return 
+     *
+     * @param C
+     * @param p
+     * @param axis
+     * @param theta
+     * @return
      */
     public static WB_RBSplineSurface getSurfaceOfRevolution(final WB_BSpline C,
 	    final WB_Coordinate p, final WB_Coordinate axis, double theta) {
@@ -55,7 +54,8 @@ public class WB_NurbsSurfaceOfRevolution {
 	    U[7] = 0.75;
 	    U[8] = U[7];
 	}
-	final WB_Point[][] points = new WB_Point[1 + (2 * narcs)][C.n() + 1];
+	final WB_Coordinate[][] points = new WB_Coordinate[1 + (2 * narcs)][C
+	                                                                    .n() + 1];
 	final double[][] weights = new double[1 + (2 * narcs)][C.n() + 1];
 	final double dtheta = ((theta / narcs) * Math.PI) / 180;
 	int i = 0;
@@ -97,7 +97,7 @@ public class WB_NurbsSurfaceOfRevolution {
 		final WB_Line L2 = new WB_Line(P2, T2);
 		final WB_IntersectionResult is = WB_GeometryOp
 			.getClosestPoint3D(L1, L2);
-		final WB_Point p1 = (is.dimension == 0) ? (WB_Point) is.object
+		final WB_Coordinate p1 = (is.dimension == 0) ? (WB_Point) is.object
 			: ((WB_Segment) is.object).getOrigin();
 		points[index + 1][j] = p1;
 		weights[index + 1][j] = wm;
@@ -113,13 +113,13 @@ public class WB_NurbsSurfaceOfRevolution {
     }
 
     /**
-     * 
      *
-     * @param C 
-     * @param p 
-     * @param axis 
-     * @param theta 
-     * @return 
+     *
+     * @param C
+     * @param p
+     * @param axis
+     * @param theta
+     * @return
      */
     public static WB_RBSplineSurface getSurfaceOfRevolution(
 	    final WB_RBSpline C, final WB_Coordinate p,
@@ -160,7 +160,8 @@ public class WB_NurbsSurfaceOfRevolution {
 	    U[7] = 0.75;
 	    U[8] = U[7];
 	}
-	final WB_Point[][] points = new WB_Point[1 + (2 * narcs)][C.n() + 1];
+	final WB_Coordinate[][] points = new WB_Coordinate[1 + (2 * narcs)][C
+		.n() + 1];
 	final double[][] weights = new double[1 + (2 * narcs)][C.n() + 1];
 	final double dtheta = ((theta / narcs) * Math.PI) / 180;
 	int i = 0;
@@ -202,7 +203,7 @@ public class WB_NurbsSurfaceOfRevolution {
 		final WB_Line L2 = new WB_Line(P2, T2);
 		final WB_IntersectionResult is = WB_GeometryOp
 			.getClosestPoint3D(L1, L2);
-		final WB_Point p1 = (is.dimension == 0) ? (WB_Point) is.object
+		final WB_Coordinate p1 = (is.dimension == 0) ? (WB_Point) is.object
 			: ((WB_Segment) is.object).getOrigin();
 		points[index + 1][j] = p1;
 		weights[index + 1][j] = wm * C.wpoints()[j].w;

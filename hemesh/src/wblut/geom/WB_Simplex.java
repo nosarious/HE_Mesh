@@ -1,25 +1,24 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 /**
- * 
+ *
  */
 public interface WB_Simplex extends WB_Geometry {
-    
     /**
-     * 
      *
-     * @param i 
-     * @return 
+     *
+     * @param i
+     * @return
      */
-    public WB_Point getPoint(int i);
+    public WB_Coordinate getPoint(int i);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
-    public WB_Point getCenter();
+    public WB_Coordinate getCenter();
 }

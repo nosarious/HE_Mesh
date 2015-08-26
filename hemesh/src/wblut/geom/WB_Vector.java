@@ -363,6 +363,11 @@ WB_MutableCoordinateFull {
 		p.yd(), p.zd()));
     }
 
+    public static double absDot(final WB_Coordinate p, final WB_Coordinate q) {
+	return WB_Math.fastAbs(WB_CoordinateOp.dot(p.xd(), p.yd(), p.zd(),
+		q.xd(), q.yd(), q.zd()));
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -372,6 +377,11 @@ WB_MutableCoordinateFull {
     public double absDot2D(final WB_Coordinate p) {
 	return WB_Math
 		.fastAbs(WB_CoordinateOp.dot2D(xd(), yd(), p.xd(), p.yd()));
+    }
+
+    public static double absDot2D(final WB_Coordinate p, final WB_Coordinate q) {
+	return WB_Math.fastAbs(WB_CoordinateOp.dot2D(p.xd(), p.yd(), q.xd(),
+		q.yd()));
     }
 
     /*
@@ -404,6 +414,10 @@ WB_MutableCoordinateFull {
     @Override
     public WB_Vector add(final WB_Coordinate p) {
 	return new WB_Vector(xd() + p.xd(), yd() + p.yd(), zd() + p.zd());
+    }
+
+    public static WB_Vector add(final WB_Coordinate p, final WB_Coordinate q) {
+	return new WB_Vector(q.xd() + p.xd(), q.yd() + p.yd(), q.zd() + p.zd());
     }
 
     /*
@@ -451,6 +465,12 @@ WB_MutableCoordinateFull {
     public WB_Vector addMul(final double f, final WB_Coordinate p) {
 	return new WB_Vector(xd() + (f * p.xd()), yd() + (f * p.yd()), zd()
 		+ (f * p.zd()));
+    }
+
+    public static WB_Vector addMul(final WB_Coordinate p, final double f,
+	    final WB_Coordinate q) {
+	return new WB_Vector(p.xd() + (f * q.xd()), p.yd() + (f * q.yd()),
+		p.zd() + (f * q.zd()));
     }
 
     /*
@@ -716,6 +736,12 @@ WB_MutableCoordinateFull {
 		- (xd() * p.zd()), (xd() * p.yd()) - (yd() * p.xd()));
     }
 
+    public static WB_Vector cross(final WB_Coordinate p, final WB_Coordinate q) {
+	return new WB_Vector((p.yd() * q.zd()) - (p.zd() * q.yd()),
+		(p.zd() * q.xd()) - (p.xd() * q.zd()), (p.xd() * q.yd())
+		- (p.yd() * q.xd()));
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -739,6 +765,10 @@ WB_MutableCoordinateFull {
 	return mul(1.0 / f);
     }
 
+    public static WB_Vector div(final WB_Coordinate p, final double f) {
+	return WB_Vector.mul(p, 1.0 / f);
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -760,6 +790,11 @@ WB_MutableCoordinateFull {
 	return WB_CoordinateOp.dot(xd(), yd(), zd(), p.xd(), p.yd(), p.zd());
     }
 
+    public static double dot(final WB_Coordinate p, final WB_Coordinate q) {
+	return WB_CoordinateOp.dot(p.xd(), p.yd(), p.zd(), q.xd(), q.yd(),
+		q.zd());
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -768,6 +803,10 @@ WB_MutableCoordinateFull {
     @Override
     public double dot2D(final WB_Coordinate p) {
 	return WB_CoordinateOp.dot2D(xd(), yd(), p.xd(), p.yd());
+    }
+
+    public static double dot2D(final WB_Coordinate p, final WB_Coordinate q) {
+	return WB_CoordinateOp.dot2D(p.xd(), p.yd(), q.xd(), q.yd());
     }
 
     /*
@@ -819,6 +858,11 @@ WB_MutableCoordinateFull {
 		p.zd());
     }
 
+    public double getAngle(final WB_Coordinate q, final WB_Coordinate p) {
+	return WB_CoordinateOp.angleBetween(q.xd(), q.yd(), q.zd(), p.xd(),
+		p.yd(), p.zd());
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -828,6 +872,11 @@ WB_MutableCoordinateFull {
     @Override
     public double getAngleNorm(final WB_Coordinate p) {
 	return WB_CoordinateOp.angleBetweenNorm(xd(), yd(), zd(), p.xd(),
+		p.yd(), p.zd());
+    }
+
+    public double getAngleNorù(final WB_Coordinate q, final WB_Coordinate p) {
+	return WB_CoordinateOp.angleBetweenNorm(q.xd(), q.yd(), q.zd(), p.xd(),
 		p.yd(), p.zd());
     }
 
@@ -843,6 +892,12 @@ WB_MutableCoordinateFull {
 		p.zd());
     }
 
+    public static double getDistance3D(final WB_Coordinate q,
+	    final WB_Coordinate p) {
+	return WB_CoordinateOp.getDistance3D(q.xd(), q.yd(), q.zd(), p.xd(),
+		p.yd(), p.zd());
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -852,6 +907,11 @@ WB_MutableCoordinateFull {
     @Override
     public double getDistance2D(final WB_Coordinate p) {
 	return WB_CoordinateOp.getDistance2D(xd(), yd(), p.xd(), p.yd());
+    }
+
+    public static double getDistance2D(final WB_Coordinate q,
+	    final WB_Coordinate p) {
+	return WB_CoordinateOp.getDistance2D(q.xd(), q.yd(), p.xd(), p.yd());
     }
 
     /*
@@ -864,6 +924,10 @@ WB_MutableCoordinateFull {
 	return WB_CoordinateOp.getLength3D(xd(), yd(), zd());
     }
 
+    public static double getLength3D(final WB_Coordinate p) {
+	return WB_CoordinateOp.getLength3D(p.xd(), p.yd(), p.zd());
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -872,6 +936,10 @@ WB_MutableCoordinateFull {
     @Override
     public double getLength2D() {
 	return WB_CoordinateOp.getLength2D(xd(), yd());
+    }
+
+    public static double getLength2D(final WB_Coordinate p) {
+	return WB_CoordinateOp.getLength2D(p.xd(), p.yd());
     }
 
     /*
@@ -886,6 +954,12 @@ WB_MutableCoordinateFull {
 		p.yd(), p.zd());
     }
 
+    public static double getSqDistance3D(final WB_Coordinate q,
+	    final WB_Coordinate p) {
+	return WB_CoordinateOp.getSqDistance3D(q.xd(), q.yd(), q.zd(), p.xd(),
+		p.yd(), p.zd());
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -895,6 +969,11 @@ WB_MutableCoordinateFull {
     @Override
     public double getSqDistance2D(final WB_Coordinate p) {
 	return WB_CoordinateOp.getSqDistance2D(xd(), yd(), p.xd(), p.yd());
+    }
+
+    public static double getSqDistance2D(final WB_Coordinate q,
+	    final WB_Coordinate p) {
+	return WB_CoordinateOp.getSqDistance2D(q.xd(), q.yd(), p.xd(), p.yd());
     }
 
     /*
@@ -907,6 +986,10 @@ WB_MutableCoordinateFull {
 	return WB_CoordinateOp.getSqLength3D(xd(), yd(), zd());
     }
 
+    public static double getSqLength3D(final WB_Coordinate v) {
+	return WB_CoordinateOp.getSqLength3D(v.xd(), v.yd(), v.zd());
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -915,6 +998,10 @@ WB_MutableCoordinateFull {
     @Override
     public double getSqLength2D() {
 	return WB_CoordinateOp.getSqLength2D(xd(), yd());
+    }
+
+    public static double getSqLength2D(final WB_Coordinate v) {
+	return WB_CoordinateOp.getSqLength2D(v.xd(), v.yd());
     }
 
     /*
@@ -951,6 +1038,10 @@ WB_MutableCoordinateFull {
 	return Math.atan2(yd(), xd());
     }
 
+    public static double getHeading2D(final WB_Coordinate p) {
+	return Math.atan2(p.yd(), p.xd());
+    }
+
     /**
      *
      *
@@ -971,6 +1062,20 @@ WB_MutableCoordinateFull {
 	return WB_Epsilon.isZeroSq(sub(p).cross(sub(q)).getSqLength3D());
     }
 
+    public static boolean isCollinear(final WB_Coordinate o,
+	    final WB_Coordinate p, final WB_Coordinate q) {
+	if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(p, q))) {
+	    return true;
+	}
+	if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(o, q))) {
+	    return true;
+	}
+	if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(o, p))) {
+	    return true;
+	}
+	return WB_Epsilon.isZeroSq(cross(sub(o, p), sub(o, q)).getSqLength3D());
+    }
+
     /**
      *
      *
@@ -981,6 +1086,15 @@ WB_MutableCoordinateFull {
 	final double pm2 = (p.xd() * p.xd()) + (p.yd() * p.yd())
 		+ (p.zd() * p.zd());
 	return ((cross(p).getSqLength3D() / (pm2 * getSqLength3D())) < WB_Epsilon.SQEPSILON);
+    }
+
+    public static boolean isParallel(final WB_Coordinate p,
+	    final WB_Coordinate q) {
+	final double pm2 = (p.xd() * p.xd()) + (p.yd() * p.yd())
+		+ (p.zd() * p.zd());
+	final double qm2 = (q.xd() * q.xd()) + (q.yd() * q.yd())
+		+ (q.zd() * q.zd());
+	return ((cross(p, q).getSqLength3D() / (pm2 * qm2)) < WB_Epsilon.SQEPSILON);
     }
 
     /**
@@ -996,6 +1110,15 @@ WB_MutableCoordinateFull {
 	return ((cross(p).getSqLength3D() / (pm2 * getSqLength3D())) < (t + WB_Epsilon.SQEPSILON));
     }
 
+    public static boolean isParallel(final WB_Coordinate p,
+	    final WB_Coordinate q, final double t) {
+	final double pm2 = (p.xd() * p.xd()) + (p.yd() * p.yd())
+		+ (p.zd() * p.zd());
+	final double qm2 = (q.xd() * q.xd()) + (q.yd() * q.yd())
+		+ (q.zd() * q.zd());
+	return ((cross(p, q).getSqLength3D() / (pm2 * qm2)) < (t + WB_Epsilon.SQEPSILON));
+    }
+
     /**
      *
      *
@@ -1004,6 +1127,11 @@ WB_MutableCoordinateFull {
      */
     public boolean isParallelNorm(final WB_Coordinate p) {
 	return (cross(p).getLength3D() < WB_Epsilon.EPSILON);
+    }
+
+    public static boolean isParallelNorm(final WB_Coordinate p,
+	    final WB_Coordinate q) {
+	return (cross(p, q).getLength3D() < WB_Epsilon.EPSILON);
     }
 
     /**
@@ -1015,6 +1143,11 @@ WB_MutableCoordinateFull {
      */
     public boolean isParallelNorm(final WB_Coordinate p, final double t) {
 	return (cross(p).getLength3D() < (t + WB_Epsilon.EPSILON));
+    }
+
+    public static boolean isParallelNorm(final WB_Coordinate p,
+	    final WB_Coordinate q, final double t) {
+	return (cross(p, q).getLength3D() < (t + WB_Epsilon.EPSILON));
     }
 
     /*
@@ -1035,6 +1168,10 @@ WB_MutableCoordinateFull {
     @Override
     public WB_Vector mul(final double f) {
 	return new WB_Vector(xd() * f, yd() * f, zd() * f);
+    }
+
+    public static WB_Vector mul(final WB_Coordinate p, final double f) {
+	return new WB_Vector(p.xd() * f, p.yd() * f, p.zd() * f);
     }
 
     /*
@@ -1059,6 +1196,12 @@ WB_MutableCoordinateFull {
 	    final WB_Coordinate p) {
 	return new WB_Vector((f * xd()) + (g * p.xd()), (f * yd())
 		+ (g * p.yd()), (f * zd()) + (g * p.zd()));
+    }
+
+    public static WB_Vector mulAddMul(final double f, final WB_Coordinate p,
+	    final double g, final WB_Coordinate q) {
+	return new WB_Vector(f * p.xd() + (g * q.xd()), f * p.yd()
+		+ (g * q.yd()), f * p.zd() + (g * q.zd()));
     }
 
     /*
@@ -1222,10 +1365,18 @@ WB_MutableCoordinateFull {
 		v.zd(), w.xd(), w.yd(), w.zd());
     }
 
+    public static double scalarTriple(final WB_Coordinate u,
+	    final WB_Coordinate v, final WB_Coordinate w) {
+	return WB_CoordinateOp.scalarTriple(u.xd(), u.yd(), u.zd(), v.xd(),
+		v.yd(), v.zd(), w.xd(), w.yd(), w.zd());
+    }
+
+    @Override
     public void scaleInto(final WB_MutableCoordinate result, final double f) {
 	result.set(xd() * f, yd() * f, zd() * f);
     }
 
+    @Override
     public void scaleInto(final WB_MutableCoordinate result, final double fx,
 	    final double fy, final double fz) {
 	result.set(xd() * fx, yd() * fy, zd() * fz);
@@ -1272,6 +1423,10 @@ WB_MutableCoordinateFull {
 		- p.zd());
     }
 
+    public static WB_Vector sub(final WB_Coordinate p, final WB_Coordinate q) {
+	return new WB_Vector(p.xd() - q.xd(), p.yd() - q.yd(), p.zd() - q.zd());
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -1292,6 +1447,11 @@ WB_MutableCoordinateFull {
     public WB_M33 tensor(final WB_Coordinate v) {
 	return new WB_M33(WB_CoordinateOp.tensor3D(xd(), yd(), zd(), v.xd(),
 		v.yd(), v.zd()));
+    }
+
+    public WB_M33 tensor(final WB_Coordinate u, final WB_Coordinate v) {
+	return new WB_M33(WB_CoordinateOp.tensor3D(u.xd(), u.yd(), u.zd(),
+		v.xd(), v.yd(), v.zd()));
     }
 
     /*
@@ -1316,6 +1476,12 @@ WB_MutableCoordinateFull {
 	return a;
     }
 
+    public static WB_Vector getOrthoNormal2D(final WB_Coordinate p) {
+	final WB_Vector a = new WB_Vector(-p.yd(), p.xd(), 0);
+	a.normalizeSelf();
+	return a;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -1325,6 +1491,16 @@ WB_MutableCoordinateFull {
     public WB_Vector getOrthoNormal3D() {
 	if (Math.abs(zd()) > WB_Epsilon.EPSILON) {
 	    final WB_Vector a = new WB_Vector(1, 0, -xd() / zd());
+	    a.normalizeSelf();
+	    return a;
+	} else {
+	    return new WB_Vector(0, 0, 1);
+	}
+    }
+
+    public static WB_Vector getOrthoNormal3D(final WB_Coordinate p) {
+	if (Math.abs(p.zd()) > WB_Epsilon.EPSILON) {
+	    final WB_Vector a = new WB_Vector(1, 0, -p.xd() / p.zd());
 	    a.normalizeSelf();
 	    return a;
 	} else {
@@ -1344,5 +1520,15 @@ WB_MutableCoordinateFull {
 	    final double f, final double g, final double... x) {
 	result.set(f * this.xd() + (g * x[0]), f * this.yd() + (g * x[1]), f
 		* this.zd() + (g * x[2]));
+    }
+
+    public static WB_Vector subToVector3D(final WB_Coordinate p,
+	    final WB_Coordinate q) {
+	return new WB_Vector(p.xd() - q.xd(), p.yd() - q.yd(), p.zd() - q.zd());
+    }
+
+    public static WB_Vector subToVector2D(final WB_Coordinate p,
+	    final WB_Coordinate q) {
+	return new WB_Vector(p.xd() - q.xd(), p.yd() - q.yd());
     }
 }

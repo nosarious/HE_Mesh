@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
@@ -8,68 +8,67 @@ import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
 
 /**
- * 
+ *
  */
 public class WB_Line extends WB_Linear implements WB_Curve {
-    
     /**
-     * 
+     *
      */
     private static final WB_GeometryFactory gf = WB_GeometryFactory.instance();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public static final WB_Line X() {
 	return new WB_Line(0, 0, 0, 1, 0, 0);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public static final WB_Line Y() {
 	return new WB_Line(0, 0, 0, 0, 1, 0);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public static final WB_Line Z() {
 	return new WB_Line(0, 0, 0, 0, 0, 1);
     }
 
     /**
-     * 
+     *
      */
     public WB_Line() {
 	super();
     }
 
     /**
-     * 
      *
-     * @param o 
-     * @param d 
+     *
+     * @param o
+     * @param d
      */
     public WB_Line(final WB_Coordinate o, final WB_Coordinate d) {
 	super(o, d);
     }
 
     /**
-     * 
      *
-     * @param ox 
-     * @param oy 
-     * @param oz 
-     * @param dx 
-     * @param dy 
-     * @param dz 
+     *
+     * @param ox
+     * @param oy
+     * @param oz
+     * @param dx
+     * @param dy
+     * @param dz
      */
     public WB_Line(final double ox, final double oy, final double oz,
 	    final double dx, final double dy, final double dz) {
@@ -106,7 +105,9 @@ public class WB_Line extends WB_Linear implements WB_Curve {
 	return (origin.xd() * direction.yd()) - (origin.yd() * direction.xd());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
@@ -115,24 +116,24 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param p1 
-     * @param p2 
+     *
+     * @param p1
+     * @param p2
      */
     public void setFromPoints(final WB_Coordinate p1, final WB_Coordinate p2) {
 	super.set(p1, p2);
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public double getT(final WB_Coordinate p) {
 	double t = Double.NaN;
-	final WB_Point proj = WB_GeometryOp.getClosestPoint2D(p, this);
+	final WB_Coordinate proj = WB_GeometryOp.getClosestPoint2D(p, this);
 	final double x = WB_Math.fastAbs(direction.xd());
 	final double y = WB_Math.fastAbs(direction.yd());
 	if (x >= y) {
@@ -144,10 +145,10 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public WB_ClassificationGeometry classifyPointToLine2D(final WB_Coordinate p) {
 	final double dist = ((-direction.yd() * p.xd())
@@ -163,11 +164,11 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param L 
-     * @return 
+     *
+     * @param p
+     * @param L
+     * @return
      */
     public static WB_ClassificationGeometry classifyPointToLine2D(
 	    final WB_Coordinate p, final WB_Line L) {
@@ -182,10 +183,10 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param seg 
-     * @return 
+     *
+     * @param seg
+     * @return
      */
     public WB_ClassificationGeometry classifySegmentToLine2D(
 	    final WB_Segment seg) {
@@ -224,10 +225,10 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param P 
-     * @return 
+     *
+     * @param P
+     * @return
      */
     public WB_ClassificationGeometry classifyPolygonToLine2D(final WB_Polygon P) {
 	int numFront = 0;
@@ -252,11 +253,11 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param C 
-     * @param p 
-     * @return 
+     *
+     * @param C
+     * @param p
+     * @return
      */
     public static WB_Line getLineTangentToCircleAtPoint(final WB_Circle C,
 	    final WB_Coordinate p) {
@@ -265,11 +266,11 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param C 
-     * @param p 
-     * @return 
+     *
+     * @param C
+     * @param p
+     * @return
      */
     public static ArrayList<WB_Line> getLinesTangentToCircleThroughPoint(
 	    final WB_Circle C, final WB_Coordinate p) {
@@ -300,11 +301,11 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param C0 
-     * @param C1 
-     * @return 
+     *
+     * @param C0
+     * @param C1
+     * @return
      */
     public static ArrayList<WB_Line> getLinesTangentTo2Circles(
 	    final WB_Circle C0, final WB_Circle C1) {
@@ -371,11 +372,11 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param w 
-     * @param a 
-     * @return 
+     *
+     * @param w
+     * @param a
+     * @return
      */
     private static WB_Point[] getDirections(final WB_Coordinate w,
 	    final double a) {
@@ -410,11 +411,11 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param L 
-     * @param p 
-     * @return 
+     *
+     * @param L
+     * @param p
+     * @return
      */
     public static WB_Line getPerpendicularLineThroughPoint(final WB_Line L,
 	    final WB_Coordinate p) {
@@ -423,11 +424,11 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param L 
-     * @param p 
-     * @return 
+     *
+     * @param L
+     * @param p
+     * @return
      */
     public static WB_Line getParallelLineThroughPoint(final WB_Line L,
 	    final WB_Coordinate p) {
@@ -435,11 +436,11 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param q 
-     * @return 
+     *
+     * @param p
+     * @param q
+     * @return
      */
     public static WB_Line getBisector(final WB_Coordinate p,
 	    final WB_Coordinate q) {
@@ -448,11 +449,11 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param L 
-     * @param d 
-     * @return 
+     *
+     * @param L
+     * @param d
+     * @return
      */
     public static WB_Line[] getParallelLines(final WB_Line L, final double d) {
 	final WB_Line[] result = new WB_Line[2];
@@ -466,11 +467,11 @@ public class WB_Line extends WB_Linear implements WB_Curve {
     }
 
     /**
-     * 
      *
-     * @param L 
-     * @param C 
-     * @return 
+     *
+     * @param L
+     * @param C
+     * @return
      */
     public static WB_Line[] getPerpendicularLinesTangentToCircle(
 	    final WB_Line L, final WB_Circle C) {
@@ -478,15 +479,17 @@ public class WB_Line extends WB_Linear implements WB_Curve {
 	result[0] = new WB_Line(new WB_Point(C.getCenter().xd()
 		+ (C.getRadius() * L.getDirection().xd()), C.getCenter().yd()
 		+ (C.getRadius() * L.getDirection().yd())), new WB_Point(-L
-		.getDirection().yd(), L.getDirection().xd()));
+			.getDirection().yd(), L.getDirection().xd()));
 	result[1] = new WB_Line(new WB_Point(C.getCenter().xd()
 		- (C.getRadius() * L.getDirection().xd()), C.getCenter().yd()
 		- (C.getRadius() * L.getDirection().yd())), new WB_Point(-L
-		.getDirection().yd(), L.getDirection().xd()));
+			.getDirection().yd(), L.getDirection().xd()));
 	return result;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Curve#curvePoint(double)
      */
     @Override
@@ -494,7 +497,9 @@ public class WB_Line extends WB_Linear implements WB_Curve {
 	return this.getPointOnLine(u);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Curve#loweru()
      */
     @Override
@@ -502,7 +507,9 @@ public class WB_Line extends WB_Linear implements WB_Curve {
 	return Double.NEGATIVE_INFINITY;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Curve#upperu()
      */
     @Override

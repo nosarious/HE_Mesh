@@ -1,27 +1,25 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
 public abstract class WB_Linear {
-    
     /**
-     * 
+     *
      */
-    protected WB_Point origin;
-    
+    protected WB_Coordinate origin;
     /**
-     * 
+     *
      */
-    protected WB_Vector direction;
+    protected WB_Coordinate direction;
 
     /**
-     * 
+     *
      */
     public WB_Linear() {
 	origin = new WB_Point();
@@ -29,34 +27,36 @@ public abstract class WB_Linear {
     }
 
     /**
-     * 
      *
-     * @param o 
-     * @param d 
+     *
+     * @param o
+     * @param d
      */
     public WB_Linear(final WB_Coordinate o, final WB_Coordinate d) {
 	origin = new WB_Point(o);
-	direction = new WB_Vector(d);
-	direction.normalizeSelf();
+	final WB_Vector dn = new WB_Vector(d);
+	dn.normalizeSelf();
+	direction = dn;
     }
 
     /**
-     * 
      *
-     * @param o 
-     * @param d 
+     *
+     * @param o
+     * @param d
      */
     protected void set(final WB_Coordinate o, final WB_Coordinate d) {
-	origin.set(o);
-	direction.set(d);
-	direction.normalizeSelf();
+	origin = new WB_Point(o);
+	final WB_Vector dn = new WB_Vector(d);
+	dn.normalizeSelf();
+	direction = dn;
     }
 
     /**
-     * 
      *
-     * @param t 
-     * @return 
+     *
+     * @param t
+     * @return
      */
     public WB_Point getPointOnLine(final double t) {
 	final WB_Point result = new WB_Point(direction);
@@ -66,37 +66,37 @@ public abstract class WB_Linear {
     }
 
     /**
-     * 
      *
-     * @param t 
-     * @param p 
+     *
+     * @param t
+     * @param p
      */
     public void getPointOnLineInto(final double t, final WB_MutableCoordinate p) {
-	p.set(direction.mul(t).addSelf(origin));
+	p.set(new WB_Vector(direction).mulSelf(t).addSelf(origin));
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
-    public WB_Point getOrigin() {
+    public WB_Coordinate getOrigin() {
 	return origin;
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
-    public WB_Vector getDirection() {
+    public WB_Coordinate getDirection() {
 	return direction;
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_Vector getNormal() {
 	WB_Vector n = new WB_Vector(0, 0, 1);
@@ -109,27 +109,27 @@ public abstract class WB_Linear {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double a() {
 	return -direction.yd();
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double b() {
 	return direction.xd();
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double c() {
 	return (origin.xd() * direction.yd()) - (origin.yd() * direction.xd());

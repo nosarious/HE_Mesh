@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -10,77 +10,64 @@ import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
 public class HEC_DataCylinder extends HEC_Creator {
-    
     /**
-     * 
+     *
      */
     private double Ri;
-    
     /**
-     * 
+     *
      */
     private double Ro;
-    
     /**
-     * 
+     *
      */
     private double H;
-    
     /**
-     * 
+     *
      */
     private int _facets;
-    
     /**
-     * 
+     *
      */
     private int _steps;
-    
     /**
-     * 
+     *
      */
     private boolean topcap;
-    
     /**
-     * 
+     *
      */
     private boolean bottomcap;
-    
     /**
-     * 
+     *
      */
     private double taper;
-    
     /**
-     * 
+     *
      */
     private double[][] data;
-    
     /**
-     * 
+     *
      */
     private boolean spiky;
-    
     /**
-     * 
+     *
      */
     private double chamfer;
-    
     /**
-     * 
+     *
      */
     private int reduceSteps;
-    
     /**
-     * 
+     *
      */
     private int reduceFacets;
 
     /**
-     * 
+     *
      */
     public HEC_DataCylinder() {
 	super();
@@ -303,7 +290,7 @@ public class HEC_DataCylinder extends HEC_Creator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see wblut.hemesh.HE_Creator#create()
      */
     @Override
@@ -374,7 +361,7 @@ public class HEC_DataCylinder extends HEC_Creator {
 		    final int currentstep = i * reduceSteps;
 		    final int currentfacet = j * reduceFacets;
 		    final double datapoint = data[currentfacet][currentstep];
-		    final WB_Point p = currentFace.getFaceCenter();
+		    final WB_Point p = new WB_Point(currentFace.getFaceCenter());
 		    p.addMulSelf(datapoint, currentFace.getFaceNormal());
 		    HEM_TriSplit.splitFaceTri(mesh, currentFace, p);
 		}

@@ -8,7 +8,7 @@ import gnu.trove.map.hash.TLongIntHashMap;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Iterator;
-import wblut.geom.WB_Point;
+import wblut.geom.WB_Coordinate;
 
 /**
  *
@@ -85,7 +85,7 @@ public class HET_Export {
      */
     public static void saveToOBJWithFaceColor(
 	    final Collection<? extends HE_Mesh> mesh, final String path,
-	    final String name) {
+		    final String name) {
 	HET_OBJWriter.saveMeshWithFaceColor(mesh, path, name);
     }
 
@@ -98,7 +98,7 @@ public class HET_Export {
      */
     public static void saveToOBJWithVertexColor(
 	    final Collection<? extends HE_Mesh> mesh, final String path,
-	    final String name) {
+		    final String name) {
 	HET_OBJWriter.saveMeshWithVertexColor(mesh, path, name);
     }
 
@@ -169,7 +169,7 @@ public class HET_Export {
 		(colormodel == 1) ? HET_STLWriter.MATERIALISE
 			: (colormodel == 0) ? HET_STLWriter.DEFAULT
 				: HET_STLWriter.NONE,
-		HET_STLWriter.DEFAULT_BUFFER);
+				HET_STLWriter.DEFAULT_BUFFER);
 	stl.beginSave(path, name, mesh.getNumberOfFaces());
 	saveToSTLWithFaceColor(mesh, stl);
 	stl.endSave();
@@ -209,7 +209,7 @@ public class HET_Export {
 	    final String name) {
 	final HET_SimpleMeshWriter hem = new HET_SimpleMeshWriter();
 	hem.beginSave(path, name);
-	final WB_Point[] points = mesh.getVerticesAsPoint();
+	final WB_Coordinate[] points = mesh.getVerticesAsPoint();
 	hem.intValue(mesh.getNumberOfVertices());
 	hem.vertices(points);
 	final int[][] faces = mesh.getFacesAsInt();
@@ -513,9 +513,9 @@ public class HET_Export {
 		    keyToIndex.get(f.getHalfedge().getNextInFace().getVertex()
 			    .key())
 			    + vOffset,
-		    keyToIndex.get(f.getHalfedge().getPrevInFace().getVertex()
-			    .key())
-			    + vOffset);
+			    keyToIndex.get(f.getHalfedge().getPrevInFace().getVertex()
+				    .key())
+				    + vOffset);
 	}
 	pov.endSection();
     }
