@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
@@ -66,7 +67,7 @@ import wblut.hemesh.HE_VertexIterator;
 /**
  *
  */
-public class WB_Render3D {
+public class WB_Render3D extends WB_Render2D{
     /**
      *
      */
@@ -415,7 +416,7 @@ public class WB_Render3D {
      * @param geometry
      * @param f
      */
-    public void draw(final WB_Geometry geometry, final double... f) {
+    public void drawGeometry(final WB_Geometry geometry, final double... f) {
 	if (geometry instanceof WB_Coordinate) {
 	    if (f.length == 0) {
 		drawPoint((WB_Coordinate) geometry);
@@ -457,7 +458,7 @@ public class WB_Render3D {
 	} else if (geometry instanceof WB_GeometryCollection) {
 	    final WB_GeometryCollection geo = (WB_GeometryCollection) geometry;
 	    for (int i = 0; i < geo.getNumberOfGeometries(); i++) {
-		draw(geo.getGeometry(i), f);
+		drawGeometry(geo.getGeometry(i), f);
 	    }
 	} else if (geometry instanceof WB_Plane) {
 	    if (f.length == 1) {
@@ -476,10 +477,10 @@ public class WB_Render3D {
      * @param geometry
      * @param f
      */
-    public void draw(final Collection<? extends WB_Geometry> geometry,
+    public void drawGeometry(final Collection<? extends WB_Geometry> geometry,
 	    final double... f) {
 	for (final WB_Geometry geo : geometry) {
-	    draw(geo, f);
+	    drawGeometry(geo, f);
 	}
     }
 
@@ -489,9 +490,9 @@ public class WB_Render3D {
      * @param geometry
      * @param f
      */
-    public void draw(final WB_Geometry[] geometry, final double... f) {
+    public void drawGeometry(final WB_Geometry[] geometry, final double... f) {
 	for (final WB_Geometry geo : geometry) {
-	    draw(geo, f);
+	    drawGeometry(geo, f);
 	}
     }
 
@@ -940,31 +941,17 @@ public class WB_Render3D {
 	home.popMatrix();
     }
 
-    /**
-     *
-     *
-     * @param points
-     * @param d
-     */
-    public void draw(final Collection<? extends WB_Coordinate> points,
-	    final double d) {
-	for (final WB_Coordinate point : points) {
-	    home.pushMatrix();
-	    home.translate(point.xf(), point.yf(), point.zf());
-	    home.box((float) d);
-	    home.popMatrix();
-	}
-    }
+    
 
     /**
      *
      *
      * @param circles
      */
-    public void draw(final Collection<WB_Circle> circles) {
+    public void drawCircles(final Collection<WB_Circle> circles) {
 	final Iterator<WB_Circle> citr = circles.iterator();
 	while (citr.hasNext()) {
-	    draw(citr.next());
+	    drawCircle(citr.next());
 	}
     }
 
@@ -974,7 +961,7 @@ public class WB_Render3D {
      * @param curves
      * @param steps
      */
-    public void draw(final Collection<WB_Curve> curves, final int steps) {
+    public void drawCurves(final Collection<WB_Curve> curves, final int steps) {
 	final Iterator<WB_Curve> citr = curves.iterator();
 	while (citr.hasNext()) {
 	    drawCurve(citr.next(), steps);
@@ -1000,42 +987,9 @@ public class WB_Render3D {
 	drawNode(tree.getRoot(), level);
     }
 
-    /**
-     *
-     *
-     * @param point
-     * @param d
-     */
-    public void draw(final WB_Coordinate point, final double d) {
-	home.pushMatrix();
-	home.translate(point.xf(), point.yf(), point.zf());
-	home.box((float) d);
-	home.popMatrix();
-    }
+   
 
-    /**
-     *
-     *
-     * @param p
-     * @param q
-     */
-    public void draw(final WB_Coordinate p, final WB_Coordinate q) {
-	home.line(p.xf(), p.yf(), p.zf(), q.xf(), q.yf(), q.zf());
-    }
-
-    /**
-     *
-     *
-     * @param p
-     * @param v
-     * @param d
-     */
-    public void draw(final WB_Coordinate p, final WB_Coordinate v,
-	    final double d) {
-	home.line(p.xf(), p.yf(), p.zf(), p.xf() + ((float) d * v.xf()), p.yf()
-		+ ((float) d * v.yf()), p.zf() + ((float) d * v.zf()));
-    }
-
+   
     /**
      *
      *
@@ -2334,39 +2288,6 @@ public class WB_Render3D {
     /**
      *
      *
-     * @param segments
-     */
-    public void drawSegment2D(final Collection<? extends WB_Segment> segments) {
-	final Iterator<? extends WB_Segment> segItr = segments.iterator();
-	while (segItr.hasNext()) {
-	    drawSegment2D(segItr.next());
-	}
-    }
-
-    /**
-     *
-     *
-     * @param segment
-     */
-    public void drawSegment2D(final WB_Segment segment) {
-	home.line(segment.getOrigin().xf(), segment.getOrigin().yf(), segment
-		.getEndpoint().xf(), segment.getEndpoint().yf());
-    }
-
-    /**
-     *
-     *
-     * @param segments
-     */
-    public void drawSegment2D(final WB_Segment[] segments) {
-	for (final WB_Segment segment : segments) {
-	    drawSegment2D(segment);
-	}
-    }
-
-    /**
-     *
-     *
      * @param triangles
      */
     public void drawTriangle(final Collection<? extends WB_Triangle> triangles) {
@@ -2387,80 +2308,6 @@ public class WB_Render3D {
 	home.vertex(triangle.p2().xf(), triangle.p2().yf(), triangle.p2().zf());
 	home.vertex(triangle.p3().xf(), triangle.p3().yf(), triangle.p3().zf());
 	home.endShape(PConstants.CLOSE);
-    }
-
-    /**
-     *
-     *
-     * @param triangles
-     */
-    public void drawTriangle2D(final Collection<? extends WB_Triangle> triangles) {
-	final Iterator<? extends WB_Triangle> triItr = triangles.iterator();
-	while (triItr.hasNext()) {
-	    drawTriangle2D(triItr.next());
-	}
-    }
-
-    /**
-     *
-     *
-     * @param triangle
-     */
-    public void drawTriangle2D(final WB_Triangle triangle) {
-	home.beginShape();
-	home.vertex(triangle.p1().xf(), triangle.p1().yf());
-	home.vertex(triangle.p2().xf(), triangle.p2().yf());
-	home.vertex(triangle.p3().xf(), triangle.p3().yf());
-	home.endShape();
-    }
-
-    /**
-     *
-     *
-     * @param triangles
-     */
-    public void drawTriangle2D(final WB_Triangle[] triangles) {
-	for (final WB_Triangle triangle : triangles) {
-	    drawTriangle2D(triangle);
-	}
-    }
-
-    /**
-     *
-     *
-     * @param triangles
-     */
-    public void drawTriangle2DEdges(
-	    final Collection<? extends WB_Triangle> triangles) {
-	final Iterator<? extends WB_Triangle> triItr = triangles.iterator();
-	while (triItr.hasNext()) {
-	    drawTriangle2DEdges(triItr.next());
-	}
-    }
-
-    /**
-     *
-     *
-     * @param triangle
-     */
-    public void drawTriangle2DEdges(final WB_Triangle triangle) {
-	home.line(triangle.p1().xf(), triangle.p1().yf(), triangle.p2().xf(),
-		triangle.p2().yf());
-	home.line(triangle.p3().xf(), triangle.p3().yf(), triangle.p2().xf(),
-		triangle.p2().yf());
-	home.line(triangle.p1().xf(), triangle.p1().yf(), triangle.p3().xf(),
-		triangle.p3().yf());
-    }
-
-    /**
-     *
-     *
-     * @param triangles
-     */
-    public void drawTriangle2DEdges(final WB_Triangle[] triangles) {
-	for (final WB_Triangle triangle : triangles) {
-	    drawTriangle2DEdges(triangle);
-	}
     }
 
     /**
@@ -3202,7 +3049,7 @@ public class WB_Render3D {
 	while (vItr.hasNext()) {
 	    v = vItr.next();
 	    vn = v.getVertexNormal();
-	    draw(v, vn, d);
+	    drawVector(v, vn, d);
 	}
     }
 

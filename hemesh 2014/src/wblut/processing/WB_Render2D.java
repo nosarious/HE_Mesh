@@ -4,7 +4,9 @@
 package wblut.processing;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -29,8 +31,13 @@ public class WB_Render2D {
     /**
      * 
      */
-    private final PGraphics home;
+    private  PGraphics home;
 
+    
+    public WB_Render2D() {
+    	
+        }
+    
     /**
      * 
      *
@@ -54,7 +61,7 @@ public class WB_Render2D {
      *
      * @param p 
      */
-    public void drawPoint(final WB_Coordinate p) {
+    public void drawPoint2D(final WB_Coordinate p) {
 	home.point(p.xf(), p.yf());
     }
 
@@ -64,7 +71,7 @@ public class WB_Render2D {
      * @param p 
      * @param r 
      */
-    public void drawPoint(final WB_Coordinate p, final double r) {
+    public void drawPoint2D(final WB_Coordinate p, final double r) {
 	home.ellipse(p.xf(), p.yf(), 2 * (float) r, 2 * (float) r);
     }
 
@@ -75,7 +82,7 @@ public class WB_Render2D {
      * @param p 
      * @param r 
      */
-    public void drawVector(final WB_Coordinate v, final WB_Coordinate p,
+    public void drawVector2D(final WB_Coordinate v, final WB_Coordinate p,
 	    final double r) {
 	home.pushMatrix();
 	home.translate(p.xf(), p.yf());
@@ -89,7 +96,7 @@ public class WB_Render2D {
      * @param L 
      * @param d 
      */
-    public void drawLine(final WB_Line L, final double d) {
+    public void drawLine2D(final WB_Line L, final double d) {
 	home.line((float) (L.getOrigin().xd() - (d * L.getDirection().xd())),
 		(float) (L.getOrigin().yd() - (d * L.getDirection().yd())),
 		(float) (L.getOrigin().xd() + (d * L.getDirection().xd())),
@@ -102,29 +109,20 @@ public class WB_Render2D {
      * @param R 
      * @param d 
      */
-    public void drawRay(final WB_Ray R, final double d) {
+    public void drawRay2D(final WB_Ray R, final double d) {
 	home.line((float) (R.getOrigin().xd()), (float) (R.getOrigin().yd()),
 		(float) (R.getOrigin().xd() + (d * R.getDirection().xd())),
 		(float) (R.getOrigin().yd() + (d * R.getDirection().yd())));
     }
 
-    /**
-     * 
-     *
-     * @param S 
-     */
-    public void drawSegment(final WB_Segment S) {
-	home.line((float) (S.getOrigin().xd()), (float) (S.getOrigin().yd()),
-		(float) (S.getEndpoint().xd()), (float) (S.getEndpoint().yd()));
-    }
-
+   
     /**
      * 
      *
      * @param p 
      * @param q 
      */
-    public void drawSegment(final WB_Coordinate p, final WB_Coordinate q) {
+    public void drawSegment2D(final WB_Coordinate p, final WB_Coordinate q) {
 	home.line((float) (p.xd()), (float) (p.yd()), (float) (q.xd()),
 		(float) (q.yd()));
     }
@@ -134,7 +132,7 @@ public class WB_Render2D {
      *
      * @param P 
      */
-    public void drawPolyLine(final WB_PolyLine P) {
+    public void drawPolyLine2D(final WB_PolyLine P) {
 	for (int i = 0; i < (P.getNumberOfPoints() - 1); i++) {
 	    home.line((float) (P.getPoint(i).xd()),
 		    (float) (P.getPoint(i).yd()),
@@ -148,7 +146,7 @@ public class WB_Render2D {
      *
      * @param P 
      */
-    public void drawRing(final WB_Ring P) {
+    public void drawRing2D(final WB_Ring P) {
 	for (int i = 0, j = P.getNumberOfPoints() - 1; i < P
 		.getNumberOfPoints(); j = i++) {
 	    home.line((float) (P.getPoint(j).xd()),
@@ -162,10 +160,10 @@ public class WB_Render2D {
      *
      * @param P 
      */
-    public void drawPolygon(final WB_Polygon P) {
+    public void drawPolygon2D(final WB_Polygon P) {
 	final int[][] tris = P.getTriangles();
 	for (final int[] tri : tris) {
-	    drawTriangle(P.getPoint(tri[0]), P.getPoint(tri[1]),
+	    drawTriangle2D(P.getPoint(tri[0]), P.getPoint(tri[1]),
 		    P.getPoint(tri[2]));
 	}
     }
@@ -175,13 +173,13 @@ public class WB_Render2D {
      *
      * @param P 
      */
-    public void drawPolygonEdges(final WB_Polygon P) {
+    public void drawPolygonEdges2D(final WB_Polygon P) {
 	final int[] npc = P.getNumberOfPointsPerContour();
 	int index = 0;
 	for (int i = 0; i < P.getNumberOfContours(); i++) {
 	    home.beginShape();
 	    for (int j = 0; j < npc[i]; j++) {
-		vertex(P.getPoint(index++));
+		vertex2D(P.getPoint(index++));
 	    }
 	    home.endShape(PConstants.CLOSE);
 	}
@@ -192,7 +190,7 @@ public class WB_Render2D {
      *
      * @param C 
      */
-    public void drawCircle(final WB_Circle C) {
+    public void drawCircle2D(final WB_Circle C) {
 	home.ellipse((float) C.getCenter().xd(), (float) C.getCenter().yd(),
 		2 * (float) C.getRadius(), 2 * (float) C.getRadius());
     }
@@ -202,11 +200,11 @@ public class WB_Render2D {
      *
      * @param T 
      */
-    public void drawTriangle(final WB_Triangle T) {
+    public void drawTriangle2D(final WB_Triangle T) {
 	home.beginShape(PConstants.TRIANGLE);
-	vertex(T.p1());
-	vertex(T.p2());
-	vertex(T.p3());
+	vertex2D(T.p1());
+	vertex2D(T.p2());
+	vertex2D(T.p3());
 	home.endShape();
     }
 
@@ -217,12 +215,12 @@ public class WB_Render2D {
      * @param p2 
      * @param p3 
      */
-    public void drawTriangle(final WB_Coordinate p1, final WB_Coordinate p2,
+    public void drawTriangle2D(final WB_Coordinate p1, final WB_Coordinate p2,
 	    final WB_Coordinate p3) {
 	home.beginShape(PConstants.TRIANGLE);
-	vertex(p1);
-	vertex(p2);
-	vertex(p3);
+	vertex2D(p1);
+	vertex2D(p2);
+	vertex2D(p3);
 	home.endShape();
     }
 
@@ -232,12 +230,12 @@ public class WB_Render2D {
      * @param tri 
      * @param points 
      */
-    public void drawTriangle(final int[] tri,
+    public void drawTriangle2D(final int[] tri,
 	    final List<? extends WB_Coordinate> points) {
 	home.beginShape(PConstants.TRIANGLE);
-	vertex(points.get(0));
-	vertex(points.get(1));
-	vertex(points.get(2));
+	vertex2D(points.get(0));
+	vertex2D(points.get(1));
+	vertex2D(points.get(2));
 	home.endShape();
     }
 
@@ -247,11 +245,11 @@ public class WB_Render2D {
      * @param tri 
      * @param points 
      */
-    public void drawTriangle(final int[] tri, final WB_Coordinate[] points) {
+    public void drawTriangle2D(final int[] tri, final WB_Coordinate[] points) {
 	home.beginShape(PConstants.TRIANGLE);
-	vertex(points[0]);
-	vertex(points[1]);
-	vertex(points[2]);
+	vertex2D(points[0]);
+	vertex2D(points[1]);
+	vertex2D(points[2]);
 	home.endShape();
     }
 
@@ -261,14 +259,14 @@ public class WB_Render2D {
      * @param tri 
      * @param points 
      */
-    public void drawTriangulation(final WB_Triangulation2D tri,
+    public void drawTriangulation2D(final WB_Triangulation2D tri,
 	    final List<? extends WB_Coordinate> points) {
 	final int[][] triangles = tri.getTriangles();
 	home.beginShape(PConstants.TRIANGLES);
 	for (final int[] triangle : triangles) {
-	    vertex(points.get(triangle[0]));
-	    vertex(points.get(triangle[1]));
-	    vertex(points.get(triangle[2]));
+	    vertex2D(points.get(triangle[0]));
+	    vertex2D(points.get(triangle[1]));
+	    vertex2D(points.get(triangle[2]));
 	}
 	home.endShape();
     }
@@ -279,11 +277,11 @@ public class WB_Render2D {
      * @param tri 
      * @param points 
      */
-    public void drawTriangulationEdges(final WB_Triangulation2D tri,
+    public void drawTriangulationEdges2D(final WB_Triangulation2D tri,
 	    final List<? extends WB_Coordinate> points) {
 	final int[][] edges = tri.getEdges();
 	for (final int[] edge : edges) {
-	    drawSegment(points.get(edge[0]), points.get(edge[1]));
+	    drawSegment2D(points.get(edge[0]), points.get(edge[1]));
 	}
     }
 
@@ -292,7 +290,7 @@ public class WB_Render2D {
      *
      * @param p 
      */
-    private void vertex(final WB_Coordinate p) {
+    private void vertex2D(final WB_Coordinate p) {
 	home.vertex(p.xf(), p.yf());
     }
 
@@ -302,49 +300,49 @@ public class WB_Render2D {
      * @param geometry 
      * @param f 
      */
-    public void draw(final WB_Geometry geometry, final double... f) {
+    public void drawGeometry2D(final WB_Geometry geometry, final double... f) {
 	if (geometry instanceof WB_Coordinate) {
 	    if (f.length == 0) {
-		drawPoint((WB_Coordinate) geometry);
+		drawPoint2D((WB_Coordinate) geometry);
 	    } else if (f.length == 1) {
-		drawPoint((WB_Coordinate) geometry, f[0]);
+		drawPoint2D((WB_Coordinate) geometry, f[0]);
 	    }
 	} else if (geometry instanceof WB_Segment) {
 	    if (f.length == 0) {
-		drawSegment((WB_Segment) geometry);
+		drawSegment2D((WB_Segment) geometry);
 	    }
 	} else if (geometry instanceof WB_Ray) {
 	    if (f.length == 1) {
-		drawRay((WB_Ray) geometry, f[0]);
+		drawRay2D((WB_Ray) geometry, f[0]);
 	    }
 	} else if (geometry instanceof WB_Line) {
 	    if (f.length == 1) {
-		drawLine((WB_Line) geometry, f[0]);
+		drawLine2D((WB_Line) geometry, f[0]);
 	    }
 	} else if (geometry instanceof WB_Circle) {
 	    if (f.length == 0) {
-		drawCircle((WB_Circle) geometry);
+		drawCircle2D((WB_Circle) geometry);
 	    }
 	} else if (geometry instanceof WB_Triangle) {
 	    if (f.length == 0) {
-		drawTriangle((WB_Triangle) geometry);
+		drawTriangle2D((WB_Triangle) geometry);
 	    }
 	} else if (geometry instanceof WB_Polygon) {
 	    if (f.length == 0) {
-		drawPolygon((WB_Polygon) geometry);
+		drawPolygon2D((WB_Polygon) geometry);
 	    }
 	} else if (geometry instanceof WB_Ring) {
 	    if (f.length == 0) {
-		drawRing((WB_Ring) geometry);
+		drawRing2D((WB_Ring) geometry);
 	    }
 	} else if (geometry instanceof WB_PolyLine) {
 	    if (f.length == 0) {
-		drawPolyLine((WB_PolyLine) geometry);
+		drawPolyLine2D((WB_PolyLine) geometry);
 	    }
 	} else if (geometry instanceof WB_GeometryCollection) {
 	    final WB_GeometryCollection geo = (WB_GeometryCollection) geometry;
 	    for (int i = 0; i < geo.getNumberOfGeometries(); i++) {
-		draw(geo.getGeometry(i), f);
+		drawGeometry2D(geo.getGeometry(i), f);
 	    }
 	}
     }
@@ -355,10 +353,10 @@ public class WB_Render2D {
      * @param geometry 
      * @param f 
      */
-    public void draw(final Collection<? extends WB_Geometry> geometry,
+    public void drawGeometry2D(final Collection<? extends WB_Geometry> geometry,
 	    final double... f) {
 	for (final WB_Geometry geo : geometry) {
-	    draw(geo, f);
+	    drawGeometry2D(geo, f);
 	}
     }
 
@@ -368,9 +366,104 @@ public class WB_Render2D {
      * @param geometry 
      * @param f 
      */
-    public void draw(final WB_Geometry[] geometry, final double... f) {
+    public void drawGeometry2D(final WB_Geometry[] geometry, final double... f) {
 	for (final WB_Geometry geo : geometry) {
-	    draw(geo, f);
+	    drawGeometry2D(geo, f);
 	}
     }
+
+	/**
+	 *
+	 *
+	 * @param triangles
+	 */
+	public void drawTriangle2D(final Collection<? extends WB_Triangle> triangles) {
+	final Iterator<? extends WB_Triangle> triItr = triangles.iterator();
+	while (triItr.hasNext()) {
+	    drawTriangle2D(triItr.next());
+	}
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param triangles
+	 */
+	public void drawTriangle2D(final WB_Triangle[] triangles) {
+	for (final WB_Triangle triangle : triangles) {
+	    drawTriangle2D(triangle);
+	}
+	}
+
+	/**
+	 *
+	 *
+	 * @param triangles
+	 */
+	public void drawTriangle2DEdges(
+	    final Collection<? extends WB_Triangle> triangles) {
+	final Iterator<? extends WB_Triangle> triItr = triangles.iterator();
+	while (triItr.hasNext()) {
+	    drawTriangle2DEdges(triItr.next());
+	}
+	}
+
+	/**
+	 *
+	 *
+	 * @param triangle
+	 */
+	public void drawTriangle2DEdges(final WB_Triangle triangle) {
+	home.line(triangle.p1().xf(), triangle.p1().yf(), triangle.p2().xf(),
+		triangle.p2().yf());
+	home.line(triangle.p3().xf(), triangle.p3().yf(), triangle.p2().xf(),
+		triangle.p2().yf());
+	home.line(triangle.p1().xf(), triangle.p1().yf(), triangle.p3().xf(),
+		triangle.p3().yf());
+	}
+
+	/**
+	 *
+	 *
+	 * @param triangles
+	 */
+	public void drawTriangle2DEdges(final WB_Triangle[] triangles) {
+	for (final WB_Triangle triangle : triangles) {
+	    drawTriangle2DEdges(triangle);
+	}
+	}
+
+	/**
+	 *
+	 *
+	 * @param segments
+	 */
+	public void drawSegment2D(final Collection<? extends WB_Segment> segments) {
+	final Iterator<? extends WB_Segment> segItr = segments.iterator();
+	while (segItr.hasNext()) {
+	    drawSegment2D(segItr.next());
+	}
+	}
+
+	/**
+	 *
+	 *
+	 * @param segment
+	 */
+	public void drawSegment2D(final WB_Segment segment) {
+	home.line(segment.getOrigin().xf(), segment.getOrigin().yf(), segment
+		.getEndpoint().xf(), segment.getEndpoint().yf());
+	}
+
+	/**
+	 *
+	 *
+	 * @param segments
+	 */
+	public void drawSegment2D(final WB_Segment[] segments) {
+	for (final WB_Segment segment : segments) {
+	    drawSegment2D(segment);
+	}
+	}
 }
