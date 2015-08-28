@@ -17,6 +17,7 @@ var searchData=
   ['fidget',['fidget',['../classwblut_1_1hemesh_1_1_h_e_c___from_frame.html#ac0305dfcc71c1088fd8a73ee5bfd6f52',1,'wblut.hemesh.HEC_FromFrame.fidget()'],['../classwblut_1_1hemesh_1_1_h_e_m___wireframe.html#ad7a8e134564c53a64f899a4efcbcfcb2',1,'wblut.hemesh.HEM_Wireframe.fidget()']]],
   ['fillfactor',['fillfactor',['../classwblut_1_1hemesh_1_1_h_e_c___from_frame.html#a63169a1323efc9df8a6165d7e7f0e9fa',1,'wblut.hemesh.HEC_FromFrame.fillfactor()'],['../classwblut_1_1hemesh_1_1_h_e_m___wireframe.html#a1f01c0783662d000236b208d2e5ff682',1,'wblut.hemesh.HEM_Wireframe.fillFactor()']]],
   ['fixduplicatedvertices',['fixDuplicatedVertices',['../classwblut_1_1hemesh_1_1_h_e_c___u_v_parametric.html#aabf3e632a66831c2e3517b9a1ab7fb5d',1,'wblut::hemesh::HEC_UVParametric']]],
+  ['fixnonplanarfaces',['fixNonPlanarFaces',['../classwblut_1_1hemesh_1_1_h_e_c___dual.html#a48ab8ccf538ec691a0a910e56d8c563a',1,'wblut::hemesh::HEC_Dual']]],
   ['flag_5falgorithm',['FLAG_ALGORITHM',['../classwblut_1_1geom_1_1_tri___half_edge.html#a0c52ebbf013a65fe9c00c3a54b02ad23',1,'wblut::geom::Tri_HalfEdge']]],
   ['flag_5fdraw',['FLAG_DRAW',['../classwblut_1_1geom_1_1_tri___half_edge.html#a7b38a6268052f5251457bfbc264ce2af',1,'wblut::geom::Tri_HalfEdge']]],
   ['flag_5fread',['FLAG_READ',['../classwblut_1_1geom_1_1_tri___half_edge.html#a0a7a1cd0a9cdfeccb17bae072e973596',1,'wblut::geom::Tri_HalfEdge']]],

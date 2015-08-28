@@ -46,6 +46,7 @@ var searchData=
   ['fixloops',['fixLoops',['../classwblut_1_1hemesh_1_1_h_e___mesh.html#a4a42aa9529aafbef6db3c23a3d1e8bd9',1,'wblut::hemesh::HE_Mesh']]],
   ['fixnonmanifoldvertices',['fixNonManifoldVertices',['../classwblut_1_1hemesh_1_1_h_e___mesh.html#a92c42c4686e1eb692ef190689dcdfb95',1,'wblut::hemesh::HE_Mesh']]],
   ['fixnonmanifoldverticesonepass',['fixNonManifoldVerticesOnePass',['../classwblut_1_1hemesh_1_1_h_e___mesh.html#abe2ebf73034c6c3ab33fd93e298690ba',1,'wblut::hemesh::HE_Mesh']]],
+  ['fixnonplanarfaces',['fixNonPlanarFaces',['../classwblut_1_1hemesh_1_1_h_e_c___dual.html#a48ab8ccf538ec691a0a910e56d8c563a',1,'wblut::hemesh::HEC_Dual']]],
   ['flag',['flag',['../classwblut_1_1geom_1_1_tri___half_edge.html#ab91c24ce12229a5f54c61c9dd7c8f916',1,'wblut::geom::Tri_HalfEdge']]],
   ['flag_5falgorithm',['FLAG_ALGORITHM',['../classwblut_1_1geom_1_1_tri___half_edge.html#a0c52ebbf013a65fe9c00c3a54b02ad23',1,'wblut::geom::Tri_HalfEdge']]],
   ['flag_5fdraw',['FLAG_DRAW',['../classwblut_1_1geom_1_1_tri___half_edge.html#a7b38a6268052f5251457bfbc264ce2af',1,'wblut::geom::Tri_HalfEdge']]],

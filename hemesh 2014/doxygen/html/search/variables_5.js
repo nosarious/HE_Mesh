@@ -14,7 +14,7 @@ var searchData=
   ['edgelistmarkers',['edgeListMarkers',['../classwblut_1_1geom_1_1_w_b___voronoi2_d.html#a8cf549c24f27a8a2d62c7b668588898a',1,'wblut::geom::WB_Voronoi2D']]],
   ['edges',['Edges',['../classwblut_1_1geom_1_1_w_b___delaunay.html#a549bd175a6ee457d174944cf78eb6d57',1,'wblut::geom::WB_Delaunay']]],
   ['end',['end',['../classwblut_1_1geom_1_1_w_b___frame_strut.html#a0e15faf4ce4f054a57f2a016ee59b0e8',1,'wblut.geom.WB_FrameStrut.end()'],['../classwblut_1_1geom_1_1_w_b___indexed_bisector.html#a0070d2d91d6a9ea550e5c80836569ef4',1,'wblut.geom.WB_IndexedBisector.end()']]],
-  ['endpoint',['endpoint',['../classwblut_1_1geom_1_1_w_b___segment.html#a208b66b99f22180d4cd3c8b3b6a7e9cb',1,'wblut::geom::WB_Segment']]],
+  ['endpoint',['endpoint',['../classwblut_1_1geom_1_1_w_b___segment.html#a0d6b2df620d881b771f2cb447ca5ddef',1,'wblut::geom::WB_Segment']]],
   ['endreached',['endreached',['../classwblut_1_1hemesh_1_1_h_e___path_vertex_iterator.html#ab06117c65a7252e98799b6ae78369b48',1,'wblut::hemesh::HE_PathVertexIterator']]],
   ['entries',['entries',['../classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_query_result.html#a7c57ff9745c69d0736c9685091eaf1cf',1,'wblut::geom::WB_KDTree::QueryResult']]],
   ['eps',['EPS',['../classwblut_1_1math_1_1_w_b___double_double.html#a94f74708854c81672d52c2cdc25389a8',1,'wblut::math::WB_DoubleDouble']]],
