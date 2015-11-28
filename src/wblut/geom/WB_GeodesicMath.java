@@ -60,8 +60,8 @@ public class WB_GeodesicMath {
      * @return 
      */
     public static WB_GreatCircleIntersection getGreatCircleIntersection(
-	    final WB_Coordinate v1, final WB_Coordinate v2,
-	    final WB_Coordinate v3, final WB_Coordinate v4) {
+	    final WB_Coord v1, final WB_Coord v2,
+	    final WB_Coord v3, final WB_Coord v4) {
 	final WB_Point origin = gf.createPoint(0, 0, 0);
 	final WB_Vector r1 = vnor(v1, origin, v2);
 	final WB_Vector r2 = vnor(v3, origin, v4);
@@ -88,8 +88,8 @@ public class WB_GeodesicMath {
      * @param f 
      * @return 
      */
-    public static double[] getPointOnGreatCircle(final WB_Coordinate v1,
-	    final WB_Coordinate v2, final double f) {
+    public static double[] getPointOnGreatCircle(final WB_Coord v1,
+	    final WB_Coord v2, final double f) {
 	final WB_Point origin = gf.createPoint(0, 0, 0);
 	final double angle = Math.acos(vcos(v1, origin, v2));
 	final double isa = 1.0 / Math.sin(angle);
@@ -108,8 +108,8 @@ public class WB_GeodesicMath {
      * @param v3 
      * @return 
      */
-    private static WB_Vector vnor(final WB_Coordinate v1,
-	    final WB_Coordinate v2, final WB_Coordinate v3) {
+    private static WB_Vector vnor(final WB_Coord v1,
+	    final WB_Coord v2, final WB_Coord v3) {
 	final WB_Vector r0 = new WB_Vector(v2, v1);
 	final WB_Vector r1 = new WB_Vector(v2, v3);
 	return r1.cross(r0);
@@ -123,8 +123,8 @@ public class WB_GeodesicMath {
      * @param v3 
      * @return 
      */
-    private static double vcos(final WB_Coordinate v1, final WB_Coordinate v2,
-	    final WB_Coordinate v3) {
+    private static double vcos(final WB_Coord v1, final WB_Coord v2,
+	    final WB_Coord v3) {
 	final WB_Vector r0 = new WB_Vector(v2, v1);
 	final WB_Vector r1 = new WB_Vector(v2, v3);
 	return r0.dot(r1) / (r0.getLength3D() * r1.getLength3D());

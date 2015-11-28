@@ -11,7 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_Vector;
 
 /**
@@ -192,8 +192,8 @@ public class HET_STLWriter {
      * @param c 
      * @param normal 
      */
-    public void face(final WB_Coordinate a, final WB_Coordinate b,
-	    final WB_Coordinate c, final WB_Coordinate normal) {
+    public void face(final WB_Coord a, final WB_Coord b,
+	    final WB_Coord c, final WB_Coord normal) {
 	face(a, b, c, normal, DEFAULT_RGB);
     }
 
@@ -206,8 +206,8 @@ public class HET_STLWriter {
      * @param normal 
      * @param rgb 
      */
-    public void face(final WB_Coordinate a, final WB_Coordinate b,
-	    final WB_Coordinate c, final WB_Coordinate normal, final int rgb) {
+    public void face(final WB_Coord a, final WB_Coord b,
+	    final WB_Coord c, final WB_Coord normal, final int rgb) {
 	try {
 	    writeVector(normal);
 	    // vertices
@@ -251,7 +251,7 @@ public class HET_STLWriter {
      *
      * @param s 
      */
-    public void setScale(final WB_Coordinate s) {
+    public void setScale(final WB_Coord s) {
 	scale.set(s);
     }
 
@@ -304,7 +304,7 @@ public class HET_STLWriter {
      *
      * @param v 
      */
-    protected void writeScaledVector(final WB_Coordinate v) {
+    protected void writeScaledVector(final WB_Coord v) {
 	try {
 	    writeFloat(v.xf() * scale.xf());
 	    writeFloat(v.yf() * scale.yf());
@@ -331,7 +331,7 @@ public class HET_STLWriter {
      *
      * @param v 
      */
-    protected void writeVector(final WB_Coordinate v) {
+    protected void writeVector(final WB_Coord v) {
 	try {
 	    writeFloat(v.xf());
 	    writeFloat(v.yf());

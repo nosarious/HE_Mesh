@@ -4,7 +4,7 @@
 package wblut.hemesh;
 
 import javolution.util.FastMap;
-import wblut.geom.WB_HashGrid;
+import wblut.geom.WB_HashGridDouble;
 import wblut.geom.WB_Point;
 import wblut.math.WB_Epsilon;
 
@@ -301,7 +301,7 @@ public class HEC_IsoGrid extends HEC_Creator {
 	    { 0, 3, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
 	    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 } };
     /** The values. */
-    private WB_HashGrid values;
+    private WB_HashGridDouble values;
     /** The resz. */
     private int resx, resy, resz;
     /** The cz. */
@@ -361,7 +361,7 @@ public class HEC_IsoGrid extends HEC_Creator {
      *            WB_HashGrid
      * @return self
      */
-    public HEC_IsoGrid setValues(final WB_HashGrid values) {
+    public HEC_IsoGrid setValues(final WB_HashGridDouble values) {
 	resx = values.getW() - 1;
 	resy = values.getH() - 1;
 	resz = values.getD() - 1;

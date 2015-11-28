@@ -8,7 +8,7 @@ import javolution.util.FastTable;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_AABBTree;
 import wblut.geom.WB_AABBTree.WB_AABBNode;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_IntersectionResult;
 import wblut.geom.WB_Segment;
@@ -407,7 +407,7 @@ public class HET_Diagnosis {
 		System.out.println("   Can't retrieve star of vertex!");
 	    }
 	    try {
-		final WB_Coordinate n = v.getVertexNormal();
+		final WB_Coord n = v.getVertexNormal();
 		if (WB_Vector.getLength3D(n) < 0.5) {
 		    System.out.println("   Degenerate normal vector!");
 		} else {
@@ -463,7 +463,7 @@ public class HET_Diagnosis {
 		System.out.println("   Can't triangulate face!");
 	    }
 	    try {
-		final WB_Coordinate n = f.getFaceNormal();
+		final WB_Coord n = f.getFaceNormal();
 		if (WB_Vector.getLength3D(n) < 0.5) {
 		    System.out.println("   Degenerate face vector!");
 		} else {

@@ -13,18 +13,18 @@ public interface WB_CoordinateTransform {
      * @param T
      * @return
      */
-    public WB_Coordinate apply(final WB_Transform T);
+    public WB_Coord apply(final WB_Transform T);
 
     /**
      *
      *
      * @param T
      * @param result
-     * @deprecated Use {@link #applyInto(WB_MutableCoordinate,WB_Transform)}
+     * @deprecated Use {@link #applyInto(WB_MutableCoord,WB_Transform)}
      *             instead
      */
     @Deprecated
-    public void applyInto(final WB_Transform T, WB_MutableCoordinate result);
+    public void applyInto(final WB_Transform T, WB_MutableCoord result);
 
     /**
      *
@@ -32,7 +32,7 @@ public interface WB_CoordinateTransform {
      * @param result
      * @param T
      */
-    public void applyInto(WB_MutableCoordinate result, final WB_Transform T);
+    public void applyInto(WB_MutableCoord result, final WB_Transform T);
 
     /**
      *
@@ -40,7 +40,7 @@ public interface WB_CoordinateTransform {
      * @param T
      * @return
      */
-    public WB_Coordinate applyAsNormal(final WB_Transform T);
+    public WB_Coord applyAsNormal(final WB_Transform T);
 
     /**
      *
@@ -48,12 +48,12 @@ public interface WB_CoordinateTransform {
      * @param T
      * @param result
      * @deprecated Use
-     *             {@link #applyAsNormalInto(WB_MutableCoordinate,WB_Transform)}
+     *             {@link #applyAsNormalInto(WB_MutableCoord,WB_Transform)}
      *             instead
      */
     @Deprecated
     public void applyAsNormalInto(final WB_Transform T,
-	    final WB_MutableCoordinate result);
+	    final WB_MutableCoord result);
 
     /**
      *
@@ -61,7 +61,7 @@ public interface WB_CoordinateTransform {
      * @param result
      * @param T
      */
-    public void applyAsNormalInto(final WB_MutableCoordinate result,
+    public void applyAsNormalInto(final WB_MutableCoord result,
 	    final WB_Transform T);
 
     /**
@@ -70,7 +70,7 @@ public interface WB_CoordinateTransform {
      * @param T
      * @return
      */
-    public WB_Coordinate applyAsPoint(final WB_Transform T);
+    public WB_Coord applyAsPoint(final WB_Transform T);
 
     /**
      *
@@ -78,12 +78,12 @@ public interface WB_CoordinateTransform {
      * @param T
      * @param result
      * @deprecated Use
-     *             {@link #applyAsPointInto(WB_MutableCoordinate,WB_Transform)}
+     *             {@link #applyAsPointInto(WB_MutableCoord,WB_Transform)}
      *             instead
      */
     @Deprecated
     public void applyAsPointInto(final WB_Transform T,
-	    final WB_MutableCoordinate result);
+	    final WB_MutableCoord result);
 
     /**
      *
@@ -91,7 +91,7 @@ public interface WB_CoordinateTransform {
      * @param result
      * @param T
      */
-    public void applyAsPointInto(final WB_MutableCoordinate result,
+    public void applyAsPointInto(final WB_MutableCoord result,
 	    final WB_Transform T);
 
     /**
@@ -100,7 +100,7 @@ public interface WB_CoordinateTransform {
      * @param T
      * @return
      */
-    public WB_Coordinate applyAsVector(final WB_Transform T);
+    public WB_Coord applyAsVector(final WB_Transform T);
 
     /**
      *
@@ -108,12 +108,12 @@ public interface WB_CoordinateTransform {
      * @param T
      * @param result
      * @deprecated Use
-     *             {@link #applyAsVectorInto(WB_MutableCoordinate,WB_Transform)}
+     *             {@link #applyAsVectorInto(WB_MutableCoord,WB_Transform)}
      *             instead
      */
     @Deprecated
     public void applyAsVectorInto(final WB_Transform T,
-	    final WB_MutableCoordinate result);
+	    final WB_MutableCoord result);
 
     /**
      *
@@ -121,7 +121,7 @@ public interface WB_CoordinateTransform {
      * @param result
      * @param T
      */
-    public void applyAsVectorInto(final WB_MutableCoordinate result,
+    public void applyAsVectorInto(final WB_MutableCoord result,
 	    final WB_Transform T);
 
     /**
@@ -136,7 +136,7 @@ public interface WB_CoordinateTransform {
      * @param p2z
      * @return
      */
-    public WB_Coordinate rotateAbout2PointAxis(final double angle,
+    public WB_Coord rotateAbout2PointAxis(final double angle,
 	    final double p1x, final double p1y, final double p1z,
 	    final double p2x, final double p2y, final double p2z);
 
@@ -148,8 +148,8 @@ public interface WB_CoordinateTransform {
      * @param p2
      * @return
      */
-    public WB_Coordinate rotateAbout2PointAxis(final double angle,
-	    final WB_Coordinate p1, final WB_Coordinate p2);
+    public WB_Coord rotateAbout2PointAxis(final double angle,
+	    final WB_Coord p1, final WB_Coord p2);
 
     /**
      *
@@ -163,7 +163,7 @@ public interface WB_CoordinateTransform {
      * @param az
      * @return
      */
-    public WB_Coordinate rotateAboutAxis(final double angle, final double px,
+    public WB_Coord rotateAboutAxis(final double angle, final double px,
 	    final double py, final double pz, final double ax, final double ay,
 	    final double az);
 
@@ -175,8 +175,8 @@ public interface WB_CoordinateTransform {
      * @param a
      * @return
      */
-    public WB_Coordinate rotateAboutAxis(final double angle,
-	    final WB_Coordinate p, final WB_Coordinate a);
+    public WB_Coord rotateAboutAxis(final double angle,
+	    final WB_Coord p, final WB_Coord a);
 
     /**
      *
@@ -184,7 +184,7 @@ public interface WB_CoordinateTransform {
      * @param f
      * @return
      */
-    public WB_Coordinate scale(final double f);
+    public WB_Coord scale(final double f);
 
     /**
      *
@@ -194,7 +194,7 @@ public interface WB_CoordinateTransform {
      * @param fz
      * @return
      */
-    public WB_Coordinate scale(final double fx, final double fy, final double fz);
+    public WB_Coord scale(final double fx, final double fy, final double fz);
 
     /**
      *
@@ -202,7 +202,7 @@ public interface WB_CoordinateTransform {
      * @param f
      * @return
      */
-    public void scaleInto(WB_MutableCoordinate result, final double f);
+    public void scaleInto(WB_MutableCoord result, final double f);
 
     /**
      *
@@ -212,6 +212,6 @@ public interface WB_CoordinateTransform {
      * @param fz
      * @return
      */
-    public void scaleInto(WB_MutableCoordinate result, final double fx,
+    public void scaleInto(WB_MutableCoord result, final double fx,
 	    final double fy, final double fz);
 }

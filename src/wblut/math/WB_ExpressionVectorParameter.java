@@ -6,7 +6,7 @@ package wblut.math;
 import java.security.InvalidParameterException;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_SimpleVector;
 
 /**
@@ -60,7 +60,7 @@ public class WB_ExpressionVectorParameter implements WB_VectorParameter {
     }
 
     @Override
-    public WB_Coordinate evaluate(final double... value) {
+    public WB_Coord evaluate(final double... value) {
 	for (int i = 0; i < variables.length; i++) {
 	    expressionX.setVariable(variables[i], value[i]);
 	    expressionY.setVariable(variables[i], value[i]);

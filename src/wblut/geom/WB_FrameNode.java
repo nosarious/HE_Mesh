@@ -35,7 +35,7 @@ public class WB_FrameNode extends WB_Point {
      * @param id 
      * @param v 
      */
-    public WB_FrameNode(final WB_Coordinate pos, final int id, final double v) {
+    public WB_FrameNode(final WB_Coord pos, final int id, final double v) {
 	super(pos);
 	index = id;
 	struts = new FastTable<WB_FrameStrut>();

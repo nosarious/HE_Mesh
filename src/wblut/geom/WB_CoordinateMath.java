@@ -20,7 +20,7 @@ public interface WB_CoordinateMath {
      * @param x
      * @return new WB_coordinate
      */
-    public WB_Coordinate add(final double... x);
+    public WB_Coord add(final double... x);
 
     /**
      * Add coordinate values and store in mutable coordinate.
@@ -28,7 +28,7 @@ public interface WB_CoordinateMath {
      * @param result
      * @param x
      */
-    public void addInto(final WB_MutableCoordinate result, final double... x);
+    public void addInto(final WB_MutableCoord result, final double... x);
 
     /**
      * Add coordinate values.
@@ -36,7 +36,7 @@ public interface WB_CoordinateMath {
      * @param p
      * @return new WB_coordinate
      */
-    public WB_Coordinate add(final WB_Coordinate p);
+    public WB_Coord add(final WB_Coord p);
 
     /**
      * Add coordinate values and store in mutable coordinate.
@@ -44,7 +44,7 @@ public interface WB_CoordinateMath {
      * @param result
      * @param p
      */
-    public void addInto(final WB_MutableCoordinate result, final WB_Coordinate p);
+    public void addInto(final WB_MutableCoord result, final WB_Coord p);
 
     /**
      * Add multiple of coordinate values.
@@ -54,7 +54,7 @@ public interface WB_CoordinateMath {
      * @param x
      * @return new WB_coordinate
      */
-    public WB_Coordinate addMul(final double f, final double... x);
+    public WB_Coord addMul(final double f, final double... x);
 
     /**
      * Add multiple of coordinate values and store in mutable coordinate.
@@ -64,7 +64,7 @@ public interface WB_CoordinateMath {
      *            multiplier
      * @param x
      */
-    public void addMulInto(final WB_MutableCoordinate result, final double f,
+    public void addMulInto(final WB_MutableCoord result, final double f,
 	    final double... x);
 
     /**
@@ -74,7 +74,7 @@ public interface WB_CoordinateMath {
      * @param p
      * @return new WB_coordinate
      */
-    public WB_Coordinate addMul(final double f, final WB_Coordinate p);
+    public WB_Coord addMul(final double f, final WB_Coord p);
 
     /**
      * Add multiple of coordinate values and store in mutable coordinate.
@@ -83,8 +83,8 @@ public interface WB_CoordinateMath {
      * @param f
      * @param p
      */
-    public void addMulInto(final WB_MutableCoordinate result, final double f,
-	    final WB_Coordinate p);
+    public void addMulInto(final WB_MutableCoord result, final double f,
+	    final WB_Coord p);
 
     /**
      * Subtract coordinate values.
@@ -92,7 +92,7 @@ public interface WB_CoordinateMath {
      * @param x
      * @return new WB_coordinate
      */
-    public WB_Coordinate sub(final double... x);
+    public WB_Coord sub(final double... x);
 
     /**
      * Subtract coordinate values and store in mutable coordinate.
@@ -100,7 +100,7 @@ public interface WB_CoordinateMath {
      * @param result
      * @param x
      */
-    public void subInto(final WB_MutableCoordinate result, final double... x);
+    public void subInto(final WB_MutableCoord result, final double... x);
 
     /**
      * Subtract coordinate values.
@@ -108,7 +108,7 @@ public interface WB_CoordinateMath {
      * @param p
      * @return new WB_coordinate
      */
-    public WB_Coordinate sub(final WB_Coordinate p);
+    public WB_Coord sub(final WB_Coord p);
 
     /**
      * Subtract coordinate values and store in mutable coordinate.
@@ -116,7 +116,7 @@ public interface WB_CoordinateMath {
      * @param result
      * @param p
      */
-    public void subInto(final WB_MutableCoordinate result, final WB_Coordinate p);
+    public void subInto(final WB_MutableCoord result, final WB_Coord p);
 
     /**
      * Multiply by factor.
@@ -124,7 +124,7 @@ public interface WB_CoordinateMath {
      * @param f
      * @return new WB_coordinate
      */
-    public WB_Coordinate mul(final double f);
+    public WB_Coord mul(final double f);
 
     /**
      * Multiply by factor and store in mutable coordinate.
@@ -132,7 +132,7 @@ public interface WB_CoordinateMath {
      * @param result
      * @param f
      */
-    public void mulInto(final WB_MutableCoordinate result, final double f);
+    public void mulInto(final WB_MutableCoord result, final double f);
 
     /**
      * Multiply this coordinate by factor f and add other coordinate values
@@ -143,7 +143,7 @@ public interface WB_CoordinateMath {
      * @param x
      * @return new WB_coordinate
      */
-    public WB_Coordinate mulAddMul(final double f, final double g,
+    public WB_Coord mulAddMul(final double f, final double g,
 	    final double... x);
 
     /**
@@ -155,8 +155,8 @@ public interface WB_CoordinateMath {
      * @param p
      * @return new WB_coordinate
      */
-    public WB_Coordinate mulAddMul(final double f, final double g,
-	    final WB_Coordinate p);
+    public WB_Coord mulAddMul(final double f, final double g,
+	    final WB_Coord p);
 
     /**
      * Multiply this coordinate by factor f, add other coordinate values
@@ -167,7 +167,7 @@ public interface WB_CoordinateMath {
      * @param g
      * @param x
      */
-    public void mulAddMulInto(final WB_MutableCoordinate result,
+    public void mulAddMulInto(final WB_MutableCoord result,
 	    final double f, final double g, final double... x);
 
     /**
@@ -179,8 +179,8 @@ public interface WB_CoordinateMath {
      * @param g
      * @param p
      */
-    public void mulAddMulInto(final WB_MutableCoordinate result,
-	    final double f, final double g, final WB_Coordinate p);
+    public void mulAddMulInto(final WB_MutableCoord result,
+	    final double f, final double g, final WB_Coord p);
 
     /**
      * Divide by factor.
@@ -188,7 +188,7 @@ public interface WB_CoordinateMath {
      * @param f
      * @return new WB_coordinate
      */
-    public WB_Coordinate div(final double f);
+    public WB_Coord div(final double f);
 
     /**
      * Divide by factor and store in mutable coordinate.
@@ -196,7 +196,7 @@ public interface WB_CoordinateMath {
      * @param result
      * @param f
      */
-    public void divInto(final WB_MutableCoordinate result, final double f);
+    public void divInto(final WB_MutableCoord result, final double f);
 
     /**
      * Cross product of this coordinate with other coordinate.
@@ -204,7 +204,7 @@ public interface WB_CoordinateMath {
      * @param p
      * @return new WB_coordinate
      */
-    public WB_Coordinate cross(final WB_Coordinate p);
+    public WB_Coord cross(final WB_Coord p);
 
     /**
      * Store cross product of this coordinate with other coordinate in mutable
@@ -213,8 +213,8 @@ public interface WB_CoordinateMath {
      * @param result
      * @param p
      */
-    public void crossInto(final WB_MutableCoordinate result,
-	    final WB_Coordinate p);
+    public void crossInto(final WB_MutableCoord result,
+	    final WB_Coord p);
 
     /**
      * Dot product.
@@ -222,7 +222,7 @@ public interface WB_CoordinateMath {
      * @param p
      * @return dot product
      */
-    public double dot(final WB_Coordinate p);
+    public double dot(final WB_Coord p);
 
     /**
      * 2D dot product
@@ -230,7 +230,7 @@ public interface WB_CoordinateMath {
      * @param p
      * @return 2D dot product
      */
-    public double dot2D(final WB_Coordinate p);
+    public double dot2D(final WB_Coord p);
 
     /**
      * Absolute value of dot product.
@@ -238,7 +238,7 @@ public interface WB_CoordinateMath {
      * @param p
      * @return absolute value of dot product
      */
-    public double absDot(final WB_Coordinate p);
+    public double absDot(final WB_Coord p);
 
     /**
      * Absolute value of 2D dot product.
@@ -246,7 +246,7 @@ public interface WB_CoordinateMath {
      * @param p
      * @return absolute value of 2D dot product
      */
-    public double absDot2D(final WB_Coordinate p);
+    public double absDot2D(final WB_Coord p);
 
     /**
      * Tensor product.
@@ -254,7 +254,7 @@ public interface WB_CoordinateMath {
      * @param v
      * @return tensor product
      */
-    public WB_M33 tensor(final WB_Coordinate v);
+    public WB_M33 tensor(final WB_Coord v);
 
     /**
      * Scalar triple: this.(v x w)
@@ -263,5 +263,5 @@ public interface WB_CoordinateMath {
      * @param w
      * @return scalar triple
      */
-    public double scalarTriple(final WB_Coordinate v, final WB_Coordinate w);
+    public double scalarTriple(final WB_Coord v, final WB_Coord w);
 }

@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 
 /**
  * Helper class for HE_Export.saveToSimpleMesh.
@@ -131,7 +131,7 @@ public class HET_SimpleMeshWriter {
      * @param v
      *            the v
      */
-    public void vertices(final WB_Coordinate[] v) {
+    public void vertices(final WB_Coord[] v) {
 	int i = 0;
 	for (i = 0; i < v.length; i++) {
 	    simpleMeshWriter.println(v[i].xd() + " " + v[i].yd() + " "

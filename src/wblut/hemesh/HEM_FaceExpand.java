@@ -7,7 +7,7 @@ import gnu.trove.map.TLongIntMap;
 import gnu.trove.map.hash.TLongIntHashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_IntersectionResult;
 import wblut.geom.WB_Line;
@@ -63,9 +63,9 @@ public class HEM_FaceExpand extends HEM_Modifier {
 	final ArrayList<WB_Point> newVertices = new ArrayList<WB_Point>();
 	HE_Face f;
 	HE_Halfedge he;
-	WB_Coordinate fn;
-	WB_Coordinate vn;
-	WB_Coordinate en;
+	WB_Coord fn;
+	WB_Coord vn;
+	WB_Coord en;
 	HE_Vertex v;
 	int vertexCount = 0;
 	while (fItr.hasNext()) {

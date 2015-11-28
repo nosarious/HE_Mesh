@@ -1,44 +1,43 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
-public class WB_Point4D implements Comparable<WB_Coordinate>,
-	WB_MutableCoordinate {
-    
+public class WB_Point4D implements Comparable<WB_Coord>,
+WB_MutableCoord {
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public static final WB_Point4D ZERO() {
 	return new WB_Point4D(0, 0, 0, 1);
     }
 
     /**
-     * 
+     *
      */
-    public double x, y, z, w;
+    private double x, y, z, w;
 
     /**
-     * 
+     *
      */
     public WB_Point4D() {
 	x = y = z = w = 0;
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @param w 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param w
      */
     public WB_Point4D(final double x, final double y, final double z,
 	    final double w) {
@@ -49,9 +48,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param v 
+     *
+     * @param v
      */
     public WB_Point4D(final WB_Point4D v) {
 	x = v.x;
@@ -61,12 +60,12 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param v 
-     * @param w 
+     *
+     * @param v
+     * @param w
      */
-    public WB_Point4D(final WB_Coordinate v, final double w) {
+    public WB_Point4D(final WB_Coord v, final double w) {
 	x = v.xd();
 	y = v.yd();
 	z = v.zd();
@@ -74,27 +73,27 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double mag2() {
 	return (x * x) + (y * y) + (z * z) + (w * w);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double mag() {
 	return Math.sqrt((x * x) + (y * y) + (z * z) + (w * w));
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public boolean isZero() {
 	return (mag2() < WB_Epsilon.SQEPSILON);
@@ -102,14 +101,14 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     /**
-     * 
      *
-     * @param otherXYZW 
-     * @return 
+     *
+     * @param otherXYZW
+     * @return
      */
     public int compareTo(final WB_Point4D otherXYZW) {
 	int _tmp = WB_Epsilon.compareAbs(x, otherXYZW.x);
@@ -130,7 +129,7 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -138,7 +137,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	return "XYZW [x=" + x + ", y=" + y + ", z=" + z + ", w=" + w + "]";
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Coordinate#getd(int)
      */
     @Override
@@ -158,7 +159,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	return Double.NaN;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Coordinate#getf(int)
      */
     @Override
@@ -178,7 +181,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	return Float.NaN;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Coordinate#xf()
      */
     @Override
@@ -186,7 +191,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	return (float) x;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Coordinate#yf()
      */
     @Override
@@ -194,7 +201,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	return (float) y;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Coordinate#zf()
      */
     @Override
@@ -202,7 +211,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	return (float) z;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Coordinate#wf()
      */
     @Override
@@ -211,21 +222,21 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_Point4D get() {
 	return new WB_Point4D(x, y, z, w);
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @return 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @return
      */
     public WB_Point4D moveTo(final double x, final double y, final double z) {
 	this.x = x;
@@ -235,12 +246,12 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
-    public WB_Point4D moveTo(final WB_Coordinate p) {
+    public WB_Point4D moveTo(final WB_Coord p) {
 	x = p.xd();
 	y = p.yd();
 	z = p.zd();
@@ -248,12 +259,12 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @return 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @return
      */
     public WB_Point4D moveBy(final double x, final double y, final double z) {
 	this.x += x;
@@ -263,12 +274,12 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param v 
-     * @return 
+     *
+     * @param v
+     * @return
      */
-    public WB_Point4D moveBy(final WB_Coordinate v) {
+    public WB_Point4D moveBy(final WB_Coord v) {
 	x += v.xd();
 	y += v.yd();
 	z += v.zd();
@@ -276,12 +287,12 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @param result 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param result
      */
     public void moveByInto(final double x, final double y, final double z,
 	    final WB_Point4D result) {
@@ -292,12 +303,12 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param v 
-     * @param result 
+     *
+     * @param v
+     * @param result
      */
-    public void moveByInto(final WB_Coordinate v, final WB_Point4D result) {
+    public void moveByInto(final WB_Coord v, final WB_Point4D result) {
 	result.x = x + v.xd();
 	result.y = y + v.yd();
 	result.z = z + v.zd();
@@ -305,12 +316,12 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @return 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @return
      */
     public WB_Point4D moveByAndCopy(final double x, final double y,
 	    final double z) {
@@ -318,19 +329,19 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param v 
-     * @return 
+     *
+     * @param v
+     * @return
      */
     public WB_Point4D moveByAndCopy(final WB_Point v) {
 	return new WB_Point4D(x + v.xd(), y + v.yd(), z + v.zd(), w);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public WB_Point4D invert() {
 	x *= -1;
@@ -341,9 +352,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double normalize() {
 	final double d = mag();
@@ -356,9 +367,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param d 
+     *
+     * @param d
      */
     public void trim(final double d) {
 	if (mag2() > (d * d)) {
@@ -368,10 +379,10 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @return 
+     *
+     * @param f
+     * @return
      */
     public WB_Point4D scale(final double f) {
 	x *= f;
@@ -382,10 +393,10 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @param result 
+     *
+     * @param f
+     * @param result
      */
     public void scaleInto(final double f, final WB_Point4D result) {
 	result.x = x * f;
@@ -395,13 +406,13 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @param w 
-     * @return 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param w
+     * @return
      */
     public WB_Point4D add(final double x, final double y, final double z,
 	    final double w) {
@@ -413,14 +424,14 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @param w 
-     * @param f 
-     * @return 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param w
+     * @param f
+     * @return
      */
     public WB_Point4D add(final double x, final double y, final double z,
 	    final double w, final double f) {
@@ -432,10 +443,10 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public WB_Point4D add(final WB_Point4D p) {
 	x += p.x;
@@ -446,11 +457,11 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param f 
-     * @return 
+     *
+     * @param p
+     * @param f
+     * @return
      */
     public WB_Point4D add(final WB_Point4D p, final double f) {
 	x += f * p.x;
@@ -461,13 +472,13 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @param w 
-     * @param result 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param w
+     * @param result
      */
     public void addInto(final double x, final double y, final double z,
 	    final double w, final WB_Point4D result) {
@@ -478,10 +489,10 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param result 
+     *
+     * @param p
+     * @param result
      */
     public void addInto(final WB_Point4D p, final WB_Point4D result) {
 	result.x = x + p.x;
@@ -491,13 +502,13 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @param w 
-     * @return 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param w
+     * @return
      */
     public WB_Point4D addAndCopy(final double x, final double y,
 	    final double z, final double w) {
@@ -505,14 +516,14 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @param w 
-     * @param f 
-     * @return 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param w
+     * @param f
+     * @return
      */
     public WB_Point4D addAndCopy(final double x, final double y,
 	    final double z, final double w, final double f) {
@@ -521,23 +532,23 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public WB_Point4D addAndCopy(final WB_Point4D p) {
 	return new WB_Point4D(x + p.x, y + p.y, z + p.z, w + p.w);
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @param w 
-     * @return 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param w
+     * @return
      */
     public WB_Point4D sub(final double x, final double y, final double z,
 	    final double w) {
@@ -549,10 +560,10 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param v 
-     * @return 
+     *
+     * @param v
+     * @return
      */
     public WB_Point4D sub(final WB_Point4D v) {
 	x -= v.x;
@@ -563,13 +574,13 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @param w 
-     * @param result 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param w
+     * @param result
      */
     public void subInto(final double x, final double y, final double z,
 	    final double w, final WB_Point4D result) {
@@ -580,10 +591,10 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @param result 
+     *
+     * @param p
+     * @param result
      */
     public void subInto(final WB_Point4D p, final WB_Point4D result) {
 	result.x = x - p.x;
@@ -593,13 +604,13 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @param y 
-     * @param z 
-     * @param w 
-     * @return 
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param w
+     * @return
      */
     public WB_Point4D subAndCopy(final double x, final double y,
 	    final double z, final double w) {
@@ -607,20 +618,20 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param p 
-     * @return 
+     *
+     * @param p
+     * @return
      */
     public WB_Point4D subAndCopy(final WB_Point4D p) {
 	return new WB_Point4D(x - p.x, y - p.y, z - p.z, w - p.w);
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @return 
+     *
+     * @param f
+     * @return
      */
     public WB_Point4D mult(final double f) {
 	scale(f);
@@ -628,56 +639,58 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @param result 
+     *
+     * @param f
+     * @param result
      */
     public void multInto(final double f, final WB_Point4D result) {
 	scaleInto(f, result);
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @return 
+     *
+     * @param f
+     * @return
      */
     public WB_Point4D multAndCopy(final double f) {
 	return new WB_Point4D(x * f, y * f, z * f, w * f);
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @return 
+     *
+     * @param f
+     * @return
      */
     public WB_Point4D div(final double f) {
 	return mult(1.0 / f);
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @param result 
+     *
+     * @param f
+     * @param result
      */
     public void divInto(final double f, final WB_Point4D result) {
 	multInto(1.0 / f, result);
     }
 
     /**
-     * 
      *
-     * @param f 
-     * @return 
+     *
+     * @param f
+     * @return
      */
     public WB_Point4D divAndCopy(final double f) {
 	return multAndCopy(1.0 / f);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Coordinate#xd()
      */
     @Override
@@ -685,7 +698,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	return x;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Coordinate#yd()
      */
     @Override
@@ -693,7 +708,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	return y;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Coordinate#zd()
      */
     @Override
@@ -701,7 +718,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	return z;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_Coordinate#wd()
      */
     @Override
@@ -709,7 +728,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	return w;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_MutableCoordinate#setX(double)
      */
     @Override
@@ -717,7 +738,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	this.x = x;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_MutableCoordinate#setY(double)
      */
     @Override
@@ -725,7 +748,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	this.y = y;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_MutableCoordinate#setZ(double)
      */
     @Override
@@ -733,7 +758,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	this.z = z;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_MutableCoordinate#setW(double)
      */
     @Override
@@ -741,7 +768,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	this.w = w;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_MutableCoordinate#setCoord(int, double)
      */
     @Override
@@ -760,7 +789,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	}
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_MutableCoordinate#set(double, double, double, double)
      */
     @Override
@@ -772,7 +803,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	this.w = w;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_MutableCoordinate#set(double, double, double)
      */
     @Override
@@ -783,7 +816,9 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	this.w = 0;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_MutableCoordinate#set(double, double)
      */
     @Override
@@ -795,12 +830,12 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param p0 
-     * @param p1 
-     * @param t 
-     * @return 
+     *
+     * @param p0
+     * @param p1
+     * @param t
+     * @return
      */
     public static WB_Point4D interpolate(final WB_Point4D p0,
 	    final WB_Point4D p1, final double t) {
@@ -809,11 +844,13 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 		+ (t * (p1.w - p0.w)));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     @Override
-    public int compareTo(final WB_Coordinate p) {
+    public int compareTo(final WB_Coord p) {
 	int cmp = Double.compare(xd(), p.xd());
 	if (cmp != 0) {
 	    return cmp;
@@ -829,11 +866,13 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
 	return Double.compare(wd(), p.wd());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see wblut.geom.WB_MutableCoordinate#set(wblut.geom.WB_Coordinate)
      */
     @Override
-    public void set(final WB_Coordinate p) {
+    public void set(final WB_Coord p) {
 	this.x = p.xd();
 	this.y = p.yd();
 	this.z = p.zd();
@@ -841,10 +880,10 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param theta 
-     * @return 
+     *
+     * @param theta
+     * @return
      */
     public WB_Point4D rotateXY(final double theta) {
 	set((x * Math.cos(theta)) + (y * -Math.sin(theta)),
@@ -853,10 +892,10 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param theta 
-     * @return 
+     *
+     * @param theta
+     * @return
      */
     public WB_Point4D rotateYZ(final double theta) {
 	set(x, (y * Math.cos(theta)) + (z * Math.sin(theta)),
@@ -865,10 +904,10 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param theta 
-     * @return 
+     *
+     * @param theta
+     * @return
      */
     public WB_Point4D rotateXZ(final double theta) {
 	set((x * Math.cos(theta)) + (z * -Math.sin(theta)), y,
@@ -877,10 +916,10 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param theta 
-     * @return 
+     *
+     * @param theta
+     * @return
      */
     public WB_Point4D rotateXW(final double theta) {
 	set((x * Math.cos(theta)) + (w * Math.sin(theta)), y, z,
@@ -889,10 +928,10 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param theta 
-     * @return 
+     *
+     * @param theta
+     * @return
      */
     public WB_Point4D rotateYW(final double theta) {
 	set(x, (y * Math.cos(theta)) + (w * -Math.sin(theta)), z,
@@ -901,10 +940,10 @@ public class WB_Point4D implements Comparable<WB_Coordinate>,
     }
 
     /**
-     * 
      *
-     * @param theta 
-     * @return 
+     *
+     * @param theta
+     * @return
      */
     public WB_Point4D rotateZW(final double theta) {
 	set(x, y, (z * Math.cos(theta)) + (w * -Math.sin(theta)),

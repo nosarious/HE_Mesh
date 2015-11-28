@@ -13,7 +13,7 @@ public interface WB_MutableCoordinateTransform extends WB_CoordinateTransform {
      * @param T
      * @return
      */
-    public WB_Coordinate applySelf(final WB_Transform T);
+    public WB_Coord applySelf(final WB_Transform T);
 
     /**
      *
@@ -21,7 +21,7 @@ public interface WB_MutableCoordinateTransform extends WB_CoordinateTransform {
      * @param T
      * @return
      */
-    public WB_Coordinate applyAsNormalSelf(final WB_Transform T);
+    public WB_Coord applyAsNormalSelf(final WB_Transform T);
 
     /**
      *
@@ -29,7 +29,7 @@ public interface WB_MutableCoordinateTransform extends WB_CoordinateTransform {
      * @param T
      * @return
      */
-    public WB_Coordinate applyAsPointSelf(final WB_Transform T);
+    public WB_Coord applyAsPointSelf(final WB_Transform T);
 
     /**
      *
@@ -37,7 +37,7 @@ public interface WB_MutableCoordinateTransform extends WB_CoordinateTransform {
      * @param T
      * @return
      */
-    public WB_Coordinate applyAsVectorSelf(final WB_Transform T);
+    public WB_Coord applyAsVectorSelf(final WB_Transform T);
 
     /**
      *
@@ -51,7 +51,7 @@ public interface WB_MutableCoordinateTransform extends WB_CoordinateTransform {
      * @param p2z
      * @return
      */
-    public WB_Coordinate rotateAbout2PointAxisSelf(final double angle,
+    public WB_Coord rotateAbout2PointAxisSelf(final double angle,
 	    final double p1x, final double p1y, final double p1z,
 	    final double p2x, final double p2y, final double p2z);
 
@@ -63,8 +63,8 @@ public interface WB_MutableCoordinateTransform extends WB_CoordinateTransform {
      * @param p2
      * @return
      */
-    public WB_Coordinate rotateAbout2PointAxisSelf(final double angle,
-	    final WB_Coordinate p1, final WB_Coordinate p2);
+    public WB_Coord rotateAbout2PointAxisSelf(final double angle,
+	    final WB_Coord p1, final WB_Coord p2);
 
     /**
      *
@@ -74,8 +74,8 @@ public interface WB_MutableCoordinateTransform extends WB_CoordinateTransform {
      * @param a
      * @return
      */
-    public WB_Coordinate rotateAboutAxisSelf(final double angle,
-	    final WB_Coordinate p, final WB_Coordinate a);
+    public WB_Coord rotateAboutAxisSelf(final double angle,
+	    final WB_Coord p, final WB_Coord a);
 
     /**
      *
@@ -89,7 +89,7 @@ public interface WB_MutableCoordinateTransform extends WB_CoordinateTransform {
      * @param az
      * @return
      */
-    public WB_Coordinate rotateAboutAxisSelf(final double angle,
+    public WB_Coord rotateAboutAxisSelf(final double angle,
 	    final double px, final double py, final double pz, final double ax,
 	    final double ay, final double az);
 
@@ -99,7 +99,7 @@ public interface WB_MutableCoordinateTransform extends WB_CoordinateTransform {
      * @param f
      * @return
      */
-    public WB_Coordinate scaleSelf(final double f);
+    public WB_Coord scaleSelf(final double f);
 
     /**
      *
@@ -109,6 +109,6 @@ public interface WB_MutableCoordinateTransform extends WB_CoordinateTransform {
      * @param fz
      * @return
      */
-    public WB_Coordinate scaleSelf(final double fx, final double fy,
+    public WB_Coord scaleSelf(final double fx, final double fy,
 	    final double fz);
 }

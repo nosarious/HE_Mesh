@@ -3,7 +3,7 @@
  */
 package wblut.hemesh;
 
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_Line;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Polygon;
@@ -56,8 +56,8 @@ public class HEC_RevolvePolygon extends HEC_Creator {
      * @param v 
      * @return 
      */
-    public HEC_RevolvePolygon setAxis(final WB_Coordinate p,
-	    final WB_Coordinate v) {
+    public HEC_RevolvePolygon setAxis(final WB_Coord p,
+	    final WB_Coord v) {
 	axis = new WB_Line(p, v);
 	return this;
     }

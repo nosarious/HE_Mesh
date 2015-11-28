@@ -4,9 +4,10 @@
 package wblut.hemesh;
 
 import java.util.Iterator;
+
+import wblut.geom.WB_RandomOnSphere;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_ConstantScalarParameter;
-import wblut.math.WB_RandomOnSphere;
 import wblut.math.WB_ScalarParameter;
 
 /**
@@ -77,7 +78,7 @@ public class HEM_Noise extends HEM_Modifier {
 	    n = rs.nextVector();
 	    v.getPoint().addSelf(n.mulSelf(d.evaluate(v.xd(), v.yd(), v.zd())));
 	}
-	mesh.resetFaces();
+	
 	return mesh;
     }
 
@@ -98,7 +99,7 @@ public class HEM_Noise extends HEM_Modifier {
 	    n = rs.nextVector();
 	    v.getPoint().addSelf(n.mulSelf(d.evaluate(v.xd(), v.yd(), v.zd())));
 	}
-	selection.parent.resetFaces();
+	
 	return selection.parent;
     }
 }

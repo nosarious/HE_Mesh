@@ -5,7 +5,7 @@ package wblut.hemesh;
 
 import java.util.Iterator;
 import javolution.util.FastTable;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 
 /**
  *
@@ -46,14 +46,14 @@ public class HEM_VertexExpand extends HEM_Modifier {
 	}
 	HE_Vertex v;
 	Iterator<HE_Vertex> vItr = mesh.vItr();
-	final FastTable<WB_Coordinate> normals = new FastTable<WB_Coordinate>();
+	final FastTable<WB_Coord> normals = new FastTable<WB_Coord>();
 	while (vItr.hasNext()) {
 	    v = vItr.next();
 	    normals.add(v.getVertexNormal());
 	}
-	final Iterator<WB_Coordinate> vnItr = normals.iterator();
+	final Iterator<WB_Coord> vnItr = normals.iterator();
 	vItr = mesh.vItr();
-	WB_Coordinate n;
+	WB_Coord n;
 	while (vItr.hasNext()) {
 	    v = vItr.next();
 	    n = vnItr.next();

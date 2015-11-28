@@ -6,6 +6,7 @@ package wblut.geom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import wblut.math.WB_Epsilon;
 
 /**
@@ -16,7 +17,7 @@ import wblut.math.WB_Epsilon;
  * @param <V>
  *            value type
  */
-public class WB_KDTree<T extends WB_Coordinate, V> {
+public class WB_KDTree<T extends WB_Coord, V> {
     /** dim. */
     private final int _dim;
     /** maximum bin size. */
@@ -116,7 +117,7 @@ public class WB_KDTree<T extends WB_Coordinate, V> {
      * @param radius 
      * @return 
      */
-    public WB_KDEntry<T, V>[] getRange(final WB_Coordinate center,
+    public WB_KDEntry<T, V>[] getRange(final WB_Coord center,
 	    final double radius) {
 	final double r2 = radius * radius;
 	return root.range(center, r2);
@@ -130,7 +131,7 @@ public class WB_KDTree<T extends WB_Coordinate, V> {
      * @param upper 
      * @return 
      */
-    public WB_KDEntry<T, V>[] getRange(final WB_Coordinate center,
+    public WB_KDEntry<T, V>[] getRange(final WB_Coord center,
 	    final double lower, final double upper) {
 	final double lower2 = lower * lower;
 	final double upper2 = upper * upper;
@@ -144,7 +145,7 @@ public class WB_KDTree<T extends WB_Coordinate, V> {
      * @param num 
      * @return 
      */
-    public WB_KDEntry<T, V>[] getNearestNeighbors(final WB_Coordinate coord,
+    public WB_KDEntry<T, V>[] getNearestNeighbors(final WB_Coord coord,
 	    final int num) {
 	final QueryResult<T, V> heap = new QueryResult<T, V>(num);
 	root.findNearest(heap, coord);
@@ -157,11 +158,17 @@ public class WB_KDTree<T extends WB_Coordinate, V> {
      * @param coord 
      * @return 
      */
-    public WB_KDEntry<T, V> getNearestNeighbor(final WB_Coordinate coord) {
+    public WB_KDEntry<T, V> getNearestNeighbor(final WB_Coord coord) {
 	final QueryResult<T, V> heap = new QueryResult<T, V>(1);
 	root.findNearest(heap, coord);
 	return heap.entries[0];
     }
+    
+    public WB_KDEntry<T, V> getNearestNeighbor(double x, double y, double z) {
+    	final QueryResult<T, V> heap = new QueryResult<T, V>(1);
+    	root.findNearest(heap, new WB_Point(x,y,z));
+    	return heap.entries[0];
+        }
 
     /**
      * 
@@ -169,7 +176,7 @@ public class WB_KDTree<T extends WB_Coordinate, V> {
      * @param <T> 
      * @param <V> 
      */
-    public static class WB_KDEntry<T extends WB_Coordinate, V> {
+    public static class WB_KDEntry<T extends WB_Coord, V> {
 	
 	/**
 	 * 
@@ -207,7 +214,7 @@ public class WB_KDTree<T extends WB_Coordinate, V> {
      * @param <V> 
      */
     @SuppressWarnings("hiding")
-    private class WB_KDNode<T extends WB_Coordinate, V> {
+    private class WB_KDNode<T extends WB_Coord, V> {
 	
 	/**
 	 * 
@@ -385,7 +392,7 @@ public class WB_KDTree<T extends WB_Coordinate, V> {
 	 * @param point 
 	 * @return 
 	 */
-	private V lookup(final WB_Coordinate point) {
+	private V lookup(final WB_Coord point) {
 	    for (int i = 0; i < _binSize; i++) {
 		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistance3D(point,
 			_bin[i].coord))) {
@@ -402,7 +409,7 @@ public class WB_KDTree<T extends WB_Coordinate, V> {
 	 * @param data 
 	 */
 	private void findNearest(final QueryResult<T, V> heap,
-		final WB_Coordinate data) {
+		final WB_Coord data) {
 	    if (_binSize == 0) {
 		return;
 	    }
@@ -489,7 +496,7 @@ public class WB_KDTree<T extends WB_Coordinate, V> {
 	 * @param r2 
 	 * @return 
 	 */
-	private WB_KDEntry<T, V>[] range(final WB_Coordinate center,
+	private WB_KDEntry<T, V>[] range(final WB_Coord center,
 		final double r2) {
 	    if (_bin == null) {
 		@SuppressWarnings("unchecked")
@@ -540,7 +547,7 @@ public class WB_KDTree<T extends WB_Coordinate, V> {
 	 * @param upper2 
 	 * @return 
 	 */
-	private WB_KDEntry<T, V>[] range(final WB_Coordinate center,
+	private WB_KDEntry<T, V>[] range(final WB_Coord center,
 		final double lower2, final double upper2) {
 	    if (_bin == null) {
 		@SuppressWarnings("unchecked")
@@ -623,7 +630,7 @@ public class WB_KDTree<T extends WB_Coordinate, V> {
 	 *
 	 * @param coord 
 	 */
-	private void extendBounds(final WB_Coordinate coord) {
+	private void extendBounds(final WB_Coord coord) {
 	    if (_limits == null) {
 		_limits = new WB_AABB(coord);
 	    } else {
@@ -639,7 +646,7 @@ public class WB_KDTree<T extends WB_Coordinate, V> {
      * @param <V> 
      */
     @SuppressWarnings("hiding")
-    public class QueryResult<T extends WB_Coordinate, V> {
+    public class QueryResult<T extends WB_Coord, V> {
 	/** The entries. */
 	private final WB_KDEntry<T, V>[] entries;
 	/** The dist sqs. */

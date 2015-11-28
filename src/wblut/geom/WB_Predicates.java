@@ -70,8 +70,8 @@ public class WB_Predicates {
      *            the pd
      * @return the double
      */
-    public static double orient(final WB_Coordinate pa, final WB_Coordinate pb,
-	    final WB_Coordinate pc, final WB_Coordinate pd) {
+    public static double orient(final WB_Coord pa, final WB_Coord pb,
+	    final WB_Coord pc, final WB_Coord pd) {
 	if (orientErrorBound == -1) {
 	    init();
 	}
@@ -143,9 +143,9 @@ public class WB_Predicates {
      *            the pd
      * @return the double
      */
-    public static double orientExact(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc,
-	    final WB_Coordinate pd) {
+    public static double orientExact(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc,
+	    final WB_Coord pd) {
 	WB_DoubleDouble ax, ay, az, bx, by, bz, cx, cy, cz, dx, dy, dz;
 	WB_DoubleDouble adx, bdx, cdx, ady, bdy, cdy, adz, bdz, cdz;
 	WB_DoubleDouble m1, m2, m3;
@@ -197,9 +197,9 @@ public class WB_Predicates {
      *            the pe
      * @return the double
      */
-    public static double insphere(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc,
-	    final WB_Coordinate pd, final WB_Coordinate pe) {
+    public static double insphere(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc,
+	    final WB_Coord pd, final WB_Coord pe) {
 	if (insphereErrorBound == -1) {
 	    init();
 	}
@@ -302,9 +302,9 @@ public class WB_Predicates {
      *            the pe
      * @return the double
      */
-    public static double insphereExact(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc,
-	    final WB_Coordinate pd, final WB_Coordinate pe) {
+    public static double insphereExact(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc,
+	    final WB_Coord pd, final WB_Coord pe) {
 	WB_DoubleDouble ax, ay, az, bx, by, bz, cx, cy, cz, dx, dy, dz, ex, ey, ez;
 	WB_DoubleDouble aex, bex, cex, dex;
 	WB_DoubleDouble aey, bey, cey, dey;
@@ -394,9 +394,9 @@ public class WB_Predicates {
      *            the pe
      * @return the double
      */
-    public static double inSphereOrient(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc,
-	    final WB_Coordinate pd, final WB_Coordinate pe) {
+    public static double inSphereOrient(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc,
+	    final WB_Coord pd, final WB_Coord pe) {
 	if (orient(pa, pb, pc, pd) > 0) {
 	    return insphere(pa, pb, pc, pd, pe);
 	}
@@ -427,9 +427,9 @@ public class WB_Predicates {
      *            the q2
      * @return true, if successful
      */
-    public static boolean diffSides(final WB_Coordinate p1,
-	    final WB_Coordinate p2, final WB_Coordinate p3,
-	    final WB_Coordinate q1, final WB_Coordinate q2) {
+    public static boolean diffSides(final WB_Coord p1,
+	    final WB_Coord p2, final WB_Coord p3,
+	    final WB_Coord q1, final WB_Coord q2) {
 	double a, b;
 	a = orient(p1, p2, p3, q1);
 	b = orient(p1, p2, p3, q2);
@@ -451,9 +451,9 @@ public class WB_Predicates {
      *            the q
      * @return true, if successful
      */
-    public static boolean insideTetrahedron(final WB_Coordinate p1,
-	    final WB_Coordinate p2, final WB_Coordinate p3,
-	    final WB_Coordinate p4, final WB_Coordinate q) {
+    public static boolean insideTetrahedron(final WB_Coord p1,
+	    final WB_Coord p2, final WB_Coord p3,
+	    final WB_Coord p4, final WB_Coord q) {
 	return (!diffSides(p1, p2, p3, q, p4) && !diffSides(p2, p3, p4, q, p1)
 		&& !diffSides(p1, p2, p4, q, p3) && !diffSides(p1, p3, p4, q,
 			p2));
@@ -2315,22 +2315,22 @@ public class WB_Predicates {
      *            the q
      * @return the w b_ classify
      */
-    public WB_ClassificationGeometry insphereTetra(final double[] p0,
+    public WB_Classification insphereTetra(final double[] p0,
 	    final double[] p1, final double[] p2, final double[] p3,
 	    final double[] q) {
 	final double orient = orientTetra(p0, p1, p2, p3);
 	if (orient == 0) {
-	    return WB_ClassificationGeometry.COPLANAR;
+	    return WB_Classification.COPLANAR;
 	}
 	final double result = _insphereTetra(p0, p1, p2, p3, q);
 	if (result == 0) {
-	    return WB_ClassificationGeometry.ON;
+	    return WB_Classification.ON;
 	}
 	if ((Math.signum(result) * Math.signum(orient)) < 0) {
 	    // multiplication
-	    return WB_ClassificationGeometry.OUTSIDE;
+	    return WB_Classification.OUTSIDE;
 	} else {
-	    return WB_ClassificationGeometry.INSIDE;
+	    return WB_Classification.INSIDE;
 	}
     }
 
@@ -3711,16 +3711,16 @@ public class WB_Predicates {
      *            the q
      * @return the w b_ classify
      */
-    public WB_ClassificationGeometry insphereTri(final double[] p0,
+    public WB_Classification insphereTri(final double[] p0,
 	    final double[] p1, final double[] p2, final double[] q) {
 	final double result = _insphereTri(p0[0], p0[1], p0[2], p1[0], p1[1],
 		p1[2], p2[0], p2[1], p2[2], q[0], q[1], q[2]);
 	if (result > 0) {
-	    return WB_ClassificationGeometry.INSIDE;
+	    return WB_Classification.INSIDE;
 	} else if (result < 0) {
-	    return WB_ClassificationGeometry.OUTSIDE;
+	    return WB_Classification.OUTSIDE;
 	} else {
-	    return WB_ClassificationGeometry.ON;
+	    return WB_Classification.ON;
 	}
     }
 
@@ -5166,26 +5166,26 @@ public class WB_Predicates {
      *            the q1
      * @return the w b_ classify
      */
-    public WB_ClassificationGeometry diffsides(final double[] p0,
+    public WB_Classification diffsides(final double[] p0,
 	    final double[] p1, final double[] p2, final double[] q0,
 	    final double[] q1) {
 	double a, b;
 	a = orientTetra(p0, p1, p2, q0);
 	b = orientTetra(p0, p1, p2, q1);
 	if ((a == 0) && (b == 0)) {
-	    return WB_ClassificationGeometry.COPLANAR;
+	    return WB_Classification.COPLANAR;
 	}
 	if (((a > 0) && (b < 0)) || ((a < 0) && (b > 0))) {
 	    if ((a == 0) || (b == 0)) {
-		return WB_ClassificationGeometry.DIFF;
+		return WB_Classification.DIFF;
 	    }
-	    return WB_ClassificationGeometry.DIFFEXCL;
+	    return WB_Classification.DIFFEXCL;
 	}
 	if (((a > 0) && (b > 0)) || ((a < 0) && (b < 0))) {
 	    if ((a == 0) || (b == 0)) {
-		return WB_ClassificationGeometry.SAME;
+		return WB_Classification.SAME;
 	    }
-	    return WB_ClassificationGeometry.SAMEEXCL;
+	    return WB_Classification.SAMEEXCL;
 	}
 	return null;
     }
@@ -5236,8 +5236,8 @@ public class WB_Predicates {
      * @param p3
      * @return
      */
-    public double orientTetra(final WB_Coordinate p0, final WB_Coordinate p1,
-	    final WB_Coordinate p2, final WB_Coordinate p3) {
+    public double orientTetra(final WB_Coord p0, final WB_Coord p1,
+	    final WB_Coord p2, final WB_Coord p3) {
 	double adx, bdx, cdx, ady, bdy, cdy, adz, bdz, cdz;
 	double bdxcdy, cdxbdy, cdxady, adxcdy, adxbdy, bdxady;
 	double det;
@@ -5286,9 +5286,9 @@ public class WB_Predicates {
      * @param permanent
      * @return
      */
-    private double _orientTetraAdapt(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc,
-	    final WB_Coordinate pd, final double permanent) {
+    private double _orientTetraAdapt(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc,
+	    final WB_Coord pd, final double permanent) {
 	double adx, bdx, cdx, ady, bdy, cdy, adz, bdz, cdz;
 	double det, errbound;
 	double bdxcdy1, cdxbdy1, cdxady1, adxcdy1, adxbdy1, bdxady1;
@@ -6740,8 +6740,8 @@ public class WB_Predicates {
      * @param p2
      * @return
      */
-    public double orientTri(final WB_Coordinate p0, final WB_Coordinate p1,
-	    final WB_Coordinate p2) {
+    public double orientTri(final WB_Coord p0, final WB_Coord p1,
+	    final WB_Coord p2) {
 	double detleft, detright, det;
 	double detsum, errbound;
 	detleft = (p0.xd() - p2.xd()) * (p1.yd() - p2.yd());
@@ -6779,8 +6779,8 @@ public class WB_Predicates {
      * @param detsum
      * @return
      */
-    private double _orientTriAdapt(final WB_Coordinate p0,
-	    final WB_Coordinate p1, final WB_Coordinate p2, final double detsum) {
+    private double _orientTriAdapt(final WB_Coord p0,
+	    final WB_Coord p1, final WB_Coord p2, final double detsum) {
 	double acx, acy, bcx, bcy;
 	double acxtail, acytail, bcxtail, bcytail;
 	double detleft, detright;
@@ -7061,22 +7061,22 @@ public class WB_Predicates {
      * @param q
      * @return
      */
-    public WB_ClassificationGeometry insphereTetra(final WB_Coordinate p0,
-	    final WB_Coordinate p1, final WB_Coordinate p2,
-	    final WB_Coordinate p3, final WB_Coordinate q) {
+    public WB_Classification insphereTetra(final WB_Coord p0,
+	    final WB_Coord p1, final WB_Coord p2,
+	    final WB_Coord p3, final WB_Coord q) {
 	final double orient = orientTetra(p0, p1, p2, p3);
 	if (orient == 0) {
-	    return WB_ClassificationGeometry.COPLANAR;
+	    return WB_Classification.COPLANAR;
 	}
 	final double result = _insphereTetra(p0, p1, p2, p3, q);
 	if (result == 0) {
-	    return WB_ClassificationGeometry.ON;
+	    return WB_Classification.ON;
 	}
 	if ((Math.signum(result) * Math.signum(orient)) < 0) {
 	    // multiplication
-	    return WB_ClassificationGeometry.OUTSIDE;
+	    return WB_Classification.OUTSIDE;
 	} else {
-	    return WB_ClassificationGeometry.INSIDE;
+	    return WB_Classification.INSIDE;
 	}
     }
 
@@ -7090,9 +7090,9 @@ public class WB_Predicates {
      * @param pe
      * @return
      */
-    private double _insphereTetra(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc,
-	    final WB_Coordinate pd, final WB_Coordinate pe) {
+    private double _insphereTetra(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc,
+	    final WB_Coord pd, final WB_Coord pe) {
 	double aex, bex, cex, dex;
 	double aey, bey, cey, dey;
 	double aez, bez, cez, dez;
@@ -7188,9 +7188,9 @@ public class WB_Predicates {
      * @param permanent
      * @return
      */
-    private double _insphereTetraAdapt(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc,
-	    final WB_Coordinate pd, final WB_Coordinate pe,
+    private double _insphereTetraAdapt(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc,
+	    final WB_Coord pd, final WB_Coord pe,
 	    final double permanent) {
 	double aex, bex, cex, dex, aey, bey, cey, dey, aez, bez, cez, dez;
 	double det, errbound;
@@ -7720,9 +7720,9 @@ public class WB_Predicates {
      * @param pe
      * @return
      */
-    private double _insphereTetraExact(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc,
-	    final WB_Coordinate pd, final WB_Coordinate pe) {
+    private double _insphereTetraExact(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc,
+	    final WB_Coord pd, final WB_Coord pe) {
 	double axby1, bxcy1, cxdy1, dxey1, exay1;
 	double bxay1, cxby1, dxcy1, exdy1, axey1;
 	double axcy1, bxdy1, cxey1, dxay1, exby1;
@@ -8440,18 +8440,18 @@ public class WB_Predicates {
      * @param q
      * @return
      */
-    public WB_ClassificationGeometry insphereTri(final WB_Coordinate p0,
-	    final WB_Coordinate p1, final WB_Coordinate p2,
-	    final WB_Coordinate q) {
+    public WB_Classification insphereTri(final WB_Coord p0,
+	    final WB_Coord p1, final WB_Coord p2,
+	    final WB_Coord q) {
 	final double result = _insphereTri(p0.xd(), p0.yd(), p0.zd(), p1.xd(),
 		p1.yd(), p1.zd(), p2.xd(), p2.yd(), p2.zd(), q.xd(), q.yd(),
 		q.zd());
 	if (result > 0) {
-	    return WB_ClassificationGeometry.INSIDE;
+	    return WB_Classification.INSIDE;
 	} else if (result < 0) {
-	    return WB_ClassificationGeometry.OUTSIDE;
+	    return WB_Classification.OUTSIDE;
 	} else {
-	    return WB_ClassificationGeometry.ON;
+	    return WB_Classification.ON;
 	}
     }
 
@@ -8464,8 +8464,8 @@ public class WB_Predicates {
      * @param q
      * @return
      */
-    public double incircleTri(final WB_Coordinate p0, final WB_Coordinate p1,
-	    final WB_Coordinate p2, final WB_Coordinate q) {
+    public double incircleTri(final WB_Coord p0, final WB_Coord p1,
+	    final WB_Coord p2, final WB_Coord q) {
 	double adx, bdx, cdx, ady, bdy, cdy;
 	double bdxcdy, cdxbdy, cdxady, adxcdy, adxbdy, bdxady;
 	double alift, blift, clift;
@@ -8511,9 +8511,9 @@ public class WB_Predicates {
      * @param permanent
      * @return
      */
-    private double _incircleTriAdapt(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc,
-	    final WB_Coordinate pd, final double permanent) {
+    private double _incircleTriAdapt(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc,
+	    final WB_Coord pd, final double permanent) {
 	double adx, bdx, cdx, ady, bdy, cdy;
 	double det, errbound;
 	double bdxcdy1, cdxbdy1, cdxady1, adxcdy1, adxbdy1, bdxady1;
@@ -9817,26 +9817,26 @@ public class WB_Predicates {
      * @param q1
      * @return
      */
-    public WB_ClassificationGeometry diffsides(final WB_Coordinate p0,
-	    final WB_Coordinate p1, final WB_Coordinate p2,
-	    final WB_Coordinate q0, final WB_Coordinate q1) {
+    public WB_Classification diffsides(final WB_Coord p0,
+	    final WB_Coord p1, final WB_Coord p2,
+	    final WB_Coord q0, final WB_Coord q1) {
 	double a, b;
 	a = orientTetra(p0, p1, p2, q0);
 	b = orientTetra(p0, p1, p2, q1);
 	if ((a == 0) && (b == 0)) {
-	    return WB_ClassificationGeometry.COPLANAR;
+	    return WB_Classification.COPLANAR;
 	}
 	if (((a > 0) && (b < 0)) || ((a < 0) && (b > 0))) {
 	    if ((a == 0) || (b == 0)) {
-		return WB_ClassificationGeometry.DIFF;
+		return WB_Classification.DIFF;
 	    }
-	    return WB_ClassificationGeometry.DIFFEXCL;
+	    return WB_Classification.DIFFEXCL;
 	}
 	if (((a > 0) && (b > 0)) || ((a < 0) && (b < 0))) {
 	    if ((a == 0) || (b == 0)) {
-		return WB_ClassificationGeometry.SAME;
+		return WB_Classification.SAME;
 	    }
-	    return WB_ClassificationGeometry.SAMEEXCL;
+	    return WB_Classification.SAMEEXCL;
 	}
 	return null;
     }
@@ -9850,8 +9850,8 @@ public class WB_Predicates {
      * @param p3
      * @return
      */
-    public boolean inplane(final WB_Coordinate p0, final WB_Coordinate p1,
-	    final WB_Coordinate p2, final WB_Coordinate p3) {
+    public boolean inplane(final WB_Coord p0, final WB_Coord p1,
+	    final WB_Coord p2, final WB_Coord p3) {
 	if (orientTetra(p0, p1, p2, p3) == 0) {
 	    return true;
 	} else {
@@ -10179,8 +10179,8 @@ public class WB_Predicates {
      * @param d
      * @return
      */
-    public double[] circumcenterTetra(final WB_Coordinate a,
-	    final WB_Coordinate b, final WB_Coordinate c, final WB_Coordinate d) {
+    public double[] circumcenterTetra(final WB_Coord a,
+	    final WB_Coord b, final WB_Coord c, final WB_Coord d) {
 	return circumcenterTetra(a, b, c, d, null, null, null);
     }
 
@@ -10196,9 +10196,9 @@ public class WB_Predicates {
      * @param zeta
      * @return
      */
-    public double[] circumcenterTetra(final WB_Coordinate a,
-	    final WB_Coordinate b, final WB_Coordinate c,
-	    final WB_Coordinate d, final double[] xi, final double[] eta,
+    public double[] circumcenterTetra(final WB_Coord a,
+	    final WB_Coord b, final WB_Coord c,
+	    final WB_Coord d, final double[] xi, final double[] eta,
 	    final double[] zeta) {
 	double xba, yba, zba, xca, yca, zca, xda, yda, zda;
 	double balength, calength, dalength;
@@ -10287,9 +10287,9 @@ public class WB_Predicates {
      * @param p3
      * @return
      */
-    public double circumradiusTetra(final WB_Coordinate p0,
-	    final WB_Coordinate p1, final WB_Coordinate p2,
-	    final WB_Coordinate p3) {
+    public double circumradiusTetra(final WB_Coord p0,
+	    final WB_Coord p1, final WB_Coord p2,
+	    final WB_Coord p3) {
 	double t1, t2, t3;
 	final double[] circumcenter = circumcenterTetra(p0, p1, p2, p3, null,
 		null, null);
@@ -10335,9 +10335,9 @@ public class WB_Predicates {
      * @param p3
      * @return
      */
-    public WB_Sphere circumsphereTetra(final WB_Coordinate p0,
-	    final WB_Coordinate p1, final WB_Coordinate p2,
-	    final WB_Coordinate p3) {
+    public WB_Sphere circumsphereTetra(final WB_Coord p0,
+	    final WB_Coord p1, final WB_Coord p2,
+	    final WB_Coord p3) {
 	double t1, t2, t3;
 	final double[] circumcenter = circumcenterTetra(p0, p1, p2, p3, null,
 		null, null);
@@ -10402,8 +10402,8 @@ public class WB_Predicates {
      * @param c
      * @return
      */
-    public double[] circumcenterTri(final WB_Coordinate a,
-	    final WB_Coordinate b, final WB_Coordinate c) {
+    public double[] circumcenterTri(final WB_Coord a,
+	    final WB_Coord b, final WB_Coord c) {
 	double xba, yba, zba, xca, yca, zca;
 	double balength, calength;
 	double xcrossbc, ycrossbc, zcrossbc;
@@ -10442,8 +10442,8 @@ public class WB_Predicates {
      * @param p2
      * @return
      */
-    public double circumradiusTri(final WB_Coordinate p0,
-	    final WB_Coordinate p1, final WB_Coordinate p2) {
+    public double circumradiusTri(final WB_Coord p0,
+	    final WB_Coord p1, final WB_Coord p2) {
 	double t1, t2, t3;
 	final double[] circumcenter = circumcenterTri(p0, p1, p2);
 	t1 = circumcenter[0] - p0.xd();
@@ -10487,8 +10487,8 @@ public class WB_Predicates {
      * @param p2
      * @return
      */
-    public WB_Sphere circumsphereTri(final WB_Coordinate p0,
-	    final WB_Coordinate p1, final WB_Coordinate p2) {
+    public WB_Sphere circumsphereTri(final WB_Coord p0,
+	    final WB_Coord p1, final WB_Coord p2) {
 	double t1, t2, t3;
 	final double[] circumcenter = circumcenterTri(p0, p1, p2);
 	t1 = circumcenter[0] - p0.xd();
@@ -10534,8 +10534,8 @@ public class WB_Predicates {
      * @param pc
      * @return
      */
-    public static double orient2D(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc) {
+    public static double orient2D(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc) {
 	if (orientErrorBound2D == -1) {
 	    init();
 	}
@@ -10574,8 +10574,8 @@ public class WB_Predicates {
      * @param pc
      * @return
      */
-    public static double orientDD2D(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc) {
+    public static double orientDD2D(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc) {
 	WB_DoubleDouble ax, ay, bx, by, cx, cy;
 	WB_DoubleDouble acx, bcx, acy, bcy;
 	WB_DoubleDouble detleft, detright, det;
@@ -10608,9 +10608,9 @@ public class WB_Predicates {
      * @param pd
      * @return
      */
-    public static double incircle2D(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc,
-	    final WB_Coordinate pd) {
+    public static double incircle2D(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc,
+	    final WB_Coord pd) {
 	if (incircleErrorBound2D == -1) {
 	    init();
 	}
@@ -10672,9 +10672,9 @@ public class WB_Predicates {
      * @param pd
      * @return
      */
-    public static double incircleDD2D(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc,
-	    final WB_Coordinate pd) {
+    public static double incircleDD2D(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc,
+	    final WB_Coord pd) {
 	WB_DoubleDouble ax, ay, bx, by, cx, cy, dx, dy;
 	WB_DoubleDouble adx, ady, bdx, bdy, cdx, cdy;
 	WB_DoubleDouble bdxcdy, cdxbdy, cdxady, adxcdy, adxbdy, bdxady;
@@ -10731,9 +10731,9 @@ public class WB_Predicates {
      * @param pd
      * @return
      */
-    public static double incircle2DOrient(final WB_Coordinate pa,
-	    final WB_Coordinate pb, final WB_Coordinate pc,
-	    final WB_Coordinate pd) {
+    public static double incircle2DOrient(final WB_Coord pa,
+	    final WB_Coord pb, final WB_Coord pc,
+	    final WB_Coord pd) {
 	if (orient2D(pa, pb, pc) > 0) {
 	    return incircle2D(pa, pb, pc, pd);
 	}
@@ -10756,8 +10756,8 @@ public class WB_Predicates {
      * @param d
      * @return
      */
-    public static boolean getIntersection2DProper(final WB_Coordinate a,
-	    final WB_Coordinate b, final WB_Coordinate c, final WB_Coordinate d) {
+    public static boolean getIntersection2DProper(final WB_Coord a,
+	    final WB_Coord b, final WB_Coord c, final WB_Coord d) {
 	if ((orient2D(a, b, c) == 0) || (orient2D(a, b, d) == 0)
 		|| (orient2D(c, d, a) == 0) || (orient2D(c, d, b) == 0)) {
 	    return false;

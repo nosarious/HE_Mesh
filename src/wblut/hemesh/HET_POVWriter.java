@@ -6,7 +6,7 @@ package wblut.hemesh;
 
 import java.io.File;
 import java.io.PrintWriter;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 
 /**
  * 
@@ -164,7 +164,7 @@ public class HET_POVWriter {
      * @param n
      *            the n
      */
-    public void normal(final WB_Coordinate n) {
+    public void normal(final WB_Coord n) {
 	povWriter.println(buildVector(n));
 	numNormalsWritten++;
     }
@@ -175,7 +175,7 @@ public class HET_POVWriter {
      * @param v
      *            the v
      */
-    public void vertex(final WB_Coordinate v) {
+    public void vertex(final WB_Coord v) {
 	povWriter.println(buildVector(v));
 	numVerticesWritten++;
     }
@@ -207,7 +207,7 @@ public class HET_POVWriter {
      *            the n
      * @return the string builder
      */
-    private StringBuilder buildVector(final WB_Coordinate n) {
+    private StringBuilder buildVector(final WB_Coord n) {
 	final StringBuilder my_vector = new StringBuilder(120);
 	my_vector.append('\t').append('<');
 	my_vector.append(n.xd()).append(COMMA);

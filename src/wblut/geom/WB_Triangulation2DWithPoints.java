@@ -4,6 +4,7 @@
 package wblut.geom;
 
 import java.util.List;
+
 import javolution.util.FastTable;
 
 /**
@@ -14,7 +15,7 @@ public class WB_Triangulation2DWithPoints extends WB_Triangulation2D {
     /**
      * 
      */
-    private List<WB_Coordinate> _points;
+    private List<WB_Coord> _points;
 
     /**
      * 
@@ -29,10 +30,10 @@ public class WB_Triangulation2DWithPoints extends WB_Triangulation2D {
      * @param E 
      * @param P 
      */
-    public WB_Triangulation2DWithPoints(final int[][] T, final int[][] E,
-	    final List<? extends WB_Coordinate> P) {
+    public WB_Triangulation2DWithPoints(final int[] T, final int[] E,
+	    final List<? extends WB_Coord> P) {
 	super(T, E);
-	_points = new FastTable<WB_Coordinate>();
+	_points = new FastTable<WB_Coord>();
 	_points.addAll(P);
     }
 
@@ -51,7 +52,7 @@ public class WB_Triangulation2DWithPoints extends WB_Triangulation2D {
      *
      * @return 
      */
-    public List<WB_Coordinate> getPoints() {
+    public List<WB_Coord> getPoints() {
 	return _points;
     }
 }

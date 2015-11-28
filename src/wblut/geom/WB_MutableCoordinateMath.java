@@ -12,12 +12,10 @@ public interface WB_MutableCoordinateMath extends WB_CoordinateMath {
      *
      * @param f
      * @param x
-     * @param y
-     * @param z
+     *
      * @return
      */
-    public WB_Coordinate addMulSelf(final double f, final double x,
-	    final double y, final double z);
+    public WB_Coord addMulSelf(final double f, final double... x);
 
     /**
      *
@@ -26,17 +24,16 @@ public interface WB_MutableCoordinateMath extends WB_CoordinateMath {
      * @param p
      * @return
      */
-    public WB_Coordinate addMulSelf(final double f, final WB_Coordinate p);
+    public WB_Coord addMulSelf(final double f, final WB_Coord p);
 
     /**
      *
      *
      * @param x
-     * @param y
-     * @param z
+     *
      * @return
      */
-    public WB_Coordinate addSelf(final double x, final double y, final double z);
+    public WB_Coord addSelf(final double... x);
 
     /**
      *
@@ -44,31 +41,7 @@ public interface WB_MutableCoordinateMath extends WB_CoordinateMath {
      * @param p
      * @return
      */
-    public WB_Coordinate addSelf(final WB_Coordinate p);
-
-    /**
-     *
-     *
-     * @param T
-     * @return
-     */
-    public WB_Coordinate applyAsNormalSelf(final WB_Transform T);
-
-    /**
-     *
-     *
-     * @param T
-     * @return
-     */
-    public WB_Coordinate applyAsPointSelf(final WB_Transform T);
-
-    /**
-     *
-     *
-     * @param T
-     * @return
-     */
-    public WB_Coordinate applyAsVectorSelf(final WB_Transform T);
+    public WB_Coord addSelf(final WB_Coord p);
 
     /**
      *
@@ -76,7 +49,7 @@ public interface WB_MutableCoordinateMath extends WB_CoordinateMath {
      * @param p
      * @return
      */
-    public WB_Coordinate crossSelf(final WB_Coordinate p);
+    public WB_Coord crossSelf(final WB_Coord p);
 
     /**
      *
@@ -84,7 +57,7 @@ public interface WB_MutableCoordinateMath extends WB_CoordinateMath {
      * @param f
      * @return
      */
-    public WB_Coordinate divSelf(final double f);
+    public WB_Coord divSelf(final double f);
 
     /**
      *
@@ -94,8 +67,8 @@ public interface WB_MutableCoordinateMath extends WB_CoordinateMath {
      * @param p
      * @return
      */
-    public WB_Coordinate mulAddMulSelf(final double f, final double g,
-	    final WB_Coordinate p);
+    public WB_Coord mulAddMulSelf(final double f, final double g,
+	    final WB_Coord p);
 
     /**
      *
@@ -103,7 +76,7 @@ public interface WB_MutableCoordinateMath extends WB_CoordinateMath {
      * @param f
      * @return
      */
-    public WB_Coordinate mulSelf(final double f);
+    public WB_Coord mulSelf(final double f);
 
     /**
      *
@@ -116,11 +89,10 @@ public interface WB_MutableCoordinateMath extends WB_CoordinateMath {
      *
      *
      * @param x
-     * @param y
-     * @param z
+     *
      * @return
      */
-    public WB_Coordinate subSelf(final double x, final double y, final double z);
+    public WB_Coord subSelf(final double... x);
 
     /**
      *
@@ -128,7 +100,7 @@ public interface WB_MutableCoordinateMath extends WB_CoordinateMath {
      * @param v
      * @return
      */
-    public WB_Coordinate subSelf(final WB_Coordinate v);
+    public WB_Coord subSelf(final WB_Coord v);
 
     /**
      *
@@ -136,13 +108,5 @@ public interface WB_MutableCoordinateMath extends WB_CoordinateMath {
      * @param d
      * @return
      */
-    public WB_Coordinate trimSelf(final double d);
-
-    /**
-     *
-     *
-     * @param T
-     * @return
-     */
-    public WB_Coordinate applySelf(final WB_Transform T);
+    public WB_Coord trimSelf(final double d);
 }

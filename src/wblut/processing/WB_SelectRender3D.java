@@ -6,6 +6,7 @@ package wblut.processing;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.opengl.PGraphics3D;
@@ -78,16 +79,16 @@ public class WB_SelectRender3D {
      */
     private void drawFace(final HE_Face f) {
 	if (f.getFaceOrder() > 2) {
-	    final int[][] tris = f.getTriangles();
+	    final int[] tris = f.getTriangles();
 	    final List<HE_Vertex> vertices = f.getFaceVertices();
 	    HE_Vertex v0, v1, v2;
-	    int[] tri;
-	    for (int i = 0; i < tris.length; i++) {
-		tri = tris[i];
+	   
+	    for (int i = 0; i < tris.length; i+=3) {
+		
 		selector.beginShape(PConstants.TRIANGLES);
-		v0 = vertices.get(tri[0]);
-		v1 = vertices.get(tri[1]);
-		v2 = vertices.get(tri[2]);
+		v0 = vertices.get(tris[i]);
+		v1 = vertices.get(tris[i+1]);
+		v2 = vertices.get(tris[i+2]);
 		selector.vertex(v0.xf(), v0.yf(), v0.zf());
 		selector.vertex(v1.xf(), v1.yf(), v1.zf());
 		selector.vertex(v2.xf(), v2.yf(), v2.zf());

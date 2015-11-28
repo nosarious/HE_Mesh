@@ -4,7 +4,8 @@
 package wblut.hemesh;
 
 import java.util.Iterator;
-import wblut.geom.WB_Coordinate;
+
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Vector;
@@ -75,7 +76,7 @@ public class HEM_Skew extends HEM_Modifier {
      *            direction
      * @return self
      */
-    public HEM_Skew setSkewDirection(final WB_Coordinate p) {
+    public HEM_Skew setSkewDirection(final WB_Coord p) {
 	skewDirection = new WB_Vector(p);
 	skewDirection.normalizeSelf();
 	return this;
@@ -142,7 +143,7 @@ public class HEM_Skew extends HEM_Modifier {
 		}
 	    }
 	}
-	mesh.resetFaces();
+	
 	return mesh;
     }
 
@@ -167,7 +168,7 @@ public class HEM_Skew extends HEM_Modifier {
 		}
 	    }
 	}
-	selection.parent.resetFaces();
+	
 	return selection.parent;
     }
 }

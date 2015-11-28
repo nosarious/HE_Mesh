@@ -1,6 +1,6 @@
 package wblut.hemesh;
 
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 import wblut.math.WB_MTRandom;
 import colorlib.Palette;
 
@@ -15,7 +15,7 @@ public class HET_Texture {
     public static void setVertexColorFromVertexNormal(final HE_Mesh mesh) {
 	final HE_VertexIterator vitr = mesh.vItr();
 	HE_Vertex v;
-	WB_Coordinate n;
+	WB_Coord n;
 	int color;
 	while (vitr.hasNext()) {
 	    v = vitr.next();
@@ -141,7 +141,7 @@ public class HET_Texture {
     public static void setFaceColorFromFaceNormal(final HE_Mesh mesh) {
 	final HE_FaceIterator fitr = mesh.fItr();
 	HE_Face f;
-	WB_Coordinate n;
+	WB_Coord n;
 	int color;
 	while (fitr.hasNext()) {
 	    f = fitr.next();

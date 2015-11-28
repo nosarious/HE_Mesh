@@ -88,8 +88,8 @@ public class WB_Plane {
      * @param p2 
      * @param p3 
      */
-    public WB_Plane(final WB_Coordinate p1, final WB_Coordinate p2,
-	    final WB_Coordinate p3) {
+    public WB_Plane(final WB_Coord p1, final WB_Coord p2,
+	    final WB_Coord p3) {
 	final WB_Vector v21 = new WB_Vector(p1, p2);
 	final WB_Vector v31 = new WB_Vector(p1, p3);
 	n = new WB_Vector(v21.cross(v31));
@@ -122,7 +122,7 @@ public class WB_Plane {
      * @param o 
      * @param n 
      */
-    public WB_Plane(final WB_Coordinate o, final WB_Coordinate n) {
+    public WB_Plane(final WB_Coord o, final WB_Coord n) {
 	origin = new WB_Point(o);
 	this.n = new WB_Vector(n);
 	this.n.normalizeSelf();
@@ -135,7 +135,7 @@ public class WB_Plane {
      * @param o 
      * @param n 
      */
-    protected void set(final WB_Coordinate o, final WB_Coordinate n) {
+    protected void set(final WB_Coord o, final WB_Coord n) {
 	origin = new WB_Point(o);
 	this.n = new WB_Vector(n);
 	this.n.normalizeSelf();
@@ -148,7 +148,7 @@ public class WB_Plane {
      * @param n 
      * @param d 
      */
-    public WB_Plane(final WB_Coordinate n, final double d) {
+    public WB_Plane(final WB_Coord n, final double d) {
 	this.n = new WB_Vector(n);
 	this.n.normalizeSelf();
 	if (WB_Math.fastAbs(n.xd()) > WB_Math.fastAbs(n.yd())) {
@@ -264,7 +264,7 @@ public class WB_Plane {
      *            the p
      * @return the w b_ point3d
      */
-    public WB_Point localPoint(final WB_Coordinate p) {
+    public WB_Point localPoint(final WB_Coord p) {
 	return new WB_Point((u.xd() * (p.xd() - origin.xd()))
 		+ (u.yd() * (p.yd() - origin.yd()))
 		+ (u.zd() * (p.zd() - origin.zd())),
@@ -283,7 +283,7 @@ public class WB_Plane {
      *            the p
      * @return the w b_ point2d
      */
-    public WB_Point localPoint2D(final WB_Coordinate p) {
+    public WB_Point localPoint2D(final WB_Coord p) {
 	return new WB_Point((u.xd() * (p.xd() - origin.xd()))
 		+ (u.yd() * (p.yd() - origin.yd()))
 		+ (u.zd() * (p.zd() - origin.zd())),
@@ -300,7 +300,7 @@ public class WB_Plane {
      *            the p
      * @return the w b_ point3d
      */
-    public WB_Point extractPoint(final WB_Coordinate p) {
+    public WB_Point extractPoint(final WB_Coord p) {
 	return new WB_Point(
 		origin.xd() + (p.xd() * u.xd()) + (p.yd() * v.xd()),
 		origin.yd() + (p.xd() * u.yd()) + (p.yd() * v.yd()),
@@ -331,7 +331,7 @@ public class WB_Plane {
      *            the p
      * @return the w b_ point3d
      */
-    public WB_Point extractPoint2D(final WB_Coordinate p) {
+    public WB_Point extractPoint2D(final WB_Coord p) {
 	return new WB_Point(origin.xd() + (p.xd() * u.xd()) + (p.yd() * v.xd())
 		+ (p.zd() * n.xd()), origin.yd() + (p.xd() * u.yd())
 		+ (p.yd() * v.yd()) + (p.zd() * n.yd()), origin.zd()
@@ -365,7 +365,7 @@ public class WB_Plane {
      *            the p
      * @return the w b_ point3d
      */
-    public WB_Point mirrorPoint(final WB_Coordinate p) {
+    public WB_Point mirrorPoint(final WB_Coord p) {
 	if (WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(p, this))) {
 	    return new WB_Point(p);
 	}

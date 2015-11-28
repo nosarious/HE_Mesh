@@ -3,7 +3,7 @@
  */
 package wblut.math;
 
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 
 /**
  *
@@ -17,5 +17,5 @@ public interface WB_VectorParameter {
      * @param x
      * @return
      */
-    public WB_Coordinate evaluate(double... x);
+    public WB_Coord evaluate(double... x);
 }

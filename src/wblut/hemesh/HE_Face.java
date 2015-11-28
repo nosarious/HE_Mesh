@@ -4,13 +4,20 @@
 package wblut.hemesh;
 
 import static wblut.geom.WB_GeometryOp.projectOnPlane;
+
 import java.util.HashMap;
 import java.util.List;
+
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.operation.valid.IsValidOp;
+
 import javolution.util.FastTable;
 import wblut.geom.WB_AABB;
-import wblut.geom.WB_ClassificationConvex;
-import wblut.geom.WB_Context2D;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Classification;
+import wblut.geom.WB_Map2D;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_HasColor;
@@ -23,10 +30,6 @@ import wblut.geom.WB_Triangulate;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.operation.valid.IsValidOp;
 
 /**
  * Face element of half-edge data structure.
@@ -35,775 +38,753 @@ import com.vividsolutions.jts.operation.valid.IsValidOp;
  *
  */
 public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
-    /** Halfedge associated with this face. */
-    private HE_Halfedge _halfedge;
-    /**
-     *
-     */
-    private HashMap<String, Object> _data;
-    /**
-     *
-     */
-    private int facecolor;
-    /**
-     *
-     */
-    private int[][] triangles;
-    /**
-     *
-     */
-    private int textureId;
-    public static final HET_ProgressTracker tracker = HET_ProgressTracker
-	    .instance();
+	/** Halfedge associated with this face. */
+	private HE_Halfedge _halfedge;
+	private HashMap<String, Object> _data;
+	private int facecolor;
+	private int textureId;
 
-    /**
-     *
-     *
-     * @return
-     */
-    public static String getStatus() {
-	return tracker.getStatus();
-    }
+	/**
+	 *
+	 */
+	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
 
-    /**
-     *
-     */
-    private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
-
-    /**
-     * Instantiates a new HE_Face.
-     */
-    public HE_Face() {
-	super();
-	facecolor = -1;
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public long key() {
-	return super.getKey();
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public WB_Coordinate getFaceCenter() {
-	if (_halfedge == null) {
-	    return null;
+	/**
+	 * Instantiates a new HE_Face.
+	 */
+	public HE_Face() {
+		super();
+		facecolor = -1;
 	}
-	HE_Halfedge he = _halfedge;
-	final WB_Point _center = new WB_Point();
-	int c = 0;
-	do {
-	    _center.addSelf(he.getVertex());
-	    c++;
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	_center.divSelf(c);
-	return new WB_Point(_center);
-    }
 
-    /**
-     *
-     *
-     * @param d
-     * @return
-     */
-    public WB_Coordinate getFaceCenter(final double d) {
-	if (_halfedge == null) {
-	    return null;
+	public HE_FaceEdgeCirculator feCrc() {
+		return new HE_FaceEdgeCirculator(this);
 	}
-	HE_Halfedge he = _halfedge;
-	final WB_Point _center = new WB_Point();
-	int c = 0;
-	do {
-	    _center.addSelf(he.getVertex());
-	    c++;
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	_center.divSelf(c).addMulSelf(d, getFaceNormal());
-	return _center;
-    }
 
-    /**
-     *
-     *
-     * @return
-     */
-    public WB_Coordinate getFaceNormal() {
-	if (_halfedge == null) {
-	    return null;
+	public HE_FaceFaceCirculator ffCrc() {
+		return new HE_FaceFaceCirculator(this);
 	}
-	// calculate normal with Newell's method
-	HE_Halfedge he = _halfedge;
-	final WB_Vector _normal = new WB_Vector();
-	HE_Vertex p0;
-	HE_Vertex p1;
-	do {
-	    p0 = he.getVertex();
-	    p1 = he.getNextInFace().getVertex();
-	    _normal.addSelf((p0.yd() - p1.yd()) * (p0.zd() + p1.zd()),
-		    (p0.zd() - p1.zd()) * (p0.xd() + p1.xd()),
-		    (p0.xd() - p1.xd()) * (p0.yd() + p1.yd()));
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	_normal.normalizeSelf();
-	return _normal;
-    }
 
-    /**
-     *
-     *
-     * @return
-     */
-    public WB_Coordinate getNonNormFaceNormal() {
-	if (_halfedge == null) {
-	    return null;
+	public HE_FaceVertexCirculator fvCrc() {
+		return new HE_FaceVertexCirculator(this);
 	}
-	// calculate normal with Newell's method
-	HE_Halfedge he = _halfedge;
-	final WB_Vector _normal = new WB_Vector();
-	HE_Vertex p0;
-	HE_Vertex p1;
-	do {
-	    p0 = he.getVertex();
-	    p1 = he.getNextInFace().getVertex();
-	    _normal.addSelf((p0.yd() - p1.yd()) * (p0.zd() + p1.zd()),
-		    (p0.zd() - p1.zd()) * (p0.xd() + p1.xd()),
-		    (p0.xd() - p1.xd()) * (p0.yd() + p1.yd()));
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	return _normal;
-    }
 
-    /**
-     *
-     *
-     * @return
-     */
-    public double getFaceArea() {
-	if (_halfedge == null) {
-	    return 0;
+	public HE_FaceHalfedgeInnerCirculator fheiCrc() {
+		return new HE_FaceHalfedgeInnerCirculator(this);
 	}
-	final WB_Coordinate n = getFaceNormal();
-	if (WB_Vector.getLength3D(n) < 0.5) {
-	    return 0;
-	}
-	final double x = WB_Math.fastAbs(n.xd());
-	final double y = WB_Math.fastAbs(n.yd());
-	final double z = WB_Math.fastAbs(n.zd());
-	double area = 0;
-	int coord = 3;
-	if ((x >= y) && (x >= z)) {
-	    coord = 1;
-	} else if ((y >= x) && (y >= z)) {
-	    coord = 2;
-	}
-	HE_Halfedge he = _halfedge;
-	do {
-	    switch (coord) {
-	    case 1:
-		area += (he.getVertex().yd() * (he.getNextInFace().getVertex()
-			.zd() - he.getPrevInFace().getVertex().zd()));
-		break;
-	    case 2:
-		area += (he.getVertex().xd() * (he.getNextInFace().getVertex()
-			.zd() - he.getPrevInFace().getVertex().zd()));
-		break;
-	    case 3:
-		area += (he.getVertex().xd() * (he.getNextInFace().getVertex()
-			.yd() - he.getPrevInFace().getVertex().yd()));
-		break;
-	    }
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	switch (coord) {
-	case 1:
-	    area *= (0.5 / x);
-	    break;
-	case 2:
-	    area *= (0.5 / y);
-	    break;
-	case 3:
-	    area *= (0.5 / z);
-	}
-	return WB_Math.fastAbs(area);
-    }
 
-    /**
-     *
-     *
-     * @return
-     */
-    public WB_ClassificationConvex getFaceType() {
-	if (_halfedge == null) {
-	    return null;
+	public HE_FaceHalfedgeOuterCirculator fheoCrc() {
+		return new HE_FaceHalfedgeOuterCirculator(this);
 	}
-	HE_Halfedge he = _halfedge;
-	do {
-	    if (he.getHalfedgeType() != WB_ClassificationConvex.CONVEX) {
-		return WB_ClassificationConvex.CONCAVE;
-	    }
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	return WB_ClassificationConvex.CONVEX;
-    }
 
-    /**
-     *
-     *
-     * @return
-     */
-    public List<HE_Vertex> getFaceVertices() {
-	final List<HE_Vertex> fv = new FastTable<HE_Vertex>();
-	if (_halfedge == null) {
-	    return fv;
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public long key() {
+		return super.getKey();
 	}
-	HE_Halfedge he = _halfedge;
-	do {
-	    if (!fv.contains(he.getVertex())) {
-		fv.add(he.getVertex());
-	    }
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	return fv;
-    }
 
-    public List<HE_TextureCoordinate> getFaceUVWs() {
-	final List<HE_TextureCoordinate> fv = new FastTable<HE_TextureCoordinate>();
-	if (_halfedge == null) {
-	    return fv;
-	}
-	HE_Halfedge he = _halfedge;
-	do {
-	    if (!fv.contains(he.getVertex())) {
-		fv.add(he.getUVW());
-	    }
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	return fv;
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public int getFaceOrder() {
-	int result = 0;
-	if (_halfedge == null) {
-	    return 0;
-	}
-	HE_Halfedge he = _halfedge;
-	do {
-	    result++;
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	return result;
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public List<HE_Halfedge> getFaceHalfedges() {
-	final List<HE_Halfedge> fhe = new FastTable<HE_Halfedge>();
-	if (_halfedge == null) {
-	    return fhe;
-	}
-	HE_Halfedge he = _halfedge;
-	do {
-	    if (!fhe.contains(he)) {
-		fhe.add(he);
-	    }
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	return fhe;
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public List<HE_Halfedge> getFaceEdges() {
-	final List<HE_Halfedge> fe = new FastTable<HE_Halfedge>();
-	if (_halfedge == null) {
-	    return fe;
-	}
-	HE_Halfedge he = _halfedge;
-	do {
-	    if (he.isEdge()) {
-		if (!fe.contains(he)) {
-		    fe.add(he);
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public WB_Coord getFaceCenter() {
+		if (_halfedge == null) {
+			return null;
 		}
-	    } else {
-		if (!fe.contains(he.getPair())) {
-		    fe.add(he.getPair());
-		}
-	    }
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	return fe;
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public HE_Halfedge getHalfedge() {
-	return _halfedge;
-    }
-
-    public HE_Halfedge getHalfedge(final HE_Vertex v) {
-	HE_Halfedge he = _halfedge;
-	if (he == null) {
-	    return null;
+		HE_Halfedge he = _halfedge;
+		final WB_Point _center = new WB_Point();
+		int c = 0;
+		do {
+			_center.addSelf(he.getVertex());
+			c++;
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		_center.divSelf(c);
+		return new WB_Point(_center);
 	}
-	do {
-	    if (he.getVertex() == v) {
-		return he;
-	    }
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	return null;
-    }
 
-    /**
-     *
-     *
-     * @param halfedge
-     */
-    public void setHalfedge(final HE_Halfedge halfedge) {
-	_halfedge = halfedge;
-	reset();
-    }
-
-    /**
-     *
-     *
-     * @param c
-     */
-    public void push(final WB_Coordinate c) {
-	HE_Halfedge he = _halfedge;
-	do {
-	    he.getVertex().getPoint().addSelf(c);
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-    }
-
-    /**
-     *
-     */
-    public void clearHalfedge() {
-	_halfedge = null;
-    }
-
-    /**
-     *
-     *
-     * @return
-     * @deprecated Use {@link #getPlane()} instead
-     */
-    @Deprecated
-    public WB_Plane toPlane() {
-	return getPlane();
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public WB_Plane getPlane() {
-	WB_Coordinate fn = getFaceNormal();
-	if (WB_Vector.getSqLength3D(fn) < 0.5) {
-	    if (WB_Epsilon.isEqualAbs(_halfedge.getVertex().xd(), _halfedge
-		    .getEndVertex().xd())) {
-		fn = new WB_Vector(1, 0, 0);
-	    } else {
-		fn = new WB_Vector(0, 0, 1);
-	    }
-	}
-	return new WB_Plane(getFaceCenter(), fn);
-    }
-
-    /**
-     *
-     *
-     * @param d
-     * @return
-     * @deprecated Use {@link #getPlane(double)} instead
-     */
-    @Deprecated
-    public WB_Plane toPlane(final double d) {
-	return getPlane(d);
-    }
-
-    /**
-     *
-     *
-     * @param d
-     * @return
-     */
-    public WB_Plane getPlane(final double d) {
-	final WB_Coordinate fn = getFaceNormal();
-	return new WB_Plane(WB_Point.addMul(getFaceCenter(), d, fn), fn);
-    }
-
-    /**
-     *
-     */
-    public void sort() {
-	if (_halfedge != null) {
-	    HE_Halfedge he = _halfedge;
-	    HE_Halfedge leftmost = he;
-	    do {
-		he = he.getNextInFace();
-		if (he.getVertex().compareTo(leftmost.getVertex()) < 0) {
-		    leftmost = he;
+	/**
+	 *
+	 *
+	 * @param d
+	 * @return
+	 */
+	public WB_Coord getFaceCenter(final double d) {
+		if (_halfedge == null) {
+			return null;
 		}
-	    } while (he != _halfedge);
-	    _halfedge = leftmost;
+		HE_Halfedge he = _halfedge;
+		final WB_Point _center = new WB_Point();
+		int c = 0;
+		do {
+			_center.addSelf(he.getVertex());
+			c++;
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		_center.divSelf(c).addMulSelf(d, getFaceNormal());
+		return _center;
 	}
-    }
 
-    /**
-     *
-     *
-     * @return
-     */
-    public int[][] getTriangles() {
-	return getTriangles(true);
-    }
-
-    /**
-     *
-     *
-     * @param optimize
-     * @return
-     */
-    public int[][] getTriangles(final boolean optimize) {
-	// tracker.setStatus("Starting getTriangles() in face " + getKey() +
-	// ".");
-	if (triangles == null) {
-	    // tracker.setStatus("Triangles not calculated, starting face triangulation.");
-	    final int fo = getFaceOrder();
-	    if (fo < 3) {
-		return new int[][] { { 0, 0, 0 } };
-	    } else if (fo == 3) {
-		// tracker.setStatus("Triangulating face with " + fo
-		// + " vertices.");
-		// logger.trace("Trivial triangulation of triangle face.");
-		return new int[][] { { 0, 1, 2 } };
-	    } else if (isDegenerate()) {
-		// degenerate face
-		triangles = new int[fo - 2][3];
-		for (int i = 0; i < (fo - 2); i++) {
-		    triangles[i] = new int[] { 0, i + 1, i + 2 };
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public WB_Coord getFaceNormal() {
+		if (_halfedge == null) {
+			return null;
 		}
-	    } else if (fo == 4) {
-		// tracker.setStatus("Triangulating face with " + fo
-		// + " vertices.");
-		// logger.trace("Triangulation of quad face.");
-		final WB_Point[] points = new WB_Point[4];
+		// calculate normal with Newell's method
+		HE_Halfedge he = _halfedge;
+		final WB_Vector _normal = new WB_Vector();
+		HE_Vertex p0;
+		HE_Vertex p1;
+		do {
+			p0 = he.getVertex();
+			p1 = he.getNextInFace().getVertex();
+			_normal.addSelf((p0.yd() - p1.yd()) * (p0.zd() + p1.zd()), (p0.zd() - p1.zd()) * (p0.xd() + p1.xd()),
+					(p0.xd() - p1.xd()) * (p0.yd() + p1.yd()));
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		_normal.normalizeSelf();
+		return _normal;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public WB_Coord getNonNormFaceNormal() {
+		if (_halfedge == null) {
+			return null;
+		}
+		// calculate normal with Newell's method
+		HE_Halfedge he = _halfedge;
+		final WB_Vector _normal = new WB_Vector();
+		HE_Vertex p0;
+		HE_Vertex p1;
+		do {
+			p0 = he.getVertex();
+			p1 = he.getNextInFace().getVertex();
+			_normal.addSelf((p0.yd() - p1.yd()) * (p0.zd() + p1.zd()), (p0.zd() - p1.zd()) * (p0.xd() + p1.xd()),
+					(p0.xd() - p1.xd()) * (p0.yd() + p1.yd()));
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		return _normal;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public double getFaceArea() {
+		if (_halfedge == null) {
+			return 0;
+		}
+		final WB_Coord n = getFaceNormal();
+		if (WB_Vector.getLength3D(n) < 0.5) {
+			return 0;
+		}
+		final double x = WB_Math.fastAbs(n.xd());
+		final double y = WB_Math.fastAbs(n.yd());
+		final double z = WB_Math.fastAbs(n.zd());
+		double area = 0;
+		int coord = 3;
+		if ((x >= y) && (x >= z)) {
+			coord = 1;
+		} else if ((y >= x) && (y >= z)) {
+			coord = 2;
+		}
+		HE_Halfedge he = _halfedge;
+		do {
+			switch (coord) {
+			case 1:
+				area += (he.getVertex().yd()
+						* (he.getNextInFace().getVertex().zd() - he.getPrevInFace().getVertex().zd()));
+				break;
+			case 2:
+				area += (he.getVertex().xd()
+						* (he.getNextInFace().getVertex().zd() - he.getPrevInFace().getVertex().zd()));
+				break;
+			case 3:
+				area += (he.getVertex().xd()
+						* (he.getNextInFace().getVertex().yd() - he.getPrevInFace().getVertex().yd()));
+				break;
+			}
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		switch (coord) {
+		case 1:
+			area *= (0.5 / x);
+			break;
+		case 2:
+			area *= (0.5 / y);
+			break;
+		case 3:
+			area *= (0.5 / z);
+		}
+		return WB_Math.fastAbs(area);
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public WB_Classification getFaceType() {
+		if (_halfedge == null) {
+			return null;
+		}
+		HE_Halfedge he = _halfedge;
+		do {
+			if (he.getHalfedgeType() == WB_Classification.CONCAVE) {
+				return WB_Classification.CONCAVE;
+			}
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		return WB_Classification.CONVEX;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public List<HE_Vertex> getFaceVertices() {
+		final List<HE_Vertex> fv = new FastTable<HE_Vertex>();
+		if (_halfedge == null) {
+			return fv;
+		}
+		HE_Halfedge he = _halfedge;
+		do {
+			if (!fv.contains(he.getVertex())) {
+				fv.add(he.getVertex());
+			}
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		return fv;
+	}
+
+	public List<HE_TextureCoordinate> getFaceUVWs() {
+		final List<HE_TextureCoordinate> fv = new FastTable<HE_TextureCoordinate>();
+		if (_halfedge == null) {
+			return fv;
+		}
+		HE_Halfedge he = _halfedge;
+		do {
+			if (!fv.contains(he.getVertex())) {
+				fv.add(he.getUVW());
+			}
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		return fv;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public int getFaceOrder() {
+		int result = 0;
+		if (_halfedge == null) {
+			return 0;
+		}
+		HE_Halfedge he = _halfedge;
+		do {
+			result++;
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		return result;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public List<HE_Halfedge> getFaceHalfedges() {
+		final List<HE_Halfedge> fhe = new FastTable<HE_Halfedge>();
+		if (_halfedge == null) {
+			return fhe;
+		}
+		HE_Halfedge he = _halfedge;
+		do {
+			if (!fhe.contains(he)) {
+				fhe.add(he);
+			}
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		return fhe;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public List<HE_Halfedge> getFaceEdges() {
+		final List<HE_Halfedge> fe = new FastTable<HE_Halfedge>();
+		if (_halfedge == null) {
+			return fe;
+		}
+		HE_Halfedge he = _halfedge;
+		do {
+			if (he.isEdge()) {
+				if (!fe.contains(he)) {
+					fe.add(he);
+				}
+			} else {
+				if (!fe.contains(he.getPair())) {
+					fe.add(he.getPair());
+				}
+			}
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		return fe;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public HE_Halfedge getHalfedge() {
+		return _halfedge;
+	}
+
+	public HE_Halfedge getHalfedge(final HE_Vertex v) {
+		HE_Halfedge he = _halfedge;
+		if (he == null) {
+			return null;
+		}
+		do {
+			if (he.getVertex() == v) {
+				return he;
+			}
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		return null;
+	}
+
+	/**
+	 *
+	 *
+	 * @param halfedge
+	 */
+	public void setHalfedge(final HE_Halfedge halfedge) {
+		_halfedge = halfedge;
+	}
+
+	/**
+	 *
+	 *
+	 * @param c
+	 */
+	public void push(final WB_Coord c) {
+		HE_Halfedge he = _halfedge;
+		do {
+			he.getVertex().getPoint().addSelf(c);
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+	}
+
+	/**
+	 *
+	 */
+	public void clearHalfedge() {
+		_halfedge = null;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 * @deprecated Use {@link #getPlane()} instead
+	 */
+	@Deprecated
+	public WB_Plane toPlane() {
+		return getPlane();
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public WB_Plane getPlane() {
+		WB_Coord fn = getFaceNormal();
+		if (WB_Vector.getSqLength3D(fn) < 0.5) {
+			if (WB_Epsilon.isEqualAbs(_halfedge.getVertex().xd(), _halfedge.getEndVertex().xd())) {
+				fn = new WB_Vector(1, 0, 0);
+			} else {
+				fn = new WB_Vector(0, 0, 1);
+			}
+		}
+		return new WB_Plane(getFaceCenter(), fn);
+	}
+
+	/**
+	 *
+	 *
+	 * @param d
+	 * @return
+	 * @deprecated Use {@link #getPlane(double)} instead
+	 */
+	@Deprecated
+	public WB_Plane toPlane(final double d) {
+		return getPlane(d);
+	}
+
+	/**
+	 *
+	 *
+	 * @param d
+	 * @return
+	 */
+	public WB_Plane getPlane(final double d) {
+		final WB_Coord fn = getFaceNormal();
+		return new WB_Plane(WB_Point.addMul(getFaceCenter(), d, fn), fn);
+	}
+
+	/**
+	 *
+	 */
+	public void sort() {
+		if (_halfedge != null) {
+			HE_Halfedge he = _halfedge;
+			HE_Halfedge leftmost = he;
+			do {
+				he = he.getNextInFace();
+				if (he.getVertex().compareTo(leftmost.getVertex()) < 0) {
+					leftmost = he;
+				}
+			} while (he != _halfedge);
+			_halfedge = leftmost;
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public int[] getTriangles() {
+		return getTriangles(true);
+	}
+
+	/**
+	 *
+	 *
+	 * @param optimize
+	 * @return
+	 */
+	public int[] getTriangles(final boolean optimize) {
+		// tracker.setStatus("Starting getTriangles() in face " + getKey() +
+		// ".");
+		int[] triangles;
+		// tracker.setStatus("Triangles not calculated, starting face
+		// triangulation.");
+		final int fo = getFaceOrder();
+		if (fo < 3) {
+			return new int[] { 0, 0, 0 };
+		} else if (fo == 3) {
+			// tracker.setStatus("Triangulating face with " + fo
+			// + " vertices.");
+			// logger.trace("Trivial triangulation of triangle face.");
+			return new int[] { 0, 1, 2 };
+		} else if (isDegenerate()) {
+			// degenerate face
+			triangles = new int[3 * (fo - 2)];
+			for (int i = 0; i < (fo - 2); i++) {
+				triangles[3 * i] = 0;
+				triangles[3 * i + 1] = i + 1;
+				triangles[3 * i + 2] = i + 2;
+			}
+		} else if (fo == 4) {
+			// tracker.setStatus("Triangulating face with " + fo
+			// + " vertices.");
+			// logger.trace("Triangulation of quad face.");
+			final WB_Point[] points = new WB_Point[4];
+			int i = 0;
+			HE_Halfedge he = _halfedge;
+			do {
+				points[i] = new WB_Point(he.getVertex().xd(), he.getVertex().yd(), he.getVertex().zd());
+				he = he.getNextInFace();
+				i++;
+			} while (he != _halfedge);
+			return WB_Triangulate.triangulateQuad(points[0], points[1], points[2], points[3]);
+		} else {
+			// logger.trace("Starting triangulation of face with " + fo +
+			// " faces.");
+			// tracker.setStatus("Triangulating face with " + fo
+			// + " vertices.");
+			triangles = new WB_Triangulate().triangulatePolygon2D(this.toPolygon(), optimize).getTriangles();
+		}
+		// // logger.debug("Returning triangles.");
+		// tracker.setStatus("Triangulation done.");
+		return triangles;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public WB_AABB toAABB() {
+		final WB_AABB aabb = new WB_AABB();
+		HE_Halfedge he = getHalfedge();
+		do {
+			aabb.expandToInclude(he.getVertex());
+			he = he.getNextInFace();
+		} while (he != getHalfedge());
+		return aabb;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public WB_Triangle toTriangle() {
+		if (getFaceOrder() != 3) {
+			return null;
+		}
+		return new WB_Triangle(_halfedge.getVertex(), _halfedge.getEndVertex(),
+				_halfedge.getNextInFace().getEndVertex());
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public WB_Polygon toPolygon() {
+		final int n = getFaceOrder();
+		if (n == 0) {
+			return null;
+		}
+		final WB_Point[] points = new WB_Point[n];
 		int i = 0;
 		HE_Halfedge he = _halfedge;
 		do {
-		    points[i] = new WB_Point(he.getVertex().xd(), he
-			    .getVertex().yd(), he.getVertex().zd());
-		    he = he.getNextInFace();
-		    i++;
+			points[i++] = new WB_Point(he.getVertex().xd(), he.getVertex().yd(), he.getVertex().zd());
+			he = he.getNextInFace();
 		} while (he != _halfedge);
-		return WB_Triangulate.triangulateQuad(points[0], points[1],
-			points[2], points[3]);
-	    } else {
-		// logger.trace("Starting triangulation of face with " + fo +
-		// " faces.");
-		// tracker.setStatus("Triangulating face with " + fo
-		// + " vertices.");
-		triangles = new WB_Triangulate().getPolygonTriangulation2D(
-			this.toPolygon(), optimize).getTriangles();
-	    }
+		return gf.createSimplePolygon(points);
 	}
-	// // logger.debug("Returning triangles.");
-	// tracker.setStatus("Triangulation done.");
-	return triangles;
-    }
 
-    /**
-     *
-     */
-    public void reset() {
-	triangles = null;
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public WB_AABB toAABB() {
-	final WB_AABB aabb = new WB_AABB();
-	HE_Halfedge he = getHalfedge();
-	do {
-	    aabb.expandToInclude(he.getVertex());
-	    he = he.getNextInFace();
-	} while (he != getHalfedge());
-	return aabb;
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public WB_Triangle toTriangle() {
-	if (getFaceOrder() != 3) {
-	    return null;
-	}
-	return new WB_Triangle(_halfedge.getVertex(), _halfedge.getEndVertex(),
-		_halfedge.getNextInFace().getEndVertex());
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public WB_Polygon toPolygon() {
-	final int n = getFaceOrder();
-	if (n == 0) {
-	    return null;
-	}
-	final WB_Point[] points = new WB_Point[n];
-	int i = 0;
-	HE_Halfedge he = _halfedge;
-	do {
-	    points[i++] = new WB_Point(he.getVertex().xd(),
-		    he.getVertex().yd(), he.getVertex().zd());
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	return gf.createSimplePolygon(points);
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public WB_Polygon toPlanarPolygon() {
-	final int n = getFaceOrder();
-	if (n == 0) {
-	    return null;
-	}
-	final WB_Point[] points = new WB_Point[n];
-	final WB_Plane P = getPlane();
-	int i = 0;
-	HE_Halfedge he = _halfedge;
-	do {
-	    points[i] = projectOnPlane(he.getVertex(), P);
-	    he = he.getNextInFace();
-	    i++;
-	} while (he != _halfedge);
-	return gf.createSimplePolygon(points);
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public List<HE_Face> getNeighborFaces() {
-	final List<HE_Face> ff = new FastTable<HE_Face>();
-	if (getHalfedge() == null) {
-	    return ff;
-	}
-	HE_Halfedge he = getHalfedge();
-	do {
-	    final HE_Halfedge hep = he.getPair();
-	    if (hep.getFace() != null) {
-		if (hep.getFace() != this) {
-		    if (!ff.contains(hep.getFace())) {
-			ff.add(hep.getFace());
-		    }
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public WB_Polygon toPlanarPolygon() {
+		final int n = getFaceOrder();
+		if (n == 0) {
+			return null;
 		}
-	    }
-	    he = he.getNextInFace();
-	} while (he != getHalfedge());
-	return ff;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see wblut.geom.Point3D#toString()
-     */
-    @Override
-    public String toString() {
-	String s = "HE_Face key: " + key() + ". Connects " + getFaceOrder()
-		+ " vertices: ";
-	HE_Halfedge he = getHalfedge();
-	for (int i = 0; i < (getFaceOrder() - 1); i++) {
-	    s += he.getVertex()._key + "-";
-	    he = he.getNextInFace();
+		final WB_Point[] points = new WB_Point[n];
+		final WB_Plane P = getPlane();
+		int i = 0;
+		HE_Halfedge he = _halfedge;
+		do {
+			points[i] = projectOnPlane(he.getVertex(), P);
+			he = he.getNextInFace();
+			i++;
+		} while (he != _halfedge);
+		return gf.createSimplePolygon(points);
 	}
-	s += he.getVertex()._key + ".";
-	return s;
-    }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see wblut.core.WB_HasData#setData(java.lang.String, java.lang.Object)
-     */
-    @Override
-    public void setData(final String s, final Object o) {
-	if (_data == null) {
-	    _data = new HashMap<String, Object>();
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public List<HE_Face> getNeighborFaces() {
+		final List<HE_Face> ff = new FastTable<HE_Face>();
+		if (getHalfedge() == null) {
+			return ff;
+		}
+		HE_Halfedge he = getHalfedge();
+		do {
+			final HE_Halfedge hep = he.getPair();
+			if (hep != null && hep.getFace() != null) {
+				if (hep.getFace() != this) {
+					if (!ff.contains(hep.getFace())) {
+						ff.add(hep.getFace());
+					}
+				}
+			}
+			he = he.getNextInFace();
+		} while (he != getHalfedge());
+		return ff;
 	}
-	_data.put(s, o);
-    }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see wblut.core.WB_HasData#getData(java.lang.String)
-     */
-    @Override
-    public Object getData(final String s) {
-	return (_data == null) ? null : _data.get(s);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see wblut.geom.Point3D#toString()
+	 */
+	@Override
+	public String toString() {
+		String s = "HE_Face key: " + key() + ". Connects " + getFaceOrder() + " vertices: ";
+		HE_Halfedge he = getHalfedge();
+		for (int i = 0; i < (getFaceOrder() - 1); i++) {
+			s += he.getVertex()._key + "-";
+			he = he.getNextInFace();
+		}
+		s += he.getVertex()._key + ".";
+		return s;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see wblut.geom.WB_HasColor#getColor()
-     */
-    @Override
-    public int getColor() {
-	return facecolor;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see wblut.core.WB_HasData#setData(java.lang.String, java.lang.Object)
+	 */
+	@Override
+	public void setData(final String s, final Object o) {
+		if (_data == null) {
+			_data = new HashMap<String, Object>();
+		}
+		_data.put(s, o);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see wblut.geom.WB_HasColor#setColor(int)
-     */
-    @Override
-    public void setColor(final int color) {
-	facecolor = color;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see wblut.core.WB_HasData#getData(java.lang.String)
+	 */
+	@Override
+	public Object getData(final String s) {
+		return (_data == null) ? null : _data.get(s);
+	}
 
-    public boolean isPlanar() {
-	final WB_Plane P = getPlane();
-	HE_Halfedge he = getHalfedge();
-	do {
-	    if (!WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(he.getVertex(),
-		    P))) {
-		return false;
-	    }
-	    he = he.getNextInFace();
-	} while (he != getHalfedge());
-	return true;
-    }
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see wblut.geom.WB_HasColor#getColor()
+	 */
+	@Override
+	public int getColor() {
+		return facecolor;
+	}
 
-    /**
-     * Checks if is boundary.
-     *
-     * @return true, if is boundary
-     */
-    public boolean isBoundary() {
-	HE_Halfedge he = _halfedge;
-	do {
-	    if (he.getPair().getFace() == null) {
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see wblut.geom.WB_HasColor#setColor(int)
+	 */
+	@Override
+	public void setColor(final int color) {
+		facecolor = color;
+	}
+
+	public boolean isPlanar() {
+		final WB_Plane P = getPlane();
+		HE_Halfedge he = getHalfedge();
+		do {
+			if (!WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(he.getVertex(), P))) {
+				return false;
+			}
+			he = he.getNextInFace();
+		} while (he != getHalfedge());
 		return true;
-	    }
-	    he = he.getNextInFace();
-	} while (he != _halfedge);
-	return false;
-    }
-
-    /**
-     *
-     *
-     * @return
-     */
-    public boolean isDegenerate() {
-	return WB_Vector.getLength3D(getFaceNormal()) < 0.5;
-    }
-
-    /**
-     *
-     *
-     * @param el
-     */
-    public void copyProperties(final HE_Face el) {
-	super.copyProperties(el);
-	facecolor = el.getColor();
-	textureId = el.textureId;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see wblut.hemesh.HE_Element#clear()
-     */
-    @Override
-    public void clear() {
-	_data = null;
-	_halfedge = null;
-	triangles = null;
-    }
-
-    /**
-     *
-     */
-    public void checkValidity() {
-	final Coordinate[] coords = new Coordinate[getFaceOrder() + 1];
-	final WB_Point point = geometryfactory.createPoint();
-	final WB_Context2D context = geometryfactory
-		.createEmbeddedPlane(getPlane());
-	HE_Halfedge he = _halfedge;
-	int i = 0;
-	do {
-	    context.pointTo2D(he.getVertex(), point);
-	    coords[i] = new Coordinate(point.xd(), point.yd(), i);
-	    he = he.getNextInFace();
-	    i++;
-	} while (he != _halfedge);
-	context.pointTo2D(he.getVertex(), point);
-	coords[i] = new Coordinate(point.xd(), point.yd(), i);
-	he = he.getNextInFace();
-	final Polygon inputPolygon = new GeometryFactory()
-	.createPolygon(coords);
-	final IsValidOp isValidOp = new IsValidOp(inputPolygon);
-	if (!IsValidOp.isValid(inputPolygon)) {
-	    System.out.println(this);
-	    System.out.println(this.getFaceArea() + " " + this.getFaceNormal());
-	    he = _halfedge;
-	    i = 0;
-	    do {
-		System.out.println("  " + i + ": " + he.getVertex());
-		he = he.getNextInFace();
-		i++;
-	    } while (he != _halfedge);
-	    System.out.println(isValidOp.getValidationError());
 	}
-    }
 
-    public int getTextureId() {
-	return textureId;
-    }
+	/**
+	 * Checks if is boundary.
+	 *
+	 * @return true, if is boundary
+	 */
+	public boolean isBoundary() {
+		HE_Halfedge he = _halfedge;
+		do {
+			if (he.getPair().getFace() == null) {
+				return true;
+			}
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		return false;
+	}
 
-    public void setTextureId(final int i) {
-	textureId = i;
-    }
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public boolean isDegenerate() {
+		return WB_Vector.getLength3D(getFaceNormal()) < 0.5;
+	}
+
+	/**
+	 *
+	 *
+	 * @param el
+	 */
+	public void copyProperties(final HE_Face el) {
+		super.copyProperties(el);
+		facecolor = el.getColor();
+		textureId = el.textureId;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see wblut.hemesh.HE_Element#clear()
+	 */
+	@Override
+	public void clear() {
+		_data = null;
+		_halfedge = null;
+	}
+
+	/**
+	 *
+	 */
+	public void checkValidity() {
+		final Coordinate[] coords = new Coordinate[getFaceOrder() + 1];
+		final WB_Point point = geometryfactory.createPoint();
+		final WB_Map2D context = geometryfactory.createEmbeddedPlane(getPlane());
+		HE_Halfedge he = _halfedge;
+		int i = 0;
+		do {
+			context.mapPoint3D(he.getVertex(), point);
+			coords[i] = new Coordinate(point.xd(), point.yd(), i);
+			he = he.getNextInFace();
+			i++;
+		} while (he != _halfedge);
+		context.mapPoint3D(he.getVertex(), point);
+		coords[i] = new Coordinate(point.xd(), point.yd(), i);
+		he = he.getNextInFace();
+		final Polygon inputPolygon = new GeometryFactory().createPolygon(coords);
+		final IsValidOp isValidOp = new IsValidOp(inputPolygon);
+		if (!IsValidOp.isValid(inputPolygon)) {
+			System.out.println(this);
+			System.out.println(this.getFaceArea() + " " + this.getFaceNormal());
+			he = _halfedge;
+			i = 0;
+			do {
+				System.out.println("  " + i + ": " + he.getVertex());
+				he = he.getNextInFace();
+				i++;
+			} while (he != _halfedge);
+			System.out.println(isValidOp.getValidationError());
+		}
+	}
+
+	public int getTextureId() {
+		return textureId;
+	}
+
+	public void setTextureId(final int i) {
+		textureId = i;
+	}
 }

@@ -59,9 +59,9 @@ public class WB_CoordinateSystem {
      * @param z 
      * @param parent 
      */
-    protected WB_CoordinateSystem(final WB_Coordinate origin,
-	    final WB_Coordinate x, final WB_Coordinate y,
-	    final WB_Coordinate z, final WB_CoordinateSystem parent) {
+    protected WB_CoordinateSystem(final WB_Coord origin,
+	    final WB_Coord x, final WB_Coord y,
+	    final WB_Coord z, final WB_CoordinateSystem parent) {
 	_origin = new WB_Point(origin);
 	_X = new WB_Vector(x);
 	_Y = new WB_Vector(y);
@@ -122,8 +122,8 @@ public class WB_CoordinateSystem {
      * @param y 
      * @param z 
      */
-    protected void set(final WB_Coordinate origin, final WB_Coordinate x,
-	    final WB_Coordinate y, final WB_Coordinate z) {
+    protected void set(final WB_Coord origin, final WB_Coord x,
+	    final WB_Coord y, final WB_Coord z) {
 	_origin = new WB_Point(origin);
 	_X = new WB_Vector(x);
 	_Y = new WB_Vector(y);
@@ -139,8 +139,8 @@ public class WB_CoordinateSystem {
      * @param z 
      * @param CS 
      */
-    protected void set(final WB_Coordinate origin, final WB_Coordinate x,
-	    final WB_Coordinate y, final WB_Coordinate z,
+    protected void set(final WB_Coord origin, final WB_Coord x,
+	    final WB_Coord y, final WB_Coord z,
 	    final WB_CoordinateSystem CS) {
 	_origin = new WB_Point(origin);
 	_X = new WB_Vector(x);
@@ -193,8 +193,8 @@ public class WB_CoordinateSystem {
      * @param Y 
      * @return 
      */
-    public WB_CoordinateSystem setXY(final WB_Coordinate X,
-	    final WB_Coordinate Y) {
+    public WB_CoordinateSystem setXY(final WB_Coord X,
+	    final WB_Coord Y) {
 	_X.set(X);
 	_X.normalizeSelf();
 	_Y.set(Y);
@@ -216,8 +216,8 @@ public class WB_CoordinateSystem {
      * @param X 
      * @return 
      */
-    public WB_CoordinateSystem setYX(final WB_Coordinate Y,
-	    final WB_Coordinate X) {
+    public WB_CoordinateSystem setYX(final WB_Coord Y,
+	    final WB_Coord X) {
 	_X.set(X);
 	_X.normalizeSelf();
 	_Y.set(Y);
@@ -239,8 +239,8 @@ public class WB_CoordinateSystem {
      * @param Z 
      * @return 
      */
-    public WB_CoordinateSystem setXZ(final WB_Coordinate X,
-	    final WB_Coordinate Z) {
+    public WB_CoordinateSystem setXZ(final WB_Coord X,
+	    final WB_Coord Z) {
 	_X.set(X);
 	_X.normalizeSelf();
 	_Z.set(Z);
@@ -262,8 +262,8 @@ public class WB_CoordinateSystem {
      * @param X 
      * @return 
      */
-    public WB_CoordinateSystem setZX(final WB_Coordinate Z,
-	    final WB_Coordinate X) {
+    public WB_CoordinateSystem setZX(final WB_Coord Z,
+	    final WB_Coord X) {
 	_X.set(X);
 	_X.normalizeSelf();
 	_Z.set(Z);
@@ -285,8 +285,8 @@ public class WB_CoordinateSystem {
      * @param Z 
      * @return 
      */
-    public WB_CoordinateSystem setYZ(final WB_Coordinate Y,
-	    final WB_Coordinate Z) {
+    public WB_CoordinateSystem setYZ(final WB_Coord Y,
+	    final WB_Coord Z) {
 	_Y.set(Y);
 	_Y.normalizeSelf();
 	_Z.set(Z);
@@ -308,8 +308,8 @@ public class WB_CoordinateSystem {
      * @param Y 
      * @return 
      */
-    public WB_CoordinateSystem setZY(final WB_Coordinate Z,
-	    final WB_Coordinate Y) {
+    public WB_CoordinateSystem setZY(final WB_Coord Z,
+	    final WB_Coord Y) {
 	_Y.set(Y);
 	_Y.normalizeSelf();
 	_Z.set(Z);
@@ -546,7 +546,7 @@ public class WB_CoordinateSystem {
      * @param X 
      * @return 
      */
-    public WB_CoordinateSystem setX(final WB_Coordinate X) {
+    public WB_CoordinateSystem setX(final WB_Coord X) {
 	final WB_Vector lX = new WB_Vector(X);
 	lX.normalizeSelf();
 	final WB_Vector tmp = lX.cross(_X);
@@ -564,7 +564,7 @@ public class WB_CoordinateSystem {
      * @param Y 
      * @return 
      */
-    public WB_CoordinateSystem setY(final WB_Coordinate Y) {
+    public WB_CoordinateSystem setY(final WB_Coord Y) {
 	final WB_Vector lY = new WB_Vector(Y);
 	lY.normalizeSelf();
 	final WB_Vector tmp = lY.cross(_Y);
@@ -582,7 +582,7 @@ public class WB_CoordinateSystem {
      * @param Z 
      * @return 
      */
-    public WB_CoordinateSystem setZ(final WB_Coordinate Z) {
+    public WB_CoordinateSystem setZ(final WB_Coord Z) {
 	final WB_Vector lZ = new WB_Vector(Z);
 	lZ.normalizeSelf();
 	final WB_Vector tmp = lZ.cross(_Z);

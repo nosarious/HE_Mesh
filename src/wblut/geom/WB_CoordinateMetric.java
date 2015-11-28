@@ -13,7 +13,7 @@ public interface WB_CoordinateMetric {
      * @param p
      * @return
      */
-    public double getAngle(final WB_Coordinate p);
+    public double getAngle(final WB_Coord p);
 
     /**
      *
@@ -21,7 +21,7 @@ public interface WB_CoordinateMetric {
      * @param p
      * @return
      */
-    public double getAngleNorm(final WB_Coordinate p);
+    public double getAngleNorm(final WB_Coord p);
 
     /**
      *
@@ -29,7 +29,7 @@ public interface WB_CoordinateMetric {
      * @param p
      * @return
      */
-    public double getDistance2D(final WB_Coordinate p);
+    public double getDistance2D(final WB_Coord p);
 
     /**
      *
@@ -37,7 +37,7 @@ public interface WB_CoordinateMetric {
      * @param p
      * @return
      */
-    public double getDistance3D(final WB_Coordinate p);
+    public double getDistance3D(final WB_Coord p);
 
     /**
      *
@@ -58,22 +58,14 @@ public interface WB_CoordinateMetric {
      *
      * @return
      */
-    public WB_Coordinate getOrthoNormal2D();
+    public WB_Coord getOrthoNormal2D();
 
     /**
      *
      *
      * @return
      */
-    public WB_Coordinate getOrthoNormal3D();
-
-    /**
-     *
-     *
-     * @param p
-     * @return
-     */
-    public double getSqDistance2D(final WB_Coordinate p);
+    public WB_Coord getOrthoNormal3D();
 
     /**
      *
@@ -81,7 +73,15 @@ public interface WB_CoordinateMetric {
      * @param p
      * @return
      */
-    public double getSqDistance3D(final WB_Coordinate p);
+    public double getSqDistance2D(final WB_Coord p);
+
+    /**
+     *
+     *
+     * @param p
+     * @return
+     */
+    public double getSqDistance3D(final WB_Coord p);
 
     /**
      *

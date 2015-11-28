@@ -4,7 +4,7 @@
 package wblut.hemesh;
 
 import wblut.geom.WB_AABB;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 
 /**
  * Axis Aligned Box.
@@ -118,7 +118,7 @@ public class HEC_Box extends HEC_Creator {
      * @param N
      *            number of depth divisions
      */
-    public HEC_Box(final WB_Coordinate center, final double W, final double H,
+    public HEC_Box(final WB_Coord center, final double W, final double H,
 	    final double D, final int L, final int M, final int N) {
 	this();
 	setCenter(center.xd(), center.yd(), center.zd());
@@ -153,8 +153,8 @@ public class HEC_Box extends HEC_Creator {
      * @param max
      * @return
      */
-    public HEC_Box setFromCorners(final WB_Coordinate min,
-	    final WB_Coordinate max) {
+    public HEC_Box setFromCorners(final WB_Coord min,
+	    final WB_Coord max) {
 	W = max.xd() - min.xd();
 	H = max.yd() - min.yd();
 	D = max.zd() - min.zd();

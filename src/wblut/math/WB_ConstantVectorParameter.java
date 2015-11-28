@@ -3,7 +3,7 @@
  */
 package wblut.math;
 
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_SimpleVector;
 
 /**
@@ -15,14 +15,14 @@ import wblut.geom.WB_SimpleVector;
  */
 public class WB_ConstantVectorParameter implements WB_VectorParameter {
     /** The value. */
-    WB_Coordinate value;
+    WB_Coord value;
 
-    public WB_ConstantVectorParameter(final WB_Coordinate value) {
+    public WB_ConstantVectorParameter(final WB_Coord value) {
 	this.value = new WB_SimpleVector(value);
     }
 
     @Override
-    public WB_Coordinate evaluate(final double... x) {
+    public WB_Coord evaluate(final double... x) {
 	return value;
     }
 }

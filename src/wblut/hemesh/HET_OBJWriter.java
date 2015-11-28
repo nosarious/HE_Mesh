@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.zip.GZIPOutputStream;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 
 class HET_OBJWriter {
     /**
@@ -221,7 +221,7 @@ class HET_OBJWriter {
      * @param n
      *            the n
      */
-    static void writeNormal(final WB_Coordinate n) {
+    static void writeNormal(final WB_Coord n) {
 	objWriter.println("vn " + n.xd() + " " + n.yd() + " " + n.zd());
 	numNormalsWritten++;
     }
@@ -232,7 +232,7 @@ class HET_OBJWriter {
      * @param v
      *            the v
      */
-    static void writeVertex(final WB_Coordinate v) {
+    static void writeVertex(final WB_Coord v) {
 	objWriter.println("v " + v.xd() + " " + v.yd() + " " + v.zd());
 	numVerticesWritten++;
     }

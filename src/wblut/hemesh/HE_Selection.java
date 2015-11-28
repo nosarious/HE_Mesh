@@ -5,7 +5,7 @@ package wblut.hemesh;
 
 import java.util.List;
 import javolution.util.FastTable;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_MTRandom;
 
@@ -793,7 +793,7 @@ public class HE_Selection extends HE_MeshStructure {
      * , double)
      */
     @Override
-    public void getFacesWithNormal(final WB_Coordinate n, final double ta) {
+    public void getFacesWithNormal(final WB_Coord n, final double ta) {
 	final WB_Vector nn = geometryfactory.createNormalizedVector(n);
 	final double cta = Math.cos(ta);
 	for (final HE_Face f : parent.faces) {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javolution.util.FastTable;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_KDTree;
 import wblut.geom.WB_KDTree.WB_KDEntry;
 import wblut.geom.WB_Mesh;
@@ -205,8 +205,8 @@ public class HEC_FromMesh extends HEC_Creator {
     private List<HE_Vertex> getUniqueVertices(final HE_Mesh mesh) {
 	final List<HE_Vertex> uniqueVertices = new FastTable<HE_Vertex>();
 	if (duplicate) {
-	    final WB_KDTree<WB_Coordinate, Integer> kdtree = new WB_KDTree<WB_Coordinate, Integer>();
-	    WB_KDEntry<WB_Coordinate, Integer> neighbor;
+	    final WB_KDTree<WB_Coord, Integer> kdtree = new WB_KDTree<WB_Coord, Integer>();
+	    WB_KDEntry<WB_Coord, Integer> neighbor;
 	    HE_Vertex v = new HE_Vertex(source.getVertex(0));
 	    kdtree.add(source.getVertex(0), 0);
 	    uniqueVertices.add(v);

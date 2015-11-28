@@ -3,7 +3,7 @@
  */
 package wblut.hemesh;
 
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Polygon;
@@ -111,7 +111,7 @@ public class HEC_Antiprism extends HEC_Creator {
 	final WB_Vector norm = polygon.getPlane().getNormal();
 	final int n = polygon.getNumberOfPoints();
 	final boolean surf = WB_Epsilon.isZero(thickness);
-	final WB_Coordinate[] points = new WB_Coordinate[surf ? n : 2 * n];
+	final WB_Coord[] points = new WB_Coord[surf ? n : 2 * n];
 	for (int i = 0; i < n; i++) {
 	    points[i] = polygon.getPoint(i);
 	}

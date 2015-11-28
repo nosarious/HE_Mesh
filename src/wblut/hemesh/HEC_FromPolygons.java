@@ -5,7 +5,7 @@ package wblut.hemesh;
 
 import java.util.Collection;
 import javolution.util.FastTable;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_Polygon;
 
 /**
@@ -109,7 +109,7 @@ public class HEC_FromPolygons extends HEC_Creator {
 	if (polygons != null) {
 	    if (polygons.length > 0) {
 		final int nq = polygons.length;
-		final FastTable<WB_Coordinate> vertices = new FastTable<WB_Coordinate>();
+		final FastTable<WB_Coord> vertices = new FastTable<WB_Coord>();
 		final int[][] faces = new int[nq][];
 		int id = 0;
 		for (int i = 0; i < nq; i++) {

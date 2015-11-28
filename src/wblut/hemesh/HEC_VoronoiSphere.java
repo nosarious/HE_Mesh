@@ -9,9 +9,9 @@ import wblut.geom.WB_KDTree;
 import wblut.geom.WB_KDTree.WB_KDEntry;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
+import wblut.geom.WB_RandomOnSphere;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
-import wblut.math.WB_RandomOnSphere;
 
 /**
  * Creates the Voronoi cell of one point in a collection of points, constrained

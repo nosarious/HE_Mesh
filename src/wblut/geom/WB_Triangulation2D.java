@@ -11,12 +11,12 @@ public class WB_Triangulation2D {
     /**
      * 
      */
-    private int[][] _triangles;
+    private int[] _triangles;
     
     /**
      * 
      */
-    private int[][] _edges;
+    private int[] _edges;
 
     /**
      * 
@@ -30,7 +30,7 @@ public class WB_Triangulation2D {
      * @param T 
      * @param E 
      */
-    public WB_Triangulation2D(final int[][] T, final int[][] E) {
+    public WB_Triangulation2D(final int[] T, final int[] E) {
 	_triangles = T;
 	_edges = E;
     }
@@ -40,7 +40,7 @@ public class WB_Triangulation2D {
      *
      * @return 
      */
-    public int[][] getTriangles() {
+    public int[] getTriangles() {
 	return _triangles;
     }
 
@@ -49,7 +49,7 @@ public class WB_Triangulation2D {
      *
      * @return 
      */
-    public int[][] getEdges() {
+    public int[] getEdges() {
 	return _edges;
     }
 }

@@ -4,7 +4,8 @@
 package wblut.hemesh;
 
 import java.util.Iterator;
-import wblut.geom.WB_Coordinate;
+
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_Line;
 import wblut.geom.WB_Vector;
@@ -47,7 +48,7 @@ public class HEM_Twist extends HEM_Modifier {
      * @param d 
      * @return 
      */
-    public HEM_Twist setTwistAxis(final WB_Coordinate o, final WB_Coordinate d) {
+    public HEM_Twist setTwistAxis(final WB_Coord o, final WB_Coord d) {
 	twistAxis = new WB_Line(o, d);
 	return this;
     }
@@ -59,8 +60,8 @@ public class HEM_Twist extends HEM_Modifier {
      * @param b 
      * @return 
      */
-    public HEM_Twist setTwistAxisFromPoints(final WB_Coordinate a,
-	    final WB_Coordinate b) {
+    public HEM_Twist setTwistAxisFromPoints(final WB_Coord a,
+	    final WB_Coord b) {
 	final WB_Vector axis = new WB_Vector(a, b);
 	axis.normalizeSelf();
 	twistAxis = new WB_Line(a, axis);
@@ -97,7 +98,7 @@ public class HEM_Twist extends HEM_Modifier {
 			twistAxis.getOrigin(), twistAxis.getDirection());
 	    }
 	}
-	mesh.resetFaces();
+	
 	return mesh;
     }
 
@@ -120,7 +121,7 @@ public class HEM_Twist extends HEM_Modifier {
 			twistAxis.getOrigin(), twistAxis.getDirection());
 	    }
 	}
-	selection.parent.resetFaces();
+	
 	return selection.parent;
     }
 }

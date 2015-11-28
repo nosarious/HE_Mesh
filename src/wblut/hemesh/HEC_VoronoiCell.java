@@ -4,7 +4,7 @@
 package wblut.hemesh;
 
 import java.util.ArrayList;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Vector;
@@ -18,7 +18,7 @@ import wblut.geom.WB_Vector;
  */
 public class HEC_VoronoiCell extends HEC_Creator {
     /** Points. */
-    private WB_Coordinate[] points;
+    private WB_Coord[] points;
     /** Number of points. */
     private int numberOfPoints;
     /** Use specific subselection of points. */
@@ -56,7 +56,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
      *            array of vertex positions
      * @return self
      */
-    public HEC_VoronoiCell setPoints(final WB_Coordinate[] points) {
+    public HEC_VoronoiCell setPoints(final WB_Coord[] points) {
 	this.points = points;
 	return this;
     }
@@ -70,7 +70,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
      */
     public HEC_VoronoiCell setPoints(final double[][] points) {
 	final int n = points.length;
-	this.points = new WB_Coordinate[n];
+	this.points = new WB_Coord[n];
 	for (int i = 0; i < n; i++) {
 	    this.points[i] = new WB_Point(points[i][0], points[i][1],
 		    points[i][2]);

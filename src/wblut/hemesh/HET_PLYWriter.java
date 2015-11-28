@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
-import wblut.geom.WB_Coordinate;
+import wblut.geom.WB_Coord;
 
 /**
  * 
@@ -69,12 +69,12 @@ public class HET_PLYWriter {
 		    .getBytes());
 	    out.write("property list uchar uint vertex_indices\n".getBytes());
 	    out.write("end_header\n".getBytes());
-	    final WB_Coordinate[] verts = mesh.getVerticesAsArray();
-	    final WB_Coordinate[] normals = mesh.getVertexNormals();
+	    final WB_Coord[] verts = mesh.getVerticesAsArray();
+	    final WB_Coord[] normals = mesh.getVertexNormals();
 	    int i = 0, j = 0;
 	    try {
 		for (i = 0, j = 0; i < verts.length; i++) {
-		    final WB_Coordinate v = verts[i];
+		    final WB_Coord v = verts[i];
 		    out.write(le(v.xf()));
 		    out.write(le(v.yf()));
 		    out.write(le(v.zf()));
@@ -213,14 +213,14 @@ public class HET_PLYWriter {
 		    .getBytes());
 	    out.write("property list uchar uint vertex_indices\n".getBytes());
 	    out.write("end_header\n".getBytes());
-	    final WB_Coordinate[] verts = mesh.getVerticesAsArray();
-	    final WB_Coordinate[] normals = mesh.getVertexNormals();
+	    final WB_Coord[] verts = mesh.getVerticesAsArray();
+	    final WB_Coord[] normals = mesh.getVertexNormals();
 	    int i = 0, j = 0;
 	    try {
 		final HE_VertexIterator vitr = new HE_VertexIterator(mesh);
 		for (i = 0, j = 0; i < verts.length; i++) {
 		    final int c = vitr.next().getColor();
-		    final WB_Coordinate v = verts[i];
+		    final WB_Coord v = verts[i];
 		    out.write(("" + v.xf()).getBytes());
 		    out.write((" " + v.yf()).getBytes());
 		    out.write((" " + v.zf()).getBytes());
@@ -293,12 +293,12 @@ public class HET_PLYWriter {
 	    out.write("property uchar blue\n".getBytes());
 	    out.write("property uchar alpha\n".getBytes());
 	    out.write("end_header\n".getBytes());
-	    final WB_Coordinate[] verts = mesh.getVerticesAsArray();
-	    final WB_Coordinate[] normals = mesh.getVertexNormals();
+	    final WB_Coord[] verts = mesh.getVerticesAsArray();
+	    final WB_Coord[] normals = mesh.getVertexNormals();
 	    int i = 0, j = 0;
 	    try {
 		for (i = 0, j = 0; i < verts.length; i++) {
-		    final WB_Coordinate v = verts[i];
+		    final WB_Coord v = verts[i];
 		    out.write(("" + v.xf()).getBytes());
 		    out.write((" " + v.yf()).getBytes());
 		    out.write((" " + v.zf()).getBytes());
