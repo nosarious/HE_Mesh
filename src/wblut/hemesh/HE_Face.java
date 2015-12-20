@@ -5,7 +5,6 @@ package wblut.hemesh;
 
 import static wblut.geom.WB_GeometryOp.projectOnPlane;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.vividsolutions.jts.geom.Coordinate;
@@ -16,12 +15,11 @@ import com.vividsolutions.jts.operation.valid.IsValidOp;
 import javolution.util.FastTable;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_Classification;
-import wblut.geom.WB_Map2D;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_HasColor;
-import wblut.geom.WB_HasData;
+import wblut.geom.WB_Map2D;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Polygon;
@@ -37,10 +35,9 @@ import wblut.math.WB_Math;
  * @author Frederik Vanhoutte (W:Blut)
  *
  */
-public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
+public class HE_Face extends HE_MeshElement implements WB_HasColor {
 	/** Halfedge associated with this face. */
 	private HE_Halfedge _halfedge;
-	private HashMap<String, Object> _data;
 	private int facecolor;
 	private int textureId;
 
@@ -329,6 +326,31 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 	 *
 	 * @return
 	 */
+	public List<HE_Halfedge> getFaceHalfedgesTwoSided() {
+		final List<HE_Halfedge> fhe = new FastTable<HE_Halfedge>();
+		if (_halfedge == null) {
+			return fhe;
+		}
+		HE_Halfedge he = _halfedge;
+		do {
+			if (!fhe.contains(he)) {
+				fhe.add(he);
+				if(he.getPair()!=null) {
+					if(!fhe.contains(he.getPair())) {
+						fhe.add(he.getPair());
+					}
+				}
+			}
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		return fhe;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
 	public List<HE_Halfedge> getFaceEdges() {
 		final List<HE_Halfedge> fe = new FastTable<HE_Halfedge>();
 		if (_halfedge == null) {
@@ -378,7 +400,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 	 *
 	 * @param halfedge
 	 */
-	public void setHalfedge(final HE_Halfedge halfedge) {
+	protected void _setHalfedge(final HE_Halfedge halfedge) {
 		_halfedge = halfedge;
 	}
 
@@ -390,7 +412,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 	public void push(final WB_Coord c) {
 		HE_Halfedge he = _halfedge;
 		do {
-			he.getVertex().getPoint().addSelf(c);
+			he.getVertex().addSelf(c);
 			he = he.getNextInFace();
 		} while (he != _halfedge);
 	}
@@ -398,7 +420,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 	/**
 	 *
 	 */
-	public void clearHalfedge() {
+	protected void _clearHalfedge() {
 		_halfedge = null;
 	}
 
@@ -504,8 +526,8 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 			triangles = new int[3 * (fo - 2)];
 			for (int i = 0; i < (fo - 2); i++) {
 				triangles[3 * i] = 0;
-				triangles[3 * i + 1] = i + 1;
-				triangles[3 * i + 2] = i + 2;
+				triangles[(3 * i) + 1] = i + 1;
+				triangles[(3 * i) + 2] = i + 2;
 			}
 		} else if (fo == 4) {
 			// tracker.setStatus("Triangulating face with " + fo
@@ -615,7 +637,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 		HE_Halfedge he = getHalfedge();
 		do {
 			final HE_Halfedge hep = he.getPair();
-			if (hep != null && hep.getFace() != null) {
+			if ((hep != null) && (hep.getFace() != null)) {
 				if (hep.getFace() != this) {
 					if (!ff.contains(hep.getFace())) {
 						ff.add(hep.getFace());
@@ -629,7 +651,7 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.Point3D#toString()
 	 */
 	@Override
@@ -642,29 +664,6 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 		}
 		s += he.getVertex()._key + ".";
 		return s;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.core.WB_HasData#setData(java.lang.String, java.lang.Object)
-	 */
-	@Override
-	public void setData(final String s, final Object o) {
-		if (_data == null) {
-			_data = new HashMap<String, Object>();
-		}
-		_data.put(s, o);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.core.WB_HasData#getData(java.lang.String)
-	 */
-	@Override
-	public Object getData(final String s) {
-		return (_data == null) ? null : _data.get(s);
 	}
 
 	/*
@@ -742,7 +741,6 @@ public class HE_Face extends HE_Element implements WB_HasData, WB_HasColor {
 	 */
 	@Override
 	public void clear() {
-		_data = null;
 		_halfedge = null;
 	}
 

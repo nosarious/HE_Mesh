@@ -3,9 +3,6 @@
  */
 package wblut.hemesh;
 
-import wblut.core.WB_ProgressTracker;
-import wblut.geom.WB_GeometryFactory;
-
 /**
  *
  */
@@ -13,10 +10,8 @@ public abstract class HE_Element {
 
 	protected static long _currentKey;
 	protected final long _key;
-	private long _labels;
-	protected boolean visited;
-	protected final static WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
-	protected static final WB_ProgressTracker tracker = WB_ProgressTracker.instance();
+	protected long _labels;
+
 
 	/**
 	 *
@@ -25,10 +20,11 @@ public abstract class HE_Element {
 		_key = _currentKey;
 		_currentKey++;
 		_labels = mergeLabels(-1, -1);
-		visited = false;
 	}
 
-	private long mergeLabels(int internal, int external) {
+
+
+	private long mergeLabels(final int internal, final int external) {
 		return (((long) internal) << 32) | (external & 0xffffffffL);
 
 	}
@@ -51,17 +47,6 @@ public abstract class HE_Element {
 		_labels = mergeLabels(getInternalLabel(), label);
 	}
 
-	public void clearVisited() {
-		visited = false;
-	}
-
-	public void setVisited() {
-		visited = true;
-	}
-
-	public boolean isVisited() {
-		return visited;
-	}
 
 	/**
 	 *
@@ -93,7 +78,7 @@ public abstract class HE_Element {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -103,7 +88,7 @@ public abstract class HE_Element {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -127,11 +112,10 @@ public abstract class HE_Element {
 	 */
 	public void copyProperties(final HE_Element el) {
 		_labels = mergeLabels(el.getInternalLabel(), el.getLabel());
-		visited = el.visited;
 	}
 
 	/**
 	 *
 	 */
-	public abstract void clear();
+	protected abstract void clear();
 }

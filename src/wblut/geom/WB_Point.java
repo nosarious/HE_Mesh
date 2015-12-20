@@ -141,7 +141,7 @@ public class WB_Point extends WB_Vector {
 	}
 
 	@Override
-	public WB_Point addSelf(final double x, double y, double z) {
+	public WB_Point addSelf(final double x, final double y, final double z) {
 		set(xd() + x, yd() + y, zd() + z);
 		return this;
 	}
@@ -395,8 +395,8 @@ public class WB_Point extends WB_Vector {
 	 * @see wblut.geom.WB_Vector#applyAsNormal(wblut.geom.WB_Transform)
 	 */
 	@Override
-	public WB_Point applyAsNormal(final WB_Transform T) {
-		final WB_Point result = new WB_Point();
+	public WB_Vector applyAsNormal(final WB_Transform T) {
+		final WB_Vector result = new WB_Vector();
 		T.applyAsNormal(this, result);
 		return result;
 	}
@@ -419,8 +419,8 @@ public class WB_Point extends WB_Vector {
 	 * @see wblut.geom.WB_Vector#applyAsVector(wblut.geom.WB_Transform)
 	 */
 	@Override
-	public WB_Point applyAsVector(final WB_Transform T) {
-		final WB_Point result = new WB_Point();
+	public WB_Vector applyAsVector(final WB_Transform T) {
+		final WB_Vector result = new WB_Vector();
 		T.applyAsVector(this, result);
 		return result;
 	}
@@ -865,7 +865,7 @@ public class WB_Point extends WB_Vector {
 	}
 
 	public static WB_Point mulAddMul(final double f, final WB_Coord p, final double g, final WB_Coord q) {
-		return new WB_Point(f * p.xd() + (g * q.xd()), f * p.yd() + (g * q.yd()), f * p.zd() + (g * q.zd()));
+		return new WB_Point((f * p.xd()) + (g * q.xd()), (f * p.yd()) + (g * q.yd()), (f * p.zd()) + (g * q.zd()));
 	}
 
 	public static double scalarTriple(final WB_Coord u, final WB_Coord v, final WB_Coord w) {

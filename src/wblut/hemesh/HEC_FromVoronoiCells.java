@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import javolution.util.FastTable;
-import wblut.geom.WB_Point;
+import wblut.geom.WB_Coord;
 
 /**
  *
@@ -155,7 +155,7 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 				}
 			}
 		}
-		final WB_Point[] vertices = new WB_Point[nv];
+		final WB_Coord[] vertices = new WB_Coord[nv];
 		final int[][] faces = new int[tmpfaces.size()][];
 		final int[] labels = new int[tmpfaces.size()];
 		final int[] intlabels = new int[tmpfaces.size()];
@@ -169,7 +169,7 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 			colors[i] = f.getColor();
 			HE_Halfedge he = f.getHalfedge();
 			for (int j = 0; j < f.getFaceOrder(); j++) {
-				vertices[cid] = he.getVertex().getPoint();
+				vertices[cid] = he.getVertex();
 				faces[i][j] = cid;
 				he = he.getNextInFace();
 				cid++;

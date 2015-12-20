@@ -2107,7 +2107,7 @@ public class WB_GeometryOp {
 	 *
 	 * @return
 	 */
-	private static WB_IntersectionResult NOINTERSECTION(double t1, double t2) {
+	private static WB_IntersectionResult NOINTERSECTION(final double t1, final double t2) {
 		final WB_IntersectionResult i = new WB_IntersectionResult();
 		i.intersection = false;
 		i.sqDist = Float.POSITIVE_INFINITY;
@@ -4390,7 +4390,7 @@ public class WB_GeometryOp {
 		return Math.acos(d);
 	}
 
-	protected static int calculateHashCode(final double x, final double y) {
+	public static int calculateHashCode(final double x, final double y) {
 		int result = 17;
 		final long a = Double.doubleToLongBits(x);
 		result += (31 * result) + (int) (a ^ (a >>> 32));
@@ -4407,7 +4407,7 @@ public class WB_GeometryOp {
 	 * @param z
 	 * @return hashcode
 	 */
-	protected static int calculateHashCode(final double x, final double y, final double z) {
+	public static int calculateHashCode(final double x, final double y, final double z) {
 		int result = 17;
 		final long a = Double.doubleToLongBits(x);
 		result += (31 * result) + (int) (a ^ (a >>> 32));
@@ -4418,7 +4418,7 @@ public class WB_GeometryOp {
 		return result;
 	}
 
-	protected static int calculateHashCode(final double x, final double y, final double z, final double w) {
+	public static int calculateHashCode(final double x, final double y, final double z, final double w) {
 		int result = 17;
 		final long a = Double.doubleToLongBits(x);
 		result += (31 * result) + (int) (a ^ (a >>> 32));
@@ -4610,7 +4610,7 @@ public class WB_GeometryOp {
 
 	public static double dot4D(final double ux, final double uy, final double uz, final double uw, final double vx,
 			final double vy, final double vz, final double vw) {
-		return ux * vx + uy * vy + uz * vz + uw * vw;
+		return (ux * vx) + (uy * vy) + (uz * vz) + (uw * vw);
 	}
 
 	/**
@@ -4833,18 +4833,18 @@ public class WB_GeometryOp {
 	public static double[][] tensor3D(final double ux, final double uy, final double uz, final double vx,
 			final double vy, final double vz) {
 		return new double[][] { { ux * vx, ux * vy, ux * vz }, { uy * vx, uy * vy, uy * vz },
-				{ uz * vx, uz * vy, uz * vz } };
+			{ uz * vx, uz * vy, uz * vz } };
 	}
 
 	/**
 	 * Extreme points along direction.
 	 *
 	 * @param points
-	 * 
+	 *
 	 * @param numPoints
-	 * 
+	 *
 	 * @param dir
-	 * 
+	 *
 	 * @return int[]
 	 */
 	public static int[] getExtremePointsAlongDirection(final WB_Coord[] points, final WB_Coord dir) {
@@ -5248,5 +5248,20 @@ public class WB_GeometryOp {
 			return WB_Classification.BACK;
 		}
 		return WB_Classification.ON;
+	}
+
+
+	public static double cotan(final WB_Coord v0, final WB_Coord v1){
+		return(WB_Vector.dot(v0,v1)/WB_Vector.cross(v0, v1).getLength3D());
+
+
+	}
+
+	public static double cotan(final WB_Coord p0, final WB_Coord p1, final WB_Coord p2){
+		WB_Vector v0=WB_Vector.subToVector3D(p0, p1);
+		WB_Vector v1=WB_Vector.subToVector3D(p0, p2);
+		return(WB_Vector.dot(v0,v1)/WB_Vector.cross(v0, v1).getLength3D());
+
+
 	}
 }

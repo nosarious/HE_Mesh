@@ -18,7 +18,7 @@ import wblut.math.WB_Math;
  * @author Frederik Vanhoutte (W:Blut)
  *
  */
-public class HE_Halfedge extends HE_Element implements WB_HasColor {
+public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	/** Start vertex of halfedge. */
 	private HE_Vertex _vertex;
 	/** Halfedge pair. */
@@ -29,8 +29,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	private HE_Halfedge _prev;
 	/** Associated face. */
 	private HE_Face _face;
-	/** The _data. */
-	// private HashMap<String, Object> _data;
+
 	private int hecolor;
 	private HE_TextureCoordinate uvw;
 	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
@@ -42,6 +41,11 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 		super();
 		hecolor = -1;
 		uvw = null;
+		_vertex=null;
+		_pair=null;
+		_next=null;
+		_prev=null;
+		_face=null;
 	}
 
 	/**
@@ -89,6 +93,9 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	 * @return previous halfedge
 	 */
 	public HE_Halfedge getPrevInVertex() {
+		if (_prev == null) {
+			return null;
+		}
 		return getPrevInFace().getPair();
 	}
 
@@ -107,7 +114,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	 * @param he
 	 *            next halfedge
 	 */
-	public void setNext(final HE_Halfedge he) {
+	protected void _setNext(final HE_Halfedge he) {
 		_next = he;
 	}
 
@@ -117,17 +124,17 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	 * @param he
 	 *            next halfedge
 	 */
-	public void setPrev(final HE_Halfedge he) {
+	protected void _setPrev(final HE_Halfedge he) {
 		_prev = he;
 	}
 
 	/**
-	 * Mutually pair halfedges.
+	 * Pair halfedges.
 	 *
 	 * @param he
 	 *            halfedge to pair
 	 */
-	public void setPair(final HE_Halfedge he) {
+	protected void _setPair(final HE_Halfedge he) {
 		_pair = he;
 	}
 
@@ -140,9 +147,9 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 		if (_vertex == null) {
 			return null;
 		}
-		WB_Vector v = _vertex.getPoint().subToVector3D(getPrevInFace()._vertex);
+		WB_Vector v = _vertex.subToVector3D(getPrevInFace()._vertex);
 		v.normalizeSelf();
-		final WB_Vector vn = getNextInFace()._vertex.getPoint().subToVector3D(_vertex);
+		final WB_Vector vn = getNextInFace()._vertex.subToVector3D(_vertex);
 		vn.normalizeSelf();
 		v = v.cross(vn);
 		final WB_Coord n;
@@ -168,7 +175,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	 */
 	public WB_Coord getHalfedgeTangent() {
 		if ((_pair != null) && (_vertex != null) && (_pair.getVertex() != null)) {
-			final WB_Vector v = _pair.getVertex().getPoint().subToVector3D(_vertex);
+			final WB_Vector v = _pair.getVertex().subToVector3D(_vertex);
 			v.normalizeSelf();
 			return v;
 		}
@@ -246,7 +253,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	 * @param face
 	 *            the new face
 	 */
-	public void setFace(final HE_Face face) {
+	protected void _setFace(final HE_Face face) {
 		_face = face;
 	}
 
@@ -274,7 +281,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	 * @param vertex
 	 *            the new vertex
 	 */
-	public void setVertex(final HE_Vertex vertex) {
+	protected void _setVertex(final HE_Vertex vertex) {
 		_vertex = vertex;
 	}
 
@@ -293,35 +300,35 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	/**
 	 * Clear next.
 	 */
-	public void clearNext() {
+	protected void _clearNext() {
 		_next = null;
 	}
 
 	/**
 	 * Clear prev.
 	 */
-	public void clearPrev() {
-		// _prev = null;
+	protected void _clearPrev() {
+		_prev = null;
 	}
 
 	/**
 	 * Clear pair.
 	 */
-	public void clearPair() {
+	protected void _clearPair() {
 		_pair = null;
 	}
 
 	/**
 	 * Clear face.
 	 */
-	public void clearFace() {
+	protected void _clearFace() {
 		_face = null;
 	}
 
 	/**
 	 * Clear vertex.
 	 */
-	public void clearVertex() {
+	protected void _clearVertex() {
 		_vertex = null;
 	}
 
@@ -398,7 +405,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.Point3D#toString()
 	 */
 	@Override
@@ -437,18 +444,31 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	}
 
 	/**
+	 * A halfedge is considered an edge if it has a paired halfedge and one of these conditions is met:
 	 *
+	 *  a) both the halfedge and its pair have no face, and the halfedge key is lower
+	 *  b) the halfedge has a face and its pair has no face
+	 *  c) both the halfedge and its pair have a face, and the halfedge key is lower
 	 *
 	 * @return
 	 */
 	public boolean isEdge() {
-		if ((_face == null) || (_pair == null)) {
+		if (_pair == null) {
 			return false;
 		}
-		if (_pair._face == null) {
+		if(_face==null){
+			if (_pair._face == null) {//both halfedges are faceless
+				return (_key < _pair._key);
+			}else{
+				return false;
+			}
+		}else if (_pair._face == null) {
 			return true;
 		}
+
+
 		return (_key < _pair._key);
+
 	}
 
 	/**
@@ -564,7 +584,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	 * @see wblut.hemesh.HE_Element#clear()
 	 */
 	@Override
-	public void clear() {
+	protected void clear() {
 		_face = null;
 		_next = null;
 		_pair = null;
@@ -587,13 +607,23 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 		return WB_GeometryOp.angleBetween(c.xd(), c.yd(), c.zd(), p1.xd(), p1.yd(), p1.zd(), p2.xd(), p2.yd(), p2.zd());
 	}
 
+	public double getCotan() {
+		final WB_Coord c = getVertex();
+		final WB_Coord p1 = getEndVertex();
+		final WB_Coord p2 = this.getPrevInFace().getVertex();
+		if (c == null) {
+			return Double.NaN;
+		}
+		return WB_GeometryOp.cotan(c,p1,p2);
+	}
+
 	// TEXTURE COORDINATES
 
 	/**
 	 * Get texture coordinate belonging to the halfedge vertex in this face. If
 	 * no halfedge UVW exists, returns the vertex UVW. If neither exist, zero
 	 * coordinates are returned.
-	 * 
+	 *
 	 * @return
 	 */
 	public HE_TextureCoordinate getUVW() {
@@ -610,7 +640,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	/**
 	 * Get texture coordinate belonging to this halfedge . If no halfedge UVW
 	 * exists, zero coordinates are returned.
-	 * 
+	 *
 	 * @return
 	 */
 	public HE_TextureCoordinate getHalfedgeUVW() {
@@ -623,7 +653,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	/**
 	 * Get texture coordinate belonging to the halfedge vertex. If no vertex UVW
 	 * exists, zero coordinates are returned.
-	 * 
+	 *
 	 * @return
 	 */
 	public HE_TextureCoordinate getVertexUVW() {
@@ -643,7 +673,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 
 	/**
 	 * Set halfedge UVW
-	 * 
+	 *
 	 * @param u
 	 * @param v
 	 * @param w
@@ -654,7 +684,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 
 	/**
 	 * Set halfedge UVW
-	 * 
+	 *
 	 * @param uvw
 	 *            WB_Coord
 	 */
@@ -667,7 +697,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 
 	/**
 	 * Set halfedge UVW
-	 * 
+	 *
 	 * @param uvw
 	 *            HE_TextureCoordinate
 	 */
@@ -680,7 +710,7 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 
 	/**
 	 * Check if this halfedge has texture coordinates
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean hasHalfedgeUVW() {
@@ -690,14 +720,15 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 	/**
 	 * Check if the halfedge vertex has a UVW for this face, either a halfedge
 	 * UVW or a vertex UVW.
-	 * 
-	 * 
+	 *
+	 *
 	 * @return
 	 */
 	public boolean hasUVW() {
-		if (uvw != null)
+		if (uvw != null) {
 			return true;
-		if (_vertex != null && _vertex.hasVertexUVW()) {
+		}
+		if ((_vertex != null) && _vertex.hasVertexUVW()) {
 			return true;
 		}
 		return false;
@@ -705,11 +736,11 @@ public class HE_Halfedge extends HE_Element implements WB_HasColor {
 
 	/**
 	 * Check if the halfedge vertex has a vertex UVW.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean hasVertexUVW() {
-		if (_vertex != null && _vertex.hasVertexUVW()) {
+		if ((_vertex != null) && _vertex.hasVertexUVW()) {
 			return true;
 		}
 		return false;

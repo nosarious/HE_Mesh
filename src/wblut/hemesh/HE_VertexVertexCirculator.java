@@ -1,40 +1,36 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
 import java.util.Iterator;
 
-/**
- * 
- *
- * @param <V>
- */
+
 public class HE_VertexVertexCirculator implements Iterator<HE_Vertex> {
 
 	/**
-	 * 
+	 *
 	 */
 	private final HE_Halfedge _start;
 
 	/**
-	 * 
+	 *
 	 */
 	private HE_Halfedge _current;
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param v
 	 */
-	public HE_VertexVertexCirculator(final HE_Vertex v) {
+	HE_VertexVertexCirculator(final HE_Vertex v) {
 		_start = v.getHalfedge();
 		_current = null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Iterator#hasNext()
 	 */
 	@Override
@@ -47,7 +43,7 @@ public class HE_VertexVertexCirculator implements Iterator<HE_Vertex> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Iterator#next()
 	 */
 	@Override
@@ -62,7 +58,7 @@ public class HE_VertexVertexCirculator implements Iterator<HE_Vertex> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.Iterator#remove()
 	 */
 	@Override

@@ -1,53 +1,53 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 /**
- * 
+ *
  */
 public class WB_Tetrahedron implements WB_Simplex {
 
 	/**
-	 * 
+	 *
 	 */
 	WB_Point p1;
 
 	/**
-	 * 
+	 *
 	 */
 	WB_Point p2;
 
 	/**
-	 * 
+	 *
 	 */
 	WB_Point p3;
 
 	/**
-	 * 
+	 *
 	 */
 	WB_Point p4;
 
 	/**
-	 * 
+	 *
 	 */
 	protected WB_Tetrahedron() {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param p1
 	 * @param p2
 	 * @param p3
 	 * @param p4
 	 */
-	protected WB_Tetrahedron(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3,
+	public WB_Tetrahedron(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3,
 			final WB_Coord p4) {
 		this.p1 = geometryfactory.createPoint(p1);
 		this.p2 = geometryfactory.createPoint(p2);
@@ -56,7 +56,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -65,7 +65,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -74,7 +74,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -83,7 +83,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -93,7 +93,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Geometry#getType()
 	 */
 	@Override
@@ -103,7 +103,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Simplex#getPoint(int)
 	 */
 	@Override
@@ -122,7 +122,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Simplex#getCenter()
 	 */
 	@Override
@@ -204,7 +204,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 		c.crossSelf(a);
 		a.crossSelf(b);
 		final double denom = bXc.getLength3D() + c.getLength3D() + a.getLength3D()
-				+ (bXc.addMulSelf(2, a).getLength3D());
+		+ (bXc.addMulSelf(2, a).getLength3D());
 		return sixV / denom;
 	}
 
@@ -232,7 +232,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -255,7 +255,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -270,7 +270,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
 	 */
 	@Override

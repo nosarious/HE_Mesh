@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -13,12 +13,12 @@ import javolution.util.FastTable;
 import wblut.core.WB_ProgressCounter;
 
 /**
- * 
+ *
  */
 public class HEM_CapHoles extends HEM_Modifier {
 
 	/**
-	 * 
+	 *
 	 */
 	public HEM_CapHoles() {
 		super();
@@ -26,7 +26,7 @@ public class HEM_CapHoles extends HEM_Modifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
@@ -39,9 +39,8 @@ public class HEM_CapHoles extends HEM_Modifier {
 		while (heItr.hasNext()) {
 			he = heItr.next();
 			if (he.getFace() == null) {
-				he.getVertex().setHalfedge(he.getNextInVertex());
-				he.getPair().clearPair();
-				he.clearPair();
+				mesh.setHalfedge(he.getVertex(),he.getNextInVertex());
+				mesh.clearPair(he);
 				remove.add(he);
 			}
 		}
@@ -88,15 +87,14 @@ public class HEM_CapHoles extends HEM_Modifier {
 				nhe = new HE_Halfedge();
 				mesh.add(nhe);
 				newHalfedges.add(nhe);
-				nhe.setVertex(phe.getNextInFace().getVertex());
-				nhe.setPair(phe);
-				phe.setPair(nhe);
-				nhe.setFace(nf);
+				mesh.setVertex(nhe,phe.getNextInFace().getVertex());
+				mesh.setPair(nhe,phe);
+				mesh.setFace(nhe,nf);
 				if (nf.getHalfedge() == null) {
-					nf.setHalfedge(nhe);
+					mesh.setHalfedge(nf,nhe);
 				}
 			}
-			HE_Mesh.cycleHalfedgesReverse(newHalfedges.getObjects());
+			mesh.cycleHalfedgesReverse(newHalfedges.getObjects());
 			counter.increment(newHalfedges.size());
 		}
 		tracker.setStatus(this, "Capped simple, planar holes.", 0);
@@ -150,8 +148,7 @@ public class HEM_CapHoles extends HEM_Modifier {
 						he2 = vInfo.in.get(j);
 						if ((he2.getPair() == null) && (he.getVertex() == he2.getNextInFace().getVertex())
 								&& (he2.getVertex() == he.getNextInFace().getVertex())) {
-							he.setPair(he2);
-							he2.setPair(he);
+							mesh.setPair(he,he2);
 							break;
 						}
 					}
@@ -166,7 +163,7 @@ public class HEM_CapHoles extends HEM_Modifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override

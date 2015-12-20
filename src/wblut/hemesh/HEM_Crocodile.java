@@ -89,7 +89,7 @@ public class HEM_Crocodile extends HEM_Modifier {
 		selection.collectVertices();
 		tracker.setStatus(this, "Starting HEM_Crocodile.", +1);
 		final Map<Long, WB_Coord> umbrellapoints = new FastMap<Long, WB_Coord>();
-		HE_VertexIterator vitr = new HE_VertexIterator(selection);
+		HE_VertexIterator vitr  = selection.vItr();
 		HE_Vertex v;
 		if (chamfer == 0) {
 			tracker.setStatus(this, "Chamfer is 0, nothing to do. Exiting HEM_Crocodile.", -1);
@@ -148,7 +148,7 @@ public class HEM_Crocodile extends HEM_Modifier {
 		WB_ProgressCounter counter = new WB_ProgressCounter(selection.getNumberOfVertices(), 10);
 
 		tracker.setStatus(this, "Splitting faces.", counter);
-		vitr = new HE_VertexIterator(selection);
+		vitr = selection.vItr();
 		while (vitr.hasNext()) {
 			v = vitr.next();
 			final HE_VertexHalfedgeOutCirculator vhoc = new HE_VertexHalfedgeOutCirculator(v);
@@ -161,7 +161,7 @@ public class HEM_Crocodile extends HEM_Modifier {
 				}
 			}
 			counter.increment();
-			v.getPoint().addMulSelf(distance, v.getVertexNormal());
+			v.addMulSelf(distance, v.getVertexNormal());
 		}
 		tracker.setStatus(this, "Exiting HEM_Crocodile.", -1);
 		return selection.parent;

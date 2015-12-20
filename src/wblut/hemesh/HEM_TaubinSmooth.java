@@ -14,7 +14,7 @@ import wblut.geom.WB_Point;
 /**
  *
  */
-public class HEM_Smooth extends HEM_Modifier {
+public class HEM_TaubinSmooth extends HEM_Modifier {
 
 	/**
 	 *
@@ -27,14 +27,16 @@ public class HEM_Smooth extends HEM_Modifier {
 	private boolean keepBoundary;
 
 	private double lambda;
+	private double mu;
 
 	/**
 	 *
 	 */
 	private int iter;
 
-	public HEM_Smooth(){
+	public HEM_TaubinSmooth(){
 		lambda=0.5;
+		mu=-0.52;
 		iter=1;
 		keepBoundary=false;
 
@@ -47,7 +49,7 @@ public class HEM_Smooth extends HEM_Modifier {
 	 * @param b
 	 * @return
 	 */
-	public HEM_Smooth setAutoRescale(final boolean b) {
+	public HEM_TaubinSmooth setAutoRescale(final boolean b) {
 		autoRescale = b;
 		return this;
 	}
@@ -61,7 +63,7 @@ public class HEM_Smooth extends HEM_Modifier {
 	 * @param r
 	 * @return
 	 */
-	public HEM_Smooth setIterations(final int r) {
+	public HEM_TaubinSmooth setIterations(final int r) {
 		iter = r;
 		return this;
 	}
@@ -72,13 +74,18 @@ public class HEM_Smooth extends HEM_Modifier {
 	 * @param b
 	 * @return
 	 */
-	public HEM_Smooth setKeepBoundary(final boolean b) {
+	public HEM_TaubinSmooth setKeepBoundary(final boolean b) {
 		keepBoundary = b;
 		return this;
 	}
 
-	public HEM_Smooth setLambda(final double lambda){
+	public HEM_TaubinSmooth setLambda(final double lambda){
 		this.lambda=lambda;
+		return this;
+	}
+
+	public HEM_TaubinSmooth setMu(final double mu){
+		this.mu=mu;
 		return this;
 	}
 
@@ -89,7 +96,7 @@ public class HEM_Smooth extends HEM_Modifier {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
-		tracker.setStatus(this, "Starting HEM_Smooth.", +1);
+		tracker.setStatus(this, "Starting HEM_TaubinSmooth.", +1);
 		WB_AABB box = new WB_AABB();
 		if (autoRescale) {
 			box = mesh.getAABB();
@@ -102,21 +109,23 @@ public class HEM_Smooth extends HEM_Modifier {
 
 		tracker.setStatus(this, "Smoothing vertices.", counter);
 		for (int r = 0; r < iter; r++) {
+			double f=((r%2)==0)?lambda:mu;
 			Iterator<HE_Vertex> vItr = mesh.vItr();
 			HE_Vertex v;
 			List<HE_Vertex> neighbors;
 			int id = 0;
 			WB_Point p;
+
 			while (vItr.hasNext()) {
 				v = vItr.next();
 				if (v.isBoundary() && keepBoundary) {
 					newPositions[id] = v;
 				} else {
-					p = new WB_Point(v).mulSelf(1.0-lambda);
+					p = new WB_Point(v).mulSelf(1.0-f);
 					neighbors = v.getNeighborVertices();
 
 					for (int i = 0; i < neighbors.size(); i++) {
-						p.addMulSelf(lambda/neighbors.size(),neighbors.get(i));
+						p.addMulSelf(f/neighbors.size(),neighbors.get(i));
 					}
 					newPositions[id] = p;
 				}
@@ -134,7 +143,7 @@ public class HEM_Smooth extends HEM_Modifier {
 		if (autoRescale) {
 			mesh.fitInAABB(box);
 		}
-		tracker.setStatus(this, "Exiting HEM_Smooth.", -1);
+		tracker.setStatus(this, "Exiting HEM_TaubinSmooth.", -1);
 		return mesh;
 	}
 
@@ -146,7 +155,7 @@ public class HEM_Smooth extends HEM_Modifier {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
-		tracker.setStatus(this, "Starting HEM_Smooth.", +1);
+		tracker.setStatus(this, "Starting HEM_TaubinSmooth.", +1);
 		selection.collectVertices();
 		WB_AABB box = new WB_AABB();
 		if (autoRescale) {
@@ -160,6 +169,7 @@ public class HEM_Smooth extends HEM_Modifier {
 
 		tracker.setStatus(this, "Smoothing vertices.", counter);
 		for (int r = 0; r < iter; r++) {
+			double f=((r%2)==0)?lambda:mu;
 			Iterator<HE_Vertex> vItr = selection.vItr();
 			HE_Vertex v;
 			HE_Vertex n;
@@ -181,9 +191,9 @@ public class HEM_Smooth extends HEM_Modifier {
 					}
 
 					for (int i = 0; i < neighbors.size(); i++) {
-						p.addMulSelf(lambda/neighbors.size(),neighbors.get(i));
+						p.addMulSelf(f/neighbors.size(),neighbors.get(i));
 					}
-					newPositions[id] = p.addMulSelf(1.0-lambda,v);
+					newPositions[id] = p.addMulSelf(1.0-f,v);
 				}
 				id++;
 			}
@@ -199,7 +209,7 @@ public class HEM_Smooth extends HEM_Modifier {
 		if (autoRescale) {
 			selection.parent.fitInAABB(box);
 		}
-		tracker.setStatus(this, "Exiting HEM_Smooth.", -1);
+		tracker.setStatus(this, "Exiting HEM_TaubinSmooth.", -1);
 		return selection.parent;
 	}
 }

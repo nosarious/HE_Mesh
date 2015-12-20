@@ -130,7 +130,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			return mesh;
 		}
 		tracker.setStatus(this, "Creating bounding box tree.", 0);
-		final WB_AABBTree tree = new WB_AABBTree(mesh, 64);
+		final WB_AABBTree tree = new WB_AABBTree(mesh, Math.max(64, (int)Math.sqrt(mesh.getNumberOfFaces())));
 		final HE_Selection faces = new HE_Selection(mesh);
 		tracker.setStatus(this, "Retrieving intersection candidates.", 0);
 		faces.addFaces(HE_Intersection.getPotentialIntersectedFaces(tree, lP));

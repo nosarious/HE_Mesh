@@ -74,7 +74,7 @@ public interface WB_Mesh extends WB_Geometry {
 	 *
 	 * @return
 	 */
-	public List<WB_Point> getPoints();
+	public List<WB_Coord> getPoints();
 
 	/**
 	 *

@@ -211,6 +211,7 @@ public abstract class HEC_Creator extends HE_Machine {
 	 */
 	public final HE_Mesh create() {
 		final HE_Mesh base = createBase();
+
 		WB_Coord ctr = base.getCenter();
 		if (!override) {
 			base.scale(scale);

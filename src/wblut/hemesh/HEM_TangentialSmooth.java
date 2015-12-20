@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -10,36 +10,41 @@ import java.util.List;
 
 import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_AABB;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
 
 /**
- * 
+ *
  */
 public class HEM_TangentialSmooth extends HEM_Modifier {
 
 	/**
-	 * 
+	 *
 	 */
 	private boolean autoRescale;
 
 	/**
-	 * 
+	 *
 	 */
 	private boolean keepBoundary;
 
 	/**
-	 * 
+	 *
 	 */
 	private int iter;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.hemesh.modifiers.HEB_Modifier#modify(wblut.hemesh.HE_Mesh)
-	 */
+	private double lambda;
+
+	public HEM_TangentialSmooth(){
+		lambda=0.5;
+		iter=1;
+		keepBoundary=false;
+
+	}
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param b
 	 * @return
@@ -50,7 +55,7 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param r
 	 * @return
@@ -61,7 +66,7 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param b
 	 * @return
@@ -71,19 +76,24 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 		return this;
 	}
 
+	public HEM_TangentialSmooth setLambda(final double lambda){
+		this.lambda=lambda;
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HEM_Modifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
-		tracker.setStatus(this, "Starting HEM_Smooth.", +1);
+		tracker.setStatus(this, "Starting HEM_TangentialSmooth.", +1);
 		WB_AABB box = new WB_AABB();
 		if (autoRescale) {
 			box = mesh.getAABB();
 		}
-		final WB_Point[] newPositions = new WB_Point[mesh.getNumberOfVertices()];
+		final WB_Coord[] newPositions = new WB_Coord[mesh.getNumberOfVertices()];
 		if (iter < 1) {
 			iter = 1;
 		}
@@ -98,17 +108,18 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 			WB_Plane tangent;
 			while (vItr.hasNext()) {
 				v = vItr.next();
-				tangent = new WB_Plane(v, v.getVertexNormal());
+				tangent = new WB_Plane(v, v.getVertexAngleNormal());
+
 				if (v.isBoundary() && keepBoundary) {
-					newPositions[id] = v.getPoint();
+					newPositions[id] = v;
 				} else {
 					p = new WB_Point(v);
 					neighbors = v.getNeighborVertices();
-					p.mulSelf(neighbors.size());
+					p.mulSelf(1-lambda);
 					for (int i = 0; i < neighbors.size(); i++) {
-						p.addSelf(neighbors.get(i));
+						p.addMulSelf(lambda/neighbors.size(),neighbors.get(i));
 					}
-					newPositions[id] = projectOnPlane(p.scaleSelf(0.5 / neighbors.size()), tangent);
+					newPositions[id] = projectOnPlane(p, tangent);
 				}
 				id++;
 			}
@@ -124,25 +135,25 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 		if (autoRescale) {
 			mesh.fitInAABB(box);
 		}
-		tracker.setStatus(this, "Exiting HEM_Smooth.", -1);
+		tracker.setStatus(this, "Exiting HEM_TangentialSmooth.", -1);
 		return mesh;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * wblut.hemesh.modifiers.HEB_Modifier#modifySelected(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
-		tracker.setStatus(this, "Starting HEM_Smooth.", +1);
+		tracker.setStatus(this, "Starting HEM_TangentialSmooth.", +1);
 		selection.collectVertices();
 		WB_AABB box = new WB_AABB();
 		if (autoRescale) {
 			box = selection.parent.getAABB();
 		}
-		final WB_Point[] newPositions = new WB_Point[selection.getNumberOfVertices()];
+		final WB_Coord[] newPositions = new WB_Coord[selection.getNumberOfVertices()];
 		if (iter < 1) {
 			iter = 1;
 		}
@@ -157,10 +168,10 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 			int id = 0;
 			while (vItr.hasNext()) {
 				v = vItr.next();
-				tangent = new WB_Plane(v, v.getVertexNormal());
-				final WB_Point p = new WB_Point(v);
+				tangent = new WB_Plane(v, v.getVertexAngleNormal());
+				final WB_Point p = new WB_Point();
 				if (v.isBoundary() && keepBoundary) {
-					newPositions[id] = v.getPoint();
+					newPositions[id] = v;
 				} else {
 					neighbors = v.getNeighborVertices();
 					final Iterator<HE_Vertex> nItr = neighbors.iterator();
@@ -170,11 +181,11 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 							nItr.remove();
 						}
 					}
-					p.mulSelf(neighbors.size());
+
 					for (int i = 0; i < neighbors.size(); i++) {
-						p.addSelf(neighbors.get(i));
+						p.addMulSelf(lambda/neighbors.size(),neighbors.get(i));
 					}
-					newPositions[id] = projectOnPlane(p.scaleSelf(0.5 / neighbors.size()), tangent);
+					newPositions[id] = projectOnPlane(p.addMulSelf(1.0-lambda,v), tangent);
 				}
 				id++;
 			}
@@ -190,7 +201,7 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 		if (autoRescale) {
 			selection.parent.fitInAABB(box);
 		}
-		tracker.setStatus(this, "Exiting HEM_Smooth.", -1);
+		tracker.setStatus(this, "Exiting HEM_TangentialSmooth.", -1);
 		return selection.parent;
 	}
 }

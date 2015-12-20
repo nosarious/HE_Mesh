@@ -5,7 +5,6 @@ package wblut.geom;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 import wblut.math.WB_Epsilon;
@@ -13,7 +12,7 @@ import wblut.math.WB_Epsilon;
 /**
  *
  */
-public class WB_AABB implements WB_HasData {
+public class WB_AABB {
 	/**
 	 *
 	 */
@@ -22,10 +21,7 @@ public class WB_AABB implements WB_HasData {
 	 *
 	 */
 	protected double[] _max;
-	/**
-	 *
-	 */
-	private HashMap<String, Object> _data;
+
 	/**
 	 *
 	 */
@@ -1049,30 +1045,6 @@ public class WB_AABB implements WB_HasData {
 		return segments;
 	}
 
-	/**
-	 *
-	 *
-	 * @param s
-	 * @param o
-	 */
-	@Override
-	public void setData(final String s, final Object o) {
-		if (_data == null) {
-			_data = new HashMap<String, Object>();
-		}
-		_data.put(s, o);
-	}
-
-	/**
-	 *
-	 *
-	 * @param s
-	 * @return
-	 */
-	@Override
-	public Object getData(final String s) {
-		return (_data == null) ? null : _data.get(s);
-	}
 
 	/**
 	 *

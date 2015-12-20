@@ -167,7 +167,7 @@ public class HET_Export {
 	 * @param stl
 	 */
 	public static void saveToSTLWithFaceColor(final HE_Mesh mesh, final HET_STLWriter stl) {
-		final HE_FaceIterator fitr = new HE_FaceIterator(mesh);
+		final HE_FaceIterator fitr = mesh.fItr();
 		HE_Face f;
 		while (fitr.hasNext()) {
 			f = fitr.next();
@@ -278,7 +278,7 @@ public class HET_Export {
 				fid = faceKeys.get(he.getFace().key());
 
 			}
-			hem.halfedge(vid, henextid, hepairid, fid);
+			hem.halfedge(he,vid, henextid, hepairid, fid);
 		}
 		fItr = mesh.fItr();
 		HE_Face f;
@@ -290,7 +290,7 @@ public class HET_Export {
 				heid = halfedgeKeys.get(f.getHalfedge().key());
 
 			}
-			hem.face(heid);
+			hem.face(f,heid);
 		}
 		hem.endSave();
 	}
@@ -375,7 +375,7 @@ public class HET_Export {
 				fid = faceKeys.get(he.getFace().key());
 
 			}
-			hem.halfedge(vid, henextid, hepairid, fid);
+			hem.halfedge(he,vid, henextid, hepairid, fid);
 		}
 		fItr = mesh.fItr();
 		HE_Face f;
@@ -387,7 +387,7 @@ public class HET_Export {
 				heid = halfedgeKeys.get(f.getHalfedge().key());
 
 			}
-			hem.face(heid);
+			hem.face(f,heid);
 		}
 		hem.endSave();
 	}

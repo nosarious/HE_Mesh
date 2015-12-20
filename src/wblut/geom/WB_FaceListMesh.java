@@ -23,7 +23,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 	/**
 	 *
 	 */
-	protected List<WB_Point> vertices;
+	protected List<WB_Coord> vertices;
 	/**
 	 *
 	 */
@@ -131,16 +131,16 @@ public class WB_FaceListMesh implements WB_Mesh {
 	protected WB_FaceListMesh() {
 	}
 
-	private List<WB_Point> createVertices(Collection<? extends WB_Coord> points) {
-		vertices = new FastTable<WB_Point>();
+	private List<WB_Coord> createVertices(final Collection<? extends WB_Coord> points) {
+		vertices = new FastTable<WB_Coord>();
 		for (WB_Coord p : points) {
 			vertices.add(new WB_Point(p));
 		}
 		return vertices;
 	}
 
-	private List<WB_Point> createVertices(WB_Coord[] points) {
-		vertices = new FastTable<WB_Point>();
+	private List<WB_Coord> createVertices(final WB_Coord[] points) {
+		vertices = new FastTable<WB_Coord>();
 		for (WB_Coord p : points) {
 			vertices.add(new WB_Point(p));
 		}
@@ -214,7 +214,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Mesh#getFacesAsInt()
 	 */
 	@Override
@@ -224,7 +224,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Mesh#getEdgesAsInt()
 	 */
 	@Override
@@ -263,8 +263,8 @@ public class WB_FaceListMesh implements WB_Mesh {
 		final WB_Vector normal = geometryfactory.createVector();
 		final WB_Point center = geometryfactory.createPoint();
 		WB_Vector tmp;
-		WB_Point p0;
-		WB_Point p1;
+		WB_Coord p0;
+		WB_Coord p1;
 		for (int i = 0, j = face.length - 1; i < face.length; j = i, i++) {
 			p0 = vertices.get(face[j]);
 			p1 = vertices.get(face[i]);
@@ -318,7 +318,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 	 * @return
 	 */
 	public WB_Polygon getPolygon(final int id) {
-		WB_Point[] points = new WB_Point[faces[id].length];
+		WB_Coord[] points = new WB_Coord[faces[id].length];
 		for (int i = 0; i < faces[id].length; i++) {
 			points[i] = getVertex(faces[id][i]);
 		}
@@ -341,7 +341,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Mesh#getCenter()
 	 */
 	@Override
@@ -349,7 +349,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 		double cx = 0;
 		double cy = 0;
 		double cz = 0;
-		for (WB_Point p : vertices) {
+		for (WB_Coord p : vertices) {
 			cx += p.xd();
 			cy += p.yd();
 			cz += p.zd();
@@ -362,7 +362,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Mesh#getAABB()
 	 */
 	@Override
@@ -388,7 +388,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 		f = Math.min(f, AABB.getDepth() / self.getDepth());
 		final List<WB_Point> rescaled = new FastTable<WB_Point>();
 		for (int i = 0; i < vertices.size(); i++) {
-			final WB_Point p = vertices.get(i).add(-scx, -scy, -scz);
+			final WB_Point p =new WB_Point(-scx, -scy, -scz).add(vertices.get(i));
 
 			p.mulSelf(f);
 			p.addSelf(acx, acy, acz);
@@ -499,7 +499,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Runnable#run()
 		 */
 		@Override
@@ -533,7 +533,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Mesh#getFaceNormal(int)
 	 */
 	@Override
@@ -546,7 +546,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Mesh#getFaceCenter(int)
 	 */
 	@Override
@@ -561,7 +561,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Mesh#getVertexNormal(int)
 	 */
 	@Override
@@ -574,7 +574,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Mesh#getNumberOfFaces()
 	 */
 	@Override
@@ -584,7 +584,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Mesh#getNumberOfVertices()
 	 */
 	@Override
@@ -594,21 +594,21 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Mesh#getVertex(int)
 	 */
 	@Override
-	public WB_Point getVertex(final int i) {
+	public WB_Coord getVertex(final int i) {
 		return vertices.get(i);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Mesh#getPoints()
 	 */
 	@Override
-	public List<WB_Point> getPoints() {
+	public List<WB_Coord> getPoints() {
 		return vertices;
 	}
 
@@ -688,7 +688,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 			vertexNormals[i] = geometryfactory.createVector();
 		}
 		int i = 0;
-		WB_Point p0, p1, p2;
+		WB_Coord p0, p1, p2;
 		for (final int[] face : faces) {
 			for (int j = 0; j < face.length; j++) {
 				p0 = vertices.get(face[j]);
@@ -716,7 +716,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 			return;
 		}
 		faceNormals = new WB_Vector[nf];
-		WB_Point p0, p1;
+		WB_Coord p0, p1;
 		for (int i = 0; i < nf; i++) {
 			final int[] face = faces[i];
 			final WB_Vector tmp = geometryfactory.createVector();
@@ -787,12 +787,12 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Runnable#run()
 		 */
 		@Override
 		public void run() {
-			WB_Point p0, p1;
+			WB_Coord p0, p1;
 			for (int i = start; i < end; i++) {
 				final int[] face = faces[i];
 				final WB_Vector tmp = geometryfactory.createVector();
@@ -834,7 +834,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
 	 */
 	@Override
@@ -853,7 +853,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Geometry#getType()
 	 */
 	@Override

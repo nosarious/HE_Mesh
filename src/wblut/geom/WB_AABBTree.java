@@ -5,6 +5,7 @@ package wblut.geom;
 
 import java.util.List;
 import javolution.util.FastTable;
+import wblut.core.WB_ProgressTracker;
 import wblut.hemesh.HE_Face;
 import wblut.hemesh.HE_Mesh;
 import wblut.hemesh.HE_Selection;
@@ -29,6 +30,8 @@ public class WB_AABBTree {
      */
     private final int maxNumberOfFaces;
 
+    
+    public static final WB_ProgressTracker tracker = WB_ProgressTracker.instance();
     /**
      * 
      *
@@ -48,10 +51,14 @@ public class WB_AABBTree {
      * @param mesh 
      */
     private void buildTree(final HE_Mesh mesh) {
+    	tracker.setStatus(this, "Starting WB_AABBTree construction. Max. number of faces per node: "+
+    			maxNumberOfFaces , +1);
+		
 	root = new WB_AABBNode();
 	final HE_Selection faces = new HE_Selection(mesh);
 	faces.addFaces(mesh.getFacesAsList());
 	buildNode(root, faces, mesh, 0);
+	tracker.setStatus(this, "Exiting WB_AABBTree construction.", -1);
     }
 
     /**
@@ -64,7 +71,8 @@ public class WB_AABBTree {
      */
     private void buildNode(final WB_AABBNode node, final HE_Selection faces,
 	    final HE_Mesh mesh, final int level) {
-	node.level = level;
+    	tracker.setStatus(this, "Splitting WB_AABBNode level "+level+" with " + faces.getNumberOfFaces() +" faces.", 0);
+    node.level = level;
 	faces.collectVertices();
 	node.aabb = faces.getAABB();
 	if ((level == maxLevel)

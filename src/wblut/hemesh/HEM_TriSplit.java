@@ -44,7 +44,7 @@ public class HEM_TriSplit extends HEM_Modifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
@@ -57,7 +57,7 @@ public class HEM_TriSplit extends HEM_Modifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
@@ -165,8 +165,8 @@ public class HEM_TriSplit extends HEM_Modifier {
 					out.add(f);
 				}
 				he0[c] = he;
-				he.setFace(f);
-				f.setHalfedge(he);
+				mesh.setFace(he,f);
+				mesh.setHalfedge(f,he);
 				he1[c] = new HE_Halfedge();
 				he2[c] = new HE_Halfedge();
 				mesh.add(he1[c]);
@@ -174,23 +174,20 @@ public class HEM_TriSplit extends HEM_Modifier {
 				if (he.getNextInFace().hasHalfedgeUVW()) {
 					he1[c].setUVW(he.getNextInFace().getUVW());
 				}
-				he1[c].setVertex(he.getNextInFace().getVertex());
-				he2[c].setVertex(vi);
-				he1[c].setNext(he2[c]);
-				he2[c].setNext(he);
-				he2[c].setPrev(he1[c]);
-				he.setPrev(he2[c]);
-				he1[c].setFace(f);
-				he2[c].setFace(f);
+				mesh.setVertex(he1[c],he.getNextInFace().getVertex());
+				mesh.setVertex(he2[c],vi);
+				mesh.setNext(he1[c],he2[c]);
+				mesh.setNext(he2[c],he);
+				mesh.setFace(he1[c],f);
+				mesh.setFace(he2[c],f);
 				c++;
 				he = he.getNextInFace();
 			} while (he != face.getHalfedge());
-			vi.setHalfedge(he2[0]);
+			mesh.setHalfedge(vi,he2[0]);
 			for (int i = 0; i < c; i++) {
-				he0[i].setNext(he1[i]);
-				he1[i].setPrev(he0[i]);
-				he1[i].setPair(he2[i == (c - 1) ? 0 : i + 1]);
-				he2[i == (c - 1) ? 0 : i + 1].setPair(he1[i]);
+				mesh.setNext(he0[i],he1[i]);
+				mesh.setPair(he1[i],he2[i == (c - 1) ? 0 : i + 1]);
+
 			}
 			out.add(vi);
 			return out;

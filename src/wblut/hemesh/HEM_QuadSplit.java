@@ -42,7 +42,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
@@ -117,32 +117,29 @@ public class HEM_QuadSplit extends HEM_Modifier {
 					mesh.add(fc);
 				}
 				he0[c] = he;
-				he.setFace(fc);
-				fc.setHalfedge(he);
+				mesh.setFace(he,fc);
+				mesh.setHalfedge(fc,he);
 				he1[c] = he.getNextInFace();
 				he2[c] = new HE_Halfedge();
 				he3[c] = new HE_Halfedge();
 				mesh.add(he2[c]);
 				mesh.add(he3[c]);
-				he2[c].setVertex(he.getNextInFace().getNextInFace().getVertex());
+				mesh.setVertex(he2[c],he.getNextInFace().getNextInFace().getVertex());
 				if (he2[c].getVertex().hasHalfedgeUVW(f)) {
 					he2[c].setUVW(he2[c].getVertex().getHalfedgeUVW(f));
 				}
-				he3[c].setVertex(vi);
-				he2[c].setNext(he3[c]);
-				he3[c].setNext(he);
-				he3[c].setPrev(he2[c]);
-				he.setPrev(he3[c]);
-				he1[c].setFace(fc);
-				he2[c].setFace(fc);
-				he3[c].setFace(fc);
+				mesh.setVertex(he3[c],vi);
+				mesh.setNext(he2[c],he3[c]);
+				mesh.setNext(he3[c],he);
+				mesh.setFace(he1[c],fc);
+				mesh.setFace(he2[c],fc);
+				mesh.setFace(he3[c],fc);
 				c++;
 				he = he.getNextInFace().getNextInFace();
 			} while (he != startHE);
-			vi.setHalfedge(he3[0]);
+			mesh.setHalfedge(vi,he3[0]);
 			for (int j = 0; j < c; j++) {
-				he1[j].setNext(he2[j]);
-				he2[j].setPrev(he1[j]);
+				mesh.setNext(he1[j],he2[j]);
 			}
 			counter.increment();
 		}
@@ -154,7 +151,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
@@ -230,32 +227,31 @@ public class HEM_QuadSplit extends HEM_Modifier {
 					sel.add(f);
 				}
 				he0[c] = he;
-				he.setFace(f);
-				f.setHalfedge(he);
+				sel.parent.setFace(he,f);
+				sel.parent.setHalfedge(f,he);
 				he1[c] = he.getNextInFace();
 				he2[c] = new HE_Halfedge();
 				he3[c] = new HE_Halfedge();
 				sel.parent.add(he2[c]);
 				sel.parent.add(he3[c]);
-				he2[c].setVertex(he.getNextInFace().getNextInFace().getVertex());
+				sel.parent.setVertex(he2[c],he.getNextInFace().getNextInFace().getVertex());
 				if (he2[c].getVertex().hasHalfedgeUVW(face)) {
 					he2[c].setUVW(he2[c].getVertex().getHalfedgeUVW(face));
 				}
-				he3[c].setVertex(vi);
-				he2[c].setNext(he3[c]);
-				he3[c].setNext(he);
-				he3[c].setPrev(he2[c]);
-				he.setPrev(he3[c]);
-				he1[c].setFace(f);
-				he2[c].setFace(f);
-				he3[c].setFace(f);
+				sel.parent.setVertex(he3[c],vi);
+				sel.parent.setNext(he2[c],he3[c]);
+				sel.parent.setNext(he3[c],he);
+
+				sel.parent.setFace(he1[c],f);
+				sel.parent.setFace(he2[c],f);
+				sel.parent.setFace(he3[c],f);
 				c++;
 				he = he.getNextInFace().getNextInFace();
 			} while (he != startHE);
-			vi.setHalfedge(he3[0]);
+			sel.parent.setHalfedge(vi,he3[0]);
 			for (int j = 0; j < c; j++) {
-				he1[j].setNext(he2[j]);
-				he2[j].setPrev(he1[j]);
+				sel.parent.setNext(he1[j],he2[j]);
+
 			}
 			counter.increment();
 		}

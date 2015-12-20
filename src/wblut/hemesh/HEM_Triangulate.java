@@ -27,7 +27,7 @@ public class HEM_Triangulate extends HEM_Modifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
@@ -44,11 +44,9 @@ public class HEM_Triangulate extends HEM_Modifier {
 			} else {
 				final HE_Halfedge he = f[i].getHalfedge();
 				do {
-					if (he.getPair() != null) {
-						he.getPair().clearPair();
-					}
-					he.clearPair();
-					he.getVertex().setHalfedge(he);
+
+					mesh.clearPair(he);
+					mesh.setHalfedge(he.getVertex(),he);
 				} while (he != f[i].getHalfedge());
 			}
 			counter.increment();
@@ -61,7 +59,7 @@ public class HEM_Triangulate extends HEM_Modifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
@@ -78,11 +76,8 @@ public class HEM_Triangulate extends HEM_Modifier {
 			} else {
 				final HE_Halfedge he = f[i].getHalfedge();
 				do {
-					if (he.getPair() != null) {
-						he.getPair().clearPair();
-					}
-					he.clearPair();
-					he.getVertex().setHalfedge(he);
+					selection.parent.clearPair(he);
+					selection.parent.setHalfedge(he.getVertex(),he);
 				} while (he != f[i].getHalfedge());
 			}
 			counter.increment();
@@ -110,10 +105,8 @@ public class HEM_Triangulate extends HEM_Modifier {
 			final List<HE_TextureCoordinate> UVWs = face.getFaceUVWs();
 			HE_Halfedge he = face.getHalfedge();
 			do {
-				if (he.getPair() != null) {
-					he.getPair().clearPair();
-				}
-				he.clearPair();
+
+				mesh.clearPair(he);
 				mesh.remove(he);
 				he = he.getNextInFace();
 			} while (he != face.getHalfedge());
@@ -129,22 +122,19 @@ public class HEM_Triangulate extends HEM_Modifier {
 				he1.setUVW(UVWs.get(tris[i]));
 				he2.setUVW(UVWs.get(tris[i + 1]));
 				he3.setUVW(UVWs.get(tris[i + 2]));
-				he1.setVertex(vertices.get(tris[i]));
-				he2.setVertex(vertices.get(tris[i + 1]));
-				he3.setVertex(vertices.get(tris[i + 2]));
-				he1.getVertex().setHalfedge(he1);
-				he2.getVertex().setHalfedge(he2);
-				he3.getVertex().setHalfedge(he3);
-				he1.setFace(f);
-				he2.setFace(f);
-				he3.setFace(f);
-				he1.setNext(he2);
-				he2.setNext(he3);
-				he3.setNext(he1);
-				he2.setPrev(he1);
-				he3.setPrev(he2);
-				he1.setPrev(he3);
-				f.setHalfedge(he1);
+				mesh.setVertex(he1,vertices.get(tris[i]));
+				mesh.setVertex(he2,vertices.get(tris[i + 1]));
+				mesh.setVertex(he3,vertices.get(tris[i + 2]));
+				mesh.setHalfedge(he1.getVertex(),he1);
+				mesh.setHalfedge(he2.getVertex(),he2);
+				mesh.setHalfedge(he3.getVertex(),he3);
+				mesh.setFace(he1,f);
+				mesh.setFace(he2,f);
+				mesh.setFace(he3,f);
+				mesh.setNext(he1,he2);
+				mesh.setNext(he2,he3);
+				mesh.setNext(he3,he1);
+				mesh.setHalfedge(f,he1);
 				mesh.add(he1);
 				mesh.add(he2);
 				mesh.add(he3);

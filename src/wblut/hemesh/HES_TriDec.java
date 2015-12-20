@@ -284,7 +284,7 @@ public class HES_TriDec extends HES_Simplifier {
 				}
 				if (min < Double.POSITIVE_INFINITY) {
 					vertexCost.put(v.key(), min * vvi);
-					v.setHalfedge(minhe);
+					sel.setHalfedge(v,minhe);
 					heap.push(min * vvi, v);
 				}
 			}
@@ -336,7 +336,7 @@ public class HES_TriDec extends HES_Simplifier {
 				}
 				if (min < Double.POSITIVE_INFINITY) {
 					vertexCost.put(v.key(), min * vvi);
-					v.setHalfedge(minhe);
+					selection.setHalfedge(v,minhe);
 					heap.push(min * vvi, v);
 				}
 			}
@@ -408,9 +408,9 @@ public class HES_TriDec extends HES_Simplifier {
 			while ((boundary.getFace() != null) && (boundary.getPair().getFace() != null)) {
 				boundary = boundary.getNextInVertex();
 			}
-			v1 = he.getEndVertex().getPoint().subToVector3D(he.getVertex());
+			v1 = he.getEndVertex().subToVector3D(he.getVertex());
 			v1.normalizeSelf();
-			v2 = boundary.getEndVertex().getPoint().subToVector3D(boundary.getVertex());
+			v2 = boundary.getEndVertex().subToVector3D(boundary.getVertex());
 			v2.normalizeSelf();
 			cost += he.getEdge().getLength() * (1.0 - v1.dot(v2)) * _lambda;
 		} else {
@@ -615,7 +615,7 @@ public class HES_TriDec extends HES_Simplifier {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#toString()
 		 */
 		@Override

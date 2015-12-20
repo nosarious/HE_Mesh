@@ -429,25 +429,25 @@ public class HEC_FromFacelist extends HEC_Creator {
 					for (int i = 0; i < li; i++) {
 						he = new HE_Halfedge();
 						faceEdges.add(he);
-						he.setFace(hef);
+						mesh.setFace(he,hef);
 						if (hef.getHalfedge() == null) {
-							hef.setHalfedge(he);
+							mesh.setHalfedge(hef,he);
 						}
-						he.setVertex(uniqueVertices[locface[i]]);
+						mesh.setVertex(he,uniqueVertices[locface[i]]);
 						if (useUVW) {
 							if (duplicated[locface[i]]) {
 								final HE_TextureCoordinate uvw = uniqueVertices[locface[i]].getVertexUVW();
-								if (uvw.ud() != uvws[locface[i]].xd() || uvw.vd() != uvws[locface[i]].yd()
-										|| uvw.wd() != uvws[locface[i]].zd()) {
+								if ((uvw.ud() != uvws[locface[i]].xd()) || (uvw.vd() != uvws[locface[i]].yd())
+										|| (uvw.wd() != uvws[locface[i]].zd())) {
 									he.setUVW(uvws[locface[i]]);
 
 								}
 							}
 						}
-						he.getVertex().setHalfedge(he);
+						mesh.setHalfedge(he.getVertex(),he);
 					}
 					mesh.add(hef);
-					HE_Mesh.cycleHalfedges(faceEdges);
+					mesh.cycleHalfedges(faceEdges);
 					mesh.addHalfedges(faceEdges);
 				}
 			}
@@ -471,6 +471,7 @@ public class HEC_FromFacelist extends HEC_Creator {
 				}
 			}
 		}
+
 		return mesh;
 	}
 

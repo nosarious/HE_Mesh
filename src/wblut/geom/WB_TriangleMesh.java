@@ -1,67 +1,67 @@
 /*
- * 
+ *
  */
 package wblut.geom;
 
 import java.util.Collection;
 
 /**
- * 
+ *
  */
 public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/**
-	 * 
+	 *
 	 */
 	private final static int[] PREV = new int[] { 2, 0, 1 };
 
 	/**
-	 * 
+	 *
 	 */
 	private final static int[] NEXT = new int[] { 1, 2, 0 };
 
 	/**
-	 * 
+	 *
 	 */
 	WB_Vector[] pdir1 = null, pdir2 = null;
 
 	/**
-	 * 
+	 *
 	 */
 	double[] curv1 = null, curv2 = null;
 
 	/**
-	 * 
+	 *
 	 */
 	double k1min, k2min, Kmin, k1max, k2max, Kmax;
 
 	/**
-	 * 
+	 *
 	 */
 	double[][] dcurv = null;
 
 	/**
-	 * 
+	 *
 	 */
 	double[][] cornerareas = null;
 
 	/**
-	 * 
+	 *
 	 */
 	double[] pointareas = null;
 
 	/**
-	 * 
+	 *
 	 */
 	boolean areasUpdated, curvaturesUpdated, DCurvaturesUpdated;
 
 	/**
-	 * 
+	 *
 	 */
 	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param faces
@@ -72,7 +72,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param faces
@@ -83,7 +83,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param mesh
 	 */
@@ -95,7 +95,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void updateFaceNormals() {
 		final int nf = faces.length;
@@ -105,9 +105,9 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 		faceNormals = new WB_Vector[nf];
 		for (int i = 0; i < nf; i++) {
 			final int[] face = faces[i];
-			final WB_Point p0 = vertices.get(face[0]);
-			final WB_Point p1 = vertices.get(face[1]);
-			final WB_Point p2 = vertices.get(face[2]);
+			final WB_Coord p0 = vertices.get(face[0]);
+			final WB_Coord p1 = vertices.get(face[1]);
+			final WB_Coord p2 = vertices.get(face[2]);
 			final WB_Vector a = geometryfactory.createNormalizedVectorFromTo(p0, p1);
 			final WB_Vector b = geometryfactory.createNormalizedVectorFromTo(p2, p1);
 			faceNormals[i] = a.cross(b);
@@ -117,7 +117,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void updateVertexNormals() {
 		updateVertexNormalsAngle();
@@ -146,9 +146,9 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 			vertexNormals[i] = geometryfactory.createVector();
 		}
 		for (final int[] face : faces) {
-			final WB_Point p0 = vertices.get(face[0]);
-			final WB_Point p1 = vertices.get(face[1]);
-			final WB_Point p2 = vertices.get(face[2]);
+			final WB_Coord p0 = vertices.get(face[0]);
+			final WB_Coord p1 = vertices.get(face[1]);
+			final WB_Coord p2 = vertices.get(face[2]);
 			final WB_Vector a = geometryfactory.createNormalizedVectorFromTo(p0, p1);
 			final WB_Vector b = geometryfactory.createNormalizedVectorFromTo(p1, p2);
 			final WB_Vector c = geometryfactory.createNormalizedVectorFromTo(p2, p0);
@@ -167,7 +167,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	@SuppressWarnings("unused")
 	private void updateVertexNormalsArea() {
@@ -183,9 +183,9 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 			vertexNormals[i] = geometryfactory.createVector();
 		}
 		for (final int[] face : faces) {
-			final WB_Point p0 = vertices.get(face[0]);
-			final WB_Point p1 = vertices.get(face[1]);
-			final WB_Point p2 = vertices.get(face[2]);
+			final WB_Coord p0 = vertices.get(face[0]);
+			final WB_Coord p1 = vertices.get(face[1]);
+			final WB_Coord p2 = vertices.get(face[2]);
 			final WB_Vector a = geometryfactory.createNormalizedVectorFromTo(p0, p1);
 			final WB_Vector b = geometryfactory.createNormalizedVectorFromTo(p1, p2);
 			final WB_Vector facenormal = a.cross(b);
@@ -222,9 +222,9 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 		}
 		int i = 0;
 		for (final int[] face : faces) {
-			final WB_Point p0 = vertices.get(face[0]);
-			final WB_Point p1 = vertices.get(face[1]);
-			final WB_Point p2 = vertices.get(face[2]);
+			final WB_Coord p0 = vertices.get(face[0]);
+			final WB_Coord p1 = vertices.get(face[1]);
+			final WB_Coord p2 = vertices.get(face[2]);
 			final WB_Vector P10 = geometryfactory.createNormalizedVectorFromTo(p0, p1);
 			final WB_Vector P20 = geometryfactory.createNormalizedVectorFromTo(p0, p2);
 			final WB_Vector P21 = geometryfactory.createNormalizedVectorFromTo(p1, p2);
@@ -244,7 +244,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	@SuppressWarnings("unused")
 	private void updateVertexNormalsNoWeight() {
@@ -274,7 +274,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void updatePointAreas() {
 		final int nv = vertices.size();
@@ -327,7 +327,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void updateCurvatures() {
 		if (curvaturesUpdated) {
@@ -414,7 +414,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected void updateDCurvatures() {
 		if (DCurvaturesUpdated) {
@@ -483,7 +483,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void updatevvNeighbors() {
 		if (vvNeighborsUpdated) {
@@ -493,7 +493,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void updatevfNeighbors() {
 		if (vfNeighborsUpdated) {
@@ -546,7 +546,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void updateffNeighbors() {
 		if (ffNeighborsUpdated) {
@@ -590,7 +590,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @param face
@@ -601,7 +601,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param a
 	 * @param el
@@ -617,7 +617,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param v
 	 * @return
@@ -633,7 +633,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param v0
 	 * @param v1
@@ -646,7 +646,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param f
 	 * @return
@@ -656,7 +656,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param v_center
 	 * @param f
@@ -670,7 +670,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param v_center
 	 * @param f
@@ -684,7 +684,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param A
 	 * @param rdiag
@@ -719,7 +719,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param A
 	 * @param rdiag
@@ -746,7 +746,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param oldU
 	 * @param oldV
@@ -773,7 +773,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param oldU
 	 * @param oldV
@@ -803,7 +803,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param oldU
 	 * @param oldV
@@ -830,7 +830,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param oldU
 	 * @param oldV
@@ -867,7 +867,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#k1(int)
 	 */
 	@Override
@@ -880,7 +880,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#k2(int)
 	 */
 	@Override
@@ -893,7 +893,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#K(int)
 	 */
 	@Override
@@ -906,7 +906,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#k1min()
 	 */
 	@Override
@@ -919,7 +919,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#k2min()
 	 */
 	@Override
@@ -932,7 +932,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#Kmin()
 	 */
 	@Override
@@ -945,7 +945,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#k1max()
 	 */
 	@Override
@@ -958,7 +958,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#k2max()
 	 */
 	@Override
@@ -971,7 +971,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#Kmax()
 	 */
 	@Override
@@ -984,7 +984,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#k1dir(int)
 	 */
 	@Override
@@ -997,7 +997,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#k2dir(int)
 	 */
 	@Override
@@ -1010,7 +1010,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#DCurv(int)
 	 */
 	@Override
@@ -1023,7 +1023,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#DCurvInvariant(int)
 	 */
 	@Override
@@ -1037,7 +1037,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#getType()
 	 */
 	@Override
@@ -1047,7 +1047,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_FaceListMesh#vfNeighbors(int)
 	 */
 	@Override

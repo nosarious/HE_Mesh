@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javolution.util.FastTable;
 import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_GeometryOp;
@@ -17,39 +18,33 @@ import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
 public class HEM_Mirror extends HEM_Modifier {
 
-	/**
-	 * 
-	 */
+
 	private WB_Plane P;
 
-	/**
-	 * 
-	 */
 	private boolean keepCenter = false;
 
-	boolean keepLargest;
+	private boolean keepLargest;
 
-	/**
-	 * 
-	 */
 	private boolean reverse = false;
 
-	/**
-	 * 
-	 */
 	public HE_Selection cut;
 
-	/**
-	 * 
-	 */
 	private double offset;
 
+
 	/**
-	 * 
+	 *
+	 */
+	public HEM_Mirror() {
+		super();
+	}
+
+	/**
+	 *
 	 *
 	 * @param d
 	 * @return
@@ -59,15 +54,9 @@ public class HEM_Mirror extends HEM_Modifier {
 		return this;
 	}
 
-	/**
-	 * 
-	 */
-	public HEM_Mirror() {
-		super();
-	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param P
 	 * @return
@@ -78,7 +67,7 @@ public class HEM_Mirror extends HEM_Modifier {
 	}
 
 	/**
-	 * 
+	 * Set plane by origin and normal
 	 *
 	 * @param ox
 	 * @param oy
@@ -95,7 +84,7 @@ public class HEM_Mirror extends HEM_Modifier {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param b
 	 * @return
@@ -105,13 +94,18 @@ public class HEM_Mirror extends HEM_Modifier {
 		return this;
 	}
 
+	/** Mirror the largest part? Ignores the reverse setting.
+	 *
+	 * @param b
+	 * @return
+	 */
 	public HEM_Mirror setKeepLargest(final Boolean b) {
 		keepLargest = b;
 		return this;
 	}
 
 	/**
-	 * 
+	 * Reset the center of the mirrored mesh to the center of the original mesh
 	 *
 	 * @param b
 	 * @return
@@ -123,7 +117,7 @@ public class HEM_Mirror extends HEM_Modifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
@@ -154,27 +148,34 @@ public class HEM_Mirror extends HEM_Modifier {
 		WB_ProgressCounter counter = new WB_ProgressCounter(mesh.getNumberOfFaces(), 10);
 		tracker.setStatus(this, "Classifying mesh faces.", counter);
 		Iterator<HE_Face> fItr = mesh.fItr();
-		if (keepLargest) {
-			int front = 0;
-			int back = 0;
-			while (fItr.hasNext()) {
-				face = fItr.next();
-				final WB_Classification cptp = WB_GeometryOp.classifyPolygonToPlane3D(face.toPolygon(), lP);
-				if ((cptp == WB_Classification.FRONT)) {
-					front++;
-				} else {
-					back++;
-				}
+		List<WB_Classification> sides=new FastTable<WB_Classification>();
 
-			}
-			if (back > front)
-				lP.flipNormal();
-		}
-		fItr = mesh.fItr();
+
+		int front = 0;
+		int back = 0;
 		while (fItr.hasNext()) {
 			face = fItr.next();
 			final WB_Classification cptp = WB_GeometryOp.classifyPolygonToPlane3D(face.toPolygon(), lP);
-			if ((cptp == WB_Classification.FRONT) || (cptp == WB_Classification.ON)) {
+			sides.add(cptp);
+			if ((cptp == WB_Classification.FRONT)) {
+				front++;
+			} else {
+				back++;
+			}
+
+		}
+		boolean flip=false;
+		if (keepLargest) {
+			if (back > front) {
+				flip=true;
+			}
+		}
+		fItr = mesh.fItr();
+		int id=0;
+		while (fItr.hasNext()) {
+			face = fItr.next();
+			final WB_Classification cptp = sides.get(id++);
+			if ((cptp ==((flip)?WB_Classification.BACK: WB_Classification.FRONT)) || (cptp == WB_Classification.ON)) {
 				newFaces.add(face);
 			} else {
 				if (cut.contains(face)) {
@@ -185,7 +186,7 @@ public class HEM_Mirror extends HEM_Modifier {
 		}
 		mesh.replaceFaces(newFaces.getFacesAsArray());
 		cut.cleanSelection();
-		mesh.cleanUnusedElementsByFace();
+
 		final ArrayList<HE_Face> facesToRemove = new ArrayList<HE_Face>();
 		fItr = mesh.fItr();
 		while (fItr.hasNext()) {
@@ -194,9 +195,11 @@ public class HEM_Mirror extends HEM_Modifier {
 				facesToRemove.add(face);
 			}
 		}
+
 		mesh.removeFaces(facesToRemove);
 		mesh.cleanUnusedElementsByFace();
 		mesh.capHalfedges();
+
 		final HE_Mesh mirrormesh = mesh.get();
 		counter = new WB_ProgressCounter(mesh.getNumberOfVertices(), 10);
 		tracker.setStatus(this, "Mirroring vertices.", counter);
@@ -205,35 +208,36 @@ public class HEM_Mirror extends HEM_Modifier {
 		for (int i = 0; i < vertices.size(); i++) {
 			v = vertices.get(i);
 			final WB_Point p = WB_GeometryOp.getClosestPoint3D(v, lP);
-			final WB_Vector dv = v.getPoint().subToVector3D(p);
+			final WB_Vector dv = v.subToVector3D(p);
 			if (dv.getLength3D() <= WB_Epsilon.EPSILON) {
 				final List<HE_Halfedge> star = v.getHalfedgeStar();
 				origv = mesh.getVertexWithIndex(i);
 				for (final HE_Halfedge he : star) {
-					he.setVertex(origv);
+					mesh.setVertex(he,origv);
 				}
 				mirrormesh.remove(v);
 			} else {
-				v.getPoint().addMulSelf(-2, dv);
+				v.addMulSelf(-2, dv);
 			}
 			counter.increment();
 		}
 		mirrormesh.flipAllFaces();
 		mesh.uncapBoundaryHalfedges();
 		mirrormesh.uncapBoundaryHalfedges();
+		tracker.setStatus(this, "Adding Mirrored mesh.",0);
 		mesh.add(mirrormesh);
 		mesh.pairHalfedges();
 		mesh.capHalfedges();
 		if (!keepCenter) {
 			mesh.resetCenter();
 		}
-		tracker.setStatus(this, "Exiting HEM_Mirror.", +1);
+		tracker.setStatus(this, "Exiting HEM_Mirror.", -1);
 		return mesh;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * wblut.hemesh.modifiers.HEB_Modifier#modifySelected(wblut.hemesh.HE_Mesh)
 	 */

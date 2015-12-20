@@ -163,7 +163,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		return this;
 	}
 
-	public WB_Vector addSelf(final double x, double y, double z) {
+	public WB_Vector addSelf(final double x, final double y, final double z) {
 		set(xd() + x, yd() + y, zd() + z);
 		return this;
 	}
@@ -518,7 +518,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @deprecated Use {@link #applyInto(WB_MutableCoord,WB_Transform)} instead
 	 */
 	@Deprecated
-	@Override
+
 	public void applyInto(final WB_Transform T, final WB_MutableCoord result) {
 		applyInto(result, T);
 	}
@@ -558,7 +558,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 *             instead
 	 */
 	@Deprecated
-	@Override
+
 	public void applyAsNormalInto(final WB_Transform T, final WB_MutableCoord result) {
 		applyAsNormalInto(result, T);
 	}
@@ -581,8 +581,8 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * wblut.geom.WB_CoordinateTransform#applyAsPoint(wblut.geom.WB_Transform)
 	 */
 	@Override
-	public WB_Vector applyAsPoint(final WB_Transform T) {
-		final WB_Vector result = new WB_Vector();
+	public WB_Point applyAsPoint(final WB_Transform T) {
+		final WB_Point result = new WB_Point();
 		T.applyAsPoint(this, result);
 		return result;
 	}
@@ -598,7 +598,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 *             instead
 	 */
 	@Deprecated
-	@Override
+
 	public void applyAsPointInto(final WB_Transform T, final WB_MutableCoord result) {
 		applyAsPointInto(result, T);
 	}
@@ -638,7 +638,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 *             instead
 	 */
 	@Deprecated
-	@Override
+
 	public void applyAsVectorInto(final WB_Transform T, final WB_MutableCoord result) {
 		applyAsVectorInto(result, T);
 	}
@@ -946,7 +946,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @deprecated Use {@link #getHeading2D()} instead
 	 */
 	@Deprecated
-	@Override
+
 	public double heading2D() {
 		return getHeading2D();
 	}
@@ -1109,7 +1109,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	}
 
 	public static WB_Vector mulAddMul(final double f, final WB_Coord p, final double g, final WB_Coord q) {
-		return new WB_Vector(f * p.xd() + (g * q.xd()), f * p.yd() + (g * q.yd()), f * p.zd() + (g * q.zd()));
+		return new WB_Vector((f * p.xd()) + (g * q.xd()), (f * p.yd()) + (g * q.yd()), (f * p.zd()) + (g * q.zd()));
 	}
 
 	/*
@@ -1395,13 +1395,13 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	}
 
 	@Override
-	public WB_Coord mulAddMul(final double f, final double g, final double... x) {
-		return new WB_Vector(f * this.xd() + (g * x[0]), f * this.yd() + (g * x[1]), f * this.zd() + (g * x[2]));
+	public WB_Vector mulAddMul(final double f, final double g, final double... x) {
+		return new WB_Vector((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), (f * this.zd()) + (g * x[2]));
 	}
 
 	@Override
 	public void mulAddMulInto(final WB_MutableCoord result, final double f, final double g, final double... x) {
-		result.set(f * this.xd() + (g * x[0]), f * this.yd() + (g * x[1]), f * this.zd() + (g * x[2]));
+		result.set((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), (f * this.zd()) + (g * x[2]));
 	}
 
 	public static WB_Vector subToVector3D(final WB_Coord p, final WB_Coord q) {

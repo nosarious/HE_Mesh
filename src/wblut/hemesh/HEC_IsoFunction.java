@@ -463,7 +463,7 @@ public class HEC_IsoFunction extends HEC_Creator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HEC_Creator#setCenter(wblut.geom.WB_Point3d)
 	 */
 	@Override
@@ -523,7 +523,7 @@ public class HEC_IsoFunction extends HEC_Creator {
 		final WB_Point p0 = new WB_Point(i * dx, j * dy, k * dz);
 		final WB_Point p1 = new WB_Point((i * dx) + dx, j * dy, k * dz);
 		xedge = new HE_Vertex(interp(isolevel, p0, p1, val0, val1));
-		xedge.getPoint().addSelf(offset);
+		xedge.addSelf(offset);
 		mesh.add(xedge);
 		xedges.put(index(i, j, k), xedge);
 		return xedge;
@@ -548,7 +548,7 @@ public class HEC_IsoFunction extends HEC_Creator {
 		final WB_Point p0 = new WB_Point(i * dx, j * dy, k * dz);
 		final WB_Point p1 = new WB_Point(i * dx, (j * dy) + dy, k * dz);
 		yedge = new HE_Vertex(interp(isolevel, p0, p1, val0, val1));
-		yedge.getPoint().addSelf(offset);
+		yedge.addSelf(offset);
 		mesh.add(yedge);
 		yedges.put(index(i, j, k), yedge);
 		return yedge;
@@ -573,7 +573,7 @@ public class HEC_IsoFunction extends HEC_Creator {
 		final WB_Point p0 = new WB_Point(i * dx, j * dy, k * dz);
 		final WB_Point p1 = new WB_Point(i * dx, j * dy, (k * dz) + dz);
 		zedge = new HE_Vertex(interp(isolevel, p0, p1, val0, val1));
-		zedge.getPoint().addSelf(offset);
+		zedge.addSelf(offset);
 		mesh.add(zedge);
 		zedges.put(index(i, j, k), zedge);
 		return zedge;
@@ -745,22 +745,19 @@ public class HEC_IsoFunction extends HEC_Creator {
 				final HE_Halfedge he1 = new HE_Halfedge();
 				final HE_Halfedge he2 = new HE_Halfedge();
 				final HE_Halfedge he3 = new HE_Halfedge();
-				he1.setNext(he2);
-				he2.setNext(he3);
-				he3.setNext(he1);
-				he2.setPrev(he1);
-				he3.setPrev(he2);
-				he1.setPrev(he3);
-				he1.setFace(f);
-				he2.setFace(f);
-				he3.setFace(f);
-				he1.setVertex(vertlist[triTable[cubeindex][t]]);
-				he1.getVertex().setHalfedge(he1);
-				he2.setVertex(vertlist[triTable[cubeindex][t + 1]]);
-				he2.getVertex().setHalfedge(he2);
-				he3.setVertex(vertlist[triTable[cubeindex][t + 2]]);
-				he3.getVertex().setHalfedge(he3);
-				f.setHalfedge(he1);
+				mesh.setNext(he1,he2);
+				mesh.setNext(he2,he3);
+				mesh.setNext(he3,he1);
+				mesh.setFace(he1,f);
+				mesh.setFace(he2,f);
+				mesh.setFace(he3,f);
+				mesh.setVertex(he1,vertlist[triTable[cubeindex][t]]);
+				mesh.setHalfedge(he1.getVertex(),he1);
+				mesh.setVertex(he2,vertlist[triTable[cubeindex][t + 1]]);
+				mesh.setHalfedge(he2.getVertex(),he2);
+				mesh.setVertex(he3,vertlist[triTable[cubeindex][t + 2]]);
+				mesh.setHalfedge(he3.getVertex(),he3);
+				mesh.setHalfedge(f,he1);
 				mesh.add(f);
 				mesh.add(he1);
 				mesh.add(he2);
@@ -771,7 +768,7 @@ public class HEC_IsoFunction extends HEC_Creator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.creators.HEB_Creator#createBase()
 	 */
 	@Override

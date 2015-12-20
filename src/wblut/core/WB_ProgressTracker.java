@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package wblut.core;
 
@@ -7,29 +7,31 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * 
+ *
  */
 public class WB_ProgressTracker {
 
 	protected Queue<Status> statuses;
 	protected volatile int depth;
 	private static int indent = 3;
+	protected volatile int maxdepth;
 
 	/**
-	 * 
+	 *
 	 */
 	protected WB_ProgressTracker() {
 		statuses = new ConcurrentLinkedQueue<Status>();
 		depth = 0;
+		maxdepth=3;
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private static final WB_ProgressTracker tracker = new WB_ProgressTracker();
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -37,13 +39,13 @@ public class WB_ProgressTracker {
 		return tracker;
 	}
 
-	public void setIndent(int indent) {
+	public void setIndent(final int indent) {
 		WB_ProgressTracker.indent = Math.max(0, indent);
 
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -59,31 +61,39 @@ public class WB_ProgressTracker {
 	 * public void setStatus(String caller, final String status) {
 	 * statuses.add(new Status(caller, status, depth)); }
 	 */
-	public void setStatus(Object caller, final String status, int inc) {
-		if (inc < 0)
+	public void setStatus(final Object caller, final String status, final int inc) {
+		if (inc < 0) {
 			depth = Math.max(0, depth + inc);
-		statuses.add(new Status(caller.getClass().getSimpleName(), status, depth));
-		if (inc > 0)
+		}
+		if(depth<=maxdepth){
+			statuses.add(new Status(caller.getClass().getSimpleName(), status, depth));
+		}
+		if (inc > 0) {
 			depth = Math.max(0, depth + inc);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param status
 	 */
-	public void setStatus(Object caller, final String status, WB_ProgressCounter counter) {
+	public void setStatus(final Object caller, final String status, final WB_ProgressCounter counter) {
 
 		if (counter.getLimit() > 0) {
 			counter.caller = caller.getClass().getSimpleName();
 			counter.text = status;
-			statuses.add(new Status(caller.getClass().getSimpleName(), status, counter, depth));
+			if(depth<=maxdepth){
+				statuses.add(new Status(caller.getClass().getSimpleName(), status, counter, depth));
+			}
 		}
 	}
 
-	protected void setStatusByString(String caller, final String status, WB_ProgressCounter counter) {
+	protected void setStatusByString(final String caller, final String status, final WB_ProgressCounter counter) {
 		if (counter.getLimit() > 0) {
-			statuses.add(new Status(caller, status, counter, depth));
+			if(depth<=maxdepth){
+				statuses.add(new Status(caller, status, counter, depth));
+			}
 		}
 	}
 
@@ -98,25 +108,27 @@ public class WB_ProgressTracker {
 		String text;
 		String counter;
 		String depth;
+		int level;
 
-		Status(String caller, String text, WB_ProgressCounter counter, int depth) {
+		Status(final String caller, final String text, final WB_ProgressCounter counter, final int depth) {
 			this.caller = caller;
 			this.text = text;
 			StringBuffer outputBuffer = new StringBuffer(depth);
-			for (int i = 0; i < depth * indent; i++) {
+			for (int i = 0; i < (depth * indent); i++) {
 				outputBuffer.append(" ");
 			}
 			this.depth = outputBuffer.toString();
 
 			this.counter = (counter.getLimit() > 0) ? " (" + counter.getCount() + " of " + counter.getLimit() + ")"
 					: "";
+			level=depth;
 		}
 
-		Status(String caller, String text, int depth) {
+		Status(final String caller, final String text, final int depth) {
 			this.caller = caller;
 			this.text = text;
 			StringBuffer outputBuffer = new StringBuffer(depth);
-			for (int i = 0; i < depth * indent; i++) {
+			for (int i = 0; i < (depth * indent); i++) {
 				outputBuffer.append(" ");
 			}
 			this.depth = outputBuffer.toString();
@@ -124,12 +136,15 @@ public class WB_ProgressTracker {
 		}
 
 		String getStatus() {
-			if (caller == null)
+			if (caller == null) {
 				return null;
-			if (text == " ")
+			}
+			if (text == " ") {
 				return "";
-			if (counter == null)
+			}
+			if (counter == null) {
 				return depth + caller + ": " + text;
+			}
 			return depth + caller + ": " + text + counter;
 
 		}
