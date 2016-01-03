@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.processing;
 
@@ -30,6 +36,9 @@ public class WB_Render2D {
 	 */
 	private PGraphics home;
 
+	/**
+	 * 
+	 */
 	public WB_Render2D() {
 	}
 
@@ -51,6 +60,11 @@ public class WB_Render2D {
 		this.home = home;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 */
 	public void vertex2D(WB_Coord p) {
 		home.vertex(p.xf(), p.yf());
 
@@ -76,6 +90,9 @@ public class WB_Render2D {
 	}
 
 	/**
+	 * 
+	 *
+	 * @param points 
 	 * @deprecated Use {@link #drawPoint2D(Collection<? extends WB_Coord>)}
 	 *             instead
 	 */
@@ -84,6 +101,11 @@ public class WB_Render2D {
 		drawPoint2D(points);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 */
 	public void drawPoint2D(final Collection<? extends WB_Coord> points) {
 		for (final WB_Coord p : points) {
 			drawPoint2D(p);
@@ -91,6 +113,9 @@ public class WB_Render2D {
 	}
 
 	/**
+	 * 
+	 *
+	 * @param points 
 	 * @deprecated Use {@link #drawPoint2D(WB_Coord[])} instead
 	 */
 	@Deprecated
@@ -98,6 +123,11 @@ public class WB_Render2D {
 		drawPoint2D(points);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 */
 	public void drawPoint2D(final WB_Coord[] points) {
 		for (final WB_Coord p : points) {
 			drawPoint2D(p);
@@ -105,6 +135,10 @@ public class WB_Render2D {
 	}
 
 	/**
+	 * 
+	 *
+	 * @param points 
+	 * @param r 
 	 * @deprecated Use {@link #drawPoint2D(Collection<? extends
 	 *             WB_Coord>,double)} instead
 	 */
@@ -113,6 +147,12 @@ public class WB_Render2D {
 		drawPoint2D(points, r);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 * @param r 
+	 */
 	public void drawPoint2D(final Collection<? extends WB_Coord> points, final double r) {
 		for (final WB_Coord p : points) {
 			drawPoint2D(p, r);
@@ -120,6 +160,10 @@ public class WB_Render2D {
 	}
 
 	/**
+	 * 
+	 *
+	 * @param points 
+	 * @param r 
 	 * @deprecated Use {@link #drawPoint2D(WB_Coord[],double)} instead
 	 */
 	@Deprecated
@@ -127,6 +171,12 @@ public class WB_Render2D {
 		drawPoint2D(points, r);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 * @param r 
+	 */
 	public void drawPoint2D(final WB_Coord[] points, final double r) {
 		for (final WB_Coord p : points) {
 			drawPoint2D(p, r);
@@ -454,14 +504,33 @@ public class WB_Render2D {
 		}
 	}
 
+	/**
+	 * 
+	 *
+	 * @param r 
+	 * @param g 
+	 * @param b 
+	 * @return 
+	 */
 	public static int color(final int r, final int g, final int b) {
 		return (255 << 24) | (r << 16) | (g << 8) | b;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 */
 	public void translate2D(final WB_Coord p) {
 		home.translate(p.xf(), p.yf());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 */
 	private void line2D(WB_Coord p, WB_Coord q) {
 		home.beginShape(PConstants.LINES);
 		vertex2D(p);

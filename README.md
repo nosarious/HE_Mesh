@@ -32,6 +32,9 @@ The following classes are subject to the license agreement of their original aut
 
 * wblut.geom.WB_ShapeReader
 * wblut.math.WB_MTRandom
+* wblut.math.WB_OSNoise
+* wblut.math.WB_PNoise
+* wblut.math.WB_SNoise
 
 The following packages are part of hemesh-external.jar and are subject to the license agreement of their original authors:
 

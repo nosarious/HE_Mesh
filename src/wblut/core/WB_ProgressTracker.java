@@ -1,20 +1,26 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
+
 package wblut.core;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-/**
- *
- */
+
 public class WB_ProgressTracker {
 
 	protected Queue<Status> statuses;
 	protected volatile int depth;
 	private static int indent = 3;
 	protected volatile int maxdepth;
+
 
 	/**
 	 *
@@ -25,10 +31,9 @@ public class WB_ProgressTracker {
 		maxdepth=3;
 	}
 
-	/**
-	 *
-	 */
+
 	private static final WB_ProgressTracker tracker = new WB_ProgressTracker();
+
 
 	/**
 	 *
@@ -39,10 +44,16 @@ public class WB_ProgressTracker {
 		return tracker;
 	}
 
+	/**
+	 *
+	 *
+	 * @param indent
+	 */
 	public void setIndent(final int indent) {
 		WB_ProgressTracker.indent = Math.max(0, indent);
 
 	}
+
 
 	/**
 	 *
@@ -57,9 +68,13 @@ public class WB_ProgressTracker {
 
 	}
 
-	/*
-	 * public void setStatus(String caller, final String status) {
-	 * statuses.add(new Status(caller, status, depth)); }
+
+	/**
+	 *
+	 *
+	 * @param caller
+	 * @param status
+	 * @param inc
 	 */
 	public void setStatus(final Object caller, final String status, final int inc) {
 		if (inc < 0) {
@@ -73,10 +88,13 @@ public class WB_ProgressTracker {
 		}
 	}
 
+
 	/**
 	 *
 	 *
+	 * @param caller
 	 * @param status
+	 * @param counter
 	 */
 	public void setStatus(final Object caller, final String status, final WB_ProgressCounter counter) {
 
@@ -89,6 +107,13 @@ public class WB_ProgressTracker {
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @param caller
+	 * @param status
+	 * @param counter
+	 */
 	protected void setStatusByString(final String caller, final String status, final WB_ProgressCounter counter) {
 		if (counter.getLimit() > 0) {
 			if(depth<=maxdepth){
@@ -97,6 +122,11 @@ public class WB_ProgressTracker {
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @return
+	 */
 	public boolean isUpdated() {
 
 		return statuses.size() > 0;
@@ -110,6 +140,14 @@ public class WB_ProgressTracker {
 		String depth;
 		int level;
 
+		/**
+		 *
+		 *
+		 * @param caller
+		 * @param text
+		 * @param counter
+		 * @param depth
+		 */
 		Status(final String caller, final String text, final WB_ProgressCounter counter, final int depth) {
 			this.caller = caller;
 			this.text = text;
@@ -124,6 +162,13 @@ public class WB_ProgressTracker {
 			level=depth;
 		}
 
+		/**
+		 *
+		 *
+		 * @param caller
+		 * @param text
+		 * @param depth
+		 */
 		Status(final String caller, final String text, final int depth) {
 			this.caller = caller;
 			this.text = text;
@@ -135,6 +180,11 @@ public class WB_ProgressTracker {
 			this.counter = null;
 		}
 
+		/**
+		 *
+		 *
+		 * @return
+		 */
 		String getStatus() {
 			if (caller == null) {
 				return null;

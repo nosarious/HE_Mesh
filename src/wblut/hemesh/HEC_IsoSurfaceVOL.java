@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -243,6 +249,13 @@ public class HEC_IsoSurfaceVOL extends HEC_Creator {
 		}
 
 
+		/**
+		 * 
+		 *
+		 * @param isolevelmin 
+		 * @param isolevelmax 
+		 * @return 
+		 */
 		public HEC_IsoSurfaceVOL setIsolevel(final double isolevelmin, final double isolevelmax) {
 			this.isolevelmin = isolevelmin;
 			this.isolevelmax=isolevelmax;
@@ -316,13 +329,11 @@ public class HEC_IsoSurfaceVOL extends HEC_Creator {
 		/**
 		 * Xedge.
 		 *
-		 * @param i
-		 *            i: -1 .. resx+1
-		 * @param j
-		 *            j: -1 .. resy+1
-		 * @param k
-		 *            k: -1 .. resz+1
-		 * @param offset
+		 * @param i            i: -1 .. resx+1
+		 * @param j            j: -1 .. resy+1
+		 * @param k            k: -1 .. resz+1
+		 * @param offset 
+		 * @param isolevel 
 		 * @return edge vertex
 		 */
 		private HE_Vertex xedge(final int i, final int j, final int k, final WB_Point offset, final double isolevel) {
@@ -344,13 +355,11 @@ public class HEC_IsoSurfaceVOL extends HEC_Creator {
 		/**
 		 * Yedge.
 		 *
-		 * @param i
-		 *            i: -1 .. resx+1
-		 * @param j
-		 *            j: -1 .. resy+1
-		 * @param k
-		 *            k: -1 .. resz+1
-		 * @param offset
+		 * @param i            i: -1 .. resx+1
+		 * @param j            j: -1 .. resy+1
+		 * @param k            k: -1 .. resz+1
+		 * @param offset 
+		 * @param isolevel 
 		 * @return edge vertex
 		 */
 		private HE_Vertex yedge(final int i, final int j, final int k, final WB_Point offset, final double isolevel) {
@@ -372,13 +381,11 @@ public class HEC_IsoSurfaceVOL extends HEC_Creator {
 		/**
 		 * Zedge.
 		 *
-		 * @param i
-		 *            i: -1 .. resx+1
-		 * @param j
-		 *            j: -1 .. resy+1
-		 * @param k
-		 *            k: -1 .. resz+1
-		 * @param offset
+		 * @param i            i: -1 .. resx+1
+		 * @param j            j: -1 .. resy+1
+		 * @param k            k: -1 .. resz+1
+		 * @param offset 
+		 * @param isolevel 
 		 * @return edge vertex
 		 */
 		private HE_Vertex zedge(final int i, final int j, final int k, final WB_Point offset, final double isolevel) {

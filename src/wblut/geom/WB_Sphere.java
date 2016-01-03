@@ -1,4 +1,10 @@
 /*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
  * 
  */
 package wblut.geom;
@@ -180,6 +186,12 @@ public class WB_Sphere implements WB_Geometry {
 		return center.addMul(radius, vc);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 * @return 
+	 */
 	public static WB_Sphere getBoundingSphere(WB_Coord[] points) {
 		WB_Point center = new WB_Point(points[0]);
 		double radius = WB_Epsilon.EPSILON;
@@ -209,6 +221,12 @@ public class WB_Sphere implements WB_Geometry {
 		return new WB_Sphere(center, radius);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 * @return 
+	 */
 	public static WB_Sphere getBoundingSphere(Collection<? extends WB_Coord> points) {
 		WB_Point center = new WB_Point(points.iterator().next());
 		double radius = WB_Epsilon.EPSILON;

@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.geom;
 
@@ -18,24 +24,43 @@ public class WB_RandomBox implements WB_RandomPoint {
 	private double X, Y, Z;
 	private WB_Vector offset;
 
+	/**
+	 * 
+	 */
 	public WB_RandomBox() {
 		randomGen = new WB_MTRandom();
 		X = Y = Z = 1.0;
 		offset = new WB_Vector();
 	}
 
+	/**
+	 * 
+	 *
+	 * @param seed 
+	 */
 	public WB_RandomBox(final long seed) {
 		randomGen = new WB_MTRandom(seed);
 		X = Y = Z = 1.0;
 		offset = new WB_Vector();
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_RandomPoint#setSeed(long)
+	 */
 	@Override
 	public WB_RandomBox setSeed(final long seed) {
 		randomGen.setSeed(seed);
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param X 
+	 * @param Y 
+	 * @param Z 
+	 * @return 
+	 */
 	public WB_RandomBox setSize(double X, double Y, double Z) {
 		this.X = X;
 		this.Y = Y;
@@ -43,35 +68,53 @@ public class WB_RandomBox implements WB_RandomPoint {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_RandomPoint#nextPoint()
+	 */
 	@Override
 	public WB_Point nextPoint() {
 		return new WB_Point(X * randomGen.nextCenteredDouble(), Y * randomGen.nextCenteredDouble(),
 				Z * randomGen.nextCenteredDouble()).addSelf(offset);
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_RandomPoint#nextVector()
+	 */
 	@Override
 	public WB_Vector nextVector() {
 		return new WB_Vector(X * randomGen.nextCenteredDouble(), Y * randomGen.nextCenteredDouble(),
 				Z * randomGen.nextCenteredDouble()).addSelf(offset);
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_RandomPoint#reset()
+	 */
 	@Override
 	public void reset() {
 		randomGen.reset();
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_RandomPoint#setOffset(wblut.geom.WB_Coord)
+	 */
 	@Override
 	public WB_RandomPoint setOffset(WB_Coord offset) {
 		this.offset.set(offset);
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_RandomPoint#setOffset(double, double)
+	 */
 	@Override
 	public WB_RandomPoint setOffset(double x, double y) {
 		this.offset.set(x, y, 0);
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_RandomPoint#setOffset(double, double, double)
+	 */
 	@Override
 	public WB_RandomPoint setOffset(double x, double y, double z) {
 		this.offset.set(x, y, z);

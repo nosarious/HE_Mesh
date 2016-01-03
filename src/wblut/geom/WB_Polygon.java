@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.geom;
 
@@ -407,6 +413,11 @@ public class WB_Polygon extends WB_Ring {
 		return numberOfContours == 1;
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public boolean isCW2D() {
 		// Find shell point with min x and if equal x, max y
 		int index = 0;
@@ -468,6 +479,11 @@ public class WB_Polygon extends WB_Ring {
 		}
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public boolean is2D() {
 
 		for (int i = 0; i < numberOfShellPoints; i++) {
@@ -486,6 +502,11 @@ public class WB_Polygon extends WB_Ring {
 		return true;
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public boolean isPlanar() {
 		final WB_Plane P = getPlane(0);
 		for (int i = 0; i < numberOfShellPoints; i++) {
@@ -504,6 +525,13 @@ public class WB_Polygon extends WB_Ring {
 		return true;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param i 
+	 * @param CW 
+	 * @return 
+	 */
 	public boolean isConvex2D(final int i, final boolean CW) {
 		final WB_Point extremum = points.get(i);
 		WB_Point previous;
@@ -522,6 +550,11 @@ public class WB_Polygon extends WB_Ring {
 		return (vertexIsCW == CW);
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public boolean isConvex2D() {
 		double dx1, dy1, dx2, dy2, zcrossproduct;
 		double sign = Double.NaN;
@@ -724,6 +757,12 @@ public class WB_Polygon extends WB_Ring {
 		return trimConvexPolygon(this, d);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param d 
+	 * @return 
+	 */
 	public List<WB_Polygon> trimPolygon(final double d) {
 		return gf.createBufferedPolygons(this, -d);
 	}
@@ -779,6 +818,11 @@ public class WB_Polygon extends WB_Ring {
 		return segments;
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public WB_AABB getAABB() {
 		WB_AABB AABB = new WB_AABB();
 		for (int i = 0; i < numberOfShellPoints; i++) {
@@ -787,6 +831,11 @@ public class WB_Polygon extends WB_Ring {
 		return AABB;
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public double getSignedArea() {
 		int n = this.getNumberOfShellPoints();
 		if (n < 3)
@@ -821,6 +870,11 @@ public class WB_Polygon extends WB_Ring {
 
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	@SuppressWarnings("unchecked")
 	public int[] getTrianglesP2T() {
 		ArrayList<ArrayList<Integer>> result = Triangulation.triangulate(getNumberOfContours(),
@@ -839,6 +893,11 @@ public class WB_Polygon extends WB_Ring {
 		return triangles;
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public double[][] toVertices2D() {
 		final WB_Plane P = getPlane(0);
 		final WB_PlanarMap EP = new WB_PlanarMap(P);
@@ -854,6 +913,11 @@ public class WB_Polygon extends WB_Ring {
 
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public WB_Polygon getSimplePolygon() {
 		return new WB_Triangulate().makeSimplePolygon(this);
 	}

@@ -1,39 +1,41 @@
 /*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
  * 
  */
+
 package wblut.geom;
 
 import gnu.trove.map.TLongObjectMap;
 import gnu.trove.map.hash.TLongObjectHashMap;
 
-/**
- * 
- */
+
 public class WB_HashGridObject {
 
-	/**
-	 * 
-	 */
+
+	@SuppressWarnings("rawtypes")
 	private final TLongObjectMap values;
 
-	/**
-	 * 
-	 */
+
 	private final Object defaultValue;
 
-	/**
-	 * 
-	 */
+
 	private final int K, L, M, KL;
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param K
 	 * @param L
 	 * @param M
 	 * @param defaultValue
 	 */
+	@SuppressWarnings("rawtypes")
 	public WB_HashGridObject(final int K, final int L, final int M, final Object defaultValue) {
 		this.K = K;
 		this.L = L;
@@ -43,13 +45,15 @@ public class WB_HashGridObject {
 		values = new TLongObjectHashMap(10, 0.5f, -1L);
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param K
 	 * @param L
 	 * @param M
 	 */
+	@SuppressWarnings("rawtypes")
 	public WB_HashGridObject(final int K, final int L, final int M) {
 		this.K = K;
 		this.L = L;
@@ -59,8 +63,9 @@ public class WB_HashGridObject {
 		values = new TLongObjectHashMap(10, 0.5f, -1L);
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param value
 	 * @param i
@@ -68,6 +73,7 @@ public class WB_HashGridObject {
 	 * @param k
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean setValue(final Object value, final int i, final int j, final int k) {
 		final long id = safeIndex(i, j, k);
 		if (id > 0) {
@@ -77,8 +83,9 @@ public class WB_HashGridObject {
 		return false;
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @param j
@@ -94,8 +101,9 @@ public class WB_HashGridObject {
 		return false;
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @param j
@@ -114,8 +122,9 @@ public class WB_HashGridObject {
 		return defaultValue;
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @param j
@@ -144,8 +153,9 @@ public class WB_HashGridObject {
 		return i + (j * K) + (k * KL);
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -153,8 +163,9 @@ public class WB_HashGridObject {
 		return K;
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -162,8 +173,9 @@ public class WB_HashGridObject {
 		return L;
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -171,8 +183,9 @@ public class WB_HashGridObject {
 		return M;
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -180,8 +193,9 @@ public class WB_HashGridObject {
 		return defaultValue;
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -189,8 +203,9 @@ public class WB_HashGridObject {
 		return values.keys();
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */

@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -122,8 +128,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 				he1[c] = he.getNextInFace();
 				he2[c] = new HE_Halfedge();
 				he3[c] = new HE_Halfedge();
-				mesh.add(he2[c]);
-				mesh.add(he3[c]);
+
 				mesh.setVertex(he2[c],he.getNextInFace().getNextInFace().getVertex());
 				if (he2[c].getVertex().hasHalfedgeUVW(f)) {
 					he2[c].setUVW(he2[c].getVertex().getHalfedgeUVW(f));
@@ -134,6 +139,8 @@ public class HEM_QuadSplit extends HEM_Modifier {
 				mesh.setFace(he1[c],fc);
 				mesh.setFace(he2[c],fc);
 				mesh.setFace(he3[c],fc);
+				mesh.add(he2[c]);
+				mesh.add(he3[c]);
 				c++;
 				he = he.getNextInFace().getNextInFace();
 			} while (he != startHE);
@@ -232,8 +239,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 				he1[c] = he.getNextInFace();
 				he2[c] = new HE_Halfedge();
 				he3[c] = new HE_Halfedge();
-				sel.parent.add(he2[c]);
-				sel.parent.add(he3[c]);
+
 				sel.parent.setVertex(he2[c],he.getNextInFace().getNextInFace().getVertex());
 				if (he2[c].getVertex().hasHalfedgeUVW(face)) {
 					he2[c].setUVW(he2[c].getVertex().getHalfedgeUVW(face));
@@ -245,6 +251,8 @@ public class HEM_QuadSplit extends HEM_Modifier {
 				sel.parent.setFace(he1[c],f);
 				sel.parent.setFace(he2[c],f);
 				sel.parent.setFace(he3[c],f);
+				sel.parent.add(he2[c]);
+				sel.parent.add(he3[c]);
 				c++;
 				he = he.getNextInFace().getNextInFace();
 			} while (he != startHE);

@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.geom;
 
@@ -2580,6 +2586,12 @@ public class WB_GeometryFactory {
 		return new WB_Polygon(points);
 	}
 
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @return
+	 */
 	public WB_Polygon createSimplePolygon(final WB_Polygon poly) {
 		return new WB_Triangulate().makeSimplePolygon(poly);
 	}
@@ -2714,6 +2726,12 @@ public class WB_GeometryFactory {
 		return polygons;
 	}
 
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @return
+	 */
 	public WB_Polygon createPolygonConvexHull(final WB_Polygon poly) {
 		final Polygon JTSpoly = toJTSPolygon(poly);
 		final Geometry result = new ConvexHull(JTSpoly).getConvexHull();
@@ -2723,6 +2741,12 @@ public class WB_GeometryFactory {
 		return null;
 	}
 
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @return
+	 */
 	public List<WB_Polygon> createConvexPolygonDecomposition(final WB_Polygon poly) {
 
 		return WB_PolygonDecomposer.convexDecomposePolygon(poly);
@@ -2760,12 +2784,28 @@ public class WB_GeometryFactory {
 		return createPolygonsFromJTSGeometry(result);
 	}
 
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @param n
+	 * @return
+	 */
 	public List<WB_Polygon> createBufferedPolygons(final WB_Polygon poly, final double d, final int n) {
 		final Polygon JTSpoly = toJTSPolygon(poly);
 		final Geometry result = BufferOp.bufferOp(JTSpoly, d, n);
 		return createPolygonsFromJTSGeometry(result);
 	}
 
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @param n
+	 * @return
+	 */
 	public List<WB_Polygon> createBufferedPolygons(final Collection<? extends WB_Polygon> poly, final double d, final int n) {
 		final Polygon[] allPoly = new Polygon[poly.size()];
 		int i = 0;
@@ -3427,6 +3467,16 @@ public class WB_GeometryFactory {
 		return createText(text, font, flatness);
 	}
 
+	/**
+	 *
+	 *
+	 * @param text
+	 * @param font
+	 * @param style
+	 * @param pointSize
+	 * @param flatness
+	 * @return
+	 */
 	public List<WB_Polygon> createText(final String text, final Font font, final int style, final float pointSize,
 			final double flatness) {
 		final Font nfont = font.deriveFont(style, pointSize);
@@ -3662,7 +3712,7 @@ public class WB_GeometryFactory {
 	 *
 	 * @param center
 	 * @param normal
-	 * @param diameter
+	 * @param radius
 	 * @return circle
 	 */
 	public WB_Circle createCircleWithRadius(final WB_Coord center, final WB_Coord normal, final double radius) {
@@ -3771,6 +3821,12 @@ public class WB_GeometryFactory {
 		return createCircleWithRadius(createPoint(x + tri.p1().xd(), y + tri.p1().yd()), radius);
 	}
 
+	/**
+	 *
+	 *
+	 * @param tri
+	 * @return
+	 */
 	public WB_Circle createCircumcircle3D(final WB_Triangle tri) {
 		final double a = tri.a();
 		final double b = tri.b();
@@ -3799,6 +3855,12 @@ public class WB_GeometryFactory {
 		return createCircleWithRadius(createPoint(x, y), radius);
 	}
 
+	/**
+	 *
+	 *
+	 * @param tri
+	 * @return
+	 */
 	public WB_Circle createIncircle3D(final WB_Triangle tri) {
 		final double a = tri.a();
 		final double b = tri.b();
@@ -6504,7 +6566,7 @@ public class WB_GeometryFactory {
 	/**
 	 *
 	 *
-	 * @param points
+	 * @param polygon
 	 * @param height
 	 * @return
 	 */

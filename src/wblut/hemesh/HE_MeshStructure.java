@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -8,7 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import javolution.util.FastTable;
-import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_Point;
@@ -24,12 +29,12 @@ import wblut.geom.WB_Vector;
 public class HE_MeshStructure extends HE_MeshElement  {
 
 
-	private HE_RAS<HE_Vertex> vertices;
+	protected HE_RAS<HE_Vertex> vertices;
 
-	private HE_RAS<HE_Halfedge> halfedges;
-	private HE_RAS<HE_Halfedge> edges;
-	private  HE_RAS<HE_Halfedge> unpairedHalfedges;
-	private HE_RAS<HE_Face> faces;
+	protected HE_RAS<HE_Halfedge> halfedges;
+	protected HE_RAS<HE_Halfedge> edges;
+	protected  HE_RAS<HE_Halfedge> unpairedHalfedges;
+	protected HE_RAS<HE_Face> faces;
 
 
 	/**
@@ -55,15 +60,15 @@ public class HE_MeshStructure extends HE_MeshElement  {
 			add(f);
 		}
 		for (final HE_Halfedge he : ms.halfedges) {
-			add(he);
+			halfedges.add(he);
 		}
 
 		for (final HE_Halfedge e : ms.edges) {
-			add(e);
+			edges.add(e);
 		}
 
 		for (final HE_Halfedge uhe : ms.unpairedHalfedges) {
-			add(uhe);
+			unpairedHalfedges.add(uhe);
 		}
 		for (final HE_Vertex v : ms.vertices) {
 			add(v);
@@ -151,16 +156,9 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 *
 	 * @param source
 	 */
-	public final void addFaces(final HE_Mesh source) {
-		WB_ProgressCounter counter = new WB_ProgressCounter(source.getNumberOfFaces(), 10);
-		tracker.setStatus(this, "Adding faces", counter);
-		HE_FaceIterator fItr = source.fItr();
-		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
-			add(f);
-			counter.increment();
-		}
+	public final void addFaces(final HE_MeshStructure source) {
+		tracker.setStatus(this, "Adding faces", 0);
+		faces.addAll(source.faces);
 	}
 
 	/**
@@ -192,14 +190,13 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 *
 	 * @param source
 	 */
-	public final void addHalfedges(final HE_Mesh source) {
-		WB_ProgressCounter counter = new WB_ProgressCounter(source.getNumberOfHalfedges(), 10);
-		tracker.setStatus(this, "Adding halfedges", counter);
-		HE_HalfedgeIterator heItr=source.heItr();
-		while(heItr.hasNext()){
-			add(heItr.next());
+	public final void addHalfedges(final HE_MeshStructure source) {
 
-		}
+		tracker.setStatus(this, "Adding halfedges", 0);
+		halfedges.addAll(source.halfedges);
+		edges.addAll(source.edges);
+		unpairedHalfedges.addAll(source.unpairedHalfedges);
+
 	}
 
 	/**
@@ -219,16 +216,9 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 *
 	 * @param source
 	 */
-	public final void addVertices(final HE_Mesh source) {
-		WB_ProgressCounter counter = new WB_ProgressCounter(source.getNumberOfVertices(), 10);
-		tracker.setStatus(this, "Adding vertices", counter);
-		HE_VertexIterator vItr=source.vItr();
-		HE_Vertex v;
-		while (vItr.hasNext()) {
-			v=vItr.next();
-			add(v);
-			counter.increment();
-		}
+	public final void addVertices(final HE_MeshStructure source) {
+		tracker.setStatus(this, "Adding vertices", 0);
+		vertices.addAll(source.vertices);
 	}
 
 	/**
@@ -335,6 +325,11 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		return new WB_AABB(min, max);
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public final WB_Sphere getBoundingSphere() {
 
 		return WB_Sphere.getBoundingSphere(vertices);
@@ -390,6 +385,8 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	}
 
 
+
+
 	/**
 	 *
 	 *
@@ -398,6 +395,18 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 */
 	public final HE_Halfedge getEdgeWithIndex(final int i) {
 		return edges.get(i);
+	}
+
+	/**
+	 *
+	 *
+	 * @param i
+	 * @return
+	 * @deprecated Use {@link #getEdgeWithIndex(int)} instead
+	 */
+	@Deprecated
+	public final HE_Halfedge getEdgeByIndex(final int i) {
+		return getEdgeWithIndex(i);
 	}
 
 	/**
@@ -727,7 +736,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @return
 	 */
 	public final int getIndex(final HE_Face f) {
-		return faces.getIndex(f);
+		return faces.indexOf(f);
 	}
 
 
@@ -740,7 +749,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @return
 	 */
 	public final int getIndex(final HE_Vertex v) {
-		return vertices.getIndex(v);
+		return vertices.indexOf(v);
 	}
 
 
@@ -1165,6 +1174,12 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	}
 
 
+	/**
+	 * 
+	 *
+	 * @param he 
+	 * @param f 
+	 */
 	public void setFace(final HE_Halfedge he, final HE_Face f){
 		he._setFace(f);
 		if(he.getPair()!=null) {
@@ -1173,46 +1188,66 @@ public class HE_MeshStructure extends HE_MeshElement  {
 
 	}
 
+	/**
+	 * 
+	 *
+	 * @param he 
+	 */
 	public void clearFace(final HE_Halfedge he){
 		he._clearFace();
-		if(he.getPair()==null){
-			edges.remove(he);
-			halfedges.add(he);
-		}else{
+		if(he.getPair()!=null){
 			setPair(he,he.getPair());
 		}
 
 	}
 
+	/**
+	 * 
+	 *
+	 * @param he1 
+	 * @param he2 
+	 */
 	public void setPair(final HE_Halfedge he1, final HE_Halfedge he2){
 		if(he1.getPair()==null){
 			unpairedHalfedges.remove(he1);
+		}else{
+			if(he1.isEdge()){
+				edges.remove(he1);
+
+			}else{
+				halfedges.remove(he1);
+
+			}
 		}
 		if(he2.getPair()==null){
 			unpairedHalfedges.remove(he2);
+		}else{
+			if(he2.isEdge()){
+				edges.remove(he2);
+
+			}else{
+				halfedges.remove(he2);
+			}
 		}
 
 		he1._setPair(he2);
 		he2._setPair(he1);
 
 		if(he1.isEdge()){
-			halfedges.remove(he1);
 			edges.add(he1);
-			edges.remove(he2);
 			halfedges.add(he2);
 		}
 		else if (he2.isEdge()){
-			halfedges.remove(he2);
 			edges.add(he2);
-			edges.remove(he1);
 			halfedges.add(he1);
-
-
 		}
-
-
 	}
 
+	/**
+	 * 
+	 *
+	 * @param he 
+	 */
 	public void clearPair(final HE_Halfedge he){
 
 		if(he.getPair()==null) {
@@ -1220,11 +1255,14 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		}
 		HE_Halfedge hep=he.getPair();
 
-		edges.remove(he);
-		halfedges.remove(he);
+		if(he.isEdge()){
+			edges.remove(he);
+			halfedges.remove(hep);
+		}else{
+			halfedges.remove(he);
+			edges.remove(hep);
+		}
 		unpairedHalfedges.add(he);
-		edges.remove(hep);
-		halfedges.remove(hep);
 		unpairedHalfedges.add(hep);
 
 		he._clearPair();
@@ -1233,6 +1271,12 @@ public class HE_MeshStructure extends HE_MeshElement  {
 
 	}
 
+	/**
+	 * 
+	 *
+	 * @param he 
+	 * @param hen 
+	 */
 	public void setNext(final HE_Halfedge he, final HE_Halfedge hen){
 		he._setNext(hen);
 		hen._setPrev(he);
@@ -1240,42 +1284,85 @@ public class HE_MeshStructure extends HE_MeshElement  {
 
 	}
 
+	/**
+	 * 
+	 *
+	 * @param he 
+	 * @param v 
+	 */
 	public void setVertex(final HE_Halfedge he, final HE_Vertex v){
 		he._setVertex(v);
 
 
 	}
 
+	/**
+	 * 
+	 *
+	 * @param f 
+	 * @param he 
+	 */
 	public void setHalfedge(final HE_Face f, final HE_Halfedge he){
 		f._setHalfedge(he);
 
 
 	}
 
+	/**
+	 * 
+	 *
+	 * @param f 
+	 */
 	public void clearHalfedge(final HE_Face f){
 		f._clearHalfedge();
 	}
 
 
+	/**
+	 * 
+	 *
+	 * @param v 
+	 * @param he 
+	 */
 	public void setHalfedge(final HE_Vertex v, final HE_Halfedge he){
 		v._setHalfedge(he);
 
 
 	}
 
+	/**
+	 * 
+	 *
+	 * @param v 
+	 */
 	public void clearHalfedge(final HE_Vertex v){
 		v._clearHalfedge();
 	}
 
 
+	/**
+	 * 
+	 *
+	 * @param he 
+	 */
 	public void clearNext(final HE_Halfedge he){
 		he._clearNext();
 	}
 
+	/**
+	 * 
+	 *
+	 * @param he 
+	 */
 	public void clearPrev(final HE_Halfedge he){
 		he._clearPrev();
 	}
 
+	/**
+	 * 
+	 *
+	 * @param he 
+	 */
 	public void clearVertex(final HE_Halfedge he){
 		he._clearVertex();
 	}

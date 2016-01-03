@@ -1,4 +1,10 @@
 /*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
  * 
  */
 package wblut.geom;
@@ -226,6 +232,11 @@ public class WB_Triangle implements WB_Simplex {
 		return P;
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public WB_Map2D getEmbeddedPlane() {
 		WB_Plane P = getPlane();
 
@@ -359,6 +370,11 @@ public class WB_Triangle implements WB_Simplex {
 		return WB_Math.fastAbs(getSignedArea());
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public double getSignedArea() {
 		final WB_Plane P = getPlane();
 		if (P == null) {
@@ -454,12 +470,23 @@ public class WB_Triangle implements WB_Simplex {
 	/**
 	 * Gets the area.
 	 *
+	 * @param p1 
+	 * @param p2 
+	 * @param p3 
 	 * @return the area
 	 */
 	public static double getArea(WB_Coord p1, WB_Coord p2, WB_Coord p3) {
 		return WB_Math.fastAbs(getSignedArea(p1, p2, p3));
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p1 
+	 * @param p2 
+	 * @param p3 
+	 * @return 
+	 */
 	public static double getSignedArea(WB_Coord p1, WB_Coord p2, WB_Coord p3) {
 		final WB_Plane P = new WB_Plane(p1, p2, p3);
 		if (P.getNormal().getSqLength3D() < WB_Epsilon.SQEPSILON) {

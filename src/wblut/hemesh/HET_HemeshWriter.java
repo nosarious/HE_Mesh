@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -116,12 +122,13 @@ public class HET_HemeshWriter {
 	}
 
 	/**
+	 * 
 	 *
-	 *
-	 * @param vid
-	 * @param henextid
-	 * @param hepairid
-	 * @param faceid
+	 * @param he 
+	 * @param vid 
+	 * @param henextid 
+	 * @param hepairid 
+	 * @param faceid 
 	 */
 	public void halfedge(final HE_Halfedge he, final int vid, final int henextid, final int hepairid,
 			final int faceid) {
@@ -139,9 +146,10 @@ public class HET_HemeshWriter {
 
 
 	/**
+	 * 
 	 *
-	 *
-	 * @param heid
+	 * @param f 
+	 * @param heid 
 	 */
 	public void face(final HE_Face f,final int heid) {
 		hemeshWriter.println(heid+" "+f.getColor()+" "+f.getTextureId()+" "+f._labels);

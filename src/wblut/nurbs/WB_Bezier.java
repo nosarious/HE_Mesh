@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.nurbs;
 
@@ -29,9 +35,9 @@ public class WB_Bezier implements WB_Curve {
 	protected int n;
 
 	/**
-	 * n+1 controlpoint
+	 * n+1 controlpoint.
 	 *
-	 * @param controlPoints
+	 * @param controlPoints 
 	 */
 	public WB_Bezier(final WB_Coord[] controlPoints) {
 		points = controlPoints;
@@ -69,6 +75,12 @@ public class WB_Bezier implements WB_Curve {
 		return C;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param u 
+	 * @return 
+	 */
 	public WB_Vector firstDerivative(final double u) {
 		final WB_Vector Cp = new WB_Vector();
 		if (n <= 0) {
@@ -82,6 +94,9 @@ public class WB_Bezier implements WB_Curve {
 		return Cp;
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Curve#curveDirection(double)
+	 */
 	@Override
 	public WB_Vector curveDirection(double u) {
 		WB_Vector v = firstDerivative(u);
@@ -89,15 +104,18 @@ public class WB_Bezier implements WB_Curve {
 		return v;
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Curve#curveDerivative(double)
+	 */
 	@Override
 	public WB_Vector curveDerivative(double u) {
 		return firstDerivative(u);
 	}
 
 	/**
-	 * Get degree
+	 * Get degree.
 	 *
-	 * @return
+	 * @return 
 	 */
 	public double n() {
 		return n;
@@ -142,6 +160,11 @@ public class WB_Bezier implements WB_Curve {
 		return new WB_Bezier(npoints);
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public WB_Bezier derivative() {
 		if (n <= 0) {
 			return null;

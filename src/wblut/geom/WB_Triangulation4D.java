@@ -1,4 +1,10 @@
 /*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
  * 
  */
 package wblut.geom;
@@ -28,6 +34,11 @@ public class WB_Triangulation4D {
 	_tetrahedra = tetra;
     }
     
+    /**
+     * 
+     *
+     * @param tetra 
+     */
     public WB_Triangulation4D(final int[][] tetra) {
     	_tetrahedra = new int[tetra.length*5];
     	for(int i=0;i<tetra.length;i++){

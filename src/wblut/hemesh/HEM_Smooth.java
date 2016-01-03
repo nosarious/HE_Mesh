@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -33,6 +39,9 @@ public class HEM_Smooth extends HEM_Modifier {
 	 */
 	private int iter;
 
+	/**
+	 * 
+	 */
 	public HEM_Smooth(){
 		lambda=0.5;
 		iter=1;
@@ -77,6 +86,12 @@ public class HEM_Smooth extends HEM_Modifier {
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param lambda 
+	 * @return 
+	 */
 	public HEM_Smooth setLambda(final double lambda){
 		this.lambda=lambda;
 		return this;

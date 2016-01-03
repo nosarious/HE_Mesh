@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -8,7 +14,6 @@ import java.util.Iterator;
 
 import gnu.trove.map.TLongObjectMap;
 import gnu.trove.map.hash.TLongObjectHashMap;
-import javolution.util.FastTable;
 import wblut.geom.WB_Point;
 import wblut.math.WB_MTRandom;
 
@@ -191,7 +196,6 @@ public class HES_Planar extends HES_Subdividor {
 			mesh.splitEdges();
 		}
 		final ArrayList<HE_Face> newFaces = new ArrayList<HE_Face>();
-		FastTable<HE_Halfedge> unpairedhes = new FastTable<HE_Halfedge>();
 		fItr = mesh.fItr();
 		while (fItr.hasNext()) {
 			face = fItr.next();
@@ -214,8 +218,7 @@ public class HES_Planar extends HES_Subdividor {
 					final HE_Halfedge origHE3 = origHE2.getNextInFace();
 					final HE_Halfedge newHE = new HE_Halfedge();
 					final HE_Halfedge newHEp = new HE_Halfedge();
-					mesh.add(newHE);
-					mesh.add(newHEp);
+
 					faceHalfedges.add(newHEp);
 					if (origHE3.getVertex().hasHalfedgeUVW(face)) {
 						newHE.setUVW(origHE3.getVertex().getHalfedgeUVW(face));
@@ -232,6 +235,8 @@ public class HES_Planar extends HES_Subdividor {
 					mesh.setPair(newHE,newHEp);
 					mesh.setFace(newHEp,centerFace);
 					mesh.setHalfedge(centerFace,newHEp);
+					mesh.add(newHE);
+					mesh.add(newHEp);
 					origHE1 = origHE3;
 				} while (origHE1 != startHE);
 				mesh.cycleHalfedges(faceHalfedges);
@@ -244,7 +249,6 @@ public class HES_Planar extends HES_Subdividor {
 				} while (cfhe != centerFace.getHalfedge());
 			} else {
 				HE_Halfedge origHE1 = startHE;
-				unpairedhes = new FastTable<HE_Halfedge>();
 				do {
 					final HE_Face newFace = new HE_Face();
 					newFaces.add(newFace);
@@ -253,8 +257,7 @@ public class HES_Planar extends HES_Subdividor {
 					final HE_Halfedge origHE3 = origHE2.getNextInFace();
 					final HE_Halfedge newHE1 = new HE_Halfedge();
 					final HE_Halfedge newHE2 = new HE_Halfedge();
-					mesh.add(newHE1);
-					mesh.add(newHE2);
+
 					if (origHE3.getVertex().hasHalfedgeUVW(face)) {
 						newHE1.setUVW(origHE3.getVertex().getHalfedgeUVW(face));
 					}
@@ -278,10 +281,10 @@ public class HES_Planar extends HES_Subdividor {
 					mesh.setFace(origHE1,newFace);
 					mesh.setFace(origHE2,newFace);
 					origHE1 = origHE3;
-					unpairedhes.add(newHE1);
-					unpairedhes.add(newHE2);
+					mesh.add(newHE1);
+					mesh.add(newHE2);
 				} while (origHE1 != startHE);
-				mesh.pairHalfedges(unpairedhes);
+				mesh.pairHalfedges();
 			}
 			face.setInternalLabel(0);
 		}// end of face loop
@@ -299,7 +302,6 @@ public class HES_Planar extends HES_Subdividor {
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
 		randomGen.reset();
-		FastTable<HE_Halfedge> unpairedhes = new FastTable<HE_Halfedge>();
 		selection.cleanSelection();
 		if (selection.getNumberOfFaces() == 0) {
 			return selection.parent;
@@ -414,8 +416,7 @@ public class HES_Planar extends HES_Subdividor {
 					final HE_Halfedge origHE3 = origHE2.getNextInFace();
 					final HE_Halfedge newHE = new HE_Halfedge();
 					final HE_Halfedge newHEp = new HE_Halfedge();
-					selection.parent.add(newHE);
-					selection.parent.add(newHEp);
+
 					faceHalfedges.add(newHEp);
 					if (origHE3.getVertex().hasHalfedgeUVW(face)) {
 						newHE.setUVW(origHE3.getVertex().getHalfedgeUVW(face));
@@ -431,6 +432,8 @@ public class HES_Planar extends HES_Subdividor {
 					selection.parent.setPair(newHE,newHEp);
 					selection.parent.setFace(newHEp,centerFace);
 					selection.parent.setHalfedge(centerFace,newHEp);
+					selection.parent.add(newHE);
+					selection.parent.add(newHEp);
 					origHE1 = origHE3;
 				} while (origHE1 != startHE);
 				selection.parent.cycleHalfedges(faceHalfedges);
@@ -443,7 +446,6 @@ public class HES_Planar extends HES_Subdividor {
 				} while (cfhe != centerFace.getHalfedge());
 			} else {
 				HE_Halfedge origHE1 = startHE;
-				unpairedhes = new FastTable<HE_Halfedge>();
 				do {
 					final HE_Face newFace = new HE_Face();
 					newFaces.add(newFace);
@@ -453,8 +455,7 @@ public class HES_Planar extends HES_Subdividor {
 					final HE_Halfedge origHE3 = origHE2.getNextInFace();
 					final HE_Halfedge newHE1 = new HE_Halfedge();
 					final HE_Halfedge newHE2 = new HE_Halfedge();
-					selection.parent.add(newHE1);
-					selection.parent.add(newHE2);
+
 					if (origHE3.getVertex().hasHalfedgeUVW(face)) {
 						newHE1.setUVW(origHE3.getVertex().getHalfedgeUVW(face));
 					}
@@ -475,11 +476,11 @@ public class HES_Planar extends HES_Subdividor {
 					selection.parent.setFace(newHE2,newFace);
 					selection.parent.setFace(origHE1,newFace);
 					selection.parent.setFace(origHE2,newFace);
+					selection.parent.add(newHE1);
+					selection.parent.add(newHE2);
 					origHE1 = origHE3;
-					unpairedhes.add(newHE1);
-					unpairedhes.add(newHE2);
 				} while (origHE1 != startHE);
-				selection.parent.pairHalfedges(unpairedhes);
+				selection.parent.pairHalfedges();
 			}
 		}// end of face loop
 		selection.parent.pairHalfedges();

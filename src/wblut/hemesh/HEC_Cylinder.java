@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -166,11 +172,24 @@ public class HEC_Cylinder extends HEC_Creator {
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param direction 
+	 * @return 
+	 */
 	public HEC_Cylinder align(WB_Coord direction) {
 		setZAxis(direction);
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param origin 
+	 * @param endpoint 
+	 * @return 
+	 */
 	public HEC_Cylinder align(WB_Coord origin, WB_Coord endpoint) {
 		setHeight(WB_GeometryOp.getDistance3D(origin, endpoint));
 		setCenter(WB_Point.mulAddMul(0.5, origin, 0.5, endpoint));
@@ -178,6 +197,12 @@ public class HEC_Cylinder extends HEC_Creator {
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param segment 
+	 * @return 
+	 */
 	public HEC_Cylinder align(WB_Segment segment) {
 		setHeight(segment.getLength());
 		setCenter(segment.getCenter());

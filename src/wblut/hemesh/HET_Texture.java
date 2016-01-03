@@ -1,3 +1,12 @@
+/*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
+ */
 package wblut.hemesh;
 
 import colorlib.Palette;
@@ -49,10 +58,10 @@ public class HET_Texture {
 
 	/**
 	 * Set vertex colors randomly chosen from a palette created with the
-	 * colorLib library
+	 * colorLib library.
 	 *
-	 * @param mesh
-	 * @param palette
+	 * @param mesh 
+	 * @param palette 
 	 */
 	public static void setRandomVertexColorFromPalette(final HE_Mesh mesh,
 			final Palette palette) {
@@ -69,6 +78,13 @@ public class HET_Texture {
 		}
 	}
 
+	/**
+	 * 
+	 *
+	 * @param mesh 
+	 * @param palette 
+	 * @param seed 
+	 */
 	public static void setRandomVertexColorFromPalette(final HE_Mesh mesh,
 			final Palette palette, final long seed) {
 		final HE_VertexIterator vitr = mesh.vItr();
@@ -154,10 +170,10 @@ public class HET_Texture {
 
 	/**
 	 * Set face colors randomly chosen from a palette created with the colorLib
-	 * library
+	 * library.
 	 *
-	 * @param mesh
-	 * @param palette
+	 * @param mesh 
+	 * @param palette 
 	 */
 	public static void setRandomFaceColorFromPalette(final HE_Mesh mesh,
 			final Palette palette) {
@@ -173,6 +189,13 @@ public class HET_Texture {
 		}
 	}
 
+	/**
+	 * 
+	 *
+	 * @param mesh 
+	 * @param palette 
+	 * @param seed 
+	 */
 	public static void setRandomFaceColorFromPalette(final HE_Mesh mesh,
 			final Palette palette, final long seed) {
 		final HE_FaceIterator fitr = mesh.fItr();
@@ -210,6 +233,14 @@ public class HET_Texture {
 		}
 	}
 
+	/**
+	 * 
+	 *
+	 * @param v1 
+	 * @param v2 
+	 * @param v3 
+	 * @return 
+	 */
 	private static int color(int v1, int v2, int v3) {
 		if (v1 > 255) {
 			v1 = 255;

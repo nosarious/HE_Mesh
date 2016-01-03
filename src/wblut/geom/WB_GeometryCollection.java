@@ -1,131 +1,143 @@
 /*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
  * 
  */
+
 package wblut.geom;
 
 import java.util.Collection;
 import java.util.List;
+
 import javolution.util.FastTable;
 
-/**
- * 
- */
+
 public class WB_GeometryCollection implements WB_Geometry {
-    
-    /**
-     * 
-     */
-    List<WB_Geometry> geometries;
 
-    /**
-     * 
-     */
-    protected WB_GeometryCollection() {
-	geometries = new FastTable<WB_Geometry>();
-    }
 
-    /**
-     * 
-     *
-     * @param collection 
-     */
-    protected WB_GeometryCollection(final Collection<WB_Geometry> collection) {
-	geometries = new FastTable<WB_Geometry>();
-	geometries.addAll(collection);
-    }
+	List<WB_Geometry> geometries;
 
-    /**
-     * 
-     *
-     * @param collection 
-     */
-    protected WB_GeometryCollection(final WB_Geometry... collection) {
-	geometries = new FastTable<WB_Geometry>();
-	for (final WB_Geometry geom : collection) {
-	    geometries.add(geom);
+
+	/**
+	 *
+	 */
+	protected WB_GeometryCollection() {
+		geometries = new FastTable<WB_Geometry>();
 	}
-    }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Geometry#getType()
-     */
-    @Override
-    public WB_GeometryType getType() {
-	return WB_GeometryType.COLLECTION;
-    }
 
-    /**
-     * 
-     */
-    public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory
-	    .instance();
-
-    /**
-     * 
-     *
-     * @param i 
-     * @return 
-     */
-    public WB_Geometry getGeometry(final int i) {
-	if (geometries == null) {
-	    return null;
+	/**
+	 *
+	 *
+	 * @param collection
+	 */
+	protected WB_GeometryCollection(final Collection<WB_Geometry> collection) {
+		geometries = new FastTable<WB_Geometry>();
+		geometries.addAll(collection);
 	}
-	return geometries.get(i);
-    }
 
-    /**
-     * 
-     *
-     * @return 
-     */
-    public int getNumberOfGeometries() {
-	if (geometries == null) {
-	    return 0;
+
+	/**
+	 *
+	 *
+	 * @param collection
+	 */
+	protected WB_GeometryCollection(final WB_Geometry... collection) {
+		geometries = new FastTable<WB_Geometry>();
+		for (final WB_Geometry geom : collection) {
+			geometries.add(geom);
+		}
 	}
-	return geometries.size();
-    }
 
-    /**
-     * 
-     *
-     * @param geometry 
-     */
-    public void add(final WB_Geometry... geometry) {
-	for (final WB_Geometry geom : geometry) {
-	    geometries.add(geom);
+
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Geometry#getType()
+	 */
+	@Override
+	public WB_GeometryType getType() {
+		return WB_GeometryType.COLLECTION;
 	}
-    }
 
-    /**
-     * 
-     *
-     * @param geometry 
-     */
-    public void add(final Collection<? extends WB_Geometry> geometry) {
-	geometries.addAll(geometry);
-    }
 
-    /**
-     * 
-     *
-     * @param geometry 
-     */
-    public void add(final WB_GeometryCollection geometry) {
-	for (int i = 0; i < geometry.getNumberOfGeometries(); i++) {
-	    geometries.add(geometry.getGeometry(i));
+	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory
+			.instance();
+
+
+	/**
+	 *
+	 *
+	 * @param i
+	 * @return
+	 */
+	public WB_Geometry getGeometry(final int i) {
+		if (geometries == null) {
+			return null;
+		}
+		return geometries.get(i);
 	}
-    }
 
-    /* (non-Javadoc)
-     * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
-     */
-    @Override
-    public WB_Geometry apply(final WB_Transform T) {
-	final WB_GeometryCollection collection = geometryfactory
-		.createCollection();
-	for (int i = 0; i < getNumberOfGeometries(); i++) {
-	    collection.add(getGeometry(i).apply(T));
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public int getNumberOfGeometries() {
+		if (geometries == null) {
+			return 0;
+		}
+		return geometries.size();
 	}
-	return collection;
-    }
+
+
+	/**
+	 *
+	 *
+	 * @param geometry
+	 */
+	public void add(final WB_Geometry... geometry) {
+		for (final WB_Geometry geom : geometry) {
+			geometries.add(geom);
+		}
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param geometry
+	 */
+	public void add(final Collection<? extends WB_Geometry> geometry) {
+		geometries.addAll(geometry);
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param geometry
+	 */
+	public void add(final WB_GeometryCollection geometry) {
+		for (int i = 0; i < geometry.getNumberOfGeometries(); i++) {
+			geometries.add(geometry.getGeometry(i));
+		}
+	}
+
+
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
+	 */
+	@Override
+	public WB_Geometry apply(final WB_Transform T) {
+		final WB_GeometryCollection collection = geometryfactory
+				.createCollection();
+		for (int i = 0; i < getNumberOfGeometries(); i++) {
+			collection.add(getGeometry(i).apply(T));
+		}
+		return collection;
+	}
 }

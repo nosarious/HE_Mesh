@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.geom;
 
@@ -223,12 +229,18 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
 		return 1;
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Curve#curveDirection(double)
+	 */
 	@Override
 	public WB_Vector curveDirection(double u) {
 
 		return new WB_Vector(direction);
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Curve#curveDerivative(double)
+	 */
 	@Override
 	public WB_Vector curveDerivative(double u) {
 		return new WB_Vector(direction);

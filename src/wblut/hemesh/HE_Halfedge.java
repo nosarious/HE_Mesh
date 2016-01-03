@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -219,6 +225,12 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 		return null;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param f 
+	 * @return 
+	 */
 	public WB_Coord getEdgeCenter(final double f) {
 		if ((_next != null) && (_vertex != null) && (_next.getVertex() != null)) {
 			return gf.createMidpoint(_next.getVertex(), _vertex).addMulSelf(f, getEdgeNormal());
@@ -445,12 +457,12 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 
 	/**
 	 * A halfedge is considered an edge if it has a paired halfedge and one of these conditions is met:
-	 *
+	 * 
 	 *  a) both the halfedge and its pair have no face, and the halfedge key is lower
 	 *  b) the halfedge has a face and its pair has no face
-	 *  c) both the halfedge and its pair have a face, and the halfedge key is lower
+	 *  c) both the halfedge and its pair have a face, and the halfedge key is lower.
 	 *
-	 * @return
+	 * @return 
 	 */
 	public boolean isEdge() {
 		if (_pair == null) {
@@ -497,6 +509,11 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 		return false;
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public boolean isOuterBoundary() {
 		if (_face == null) {
 			return true;
@@ -607,6 +624,11 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 		return WB_GeometryOp.angleBetween(c.xd(), c.yd(), c.zd(), p1.xd(), p1.yd(), p1.zd(), p2.xd(), p2.yd(), p2.zd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public double getCotan() {
 		final WB_Coord c = getVertex();
 		final WB_Coord p1 = getEndVertex();
@@ -672,21 +694,20 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	}
 
 	/**
-	 * Set halfedge UVW
+	 * Set halfedge UVW.
 	 *
-	 * @param u
-	 * @param v
-	 * @param w
+	 * @param u 
+	 * @param v 
+	 * @param w 
 	 */
 	public void setUVW(final double u, final double v, final double w) {
 		uvw = new HE_TextureCoordinate(u, v, w);
 	}
 
 	/**
-	 * Set halfedge UVW
+	 * Set halfedge UVW.
 	 *
-	 * @param uvw
-	 *            WB_Coord
+	 * @param uvw            WB_Coord
 	 */
 	public void setUVW(final WB_Coord uvw) {
 		if (uvw == null) {
@@ -696,10 +717,9 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	}
 
 	/**
-	 * Set halfedge UVW
+	 * Set halfedge UVW.
 	 *
-	 * @param uvw
-	 *            HE_TextureCoordinate
+	 * @param uvw            HE_TextureCoordinate
 	 */
 	public void setUVW(final HE_TextureCoordinate uvw) {
 		if (uvw == null) {
@@ -709,9 +729,9 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	}
 
 	/**
-	 * Check if this halfedge has texture coordinates
+	 * Check if this halfedge has texture coordinates.
 	 *
-	 * @return
+	 * @return 
 	 */
 	public boolean hasHalfedgeUVW() {
 		return uvw != null;

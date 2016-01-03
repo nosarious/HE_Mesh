@@ -1,22 +1,24 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
+
 package wblut.geom;
 
 import wblut.math.WB_Epsilon;
 
-/**
- *
- */
+
 public abstract class WB_Linear {
-	/**
-	 *
-	 */
+
 	protected WB_Point origin;
-	/**
-	 *
-	 */
+
 	protected WB_Vector direction;
+
 
 	/**
 	 *
@@ -25,6 +27,7 @@ public abstract class WB_Linear {
 		origin = new WB_Point();
 		direction = new WB_Vector(1, 0, 0);
 	}
+
 
 	/**
 	 *
@@ -39,6 +42,7 @@ public abstract class WB_Linear {
 		direction = dn;
 	}
 
+
 	/**
 	 *
 	 *
@@ -51,6 +55,7 @@ public abstract class WB_Linear {
 		dn.normalizeSelf();
 		direction = dn;
 	}
+
 
 	/**
 	 *
@@ -65,6 +70,7 @@ public abstract class WB_Linear {
 		return result;
 	}
 
+
 	/**
 	 *
 	 *
@@ -75,6 +81,7 @@ public abstract class WB_Linear {
 		p.set(new WB_Vector(direction).mulSelf(t).addSelf(origin));
 	}
 
+
 	/**
 	 *
 	 *
@@ -84,6 +91,7 @@ public abstract class WB_Linear {
 		return origin;
 	}
 
+
 	/**
 	 *
 	 *
@@ -92,6 +100,7 @@ public abstract class WB_Linear {
 	public WB_Coord getDirection() {
 		return direction;
 	}
+
 
 	/**
 	 *
@@ -108,6 +117,7 @@ public abstract class WB_Linear {
 		return n;
 	}
 
+
 	/**
 	 *
 	 *
@@ -117,6 +127,7 @@ public abstract class WB_Linear {
 		return -direction.yd();
 	}
 
+
 	/**
 	 *
 	 *
@@ -125,6 +136,7 @@ public abstract class WB_Linear {
 	public double b() {
 		return direction.xd();
 	}
+
 
 	/**
 	 *

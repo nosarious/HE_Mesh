@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.geom;
 
@@ -42,9 +48,10 @@ public class WB_TriGrid {
 	}
 
 	/**
+	 * 
 	 *
-	 *
-	 * @param scale
+	 * @param scale 
+	 * @return 
 	 */
 	public WB_TriGrid setScale(final double scale) {
 		this.scale = scale;
@@ -66,7 +73,8 @@ public class WB_TriGrid {
 	 * http://www.voidinspace.com/2014/07/project-twa-part-1-generating-a-
 	 * hexagonal-tile-and-its-triangular-grid/
 	 *
-	 * @param level
+	 * @param level 
+	 * @return 
 	 */
 	public WB_Mesh getHex(final int level) {
 		final double sin60 = Math.sin(Math.PI / 3);
@@ -130,6 +138,12 @@ public class WB_TriGrid {
 		return gf.createMesh(vertices, indices);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param level 
+	 * @return 
+	 */
 	public List<WB_Polygon> getHexTriangles(final int level) {
 		final double rowDistance = scale;
 		int numv = 1;

@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.geom;
 
@@ -108,7 +114,7 @@ public class WB_Line extends WB_Linear implements WB_Curve {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -463,7 +469,7 @@ public class WB_Line extends WB_Linear implements WB_Curve {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Curve#curvePoint(double)
 	 */
 	@Override
@@ -471,20 +477,26 @@ public class WB_Line extends WB_Linear implements WB_Curve {
 		return this.getPointOnLine(u);
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Curve#curveDirection(double)
+	 */
 	@Override
-	public WB_Vector curveDirection(double u) {
+	public WB_Vector curveDirection(final double u) {
 
 		return new WB_Vector(direction);
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Curve#curveDerivative(double)
+	 */
 	@Override
-	public WB_Vector curveDerivative(double u) {
+	public WB_Vector curveDerivative(final double u) {
 		return new WB_Vector(direction);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Curve#loweru()
 	 */
 	@Override
@@ -494,7 +506,7 @@ public class WB_Line extends WB_Linear implements WB_Curve {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Curve#upperu()
 	 */
 	@Override

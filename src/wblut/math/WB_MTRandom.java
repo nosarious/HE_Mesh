@@ -1,14 +1,4 @@
 /*
- *
- */
-package wblut.math;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
-
-/**
  * Mersenne Twister random number generator.
  *
  * @author NOT Frederik Vanhoutte
@@ -179,6 +169,14 @@ import java.io.Serializable;
  *         POSSIBILITY OF SUCH DAMAGE.
  * @version 13
  */
+package wblut.math;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
+
+
 public class WB_MTRandom implements Serializable, Cloneable {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 3636987267914792302L;
@@ -233,7 +231,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 	 */
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -366,6 +364,9 @@ public class WB_MTRandom implements Serializable, Cloneable {
 		}
 	}
 
+	/**
+	 *
+	 */
 	synchronized public void reset() {
 		setSeed(seed);
 	}

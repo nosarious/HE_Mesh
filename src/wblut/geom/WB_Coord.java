@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.geom;
 
@@ -12,77 +18,77 @@ package wblut.geom;
  *
  */
 public interface WB_Coord {
-    /**
-     * Get x as double.
-     *
-     * @return x
-     */
-    public double xd();
+	/**
+	 * Get x as double.
+	 *
+	 * @return x
+	 */
+	public double xd();
 
-    /**
-     * Get y as double.
-     *
-     * @return y
-     */
-    public double yd();
+	/**
+	 * Get y as double.
+	 *
+	 * @return y
+	 */
+	public double yd();
 
-    /**
-     * Get z as double.
-     *
-     * @return z
-     */
-    public double zd();
+	/**
+	 * Get z as double.
+	 *
+	 * @return z
+	 */
+	public double zd();
 
-    /**
-     * Get w as double.
-     *
-     * @return w
-     */
-    public double wd();
+	/**
+	 * Get w as double.
+	 *
+	 * @return w
+	 */
+	public double wd();
 
-    /**
-     * Get i'th ordinate as double. An implementation of this interface does not
-     * necessarily check the validity of the passed parameter.
-     *
-     * @param i
-     * @return i'th ordinate
-     */
-    public double getd(int i);
+	/**
+	 * Get i'th ordinate as double. An implementation of this interface does not
+	 * necessarily check the validity of the passed parameter.
+	 *
+	 * @param i
+	 * @return i'th ordinate
+	 */
+	public double getd(int i);
 
-    /**
-     * Get x as float.
-     *
-     * @return x
-     */
-    public float xf();
+	/**
+	 * Get x as float.
+	 *
+	 * @return x
+	 */
+	public float xf();
 
-    /**
-     * Get y as float.
-     *
-     * @return y
-     */
-    public float yf();
+	/**
+	 * Get y as float.
+	 *
+	 * @return y
+	 */
+	public float yf();
 
-    /**
-     * Get z as float.
-     *
-     * @return z
-     */
-    public float zf();
+	/**
+	 * Get z as float.
+	 *
+	 * @return z
+	 */
+	public float zf();
 
-    /**
-     * Get w as float.
-     *
-     * @return w
-     */
-    public float wf();
+	/**
+	 * Get w as float.
+	 *
+	 * @return w
+	 */
+	public float wf();
 
-    /**
-     * Get i'th ordinate as float. An implementation of this interface does not
-     * necessarily check the validity of the passed parameter.
-     *
-     * @param i
-     * @return i'th ordinate
-     */
-    public float getf(int i);
+	/**
+	 * Get i'th ordinate as float. An implementation of this interface does not
+	 * necessarily check the validity of the passed parameter.
+	 *
+	 * @param i
+	 * @return i'th ordinate
+	 */
+	public float getf(int i);
 }

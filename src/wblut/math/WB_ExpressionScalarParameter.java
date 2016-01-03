@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.math;
 
@@ -18,6 +24,12 @@ public class WB_ExpressionScalarParameter implements WB_ScalarParameter {
     Expression expression;
     String[] variables;
 
+    /**
+     * 
+     *
+     * @param equation 
+     * @param vars 
+     */
     public WB_ExpressionScalarParameter(final String equation,
 	    final String... vars) {
 	final ExpressionBuilder expressionBuilder = new ExpressionBuilder(
@@ -35,6 +47,9 @@ public class WB_ExpressionScalarParameter implements WB_ScalarParameter {
 	}
     }
 
+    /* (non-Javadoc)
+     * @see wblut.math.WB_ScalarParameter#evaluate(double[])
+     */
     @Override
     public double evaluate(final double... value) {
 	for (int i = 0; i < variables.length; i++) {

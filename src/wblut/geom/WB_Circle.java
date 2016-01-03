@@ -1,38 +1,36 @@
 /*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
  * 
  */
+
 package wblut.geom;
 
 import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
 
-/**
- * 
- */
+
 public class WB_Circle implements WB_Geometry {
 
-	/**
-	 * 
-	 */
+
 	private WB_Point center;
 
-	/**
-	 * 
-	 */
+
 	private WB_Vector normal;
 
-	/**
-	 * 
-	 */
+
 	private double radius;
 
-	/**
-	 * 
-	 */
+
 	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
 
+
 	/**
-	 * Deafult unit circle, center in origin
+	 *
 	 */
 	public WB_Circle() {
 		center = geometryfactory.createPoint();
@@ -40,8 +38,9 @@ public class WB_Circle implements WB_Geometry {
 		radius = 1;
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param center
 	 * @param radius
@@ -52,13 +51,12 @@ public class WB_Circle implements WB_Geometry {
 		normal = geometryfactory.createVector(0, 0, 1);
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param center
-	 *            coordinates of circle center
 	 * @param normal
-	 *            normal vector of plane of circle
 	 * @param radius
 	 */
 	public WB_Circle(final WB_Coord center, final WB_Coord normal, final double radius) {
@@ -67,8 +65,9 @@ public class WB_Circle implements WB_Geometry {
 		this.normal = geometryfactory.createNormalizedVector(normal);
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param x
 	 * @param y
@@ -80,8 +79,9 @@ public class WB_Circle implements WB_Geometry {
 		normal = geometryfactory.createVector(0, 0, 1);
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -89,8 +89,9 @@ public class WB_Circle implements WB_Geometry {
 		return radius;
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -98,8 +99,9 @@ public class WB_Circle implements WB_Geometry {
 		return center;
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -107,9 +109,8 @@ public class WB_Circle implements WB_Geometry {
 		return normal;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -124,18 +125,18 @@ public class WB_Circle implements WB_Geometry {
 				&& normal.equals(((WB_Circle) o).getNormal());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		return 31 * ((31 * center.hashCode()) + hashCode(radius)) + normal.hashCode();
+		return (31 * ((31 * center.hashCode()) + hashCode(radius))) + normal.hashCode();
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param v
 	 * @return
@@ -145,9 +146,8 @@ public class WB_Circle implements WB_Geometry {
 		return (int) (tmp ^ (tmp >>> 32));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+
+	/* (non-Javadoc)
 	 * @see wblut.geom.WB_Geometry#getType()
 	 */
 	@Override
@@ -155,8 +155,9 @@ public class WB_Circle implements WB_Geometry {
 		return WB_GeometryType.CIRCLE;
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param C
 	 * @return
@@ -167,9 +168,8 @@ public class WB_Circle implements WB_Geometry {
 				|| WB_Epsilon.isZero(d - WB_Math.fastAbs(C.getRadius() + radius));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+
+	/* (non-Javadoc)
 	 * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
 	 */
 	@Override
@@ -181,8 +181,9 @@ public class WB_Circle implements WB_Geometry {
 				newradius);
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param T
 	 * @return
@@ -197,8 +198,9 @@ public class WB_Circle implements WB_Geometry {
 		return this;
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param c
 	 */
@@ -209,8 +211,9 @@ public class WB_Circle implements WB_Geometry {
 
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param x
 	 * @param y
@@ -219,8 +222,9 @@ public class WB_Circle implements WB_Geometry {
 		center.set(x, y);
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param x
 	 * @param y
@@ -230,8 +234,9 @@ public class WB_Circle implements WB_Geometry {
 		center.set(x, y, z);
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param c
 	 */
@@ -239,8 +244,9 @@ public class WB_Circle implements WB_Geometry {
 		center.set(c);
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param x
 	 * @param y
@@ -250,8 +256,9 @@ public class WB_Circle implements WB_Geometry {
 		normal.set(x, y, z);
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param c
 	 */
@@ -259,8 +266,9 @@ public class WB_Circle implements WB_Geometry {
 		normal.set(c);
 	}
 
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param radius
 	 */
@@ -268,10 +276,11 @@ public class WB_Circle implements WB_Geometry {
 		this.radius = radius;
 	}
 
+
 	/**
-	 * 
 	 *
-	 * @param radius
+	 *
+	 * @param diameter
 	 */
 	public void setDiameter(final double diameter) {
 		this.radius = diameter * 0.5;

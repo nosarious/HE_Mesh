@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.math;
 
@@ -22,6 +28,14 @@ public class WB_ExpressionVectorParameter implements WB_VectorParameter {
     Expression expressionZ;
     String[] variables;
 
+    /**
+     * 
+     *
+     * @param equationX 
+     * @param equationY 
+     * @param equationZ 
+     * @param vars 
+     */
     public WB_ExpressionVectorParameter(final String equationX,
 	    final String equationY, final String equationZ,
 	    final String... vars) {
@@ -59,6 +73,9 @@ public class WB_ExpressionVectorParameter implements WB_VectorParameter {
 	}
     }
 
+    /* (non-Javadoc)
+     * @see wblut.math.WB_VectorParameter#evaluate(double[])
+     */
     @Override
     public WB_Coord evaluate(final double... value) {
 	for (int i = 0; i < variables.length; i++) {

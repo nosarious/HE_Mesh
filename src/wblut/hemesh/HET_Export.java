@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -30,6 +36,13 @@ public class HET_Export {
 		HET_OBJWriter.saveMesh(mesh, path, name);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param mesh 
+	 * @param path 
+	 * @param name 
+	 */
 	public static void saveToOBJNN(final HE_Mesh mesh, final String path, final String name) {
 		HET_OBJWriter.saveMeshNN(mesh, path, name);
 	}
@@ -67,6 +80,13 @@ public class HET_Export {
 		HET_OBJWriter.saveMesh(mesh, path, name);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param mesh 
+	 * @param path 
+	 * @param name 
+	 */
 	public static void saveToOBJNN(final Collection<? extends HE_Mesh> mesh, final String path, final String name) {
 		HET_OBJWriter.saveMeshNN(mesh, path, name);
 	}
@@ -106,6 +126,13 @@ public class HET_Export {
 		HET_OBJWriter.saveMesh(mesh, path, name);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param mesh 
+	 * @param path 
+	 * @param name 
+	 */
 	public static void saveToOBJNN(final HE_Mesh[] mesh, final String path, final String name) {
 		HET_OBJWriter.saveMeshNN(mesh, path, name);
 	}

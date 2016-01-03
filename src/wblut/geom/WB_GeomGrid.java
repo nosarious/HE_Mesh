@@ -1,6 +1,13 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
+
 package wblut.geom;
 
 import java.util.ArrayList;
@@ -9,43 +16,28 @@ import javolution.util.FastMap;
 import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
 
-/**
- *
- */
+
 public class WB_GeomGrid {
-	/**
-	 *
-	 */
+
 	private final FastMap<Integer, WB_GeomGridCell> cells;
-	/**
-	 *
-	 */
+
 	private final int W, H, WH, D;
-	/**
-	 *
-	 */
+
 	private final double dx, dy, dz, idx, idy, idz;
-	/**
-	 *
-	 */
+
 	private final WB_Point min;
-	/**
-	 *
-	 */
+
 	private final WB_Point max;
-	/**
-	 *
-	 */
+
 	private final WB_AABB aabb;
 
-	/**
-	 * The Class Index.
-	 */
+
 	class Index {
-		/** The k. */
+
 		int i, j, k;
-		/** The inside. */
+
 		boolean inside;
+
 
 		/**
 		 *
@@ -62,6 +54,7 @@ public class WB_GeomGrid {
 			this.inside = inside;
 		}
 
+
 		/**
 		 *
 		 *
@@ -70,6 +63,7 @@ public class WB_GeomGrid {
 		int index() {
 			return i + (j * W) + (k * WH);
 		}
+
 
 		/**
 		 *
@@ -81,15 +75,15 @@ public class WB_GeomGrid {
 			return (i == id.i) && (j == id.j) && (k == id.k);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
+
+		/* (non-Javadoc)
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
 		public String toString() {
 			return ("i " + i + " j " + j + " k " + k + " inside " + inside);
 		}
+
 
 		/**
 		 *
@@ -100,6 +94,7 @@ public class WB_GeomGrid {
 			return new Index(i, j, k, inside);
 		}
 	}
+
 
 	/**
 	 *
@@ -132,6 +127,7 @@ public class WB_GeomGrid {
 		idz = 1.0 / dz;
 	}
 
+
 	/**
 	 *
 	 *
@@ -151,6 +147,7 @@ public class WB_GeomGrid {
 			}
 		}
 	}
+
 
 	/**
 	 *
@@ -172,6 +169,7 @@ public class WB_GeomGrid {
 		}
 	}
 
+
 	/**
 	 *
 	 *
@@ -189,6 +187,7 @@ public class WB_GeomGrid {
 			}
 		}
 	}
+
 
 	/**
 	 *
@@ -210,6 +209,7 @@ public class WB_GeomGrid {
 		}
 	}
 
+
 	/**
 	 *
 	 *
@@ -229,6 +229,7 @@ public class WB_GeomGrid {
 			}
 		}
 	}
+
 
 	/**
 	 *
@@ -250,6 +251,7 @@ public class WB_GeomGrid {
 		}
 	}
 
+
 	/**
 	 *
 	 *
@@ -267,6 +269,7 @@ public class WB_GeomGrid {
 			}
 		}
 	}
+
 
 	/**
 	 *
@@ -288,6 +291,7 @@ public class WB_GeomGrid {
 		}
 	}
 
+
 	/**
 	 *
 	 *
@@ -298,6 +302,7 @@ public class WB_GeomGrid {
 		final Index id = ijk(p);
 		return new WB_Point(id.i, id.j, id.k);
 	}
+
 
 	/**
 	 *
@@ -312,6 +317,7 @@ public class WB_GeomGrid {
 		}
 		return new WB_Point(id.i, id.j, id.k);
 	}
+
 
 	/**
 	 *
@@ -347,6 +353,7 @@ public class WB_GeomGrid {
 		return cell.getPoints();
 	}
 
+
 	/**
 	 *
 	 *
@@ -364,6 +371,7 @@ public class WB_GeomGrid {
 		}
 		return cell.getPoints();
 	}
+
 
 	/**
 	 *
@@ -404,6 +412,7 @@ public class WB_GeomGrid {
 		}
 		return result;
 	}
+
 
 	/**
 	 *
@@ -459,6 +468,7 @@ public class WB_GeomGrid {
 		return result;
 	}
 
+
 	/**
 	 *
 	 *
@@ -470,6 +480,7 @@ public class WB_GeomGrid {
 		return cellList;
 	}
 
+
 	/**
 	 *
 	 *
@@ -478,6 +489,7 @@ public class WB_GeomGrid {
 	public WB_AABB getAABB() {
 		return aabb;
 	}
+
 
 	/**
 	 *
@@ -491,6 +503,7 @@ public class WB_GeomGrid {
 		return i + (j * W) + (k * WH);
 	}
 
+
 	/**
 	 *
 	 *
@@ -500,6 +513,7 @@ public class WB_GeomGrid {
 	private int index(final Index id) {
 		return id.i + (id.j * W) + (id.k * WH);
 	}
+
 
 	/**
 	 *
@@ -531,12 +545,12 @@ public class WB_GeomGrid {
 		return i + (j * W) + (k * WH);
 	}
 
+
 	/**
-	 * Safeijk.
+	 *
 	 *
 	 * @param p
-	 *            the p
-	 * @return the index
+	 * @return
 	 */
 	private Index safeijk(final WB_Coord p) {
 		final int i = (int) ((p.xd() - min.xd()) * idx);
@@ -563,12 +577,12 @@ public class WB_GeomGrid {
 		return new Index(i, j, k, true);
 	}
 
+
 	/**
-	 * Ijk.
+	 *
 	 *
 	 * @param p
-	 *            the p
-	 * @return the index
+	 * @return
 	 */
 	private Index ijk(final WB_Coord p) {
 		final int i = ((p.xd() - min.xd()) < 0) ? (int) ((p.xd() - min.xd()) * idx) - 1
@@ -599,12 +613,12 @@ public class WB_GeomGrid {
 		return new Index(i, j, k, inside);
 	}
 
+
 	/**
-	 * Indices traversed.
+	 *
 	 *
 	 * @param segment
-	 *            the segment
-	 * @return the array list
+	 * @return
 	 */
 	public ArrayList<Index> indicesTraversed(final WB_Segment segment) {
 		final ArrayList<Index> indicesTraversed = new ArrayList<Index>();
@@ -686,14 +700,13 @@ public class WB_GeomGrid {
 		return indicesTraversed;
 	}
 
+
 	/**
-	 * Cells traversed.
+	 *
 	 *
 	 * @param segment
-	 *            the segment
 	 * @param all
-	 *            the all
-	 * @return the array list
+	 * @return
 	 */
 	public ArrayList<WB_GeomGridCell> cellsTraversed(final WB_Segment segment, final boolean all) {
 		final ArrayList<WB_GeomGridCell> result = new ArrayList<WB_GeomGridCell>();
@@ -708,12 +721,12 @@ public class WB_GeomGrid {
 		return result;
 	}
 
+
 	/**
-	 * Gets the new cell for index.
+	 *
 	 *
 	 * @param id
-	 *            the id
-	 * @return the new cell for index
+	 * @return
 	 */
 	private WB_GeomGridCell getNewCellForIndex(final Index id) {
 		return new WB_GeomGridCell(index(id),
@@ -721,16 +734,14 @@ public class WB_GeomGrid {
 				new WB_Point((id.i * dx) + min.xd() + dx, (id.j * dy) + min.yd() + dy, (id.k * dz) + min.zd() + dz));
 	}
 
+
 	/**
-	 * Gets the new cell for index.
+	 *
 	 *
 	 * @param i
-	 *            the i
 	 * @param j
-	 *            the j
 	 * @param k
-	 *            the k
-	 * @return the new cell for index
+	 * @return
 	 */
 	private WB_GeomGridCell getNewCellForIndex(final int i, final int j, final int k) {
 		return new WB_GeomGridCell(index(i, j, k),
@@ -740,28 +751,21 @@ public class WB_GeomGrid {
 
 	public class WB_GeomGridCell {
 
-		/**
-		 * 
-		 */
+
 		protected int index;
 
-		/**
-		 * 
-		 */
+
 		protected WB_AABB aabb;
 
-		/**
-		 * 
-		 */
+
 		protected ArrayList<WB_Point> points;
 
-		/**
-		 * 
-		 */
+
 		protected ArrayList<WB_Segment> segments;
 
+
 		/**
-		 * 
+		 *
 		 *
 		 * @param index
 		 * @param min
@@ -774,8 +778,9 @@ public class WB_GeomGrid {
 			aabb = new WB_AABB(min, max);
 		}
 
+
 		/**
-		 * 
+		 *
 		 *
 		 * @param p
 		 */
@@ -783,8 +788,9 @@ public class WB_GeomGrid {
 			points.add(new WB_Point(p));
 		}
 
+
 		/**
-		 * 
+		 *
 		 *
 		 * @param p
 		 */
@@ -792,8 +798,9 @@ public class WB_GeomGrid {
 			points.remove(p);
 		}
 
+
 		/**
-		 * 
+		 *
 		 *
 		 * @param seg
 		 */
@@ -801,8 +808,9 @@ public class WB_GeomGrid {
 			segments.add(seg);
 		}
 
+
 		/**
-		 * 
+		 *
 		 *
 		 * @param seg
 		 */
@@ -810,8 +818,9 @@ public class WB_GeomGrid {
 			segments.remove(seg);
 		}
 
+
 		/**
-		 * 
+		 *
 		 *
 		 * @return
 		 */
@@ -819,8 +828,9 @@ public class WB_GeomGrid {
 			return points;
 		}
 
+
 		/**
-		 * 
+		 *
 		 *
 		 * @return
 		 */
@@ -828,8 +838,9 @@ public class WB_GeomGrid {
 			return segments;
 		}
 
+
 		/**
-		 * 
+		 *
 		 *
 		 * @return
 		 */
@@ -837,8 +848,9 @@ public class WB_GeomGrid {
 			return index;
 		}
 
+
 		/**
-		 * 
+		 *
 		 *
 		 * @return
 		 */
@@ -846,8 +858,9 @@ public class WB_GeomGrid {
 			return aabb;
 		}
 
+
 		/**
-		 * 
+		 *
 		 *
 		 * @return
 		 */

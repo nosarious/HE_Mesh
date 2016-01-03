@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.geom;
 
@@ -96,11 +102,11 @@ public class WB_Triangulate {
 	}
 
 	/**
+	 * 
 	 *
-	 *
-	 * @param points
-	 * @param precision
-	 * @return
+	 * @param points 
+	 * @param closest 
+	 * @return 
 	 * @deprecated Use {@link #triangulate3D(List<? extends WB_Coord>,double)}
 	 *             instead
 	 */
@@ -110,11 +116,11 @@ public class WB_Triangulate {
 	}
 
 	/**
+	 * 
 	 *
-	 *
-	 * @param points
-	 * @param precision
-	 * @return
+	 * @param points 
+	 * @param closest 
+	 * @return 
 	 */
 	public static WB_Triangulation3D triangulate3D(final Collection<? extends WB_Coord> points, final double closest) {
 		final WB_Triangulation3D result = new WB_Triangulation3D(WB_Delaunay.getTriangulation3D(points, closest).Tri);
@@ -647,11 +653,12 @@ public class WB_Triangulate {
 	}
 
 	/**
+	 * 
 	 *
-	 *
-	 * @param points
-	 * @param context
-	 * @return
+	 * @param points 
+	 * @param tol 
+	 * @param context 
+	 * @return 
 	 */
 	public static WB_Triangulation2DWithPoints triangulateConforming2D(final WB_Coord[] points, double tol,
 			final WB_Map2D context) {
@@ -698,12 +705,13 @@ public class WB_Triangulate {
 	}
 
 	/**
+	 * 
 	 *
-	 *
-	 * @param points
-	 * @param constraints
-	 * @param context
-	 * @return
+	 * @param points 
+	 * @param constraints 
+	 * @param tol 
+	 * @param context 
+	 * @return 
 	 */
 	public static WB_Triangulation2DWithPoints triangulateConforming2D(final WB_Coord[] points, final int[] constraints,
 			double tol, final WB_Map2D context) {
@@ -724,6 +732,12 @@ public class WB_Triangulate {
 		return getConformingTriangles2D(coords, constraints, tol);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 * @return 
+	 */
 	public static WB_Triangulation2DWithPoints triangulateConforming2D(final Collection<? extends WB_Coord> points) {
 		int n = points.size();
 		final int[] constraints = new int[2 * n];
@@ -741,6 +755,13 @@ public class WB_Triangulate {
 		return getConformingTriangles2D(coords, constraints, WB_Epsilon.EPSILON);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 * @param tol 
+	 * @return 
+	 */
 	public static WB_Triangulation2DWithPoints triangulateConforming2D(final Collection<? extends WB_Coord> points,
 			final double tol) {
 		int n = points.size();
@@ -759,6 +780,13 @@ public class WB_Triangulate {
 		return getConformingTriangles2D(coords, constraints, tol);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 * @param constraints 
+	 * @return 
+	 */
 	public static WB_Triangulation2DWithPoints triangulateConforming2D(final Collection<? extends WB_Coord> points,
 			final int[] constraints) {
 		if (constraints == null) {
@@ -778,6 +806,14 @@ public class WB_Triangulate {
 		return getConformingTriangles2D(coords, constraints, WB_Epsilon.EPSILON);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 * @param constraints 
+	 * @param tol 
+	 * @return 
+	 */
 	public static WB_Triangulation2DWithPoints triangulateConforming2D(final Collection<? extends WB_Coord> points,
 			final int[] constraints, final double tol) {
 		if (constraints == null) {
@@ -798,6 +834,13 @@ public class WB_Triangulate {
 		return getConformingTriangles2D(coords, constraints, tol);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 * @param context 
+	 * @return 
+	 */
 	public static WB_Triangulation2DWithPoints triangulateConforming2D(final Collection<? extends WB_Coord> points,
 			final WB_Map2D context) {
 		final int n = points.size();
@@ -818,6 +861,14 @@ public class WB_Triangulate {
 		return getConformingTriangles2D(coords, constraints, WB_Epsilon.EPSILON);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 * @param tol 
+	 * @param context 
+	 * @return 
+	 */
 	public static WB_Triangulation2DWithPoints triangulateConforming2D(final Collection<? extends WB_Coord> points,
 			double tol, final WB_Map2D context) {
 		final int n = points.size();
@@ -838,6 +889,14 @@ public class WB_Triangulate {
 		return getConformingTriangles2D(coords, constraints, tol);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 * @param constraints 
+	 * @param context 
+	 * @return 
+	 */
 	public static WB_Triangulation2DWithPoints triangulateConforming2D(final Collection<? extends WB_Coord> points,
 			final int[] constraints, final WB_Map2D context) {
 		if (constraints == null) {
@@ -859,6 +918,15 @@ public class WB_Triangulate {
 		return getConformingTriangles2D(coords, constraints, WB_Epsilon.EPSILON);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param points 
+	 * @param constraints 
+	 * @param tol 
+	 * @param context 
+	 * @return 
+	 */
 	public static WB_Triangulation2DWithPoints triangulateConforming2D(final Collection<? extends WB_Coord> points,
 			final int[] constraints, double tol, final WB_Map2D context) {
 		if (constraints == null) {
@@ -891,6 +959,13 @@ public class WB_Triangulate {
 
 	}
 
+	/**
+	 * 
+	 *
+	 * @param polygon 
+	 * @param tol 
+	 * @return 
+	 */
 	public static WB_Triangulation2DWithPoints triangulateConforming2D(final WB_Polygon polygon, double tol) {
 		final int n = polygon.getNumberOfPoints();
 		final int[] constraints = new int[2 * n];
@@ -1008,6 +1083,12 @@ public class WB_Triangulate {
 		return new WB_Triangulation2DWithPoints(T, E, Points);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param poly 
+	 * @return 
+	 */
 	public static WB_Triangulation2D triangulateConstrained2D(final WB_Polygon poly) {
 
 		WB_ConstrainedTriangulation conTri = new WB_ConstrainedTriangulation();
@@ -1024,10 +1105,23 @@ public class WB_Triangulate {
 	private static class EdgeFlipper {
 		private final List<Coordinate> shellCoords;
 
+		/**
+		 * 
+		 *
+		 * @param shellCoords 
+		 */
 		EdgeFlipper(final List<Coordinate> shellCoords) {
 			this.shellCoords = Collections.unmodifiableList(shellCoords);
 		}
 
+		/**
+		 * 
+		 *
+		 * @param ear0 
+		 * @param ear1 
+		 * @param sharedVertices 
+		 * @return 
+		 */
 		public boolean flip(final IndexedTriangle ear0, final IndexedTriangle ear1, final int[] sharedVertices) {
 			if ((sharedVertices == null) || (sharedVertices.length != 2)) {
 				return false;
@@ -1077,17 +1171,36 @@ public class WB_Triangulate {
 	private static class IndexedTriangle {
 		private final int[] points;
 
+		/**
+		 * 
+		 *
+		 * @param v0 
+		 * @param v1 
+		 * @param v2 
+		 */
 		public IndexedTriangle(final int v0, final int v1, final int v2) {
 			points = new int[3];
 			setPoints(v0, v1, v2);
 		}
 
+		/**
+		 * 
+		 *
+		 * @param v0 
+		 * @param v1 
+		 * @param v2 
+		 */
 		public void setPoints(final int v0, final int v1, final int v2) {
 			points[0] = v0;
 			points[1] = v1;
 			points[2] = v2;
 		}
 
+		/**
+		 * 
+		 *
+		 * @return 
+		 */
 		public int[] getVertices() {
 			final int[] copy = new int[3];
 			for (int i = 0; i < 3; i++) {
@@ -1096,6 +1209,12 @@ public class WB_Triangulate {
 			return copy;
 		}
 
+		/**
+		 * 
+		 *
+		 * @param other 
+		 * @return 
+		 */
 		public int[] getSharedVertices(final IndexedTriangle other) {
 			int count = 0;
 			final boolean[] shared = new boolean[3];
@@ -1490,6 +1609,12 @@ public class WB_Triangulate {
 		return tris;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param polygon 
+	 * @return 
+	 */
 	protected WB_Polygon makeSimplePolygon(WB_Polygon polygon) {
 		Polygon poly = geometryfactory.toJTSPolygon(polygon);
 		createShell(poly);

@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -77,6 +83,12 @@ public class HEC_FromFacelist extends HEC_Creator {
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param vs 
+	 * @return 
+	 */
 	public HEC_FromFacelist setUVW(final Collection<? extends WB_Coord> vs) {
 		final int n = vs.size();
 		final Iterator<? extends WB_Coord> itr = vs.iterator();
@@ -89,6 +101,12 @@ public class HEC_FromFacelist extends HEC_Creator {
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param vs 
+	 * @return 
+	 */
 	public HEC_FromFacelist setUVW(final WB_Coord[] vs) {
 		final int n = vs.length;
 		uvws = new WB_Coord[n];
@@ -100,6 +118,12 @@ public class HEC_FromFacelist extends HEC_Creator {
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param vs 
+	 * @return 
+	 */
 	public HEC_FromFacelist setUVW(final double[][] vs) {
 		final int n = vs.length;
 		uvws = new WB_Point[n];
@@ -241,6 +265,12 @@ public class HEC_FromFacelist extends HEC_Creator {
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param fts 
+	 * @return 
+	 */
 	public HEC_FromFacelist setFaceTextureIds(final int[] fts) {
 		faceTextureIds = fts;
 		return this;

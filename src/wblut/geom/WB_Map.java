@@ -1,4 +1,10 @@
 /*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
  * 
  */
 package wblut.geom;
@@ -13,24 +19,21 @@ package wblut.geom;
 public interface WB_Map {
 
 	/**
-	 * Map 3D point
+	 * Map 3D point.
 	 *
-	 * @param p
-	 *            3D point
-	 * @param result
-	 *            object implementing the WB_MutableCoordinate interface to
+	 * @param p            3D point
+	 * @param result            object implementing the WB_MutableCoordinate interface to
 	 *            receive the result;
 	 */
 	public void mapPoint3D(WB_Coord p, WB_MutableCoord result);
 
 	/**
-	 * Map 3D point
+	 * Map 3D point.
 	 *
 	 * @param x
 	 * @param y
 	 * @param z
-	 * @param result
-	 *            object implementing the WB_MutableCoordinate interface to
+	 * @param result            object implementing the WB_MutableCoordinate interface to
 	 *            receive the result;
 	 */
 	public void mapPoint3D(double x, double y, double z, WB_MutableCoord result);

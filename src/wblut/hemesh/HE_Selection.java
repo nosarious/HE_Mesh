@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -218,7 +224,7 @@ public class HE_Selection extends HE_MeshStructure {
 	 */
 	public HE_Selection get() {
 		final HE_Selection copy = new HE_Selection(parent);
-		HE_FaceIterator fItr = parent.fItr();
+		HE_FaceIterator fItr = fItr();
 		HE_Face f;
 		while(fItr.hasNext()){
 			f=fItr.next();
@@ -617,10 +623,11 @@ public class HE_Selection extends HE_MeshStructure {
 	}
 
 	/**
+	 * 
 	 *
-	 *
-	 * @param r
-	 * @return
+	 * @param r 
+	 * @param seed 
+	 * @return 
 	 */
 	public HE_Selection selectRandomFaces(final double r, final long seed) {
 		clear();

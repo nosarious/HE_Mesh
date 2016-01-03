@@ -1,4 +1,10 @@
 /*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
  * 
  */
 package wblut.hemesh;
@@ -18,29 +24,28 @@ import com.momchil_atanasov.data.front.parser.OBJMesh;
 import com.momchil_atanasov.data.front.parser.OBJModel;
 import com.momchil_atanasov.data.front.parser.OBJObject;
 import com.momchil_atanasov.data.front.parser.OBJParser;
-import com.momchil_atanasov.data.front.parser.OBJTexCoord;
 import com.momchil_atanasov.data.front.parser.OBJVertex;
 
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_Point;
 
 /**
- * 
+ *
  */
 public class HEMC_FromOBJFile extends HEMC_MultiCreator {
 
 	/**
-	 * 
+	 *
 	 */
 	private String path;
 
 	/**
-	 * 
+	 *
 	 */
 	private double scale;
 
 	/**
-	 * 
+	 *
 	 */
 	public HEMC_FromOBJFile() {
 		super();
@@ -50,7 +55,7 @@ public class HEMC_FromOBJFile extends HEMC_MultiCreator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param path
 	 */
@@ -62,7 +67,7 @@ public class HEMC_FromOBJFile extends HEMC_MultiCreator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param path
 	 * @return
@@ -72,11 +77,20 @@ public class HEMC_FromOBJFile extends HEMC_MultiCreator {
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param f 
+	 * @return 
+	 */
 	public HEMC_FromOBJFile setScale(final double f) {
 		scale = f;
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.hemesh.HEMC_MultiCreator#create()
+	 */
 	@Override
 	public HE_MeshCollection create() {
 		final HE_MeshCollection result = new HE_MeshCollection();
@@ -99,7 +113,7 @@ public class HEMC_FromOBJFile extends HEMC_MultiCreator {
 					model.getObjects().size()));
 
 			List<OBJVertex> vertices = model.getVertices();
-			List<OBJTexCoord> texcoords = model.getTexCoords();
+			//List<OBJTexCoord> texcoords = model.getTexCoords();
 			WB_Coord[] newVertices = new WB_Coord[vertices.size()];
 			int i = 0;
 			for (OBJVertex v : vertices) {
@@ -146,7 +160,7 @@ public class HEMC_FromOBJFile extends HEMC_MultiCreator {
 
 	// Code excerpts form processing.core
 	/**
-	 * 
+	 *
 	 *
 	 * @param file
 	 * @return

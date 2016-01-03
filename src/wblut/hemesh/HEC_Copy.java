@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -65,6 +71,7 @@ public class HEC_Copy extends HEC_Creator {
 			return result;
 		}
 		result.copyProperties(source);
+
 		if (source instanceof HE_Mesh) {
 			final HE_Mesh mesh = (HE_Mesh) source;
 			final TLongLongMap vertexCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
@@ -103,11 +110,12 @@ public class HEC_Copy extends HEC_Creator {
 			HE_Halfedge he;
 			counter = new WB_ProgressCounter(mesh.getNumberOfHalfedges(), 10);
 			tracker.setStatus(this, "Creating halfedges.", counter);
+			HE_RAS<HE_Halfedge> copyHalfedges=new HE_RASTrove<HE_Halfedge>();
 			final Iterator<HE_Halfedge> heItr = mesh.heItr();
 			while (heItr.hasNext()) {
 				he = heItr.next();
 				rhe = new HE_Halfedge();
-				result.add(rhe);
+				copyHalfedges.add(rhe);
 				rhe.copyProperties(he);
 				halfedgeCorrelation.put(he.key(), rhe.key());
 				counter.increment();
@@ -128,7 +136,7 @@ public class HEC_Copy extends HEC_Creator {
 				if (sv.getHalfedge() != null) {
 					key = halfedgeCorrelation.get(sv.getHalfedge().key());
 					if (key >= 0) {
-						result.setHalfedge(tv,result.getHalfedgeWithKey(key));
+						result.setHalfedge(tv,copyHalfedges.getWithKey(key));
 					}
 				}
 				counter.increment();
@@ -147,7 +155,7 @@ public class HEC_Copy extends HEC_Creator {
 				if (sf.getHalfedge() != null) {
 					key = halfedgeCorrelation.get(sf.getHalfedge().key());
 					if (key >= 0) {
-						result.setHalfedge(tf,result.getHalfedgeWithKey(key));
+						result.setHalfedge(tf,copyHalfedges.getWithKey(key));
 					}
 				}
 				counter.increment();
@@ -159,20 +167,22 @@ public class HEC_Copy extends HEC_Creator {
 			HE_Halfedge she;
 			HE_Halfedge the;
 			final Iterator<HE_Halfedge> sheItr = mesh.heItr();
+			final Iterator<HE_Halfedge> theItr = copyHalfedges.iterator();
 			while (sheItr.hasNext()) {
 				she = sheItr.next();
-				key = halfedgeCorrelation.get(she.key());
-				the = result.getHalfedgeWithKey(key);
+				the = theItr.next();
 				if (she.getPair() != null) {
 					key = halfedgeCorrelation.get(she.getPair().key());
 					if (key >= 0) {
-						result.setPair(the,result.getHalfedgeWithKey(key));
+						the._setPair(copyHalfedges.getWithKey(key));
+						the.getPair()._setPair(the);
 					}
 				}
 				if (she.getNextInFace() != null) {
 					key = halfedgeCorrelation.get(she.getNextInFace().key());
 					if (key >= 0) {
-						result.setNext(the,result.getHalfedgeWithKey(key));
+						the._setNext(copyHalfedges.getWithKey(key));
+						the.getNextInFace()._setPrev(the);
 					}
 				}
 				if (she.getVertex() != null) {
@@ -187,13 +197,16 @@ public class HEC_Copy extends HEC_Creator {
 						result.setFace(the,result.getFaceWithKey(key));
 					}
 				}
+				result.add(the);
 				counter.increment();
 			}
 
 			tracker.setStatus(this, "Exiting HEC_Copy.", -1);
 		} else if (source instanceof HE_Selection) {
 			final HE_Selection sel = ((HE_Selection) source).get();
+
 			sel.completeFromFaces();
+
 			final TLongLongMap vertexCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
 			final TLongLongMap faceCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
 			final TLongLongMap halfedgeCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
@@ -226,12 +239,13 @@ public class HEC_Copy extends HEC_Creator {
 			HE_Halfedge rhe;
 			HE_Halfedge he;
 			counter = new WB_ProgressCounter(sel.getNumberOfHalfedges(), 10);
+			HE_RAS<HE_Halfedge> copyHalfedges=new HE_RASTrove<HE_Halfedge>();
 			tracker.setStatus(this, "Creating halfedges.", counter);
 			final Iterator<HE_Halfedge> heItr = sel.heItr();
 			while (heItr.hasNext()) {
 				he = heItr.next();
 				rhe = new HE_Halfedge();
-				result.add(rhe);
+				copyHalfedges.add(rhe);
 				rhe.copyProperties(he);
 				halfedgeCorrelation.put(he.key(), rhe.key());
 				counter.increment();
@@ -250,7 +264,7 @@ public class HEC_Copy extends HEC_Creator {
 				if (sv.getHalfedge() != null) {
 					key = halfedgeCorrelation.get(sv.getHalfedge().key());
 					if (key >= 0) {
-						result.setHalfedge(tv,result.getHalfedgeWithKey(key));
+						result.setHalfedge(tv,copyHalfedges.getWithKey(key));
 					}
 				}
 				counter.increment();
@@ -267,7 +281,7 @@ public class HEC_Copy extends HEC_Creator {
 				if (sf.getHalfedge() != null) {
 					key = halfedgeCorrelation.get(sf.getHalfedge().key());
 					if (key >= 0) {
-						result.setHalfedge(tf,result.getHalfedgeWithKey(key));
+						result.setHalfedge(tf,copyHalfedges.getWithKey(key));
 					}
 				}
 				counter.increment();
@@ -277,22 +291,22 @@ public class HEC_Copy extends HEC_Creator {
 			HE_Halfedge she;
 			HE_Halfedge the;
 			final Iterator<HE_Halfedge> sheItr = sel.heItr();
-
+			final Iterator<HE_Halfedge> theItr = copyHalfedges.iterator();
 			while (sheItr.hasNext()) {
-
 				she = sheItr.next();
-				key = halfedgeCorrelation.get(she.key());
-				the = result.getHalfedgeWithKey(key);
+				the = theItr.next();
 				if (she.getPair() != null) {
 					key = halfedgeCorrelation.get(she.getPair().key());
 					if (key >= 0) {
-						result.setPair(the,result.getHalfedgeWithKey(key));
+						the._setPair(copyHalfedges.getWithKey(key));
+						the.getPair()._setPair(the);
 					}
 				}
 				if (she.getNextInFace() != null) {
 					key = halfedgeCorrelation.get(she.getNextInFace().key());
 					if (key >= 0) {
-						result.setNext(the,result.getHalfedgeWithKey(key));
+						the._setNext(copyHalfedges.getWithKey(key));
+						the.getNextInFace()._setPrev(the);
 					}
 				}
 				if (she.getVertex() != null) {
@@ -307,6 +321,7 @@ public class HEC_Copy extends HEC_Creator {
 						result.setFace(the,result.getFaceWithKey(key));
 					}
 				}
+				result.add(the);
 				counter.increment();
 			}
 			result.capHalfedges();

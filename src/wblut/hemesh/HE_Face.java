@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -54,22 +60,47 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 		facecolor = -1;
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public HE_FaceEdgeCirculator feCrc() {
 		return new HE_FaceEdgeCirculator(this);
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public HE_FaceFaceCirculator ffCrc() {
 		return new HE_FaceFaceCirculator(this);
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public HE_FaceVertexCirculator fvCrc() {
 		return new HE_FaceVertexCirculator(this);
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public HE_FaceHalfedgeInnerCirculator fheiCrc() {
 		return new HE_FaceHalfedgeInnerCirculator(this);
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public HE_FaceHalfedgeOuterCirculator fheoCrc() {
 		return new HE_FaceHalfedgeOuterCirculator(this);
 	}
@@ -268,6 +299,11 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 		return fv;
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public List<HE_TextureCoordinate> getFaceUVWs() {
 		final List<HE_TextureCoordinate> fv = new FastTable<HE_TextureCoordinate>();
 		if (_halfedge == null) {
@@ -381,6 +417,12 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 		return _halfedge;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param v 
+	 * @return 
+	 */
 	public HE_Halfedge getHalfedge(final HE_Vertex v) {
 		HE_Halfedge he = _halfedge;
 		if (he == null) {
@@ -686,6 +728,11 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 		facecolor = color;
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public boolean isPlanar() {
 		final WB_Plane P = getPlane();
 		HE_Halfedge he = getHalfedge();
@@ -778,10 +825,20 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 		}
 	}
 
+	/**
+	 * 
+	 *
+	 * @return 
+	 */
 	public int getTextureId() {
 		return textureId;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param i 
+	 */
 	public void setTextureId(final int i) {
 		textureId = i;
 	}

@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.geom;
 
@@ -301,6 +307,9 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Map2D#unmapPoint2D(wblut.geom.WB_Coord, wblut.geom.WB_MutableCoord)
+	 */
 	@Override
 	public void unmapPoint2D(final WB_Coord p, final WB_MutableCoord result) {
 		switch (mode) {
@@ -487,6 +496,9 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Map2D#unmapVector2D(wblut.geom.WB_Coord, wblut.geom.WB_MutableCoord)
+	 */
 	@Override
 	public void unmapVector2D(final WB_Coord v, final WB_MutableCoord result) {
 		switch (mode) {

@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -65,6 +71,12 @@ public abstract class HEC_Creator extends HE_Machine {
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param s 
+	 * @return 
+	 */
 	public HEC_Creator setScale(final double s) {
 		scale = s;
 		return this;
@@ -187,11 +199,23 @@ public abstract class HEC_Creator extends HE_Machine {
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param b 
+	 * @return 
+	 */
 	public HEC_Creator setManifoldCheck(final boolean b) {
 		manifoldCheck = b;
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param b 
+	 * @return 
+	 */
 	public HEC_Creator setOverride(final boolean b) {
 		override = b;
 		return this;

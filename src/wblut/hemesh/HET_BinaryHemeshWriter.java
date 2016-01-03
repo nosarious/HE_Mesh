@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -96,6 +102,12 @@ public class HET_BinaryHemeshWriter {
 	}
 
 
+	/**
+	 * 
+	 *
+	 * @param v 
+	 * @param heid 
+	 */
 	public void vertex(final HE_Vertex v, final int heid) {
 		try {
 			hemeshWriter.writeDouble(v.xd());
@@ -118,6 +130,15 @@ public class HET_BinaryHemeshWriter {
 		}
 	}
 
+	/**
+	 * 
+	 *
+	 * @param he 
+	 * @param vid 
+	 * @param henextid 
+	 * @param hepairid 
+	 * @param faceid 
+	 */
 	public void halfedge(final HE_Halfedge he,final int vid, final int henextid, final int hepairid,
 			final int faceid) {
 		try {
@@ -142,6 +163,12 @@ public class HET_BinaryHemeshWriter {
 
 
 
+	/**
+	 * 
+	 *
+	 * @param f 
+	 * @param heid 
+	 */
 	public void face(final HE_Face f,final int heid) {
 		try {
 			hemeshWriter.writeInt(heid);

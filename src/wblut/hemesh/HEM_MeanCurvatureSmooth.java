@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -34,6 +40,9 @@ public class HEM_MeanCurvatureSmooth extends HEM_Modifier {
 	 */
 	private int iter;
 
+	/**
+	 * 
+	 */
 	public HEM_MeanCurvatureSmooth(){
 		lambda=0.5;
 		iter=1;
@@ -78,6 +87,12 @@ public class HEM_MeanCurvatureSmooth extends HEM_Modifier {
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param lambda 
+	 * @return 
+	 */
 	public HEM_MeanCurvatureSmooth setLambda(final double lambda){
 		this.lambda=lambda;
 		return this;

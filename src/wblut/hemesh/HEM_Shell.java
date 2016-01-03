@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -77,8 +83,7 @@ public class HEM_Shell extends HEM_Modifier {
 			he2 = mesh.getHalfedgeWithKey(pairs.getValue());
 			heio = new HE_Halfedge();
 			heoi = new HE_Halfedge();
-			mesh.add(heio);
-			mesh.add(heoi);
+
 			mesh.setVertex(heio,he1.getPair().getVertex());
 			mesh.setVertex(heoi,he2.getPair().getVertex());
 			mesh.setNext(he1,heio);
@@ -92,6 +97,8 @@ public class HEM_Shell extends HEM_Modifier {
 			mesh.setFace(he2,fNew);
 			mesh.setFace(heio,fNew);
 			mesh.setFace(heoi,fNew);
+			mesh.add(heio);
+			mesh.add(heoi);
 		}
 		mesh.pairHalfedges();
 		if (d < 0) {

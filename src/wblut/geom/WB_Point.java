@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.geom;
 
@@ -140,6 +146,9 @@ public class WB_Point extends WB_Vector {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Vector#addSelf(double, double, double)
+	 */
 	@Override
 	public WB_Point addSelf(final double x, final double y, final double z) {
 		set(xd() + x, yd() + y, zd() + z);
@@ -354,6 +363,14 @@ public class WB_Point extends WB_Vector {
 		return new WB_Point(this.xd() + (f * x[0]), this.yd() + (f * x[1]), this.zd() + (f * x[2]));
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param f 
+	 * @param q 
+	 * @return 
+	 */
 	public static WB_Point addMul(final WB_Coord p, final double f, final WB_Coord q) {
 		return new WB_Point(p.xd() + (f * q.xd()), p.yd() + (f * q.yd()), p.zd() + (f * q.zd()));
 	}
@@ -536,6 +553,13 @@ public class WB_Point extends WB_Vector {
 		return new WB_Point(this.xd() - p.xd(), this.yd() - p.yd(), this.zd() - p.zd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 * @return 
+	 */
 	public static WB_Point sub(final WB_Coord p, final WB_Coord q) {
 		return new WB_Point(p.xd() - q.xd(), p.yd() - q.yd(), p.zd() - q.zd());
 	}
@@ -746,61 +770,154 @@ public class WB_Point extends WB_Vector {
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 * @return 
+	 */
 	public static double absDot(final WB_Coord p, final WB_Coord q) {
 		return WB_Math.fastAbs(WB_GeometryOp.dot(p.xd(), p.yd(), p.zd(), q.xd(), q.yd(), q.zd()));
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 * @return 
+	 */
 	public static double absDot2D(final WB_Coord p, final WB_Coord q) {
 		return WB_Math.fastAbs(WB_GeometryOp.dot2D(p.xd(), p.yd(), q.xd(), q.yd()));
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 * @return 
+	 */
 	public static WB_Point add(final WB_Coord p, final WB_Coord q) {
 		return new WB_Point(q.xd() + p.xd(), q.yd() + p.yd(), q.zd() + p.zd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 * @return 
+	 */
 	public static WB_Point cross(final WB_Coord p, final WB_Coord q) {
 		return new WB_Point((p.yd() * q.zd()) - (p.zd() * q.yd()), (p.zd() * q.xd()) - (p.xd() * q.zd()),
 				(p.xd() * q.yd()) - (p.yd() * q.xd()));
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param f 
+	 * @return 
+	 */
 	public static WB_Point div(final WB_Coord p, final double f) {
 		return WB_Point.mul(p, 1.0 / f);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 * @return 
+	 */
 	public static double dot(final WB_Coord p, final WB_Coord q) {
 		return WB_GeometryOp.dot(p.xd(), p.yd(), p.zd(), q.xd(), q.yd(), q.zd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 * @return 
+	 */
 	public static double dot2D(final WB_Coord p, final WB_Coord q) {
 		return WB_GeometryOp.dot2D(p.xd(), p.yd(), q.xd(), q.yd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param q 
+	 * @param p 
+	 * @return 
+	 */
 	public static double getDistance2D(final WB_Coord q, final WB_Coord p) {
 		return WB_GeometryOp.getDistance2D(q.xd(), q.yd(), p.xd(), p.yd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param q 
+	 * @param p 
+	 * @return 
+	 */
 	public static double getDistance3D(final WB_Coord q, final WB_Coord p) {
 		return WB_GeometryOp.getDistance3D(q.xd(), q.yd(), q.zd(), p.xd(), p.yd(), p.zd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @return 
+	 */
 	public static double getHeading2D(final WB_Coord p) {
 		return Math.atan2(p.yd(), p.xd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @return 
+	 */
 	public static double getLength2D(final WB_Coord p) {
 		return WB_GeometryOp.getLength2D(p.xd(), p.yd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @return 
+	 */
 	public static double getLength3D(final WB_Coord p) {
 		return WB_GeometryOp.getLength3D(p.xd(), p.yd(), p.zd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @return 
+	 */
 	public static WB_Point getOrthoNormal2D(final WB_Coord p) {
 		final WB_Point a = new WB_Point(-p.yd(), p.xd(), 0);
 		a.normalizeSelf();
 		return a;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @return 
+	 */
 	public static WB_Point getOrthoNormal3D(final WB_Coord p) {
 		if (Math.abs(p.zd()) > WB_Epsilon.EPSILON) {
 			final WB_Point a = new WB_Point(1, 0, -p.xd() / p.zd());
@@ -811,22 +928,56 @@ public class WB_Point extends WB_Vector {
 		}
 	}
 
+	/**
+	 * 
+	 *
+	 * @param q 
+	 * @param p 
+	 * @return 
+	 */
 	public static double getSqDistance2D(final WB_Coord q, final WB_Coord p) {
 		return WB_GeometryOp.getSqDistance2D(q.xd(), q.yd(), p.xd(), p.yd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param q 
+	 * @param p 
+	 * @return 
+	 */
 	public static double getSqDistance3D(final WB_Coord q, final WB_Coord p) {
 		return WB_GeometryOp.getSqDistance3D(q.xd(), q.yd(), q.zd(), p.xd(), p.yd(), p.zd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param v 
+	 * @return 
+	 */
 	public static double getSqLength2D(final WB_Coord v) {
 		return WB_GeometryOp.getSqLength2D(v.xd(), v.yd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param v 
+	 * @return 
+	 */
 	public static double getSqLength3D(final WB_Coord v) {
 		return WB_GeometryOp.getSqLength3D(v.xd(), v.yd(), v.zd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param o 
+	 * @param p 
+	 * @param q 
+	 * @return 
+	 */
 	public static boolean isCollinear(final WB_Coord o, final WB_Coord p, final WB_Coord q) {
 		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(p, q))) {
 			return true;
@@ -840,42 +991,110 @@ public class WB_Point extends WB_Vector {
 		return WB_Epsilon.isZeroSq(cross(sub(o, p), sub(o, q)).getSqLength3D());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 * @return 
+	 */
 	public static boolean isParallel(final WB_Coord p, final WB_Coord q) {
 		final double pm2 = (p.xd() * p.xd()) + (p.yd() * p.yd()) + (p.zd() * p.zd());
 		final double qm2 = (q.xd() * q.xd()) + (q.yd() * q.yd()) + (q.zd() * q.zd());
 		return ((cross(p, q).getSqLength3D() / (pm2 * qm2)) < WB_Epsilon.SQEPSILON);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 * @param t 
+	 * @return 
+	 */
 	public static boolean isParallel(final WB_Coord p, final WB_Coord q, final double t) {
 		final double pm2 = (p.xd() * p.xd()) + (p.yd() * p.yd()) + (p.zd() * p.zd());
 		final double qm2 = (q.xd() * q.xd()) + (q.yd() * q.yd()) + (q.zd() * q.zd());
 		return ((cross(p, q).getSqLength3D() / (pm2 * qm2)) < (t + WB_Epsilon.SQEPSILON));
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 * @return 
+	 */
 	public static boolean isParallelNorm(final WB_Coord p, final WB_Coord q) {
 		return (cross(p, q).getLength3D() < WB_Epsilon.EPSILON);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 * @param t 
+	 * @return 
+	 */
 	public static boolean isParallelNorm(final WB_Coord p, final WB_Coord q, final double t) {
 		return (cross(p, q).getLength3D() < (t + WB_Epsilon.EPSILON));
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param f 
+	 * @return 
+	 */
 	public static WB_Point mul(final WB_Coord p, final double f) {
 		return new WB_Point(p.xd() * f, p.yd() * f, p.zd() * f);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param f 
+	 * @param p 
+	 * @param g 
+	 * @param q 
+	 * @return 
+	 */
 	public static WB_Point mulAddMul(final double f, final WB_Coord p, final double g, final WB_Coord q) {
 		return new WB_Point((f * p.xd()) + (g * q.xd()), (f * p.yd()) + (g * q.yd()), (f * p.zd()) + (g * q.zd()));
 	}
 
+	/**
+	 * 
+	 *
+	 * @param u 
+	 * @param v 
+	 * @param w 
+	 * @return 
+	 */
 	public static double scalarTriple(final WB_Coord u, final WB_Coord v, final WB_Coord w) {
 		return WB_GeometryOp.scalarTriple(u.xd(), u.yd(), u.zd(), v.xd(), v.yd(), v.zd(), w.xd(), w.yd(), w.zd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 * @return 
+	 */
 	public static WB_Vector subToVector2D(final WB_Coord p, final WB_Coord q) {
 		return new WB_Vector(p.xd() - q.xd(), p.yd() - q.yd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p 
+	 * @param q 
+	 * @return 
+	 */
 	public static WB_Vector subToVector3D(final WB_Coord p, final WB_Coord q) {
 		return new WB_Vector(p.xd() - q.xd(), p.yd() - q.yd(), p.zd() - q.zd());
 	}

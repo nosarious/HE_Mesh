@@ -1,3 +1,12 @@
+/*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
+ */
 package wblut.geom;
 
 import java.security.InvalidParameterException;
@@ -14,6 +23,14 @@ public class WB_ExpressionCurve implements WB_Curve {
 	double lowerU, upperU;
 	double h;
 
+	/**
+	 *
+	 *
+	 * @param equationX
+	 * @param equationY
+	 * @param equationZ
+	 * @param var
+	 */
 	public WB_ExpressionCurve(final String equationX, final String equationY, final String equationZ,
 			final String var) {
 		ExpressionBuilder expressionBuilder = new ExpressionBuilder(equationX);
@@ -44,6 +61,13 @@ public class WB_ExpressionCurve implements WB_Curve {
 		h = 0.00001;
 	}
 
+	/**
+	 *
+	 *
+	 * @param equationX
+	 * @param equationY
+	 * @param var
+	 */
 	public WB_ExpressionCurve(final String equationX, final String equationY, final String var) {
 		ExpressionBuilder expressionBuilder = new ExpressionBuilder(equationX);
 		variable = var;
@@ -67,6 +91,16 @@ public class WB_ExpressionCurve implements WB_Curve {
 		h = 0.00001;
 	}
 
+	/**
+	 *
+	 *
+	 * @param equationX
+	 * @param equationY
+	 * @param equationZ
+	 * @param var
+	 * @param minU
+	 * @param maxU
+	 */
 	public WB_ExpressionCurve(final String equationX, final String equationY, final String equationZ, final String var,
 			final double minU, final double maxU) {
 		ExpressionBuilder expressionBuilder = new ExpressionBuilder(equationX);
@@ -97,6 +131,15 @@ public class WB_ExpressionCurve implements WB_Curve {
 		h = 0.00001;
 	}
 
+	/**
+	 *
+	 *
+	 * @param equationX
+	 * @param equationY
+	 * @param var
+	 * @param minU
+	 * @param maxU
+	 */
 	public WB_ExpressionCurve(final String equationX, final String equationY, final String var, final double minU,
 			final double maxU) {
 		ExpressionBuilder expressionBuilder = new ExpressionBuilder(equationX);
@@ -121,6 +164,12 @@ public class WB_ExpressionCurve implements WB_Curve {
 		h = 0.00001;
 	}
 
+	/**
+	 *
+	 *
+	 * @param value
+	 * @return
+	 */
 	private WB_Point evaluate2D(final double value) {
 		expressionX.setVariable(variable, value);
 		expressionY.setVariable(variable, value);
@@ -134,6 +183,12 @@ public class WB_ExpressionCurve implements WB_Curve {
 		return new WB_Point(x, y, 0);
 	}
 
+	/**
+	 *
+	 *
+	 * @param value
+	 * @return
+	 */
 	private WB_Point evaluate3D(final double value) {
 		expressionX.setVariable(variable, value);
 		expressionY.setVariable(variable, value);
@@ -149,9 +204,12 @@ public class WB_ExpressionCurve implements WB_Curve {
 		return new WB_Point(x, y, z);
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Curve#curvePoint(double)
+	 */
 	@Override
 	public WB_Point curvePoint(final double u) {
-		if (u < lowerU || u > upperU) {
+		if ((u < lowerU) || (u > upperU)) {
 			return null;
 		}
 		if (is3D) {
@@ -160,39 +218,41 @@ public class WB_ExpressionCurve implements WB_Curve {
 		return evaluate2D(u);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_Curve#loweru()
+
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Curve#getLowerU()
 	 */
 	@Override
 	public double getLowerU() {
 		return lowerU;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_Curve#upperu()
+
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Curve#getUpperU()
 	 */
 	@Override
 	public double getUpperU() {
 		return upperU;
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Curve#curveDirection(double)
+	 */
 	@Override
 	public WB_Vector curveDirection(double u) {
 
-		if (u < lowerU || u > upperU) {
+		if ((u < lowerU) || (u > upperU)) {
 			return null;
 		}
-		if (u > upperU - h)
+		if (u > (upperU - h)) {
 			u = upperU - h;
+		}
 		WB_Vector v;
-		if (u > upperU - h) {
+		if (u > (upperU - h)) {
 			v = new WB_Vector(curvePoint(u - h), curvePoint(u));
 			v.normalizeSelf();
-		} else if (u < lowerU + h) {
+		} else if (u < (lowerU + h)) {
 			v = new WB_Vector(curvePoint(u), curvePoint(u + h));
 			v.normalizeSelf();
 		} else {
@@ -202,17 +262,20 @@ public class WB_ExpressionCurve implements WB_Curve {
 		return v;
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Curve#curveDerivative(double)
+	 */
 	@Override
-	public WB_Vector curveDerivative(double u) {
+	public WB_Vector curveDerivative(final double u) {
 
-		if (u < lowerU || u > upperU) {
+		if ((u < lowerU) || (u > upperU)) {
 			return null;
 		}
 		WB_Vector v;
-		if (u > upperU - h) {
+		if (u > (upperU - h)) {
 			v = new WB_Vector(curvePoint(u - h), curvePoint(u));
 			v.div(h);
-		} else if (u < lowerU + h) {
+		} else if (u < (lowerU + h)) {
 			v = new WB_Vector(curvePoint(u), curvePoint(u + h));
 			v.div(h);
 		} else {

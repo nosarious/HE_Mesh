@@ -1,3 +1,12 @@
+/*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
+ */
 package wblut.geom;
 
 import java.util.List;
@@ -8,6 +17,12 @@ import wblut.math.WB_Epsilon;
 class WB_PolygonDecomposer {
 	static WB_GeometryFactory gf = WB_GeometryFactory.instance();
 
+	/**
+	 * 
+	 *
+	 * @param poly 
+	 * @return 
+	 */
 	public static List<WB_Polygon> convexDecomposePolygon(WB_Polygon poly) {
 		if(!poly.isSimple()) {
 			poly=gf.createSimplePolygon(poly);
@@ -25,6 +40,12 @@ class WB_PolygonDecomposer {
 		return polys;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param polygon 
+	 * @param polygons 
+	 */
 	private static void decomposePolygon(final List<WB_Point> polygon, final List<WB_Polygon> polygons) {
 		int size = polygon.size();
 		WB_Point upperIntersection = new WB_Point();
@@ -143,26 +164,76 @@ class WB_PolygonDecomposer {
 		polygons.add(gf.createSimplePolygon(polygon));
 	}
 
+	/**
+	 * 
+	 *
+	 * @param p0 
+	 * @param p 
+	 * @param p1 
+	 * @return 
+	 */
 	private static boolean isReflex(final WB_Point p0, final WB_Point p, final WB_Point p1) {
 		return right(p1, p0, p);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param a 
+	 * @param b 
+	 * @param p 
+	 * @return 
+	 */
 	private static boolean left(final WB_Point a, final WB_Point b, final WB_Point p) {
 		return getRelativeOrientation(p, a, b) > 0;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param a 
+	 * @param b 
+	 * @param p 
+	 * @return 
+	 */
 	private static boolean leftOn(final WB_Point a, final WB_Point b, final WB_Point p) {
 		return getRelativeOrientation(p, a, b) >= 0;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param a 
+	 * @param b 
+	 * @param p 
+	 * @return 
+	 */
 	private static boolean right(final WB_Point a, final WB_Point b, final WB_Point p) {
 		return getRelativeOrientation(p, a, b) < 0;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param a 
+	 * @param b 
+	 * @param p 
+	 * @return 
+	 */
 	private static boolean rightOn(final WB_Point a, final WB_Point b, final WB_Point p) {
 		return getRelativeOrientation(p, a, b) <= 0;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param a1 
+	 * @param a2 
+	 * @param b1 
+	 * @param b2 
+	 * @param p 
+	 * @return 
+	 */
 	private static boolean getIntersection(final WB_Point a1, final WB_Point a2, final WB_Point b1, final WB_Point b2, final WB_Point p) {
 		WB_Point s1 = a1.sub(a2);
 		WB_Point s2 = b1.sub(b2);
@@ -177,6 +248,14 @@ class WB_PolygonDecomposer {
 		}
 	}
 
+	/**
+	 * 
+	 *
+	 * @param polygon 
+	 * @param i 
+	 * @param j 
+	 * @return 
+	 */
 	private static boolean isVisible(final List<WB_Point> polygon, final int i, final int j) {
 		int s = polygon.size();
 		WB_Point iv0, iv, iv1;
@@ -224,15 +303,39 @@ class WB_PolygonDecomposer {
 		return true;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param point 
+	 * @param linePoint1 
+	 * @param linePoint2 
+	 * @return 
+	 */
 	private static double getRelativeOrientation(final WB_Coord point, final WB_Coord linePoint1, final WB_Coord linePoint2) {
 		return ((linePoint2.xd() - linePoint1.xd()) * (point.yd() - linePoint1.yd()))
 				- ((point.xd() - linePoint1.xd()) * (linePoint2.yd() - linePoint1.yd()));
 	}
 
+	/**
+	 * 
+	 *
+	 * @param v1 
+	 * @param v2 
+	 * @return 
+	 */
 	private static double cross2D(final WB_Coord v1, final WB_Coord v2) {
 		return (v1.xd() * v2.yd()) - (v1.yd() * v2.xd());
 	}
 
+	/**
+	 * 
+	 *
+	 * @param ap1 
+	 * @param ap2 
+	 * @param bp1 
+	 * @param bp2 
+	 * @return 
+	 */
 	private static WB_Point getSegmentIntersection(final WB_Coord ap1, final WB_Coord ap2, final WB_Coord bp1, final WB_Coord bp2) {
 		WB_Coord A = WB_Point.sub(ap2, ap1);
 		WB_Coord B = WB_Point.sub(bp2, bp1);

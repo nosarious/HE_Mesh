@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -59,16 +65,34 @@ public class HEC_Dual extends HEC_Creator {
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param b 
+	 * @return 
+	 */
 	public HEC_Dual resetCenter(final boolean b) {
 		setCenter = b;
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param b 
+	 * @return 
+	 */
 	public HEC_Dual setKeepBoundary(final boolean b) {
 		keepBoundary = b;
 		return this;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param b 
+	 * @return 
+	 */
 	public HEC_Dual setFixNonPlanarFaces(final boolean b) {
 		fixNonPlanarFaces = b;
 		return this;

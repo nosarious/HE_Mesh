@@ -1,21 +1,16 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
-import java.util.List;
-
-import javolution.util.FastTable;
-import wblut.geom.WB_AABB;
-import wblut.geom.WB_AABBTree;
-import wblut.geom.WB_AABBTree.WB_AABBNode;
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_GeometryOp;
-import wblut.geom.WB_IntersectionResult;
-import wblut.geom.WB_Segment;
-import wblut.geom.WB_Triangle;
 import wblut.geom.WB_Vector;
-import wblut.math.WB_Epsilon;
 
 /**
  * The Class HET_Diagnosis.
@@ -34,6 +29,11 @@ public class HET_Diagnosis {
 		return validate(mesh, false, false, false);
 	}
 
+	/**
+	 * 
+	 *
+	 * @param mesh 
+	 */
 	public static void stats(final HE_Mesh mesh) {
 		System.out.println("Faces: " + mesh.getNumberOfFaces());
 		System.out.println("Vertices: " + mesh.getNumberOfVertices());
@@ -41,6 +41,10 @@ public class HET_Diagnosis {
 		System.out.println("Halfedges: " + mesh.getNumberOfHalfedges());
 
 	}
+
+
+
+
 
 
 	/**
@@ -410,8 +414,8 @@ public class HET_Diagnosis {
 	 * @param v
 	 * @param mesh
 	 */
-	public static void validateVertex(final HE_Vertex v, final HE_Mesh mesh) {
-		System.out.println("Checking " + v);
+	public static void checkVertex(final HE_Vertex v, final HE_Mesh mesh) {
+		System.out.println("Checking vertex " + v.getKey());
 		if (!mesh.contains(v)) {
 			System.out.println("   Vertex not in mesh!");
 		}
@@ -456,8 +460,8 @@ public class HET_Diagnosis {
 	 * @param f
 	 * @param mesh
 	 */
-	public static void validateFace(final HE_Face f, final HE_Mesh mesh) {
-		System.out.println("Checking " + f);
+	public static void checkFace(final HE_Face f, final HE_Mesh mesh) {
+		System.out.println("Checking face " + f.getKey());
 		if (!mesh.contains(f)) {
 			System.out.println("   Face not in mesh!");
 		}
@@ -504,127 +508,5 @@ public class HET_Diagnosis {
 		System.out.println();
 	}
 
-	/**
-	 *
-	 *
-	 * @param tri
-	 * @param tree
-	 * @return
-	 */
-	static List<HET_SelfIntersection> checkSelfIntersection(final HE_Face tri,
-			final WB_AABBTree tree) {
-		final List<HET_SelfIntersection> selfints = new FastTable<HET_SelfIntersection>();
-		final HE_RASTrove<HE_Face> candidates = new HE_RASTrove<HE_Face>();
-		final WB_Triangle T = tri.toTriangle();
-		final WB_AABB aabb = tri.toAABB();
-		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(aabb,
-				tree);
-		for (final WB_AABBNode n : nodes) {
-			candidates.addAll(n.getFaces());
-		}
-		for (final HE_Vertex v : tri.getFaceVertices()) {
-			candidates.removeAll(v.getFaceStar());
-		}
-		for (final HE_Face candidate : candidates) {
-			if (candidate.getKey() > tri.getKey()) {// Check each face pair only
-				// once
-				final WB_IntersectionResult ir = WB_GeometryOp
-						.getIntersection3D(T, candidate.toTriangle());
-				if (ir.intersection
-						&& (ir.object != null)
-						&& !WB_Epsilon.isZero(((WB_Segment) ir.object)
-								.getLength())) {
-					candidate.setInternalLabel(1);
-					selfints.add(new HET_SelfIntersection(tri, candidate,
-							(WB_Segment) ir.object));
-				}
-			}
-		}
-		return selfints;
-	}
 
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @return
-	 */
-	public static List<HET_SelfIntersection> checkSelfIntersection(
-			final HE_Mesh mesh) {
-		mesh.triangulate();
-		mesh.resetFaceInternalLabels();
-		final WB_AABBTree tree = new WB_AABBTree(mesh, 1);
-		final HE_FaceIterator fitr = mesh.fItr();
-		final List<HET_SelfIntersection> result = new FastTable<HET_SelfIntersection>();
-		List<HET_SelfIntersection> selfints;
-		HE_Face f;
-		while (fitr.hasNext()) {
-			f = fitr.next();
-			selfints = checkSelfIntersection(f, tree);
-			if (selfints.size() > 0) {
-				f.setInternalLabel(1);
-			}
-			result.addAll(selfints);
-		}
-		return result;
-	}
-
-	/**
-	 *
-	 */
-	public static class HET_SelfIntersection {
-		/**
-		 *
-		 */
-		HE_Face f1;
-		/**
-		 *
-		 */
-		HE_Face f2;
-		/**
-		 *
-		 */
-		WB_Segment segment;
-
-		/**
-		 *
-		 *
-		 * @param f1
-		 * @param f2
-		 * @param seg
-		 */
-		public HET_SelfIntersection(final HE_Face f1, final HE_Face f2,
-				final WB_Segment seg) {
-			this.f1 = f1;
-			this.f2 = f2;
-			segment = seg;
-		}
-
-		/**
-		 *
-		 *
-		 * @return
-		 */
-		public HE_Face getFace1() {
-			return f1;
-		}
-
-		/**
-		 *
-		 *
-		 * @return
-		 */
-		public HE_Face getFace2() {
-			return f2;
-		}
-
-		/**
-		 *
-		 *
-		 * @return
-		 */
-		public WB_Segment getSegment() {
-			return segment;
-		}
-	}
 }

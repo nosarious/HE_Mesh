@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -155,8 +161,19 @@ public class HE_RASJavolution<E extends HE_Element> extends HE_RAS<E> {
 	/* (non-Javadoc)
 	 * @see wblut.hemesh.HE_RAS#getIndex(wblut.hemesh.HE_Element)
 	 */
+	/**
+	 * @deprecated Use {@link #indexOf(E)} instead
+	 */
 	@Override
 	public int getIndex(final E object) {
+		return indexOf(object);
+	}
+
+	/* (non-Javadoc)
+	 * @see wblut.hemesh.HE_RAS#getIndex(wblut.hemesh.HE_Element)
+	 */
+	@Override
+	public int indexOf(final E object) {
 		return indices.get(object._key);
 	}
 

@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -298,6 +304,11 @@ public class HEC_SuperDuper extends HEC_Creator {
 	return m;
     }
 
+    /**
+     * 
+     *
+     * @return 
+     */
     private WB_Point[] getUVW() {
 	final WB_Point[] m = new WB_Point[(U + 1) * (V + 1)];
 	final double iU = 1.0 / U;

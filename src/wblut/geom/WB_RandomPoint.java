@@ -1,3 +1,12 @@
+/*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
+ */
 package wblut.geom;
 
 /**
@@ -7,57 +16,58 @@ package wblut.geom;
  *
  */
 public interface WB_RandomPoint {
+	
 	/**
-	 * Set the seed for the RNG
+	 * Set the seed for the RNG.
 	 *
-	 * @param seed
+	 * @param seed 
 	 * @return this
 	 */
 	public WB_RandomPoint setSeed(final long seed);
 
 	/**
-	 * Get the next random point
+	 * Get the next random point.
 	 *
-	 * @return
+	 * @return 
 	 */
 	public WB_Point nextPoint();
 
 	/**
-	 * Get the next random vector
+	 * Get the next random vector.
 	 *
-	 * @return
+	 * @return 
 	 */
 	public WB_Vector nextVector();
 
 	/**
-	 * Reset the RNG
+	 * Reset the RNG.
 	 */
 	public void reset();
 
 	/**
-	 * Set point offset
-	 * 
-	 * @param offset
-	 * @return
+	 * Set point offset.
+	 *
+	 * @param offset 
+	 * @return 
 	 */
 	public WB_RandomPoint setOffset(WB_Coord offset);
 
 	/**
-	 * Set point offset
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
+	 * Set point offset.
+	 *
+	 * @param x 
+	 * @param y 
+	 * @return 
 	 */
 	public WB_RandomPoint setOffset(double x, double y);
 
 	/**
-	 * Set point offset
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
+	 * Set point offset.
+	 *
+	 * @param x 
+	 * @param y 
+	 * @param z 
+	 * @return 
 	 */
 	public WB_RandomPoint setOffset(double x, double y, double z);
 

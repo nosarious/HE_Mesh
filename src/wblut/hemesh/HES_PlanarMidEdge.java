@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -36,8 +42,7 @@ public class HES_PlanarMidEdge extends HES_Subdividor {
 				final HE_Halfedge origHE3 = origHE2.getNextInFace();
 				final HE_Halfedge newHE = new HE_Halfedge();
 				final HE_Halfedge newHEp = new HE_Halfedge();
-				mesh.add(newHE);
-				mesh.add(newHEp);
+
 				faceHalfedges.add(newHEp);
 				mesh.setNext(origHE2,newHE);
 				mesh.setNext(newHE,origHE1);
@@ -50,6 +55,8 @@ public class HES_PlanarMidEdge extends HES_Subdividor {
 
 				mesh.setFace(newHEp,centerFace);
 				mesh.setHalfedge(centerFace,newHEp);
+				mesh.add(newHE);
+				mesh.add(newHEp);
 				origHE1 = origHE3;
 			} while (origHE1 != startHE);
 			mesh.cycleHalfedges(faceHalfedges);
@@ -87,8 +94,7 @@ public class HES_PlanarMidEdge extends HES_Subdividor {
 				final HE_Halfedge origHE3 = origHE2.getNextInFace();
 				final HE_Halfedge newHE = new HE_Halfedge();
 				final HE_Halfedge newHEp = new HE_Halfedge();
-				selection.parent.add(newHE);
-				selection.parent.add(newHEp);
+
 				faceHalfedges.add(newHEp);
 				selection.parent.setNext(origHE2,newHE);
 				selection.parent.setNext(newHE,origHE1);
@@ -102,6 +108,8 @@ public class HES_PlanarMidEdge extends HES_Subdividor {
 
 				selection.parent.setFace(newHEp,centerFace);
 				selection.parent.setHalfedge(centerFace,newHEp);
+				selection.parent.add(newHE);
+				selection.parent.add(newHEp);
 				origHE1 = origHE3;
 			} while (origHE1 != startHE);
 			selection.parent.cycleHalfedges(faceHalfedges);

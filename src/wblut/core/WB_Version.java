@@ -1,39 +1,38 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
+
 package wblut.core;
 
-/**
- * The Class WB_Version.
- */
+
 public class WB_Version {
-	/**
-	 *
-	 */
+
 	public static final WB_Version CURRENT_VERSION = new WB_Version();
-	/**
-	 *
-	 */
-	public static final int MAJOR = 2;
-	/**
-	 *
-	 */
-	public static final int MINOR = 2;
-	/**
-	 *
-	 */
+
+	public static final int MAJOR = 3;
+
+	public static final int MINOR = 0;
+
 	public static final int PATCH = 0;
-	/**
-	 *
-	 */
-	private static final String releaseInfo = "Talia";
+
+	private static final String releaseInfo = "Ursa Minor";
+
 
 	/**
+	 *
+	 *
 	 * @param args
 	 */
 	public static void main(final String[] args) {
 		System.out.println(CURRENT_VERSION);
 	}
+
 
 	/**
 	 *
@@ -41,30 +40,38 @@ public class WB_Version {
 	private WB_Version() {
 	}
 
+
 	/**
+	 *
+	 *
 	 * @return
 	 */
 	public static int getMajor() {
 		return MAJOR;
 	}
 
+
 	/**
+	 *
+	 *
 	 * @return
 	 */
 	public static int getMinor() {
 		return MINOR;
 	}
 
+
 	/**
+	 *
+	 *
 	 * @return
 	 */
 	public static int getPatch() {
 		return PATCH;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -76,7 +83,10 @@ public class WB_Version {
 		return ver;
 	}
 
+
 	/**
+	 *
+	 *
 	 * @return
 	 */
 	public static String version() {

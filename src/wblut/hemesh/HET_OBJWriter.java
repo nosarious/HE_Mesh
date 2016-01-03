@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -171,6 +177,12 @@ class HET_OBJWriter {
 	return ((what) & 0xff) / 255.0f;
     }
 
+    /**
+     * 
+     *
+     * @param indices 
+     * @param normalindices 
+     */
     static void writeFaceWithNormals(final int[] indices,
 	    final int[] normalindices) {
 	objWriter.print("f ");
@@ -211,6 +223,11 @@ class HET_OBJWriter {
 	numNormalsWritten = 0;
     }
 
+    /**
+     * 
+     *
+     * @param name 
+     */
     static void startNewObject(final String name) {
 	objWriter.println("o " + name);
     }
@@ -263,6 +280,13 @@ class HET_OBJWriter {
 	endSave();
     }
 
+    /**
+     * 
+     *
+     * @param mesh 
+     * @param path 
+     * @param name 
+     */
     public static void saveMeshNN(final HE_Mesh mesh, final String path,
 	    final String name) {
 	beginSave(path, name);
@@ -429,11 +453,9 @@ class HET_OBJWriter {
     }
 
     /**
+     * 
      *
-     *
-     * @param mesh
-     * @param path
-     * @param name
+     * @param mesh 
      */
     private static void addMesh(final HE_Mesh mesh) {
 	final int vOffset = getCurrVertexOffset() + 1;
@@ -474,6 +496,11 @@ class HET_OBJWriter {
 	}
     }
 
+    /**
+     * 
+     *
+     * @param mesh 
+     */
     private static void addMeshNN(final HE_Mesh mesh) {
 	final int vOffset = getCurrVertexOffset() + 1;
 	startNewObject(new Long(mesh.getKey()).toString());
@@ -506,11 +533,10 @@ class HET_OBJWriter {
     }
 
     /**
+     * 
      *
-     *
-     * @param mesh
-     * @param path
-     * @param name
+     * @param mesh 
+     * @param name 
      */
     private static void addMeshWithFaceColor(final HE_Mesh mesh,
 	    final String name) {
@@ -557,11 +583,10 @@ class HET_OBJWriter {
     }
 
     /**
+     * 
      *
-     *
-     * @param mesh
-     * @param path
-     * @param name
+     * @param mesh 
+     * @param name 
      */
     private static void addMeshWithVertexColor(final HE_Mesh mesh,
 	    final String name) {

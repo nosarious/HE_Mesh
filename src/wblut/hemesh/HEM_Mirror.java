@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -10,7 +16,6 @@ import java.util.List;
 import javolution.util.FastTable;
 import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_Classification;
-import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
@@ -67,15 +72,15 @@ public class HEM_Mirror extends HEM_Modifier {
 	}
 
 	/**
-	 * Set plane by origin and normal
+	 * Set plane by origin and normal.
 	 *
-	 * @param ox
-	 * @param oy
-	 * @param oz
-	 * @param nx
-	 * @param ny
-	 * @param nz
-	 * @return
+	 * @param ox 
+	 * @param oy 
+	 * @param oz 
+	 * @param nx 
+	 * @param ny 
+	 * @param nz 
+	 * @return 
 	 */
 	public HEM_Mirror setPlane(final double ox, final double oy, final double oz, final double nx, final double ny,
 			final double nz) {
@@ -105,10 +110,10 @@ public class HEM_Mirror extends HEM_Modifier {
 	}
 
 	/**
-	 * Reset the center of the mirrored mesh to the center of the original mesh
+	 * Reset the center of the mirrored mesh to the center of the original mesh.
 	 *
-	 * @param b
-	 * @return
+	 * @param b 
+	 * @return 
 	 */
 	public HEM_Mirror setKeepCenter(final Boolean b) {
 		keepCenter = b;

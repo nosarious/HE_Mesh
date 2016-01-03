@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -34,11 +40,23 @@ public class HEC_UVParametric extends HEC_FromFacelist { // Creator {
 	fixDuplicatedVertices = true;
     }
 
+    /**
+     * 
+     *
+     * @param eval 
+     * @return 
+     */
     public HEC_UVParametric setEvaluator(final WB_VectorParameter eval) {
 	evaluator = eval;
 	return this;
     }
 
+    /**
+     * 
+     *
+     * @param b 
+     * @return 
+     */
     public HEC_UVParametric setFixDuplicatedVertices(final boolean b) {
 	fixDuplicatedVertices = b;
 	return this;
@@ -71,6 +89,13 @@ public class HEC_UVParametric extends HEC_FromFacelist { // Creator {
 	return this;
     }
 
+    /**
+     * 
+     *
+     * @param umin 
+     * @param umax 
+     * @return 
+     */
     public HEC_UVParametric setURange(final double umin, final double umax) {
 	this.uMin = umin;
 	this.uMax = umax;
@@ -78,6 +103,13 @@ public class HEC_UVParametric extends HEC_FromFacelist { // Creator {
 	return this;
     }
 
+    /**
+     * 
+     *
+     * @param vmin 
+     * @param vmax 
+     * @return 
+     */
     public HEC_UVParametric setVRange(final double vmin, final double vmax) {
 	this.vMin = vmin;
 	this.vMax = vmax;

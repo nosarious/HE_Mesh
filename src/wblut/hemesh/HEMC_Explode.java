@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -37,7 +43,7 @@ public class HEMC_Explode extends HEMC_MultiCreator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_MultiCreator#create()
 	 */
 	@Override
@@ -52,24 +58,28 @@ public class HEMC_Explode extends HEMC_MultiCreator {
 		int lastfound = 0;
 		HE_Selection submesh;
 		do {
+			//find next invisited face
 			for (int i = lastfound; i < mesh.getNumberOfFaces(); i++) {
 				start = mesh.getFaceWithIndex(i);
 				lastfound = i;
-				if (!start.isVisited()) {
+				if (!start.isVisited()) {//found
 					break;
 				}
 			}
+			//reached last face, was already visited
 			if (start.isVisited()) {
 				break;
 			}
 			start.setVisited();// visited
 			submesh = new HE_Selection(mesh);
 			submesh.add(start);
+			//find all unvisited faces connected to face
 			HE_RAS<HE_Face> facesToProcess = new HE_RASTrove<HE_Face>();
 			HE_RAS<HE_Face> newFacesToProcess;
 			facesToProcess.add(start);
 			List<HE_Face> neighbors;
 			do {
+
 				newFacesToProcess = new HE_RASTrove<HE_Face>();
 				for (final HE_Face f : facesToProcess) {
 					neighbors = f.getNeighborFaces();
@@ -83,6 +93,7 @@ public class HEMC_Explode extends HEMC_MultiCreator {
 				}
 				facesToProcess = newFacesToProcess;
 			} while (facesToProcess.size() > 0);
+
 			result.add(submesh.getAsMesh());
 		} while (true);
 		return result;

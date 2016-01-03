@@ -1,12 +1,18 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
+
 package wblut.geom;
 
-/**
- *
- */
+
 public interface WB_CoordinateTransform {
+
 	/**
 	 *
 	 *
@@ -14,6 +20,7 @@ public interface WB_CoordinateTransform {
 	 * @return
 	 */
 	public WB_Coord apply(final WB_Transform T);
+
 
 
 	/**
@@ -24,6 +31,7 @@ public interface WB_CoordinateTransform {
 	 */
 	public void applyInto(WB_MutableCoord result, final WB_Transform T);
 
+
 	/**
 	 *
 	 *
@@ -31,6 +39,7 @@ public interface WB_CoordinateTransform {
 	 * @return
 	 */
 	public WB_Coord applyAsNormal(final WB_Transform T);
+
 
 
 	/**
@@ -42,6 +51,7 @@ public interface WB_CoordinateTransform {
 	public void applyAsNormalInto(final WB_MutableCoord result,
 			final WB_Transform T);
 
+
 	/**
 	 *
 	 *
@@ -49,6 +59,7 @@ public interface WB_CoordinateTransform {
 	 * @return
 	 */
 	public WB_Coord applyAsPoint(final WB_Transform T);
+
 
 
 	/**
@@ -60,6 +71,7 @@ public interface WB_CoordinateTransform {
 	public void applyAsPointInto(final WB_MutableCoord result,
 			final WB_Transform T);
 
+
 	/**
 	 *
 	 *
@@ -67,6 +79,7 @@ public interface WB_CoordinateTransform {
 	 * @return
 	 */
 	public WB_Coord applyAsVector(final WB_Transform T);
+
 
 
 	/**
@@ -77,6 +90,7 @@ public interface WB_CoordinateTransform {
 	 */
 	public void applyAsVectorInto(final WB_MutableCoord result,
 			final WB_Transform T);
+
 
 	/**
 	 *
@@ -94,6 +108,7 @@ public interface WB_CoordinateTransform {
 			final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z);
 
+
 	/**
 	 *
 	 *
@@ -104,6 +119,7 @@ public interface WB_CoordinateTransform {
 	 */
 	public WB_Coord rotateAbout2PointAxis(final double angle,
 			final WB_Coord p1, final WB_Coord p2);
+
 
 	/**
 	 *
@@ -121,6 +137,7 @@ public interface WB_CoordinateTransform {
 			final double py, final double pz, final double ax, final double ay,
 			final double az);
 
+
 	/**
 	 *
 	 *
@@ -132,6 +149,7 @@ public interface WB_CoordinateTransform {
 	public WB_Coord rotateAboutAxis(final double angle,
 			final WB_Coord p, final WB_Coord a);
 
+
 	/**
 	 *
 	 *
@@ -139,6 +157,7 @@ public interface WB_CoordinateTransform {
 	 * @return
 	 */
 	public WB_Coord scale(final double f);
+
 
 	/**
 	 *
@@ -150,21 +169,23 @@ public interface WB_CoordinateTransform {
 	 */
 	public WB_Coord scale(final double fx, final double fy, final double fz);
 
+
 	/**
+	 *
 	 *
 	 * @param result
 	 * @param f
-	 * @return
 	 */
 	public void scaleInto(WB_MutableCoord result, final double f);
 
+
 	/**
+	 *
 	 *
 	 * @param result
 	 * @param fx
 	 * @param fy
 	 * @param fz
-	 * @return
 	 */
 	public void scaleInto(WB_MutableCoord result, final double fx,
 			final double fy, final double fz);

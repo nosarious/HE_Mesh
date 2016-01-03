@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.geom;
 
@@ -164,6 +170,14 @@ public class WB_KDTree<T extends WB_Coord, V> {
 		return heap.entries[0];
 	}
 
+	/**
+	 *
+	 *
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
 	public WB_KDEntry<T, V> getNearestNeighbor(final double x, final double y, final double z) {
 		final QueryResult<T, V> heap = new QueryResult<T, V>(1);
 		root.findNearest(heap, new WB_Point(x,y,z));

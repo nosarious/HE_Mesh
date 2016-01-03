@@ -1,26 +1,26 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
+
 package wblut.geom;
 
-/**
- *
- */
+
 public class WB_IndexedSegment extends WB_Segment {
 
-	/**
-	 *
-	 */
+
 	private int i1;
-	/**
-	 *
-	 */
+
 	private int i2;
-	/**
-	 *
-	 */
+
 
 	// private final WB_Coordinate[] points;
+
 
 	/**
 	 *
@@ -36,11 +36,20 @@ public class WB_IndexedSegment extends WB_Segment {
 
 	}
 
-	protected WB_IndexedSegment(int i1, int i2, WB_Coord p1, WB_Coord p2) {
+	/**
+	 *
+	 *
+	 * @param i1
+	 * @param i2
+	 * @param p1
+	 * @param p2
+	 */
+	protected WB_IndexedSegment(final int i1, final int i2, final WB_Coord p1, final WB_Coord p2) {
 		super(p1, p2);
 		this.i1 = i1;
 		this.i2 = i2;
 	}
+
 
 	/**
 	 *
@@ -51,6 +60,7 @@ public class WB_IndexedSegment extends WB_Segment {
 		return i1;
 	}
 
+
 	/**
 	 *
 	 *
@@ -60,9 +70,8 @@ public class WB_IndexedSegment extends WB_Segment {
 		return i2;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+
+	/* (non-Javadoc)
 	 * @see wblut.geom.WB_Segment#negate()
 	 */
 	@Override
@@ -70,9 +79,8 @@ public class WB_IndexedSegment extends WB_Segment {
 		return new WB_IndexedSegment(i2, i1, endpoint, origin);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+
+	/* (non-Javadoc)
 	 * @see wblut.geom.WB_Segment#reverse()
 	 */
 	@Override
@@ -86,9 +94,8 @@ public class WB_IndexedSegment extends WB_Segment {
 		i1 = tmp;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+
+	/* (non-Javadoc)
 	 * @see wblut.geom.WB_Segment#getPoint(int)
 	 */
 	@Override
@@ -102,9 +109,8 @@ public class WB_IndexedSegment extends WB_Segment {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+
+	/* (non-Javadoc)
 	 * @see wblut.geom.WB_Segment#getType()
 	 */
 	@Override
@@ -112,9 +118,8 @@ public class WB_IndexedSegment extends WB_Segment {
 		return WB_GeometryType.SEGMENT;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+
+	/* (non-Javadoc)
 	 * @see wblut.geom.WB_Segment#apply(wblut.geom.WB_Transform)
 	 */
 	@Override

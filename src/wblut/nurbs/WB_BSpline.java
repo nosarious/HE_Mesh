@@ -1,4 +1,10 @@
 /*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
  * 
  */
 package wblut.nurbs;
@@ -113,6 +119,9 @@ public class WB_BSpline implements WB_Curve {
 		return C;
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Curve#curveDirection(double)
+	 */
 	@Override
 	public WB_Vector curveDirection(double u) {
 		WB_Vector v = firstDerivative(u);
@@ -120,6 +129,9 @@ public class WB_BSpline implements WB_Curve {
 		return v;
 	}
 
+	/* (non-Javadoc)
+	 * @see wblut.geom.WB_Curve#curveDerivative(double)
+	 */
 	@Override
 	public WB_Vector curveDerivative(double u) {
 		return firstDerivative(u);

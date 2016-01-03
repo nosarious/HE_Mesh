@@ -1,5 +1,11 @@
 /*
- *
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ * 
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ * 
  */
 package wblut.hemesh;
 
@@ -86,8 +92,17 @@ public abstract class HE_RAS<E extends HE_Element> extends AbstractSet<E> {
 	 *
 	 * @param object
 	 * @return
+	 * @deprecated Use {@link #indexOf(E)} instead
 	 */
 	public abstract int getIndex(final E object);
+
+	/**
+	 *
+	 *
+	 * @param object
+	 * @return
+	 */
+	public abstract int indexOf(final E object);
 
 	/**
 	 *
@@ -130,5 +145,5 @@ public abstract class HE_RAS<E extends HE_Element> extends AbstractSet<E> {
 	 *
 	 * @return
 	 */
-	public abstract List<E> getObjects();
+	protected abstract List<E> getObjects();
 }
