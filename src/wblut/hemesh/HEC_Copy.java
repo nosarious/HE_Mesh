@@ -3,15 +3,14 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
 import java.util.Iterator;
 
-import gnu.trove.map.TLongLongMap;
 import gnu.trove.map.hash.TLongLongHashMap;
 import wblut.core.WB_ProgressCounter;
 
@@ -26,7 +25,9 @@ public class HEC_Copy extends HEC_Creator {
 	 *
 	 */
 	HE_MeshStructure source;
-
+	public TLongLongHashMap vertexCorrelation ;
+	public TLongLongHashMap faceCorrelation ;
+	public TLongLongHashMap halfedgeCorrelation ;
 	/**
 	 *
 	 */
@@ -74,9 +75,9 @@ public class HEC_Copy extends HEC_Creator {
 
 		if (source instanceof HE_Mesh) {
 			final HE_Mesh mesh = (HE_Mesh) source;
-			final TLongLongMap vertexCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
-			final TLongLongMap faceCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
-			final TLongLongMap halfedgeCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
+			vertexCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
+			faceCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
+			halfedgeCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
 			HE_Vertex rv;
 			HE_Vertex v;
 			WB_ProgressCounter counter = new WB_ProgressCounter(mesh.getNumberOfVertices(), 10);
@@ -207,9 +208,9 @@ public class HEC_Copy extends HEC_Creator {
 
 			sel.completeFromFaces();
 
-			final TLongLongMap vertexCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
-			final TLongLongMap faceCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
-			final TLongLongMap halfedgeCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
+			vertexCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
+			faceCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
+			halfedgeCorrelation = new TLongLongHashMap(10, 0.5f, -1L, -1L);
 			HE_Vertex rv;
 			HE_Vertex v;
 			WB_ProgressCounter counter = new WB_ProgressCounter(sel.getNumberOfVertices(), 10);

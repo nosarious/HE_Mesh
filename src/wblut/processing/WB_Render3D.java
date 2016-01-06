@@ -61,6 +61,7 @@ import wblut.hemesh.HE_FaceIntersection;
 import wblut.hemesh.HE_FaceIterator;
 import wblut.hemesh.HE_FaceVertexCirculator;
 import wblut.hemesh.HE_Halfedge;
+import wblut.hemesh.HE_HalfedgeIterator;
 import wblut.hemesh.HE_Intersection;
 import wblut.hemesh.HE_Mesh;
 import wblut.hemesh.HE_MeshCollection;
@@ -1468,6 +1469,30 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 	public void drawFrameStrut(final WB_FrameStrut strut) {
 		line(strut.start(), strut.end());
+	}
+
+
+
+	public void drawHalfedgesWithInternalLabel(final int label, final HE_MeshStructure mesh) {
+		HE_HalfedgeIterator heItr= mesh.heItr();
+		HE_Halfedge he;
+		while (heItr.hasNext()) {
+			he = heItr.next();
+			if (he.getInternalLabel() == label) {
+				line(he.getVertex(), he.getEndVertex());
+			}
+		}
+	}
+
+	public void drawHalfedgesWithLabel(final int label, final HE_MeshStructure mesh) {
+		HE_HalfedgeIterator heItr= mesh.heItr();
+		HE_Halfedge he;
+		while (heItr.hasNext()) {
+			he = heItr.next();
+			if (he.getLabel() == label) {
+				line(he.getVertex(), he.getEndVertex().mulAddMul(0.8, 0.2, he.getVertex()));
+			}
+		}
 	}
 
 	/**

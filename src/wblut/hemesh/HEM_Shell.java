@@ -3,15 +3,14 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import gnu.trove.iterator.TLongLongIterator;
+import gnu.trove.map.TLongLongMap;
 
 /**
  * Turns a solid into a rudimentary shelled structure.
@@ -54,53 +53,45 @@ public class HEM_Shell extends HEM_Modifier {
 		if (d == 0) {
 			return mesh;
 		}
-		final HE_Mesh innerMesh = mesh.get();
+		HEC_Copy cc=new HEC_Copy().setMesh(mesh);
+		final HE_Mesh innerMesh =cc.create();
+
+		TLongLongMap heCorrelation=cc.halfedgeCorrelation;
+
+
 		final HEM_VertexExpand expm = new HEM_VertexExpand().setDistance(-d);
 		innerMesh.modify(expm);
-		final HashMap<Long, Long> heCorrelation = new HashMap<Long, Long>();
-		final Iterator<HE_Halfedge> heItr1 = mesh.heItr();
-		final Iterator<HE_Halfedge> heItr2 = innerMesh.heItr();
-		HE_Halfedge he1;
-		HE_Halfedge he2;
-		while (heItr1.hasNext()) {
-			he1 = heItr1.next();
-			he2 = heItr2.next();
-			if (he1.getFace() == null) {
-				heCorrelation.put(he1.key(), he2.key());
-			}
-		}
 		innerMesh.flipAllFaces();
-		mesh.addVertices(innerMesh.getVerticesAsArray());
-		mesh.addFaces(innerMesh.getFacesAsArray());
-		mesh.addHalfedges(innerMesh.getHalfedgesAsArray());
-		final Iterator<Map.Entry<Long, Long>> it = heCorrelation.entrySet()
-				.iterator();
-		HE_Halfedge heio, heoi;
+		mesh.add(innerMesh);
+		HE_Halfedge he1, he2,heio,heoi;
 		HE_Face fNew;
-		while (it.hasNext()) {
-			final Map.Entry<Long, Long> pairs = it.next();
-			he1 = mesh.getHalfedgeWithKey(pairs.getKey());
-			he2 = mesh.getHalfedgeWithKey(pairs.getValue());
-			heio = new HE_Halfedge();
-			heoi = new HE_Halfedge();
+		for ( TLongLongIterator it = heCorrelation.iterator(); it.hasNext(); ) {
+			it.advance();
+			he1 = mesh.getHalfedgeWithKey(it.key());
+			if(he1.isOuterBoundary()){
+				he2 = mesh.getHalfedgeWithKey(it.value());
+				heio=new HE_Halfedge();
+				heoi=new HE_Halfedge();
+				mesh.setVertex(heio,he1.getPair().getVertex());
+				mesh.setVertex(heoi,he2.getPair().getVertex());
+				mesh.setNext(he1,heio);
+				mesh.setNext(heio,he2);
+				mesh.setNext(he2,heoi);
+				mesh.setNext(heoi,he1);
+				fNew = new HE_Face();
+				mesh.add(fNew);
+				mesh.setHalfedge(fNew,he1);
+				mesh.setFace(he1,fNew);
+				mesh.setFace(he2,fNew);
+				mesh.setFace(heio,fNew);
+				mesh.setFace(heoi,fNew);
+				mesh.add(heio);
+				mesh.add(heoi);
+			}
 
-			mesh.setVertex(heio,he1.getPair().getVertex());
-			mesh.setVertex(heoi,he2.getPair().getVertex());
-			mesh.setNext(he1,heio);
-			mesh.setNext(heio,he2);
-			mesh.setNext(he2,heoi);
-			mesh.setNext(heoi,he1);
-			fNew = new HE_Face();
-			mesh.add(fNew);
-			mesh.setHalfedge(fNew,he1);
-			mesh.setFace(he1,fNew);
-			mesh.setFace(he2,fNew);
-			mesh.setFace(heio,fNew);
-			mesh.setFace(heoi,fNew);
-			mesh.add(heio);
-			mesh.add(heoi);
 		}
 		mesh.pairHalfedges();
+		mesh.capHalfedges();
 		if (d < 0) {
 			mesh.flipAllFaces();
 		}

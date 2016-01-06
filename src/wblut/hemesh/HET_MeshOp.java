@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -33,7 +33,7 @@ public class HET_MeshOp {
 	 * Split edge in half.
 	 *
 	 * @param edge            edge to split.
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new vertex and new edge
 	 */
 	public static HE_Selection splitEdge(final HE_Halfedge edge, final HE_Mesh mesh) {
@@ -46,7 +46,7 @@ public class HET_MeshOp {
 	 *
 	 * @param edge            edge to split
 	 * @param f            fraction of first part (0..1)
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new vertex and new edge
 	 */
 	public static HE_Selection splitEdge(final HE_Halfedge edge, final double f, final HE_Mesh mesh) {
@@ -62,7 +62,7 @@ public class HET_MeshOp {
 	 * @param x            x-coordinate of new vertex
 	 * @param y            y-coordinate of new vertex
 	 * @param z            z-coordinate of new vertex
-	 * @param mesh 
+	 * @param mesh
 	 */
 	public static void splitEdge(final HE_Halfedge edge, final double x, final double y, final double z,
 			final HE_Mesh mesh) {
@@ -74,7 +74,7 @@ public class HET_MeshOp {
 	 *
 	 * @param edge            edge to split
 	 * @param f            array of fractions (0..1)
-	 * @param mesh 
+	 * @param mesh
 	 */
 	public static void splitEdge(final HE_Halfedge edge, final double[] f, final HE_Mesh mesh) {
 		final double[] fArray = Arrays.copyOf(f, f.length);
@@ -99,7 +99,7 @@ public class HET_MeshOp {
 	 *
 	 * @param edge            edge to split
 	 * @param f            array of fractions (0..1)
-	 * @param mesh 
+	 * @param mesh
 	 */
 	public static void splitEdge(final HE_Halfedge edge, final float[] f, final HE_Mesh mesh) {
 		final float[] fArray = Arrays.copyOf(f, f.length);
@@ -124,7 +124,7 @@ public class HET_MeshOp {
 	 *
 	 * @param edge            edge to split
 	 * @param v            position of new vertex
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new vertex and new edge
 	 */
 	public static HE_Selection splitEdge(final HE_Halfedge edge, final WB_Coord v, final HE_Mesh mesh) {
@@ -178,7 +178,7 @@ public class HET_MeshOp {
 	 * Split edge in half.
 	 *
 	 * @param key            key of edge to split.
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new vertex and new edge
 	 */
 	public static HE_Selection splitEdge(final long key, final HE_Mesh mesh) {
@@ -192,7 +192,7 @@ public class HET_MeshOp {
 	 *
 	 * @param key            key of edge to split
 	 * @param f            fraction of first part (0..1)
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new vertex and new edge
 	 */
 	public static HE_Selection splitEdge(final long key, final double f, final HE_Mesh mesh) {
@@ -207,7 +207,7 @@ public class HET_MeshOp {
 	 * @param x            x-coordinate of new vertex
 	 * @param y            y-coordinate of new vertex
 	 * @param z            z-coordinate of new vertex
-	 * @param mesh 
+	 * @param mesh
 	 */
 	public static void splitEdge(final long key, final double x, final double y, final double z, final HE_Mesh mesh) {
 		splitEdge(key, new WB_Point(x, y, z), mesh);
@@ -218,7 +218,7 @@ public class HET_MeshOp {
 	 *
 	 * @param key            key of edge to split
 	 * @param f            array of fractions (0..1)
-	 * @param mesh 
+	 * @param mesh
 	 */
 	public static void splitEdge(final long key, final double[] f, final HE_Mesh mesh) {
 		final HE_Halfedge edge = mesh.getHalfedgeWithKey(key);
@@ -230,7 +230,7 @@ public class HET_MeshOp {
 	 *
 	 * @param key            key of edge to split
 	 * @param f            array of fractions (0..1)
-	 * @param mesh 
+	 * @param mesh
 	 */
 	public static void splitEdge(final long key, final float[] f, final HE_Mesh mesh) {
 		final HE_Halfedge edge = mesh.getHalfedgeWithKey(key);
@@ -242,7 +242,7 @@ public class HET_MeshOp {
 	 *
 	 * @param key            key of edge to split
 	 * @param v            position of new vertex
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new vertex and new edge
 	 */
 	public static HE_Selection splitEdge(final Long key, final WB_Point v, final HE_Mesh mesh) {
@@ -253,7 +253,7 @@ public class HET_MeshOp {
 	/**
 	 * Split all edges in half.
 	 *
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new vertices and new edges
 	 */
 	public static HE_Selection splitEdges(final HE_Mesh mesh) {
@@ -271,7 +271,7 @@ public class HET_MeshOp {
 	 * edge normal.
 	 *
 	 * @param offset            the offset
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new vertices and new edges
 	 */
 	public static HE_Selection splitEdges(final double offset, final HE_Mesh mesh) {
@@ -290,7 +290,7 @@ public class HET_MeshOp {
 	 * Split edge in half.
 	 *
 	 * @param selection            edges to split.
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new vertices and new edges
 	 */
 	public static HE_Selection splitEdges(final HE_Selection selection, final HE_Mesh mesh) {
@@ -310,7 +310,7 @@ public class HET_MeshOp {
 	 *
 	 * @param selection            edges to split.
 	 * @param offset            the offset
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new vertices and new edges
 	 */
 	public static HE_Selection splitEdges(final HE_Selection selection, final double offset, final HE_Mesh mesh) {
@@ -333,7 +333,7 @@ public class HET_MeshOp {
 	 *
 	 * @param origE            edge to divide
 	 * @param n            number of parts
-	 * @param mesh 
+	 * @param mesh
 	 */
 	public static void divideEdge(final HE_Halfedge origE, final int n, final HE_Mesh mesh) {
 		if (n > 1) {
@@ -347,11 +347,11 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param key 
-	 * @param n 
-	 * @param mesh 
+	 *
+	 * @param key
+	 * @param n
+	 * @param mesh
 	 */
 	public static void divideEdge(final long key, final int n, final HE_Mesh mesh) {
 		divideEdge(mesh.getHalfedgeWithKey(key), n, mesh);
@@ -363,7 +363,7 @@ public class HET_MeshOp {
 	 * @param face            face to divide
 	 * @param vi            first vertex
 	 * @param vj            second vertex
-	 * @param mesh 
+	 * @param mesh
 	 * @return new face and edge
 	 */
 	public static HE_Selection splitFace(final HE_Face face, final HE_Vertex vi, final HE_Vertex vj,
@@ -454,7 +454,7 @@ public class HET_MeshOp {
 	 * @param fkey            key of face
 	 * @param vkeyi            key of first vertex
 	 * @param vkeyj            key of second vertex
-	 * @param mesh 
+	 * @param mesh
 	 * @return new face and edge
 	 */
 	public static HE_Selection splitFace(final long fkey, final long vkeyi, final long vkeyj, final HE_Mesh mesh) {
@@ -462,10 +462,10 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection splitFacesCenter(final HE_Mesh mesh) {
 		final HEM_CenterSplit cs = new HEM_CenterSplit();
@@ -474,11 +474,11 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param d 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param d
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection splitFacesCenter(final double d, final HE_Mesh mesh) {
 		final HEM_CenterSplit cs = new HEM_CenterSplit().setOffset(d);
@@ -487,12 +487,12 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param d 
-	 * @param c 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param d
+	 * @param c
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection splitFacesCenter(final double d, final double c, final HE_Mesh mesh) {
 		final HEM_CenterSplit cs = new HEM_CenterSplit().setOffset(d).setChamfer(c);
@@ -501,11 +501,11 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param faces 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param faces
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection splitFacesCenter(final HE_Selection faces, final HE_Mesh mesh) {
 		final HEM_CenterSplit cs = new HEM_CenterSplit();
@@ -514,12 +514,12 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param faces 
-	 * @param d 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param faces
+	 * @param d
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection splitFacesCenter(final HE_Selection faces, final double d, final HE_Mesh mesh) {
 		final HEM_CenterSplit cs = new HEM_CenterSplit().setOffset(d);
@@ -528,13 +528,13 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param faces 
-	 * @param d 
-	 * @param c 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param faces
+	 * @param d
+	 * @param c
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection splitFacesCenter(final HE_Selection faces, final double d, final double c,
 			final HE_Mesh mesh) {
@@ -544,10 +544,10 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection splitFacesCenterHole(final HE_Mesh mesh) {
 		final HEM_CenterSplitHole csh = new HEM_CenterSplitHole();
@@ -556,11 +556,11 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param d 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param d
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection splitFacesCenterHole(final double d, final HE_Mesh mesh) {
 		final HEM_CenterSplitHole csh = new HEM_CenterSplitHole().setOffset(d);
@@ -569,12 +569,12 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param d 
-	 * @param c 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param d
+	 * @param c
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection splitFacesCenterHole(final double d, final double c, final HE_Mesh mesh) {
 		final HEM_CenterSplitHole csh = new HEM_CenterSplitHole().setOffset(d).setChamfer(c);
@@ -583,11 +583,11 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param faces 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param faces
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection splitFacesCenterHole(final HE_Selection faces, final HE_Mesh mesh) {
 		final HEM_CenterSplitHole csh = new HEM_CenterSplitHole();
@@ -596,12 +596,12 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param faces 
-	 * @param d 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param faces
+	 * @param d
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection splitFacesCenterHole(final HE_Selection faces, final double d, final HE_Mesh mesh) {
 		final HEM_CenterSplitHole csh = new HEM_CenterSplitHole().setOffset(d);
@@ -610,13 +610,13 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param faces 
-	 * @param d 
-	 * @param c 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param faces
+	 * @param d
+	 * @param c
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection splitFacesCenterHole(final HE_Selection faces, final double d, final double c,
 			final HE_Mesh mesh) {
@@ -628,7 +628,7 @@ public class HET_MeshOp {
 	/**
 	 * Hybrid split faces: midsplit for triangles, quad split otherwise.
 	 *
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new faces and new vertices
 	 */
 	public static HE_Selection splitFacesHybrid(final HE_Mesh mesh) {
@@ -786,7 +786,7 @@ public class HET_MeshOp {
 	 * Hybrid split faces: midsplit for triangles, quad split otherwise.
 	 *
 	 * @param sel            the sel
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new faces and new vertices
 	 */
 	public static HE_Selection splitFacesHybrid(final HE_Selection sel, final HE_Mesh mesh) {
@@ -945,7 +945,7 @@ public class HET_MeshOp {
 	/**
 	 * Midedge split faces.
 	 *
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new faces and new vertices
 	 */
 	public static HE_Selection splitFacesMidEdge(final HE_Mesh mesh) {
@@ -1028,7 +1028,7 @@ public class HET_MeshOp {
 	 * Mid edge split selected faces.
 	 *
 	 * @param selection            selection to split
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new faces and new vertices
 	 */
 	public static HE_Selection splitFacesMidEdge(final HE_Selection selection, final HE_Mesh mesh) {
@@ -1110,7 +1110,7 @@ public class HET_MeshOp {
 	/**
 	 * Mid edge split faces.
 	 *
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new faces and new vertices
 	 */
 	public static HE_Selection splitFacesMidEdgeHole(final HE_Mesh mesh) {
@@ -1190,11 +1190,11 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param selection 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param selection
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection splitFacesMidEdgeHole(final HE_Selection selection, final HE_Mesh mesh) {
 		final HE_Selection selectionOut = new HE_Selection(mesh);
@@ -1276,7 +1276,7 @@ public class HET_MeshOp {
 	/**
 	 * Quad split faces.
 	 *
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new faces and new vertices
 	 */
 	public static HE_Selection splitFacesQuad(final HE_Mesh mesh) {
@@ -1288,8 +1288,8 @@ public class HET_MeshOp {
 	/**
 	 * Quad split faces.
 	 *
-	 * @param d 
-	 * @param mesh 
+	 * @param d
+	 * @param mesh
 	 * @return selection of new faces and new vertices
 	 */
 	public static HE_Selection splitFacesQuad(final double d, final HE_Mesh mesh) {
@@ -1302,7 +1302,7 @@ public class HET_MeshOp {
 	 * Quad split selected faces.
 	 *
 	 * @param sel            selection to split
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new faces and new vertices
 	 */
 	public static HE_Selection splitFacesQuad(final HE_Selection sel, final HE_Mesh mesh) {
@@ -1315,8 +1315,8 @@ public class HET_MeshOp {
 	 * Quad split selected faces.
 	 *
 	 * @param sel            selection to split
-	 * @param d 
-	 * @param mesh 
+	 * @param d
+	 * @param mesh
 	 * @return selection of new faces and new vertices
 	 */
 	public static HE_Selection splitFacesQuad(final HE_Selection sel, final double d, final HE_Mesh mesh) {
@@ -1328,7 +1328,7 @@ public class HET_MeshOp {
 	/**
 	 * Tri split faces.
 	 *
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new faces and new vertex
 	 */
 	public static HE_Selection splitFacesTri(final HE_Mesh mesh) {
@@ -1341,7 +1341,7 @@ public class HET_MeshOp {
 	 * Tri split faces with offset along face normal.
 	 *
 	 * @param d            offset along face normal
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new faces and new vertex
 	 */
 	public static HE_Selection splitFacesTri(final double d, final HE_Mesh mesh) {
@@ -1354,7 +1354,7 @@ public class HET_MeshOp {
 	 * Tri split faces.
 	 *
 	 * @param selection            face selection to split
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new faces and new vertex
 	 */
 	public static HE_Selection splitFacesTri(final HE_Selection selection, final HE_Mesh mesh) {
@@ -1368,7 +1368,7 @@ public class HET_MeshOp {
 	 *
 	 * @param selection            face selection to split
 	 * @param d            offset along face normal
-	 * @param mesh 
+	 * @param mesh
 	 * @return selection of new faces and new vertex
 	 */
 	public static HE_Selection splitFacesTri(final HE_Selection selection, final double d, final HE_Mesh mesh) {
@@ -1380,8 +1380,8 @@ public class HET_MeshOp {
 	/**
 	 * Triangulate all faces.
 	 *
-	 * @param mesh 
-	 * @return 
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection triangulate(final HE_Mesh mesh) {
 		final HEM_TriangulateMT tri = new HEM_TriangulateMT();
@@ -1390,11 +1390,11 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param face 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param face
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection triangulate(final HE_Face face, final HE_Mesh mesh) {
 		final HE_Selection sel = new HE_Selection(mesh);
@@ -1406,8 +1406,8 @@ public class HET_MeshOp {
 	 * Triangulate.
 	 *
 	 * @param sel            selection
-	 * @param mesh 
-	 * @return 
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection triangulate(final HE_Selection sel, final HE_Mesh mesh) {
 		final HEM_TriangulateMT tri = new HEM_TriangulateMT();
@@ -1419,8 +1419,8 @@ public class HET_MeshOp {
 	 * Triangulate face.
 	 *
 	 * @param key            key of face
-	 * @param mesh 
-	 * @return 
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection triangulate(final long key, final HE_Mesh mesh) {
 		return triangulate(mesh.getFaceWithKey(key), mesh);
@@ -1430,8 +1430,8 @@ public class HET_MeshOp {
 	 * Triangulate face if concave.
 	 *
 	 * @param face            key of face
-	 * @param mesh 
-	 * @return 
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection triangulateConcaveFace(final HE_Face face, final HE_Mesh mesh) {
 		if (face.getFaceType() == WB_Classification.CONCAVE) {
@@ -1446,8 +1446,8 @@ public class HET_MeshOp {
 	 * Triangulate face if concave.
 	 *
 	 * @param key            key of face
-	 * @param mesh 
-	 * @return 
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection triangulateConcaveFace(final long key, final HE_Mesh mesh) {
 		return triangulateConcaveFace(mesh.getFaceWithKey(key), mesh);
@@ -1456,8 +1456,8 @@ public class HET_MeshOp {
 	/**
 	 * Triangulate all concave faces.
 	 *
-	 * @param mesh 
-	 * @return 
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection triangulateConcaveFaces(final HE_Mesh mesh) {
 		final HE_Selection out = new HE_Selection(mesh);
@@ -1472,11 +1472,11 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param sel 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param sel
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection triangulateConcaveFaces(final List<HE_Face> sel, final HE_Mesh mesh) {
 		final HE_Selection out = new HE_Selection(mesh);
@@ -1492,11 +1492,11 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param v 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param v
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection triangulateFaceStar(final HE_Vertex v, final HE_Mesh mesh) {
 		final HE_Selection vf = new HE_Selection(mesh);
@@ -1516,11 +1516,11 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param vertexkey 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param vertexkey
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Selection triangulateFaceStar(final long vertexkey, final HE_Mesh mesh) {
 		final HE_Selection vf = new HE_Selection(mesh);
@@ -1540,11 +1540,11 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param he 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param he
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Face createFaceFromHalfedgeLoop(final HE_Halfedge he, final HE_Mesh mesh) {
 		if ((mesh == null) || (he == null)) {
@@ -1568,11 +1568,11 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param hes 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param hes
+	 * @param mesh
+	 * @return
 	 */
 	public List<HE_Face> createFaceFromHalfedgeLoop(final List<HE_Halfedge> hes, final HE_Mesh mesh) {
 		final List<HE_Face> newFaces = new ArrayList<HE_Face>();
@@ -1606,11 +1606,11 @@ public class HET_MeshOp {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param unpairedHalfedge 
-	 * @param mesh 
-	 * @return 
+	 *
+	 * @param unpairedHalfedge
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_RAS<HE_Face> selectAllFacesConnectedToUnpairedHalfedge(final HE_Halfedge unpairedHalfedge,
 			final HE_Mesh mesh) {
@@ -1652,8 +1652,8 @@ public class HET_MeshOp {
 	/**
 	 * Reverse all faces. Flips normals.
 	 *
-	 * @param mesh 
-	 * @return 
+	 * @param mesh
+	 * @return
 	 */
 	public static HE_Mesh flipAllFaces(final HE_Mesh mesh) {
 		tracker.setStatus("HET_MeshOp", "Flipping faces.", +1);
@@ -1665,26 +1665,11 @@ public class HET_MeshOp {
 		HE_Halfedge[] prevHe;
 		HE_TextureCoordinate[] nextHeUVW;
 		HE_Halfedge he;
-		final Iterator<HE_Halfedge> eItr = mesh.eItr();
-		while (eItr.hasNext()) {
-			he1 = eItr.next();
-			he2 = he1.getPair();
-			tmp = he1.getVertex();
-			mesh.setVertex(he1,he2.getVertex());
-			if (he2 != null) {
-				mesh.setVertex(he2,tmp);
 
-			}
-			mesh.setHalfedge(he1.getVertex(),he1);
-			if (he2 != null) {
-				mesh.setHalfedge(he2.getVertex(),he2);
-			}
-			counter.increment();
-		}
 		prevHe = new HE_Halfedge[mesh.getNumberOfHalfedges()];
 		nextHeUVW = new HE_TextureCoordinate[mesh.getNumberOfHalfedges()];
 		int i = 0;
-		Iterator<HE_Halfedge> heItr = mesh.heItr();
+		HE_HalfedgeIterator  heItr = mesh.heItr();
 		counter = new WB_ProgressCounter(2 * mesh.getNumberOfHalfedges(), 10);
 		tracker.setStatus(mesh, "Reordering halfedges.", counter);
 		while (heItr.hasNext()) {
@@ -1708,15 +1693,35 @@ public class HET_MeshOp {
 			counter.increment();
 		}
 
+
+
+		final HE_EdgeIterator eItr = mesh.eItr();
+		while (eItr.hasNext()) {
+			he1 = eItr.next();
+			he2 = he1.getPair();
+			tmp = he1.getVertex();
+			mesh.setVertex(he1,he2.getVertex());
+
+			mesh.setVertex(he2,tmp);
+
+
+			mesh.setHalfedge(he1.getVertex(),he1);
+
+			mesh.setHalfedge(he2.getVertex(),he2);
+
+			counter.increment();
+		}
+
+
 		tracker.setStatus("HET_MeshOp", "Faces flipped.", -1);
 		return mesh;
 	}
 
 	/**
-	 * 
 	 *
-	 * @param mesh 
-	 * @param faces 
+	 *
+	 * @param mesh
+	 * @param faces
 	 */
 	public static void flipFaces(final HE_Mesh mesh, final HE_RAS<HE_Face> faces) {
 		HE_Halfedge he;
@@ -1743,11 +1748,11 @@ public class HET_MeshOp {
 
 
 	/**
-	 * 
 	 *
-	 * @param mesh 
-	 * @param he 
-	 * @return 
+	 *
+	 * @param mesh
+	 * @param he
+	 * @return
 	 */
 	public static boolean flipEdge(final HE_Mesh mesh,final HE_Halfedge he) {
 		// boundary edge
@@ -1822,7 +1827,7 @@ public class HET_MeshOp {
 	/**
 	 * Clean all mesh elements not used by any faces.
 	 *
-	 * @param mesh 
+	 * @param mesh
 	 * @return self
 	 */
 	public static HE_Mesh cleanUnusedElementsByFace(final HE_Mesh mesh) {
@@ -1869,7 +1874,7 @@ public class HET_MeshOp {
 	/**
 	 * Assign face to halfedge loop.
 	 *
-	 * @param mesh 
+	 * @param mesh
 	 * @param face            face
 	 * @param halfedge            halfedge loop
 	 */
