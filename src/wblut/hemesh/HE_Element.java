@@ -3,18 +3,20 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  *
  */
 public abstract class HE_Element {
 
-	protected static long _currentKey;
+	protected static AtomicLong _currentKey=new AtomicLong(0);
 	protected final long _key;
 	protected long _labels;
 
@@ -23,19 +25,18 @@ public abstract class HE_Element {
 	 *
 	 */
 	public HE_Element() {
-		_key = _currentKey;
-		_currentKey++;
+		_key = _currentKey.getAndAdd(1);
 		_labels = mergeLabels(-1, -1);
 	}
 
 
 
 	/**
-	 * 
 	 *
-	 * @param internal 
-	 * @param external 
-	 * @return 
+	 *
+	 * @param internal
+	 * @param external
+	 * @return
 	 */
 	private long mergeLabels(final int internal, final int external) {
 		return (((long) internal) << 32) | (external & 0xffffffffL);

@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -111,9 +111,7 @@ public class HEM_FaceExpand extends HEM_Modifier {
 		                              + mesh.getNumberOfEdges() + mesh.getNumberOfVertices()][];
 		final int[] labels = new int[mesh.getNumberOfFaces()
 		                             + mesh.getNumberOfEdges() + mesh.getNumberOfVertices()];
-		mesh.getNumberOfFaces();
-		mesh.getNumberOfEdges();
-		mesh.getNumberOfVertices();
+
 		int currentFace = 0;
 		fItr = mesh.fItr();
 		while (fItr.hasNext()) {

@@ -7,7 +7,7 @@
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
  *
  */
-package wblut.hemesh;
+package wblut.geom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +19,14 @@ import java.util.concurrent.Future;
 
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
-import wblut.geom.WB_Coord;
-import wblut.geom.WB_Point;
+import javolution.util.FastTable;
+import wblut.hemesh.HE_Vertex;
 import wblut.math.WB_Epsilon;
 
 /**
  *
  */
-public class HEC_IsoSurface extends HEC_Creator {
+public class WB_IsoSurface {
 	/**
 	 *
 	 */
@@ -331,20 +331,20 @@ public class HEC_IsoSurface extends HEC_Creator {
 	/**
 	 *
 	 */
-	private TIntObjectMap<HE_Vertex>[] xedges;
+	private TIntObjectMap<WB_Coord>[] xedges;
 	/**
 	 *
 	 */
-	private TIntObjectMap<HE_Vertex>[] yedges;
+	private TIntObjectMap<WB_Coord>[] yedges;
 	/**
 	 *
 	 */
-	private TIntObjectMap<HE_Vertex>[] zedges;
+	private TIntObjectMap<WB_Coord>[] zedges;
 
 	/**
 	 *
 	 */
-	HE_Mesh mesh;
+	List<WB_Coord> triangles;
 
 	WB_Coord offset;
 	/**
@@ -359,9 +359,8 @@ public class HEC_IsoSurface extends HEC_Creator {
 	/**
 	 *
 	 */
-	public HEC_IsoSurface() {
-		super();
-		override = true;
+	public WB_IsoSurface() {
+
 		boundary = Double.NaN;
 		zmin=Integer.MIN_VALUE;
 		zmax=Integer.MAX_VALUE;
@@ -382,7 +381,7 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 *            the resz
 	 * @return self
 	 */
-	public HEC_IsoSurface setResolution(final int resx, final int resy, final int resz) {
+	public WB_IsoSurface setResolution(final int resx, final int resy, final int resz) {
 		this.resx = resx;
 		this.resy = resy;
 		this.resz = resz;
@@ -397,7 +396,7 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 * @param dz
 	 * @return self
 	 */
-	public HEC_IsoSurface setSize(final double dx, final double dy, final double dz) {
+	public WB_IsoSurface setSize(final double dx, final double dy, final double dz) {
 		this.dx = dx;
 		this.dy = dy;
 		this.dz = dz;
@@ -405,21 +404,21 @@ public class HEC_IsoSurface extends HEC_Creator {
 		return this;
 	}
 
-	public HEC_IsoSurface setZRange(final int zmin, final int zmax) {
+	public WB_IsoSurface setZRange(final int zmin, final int zmax) {
 		this.zmin = Math.min(Math.max(-1, zmin),Math.max(-1, zmax));
 		this.zmax=Math.max(Math.max(-1, zmin),Math.max(-1, zmax));
 
 		return this;
 	}
 
-	public HEC_IsoSurface setXRange(final int xmin, final int xmax) {
+	public WB_IsoSurface setXRange(final int xmin, final int xmax) {
 		this.xmin = Math.min(Math.max(-1, xmin),Math.max(-1, xmax));
 		this.xmax=Math.max(Math.max(-1, xmin),Math.max(-1, xmax));
 
 		return this;
 	}
 
-	public HEC_IsoSurface setYRange(final int ymin, final int ymax) {
+	public WB_IsoSurface setYRange(final int ymin, final int ymax) {
 		this.ymin = Math.min(Math.max(-1, ymin),Math.max(-1, ymax));
 		this.ymax=Math.max(Math.max(-1, ymin),Math.max(-1, ymax));
 
@@ -427,19 +426,19 @@ public class HEC_IsoSurface extends HEC_Creator {
 	}
 
 
-	public HEC_IsoSurface clearZRange() {
+	public WB_IsoSurface clearZRange() {
 		zmin=Integer.MIN_VALUE;
 		zmax=Integer.MAX_VALUE;
 		return this;
 	}
 
-	public HEC_IsoSurface clearXRange() {
+	public WB_IsoSurface clearXRange() {
 		xmin=Integer.MIN_VALUE;
 		xmax=Integer.MAX_VALUE;
 		return this;
 	}
 
-	public HEC_IsoSurface clearYRange() {
+	public WB_IsoSurface clearYRange() {
 		ymin=Integer.MIN_VALUE;
 		ymax=Integer.MAX_VALUE;
 		return this;
@@ -453,7 +452,7 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 *            double[resx+1][resy+1][resz+1]
 	 * @return self
 	 */
-	public HEC_IsoSurface setValues(final double[][][] values) {
+	public WB_IsoSurface setValues(final double[][][] values) {
 		this.values = values;
 		return this;
 	}
@@ -465,7 +464,7 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 *            float[resx+1][resy+1][resz+1]
 	 * @return self
 	 */
-	public HEC_IsoSurface setValues(final float[][][] values) {
+	public WB_IsoSurface setValues(final float[][][] values) {
 		this.values = new double[resx + 1][resy + 1][resz + 1];
 		for (int i = 0; i <= resx; i++) {
 			for (int j = 0; j <= resy; j++) {
@@ -484,7 +483,7 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 *            isolevel
 	 * @return self
 	 */
-	public HEC_IsoSurface setIsolevel(final double v) {
+	public WB_IsoSurface setIsolevel(final double v) {
 		isolevel = v;
 		return this;
 	}
@@ -496,7 +495,7 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 *            boundary level
 	 * @return self
 	 */
-	public HEC_IsoSurface setBoundary(final double v) {
+	public WB_IsoSurface setBoundary(final double v) {
 		boundary = v;
 		return this;
 	}
@@ -506,7 +505,7 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 *
 	 * @return self
 	 */
-	public HEC_IsoSurface clearBoundary() {
+	public WB_IsoSurface clearBoundary() {
 		boundary = Double.NaN;
 		return this;
 	}
@@ -518,25 +517,20 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 *            true/false
 	 * @return self
 	 */
-	public HEC_IsoSurface setInvert(final boolean invert) {
+	public WB_IsoSurface setInvert(final boolean invert) {
 		this.invert = invert;
 		return this;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.hemesh.HEC_Creator#setCenter(wblut.geom.WB_Point3d)
-	 */
-	@Override
-	public HEC_IsoSurface setCenter(final WB_Coord c) {
+
+	public WB_IsoSurface setCenter(final WB_Coord c) {
 		cx = c.xd();
 		cy = c.yd();
 		cz = c.zd();
 		return this;
 	}
 
-	public HEC_IsoSurface setMT(final boolean b){
+	public WB_IsoSurface setMT(final boolean b){
 		MT=b;
 		return this;
 
@@ -587,18 +581,16 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 *            k: -1 .. resz+1
 	 * @return edge vertex
 	 */
-	private HE_Vertex xedge(final int i, final int j, final int k) {
-		HE_Vertex xedge = xedges[k+1].get(index(i, j));
+	private WB_Coord xedge(final int i, final int j, final int k) {
+		WB_Coord xedge = xedges[k+1].get(index(i, j));
 		if (xedge != null) {
 			return xedge;
 		}
-
 		final WB_Point p0 = new WB_Point(i * dx, j * dy, k * dz);
 		final WB_Point p1 = new WB_Point((i * dx) + dx, j * dy, k * dz);
 		final double val0 = value(i, j, k);
 		final double val1 = value(i + 1, j, k);
-		xedge = new HE_Vertex(interp(isolevel, p0, p1, val0, val1));
-		xedge.addSelf(offset);
+		xedge = new WB_Point(interp(isolevel, p0, p1, val0, val1)).addSelf(offset);
 		xedges[k+1].put(index(i, j), xedge);
 		return xedge;
 	}
@@ -614,8 +606,8 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 *            k: -1 .. resz+1
 	 * @return edge vertex
 	 */
-	private HE_Vertex yedge(final int i, final int j, final int k) {
-		HE_Vertex yedge = yedges[k+1].get(index(i, j));
+	private WB_Coord yedge(final int i, final int j, final int k) {
+		WB_Coord yedge = yedges[k+1].get(index(i, j));
 		if (yedge != null) {
 			return yedge;
 		}
@@ -623,8 +615,8 @@ public class HEC_IsoSurface extends HEC_Creator {
 		final WB_Point p1 = new WB_Point(i * dx, (j * dy) + dy, k * dz);
 		final double val0 = value(i, j, k);
 		final double val1 = value(i, j + 1, k);
-		yedge = new HE_Vertex(interp(isolevel, p0, p1, val0, val1));
-		yedge.addSelf(offset);
+		yedge = new HE_Vertex(interp(isolevel, p0, p1, val0, val1)).addSelf(offset);
+
 		yedges[k+1].put(index(i, j), yedge);
 		return yedge;
 	}
@@ -640,8 +632,8 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 *            k: -1 .. resz+1
 	 * @return edge vertex
 	 */
-	private HE_Vertex zedge(final int i, final int j, final int k) {
-		HE_Vertex zedge = zedges[k+1].get(index(i, j));
+	private WB_Coord zedge(final int i, final int j, final int k) {
+		WB_Coord zedge = zedges[k+1].get(index(i, j));
 		if (zedge != null) {
 			return zedge;
 		}
@@ -649,8 +641,7 @@ public class HEC_IsoSurface extends HEC_Creator {
 		final WB_Point p1 = new WB_Point(i * dx, j * dy, (k * dz) + dz);
 		final double val0 = value(i, j, k);
 		final double val1 = value(i, j, k + 1);
-		zedge = new HE_Vertex(interp(isolevel, p0, p1, val0, val1));
-		zedge.addSelf(offset);
+		zedge = new HE_Vertex(interp(isolevel, p0, p1, val0, val1)).addSelf(offset);
 		zedges[k+1].put(index(i, j), zedge);
 		return zedge;
 	}
@@ -736,14 +727,14 @@ public class HEC_IsoSurface extends HEC_Creator {
 
 
 	private void polygoniseST() {
-		mesh = new HE_Mesh();
-		HE_Vertex[] vertlist = new HE_Vertex[12];
+		triangles=new FastTable<WB_Coord>();
+		WB_Coord[] vertlist = new WB_Coord[12];
 
 		if (Double.isNaN(boundary)) {
 			for (int i =Math.max(xmin, 0); i < Math.min(xmax,resx); i++) {
 				for (int j = Math.max(ymin, 0); j < Math.min(ymax,resy); j++) {
 					for (int k = Math.max(zmin, 0); k < Math.min(zmax,resz); k++) {
-						getPolygons(i, j, k, classifyCell(i, j, k),mesh,vertlist);
+						getPolygons(i, j, k, classifyCell(i, j, k),triangles,vertlist);
 					}
 				}
 			}
@@ -751,7 +742,7 @@ public class HEC_IsoSurface extends HEC_Creator {
 			for (int i =  Math.max(xmin, -1); i < Math.min(xmax,resx+1); i++) {
 				for (int j =  Math.max(ymin, -1); j < Math.min(ymax,resy+1); j++) {
 					for (int k =  Math.max(zmin, -1); k < Math.min(zmax,resz+1); k++) {
-						getPolygons(i, j, k, classifyCell(i, j, k),mesh,vertlist);
+						getPolygons(i, j, k, classifyCell(i, j, k),triangles,vertlist);
 					}
 				}
 			}
@@ -759,35 +750,32 @@ public class HEC_IsoSurface extends HEC_Creator {
 	}
 
 	private void polygoniseMT() {
-		mesh=new HE_Mesh();
+		triangles=new FastTable<WB_Coord>();
 		try {
 			int threadCount = 2*Runtime.getRuntime().availableProcessors();
 			final ExecutorService executor = Executors.newFixedThreadPool(threadCount/2);
-			List<HE_Mesh> meshes=new ArrayList<HE_Mesh>(threadCount);
-			List<Future<HE_Mesh>>  list=new ArrayList<Future<HE_Mesh>>();
-			Callable<HE_Mesh> runner;
+			List<Future<List<WB_Coord>>>  list=new ArrayList<Future<List<WB_Coord>>>();
+			Callable<List<WB_Coord>> runner;
 
 			int i = 0;
 			for (i = 0; i < threadCount ; i+=2) {
 				runner = new PolyRunner(i, threadCount);
 				list.add(executor.submit(runner));
 			}
-			for (Future<HE_Mesh> future : list) {
-				meshes.add(future.get());
+			for (Future<List<WB_Coord>> future : list) {
+				triangles.addAll(future.get());
 			}
-			list=new ArrayList<Future<HE_Mesh>>();
+			list=new ArrayList<Future<List<WB_Coord>>>();
 			for (i = 1; i < threadCount ; i+=2) {
 				runner = new PolyRunner( i, threadCount);
 				list.add(executor.submit(runner));
 			}
-			for (Future<HE_Mesh> future : list) {
-				meshes.add(future.get());
+			for (Future<List<WB_Coord>> future : list) {
+				triangles.addAll(future.get());
 			}
 
 			executor.shutdown();
-			for(HE_Mesh m:meshes) {
-				mesh.add(m);
-			}
+
 		}catch(final InterruptedException ex) {
 			ex.printStackTrace();
 		} catch(final ExecutionException ex) {
@@ -810,7 +798,7 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 *            the cubeindex
 	 * @return the polygons
 	 */
-	private void getPolygons(final int i, final int j, final int k, final int cubeindex,final HE_Mesh mesh,final HE_Vertex[] vertlist) {
+	private void getPolygons(final int i, final int j, final int k, final int cubeindex,final List<WB_Coord >triangles,final WB_Coord[] vertlist) {
 		if (edgeTable[cubeindex] > 0) {
 			/* Find the vertices where the surface intersects the cube */
 			if ((edgeTable[cubeindex] & 1) == 1) {
@@ -850,40 +838,16 @@ public class HEC_IsoSurface extends HEC_Creator {
 				vertlist[11] = zedge(i, j + 1, k);
 			}
 			/* Create the triangle */
-			for (int t = 0; triTable[cubeindex][t] != -1; t += 3) {
-				final HE_Face f = new HE_Face();
-				final HE_Halfedge he1 = new HE_Halfedge();
-				final HE_Halfedge he2 = new HE_Halfedge();
-				final HE_Halfedge he3 = new HE_Halfedge();
-				mesh.setNext(he1,he2);
-				mesh.setNext(he2,he3);
-				mesh.setNext(he3,he1);
-				mesh.setFace(he1,f);
-				mesh.setFace(he2,f);
-				mesh.setFace(he3,f);
-				mesh.setVertex(he1,vertlist[triTable[cubeindex][t]]);
-				mesh.setHalfedge(he1.getVertex(),he1);
-				mesh.setVertex(he2,vertlist[triTable[cubeindex][t + 1]]);
-				mesh.setHalfedge(he2.getVertex(),he2);
-				mesh.setVertex(he3,vertlist[triTable[cubeindex][t + 2]]);
-				mesh.setHalfedge(he3.getVertex(),he3);
-				mesh.setHalfedge(f,he1);
-				mesh.add(f);
-				mesh.add(he1);
-				mesh.add(he2);
-				mesh.add(he3);
+			for (int t = 0; triTable[cubeindex][t] != -1; t ++) {
+				triangles.add(vertlist[triTable[cubeindex][t]]);
+
 			}
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.hemesh.creators.HEB_Creator#createBase()
-	 */
+
 	@SuppressWarnings("unchecked")
-	@Override
-	protected HE_Mesh createBase() {
+	public List<WB_Coord> create() {
 
 		offset = new WB_Point(cx - (0.5 * resx * dx), cy - (0.5 * resy * dy), cz - (0.5 * resz * dz));
 		int n=resz+3;
@@ -891,26 +855,20 @@ public class HEC_IsoSurface extends HEC_Creator {
 		yedges = new TIntObjectHashMap[n];
 		zedges = new TIntObjectHashMap[n];
 		for(int i=0;i<n;i++){
-			xedges[i] = new TIntObjectHashMap<HE_Vertex>(1024, 0.5f, -1);
-			yedges[i] = new TIntObjectHashMap<HE_Vertex>(1024, 0.5f, -1);
-			zedges[i] = new TIntObjectHashMap<HE_Vertex>(1024, 0.5f, -1);
+			xedges[i] = new TIntObjectHashMap<WB_Coord>(1024, 0.5f, -1);
+			yedges[i] = new TIntObjectHashMap<WB_Coord>(1024, 0.5f, -1);
+			zedges[i] = new TIntObjectHashMap<WB_Coord>(1024, 0.5f, -1);
 		}
 		if(MT){
 			polygoniseMT();
 		}else{
 			polygoniseST();
 		}
-		for(int i=0;i<n;i++){
-			mesh.addVertices(xedges[i].valueCollection());
-			mesh.addVertices(yedges[i].valueCollection());
-			mesh.addVertices(zedges[i].valueCollection());
-		}
-		mesh.pairHalfedges();
-		mesh.capHalfedges();
-		return mesh;
+
+		return triangles;
 	}
 
-	class PolyRunner implements Callable<HE_Mesh>{
+	class PolyRunner implements Callable<List<WB_Coord>>{
 		int start;
 
 		int step;
@@ -933,14 +891,14 @@ public class HEC_IsoSurface extends HEC_Creator {
 		 * @see java.util.concurrent.Callable#call()
 		 */
 		@Override
-		public HE_Mesh call() {
-			HE_Mesh mesh=new HE_Mesh();
-			HE_Vertex[] vertlist = new HE_Vertex[12];
+		public List<WB_Coord> call() {
+			List<WB_Coord>triangles=new FastTable<WB_Coord>();
+			WB_Coord[] vertlist = new WB_Coord[12];
 			if (Double.isNaN(boundary)) {
 				for (int i =Math.max(xmin, 0); i < Math.min(xmax,resx); i++) {
 					for (int j = Math.max(ymin, 0); j < Math.min(ymax,resy); j++) {
 						for (int k = start+Math.max(zmin, 0); k < Math.min(zmax,resz); k+=step) {
-							getPolygons(i, j, k, classifyCell(i, j, k),mesh,vertlist);
+							getPolygons(i, j, k, classifyCell(i, j, k),triangles,vertlist);
 						}
 					}
 				}
@@ -948,12 +906,12 @@ public class HEC_IsoSurface extends HEC_Creator {
 				for (int i =  Math.max(xmin, -1); i < Math.min(xmax,resx+1); i++) {
 					for (int j =  Math.max(ymin, -1); j < Math.min(ymax,resy+1); j++) {
 						for (int k = start+ Math.max(zmin, -1); k < Math.min(zmax,resz+1); k+=step) {
-							getPolygons(i, j, k, classifyCell(i, j, k),mesh,vertlist);
+							getPolygons(i, j, k, classifyCell(i, j, k),triangles,vertlist);
 						}
 					}
 				}
 			}
-			return mesh;
+			return triangles;
 		}
 	}
 }
