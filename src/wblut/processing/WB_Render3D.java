@@ -11,7 +11,6 @@ package wblut.processing;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -77,150 +76,8 @@ import wblut.hemesh.HE_VertexIterator;
  *
  */
 public class WB_Render3D extends WB_Render2D {
-	// -----------------------------------------------------------------------Ray
-	// Picker
-	// Code written by Alberto Massa
-	// Adapted by Frederik Vanhoutte
-	// -----------------------------------------------------------------------
-	// Comparator
-	/**
-	 *
-	 */
-	class EyeProximityComparator implements Comparator<HE_Face> {
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-		 */
-		@Override
-		public int compare(final HE_Face o1, final HE_Face o2) {
-			final WB_Segment s1 = new WB_Segment(unproject.ptStartPos, o1.getFaceCenter());
-			final WB_Segment s2 = new WB_Segment(unproject.ptStartPos, o2.getFaceCenter());
-			final double l1 = s1.getLength();
-			final double l2 = s2.getLength();
-			if (l1 < l2) {
-				return -1;
-			}
-			if (l1 > l2) {
-				return 1;
-			}
-			return 0;
-		}
-	}
 
-	// -----------------------------------------------------------------------
-	// Unproject
-	/**
-	 *
-	 */
-	private class Unproject {
-		/**
-		 *
-		 */
-		private boolean m_bValid = false;
-		/**
-		 *
-		 */
-		private final PMatrix3D m_pMatrix = new PMatrix3D();
-		/**
-		 *
-		 */
-		private final int[] m_aiViewport = new int[4];
-		// Store the near and far ray positions.
-		/**
-		 *
-		 */
-		public WB_Point ptStartPos = new WB_Point();
-		/**
-		 *
-		 */
-		public WB_Point ptEndPos = new WB_Point();
 
-		/**
-		 *
-		 *
-		 * @param x
-		 * @param y
-		 * @param height
-		 * @return
-		 */
-		public boolean calculatePickPoints(final double x, final double y, final int height) {
-			// Calculate positions on the near and far 3D
-			// frustum planes.
-			m_bValid = true; // Have to do both in order to reset PVector on
-			// error.
-			if (!gluUnProject(x, height - y, 0.0, ptStartPos)) {
-				m_bValid = false;
-			}
-			if (!gluUnProject(x, height - y, 1.0, ptEndPos)) {
-				m_bValid = false;
-			}
-			return m_bValid;
-		}
-
-		/**
-		 *
-		 *
-		 * @param g3d
-		 */
-		public void captureViewMatrix(final PGraphicsOpenGL g3d) {
-			// Call this to capture the selection matrix after
-			// you have called perspective() or ortho() and applied
-			// your pan, zoom and camera angles - but before
-			// you start drawing or playing with the
-			// matrices any further.
-			if (g3d != null) { // Check for a valid 3D canvas.
-				// Capture current projection matrix.
-				m_pMatrix.set(g3d.projection);
-				// Multiply by current modelview matrix.
-				m_pMatrix.apply(g3d.modelview);
-				// Invert the resultant matrix.
-				m_pMatrix.invert();
-				// Store the viewport.
-				m_aiViewport[0] = 0;
-				m_aiViewport[1] = 0;
-				m_aiViewport[2] = g3d.width;
-				m_aiViewport[3] = g3d.height;
-			}
-		}
-
-		// -------------------------
-		/**
-		 *
-		 *
-		 * @param winx
-		 * @param winy
-		 * @param winz
-		 * @param result
-		 * @return
-		 */
-		public boolean gluUnProject(final double winx, final double winy, final double winz, final WB_Point result) {
-			final double[] in = new double[4];
-			final double[] out = new double[4];
-			// Transform to normalized screen coordinates (-1 to 1).
-			in[0] = (((winx - m_aiViewport[0]) / m_aiViewport[2]) * 2.0) - 1.0;
-			in[1] = (((winy - m_aiViewport[1]) / m_aiViewport[3]) * 2.0) - 1.0;
-			in[2] = (((winz > 1) ? 1.0 : ((winz < 0) ? 0.0 : winz)) * 2.0) - 1.0;
-			in[3] = 1.0;
-			// Calculate homogeneous coordinates.
-			out[0] = (m_pMatrix.m00 * in[0]) + (m_pMatrix.m01 * in[1]) + (m_pMatrix.m02 * in[2])
-					+ (m_pMatrix.m03 * in[3]);
-			out[1] = (m_pMatrix.m10 * in[0]) + (m_pMatrix.m11 * in[1]) + (m_pMatrix.m12 * in[2])
-					+ (m_pMatrix.m13 * in[3]);
-			out[2] = (m_pMatrix.m20 * in[0]) + (m_pMatrix.m21 * in[1]) + (m_pMatrix.m22 * in[2])
-					+ (m_pMatrix.m23 * in[3]);
-			out[3] = (m_pMatrix.m30 * in[0]) + (m_pMatrix.m31 * in[1]) + (m_pMatrix.m32 * in[2])
-					+ (m_pMatrix.m33 * in[3]);
-			if (out[3] == 0.0) { // Check for an invalid result.
-				result.set(0, 0, 0);
-				return false;
-			}
-			// Scale to world coordinates.
-			out[3] = 1.0 / out[3];
-			result.set(out[0] * out[3], out[1] * out[3], out[2] * out[3]);
-			return true;
-		}
-	}
 
 	/**
 	 *
@@ -246,12 +103,7 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 	protected final PGraphicsOpenGL home;
 
-	/**
-	 *
-	 */
-	private final Unproject unproject = new Unproject();
-
-	/**
+	/*
 	 *
 	 *
 	 * @param home
@@ -3906,6 +3758,69 @@ public class WB_Render3D extends WB_Render2D {
 		return home;
 	}
 
+
+
+	class PickingRay
+	{
+		double iwidth=0.0;//inverse width
+		double iheight=0.0;//inverse height
+		PMatrix3D unprojection = new PMatrix3D();
+
+		void getContext(final PGraphicsOpenGL home)
+		{
+
+			unprojection.set(home.projection);
+			unprojection.apply(home.modelview);
+			unprojection.invert();
+			iwidth=1.0/home.width;
+			iheight=1.0/home.height;
+
+		}
+
+		WB_Coord unproject(final double x, final double y, final double z)
+		{
+			//Normalized screen coordinates
+			//x=mouseX to -1..1
+			//y=mouseY to -1..1
+			//z=0 if on near clipping plane, z=1 if on far clipping plane to -1..1
+			double normScreenX = 2.0* ((iwidth * x) - 0.5);
+			double normScreenY = 2.0* (0.5-(iheight * y));
+			double normScreenZ = 2.0* (constrain(z, 0, 1)-0.5 );
+			//normScreenW=1.0
+
+			//Homogeneous coordinates in world space x',y',z',w' = normalized screen coordinates * inverse projection matrix
+			//Only possible if w' is not zero
+			double wPrime = (normScreenX*unprojection.m30)  + (normScreenY*unprojection.m31) + (unprojection.m32 * normScreenZ)+ unprojection.m33 ;
+			//Homogeneous coordinates to Cartesian coordinates: x=x'/w', y=y'/w',z=z'/w'
+			if (Math.abs(wPrime)<1e-12)
+			{ // "Point in infinity"
+				return null;
+			}
+			double iw= 1.0 / wPrime;
+			double xPrime = (normScreenX*unprojection.m00)  + (normScreenY*unprojection.m01) +(normScreenZ* unprojection.m02)  + unprojection.m03 ;
+			double yPrime = (normScreenX*unprojection.m10)  + (normScreenY*unprojection.m11) + (normScreenZ*unprojection.m12)  + unprojection.m13 ;
+			double zPrime = (normScreenX*unprojection.m20) + (normScreenY*unprojection.m21)  +(normScreenZ* unprojection.m22)  + unprojection.m23 ;
+			return new WB_Point(xPrime*iw, yPrime*iw,zPrime*iw);
+		}
+
+		WB_Ray getPickingRay(final double x, final double y) {
+			return geometryfactory.createRayThroughPoints(unproject(x, y, 0.0), unproject(x, y, 1.0));
+		}
+
+		double constrain(final double val, final double min, final double max) {
+			if (val<=min) {
+				return min;
+			}
+			if (val>=max) {
+				return max;
+			}
+			return val;
+		}
+	}
+
+	PickingRay PRay=new PickingRay();
+
+
 	/**
 	 *
 	 *
@@ -3914,25 +3829,13 @@ public class WB_Render3D extends WB_Render2D {
 	 * @return
 	 */
 	public WB_Ray getPickingRay(final double x, final double y) {
-		unproject.captureViewMatrix(home);
-		unproject.calculatePickPoints(x, y, home.height);
-		WB_Ray ray = new WB_Ray(unproject.ptStartPos, unproject.ptEndPos);
-		final WB_Coord o = ray.getOrigin();
-		WB_Point e = ray.getPointOnLine(1000);
-		double error = WB_GeometryOp.getSqDistance2D(x, y, home.screenX(e.xf(), e.yf(), e.zf()),
-				home.screenY(e.xf(), e.yf(), e.zf()));
-		while (error > 1) {
-			final WB_Point ne = e.add(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5);
-			final double nerror = WB_GeometryOp.getSqDistance2D(x, y, home.screenX(ne.xf(), ne.yf(), ne.zf()),
-					home.screenY(ne.xf(), ne.yf(), ne.zf()));
-			if (nerror < error) {
-				error = nerror;
-				e = ne;
-			}
-		}
-		ray = new WB_Ray(o, e.sub(o));
+		PRay.getContext(home);
+		WB_Ray ray = PRay.getPickingRay(x,y);
 		return ray;
 	}
+
+
+
 
 	/**
 	 *
