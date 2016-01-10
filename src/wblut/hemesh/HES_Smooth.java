@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -90,7 +90,7 @@ public class HES_Smooth extends HES_Subdividor {
 	public HE_Mesh apply(final HE_Mesh mesh) {
 		mesh.splitFacesQuad();
 		final WB_Coord[] newPositions = new WB_Coord[mesh.getNumberOfVertices()];
-		final HE_Selection all = mesh.selectAllFaces();
+		final HE_Selection all = HE_Selection.selectAllFaces(mesh);
 		final List<HE_Vertex> boundary = all.getOuterVertices();
 		final List<HE_Vertex> inner = all.getInnerVertices();
 		HE_Vertex v;

@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 
 package wblut.geom;
@@ -5715,6 +5715,50 @@ public class WB_GeometryOp {
 				return WB_Classification.CROSSING;
 			}
 		}
+		if (numInFront != 0) {
+			return WB_Classification.FRONT;
+		}
+		if (numBehind != 0) {
+			return WB_Classification.BACK;
+		}
+		return WB_Classification.ON;
+	}
+
+	/**
+	 *
+	 *
+	 * @param segment
+	 * @param P
+	 * @return
+	 */
+	public static WB_Classification classifySegmentToPlane3D(final WB_Segment segment, final WB_Plane P) {
+		int numInFront = 0;
+		int numBehind = 0;
+
+		switch (classifyPointToPlane3D(segment.getOrigin(),P)) {
+		case FRONT:
+			numInFront++;
+			break;
+		case BACK:
+			numBehind++;
+			break;
+		default:
+		}
+		switch (classifyPointToPlane3D(segment.getEndpoint(),P)) {
+		case FRONT:
+			numInFront++;
+			break;
+		case BACK:
+			numBehind++;
+			break;
+		default:
+		}
+
+
+		if ((numBehind != 0) && (numInFront != 0)) {
+			return WB_Classification.CROSSING;
+		}
+
 		if (numInFront != 0) {
 			return WB_Classification.FRONT;
 		}

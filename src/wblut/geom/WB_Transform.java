@@ -69,12 +69,12 @@ public class WB_Transform {
 		if (WB_Epsilon.isZero(l)) {
 			if (v1.dot(v2) < 0.0) {
 				axis = geometryfactory.createNormalizedPerpendicularVector(sourceDirection);
-				addRotate(Math.PI, axis);
+				addRotateAboutOrigin(Math.PI, axis);
 			}
 		} else {
 			final double angle = Math.atan2(l, v1.dot(v2));
 			axis.normalizeSelf();
-			addRotate(angle, axis);
+			addRotateAboutOrigin(angle, axis);
 		}
 		addTranslate(targetOrigin);
 	}
@@ -95,12 +95,12 @@ public class WB_Transform {
 		if (WB_Epsilon.isZero(l)) {
 			if (v1.dot(v2) < 0.0) {
 				axis = geometryfactory.createNormalizedPerpendicularVector(sourceDirection);
-				addRotate(Math.PI, axis);
+				addRotateAboutOrigin(Math.PI, axis);
 			}
 		} else {
 			final double angle = Math.atan2(l, v1.dot(v2));
 			axis.normalizeSelf();
-			addRotate(angle, axis);
+			addRotateAboutOrigin(angle, axis);
 		}
 	}
 
@@ -238,8 +238,22 @@ public class WB_Transform {
 	 * @param axis
 	 *            WB_Vector
 	 * @return self
+	 * @deprecated Use {@link #addRotateAboutOrigin(double,WB_Coord)} instead
 	 */
 	public WB_Transform addRotate(final double angle, final WB_Coord axis) {
+		return addRotateAboutOrigin(angle, axis);
+	}
+
+	/**
+	 * Add rotation about arbitrary axis in origin.
+	 *
+	 * @param angle
+	 *            angle in radians
+	 * @param axis
+	 *            WB_Vector
+	 * @return self
+	 */
+	public WB_Transform addRotateAboutOrigin(final double angle, final WB_Coord axis) {
 		final WB_Vector a = new WB_Vector(axis);
 		a.normalizeSelf();
 		final double s = Math.sin(angle);
@@ -268,7 +282,7 @@ public class WB_Transform {
 	 */
 	public WB_Transform addRotateAboutAxis(final double angle, final WB_Coord p, final WB_Coord axis) {
 		addTranslate(-1, p);
-		addRotate(angle, axis);
+		addRotateAboutOrigin(angle, axis);
 		addTranslate(p);
 		return this;
 	}
@@ -283,10 +297,26 @@ public class WB_Transform {
 	 * @param q
 	 *            second point
 	 * @return self
+	 * @deprecated Use {@link #addRotateAboutAxis2P(double,WB_Coord,WB_Coord)} instead
 	 */
 	public WB_Transform addRotateAbout2PAxis(final double angle, final WB_Coord p, final WB_Coord q) {
+		return addRotateAboutAxis2P(angle, p, q);
+	}
+
+	/**
+	 * Add rotation about arbitrary axis defiend by two points .
+	 *
+	 * @param angle
+	 *            angle in radians
+	 * @param p
+	 *            first point
+	 * @param q
+	 *            second point
+	 * @return self
+	 */
+	public WB_Transform addRotateAboutAxis2P(final double angle, final WB_Coord p, final WB_Coord q) {
 		addTranslate(-1, p);
-		addRotate(angle, WB_Vector.sub(q, p));
+		addRotateAboutOrigin(angle, WB_Vector.sub(q, p));
 		addTranslate(p);
 		return this;
 	}

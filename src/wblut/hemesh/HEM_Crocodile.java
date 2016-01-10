@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -79,7 +79,7 @@ public class HEM_Crocodile extends HEM_Modifier {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
-		final HE_Selection selection = mesh.selectAllVertices();
+		final HE_Selection selection =HE_Selection.selectAllVertices(mesh);
 		return apply(selection);
 	}
 

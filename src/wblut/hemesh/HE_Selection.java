@@ -3,17 +3,22 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javolution.util.FastTable;
+import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
+import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_Plane;
 import wblut.geom.WB_Vector;
+import wblut.math.WB_Epsilon;
 import wblut.math.WB_MTRandom;
 
 /**
@@ -570,115 +575,6 @@ public class HE_Selection extends HE_MeshStructure {
 	}
 
 	/**
-	 * Select all mesh elements.
-	 *
-	 * @return current selection
-	 */
-	public HE_Selection selectAll() {
-		clear();
-		selectAllFaces();
-		selectAllEdges();
-		selectAllHalfedges();
-		selectAllVertices();
-		return this;
-	}
-
-	/**
-	 *
-	 *
-	 * @return
-	 */
-	public HE_Selection selectAllFaces() {
-		clear();
-		HE_FaceIterator fItr = parent.fItr();
-		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
-			if (f != null) {
-				add(f);
-			}
-		}
-		return this;
-	}
-
-	/**
-	 *
-	 *
-	 * @param r
-	 * @return
-	 */
-	public HE_Selection selectRandomFaces(final double r) {
-		clear();
-		HE_FaceIterator fItr = parent.fItr();
-		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
-			if (f != null) {
-				if (Math.random() < r) {
-					add(f);
-				}
-			}
-		}
-		return this;
-	}
-
-	/**
-	 * 
-	 *
-	 * @param r 
-	 * @param seed 
-	 * @return 
-	 */
-	public HE_Selection selectRandomFaces(final double r, final long seed) {
-		clear();
-		final WB_MTRandom random = new WB_MTRandom(seed);
-		HE_FaceIterator fItr = parent.fItr();
-		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
-			if (f != null) {
-				if (random.nextFloat() < r) {
-					add(f);
-				}
-			}
-		}
-		return this;
-	}
-
-	/**
-	 *
-	 *
-	 * @return
-	 */
-	public HE_Selection selectAllEdges() {
-		clear();
-		replaceHalfedges(parent);
-		return this;
-	}
-
-	/**
-	 *
-	 *
-	 * @return
-	 */
-	public HE_Selection selectAllHalfedges() {
-		clear();
-		replaceHalfedges(parent);
-		return this;
-	}
-
-	/**
-	 *
-	 *
-	 * @return
-	 */
-	public HE_Selection selectAllVertices() {
-		clear();
-		addVertices(parent);
-		return this;
-	}
-
-	/**
 	 * Invert current selection.
 	 *
 	 * @return inverted selection
@@ -850,26 +746,6 @@ public class HE_Selection extends HE_MeshStructure {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * wblut.hemesh.HE_MeshStructure#getFacesWithNormal(wblut.geom.WB_Coordinate
-	 * , double)
-	 */
-	@Override
-	public void getFacesWithNormal(final WB_Coord n, final double ta) {
-		final WB_Vector nn = geometryfactory.createNormalizedVector(n);
-		final double cta = Math.cos(ta);
-		HE_FaceIterator fItr = parent.fItr();
-		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
-			if (nn.dot(f.getFaceNormal()) > cta) {
-				add(f);
-			}
-		}
-	}
 
 	/**
 	 * Collect edges belonging to face selection.
@@ -903,4 +779,654 @@ public class HE_Selection extends HE_MeshStructure {
 		}
 
 	}
+
+
+	/**
+	 * Select all mesh elements.
+	 *
+	 * @return current selection
+	 */
+	public static HE_Selection selectAll(final HE_Mesh mesh) {
+		HE_Selection sel=new HE_Selection(mesh);
+		sel.addFaces(mesh);
+		sel.addHalfedges(mesh);
+		sel.addVertices(mesh);
+		return sel;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static HE_Selection selectAllFaces(final HE_Mesh mesh) {
+		HE_Selection sel=new HE_Selection(mesh);
+		sel.addFaces(mesh);
+		return sel;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param r
+	 * @return
+	 */
+	public static HE_Selection selectRandomFaces(final HE_Mesh mesh,final double r) {
+		HE_Selection sel=new HE_Selection(mesh);
+		HE_FaceIterator fItr = mesh.fItr();
+		HE_Face f;
+		while(fItr.hasNext()){
+			f=fItr.next();
+			if (f != null) {
+				if (Math.random() < r) {
+					sel.add(f);
+				}
+			}
+		}
+		return sel;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param r
+	 * @param seed
+	 * @return
+	 */
+	public static HE_Selection selectRandomFaces(final HE_Mesh mesh,final double r, final long seed) {
+		final WB_MTRandom random = new WB_MTRandom(seed);
+		HE_Selection sel=new HE_Selection(mesh);
+		HE_FaceIterator fItr = mesh.fItr();
+		HE_Face f;
+		while(fItr.hasNext()){
+			f=fItr.next();
+			if (f != null) {
+				if (random.nextFloat() < r) {
+					sel.add(f);
+				}
+			}
+		}
+		return sel;
+	}
+
+
+	/**
+	 * Select all faces on boundary.
+	 *
+	 * @return
+	 */
+	public static HE_Selection selecBoundaryFaces(final HE_Mesh mesh) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final Iterator<HE_Halfedge> heItr = mesh.heItr();
+		HE_Halfedge he;
+		while (heItr.hasNext()) {
+			he = heItr.next();
+			if (he.getFace() == null) {
+				_selection.add(he.getPair().getFace());
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 * Select all faces with given label.
+	 *
+	 * @param label
+	 *
+	 * @return
+	 */
+	public static HE_Selection selectFacesWithLabel(final HE_Mesh mesh,final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Face f;
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			if (f.getLabel() == label) {
+				_selection.add(f);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 * Select all faces except with given label.
+	 *
+	 * @param label
+	 *
+	 * @return
+	 */
+	public static HE_Selection selectFacesWithOtherLabel(final HE_Mesh mesh,final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Face f;
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			if (f.getLabel() != label) {
+				_selection.add(f);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param label
+	 * @return
+	 */
+	public static HE_Selection selectFacesWithInternalLabel(final HE_Mesh mesh,final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Face f;
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			if (f.getInternalLabel() == label) {
+				_selection.add(f);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param label
+	 * @return
+	 */
+	public static HE_Selection selectFacesWithOtherInternalLabel(final HE_Mesh mesh,final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Face f;
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			if (f.getInternalLabel() != label) {
+				_selection.add(f);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param v
+	 * @return
+	 */
+	public static HE_Selection selectFacesWithNormal(final HE_Mesh mesh,final WB_Coord v) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final WB_Vector w = new WB_Vector(v);
+		w.normalizeSelf();
+		HE_Face f;
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			if (WB_Vector.dot(f.getFaceNormal(), v) > (1.0 - WB_Epsilon.EPSILON)) {
+				_selection.add(f);
+			}
+		}
+		return _selection;
+	}
+
+
+	public static HE_Selection selectFacesWithNormal(final HE_Mesh mesh, final WB_Coord n, final double ta) {
+		HE_Selection sel=new HE_Selection(mesh);
+		final WB_Vector nn = geometryfactory.createNormalizedVector(n);
+		final double cta = Math.cos(ta);
+		HE_FaceIterator fItr = sel.parent.fItr();
+		HE_Face f;
+		while(fItr.hasNext()){
+			f=fItr.next();
+			if (nn.dot(f.getFaceNormal()) > cta) {
+				sel.add(f);
+			}
+		}
+		return sel;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param P
+	 * @return
+	 */
+	public static HE_Selection selectFrontFaces(final HE_Mesh mesh,final WB_Plane P) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final HE_FaceIterator fitr = mesh.fItr();
+		HE_Face f;
+		while (fitr.hasNext()) {
+			f = fitr.next();
+			if (HE_GeometryOp.classifyFaceToPlane3D(f, P) == WB_Classification.FRONT) {
+				_selection.add(f);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param P
+	 * @return
+	 */
+	public static HE_Selection selectBackFaces(final HE_Mesh mesh,final WB_Plane P) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final HE_FaceIterator fitr = mesh.fItr();
+		HE_Face f;
+		while (fitr.hasNext()) {
+			f = fitr.next();
+			if (HE_GeometryOp.classifyFaceToPlane3D(f, P) == WB_Classification.BACK) {
+				_selection.add(f);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param P
+	 * @return
+	 */
+	public static HE_Selection selectCrossingFaces(final HE_Mesh mesh,final WB_Plane P) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final HE_FaceIterator fitr = mesh.fItr();
+		HE_Face f;
+		while (fitr.hasNext()) {
+			f = fitr.next();
+			if (HE_GeometryOp.classifyFaceToPlane3D(f, P) == WB_Classification.CROSSING) {
+				_selection.add(f);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static HE_Selection selectAllEdges(final HE_Mesh mesh) {
+		HE_Selection sel=new HE_Selection(mesh);
+		sel.addEdges(mesh);
+		return sel;
+	}
+
+	/**
+	 *
+	 *
+	 * @param r
+	 * @return
+	 */
+	public static HE_Selection selectRandomEdges(final HE_Mesh mesh,final double r) {
+		HE_Selection sel=new HE_Selection(mesh);
+		HE_EdgeIterator eItr = mesh.eItr();
+		HE_Halfedge e;
+		while(eItr.hasNext()){
+			e=eItr.next();
+			if (e != null) {
+				if (Math.random() < r) {
+					sel.add(e);
+				}
+			}
+		}
+		return sel;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param r
+	 * @param seed
+	 * @return
+	 */
+	public static HE_Selection selectRandomEdges(final HE_Mesh mesh,final double r, final long seed) {
+		final WB_MTRandom random = new WB_MTRandom(seed);
+		HE_Selection sel=new HE_Selection(mesh);
+		HE_EdgeIterator eItr = mesh.eItr();
+		HE_Halfedge e;
+		while(eItr.hasNext()){
+			e=eItr.next();
+			if (e != null) {
+				if (random.nextFloat() < r) {
+					sel.add(e);
+				}
+			}
+		}
+		return sel;
+	}
+
+
+
+	/**
+	 * Select all edges on boundary.
+	 *
+	 * @return
+	 */
+	public static HE_Selection selectBoundaryEdges(final HE_Mesh mesh) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final HE_EdgeIterator eItr = mesh.eItr();
+		HE_Halfedge e;
+		while (eItr.hasNext()) {
+			e = eItr.next();
+			if (e.isInnerBoundary()) {
+				_selection.add(e);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param P
+	 * @return
+	 */
+	public static HE_Selection selectFrontEdges(final HE_Mesh mesh,final WB_Plane P) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final HE_EdgeIterator eitr = mesh.eItr();
+		HE_Halfedge e;
+		while (eitr.hasNext()) {
+			e = eitr.next();
+			if (HE_GeometryOp.classifyEdgeToPlane3D(e, P) == WB_Classification.FRONT) {
+				_selection.add(e);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param P
+	 * @return
+	 */
+	public static HE_Selection selectBackEdges(final HE_Mesh mesh,final WB_Plane P) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final HE_EdgeIterator eitr = mesh.eItr();
+		HE_Halfedge e;
+		while (eitr.hasNext()) {
+			e = eitr.next();
+			if (HE_GeometryOp.classifyEdgeToPlane3D(e, P) == WB_Classification.BACK) {
+				_selection.add(e);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param P
+	 * @return
+	 */
+	public static HE_Selection selectCrossingEdges(final HE_Mesh mesh,final WB_Plane P) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final HE_EdgeIterator eitr = mesh.eItr();
+		HE_Halfedge e;
+		while (eitr.hasNext()) {
+			e = eitr.next();
+			if (HE_GeometryOp.classifyEdgeToPlane3D(e, P) == WB_Classification.CROSSING) {
+				_selection.add(e);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static HE_Selection selectAllHalfedges(final HE_Mesh mesh) {
+		HE_Selection sel=new HE_Selection(mesh);
+		sel.addHalfedges(mesh);
+		return sel;
+	}
+
+
+	/**
+	 * Select all halfedges on inside of boundary.
+	 *
+	 * @return
+	 */
+	public static HE_Selection selectAllInnerBoundaryHalfedges(final HE_Mesh mesh) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final Iterator<HE_Halfedge> heItr = mesh.heItr();
+		HE_Halfedge he;
+		while (heItr.hasNext()) {
+			he = heItr.next();
+			if (he.getPair().getFace() == null) {
+				_selection.add(he);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 * Select all halfedges on outside of boundary.
+	 *
+	 * @return
+	 */
+	public static HE_Selection selectAllOuterBoundaryHalfedges(final HE_Mesh mesh) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final Iterator<HE_Halfedge> heItr = mesh.heItr();
+		HE_Halfedge he;
+		while (heItr.hasNext()) {
+			he = heItr.next();
+			if (he.getFace() == null) {
+				_selection.add(he);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static HE_Selection selectAllVertices(final HE_Mesh mesh) {
+		HE_Selection sel=new HE_Selection(mesh);
+		sel.addVertices(mesh);
+		return sel;
+	}
+
+
+
+	/**
+	 *
+	 *
+	 * @param r
+	 * @return
+	 */
+	public static HE_Selection selectRandomVertices(final HE_Mesh mesh,final double r) {
+		HE_Selection sel=new HE_Selection(mesh);
+		HE_VertexIterator vItr = mesh.vItr();
+		HE_Vertex v;
+		while(vItr.hasNext()){
+			v=vItr.next();
+			if (v != null) {
+				if (Math.random() < r) {
+					sel.add(v);
+				}
+			}
+		}
+		return sel;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param r
+	 * @param seed
+	 * @return
+	 */
+	public static HE_Selection selectRandomVertices(final HE_Mesh mesh,final double r, final long seed) {
+		final WB_MTRandom random = new WB_MTRandom(seed);
+		HE_Selection sel=new HE_Selection(mesh);
+		HE_VertexIterator vItr = mesh.vItr();
+		HE_Vertex v;
+		while(vItr.hasNext()){
+			v=vItr.next();
+			if (v != null) {
+				if (random.nextFloat() < r) {
+					sel.add(v);
+				}
+			}
+		}
+		return sel;
+	}
+	/**
+	 * Select all vertices on boundary.
+	 *
+	 * @return
+	 */
+	public static HE_Selection selectBoundaryVertices(final HE_Mesh mesh) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final Iterator<HE_Halfedge> heItr = mesh.heItr();
+		HE_Halfedge he;
+		while (heItr.hasNext()) {
+			he = heItr.next();
+			if (he.getFace() == null) {
+				_selection.add(he.getVertex());
+			}
+		}
+		return _selection;
+	}
+
+
+	public static HE_Selection selectVerticesWithLabel(final HE_Mesh mesh,final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = mesh.vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			if (v.getLabel() == label) {
+				_selection.add(v);
+			}
+		}
+		return _selection;
+	}
+
+
+	public static HE_Selection selectVerticesWithOtherLabel(final HE_Mesh mesh,final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = mesh.vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			if (v.getLabel() != label) {
+				_selection.add(v);
+			}
+		}
+		return _selection;
+	}
+
+	public static HE_Selection selectVerticesWithInternalLabel(final HE_Mesh mesh,final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = mesh.vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			if (v.getInternalLabel() == label) {
+				_selection.add(v);
+			}
+		}
+		return _selection;
+	}
+
+	public static HE_Selection selectVerticesWithOtherInternalLabel(final HE_Mesh mesh,final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = mesh.vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			if (v.getInternalLabel() != label) {
+				_selection.add(v);
+			}
+		}
+		return _selection;
+	}
+
+	/**
+	 *
+	 *
+	 * @param P
+	 * @return
+	 */
+	public static HE_Selection selectFrontVertices(final HE_Mesh mesh,final WB_Plane P) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final HE_VertexIterator vitr = mesh.vItr();
+		HE_Vertex v;
+		while (vitr.hasNext()) {
+			v = vitr.next();
+			if (WB_GeometryOp.classifyPointToPlane3D(v, P) == WB_Classification.FRONT) {
+				_selection.add(v);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param P
+	 * @return
+	 */
+	public static HE_Selection selectBackVertices(final HE_Mesh mesh,final WB_Plane P) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final HE_VertexIterator vitr = mesh.vItr();
+		HE_Vertex v;
+		while (vitr.hasNext()) {
+			v = vitr.next();
+			if (WB_GeometryOp.classifyPointToPlane3D(v, P) == WB_Classification.BACK) {
+				_selection.add(v);
+			}
+		}
+		return _selection;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @param P
+	 * @return
+	 */
+	public static HE_Selection selectOnVertices(final HE_Mesh mesh,final WB_Plane P) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final HE_VertexIterator vitr = mesh.vItr();
+		HE_Vertex v;
+		while (vitr.hasNext()) {
+			v = vitr.next();
+			if (WB_GeometryOp.classifyPointToPlane3D(v, P) == WB_Classification.ON) {
+				_selection.add(v);
+			}
+		}
+		return _selection;
+	}
+
+
+
 }

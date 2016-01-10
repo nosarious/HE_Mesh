@@ -143,7 +143,7 @@ public class HEC_ShrinkWrap extends HEC_Creator {
 			v = vItr.next();
 			vmod = vmodItr.next();
 			R = new WB_Ray(v, WB_Vector.mul(v.getVertexNormal(), -1));
-			final WB_Point p = HE_Intersection.getClosestIntersection(tree, R).point;
+			final WB_Point p = HE_GeometryOp.getClosestIntersection(tree, R).point;
 			if (p != null) {
 				if (WB_GeometryOp.getDistance3D(v, p) < radius) {
 					vmod.set(p);

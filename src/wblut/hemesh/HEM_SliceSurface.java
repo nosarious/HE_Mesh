@@ -138,7 +138,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		final WB_AABBTree tree = new WB_AABBTree(mesh, Math.max(64, (int)Math.sqrt(mesh.getNumberOfFaces())));
 		final HE_Selection faces = new HE_Selection(mesh);
 		tracker.setStatus(this, "Retrieving intersection candidates.", 0);
-		faces.addFaces(HE_Intersection.getPotentialIntersectedFaces(tree, lP));
+		faces.addFaces(HE_GeometryOp.getPotentialIntersectedFaces(tree, lP));
 		faces.collectVertices();
 		faces.collectEdgesByFace();
 		WB_Classification tmp;
@@ -176,13 +176,13 @@ public class HEM_SliceSurface extends HEM_Modifier {
 				if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.ON) {
 					edgeInt.put(e.key(), 1.0);
 				} else if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.FRONT) {
-					edgeInt.put(e.key(), HE_Intersection.getIntersection(e, lP));
+					edgeInt.put(e.key(), HE_GeometryOp.getIntersection(e, lP));
 				}
 			} else {
 				if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.ON) {
 					edgeInt.put(e.key(), 1.0);
 				} else if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.BACK) {
-					edgeInt.put(e.key(), HE_Intersection.getIntersection(e, lP));
+					edgeInt.put(e.key(), HE_GeometryOp.getIntersection(e, lP));
 				}
 			}
 			counter.increment();
@@ -302,7 +302,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		final WB_AABBTree tree = new WB_AABBTree(selection.parent, 64);
 		final HE_Selection faces = new HE_Selection(selection.parent);
 		tracker.setStatus(this, "Retrieving intersection candidates.", 0);
-		faces.addFaces(HE_Intersection.getPotentialIntersectedFaces(tree, lP));
+		faces.addFaces(HE_GeometryOp.getPotentialIntersectedFaces(tree, lP));
 		final HE_Selection lsel = selection.get();
 		lsel.intersect(faces);
 		lsel.collectEdgesByFace();
@@ -357,13 +357,13 @@ public class HEM_SliceSurface extends HEM_Modifier {
 					if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.ON) {
 						edgeInt.put(e.key(), 1.0);
 					} else if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.FRONT) {
-						edgeInt.put(e.key(), HE_Intersection.getIntersection(e, lP));
+						edgeInt.put(e.key(), HE_GeometryOp.getIntersection(e, lP));
 					}
 				} else {
 					if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.ON) {
 						edgeInt.put(e.key(), 1.0);
 					} else if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.BACK) {
-						edgeInt.put(e.key(), HE_Intersection.getIntersection(e, lP));
+						edgeInt.put(e.key(), HE_GeometryOp.getIntersection(e, lP));
 					}
 				}
 				counter.increment();

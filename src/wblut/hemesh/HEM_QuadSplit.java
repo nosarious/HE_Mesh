@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -70,7 +70,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 			i++;
 			counter.increment();
 		}
-		final HE_Selection orig = mesh.selectAllFaces();
+		final HE_Selection orig = HE_Selection.selectAllFaces(mesh);
 		orig.collectVertices();
 		orig.collectEdgesByFace();
 		selectionOut.addVertices(mesh.splitEdges().getVerticesAsArray());

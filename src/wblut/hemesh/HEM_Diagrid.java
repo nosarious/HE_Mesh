@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -49,7 +49,7 @@ public class HEM_Diagrid extends HEM_Modifier {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
-		final HE_Selection sel = mesh.selectAllEdges();
+		final HE_Selection sel = HE_Selection.selectAllEdges(mesh);
 		mesh.splitFacesTri();
 		final HE_EdgeIterator eitr = sel.eItr();
 		HE_Halfedge e;

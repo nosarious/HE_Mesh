@@ -124,7 +124,7 @@ public class HEC_Antiprism extends HEC_Creator {
 	if (!surf) {
 	    for (int i = 0; i < n; i++) {
 		points[n + i] = new WB_Point(points[i]).addMulSelf(thickness,
-			norm).rotateAbout2PointAxisSelf(Math.PI / facets, 0, 0,
+			norm).rotateAboutAxis2PSelf(Math.PI / facets, 0, 0,
 			0, 0, 0, 1);
 	    }
 	}

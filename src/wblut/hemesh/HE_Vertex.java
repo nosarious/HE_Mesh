@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -86,45 +86,45 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public HE_VertexEdgeCirculator veCrc() {
 		return new HE_VertexEdgeCirculator(this);
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public HE_VertexFaceCirculator vfCrc() {
 		return new HE_VertexFaceCirculator(this);
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public HE_VertexVertexCirculator vvCrc() {
 		return new HE_VertexVertexCirculator(this);
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public HE_VertexHalfedgeInCirculator vheiCrc() {
 		return new HE_VertexHalfedgeInCirculator(this);
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public HE_VertexHalfedgeOutCirculator vheoCrc() {
 		return new HE_VertexHalfedgeOutCirculator(this);
@@ -800,9 +800,9 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public WB_Coord getVertexAverageNormal() {
 		WB_Vector normal = new WB_Vector();
@@ -827,9 +827,9 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public WB_Coord getVertexAreaNormal() {
 		WB_Vector normal = new WB_Vector();
@@ -853,9 +853,9 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public WB_Coord getVertexAngleNormal() {
 		HE_Halfedge he=getHalfedge();
@@ -1181,10 +1181,10 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	}
 
 	/**
-	 * 
 	 *
-	 * @param f 
-	 * @return 
+	 *
+	 * @param f
+	 * @return
 	 */
 	public HE_Halfedge getHalfedge(final HE_Face f) {
 		HE_Halfedge he = _halfedge;
@@ -1222,9 +1222,9 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	/**
 	 * Set vertex UVW.
 	 *
-	 * @param u 
-	 * @param v 
-	 * @param w 
+	 * @param u
+	 * @param v
+	 * @param w
 	 */
 	public void setUVW(final double u, final double v, final double w) {
 		uvw = new HE_TextureCoordinate(u, v, w);
@@ -1258,10 +1258,10 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	 * Set UVW in halfedge in this vertex, belonging to face. If no such
 	 * halfedge exists, nothing happens.
 	 *
-	 * @param u 
-	 * @param v 
-	 * @param w 
-	 * @param face 
+	 * @param u
+	 * @param v
+	 * @param w
+	 * @param face
 	 */
 	public void setUVW(final double u, final double v, final double w, final HE_Face face) {
 		HE_Halfedge he = getHalfedge(face);
@@ -1276,7 +1276,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	 * halfedge exists, nothing happens.
 	 *
 	 * @param uvw            WB_Coord
-	 * @param face 
+	 * @param face
 	 */
 	public void setUVW(final WB_Coord uvw, final HE_Face face) {
 		HE_Halfedge he = getHalfedge(face);
@@ -1291,7 +1291,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	 * halfedge exists, nothing happens.
 	 *
 	 * @param uvw            HE_TextureCoordinate
-	 * @param face 
+	 * @param face
 	 */
 	public void setUVW(final HE_TextureCoordinate uvw, final HE_Face face) {
 		HE_Halfedge he = getHalfedge(face);
@@ -1305,7 +1305,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	 * Clear UVW in halfedge in this vertex, belonging to face. If no such
 	 * halfedge exists, nothing happens.
 	 *
-	 * @param face 
+	 * @param face
 	 */
 
 	public void clearUVW(final HE_Face face) {
@@ -1371,8 +1371,8 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	 * Get the halfedge UVW belonging to a face. If none exists, return zero
 	 * coordinates.
 	 *
-	 * @param f 
-	 * @return 
+	 * @param f
+	 * @return
 	 */
 	public HE_TextureCoordinate getHalfedgeUVW(final HE_Face f) {
 		final HE_Halfedge he = getHalfedge(f);
@@ -1388,8 +1388,8 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	 * vertex UVW is retrieved.* If neither exist, zero coordinates are
 	 * returned.
 	 *
-	 * @param f 
-	 * @return 
+	 * @param f
+	 * @return
 	 */
 
 	public HE_TextureCoordinate getUVW(final HE_Face f) {
@@ -1401,7 +1401,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void cleanUVW() {
 		if (_halfedge == null) {
@@ -1435,9 +1435,9 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public double getAngularDefect(){
 		return (2*Math.PI)-getUmbrellaAngle();
@@ -1573,12 +1573,12 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	}
 
 	/**
-	 * 
 	 *
-	 * @param x 
-	 * @param y 
-	 * @param z 
-	 * @return 
+	 *
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
 	 */
 	public HE_Vertex addSelf(final double x, final double y, final double z) {
 		set(xd() + x, yd() + y, zd() + z);
@@ -1890,11 +1890,11 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	}
 
 	/**
-	 * 
 	 *
-	 * @param q 
-	 * @param p 
-	 * @return 
+	 *
+	 * @param q
+	 * @param p
+	 * @return
 	 */
 	public double getAngle(final WB_Coord q, final WB_Coord p) {
 		return WB_GeometryOp.angleBetween(q.xd(), q.yd(), q.zd(), p.xd(), p.yd(), p.zd());
@@ -1912,11 +1912,11 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	}
 
 	/**
-	 * 
 	 *
-	 * @param q 
-	 * @param p 
-	 * @return 
+	 *
+	 * @param q
+	 * @param p
+	 * @return
 	 */
 	public double getAngleNorm(final WB_Coord q, final WB_Coord p) {
 		return WB_GeometryOp.angleBetweenNorm(q.xd(), q.yd(), q.zd(), p.xd(), p.yd(), p.zd());
@@ -2240,8 +2240,24 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	 * @see wblut.geom.WB_CoordinateTransform#rotateAbout2PointAxis(double,
 	 * double, double, double, double, double, double)
 	 */
+	/**
+	 * @deprecated Use {@link #rotateAboutAxis2P(double,double,double,double,double,double,double)} instead
+	 */
+	@Deprecated
 	@Override
 	public WB_Point rotateAbout2PointAxis(final double angle, final double p1x, final double p1y, final double p1z,
+			final double p2x, final double p2y, final double p2z) {
+		return rotateAboutAxis2P(angle, p1x, p1y, p1z, p2x, p2y, p2z);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see wblut.geom.WB_CoordinateTransform#rotateAbout2PointAxis(double,
+	 * double, double, double, double, double, double)
+	 */
+	@Override
+	public WB_Point rotateAboutAxis2P(final double angle, final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z) {
 		final WB_Point result = new WB_Point(this);
 		final WB_Transform raa = new WB_Transform();
@@ -2256,8 +2272,23 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	 * @see wblut.geom.WB_CoordinateTransform#rotateAbout2PointAxis(double,
 	 * wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
 	 */
+	/**
+	 * @deprecated Use {@link #rotateAboutAxis2P(double,WB_Coord,WB_Coord)} instead
+	 */
+	@Deprecated
 	@Override
 	public WB_Point rotateAbout2PointAxis(final double angle, final WB_Coord p1, final WB_Coord p2) {
+		return rotateAboutAxis2P(angle, p1, p2);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see wblut.geom.WB_CoordinateTransform#rotateAbout2PointAxis(double,
+	 * wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
+	 */
+	@Override
+	public WB_Point rotateAboutAxis2P(final double angle, final WB_Coord p1, final WB_Coord p2) {
 		final WB_Point result = new WB_Point(this);
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutAxis(angle, p1, new WB_Vector(p1, p2));
@@ -2272,8 +2303,25 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	 * wblut.geom.WB_MutableCoordinateTransform#rotateAbout2PointAxisSelf(double
 	 * , double, double, double, double, double, double)
 	 */
+	/**
+	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,double,double,double,double,double,double)} instead
+	 */
+	@Deprecated
 	@Override
 	public HE_Vertex rotateAbout2PointAxisSelf(final double angle, final double p1x, final double p1y, final double p1z,
+			final double p2x, final double p2y, final double p2z) {
+		return rotateAboutAxis2PSelf(angle, p1x, p1y, p1z, p2x, p2y, p2z);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * wblut.geom.WB_MutableCoordinateTransform#rotateAbout2PointAxisSelf(double
+	 * , double, double, double, double, double, double)
+	 */
+	@Override
+	public HE_Vertex rotateAboutAxis2PSelf(final double angle, final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z) {
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutAxis(angle, new WB_Vector(p1x, p1y, p1z), new WB_Vector(p2x - p1x, p2y - p1y, p2z - p1z));
@@ -2288,8 +2336,24 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	 * wblut.geom.WB_MutableCoordinateTransform#rotateAbout2PointAxisSelf(double
 	 * , wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
 	 */
+	/**
+	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,WB_Coord,WB_Coord)} instead
+	 */
+	@Deprecated
 	@Override
 	public HE_Vertex rotateAbout2PointAxisSelf(final double angle, final WB_Coord p1, final WB_Coord p2) {
+		return rotateAboutAxis2PSelf(angle, p1, p2);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * wblut.geom.WB_MutableCoordinateTransform#rotateAbout2PointAxisSelf(double
+	 * , wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
+	 */
+	@Override
+	public HE_Vertex rotateAboutAxis2PSelf(final double angle, final WB_Coord p1, final WB_Coord p2) {
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutAxis(angle, p1, new WB_Vector(p1, p2));
 		raa.applySelfAsPoint(this);
@@ -2357,6 +2421,70 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 		raa.applySelfAsPoint(this);
 		return this;
 	}
+
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * wblut.geom.WB_MutableCoordinateTransform#rotateAbout2PointAxisSelf(double
+	 * , double, double, double, double, double, double)
+	 */
+	@Override
+	public WB_Point rotateAboutOrigin(final double angle, final double x, final double y, final double z) {
+		final WB_Point result = new WB_Point(this);
+		final WB_Transform raa = new WB_Transform();
+		raa.addRotateAboutOrigin(angle, new WB_Vector(x, y, z));
+		raa.applySelfAsPoint(result);
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see wblut.geom.WB_CoordinateTransform#rotateAboutAxis(double,
+	 * wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
+	 */
+	@Override
+	public WB_Point rotateAboutOrigin(final double angle, final WB_Coord a) {
+		final WB_Point result = new WB_Point(this);
+		final WB_Transform raa = new WB_Transform();
+		raa.addRotateAboutOrigin(angle, a);
+		raa.applySelfAsPoint(result);
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * wblut.geom.WB_MutableCoordinateTransform#rotateAbout2PointAxisSelf(double
+	 * , double, double, double, double, double, double)
+	 */
+	@Override
+	public HE_Vertex rotateAboutOriginSelf(final double angle, final double x, final double y, final double z) {
+
+		final WB_Transform raa = new WB_Transform();
+		raa.addRotateAboutOrigin(angle, new WB_Vector(x, y, z));
+		raa.applySelfAsPoint(this);
+		return this;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see wblut.geom.WB_CoordinateTransform#rotateAboutAxis(double,
+	 * wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
+	 */
+	@Override
+	public HE_Vertex rotateAboutOriginSelf(final double angle, final WB_Coord a) {
+
+		final WB_Transform raa = new WB_Transform();
+		raa.addRotateAboutOrigin(angle, a);
+		raa.applySelfAsPoint(this);
+		return this;
+	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -2518,11 +2646,11 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 	}
 
 	/**
-	 * 
 	 *
-	 * @param u 
-	 * @param v 
-	 * @return 
+	 *
+	 * @param u
+	 * @param v
+	 * @return
 	 */
 	public WB_M33 tensor(final WB_Coord u, final WB_Coord v) {
 		return new WB_M33(WB_GeometryOp.tensor3D(u.xd(), u.yd(), u.zd(), v.xd(), v.yd(), v.zd()));

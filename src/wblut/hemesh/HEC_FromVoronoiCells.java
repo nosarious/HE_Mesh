@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -122,10 +122,10 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param b 
-	 * @return 
+	 *
+	 * @param b
+	 * @return
 	 */
 	public HEC_FromVoronoiCells setMembrane(final boolean b) {
 		this.membrane = b;
@@ -201,7 +201,7 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 		}
 		result.fixNonManifoldVertices();
 		if (!capBoundaries) {
-			final HE_Selection sel = result.selectFacesWithInternalLabel(-1);
+			final HE_Selection sel = HE_Selection.selectFacesWithInternalLabel(result,-1);
 			final HE_FaceIterator fitr = sel.fItr();
 			while (fitr.hasNext()) {
 				result.deleteFace(fitr.next());

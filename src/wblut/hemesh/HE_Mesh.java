@@ -47,8 +47,6 @@ import wblut.geom.WB_Segment;
 import wblut.geom.WB_Transform;
 import wblut.geom.WB_Triangle;
 import wblut.geom.WB_Vector;
-import wblut.math.WB_Epsilon;
-import wblut.math.WB_MTRandom;
 
 /**
  * Half-edge mesh data structure.
@@ -804,11 +802,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh transform(final WB_Transform T) {
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			T.applySelfAsPoint(vItr.next());
-		}
-		return this;
+		return modify(new HEM_Transform(T));
 	}
 
 	/**
@@ -877,7 +871,33 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	}
 
 	/**
-	 * Rotate entire mesh around an arbitrary axis.
+	 * Rotate entire mesh around an arbitrary axis defined by 2 points.
+	 *
+	 * @param angle
+	 *            angle
+	 * @param p1x
+	 *            x-coordinate of first point on axis
+	 * @param p1y
+	 *            y-coordinate of first point on axis
+	 * @param p1z
+	 *            z-coordinate of first point on axis
+	 * @param p2x
+	 *            x-coordinate of second point on axis
+	 * @param p2y
+	 *            y-coordinate of second point on axis
+	 * @param p2z
+	 *            z-coordinate of second point on axis
+	 * @return self
+	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,double,double,double,double,double,double)} instead
+	 */
+	@Deprecated
+	public HE_Mesh rotateAbout2PointAxis(final double angle, final double p1x, final double p1y, final double p1z,
+			final double p2x, final double p2y, final double p2z) {
+		return rotateAboutAxis2PSelf(angle, p1x, p1y, p1z, p2x, p2y, p2z);
+	}
+
+	/**
+	 * Rotate entire mesh around an arbitrary axis defined by 2 points..
 	 *
 	 * @param angle
 	 *            angle
@@ -895,7 +915,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 *            z-coordinate of second point on axis
 	 * @return self
 	 */
-	public HE_Mesh rotateAbout2PointAxis(final double angle, final double p1x, final double p1y, final double p1z,
+	public HE_Mesh rotateAboutAxis2PSelf(final double angle, final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z) {
 		if (!isCenterUpdated) {
 			getCenter();
@@ -913,7 +933,24 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	}
 
 	/**
-	 * Rotate entire mesh around an arbitrary axis.
+	 * Rotate entire mesh around an arbitrary axis defined by 2 points..
+	 *
+	 * @param angle
+	 *            angle
+	 * @param p1
+	 *            first point on axis
+	 * @param p2
+	 *            second point on axis
+	 * @return self
+	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,WB_Coord,WB_Coord)} instead
+	 */
+	@Deprecated
+	public HE_Mesh rotateAbout2PointAxis(final double angle, final WB_Coord p1, final WB_Coord p2) {
+		return rotateAboutAxis2PSelf(angle, p1, p2);
+	}
+
+	/**
+	 * Rotate entire mesh around an arbitrary axis defined by 2 points..
 	 *
 	 * @param angle
 	 *            angle
@@ -923,7 +960,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 *            second point on axis
 	 * @return self
 	 */
-	public HE_Mesh rotateAbout2PointAxis(final double angle, final WB_Coord p1, final WB_Coord p2) {
+	public HE_Mesh rotateAboutAxis2PSelf(final double angle, final WB_Coord p1, final WB_Coord p2) {
 		if (!isCenterUpdated) {
 			getCenter();
 		}
@@ -940,7 +977,24 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	}
 
 	/**
-	 * Rotate entire mesh around an arbitrary axis.
+	 * Rotate entire mesh around an arbitrary axis defined by a point and a direction.
+	 *
+	 * @param angle
+	 *            angle
+	 * @param p
+	 *            rotation point
+	 * @param a
+	 *            axis
+	 * @return self
+	 * @deprecated Use {@link #rotateAboutAxisSelf(double,WB_Coord,WB_Coord)} instead
+	 */
+	@Deprecated
+	public HE_Mesh rotateAboutAxis(final double angle, final WB_Coord p, final WB_Coord a) {
+		return rotateAboutAxisSelf(angle, p, a);
+	}
+
+	/**
+	 * Rotate entire mesh around an arbitrary axis defined by a point and a direction.
 	 *
 	 * @param angle
 	 *            angle
@@ -950,7 +1004,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 *            axis
 	 * @return self
 	 */
-	public HE_Mesh rotateAboutAxis(final double angle, final WB_Coord p, final WB_Coord a) {
+	public HE_Mesh rotateAboutAxisSelf(final double angle, final WB_Coord p, final WB_Coord a) {
 		if (!isCenterUpdated) {
 			getCenter();
 		}
@@ -967,7 +1021,26 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	}
 
 	/**
+	 * Rotate entire mesh around an arbitrary axis defined by a point and a direction.
 	 *
+	 * @param angle
+	 * @param px
+	 * @param py
+	 * @param pz
+	 * @param ax
+	 * @param ay
+	 * @param az
+	 * @return
+	 * @deprecated Use {@link #rotateAboutAxisSelf(double,double,double,double,double,double,double)} instead
+	 */
+	@Deprecated
+	public HE_Mesh rotateAboutAxis(final double angle, final double px, final double py, final double pz,
+			final double ax, final double ay, final double az) {
+		return rotateAboutAxisSelf(angle, px, py, pz, ax, ay, az);
+	}
+
+	/**
+	 * Rotate entire mesh around an arbitrary axis defined by a point and a direction.
 	 *
 	 * @param angle
 	 * @param px
@@ -978,7 +1051,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @param az
 	 * @return
 	 */
-	public HE_Mesh rotateAboutAxis(final double angle, final double px, final double py, final double pz,
+	public HE_Mesh rotateAboutAxisSelf(final double angle, final double px, final double py, final double pz,
 			final double ax, final double ay, final double az) {
 		if (!isCenterUpdated) {
 			getCenter();
@@ -993,6 +1066,86 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		}
 		center = raa.applyAsPoint(center);
 		return this;
+	}
+
+	/**
+	 * Rotate entire mesh around an arbitrary axis in origin.
+	 *
+	 * @param angle
+	 *            angle
+	 * @param a
+	 *            axis
+	 * @return self
+	 */
+	public HE_Mesh rotateAboutOriginSelf(final double angle, final WB_Coord a) {
+		if (!isCenterUpdated) {
+			getCenter();
+		}
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		final WB_Transform raa = new WB_Transform();
+		raa.addRotateAboutOrigin(angle,  a);
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			raa.applySelfAsPoint(v);
+		}
+		center = raa.applyAsPoint(center);
+		return this;
+	}
+
+	/**
+	 * Rotate entire mesh around an arbitrary axis in origin.
+	 *
+	 *
+	 * @param angle
+	 * @param ax
+	 * @param ay
+	 * @param az
+	 * @return
+	 */
+	public HE_Mesh rotateAboutOriginSelf(final double angle,
+			final double ax, final double ay, final double az) {
+		if (!isCenterUpdated) {
+			getCenter();
+		}
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		final WB_Transform raa = new WB_Transform();
+		raa.addRotateAboutOrigin(angle, new WB_Vector(ax, ay, az));
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			raa.applySelfAsPoint(v);
+		}
+		center = raa.applyAsPoint(center);
+		return this;
+	}
+
+	/**
+	 * Rotate entire mesh around an arbitrary axis in center.
+	 *
+	 * @param angle
+	 *            angle
+	 * @param a
+	 *            axis
+	 * @return self
+	 */
+	public HE_Mesh rotateAboutCenterSelf(final double angle, final WB_Coord a) {
+
+		return rotateAboutAxisSelf(angle,getCenter(),a);
+	}
+
+	/**
+	 * Rotate entire mesh around an arbitrary axis in center.
+	 *
+	 * @param angle
+	 * @param ax
+	 * @param ay
+	 * @param az
+	 * @return
+	 */
+	public HE_Mesh rotateAboutCenterSelf(final double angle,
+			final double ax, final double ay, final double az) {
+		return rotateAboutAxisSelf(angle,getCenter(),new WB_Vector(ax,ay,az));
 	}
 
 	/**
@@ -2639,395 +2792,16 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		capHalfedges();
 	}
 
-	/**
-	 * Select all faces.
-	 *
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectAllFaces() {
-		final HE_Selection _selection = new HE_Selection(this);
-		_selection.addFaces(getFacesAsArray());
-		return _selection;
-	}
 
-	/**
-	 *
-	 *
-	 * @param chance
-	 * @return
-	 */
-	public HE_Selection selectRandomFaces(final double chance) {
-		final HE_Selection _selection = new HE_Selection(this);
-		HE_Face f;
-		final Iterator<HE_Face> fItr = fItr();
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			if (Math.random() <= chance) {
-				_selection.add(f);
-			}
-		}
-		return _selection;
-	}
 
-	/**
-	 *
-	 *
-	 * @param chance
-	 * @param seed
-	 * @return
-	 */
-	public HE_Selection selectRandomFaces(final double chance, final long seed) {
-		final WB_MTRandom random = new WB_MTRandom(seed);
-		final HE_Selection _selection = new HE_Selection(this);
-		HE_Face f;
-		final Iterator<HE_Face> fItr = fItr();
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			if (random.nextFloat() <= chance) {
-				_selection.add(f);
-			}
-		}
-		return _selection;
-	}
 
-	/**
-	 * Select all faces with given label.
-	 *
-	 * @param label
-	 *            the label
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectFacesWithLabel(final int label) {
-		final HE_Selection _selection = new HE_Selection(this);
-		HE_Face f;
-		final Iterator<HE_Face> fItr = fItr();
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			if (f.getLabel() == label) {
-				_selection.add(f);
-			}
-		}
-		return _selection;
-	}
 
-	/**
-	 *
-	 *
-	 * @param label
-	 * @return
-	 */
-	public HE_Selection selectFacesWithInternalLabel(final int label) {
-		final HE_Selection _selection = new HE_Selection(this);
-		HE_Face f;
-		final Iterator<HE_Face> fItr = fItr();
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			if (f.getInternalLabel() == label) {
-				_selection.add(f);
-			}
-		}
-		return _selection;
-	}
 
-	/**
-	 *
-	 *
-	 * @param v
-	 * @return
-	 */
-	public HE_Selection selectFacesWithNormal(final WB_Coord v) {
-		final HE_Selection _selection = new HE_Selection(this);
-		final WB_Vector w = new WB_Vector(v);
-		w.normalizeSelf();
-		HE_Face f;
-		final Iterator<HE_Face> fItr = fItr();
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			if (WB_Vector.dot(f.getFaceNormal(), v) > (1.0 - WB_Epsilon.EPSILON)) {
-				_selection.add(f);
-			}
-		}
-		return _selection;
-	}
 
-	/**
-	 *
-	 *
-	 * @param P
-	 * @return
-	 */
-	public HE_Selection selectFaces(final WB_Plane P) {
-		final HE_Selection _selection = new HE_Selection(this);
-		final HE_FaceIterator fitr = fItr();
-		HE_Face f;
-		while (fitr.hasNext()) {
-			f = fitr.next();
-			if (WB_GeometryOp.classifyPolygonToPlane3D(f.toPolygon(), P) == WB_Classification.FRONT) {
-				_selection.add(f);
-			}
-		}
-		return _selection;
-	}
 
-	/**
-	 *
-	 *
-	 * @param P
-	 * @return
-	 */
-	public HE_Selection selectCrossingFaces(final WB_Plane P) {
-		final HE_Selection _selection = new HE_Selection(this);
-		final HE_FaceIterator fitr = fItr();
-		HE_Face f;
-		while (fitr.hasNext()) {
-			f = fitr.next();
-			if (WB_GeometryOp.classifyPolygonToPlane3D(f.toPolygon(), P) == WB_Classification.CROSSING) {
-				_selection.add(f);
-			}
-		}
-		return _selection;
-	}
 
-	/**
-	 * Select all faces except with given label.
-	 *
-	 * @param label
-	 *            the label
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectFacesWithOtherLabel(final int label) {
-		final HE_Selection _selection = new HE_Selection(this);
-		HE_Face f;
-		final Iterator<HE_Face> fItr = fItr();
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			if (f.getLabel() != label) {
-				_selection.add(f);
-			}
-		}
-		return _selection;
-	}
 
-	/**
-	 *
-	 *
-	 * @param label
-	 * @return
-	 */
-	public HE_Selection selectFacesWithOtherInternalLabel(final int label) {
-		final HE_Selection _selection = new HE_Selection(this);
-		HE_Face f;
-		final Iterator<HE_Face> fItr = fItr();
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			if (f.getInternalLabel() != label) {
-				_selection.add(f);
-			}
-		}
-		return _selection;
-	}
 
-	/**
-	 * Select all edges.
-	 *
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectAllEdges() {
-		final HE_Selection _selection = new HE_Selection(this);
-		_selection.addHalfedges(getEdgesAsArray());
-		return _selection;
-	}
-
-	/**
-	 * Select all halfedges.
-	 *
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectAllHalfedges() {
-		final HE_Selection _selection = new HE_Selection(this);
-		_selection.addHalfedges(getHalfedgesAsArray());
-		return _selection;
-	}
-
-	/**
-	 * Select all vertices.
-	 *
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectAllVertices() {
-		final HE_Selection _selection = new HE_Selection(this);
-		_selection.addVertices(getVerticesAsArray());
-		return _selection;
-	}
-
-	/**
-	 * Select all vertices with given label.
-	 *
-	 * @param label
-	 *            the label
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectVerticesWithLabel(final int label) {
-		final HE_Selection _selection = new HE_Selection(this);
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			if (v.getLabel() == label) {
-				_selection.add(v);
-			}
-		}
-		return _selection;
-	}
-
-	/**
-	 * Select all vertices except with given label.
-	 *
-	 * @param label
-	 *            the label
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectVerticesWithOtherLabel(final int label) {
-		final HE_Selection _selection = new HE_Selection(this);
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			if (v.getLabel() != label) {
-				_selection.add(v);
-			}
-		}
-		return _selection;
-	}
-
-	/**
-	 *
-	 *
-	 * @param label
-	 * @return
-	 */
-	public HE_Selection selectVerticesWithInternalLabel(final int label) {
-		final HE_Selection _selection = new HE_Selection(this);
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			if (v.getInternalLabel() == label) {
-				_selection.add(v);
-			}
-		}
-		return _selection;
-	}
-
-	/**
-	 * Select all vertices except with given label.
-	 *
-	 * @param label
-	 *            the label
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectVerticesWithOtherInternalLabel(final int label) {
-		final HE_Selection _selection = new HE_Selection(this);
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			if (v.getInternalLabel() != label) {
-				_selection.add(v);
-			}
-		}
-		return _selection;
-	}
-
-	/**
-	 * Select all halfedges on inside of boundary.
-	 *
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectAllInnerBoundaryHalfedges() {
-		final HE_Selection _selection = new HE_Selection(this);
-		final Iterator<HE_Halfedge> heItr = heItr();
-		HE_Halfedge he;
-		while (heItr.hasNext()) {
-			he = heItr.next();
-			if (he.getPair().getFace() == null) {
-				_selection.add(he);
-			}
-		}
-		return _selection;
-	}
-
-	/**
-	 * Select all halfedges on outside of boundary.
-	 *
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectAllOuterBoundaryHalfedges() {
-		final HE_Selection _selection = new HE_Selection(this);
-		final Iterator<HE_Halfedge> heItr = heItr();
-		HE_Halfedge he;
-		while (heItr.hasNext()) {
-			he = heItr.next();
-			if (he.getFace() == null) {
-				_selection.add(he);
-			}
-		}
-		return _selection;
-	}
-
-	/**
-	 * Select all edges on boundary.
-	 *
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectAllBoundaryEdges() {
-		final HE_Selection _selection = new HE_Selection(this);
-		final Iterator<HE_Halfedge> heItr = heItr();
-		HE_Halfedge he;
-		while (heItr.hasNext()) {
-			he = heItr.next();
-			if (he.isInnerBoundary()) {
-				_selection.add(he);
-			}
-		}
-		return _selection;
-	}
-
-	/**
-	 * Select all faces on boundary.
-	 *
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectAllBoundaryFaces() {
-		final HE_Selection _selection = new HE_Selection(this);
-		final Iterator<HE_Halfedge> heItr = heItr();
-		HE_Halfedge he;
-		while (heItr.hasNext()) {
-			he = heItr.next();
-			if (he.getFace() == null) {
-				_selection.add(he.getPair().getFace());
-			}
-		}
-		return _selection;
-	}
-
-	/**
-	 * Select all vertices on boundary.
-	 *
-	 * @return the h e_ selection
-	 */
-	public HE_Selection selectAllBoundaryVertices() {
-		final HE_Selection _selection = new HE_Selection(this);
-		final Iterator<HE_Halfedge> heItr = heItr();
-		HE_Halfedge he;
-		while (heItr.hasNext()) {
-			he = heItr.next();
-			if (he.getFace() == null) {
-				_selection.add(he.getVertex());
-			}
-		}
-		return _selection;
-	}
 
 	/**
 	 * Fuse all coplanar faces connected to face. New face can be concave.
@@ -3743,8 +3517,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	@Override
 	public HE_Mesh apply(final WB_Transform T) {
-		final HE_Mesh result = get();
-		return result.transform(T);
+		return new HEC_Transform(this,T).create();
 	}
 
 	/**
@@ -3754,7 +3527,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return
 	 */
 	public HE_Mesh applySelf(final WB_Transform T) {
-		return transform(T);
+		return modify(new HEM_Transform(T));
 	}
 
 	/*
@@ -4161,4 +3934,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 
 
 	}
+
+
 }

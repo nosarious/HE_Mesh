@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -56,7 +56,7 @@ public class HEM_TriSplit extends HEM_Modifier {
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
 		tracker.setStatus(this, "Starting HEM_TriSplit.", +1);
-		splitFacesTri(mesh.selectAllFaces(), d);
+		splitFacesTri(HE_Selection.selectAllFaces(mesh), d);
 		tracker.setStatus(this, "Exiting HEM_TriSplit.", -1);
 		return mesh;
 	}
