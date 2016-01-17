@@ -59,9 +59,9 @@ import wblut.hemesh.HE_FaceHalfedgeInnerCirculator;
 import wblut.hemesh.HE_FaceIntersection;
 import wblut.hemesh.HE_FaceIterator;
 import wblut.hemesh.HE_FaceVertexCirculator;
+import wblut.hemesh.HE_GeometryOp;
 import wblut.hemesh.HE_Halfedge;
 import wblut.hemesh.HE_HalfedgeIterator;
-import wblut.hemesh.HE_GeometryOp;
 import wblut.hemesh.HE_Mesh;
 import wblut.hemesh.HE_MeshCollection;
 import wblut.hemesh.HE_MeshIterator;
@@ -77,8 +77,6 @@ import wblut.hemesh.HE_VertexIterator;
  */
 public class WB_Render3D extends WB_Render2D {
 
-
-
 	/**
 	 *
 	 */
@@ -86,17 +84,6 @@ public class WB_Render3D extends WB_Render2D {
 
 	public static final WB_ProgressTracker tracker = WB_ProgressTracker.instance();
 
-	/**
-	 *
-	 *
-	 * @param r
-	 * @param g
-	 * @param b
-	 * @return
-	 */
-	public static int color(final int r, final int g, final int b) {
-		return (255 << 24) | (r << 16) | (g << 8) | b;
-	}
 
 	/**
 	 *
