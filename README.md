@@ -8,7 +8,7 @@ HE_Mesh, a Java library for creating and manipulating polygonal meshes. Aimed pr
 The first thing you need to do is download or fork this repository and import the code in Eclipse.
 You need to add some other external *.jar files to the properties of your Eclipse project to compile HE_Mesh.
 
-* `core.jar`: This is the core Processing API from Processing 2.1.1. Download the latest version of Processing here: http://processing.org/
+* `core.jar`: This is the core Processing API for Processing 3. Download the latest version of Processing here: http://processing.org/
 * `javolution-6.1.0.jar`: Javolution is used to make HE_Mesh faster. You'll need version 6.1.0, download here: http://www.wblut.com/hemesh/javolution-6.1.0.zip (http://javolution.org/)
 * `jts.jar`: The JTS Topology Suite is an API of spatial predicates and functions for processing planar geometry. You need version 1.13. Download here: http://www.wblut.com/hemesh/jts.zip (http://tsusiatsoftware.net/jts/main.html)
 * `trove-3.1a1.jar`: A collection of high speed primitive based collections. Download here: http://www.wblut.com/hemesh/trove-3.1a1.zip
@@ -20,12 +20,12 @@ You need to add some other external *.jar files to the properties of your Eclips
 
 ## Build-of-the-day HE_Mesh (2016/01/19)
 
-Download a recent built here: http://www.wblut.com/hemesh.zip.
+Download a recent built here: http://www.wblut.com/hemesh/hemesh20160119.zip.
 
 ## License
 
 HE_Mesh, with the below exceptions, is dedicated to the public domain. 
-To the extent possible under law, I, Frederik Vanhoutte, have waived all copyright and related or neighboring rights to HE_Mesh 2014. This work is published from Belgium.
+To the extent possible under law, I, Frederik Vanhoutte, have waived all copyright and related or neighboring rights to HE_Mesh. This work is published from Belgium.
 (http://creativecommons.org/publicdomain/zero/1.0/)
 
 The following classes are subject to the license agreement of their original authors, included in the source file:
