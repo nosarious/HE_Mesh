@@ -3,16 +3,16 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
 public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 	/** Coordinates. */
@@ -70,14 +70,14 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public WB_SimpleVector() {
 		x = y = z = 0;
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param x
 	 * @param y
@@ -89,7 +89,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param x
 	 * @param y
@@ -102,18 +102,18 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param x
 	 */
 	public WB_SimpleVector(final double[] x) {
 		this.x = x[0];
 		this.y = x[1];
-		this.z = x[2];
+		this.z = (x.length>1)?x[2]:0;
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param fromPoint
 	 * @param toPoint
@@ -121,11 +121,11 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 	public WB_SimpleVector(final double[] fromPoint, final double[] toPoint) {
 		this.x = toPoint[0] - fromPoint[0];
 		this.y = toPoint[1] - fromPoint[1];
-		this.z = toPoint[2] - fromPoint[2];
+		this.z = ((fromPoint.length>1)&&(toPoint.length>1))?toPoint[2] - fromPoint[2]:0;
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param v
 	 */
@@ -136,7 +136,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param fromPoint
 	 * @param toPoint
@@ -149,7 +149,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_MutableCoordinate#set(double, double)
 	 */
 	@Override
@@ -161,7 +161,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_MutableCoordinate#set(double, double, double)
 	 */
 	@Override
@@ -173,7 +173,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_MutableCoordinate#set(double, double, double, double)
 	 */
 	@Override
@@ -183,7 +183,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_MutableCoordinate#set(wblut.geom.WB_Coord)
 	 */
 	@Override
@@ -193,7 +193,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_MutableCoordinate#setCoord(int, double)
 	 */
 	@Override
@@ -211,7 +211,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_MutableCoordinate#setW(double)
 	 */
 	@Override
@@ -220,7 +220,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_MutableCoordinate#setX(double)
 	 */
 	@Override
@@ -230,7 +230,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_MutableCoordinate#setY(double)
 	 */
 	@Override
@@ -240,7 +240,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_MutableCoordinate#setZ(double)
 	 */
 	@Override
@@ -250,7 +250,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Coord#wd()
 	 */
 	@Override
@@ -260,7 +260,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Coord#wf()
 	 */
 	@Override
@@ -270,7 +270,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Coord#xd()
 	 */
 	@Override
@@ -280,7 +280,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Coord#xf()
 	 */
 	@Override
@@ -290,7 +290,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Coord#yd()
 	 */
 	@Override
@@ -300,7 +300,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Coord#yf()
 	 */
 	@Override
@@ -310,7 +310,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Coord#zd()
 	 */
 	@Override
@@ -320,7 +320,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Coord#zf()
 	 */
 	@Override
@@ -330,7 +330,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Coord#getd(int)
 	 */
 	@Override
@@ -349,7 +349,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Coord#getf(int)
 	 */
 	@Override
@@ -368,7 +368,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override

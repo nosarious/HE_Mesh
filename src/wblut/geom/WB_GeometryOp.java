@@ -5829,4 +5829,70 @@ public class WB_GeometryOp {
 
 
 	}
+
+
+	public static boolean isParallel(final WB_Coord v0, final WB_Coord v1){
+		return Math.abs(1.0-(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd())/(getLength3D(v0)*getLength3D(v1))))<WB_Epsilon.EPSILON;
+	}
+
+	public static boolean isParallel2D(final WB_Coord v0, final WB_Coord v1){
+		return Math.abs(1.0-(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd())/(getLength2D(v0)*getLength2D(v1))))<WB_Epsilon.EPSILON;
+	}
+
+	public static boolean isOrthogonal(final WB_Coord v0, final WB_Coord v1){
+		return WB_Epsilon.isZero(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd())/(getLength3D(v0)*getLength3D(v1)));
+	}
+
+	public static boolean isOrthogonal2D(final WB_Coord v0, final WB_Coord v1){
+		return WB_Epsilon.isZero(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd())/(getLength2D(v0)*getLength2D(v1)));
+	}
+
+	public static boolean isParallel(final WB_Coord v0, final WB_Coord v1, final double epsilon){
+		return Math.abs(1.0-(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd())/(getLength3D(v0)*getLength3D(v1))))<epsilon;
+	}
+
+	public static boolean isParallel2D(final WB_Coord v0, final WB_Coord v1, final double epsilon){
+		return Math.abs(1.0-(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd())/(getLength2D(v0)*getLength2D(v1))))<epsilon;
+	}
+
+	public static boolean isOrthogonal(final WB_Coord v0, final WB_Coord v1, final double epsilon){
+		return Math.abs(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd())/(getLength3D(v0)*getLength3D(v1)))<epsilon;
+	}
+
+	public static boolean isOrthogonal2D(final WB_Coord v0, final WB_Coord v1, final double epsilon){
+		return Math.abs(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd())/(getLength2D(v0)*getLength2D(v1)))<epsilon;
+	}
+
+
+	public static boolean isParallelNorm(final WB_Coord v0, final WB_Coord v1){
+		return Math.abs(1.0-(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd())))<WB_Epsilon.EPSILON;
+	}
+
+	public static boolean isParallelNorm2D(final WB_Coord v0, final WB_Coord v1){
+		return Math.abs(1.0-(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd())))<WB_Epsilon.EPSILON;
+	}
+
+	public static boolean isOrthogonalNorm(final WB_Coord v0, final WB_Coord v1){
+		return WB_Epsilon.isZero(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd()));
+	}
+
+	public static boolean isOrthogonalNorm2D(final WB_Coord v0, final WB_Coord v1){
+		return WB_Epsilon.isZero(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd()));
+	}
+
+	public static boolean isParallelNorm(final WB_Coord v0, final WB_Coord v1, final double epsilon){
+		return Math.abs(1.0-(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd())))<epsilon;
+	}
+
+	public static boolean isParallelNorm2D(final WB_Coord v0, final WB_Coord v1, final double epsilon){
+		return Math.abs(1.0-(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd())))<epsilon;
+	}
+
+	public static boolean isOrthogonalNorm(final WB_Coord v0, final WB_Coord v1, final double epsilon){
+		return Math.abs(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd()))<epsilon;
+	}
+
+	public static boolean isOrthogonalNorm2D(final WB_Coord v0, final WB_Coord v1, final double epsilon){
+		return Math.abs(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd()))<epsilon;
+	}
 }

@@ -244,6 +244,21 @@ public class WB_Point extends WB_Vector {
 		return this;
 	}
 
+	@Override
+	public WB_Point mulAddMulSelf(final double f, final double g, final double... x) {
+		if(x.length==3){
+			set((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), (f * this.zd()) + (g * x[2]));
+			return this;
+		}else if(x.length==2){
+			set((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), this.zd());
+			return this;
+		}
+		throw new IllegalArgumentException("Array should be length 2 or 3.");
+
+
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -531,6 +546,19 @@ public class WB_Point extends WB_Vector {
 	@Override
 	public WB_Point mulAddMul(final double f, final double g, final WB_Coord p) {
 		return new WB_Point((f * xd()) + (g * p.xd()), (f * yd()) + (g * p.yd()), (f * zd()) + (g * p.zd()));
+	}
+
+	@Override
+	public WB_Point mulAddMul(final double f, final double g, final double... x) {
+		if(x.length==3){
+			return new WB_Point((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), (f * this.zd()) + (g * x[2]));
+		}else if(x.length==2){
+			return new WB_Point((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), this.zd());
+		}
+		throw new IllegalArgumentException("Array should be length 2 or 3.");
+
+
+
 	}
 
 	/*

@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.math;
 
@@ -50,7 +50,7 @@ public class WB_Epsilon {
 	 */
 	public static boolean isEqualHybrid(final double x, final double y) {
 		return WB_Math
-				.fastAbs(x - y) <= (WB_Epsilon.EPSILON * WB_Math.max(WB_Math.fastAbs(x), WB_Math.fastAbs(y), 1.0));
+				.fastAbs(x - y) < (WB_Epsilon.EPSILON * WB_Math.max(WB_Math.fastAbs(x), WB_Math.fastAbs(y), 1.0));
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class WB_Epsilon {
 	 * @return true, if equal
 	 */
 	public static boolean isEqualAbs(final double x, final double y) {
-		return WB_Math.fastAbs(x - y) <= WB_Epsilon.EPSILON;
+		return WB_Math.fastAbs(x - y) < WB_Epsilon.EPSILON;
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class WB_Epsilon {
 	 * @return true, if equal
 	 */
 	public static boolean isEqualRel(final double x, final double y) {
-		return WB_Math.fastAbs(x - y) <= (WB_Epsilon.EPSILON * WB_Math.max(WB_Math.fastAbs(x), WB_Math.fastAbs(y)));
+		return WB_Math.fastAbs(x - y) < (WB_Epsilon.EPSILON * WB_Math.max(WB_Math.fastAbs(x), WB_Math.fastAbs(y)));
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class WB_Epsilon {
 	 * @return true, if zero
 	 */
 	public static boolean isZero(final double x) {
-		return WB_Math.fastAbs(x) <= WB_Epsilon.EPSILON;
+		return WB_Math.fastAbs(x) < WB_Epsilon.EPSILON;
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class WB_Epsilon {
 	 * @return true, if zero
 	 */
 	public static boolean isZeroSq(final double x) {
-		return WB_Math.fastAbs(x) <= WB_Epsilon.SQEPSILON;
+		return WB_Math.fastAbs(x) < WB_Epsilon.SQEPSILON;
 	}
 
 	/**

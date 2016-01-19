@@ -2196,6 +2196,12 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 		return this;
 	}
 
+	@Override
+	public HE_Vertex mulAddMulSelf(final double f, final double g, final double... x) {
+		set((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), (f * this.zd()) + (g * x[2]));
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *

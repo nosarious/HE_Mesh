@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.math;
 
@@ -16,7 +16,7 @@ import wblut.geom.WB_Vector;
 
 /**
  * 3x3 Matrix.
- * 
+ *
  * @author Frederik Vanhoutte (W:Blut) 2010
  */
 public class WB_M33 {
@@ -35,7 +35,7 @@ public class WB_M33 {
 
 	/**
 	 * Instantiates a new WB_M33.
-	 * 
+	 *
 	 * @param matrix33
 	 *            double[3][3] array of values
 	 */
@@ -53,7 +53,7 @@ public class WB_M33 {
 
 	/**
 	 * Instantiates a new WB_M33.
-	 * 
+	 *
 	 * @param m11
 	 *            m11
 	 * @param m12
@@ -88,7 +88,7 @@ public class WB_M33 {
 
 	/**
 	 * Set values.
-	 * 
+	 *
 	 * @param matrix33
 	 *            double[3][3] array of values
 	 */
@@ -106,7 +106,7 @@ public class WB_M33 {
 
 	/**
 	 * Set values.
-	 * 
+	 *
 	 * @param matrix33
 	 *            float[3][3] array of values
 	 */
@@ -124,7 +124,7 @@ public class WB_M33 {
 
 	/**
 	 * Set values.
-	 * 
+	 *
 	 * @param matrix33
 	 *            int[3][3] array of values
 	 */
@@ -142,7 +142,7 @@ public class WB_M33 {
 
 	/**
 	 * Set values.
-	 * 
+	 *
 	 * @param m11
 	 *            m11
 	 * @param m12
@@ -177,7 +177,7 @@ public class WB_M33 {
 
 	/**
 	 * Set values.
-	 * 
+	 *
 	 * @param m
 	 *            matrix WB_M33
 	 */
@@ -195,7 +195,7 @@ public class WB_M33 {
 
 	/**
 	 * Get copy.
-	 * 
+	 *
 	 * @return copy
 	 */
 	public WB_M33 get() {
@@ -204,7 +204,7 @@ public class WB_M33 {
 
 	/**
 	 * Get row as WB_Vector.
-	 * 
+	 *
 	 * @param i
 	 *            0,1,2
 	 * @return row
@@ -224,7 +224,7 @@ public class WB_M33 {
 
 	/**
 	 * Return row into provided WB_Vector.
-	 * 
+	 *
 	 * @param i
 	 *            0,1,2
 	 * @param result
@@ -245,7 +245,7 @@ public class WB_M33 {
 
 	/**
 	 * Get column as WB_Vector.
-	 * 
+	 *
 	 * @param i
 	 *            0,1,2
 	 * @return col
@@ -265,7 +265,7 @@ public class WB_M33 {
 
 	/**
 	 * Return col into provided WB_Vector.
-	 * 
+	 *
 	 * @param i
 	 *            0,1,2
 	 * @param result
@@ -286,7 +286,7 @@ public class WB_M33 {
 
 	/**
 	 * Add matrix.
-	 * 
+	 *
 	 * @param m
 	 *            matrix
 	 */
@@ -304,7 +304,7 @@ public class WB_M33 {
 
 	/**
 	 * Subtract matrix.
-	 * 
+	 *
 	 * @param m
 	 *            matrix
 	 */
@@ -322,7 +322,7 @@ public class WB_M33 {
 
 	/**
 	 * Multiply with scalar.
-	 * 
+	 *
 	 * @param f
 	 *            factor
 	 */
@@ -340,7 +340,7 @@ public class WB_M33 {
 
 	/**
 	 * Divide by scalar.
-	 * 
+	 *
 	 * @param f
 	 *            factor
 	 */
@@ -359,7 +359,7 @@ public class WB_M33 {
 
 	/**
 	 * Add matrix into provided matrix.
-	 * 
+	 *
 	 * @param m
 	 *            matrix
 	 * @param result
@@ -379,7 +379,7 @@ public class WB_M33 {
 
 	/**
 	 * Subtract matrix into provided matrix.
-	 * 
+	 *
 	 * @param m
 	 *            matrix
 	 * @param result
@@ -399,7 +399,7 @@ public class WB_M33 {
 
 	/**
 	 * Multiply with scalar into provided matrix.
-	 * 
+	 *
 	 * @param f
 	 *            factor
 	 * @param result
@@ -419,7 +419,7 @@ public class WB_M33 {
 
 	/**
 	 * Divide with scalar into provided matrix.
-	 * 
+	 *
 	 * @param f
 	 *            factor
 	 * @param result
@@ -440,7 +440,7 @@ public class WB_M33 {
 
 	/**
 	 * Multiply matrices into new matrix.
-	 * 
+	 *
 	 * @param m
 	 *            matrix
 	 * @param n
@@ -461,7 +461,7 @@ public class WB_M33 {
 
 	/**
 	 * Multiply matrices into provided matrix.
-	 * 
+	 *
 	 * @param m
 	 *            matrix
 	 * @param n
@@ -483,7 +483,7 @@ public class WB_M33 {
 
 	/**
 	 * Multiply with matrix into new matrix.
-	 * 
+	 *
 	 * @param n
 	 *            matrix
 	 * @return result
@@ -498,7 +498,7 @@ public class WB_M33 {
 
 	/**
 	 * Multiply matrix into provided matrix.
-	 * 
+	 *
 	 * @param n
 	 *            matrix
 	 * @param result
@@ -514,7 +514,7 @@ public class WB_M33 {
 
 	/**
 	 * Multiply matrix and vector into provided vector.
-	 * 
+	 *
 	 * @param m
 	 *            matrix
 	 * @param v
@@ -529,7 +529,7 @@ public class WB_M33 {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param v
 	 * @param m
@@ -543,7 +543,7 @@ public class WB_M33 {
 
 	/**
 	 * Multiply matrix and point into new point.
-	 * 
+	 *
 	 * @param m
 	 *            matrix
 	 * @param v
@@ -558,7 +558,7 @@ public class WB_M33 {
 
 	/**
 	 * Multiply point and matrix into new point.
-	 * 
+	 *
 	 * @param v
 	 *            point
 	 * @param m
@@ -572,7 +572,7 @@ public class WB_M33 {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param m
 	 * @param v
@@ -585,7 +585,7 @@ public class WB_M33 {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param v
 	 * @param m
@@ -599,7 +599,7 @@ public class WB_M33 {
 
 	/**
 	 * Get determinant of matrix.
-	 * 
+	 *
 	 * @return determinant
 	 */
 	public double det() {
@@ -624,7 +624,7 @@ public class WB_M33 {
 
 	/**
 	 * Get the transpose.
-	 * 
+	 *
 	 * @return transposed matrix
 	 */
 	public WB_M33 getTranspose() {
@@ -633,7 +633,7 @@ public class WB_M33 {
 
 	/**
 	 * Put transposed matrix into provide matrix.
-	 * 
+	 *
 	 * @param result
 	 *            result
 	 */
@@ -643,7 +643,7 @@ public class WB_M33 {
 
 	/**
 	 * Inverse matrix.
-	 * 
+	 *
 	 * @return inverse
 	 */
 	public WB_M33 inverse() {
@@ -660,7 +660,7 @@ public class WB_M33 {
 
 	/**
 	 * Cramer rule for solving 3 linear equations and 3 unknowns.
-	 * 
+	 *
 	 * @param a1
 	 *            the a1
 	 * @param b1
@@ -705,7 +705,7 @@ public class WB_M33 {
 
 	/**
 	 * Symmetric schur2 subfunction of Jacobi().
-	 * 
+	 *
 	 * @param p
 	 *            the p
 	 * @param q
@@ -735,7 +735,7 @@ public class WB_M33 {
 
 	/**
 	 * Jacobi.
-	 * 
+	 *
 	 * @return the w b_ m33
 	 */
 	public WB_M33 Jacobi() {
@@ -798,7 +798,7 @@ public class WB_M33 {
 
 	/**
 	 * Return matrix as array.
-	 * 
+	 *
 	 * @return double[3][3]
 	 */
 	public double[][] toArray() {
@@ -807,7 +807,7 @@ public class WB_M33 {
 
 	/**
 	 * Get covariance matrix of an array of WB_Coord.
-	 * 
+	 *
 	 * @param points
 	 * @return covariance matrix
 	 */
@@ -834,5 +834,48 @@ public class WB_M33 {
 		final WB_M33 cov = new WB_M33(e00, e01, e02, e01, e11, e12, e02, e12, e22);
 		cov.mul(oon);
 		return cov;
+	}
+
+	@Override
+	public boolean equals(final Object o) {
+		if (o == null) {
+			return false;
+		}
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof WB_M33)) {
+			return false;
+		}
+		final WB_M33 p = (WB_M33) o;
+		if (!WB_Epsilon.isEqualAbs(m11, p.m11)) {
+			return false;
+		}
+		if (!WB_Epsilon.isEqualAbs(m12, p.m12)) {
+			return false;
+		}
+		if (!WB_Epsilon.isEqualAbs(m13, p.m13)) {
+			return false;
+		}
+		if (!WB_Epsilon.isEqualAbs(m21, p.m21)) {
+			return false;
+		}
+		if (!WB_Epsilon.isEqualAbs(m22, p.m22)) {
+			return false;
+		}
+		if (!WB_Epsilon.isEqualAbs(m23, p.m23)) {
+			return false;
+		}
+		if (!WB_Epsilon.isEqualAbs(m31, p.m31)) {
+			return false;
+		}
+		if (!WB_Epsilon.isEqualAbs(m32, p.m32)) {
+			return false;
+		}
+		if (!WB_Epsilon.isEqualAbs(m33, p.m33)) {
+			return false;
+		}
+
+		return true;
 	}
 }
