@@ -47,8 +47,20 @@ public abstract class HE_Element {
 	 *
 	 *
 	 * @param label
+	 * @deprecated Use {@link #setTemporaryLabel(int)} instead
 	 */
 	public final void setInternalLabel(final int label) {
+		setTemporaryLabel(label);
+	}
+
+
+
+	/**
+	 *
+	 *
+	 * @param label
+	 */
+	public final void setTemporaryLabel(final int label) {
 		_labels = mergeLabels(label, getLabel());
 	}
 
@@ -58,7 +70,7 @@ public abstract class HE_Element {
 	 * @param label
 	 */
 	public final void setLabel(final int label) {
-		_labels = mergeLabels(getInternalLabel(), label);
+		_labels = mergeLabels(getTemporaryLabel(), label);
 	}
 
 
@@ -75,8 +87,20 @@ public abstract class HE_Element {
 	 *
 	 *
 	 * @return
+	 * @deprecated Use {@link #getTemporaryLabel()} instead
 	 */
 	public final int getInternalLabel() {
+		return getTemporaryLabel();
+	}
+
+
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public final int getTemporaryLabel() {
 		return (int) (_labels >> 32);
 
 	}
@@ -125,7 +149,7 @@ public abstract class HE_Element {
 	 * @param el
 	 */
 	public void copyProperties(final HE_Element el) {
-		_labels = mergeLabels(el.getInternalLabel(), el.getLabel());
+		_labels = mergeLabels(el.getTemporaryLabel(), el.getLabel());
 	}
 
 	/**

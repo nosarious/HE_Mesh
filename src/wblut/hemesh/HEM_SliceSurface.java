@@ -3,13 +3,15 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,7 +22,9 @@ import javolution.util.FastTable;
 import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_AABBTree;
 import wblut.geom.WB_Classification;
+import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_Line;
 import wblut.geom.WB_Plane;
 import wblut.math.WB_Epsilon;
 
@@ -31,6 +35,7 @@ import wblut.math.WB_Epsilon;
  *
  */
 public class HEM_SliceSurface extends HEM_Modifier {
+	static final int ONEDGE=0, ONVERTEX=1,BACK=2, FRONT=3;
 	/** Cut plane. */
 	private WB_Plane P;
 	/** Stores cut faces. */
@@ -49,6 +54,8 @@ public class HEM_SliceSurface extends HEM_Modifier {
 	 *
 	 */
 	private List<HE_Path> paths;
+
+	private WB_GeometryFactory gf=WB_GeometryFactory.instance();
 
 	/**
 	 * Instantiates a new HEM_SliceSurface.
@@ -115,7 +122,8 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		front = new HE_Selection(mesh);
 		back = new HE_Selection(mesh);
 		cutEdges = new HE_Selection(mesh);
-		mesh.resetEdgeInternalLabels();
+		mesh.resetEdgeTemporaryLabels();
+		mesh.resetVertexTemporaryLabels();
 		paths = new FastTable<HE_Path>();
 		// no plane defined
 		if (P == null) {
@@ -151,13 +159,20 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		while (vItr.hasNext()) {
 			v = vItr.next();
 			tmp = WB_GeometryOp.classifyPointToPlane3D(v, lP);
+			if(tmp==WB_Classification.ON) {
+				v.setTemporaryLabel(ONVERTEX);
+			} else if(tmp==WB_Classification.BACK) {
+				v.setTemporaryLabel(BACK);
+			} else if(tmp==WB_Classification.FRONT) {
+				v.setTemporaryLabel(FRONT);
+			}
 			vertexClass.put(v.key(), tmp);
 			counter.increment();
 		}
 		counter = new WB_ProgressCounter(faces.getNumberOfEdges(), 10);
 
 		tracker.setStatus(this, "Classifying edges.", counter);
-		List<HE_Vertex> faceVertices = new ArrayList<HE_Vertex>();
+		new ArrayList<HE_Vertex>();
 		final HE_Selection split = new HE_Selection(mesh);
 		final FastMap<Long, Double> edgeInt = new FastMap<Long, Double>();
 		final Iterator<HE_Halfedge> eItr = faces.eItr();
@@ -167,8 +182,8 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			if (vertexClass.get(e.getStartVertex().key()) == WB_Classification.ON) {
 				if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.ON) {
 					cutEdges.add(e);
-					e.setInternalLabel(1);
-					e.getPair().setInternalLabel(1);
+					e.setTemporaryLabel(1);
+					e.getPair().setTemporaryLabel(1);
 				} else {
 					edgeInt.put(e.key(), 0.0);
 				}
@@ -199,13 +214,10 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			if (ce.getPair().getFace() != null) {
 				split.add(ce.getPair().getFace());
 			}
-			if (u < WB_Epsilon.EPSILON) {
-				split.add(ce.getStartVertex());
-			} else if (u > (1.0 - WB_Epsilon.EPSILON)) {
-				split.add(ce.getEndVertex());
-			} else {
-				split.add(mesh.splitEdge(ce, u).vItr().next());
-			}
+			HE_Vertex vi=mesh.splitEdge(ce, u).vItr().next();
+			vi.setTemporaryLabel(ONEDGE);
+			split.add(vi);
+
 			counter.increment();
 		}
 		counter = new WB_ProgressCounter(split.getNumberOfFaces(), 10);
@@ -215,57 +227,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		final Iterator<HE_Face> fItr = split.fItr();
 		while (fItr.hasNext()) {
 			f = fItr.next();
-			faceVertices = f.getFaceVertices();
-			int firstVertex = -1;
-			int secondVertex = -1;
-			final int n = faceVertices.size();
-			for (int j = 0; j < n; j++) {
-				v = faceVertices.get(j);
-				if (split.contains(v)) {
-					if (firstVertex == -1) {
-						firstVertex = j;
-						j++;// if one cut point is found, skip next point.
-						// There should be at least one other vertex in
-						// between for a proper cut.
-					} else {
-						secondVertex = j;
-						break;
-					}
-				}
-			}
-			if ((firstVertex != -1) && (secondVertex != -1)) {
-				final int fo = f.getFaceOrder();
-				int diff = Math.abs(firstVertex - secondVertex);
-				if (diff == (fo - 1)) {
-					diff = 1;
-				}
-				if (diff > 1) {
-					cut.add(f);
-					final HE_Selection out = mesh.splitFace(f, faceVertices.get(firstVertex),
-							faceVertices.get(secondVertex));
-					WB_Classification cptp = WB_GeometryOp.classifyPointToPlane3D(f.getFaceCenter(), lP);
-					if (cptp == WB_Classification.FRONT) {
-						front.add(f);
-					} else if (cptp == WB_Classification.BACK) {
-						back.add(f);
-					}
-					if (out.getNumberOfFaces() > 0) {
-						final HE_Face nf = out.fItr().next();
-						cptp = WB_GeometryOp.classifyPointToPlane3D(nf.getFaceCenter(), lP);
-						if (cptp == WB_Classification.FRONT) {
-							front.add(nf);
-						} else if (cptp == WB_Classification.BACK) {
-							back.add(nf);
-						}
-						cut.add(nf);
-					}
-					if (out.getNumberOfEdges() > 0) {
-						final HE_Halfedge ne = out.eItr().next();
-						ne.setInternalLabel(1);
-						cutEdges.add(ne);
-					}
-				}
-			}
+			splitFaceInIntersections(f,mesh);
 			counter.increment();
 		}
 		buildPaths(cutEdges);
@@ -281,7 +243,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
 		tracker.setStatus(this, "Starting HEM_SliceSurface.", +1);
-		selection.parent.resetEdgeInternalLabels();
+		selection.parent.resetEdgeTemporaryLabels();
 		cut = new HE_Selection(selection.parent);
 		front = new HE_Selection(selection.parent);
 		back = new HE_Selection(selection.parent);
@@ -336,7 +298,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			counter.increment();
 		}
 		if (positiveVertexExists && negativeVertexExists) {
-			List<HE_Vertex> faceVertices = new ArrayList<HE_Vertex>();
+			new ArrayList<HE_Vertex>();
 			final HE_Selection split = new HE_Selection(lsel.parent);
 			final HashMap<Long, Double> edgeInt = new HashMap<Long, Double>();
 			final Iterator<HE_Halfedge> eItr = lsel.eItr();
@@ -349,7 +311,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 				if (vertexClass.get(e.getStartVertex().key()) == WB_Classification.ON) {
 					if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.ON) {
 						cutEdges.add(e);
-						e.setInternalLabel(1);
+						e.setTemporaryLabel(1);
 					} else {
 						edgeInt.put(e.key(), 0.0);
 					}
@@ -396,53 +358,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			final Iterator<HE_Face> fItr = split.fItr();
 			while (fItr.hasNext()) {
 				f = fItr.next();
-				faceVertices = f.getFaceVertices();
-				int firstVertex = -1;
-				int secondVertex = -1;
-				final int n = faceVertices.size();
-				for (int j = 0; j < n; j++) {
-					v = faceVertices.get(j);
-					if (split.contains(v)) {
-						if (firstVertex == -1) {
-							firstVertex = j;
-							j++;// if one cut point is found, skip next point.
-							// There should be at least one other vertex in
-							// between for a proper cut.
-						} else {
-							secondVertex = j;
-							break;
-						}
-					}
-				}
-				if ((firstVertex != -1) && (secondVertex != -1)) {
-					final int fo = f.getFaceOrder();
-					int diff = Math.abs(firstVertex - secondVertex);
-					if (diff == (fo - 1)) {
-						diff = 1;
-					}
-					if (diff > 1) {
-						cut.add(f);
-						final HE_Selection out = lsel.parent.splitFace(f, faceVertices.get(firstVertex),
-								faceVertices.get(secondVertex));
-						WB_Classification cptp = WB_GeometryOp.classifyPointToPlane3D(f.getFaceCenter(), lP);
-						if (cptp == WB_Classification.FRONT) {
-							front.add(f);
-						} else if (cptp == WB_Classification.BACK) {
-							back.add(f);
-						}
-						final HE_Face nf = out.fItr().next();
-						cut.add(nf);
-						cptp = WB_GeometryOp.classifyPointToPlane3D(nf.getFaceCenter(), lP);
-						if (cptp == WB_Classification.FRONT) {
-							front.add(nf);
-						} else if (cptp == WB_Classification.BACK) {
-							back.add(nf);
-						}
-						final HE_Halfedge ne = out.eItr().next();
-						ne.setInternalLabel(1);
-						cutEdges.add(ne);
-					}
-				}
+				splitFaceInIntersections(f,lsel.parent);
 				counter.increment();
 			}
 			paths = new FastTable<HE_Path>();
@@ -527,4 +443,212 @@ public class HEM_SliceSurface extends HEM_Modifier {
 	public List<HE_Path> getPaths() {
 		return paths;
 	}
+
+
+	void splitFaceInIntersections(final HE_Face f, final HE_Mesh mesh){
+
+		Long[] intersectionVertices=new Long[f.getFaceOrder()];
+		Long[] polygon=new Long[2*f.getFaceOrder()];
+		int intersectionCount=0;
+		int polygonCount=0;
+		HE_FaceVertexCirculator fvCrc=f.fvCrc();
+		HE_Vertex v;
+		while(fvCrc.hasNext()){
+			v=fvCrc.next();
+			polygon[polygonCount++]=v.getKey();
+			if((v.getTemporaryLabel()==ONVERTEX)||(v.getTemporaryLabel()==ONEDGE)){
+				intersectionVertices[intersectionCount++]=v.getKey();
+
+				if(v.getTemporaryLabel()==ONVERTEX) {
+					polygon[polygonCount++]=v.getKey();
+				}
+				v.clearVisited();
+
+			}
+
+		}
+		if(intersectionCount<2) {
+			return;
+		}
+
+		else{
+			intersectionVertices=Arrays.copyOf(intersectionVertices, intersectionCount);
+			polygon=Arrays.copyOf(polygon, polygonCount);
+			FastTable<Long[]> subPolygons=new FastTable<Long[]>();
+			HE_Vertex v0=mesh.getVertexWithKey(intersectionVertices[0]);
+			HE_Vertex v1;
+			int i=1;
+			do{
+				v1=mesh.getVertexWithKey(intersectionVertices[i++]);
+			}while(WB_Epsilon.isZeroSq(v0.getSqDistance3D(v1)));
+
+			WB_Line intersectionLine= gf.createLineThroughPoints(v0, v1);
+			Arrays.sort(intersectionVertices, new VertexOnLineComparator(mesh,intersectionLine));
+
+
+			int trial=0;
+
+			while(intersectionVertices.length>1){
+
+				long key0 = intersectionVertices[0];
+				long key1 = intersectionVertices[1];
+				int index0=indexOf(key0,polygon);
+				int index1=indexOf(key1,polygon);
+				boolean solved = false;
+				if(firstUnvisited(polygon, index0,mesh) == index1) {
+					solved = true;
+				} else
+				{
+					key1 = intersectionVertices[0];
+					key0 = intersectionVertices[1];
+					int tmp=index0;
+					index0=index1;
+					index1=tmp;
+					if(firstUnvisited(polygon, index0,mesh) == index1) {
+						solved = true;
+					}
+				}
+
+				if(solved)
+				{
+					trial--;
+					subPolygons.add(getSubPolygon(polygon,index0,index1));
+					polygon=getSubPolygon(polygon,index1,index0);
+					intersectionVertices=Arrays.copyOfRange(intersectionVertices, 2,intersectionVertices.length);
+					if(intersectionVertices.length <2) {
+						subPolygons.add(polygon);
+					}
+					mesh.getVertexWithKey(key0).setVisited();
+					mesh.getVertexWithKey(key1).setVisited();
+				}
+				else { trial++; reverse(intersectionVertices); }
+				if(trial>1) {
+					break;
+				}
+			}
+
+			for(Long[] subPoly:subPolygons){
+				if(subPoly.length>2){
+					FastTable<HE_Halfedge> halfedges=new FastTable<HE_Halfedge>();
+					HE_Halfedge he;
+					HE_Face subFace=new HE_Face();
+					subFace.copyProperties(f);
+
+					for(int j=0;j<subPoly.length;j++){
+						he=new HE_Halfedge();
+						mesh.setVertex(he,mesh.getVertexWithKey(subPoly[j]));
+						mesh.setHalfedge(he.getVertex(),he);
+						mesh.setFace(he,subFace);
+						halfedges.add(he);
+					}
+
+					halfedges.getLast().setTemporaryLabel(1);
+					cutEdges.add(halfedges.getLast());
+
+					for(int j=0;j<subPoly.length;j++){
+						if(mesh.getVertexWithKey(subPoly[j]).getTemporaryLabel()==FRONT){
+							front.add(subFace);
+						}else if(mesh.getVertexWithKey(subPoly[j]).getTemporaryLabel()==BACK){
+							back.add(subFace);
+
+						}
+
+					}
+					mesh.setHalfedge(subFace, halfedges.get(0));
+					for(int j=0,k=subPoly.length-1;j<subPoly.length;k=j,j++){
+						mesh.setNext(halfedges.get(k),halfedges.get(j));
+					}
+					mesh.add(subFace);
+					mesh.addHalfedges(halfedges);
+
+
+
+				}
+
+
+			}
+			mesh.cutFace(f);
+			mesh.pairHalfedges();
+		}
+
+
+
+	}
+
+	static int firstUnvisited(final Long[] keys, final int start, final HE_Mesh mesh){
+		int n=keys.length;
+		HE_Vertex v;
+		int index=-1;
+		for (int i=0; i<keys.length; i++)
+		{
+			index=(start+1+i)%n;
+			v=mesh.getVertexWithKey(keys[index]);
+			if (((v.getTemporaryLabel()==ONVERTEX) || (v.getTemporaryLabel()==ONEDGE))&&!v.isVisited()) {
+				return index;
+			}
+		}
+
+		return -1;
+	}
+
+
+	static int indexOf(final Long key, final Long[] keys)
+	{
+		for (int i=0; i<keys.length; i++)
+		{
+			if (keys[i].equals(key)) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	static Long[] getSubPolygon(final Long[] polygon, final int start, int end){
+		int n = polygon.length;
+
+		if(end<start) {
+			end += n;
+		}
+		Long[] subPoly=new Long[(end-start)+1];
+		int index=0;
+		for(int i=start; i< (end+1); i++) {
+			subPoly[index++]=polygon[i%n];
+		}
+		return subPoly;
+
+	}
+
+	public static void reverse(final Long[]  data) {
+		int left = 0;
+		int right = data.length - 1;
+		while( left < right ) {
+			long temp = data[left];
+			data[left] = data[right];
+			data[right] = temp;
+			left++;
+			right--;
+		}
+	}
+
+	class VertexOnLineComparator implements Comparator<Long> {
+		WB_Line L;
+		HE_Mesh mesh;
+
+		VertexOnLineComparator(final HE_Mesh mesh, final WB_Line L){
+			this.L=L;
+			this.mesh=mesh;
+		}
+
+		@Override
+		public int compare(final Long v0, final Long v1) {
+			double d=WB_GeometryOp.pointAlongLine(mesh.getVertexWithKey(v0), L)-WB_GeometryOp.pointAlongLine(mesh.getVertexWithKey(v1), L);
+			return (WB_Epsilon.isZero(d))?0:((d>0)?1:-1);
+		}
+	}
+
+
+
+
+
 }

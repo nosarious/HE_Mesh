@@ -5618,7 +5618,7 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static WB_Classification classifyPointToPlane3D(final WB_Plane P, final WB_Coord p) {
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getDistanceToPlane3D(p, P))) {
+		if (WB_Epsilon.isZero(WB_GeometryOp.getDistanceToPlane3D(p, P))) {
 			return WB_Classification.ON;
 		}
 		final WB_Predicates predicates = new WB_Predicates();

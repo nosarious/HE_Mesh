@@ -81,7 +81,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 		for (i = 0; i < n; i++) {
 			f = faces[i];
 			vi = new HE_Vertex(faceCenters[i]);
-			vi.setInternalLabel(2);
+			vi.setTemporaryLabel(2);
 			double u = 0;
 			double v = 0;
 			double w = 0;
@@ -192,7 +192,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 			face = faces[i];
 			final HE_Vertex vi = new HE_Vertex(faceCenters[i]);
 			sel.parent.add(vi);
-			vi.setInternalLabel(2);
+			vi.setTemporaryLabel(2);
 			double u = 0;
 			double v = 0;
 			double w = 0;

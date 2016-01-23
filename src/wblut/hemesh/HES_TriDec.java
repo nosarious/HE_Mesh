@@ -139,7 +139,7 @@ public class HES_TriDec extends HES_Simplifier {
 			return _mesh;
 		}
 		_mesh.triangulate();
-		_mesh.resetVertexInternalLabels();
+		_mesh.resetVertexTemporaryLabels();
 		buildHeap(_mesh);
 		HE_Vertex v;
 		Entry entry;
@@ -152,7 +152,7 @@ public class HES_TriDec extends HES_Simplifier {
 			do {
 				entry = heap.pop();
 				v = entry.v;
-				valid = mesh.contains(v) && (entry.version == v.getInternalLabel());
+				valid = mesh.contains(v) && (entry.version == v.getTemporaryLabel());
 			} while ((heap.size() > 0) && !valid);
 
 			if (valid) {
@@ -199,7 +199,7 @@ public class HES_TriDec extends HES_Simplifier {
 			return _mesh;
 		}
 		_mesh.triangulate();
-		_mesh.resetVertexInternalLabels();
+		_mesh.resetVertexTemporaryLabels();
 		buildHeap(_mesh);
 		HE_Vertex v;
 		Entry entry;
@@ -212,7 +212,7 @@ public class HES_TriDec extends HES_Simplifier {
 			do {
 				entry = heap.pop();
 				v = entry.v;
-				valid = selection.contains(v) && _mesh.contains(v) && (entry.version == v.getInternalLabel());
+				valid = selection.contains(v) && _mesh.contains(v) && (entry.version == v.getTemporaryLabel());
 			} while ((heap.size() > 0) && !valid);
 			if (valid) {
 				vertices = v.getNeighborVertices();
@@ -252,7 +252,7 @@ public class HES_TriDec extends HES_Simplifier {
 		double vvi;
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			v.setInternalLabel(counter);
+			v.setTemporaryLabel(counter);
 			vvi = visualImportance(v);
 			if (vvi < Double.POSITIVE_INFINITY) {
 				vstar = v.getHalfedgeStar();
@@ -306,7 +306,7 @@ public class HES_TriDec extends HES_Simplifier {
 		for (final HE_Vertex v : vertices) {
 			if ((selection == null) || selection.contains(v)) {
 				vvi = visualImportance(v);
-				v.setInternalLabel(counter);
+				v.setTemporaryLabel(counter);
 				vertexCost.remove(v.key());
 
 				vstar = v.getHalfedgeStar();
@@ -468,7 +468,7 @@ public class HES_TriDec extends HES_Simplifier {
 		 * @param obj
 		 */
 		public void push(final Double key, final HE_Vertex obj) {
-			heap.add(new Entry(obj, obj.getInternalLabel()));
+			heap.add(new Entry(obj, obj.getTemporaryLabel()));
 			keys.add(key);
 			pushUp(heap.size() - 1);
 		}

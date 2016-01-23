@@ -215,7 +215,7 @@ public class HES_DooSabin extends HES_Subdividor {
 		vertexFaces = new HE_Selection(mesh);
 		while (fItr.hasNext()) {
 			f = fItr.next();
-			f.setInternalLabel(labels[currentFace]);
+			f.setTemporaryLabel(labels[currentFace]);
 			if (currentFace < noe[0]) {
 				faceFaces.add(f);
 			} else if (currentFace < (noe[0] + noe[1])) {

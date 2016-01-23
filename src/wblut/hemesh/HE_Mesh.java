@@ -2002,6 +2002,23 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		remove(f);
 	}
 
+	public void cutFace(final HE_Face f) {
+		HE_Halfedge he = f.getHalfedge();
+		do {
+			setHalfedge(he.getVertex(),he.getNextInVertex());
+
+			he = he.getNextInFace();
+		} while (he != f.getHalfedge());
+
+		do {
+			clearFace(he);
+			clearPair(he);
+			remove(he);
+			he = he.getNextInFace();
+		} while (he != f.getHalfedge());
+		remove(f);
+	}
+
 	/**
 	 * Delete edge. Adjacent faces are fused.
 	 *
@@ -3019,40 +3036,76 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 
 	/**
 	 * Reset labels.
+	 * @deprecated Use {@link #resetTemporaryLabels()} instead
 	 */
+	@Deprecated
 	public void resetInternalLabels() {
-		resetVertexInternalLabels();
-		resetFaceInternalLabels();
-		resetEdgeInternalLabels();
+		resetTemporaryLabels();
+	}
+
+	/**
+	 * Reset labels.
+	 */
+	public void resetTemporaryLabels() {
+		resetVertexTemporaryLabels();
+		resetFaceTemporaryLabels();
+		resetEdgeTemporaryLabels();
+	}
+
+	/**
+	 * Reset vertex labels.
+	 * @deprecated Use {@link #resetVertexTemporaryLabels()} instead
+	 */
+	@Deprecated
+	public void resetVertexInternalLabels() {
+		resetVertexTemporaryLabels();
 	}
 
 	/**
 	 * Reset vertex labels.
 	 */
-	public void resetVertexInternalLabels() {
+	public void resetVertexTemporaryLabels() {
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
-			vItr.next().setInternalLabel(-1);
+			vItr.next().setTemporaryLabel(-1);
 		}
 	}
 
 	/**
 	 * Reset face labels.
+	 * @deprecated Use {@link #resetFaceTemporaryLabels()} instead
 	 */
+	@Deprecated
 	public void resetFaceInternalLabels() {
+		resetFaceTemporaryLabels();
+	}
+
+	/**
+	 * Reset face labels.
+	 */
+	public void resetFaceTemporaryLabels() {
 		final Iterator<HE_Face> fItr = fItr();
 		while (fItr.hasNext()) {
-			fItr.next().setInternalLabel(-1);
+			fItr.next().setTemporaryLabel(-1);
 		}
 	}
 
 	/**
 	 * Reset edge labels.
+	 * @deprecated Use {@link #resetEdgeTemporaryLabels()} instead
 	 */
+	@Deprecated
 	public void resetEdgeInternalLabels() {
+		resetEdgeTemporaryLabels();
+	}
+
+	/**
+	 * Reset edge labels.
+	 */
+	public void resetEdgeTemporaryLabels() {
 		final Iterator<HE_Halfedge> eItr = eItr();
 		while (eItr.hasNext()) {
-			eItr.next().setInternalLabel(-1);
+			eItr.next().setTemporaryLabel(-1);
 		}
 	}
 
@@ -3500,6 +3553,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		}
 	}
 
+
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -3701,7 +3756,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Face f;
 		while (fitr.hasNext()) {
 			f = fitr.next();
-			if (f.getInternalLabel() == i) {
+			if (f.getTemporaryLabel() == i) {
 				f.setColor(color);
 			}
 		}
@@ -3735,7 +3790,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Vertex f;
 		while (fitr.hasNext()) {
 			f = fitr.next();
-			if (f.getInternalLabel() == i) {
+			if (f.getTemporaryLabel() == i) {
 				f.setColor(color);
 			}
 		}
@@ -3769,7 +3824,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Halfedge f;
 		while (fitr.hasNext()) {
 			f = fitr.next();
-			if (f.getInternalLabel() == i) {
+			if (f.getTemporaryLabel() == i) {
 				f.setColor(color);
 			}
 		}
@@ -3803,7 +3858,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Face f;
 		while (fitr.hasNext()) {
 			f = fitr.next();
-			if (f.getInternalLabel() != i) {
+			if (f.getTemporaryLabel() != i) {
 				f.setColor(color);
 			}
 		}
@@ -3837,7 +3892,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Vertex v;
 		while (vitr.hasNext()) {
 			v = vitr.next();
-			if (v.getInternalLabel() != i) {
+			if (v.getTemporaryLabel() != i) {
 				v.setColor(color);
 			}
 		}
@@ -3871,7 +3926,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Halfedge f;
 		while (heitr.hasNext()) {
 			f = heitr.next();
-			if (f.getInternalLabel() != i) {
+			if (f.getTemporaryLabel() != i) {
 				f.setColor(color);
 			}
 		}

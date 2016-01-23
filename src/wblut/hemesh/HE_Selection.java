@@ -926,7 +926,7 @@ public class HE_Selection extends HE_MeshStructure {
 		final Iterator<HE_Face> fItr = mesh.fItr();
 		while (fItr.hasNext()) {
 			f = fItr.next();
-			if (f.getInternalLabel() == label) {
+			if (f.getTemporaryLabel() == label) {
 				_selection.add(f);
 			}
 		}
@@ -946,7 +946,7 @@ public class HE_Selection extends HE_MeshStructure {
 		final Iterator<HE_Face> fItr = mesh.fItr();
 		while (fItr.hasNext()) {
 			f = fItr.next();
-			if (f.getInternalLabel() != label) {
+			if (f.getTemporaryLabel() != label) {
 				_selection.add(f);
 			}
 		}
@@ -1348,7 +1348,7 @@ public class HE_Selection extends HE_MeshStructure {
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			if (v.getInternalLabel() == label) {
+			if (v.getTemporaryLabel() == label) {
 				_selection.add(v);
 			}
 		}
@@ -1361,7 +1361,7 @@ public class HE_Selection extends HE_MeshStructure {
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			if (v.getInternalLabel() != label) {
+			if (v.getTemporaryLabel() != label) {
 				_selection.add(v);
 			}
 		}

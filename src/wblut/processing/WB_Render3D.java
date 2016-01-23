@@ -388,7 +388,7 @@ public class WB_Render3D extends WB_Render2D {
 		HE_Halfedge e;
 		while (eItr.hasNext()) {
 			e = eItr.next();
-			if (e.getInternalLabel() == label) {
+			if (e.getTemporaryLabel() == label) {
 				line(e.getVertex(), e.getEndVertex());
 			}
 		}
@@ -1192,7 +1192,7 @@ public class WB_Render3D extends WB_Render2D {
 		HE_Face f;
 		while (fItr.hasNext()) {
 			f = fItr.next();
-			if (f.getInternalLabel() == label) {
+			if (f.getTemporaryLabel() == label) {
 				drawFace(f);
 			}
 		}
@@ -1317,7 +1317,7 @@ public class WB_Render3D extends WB_Render2D {
 		HE_Halfedge he;
 		while (heItr.hasNext()) {
 			he = heItr.next();
-			if (he.getInternalLabel() == label) {
+			if (he.getTemporaryLabel() == label) {
 				line(he.getVertex(), he.getEndVertex());
 			}
 		}
@@ -3663,6 +3663,16 @@ public class WB_Render3D extends WB_Render2D {
 		}
 	}
 
+	public void drawVertex(final HE_Vertex v, final double d) {
+
+		if (v != null) {
+			home.pushMatrix();
+			translate(v);
+			home.box((float) d);
+			home.popMatrix();
+		}
+	}
+
 	/**
 	 *
 	 *
@@ -3722,6 +3732,8 @@ public class WB_Render3D extends WB_Render2D {
 			home.popMatrix();
 		}
 	}
+
+
 
 	/**
 	 *
@@ -4439,6 +4451,42 @@ public class WB_Render3D extends WB_Render2D {
 		vertex(p);
 		vertex(q);
 		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param label
+	 * @param mesh
+	 */
+	public void drawVerticesWithTemporaryLabel(final int label, final HE_MeshStructure mesh,final double d) {
+		final Iterator<HE_Vertex> vItr = mesh.vItr();
+		HE_Vertex v;
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			if (v.getTemporaryLabel() == label) {
+				drawVertex(v,d);
+			}
+		}
+	}
+
+	/**
+	 * Draw mesh faces matching label. Typically used with noStroke();
+	 *
+	 * @param label
+	 *            the label
+	 * @param mesh
+	 *            the mesh
+	 */
+	public void drawVerticesWithLabel(final int label, final HE_MeshStructure mesh,final double d) {
+		final Iterator<HE_Vertex> vItr = mesh.vItr();
+		HE_Vertex v;
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			if (v.getLabel() == label) {
+				drawVertex(v,d);
+			}
+		}
 	}
 
 }

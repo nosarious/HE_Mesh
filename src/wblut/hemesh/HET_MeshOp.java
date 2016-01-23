@@ -164,7 +164,7 @@ public class HET_MeshOp {
 		if (he1.getFace() != null) {
 			mesh.setFace(he1new,he1.getFace());
 		}
-		vNew.setInternalLabel(1);
+		vNew.setTemporaryLabel(1);
 		mesh.add(vNew);
 		mesh.add(he0new);
 		mesh.add(he1new);
@@ -368,9 +368,14 @@ public class HET_MeshOp {
 	 */
 	public static HE_Selection splitFace(final HE_Face face, final HE_Vertex vi, final HE_Vertex vj,
 			final HE_Mesh mesh) {
+		System.out.println("inside splitface");
+		System.out.println("  "+face);
+		System.out.println("  "+vi);
+		System.out.println("  "+vj);
 		final HE_Selection out = new HE_Selection(mesh);
 		final HE_Halfedge hei = vi.getHalfedge(face);
 		final HE_Halfedge hej = vj.getHalfedge(face);
+		System.out.println("inside splitface 2");
 		final HE_TextureCoordinate ti = (hei.hasUVW()) ? hei.getUVW() : null;
 		final HE_TextureCoordinate tj = (hej.hasUVW()) ? hej.getUVW() : null;
 		final double d = vi.getDistance3D(vj);
@@ -405,8 +410,8 @@ public class HET_MeshOp {
 				mesh.setNext(heiPrev,he1new);
 				mesh.setNext(hejPrev,he0new);
 				mesh.setPair(he0new,he1new);
-				he0new.setInternalLabel(1);
-				he1new.setInternalLabel(1);
+				he0new.setTemporaryLabel(1);
+				he1new.setTemporaryLabel(1);
 				mesh.setFace(he0new,face);
 				faceNew = new HE_Face();
 				mesh.setHalfedge(face,hei);
@@ -710,7 +715,7 @@ public class HET_MeshOp {
 				}
 			} else if (fo > 3) {
 				vi = new HE_Vertex(faceCenters[i]);
-				vi.setInternalLabel(2);
+				vi.setTemporaryLabel(2);
 				double u = 0;
 				double v = 0;
 				double w = 0;
@@ -869,7 +874,7 @@ public class HET_MeshOp {
 				}
 			} else if (fo > 3) {
 				vi = new HE_Vertex(faceCenters[i]);
-				vi.setInternalLabel(2);
+				vi.setTemporaryLabel(2);
 				double u = 0;
 				double v = 0;
 				double w = 0;

@@ -121,7 +121,7 @@ public class HEM_TriSplit extends HEM_Modifier {
 	public static HE_Selection splitFaceTri(final HE_Mesh mesh, final HE_Face face, final WB_Coord p) {
 		HE_Halfedge he = face.getHalfedge();
 		final HE_Vertex vi = new HE_Vertex(p);
-		vi.setInternalLabel(2);
+		vi.setTemporaryLabel(2);
 		double u = 0;
 		double v = 0;
 		double w = 0;

@@ -349,7 +349,7 @@ public class HEC_FromFacelist extends HEC_Creator {
 					if (useUVW) {
 						v.setUVW(uvws[i]);
 					}
-					v.setInternalLabel(i);
+					v.setTemporaryLabel(i);
 					uniqueVertices[i] = v;
 					duplicated[i] = false;
 					mesh.add(uniqueVertices[i]);
@@ -437,7 +437,7 @@ public class HEC_FromFacelist extends HEC_Creator {
 			for (final int[] face : faces) {
 				final ArrayList<HE_Halfedge> faceEdges = new ArrayList<HE_Halfedge>();
 				final HE_Face hef = new HE_Face();
-				hef.setInternalLabel(id);
+				hef.setTemporaryLabel(id);
 				if (useFaceTextures) {
 					hef.setTextureId(faceTextureIds[id]);
 				}

@@ -65,7 +65,7 @@ public class HET_SelfIntersection {
 						&& (ir.object != null)
 						&& !WB_Epsilon.isZero(((WB_Segment) ir.object)
 								.getLength())) {
-					candidate.setInternalLabel(1);
+					candidate.setTemporaryLabel(1);
 					selfints.add(new HET_SelfIntersectionResult(tri, candidate,
 							(WB_Segment) ir.object));
 				}
@@ -83,7 +83,7 @@ public class HET_SelfIntersection {
 	public static List<HET_SelfIntersectionResult> checkSelfIntersection(
 			final HE_Mesh mesh) {
 		mesh.triangulate();
-		mesh.resetFaceInternalLabels();
+		mesh.resetFaceTemporaryLabels();
 		final WB_AABBTree tree = new WB_AABBTree(mesh, 1);
 		/*final HE_FaceIterator fitr = mesh.fItr();
 		final List<HET_SelfIntersectionResult> result = new FastTable<HET_SelfIntersectionResult>();

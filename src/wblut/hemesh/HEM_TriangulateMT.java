@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -104,11 +104,11 @@ public class HEM_TriangulateMT extends HEM_Modifier {
 
 
 	/**
-	 * 
 	 *
-	 * @param face 
-	 * @param mesh 
-	 * @param tris 
+	 *
+	 * @param face
+	 * @param mesh
+	 * @param tris
 	 */
 	private void triangulateNoPairing(final HE_Face face, final HE_Mesh mesh, final int[] tris) {
 
@@ -124,7 +124,6 @@ public class HEM_TriangulateMT extends HEM_Modifier {
 				he = he.getNextInFace();
 			} while (he != face.getHalfedge());
 			for (int i = 0; i < tris.length; i += 3) {
-
 				final HE_Face f = new HE_Face();
 				mesh.add(f);
 				triangles.add(f);
@@ -157,10 +156,10 @@ public class HEM_TriangulateMT extends HEM_Modifier {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param faces 
-	 * @return 
+	 *
+	 * @param faces
+	 * @return
 	 */
 	private List<int[]> triangulate(final List<HE_Face> faces){
 
@@ -211,12 +210,12 @@ public class HEM_TriangulateMT extends HEM_Modifier {
 		List<HE_Face> faces;
 
 		/**
-		 * 
 		 *
-		 * @param s 
-		 * @param e 
-		 * @param id 
-		 * @param faces 
+		 *
+		 * @param s
+		 * @param e
+		 * @param id
+		 * @param faces
 		 */
 		TriangulateRunner(final int s, final int e,final int id,final List<HE_Face> faces) {
 			start = s;

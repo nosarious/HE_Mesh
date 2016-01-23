@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -41,7 +41,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 	/** The simple cap. */
 	private boolean simpleCap = true;
 
-	private boolean triangulate = true;
+	private boolean triangulate = false;
 	/** Original faces?. */
 	public HE_Selection origFaces;
 	/** New faces?. */
@@ -133,12 +133,12 @@ public class HEM_MultiSlice extends HEM_Modifier {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param b 
-	 * @return 
+	 *
+	 * @param b
+	 * @return
 	 */
-	public HEM_MultiSlice setTriangulate(boolean b) {
+	public HEM_MultiSlice setTriangulate(final boolean b) {
 		triangulate = b;
 		return this;
 	}
@@ -198,7 +198,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 			}
 		}
 		Iterator<HE_Face> fItr = mesh.fItr();
-		mesh.resetFaceInternalLabels();
+		mesh.resetFaceTemporaryLabels();
 		final HEM_Slice slice = new HEM_Slice();
 		slice.setReverse(reverse).setCap(capHoles).setOffset(offset).setSimpleCap(simpleCap);
 		if (center != null) {
@@ -244,17 +244,18 @@ public class HEM_MultiSlice extends HEM_Modifier {
 				HE_Face f;
 				while (fItr.hasNext()) {
 					f = fItr.next();
-					f.setInternalLabel(labels[i]);
+					f.setTemporaryLabel(labels[i]);
 				}
-				if (triangulate)
+				if (triangulate) {
 					mesh.triangulateConcaveFaces();
+				}
 			}
 		}
 		fItr = mesh.fItr();
 		HE_Face f;
 		while (fItr.hasNext()) {
 			f = fItr.next();
-			if (f.getInternalLabel() == -1) {
+			if (f.getTemporaryLabel() == -1) {
 				origFaces.add(f);
 			} else {
 				newFaces.add(f);
