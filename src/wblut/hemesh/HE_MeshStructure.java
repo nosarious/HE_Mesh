@@ -1265,26 +1265,16 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @param he
 	 */
 	public void clearPair(final HE_Halfedge he){
-
 		if(he.getPair()==null) {
 			return;
 		}
 		HE_Halfedge hep=he.getPair();
-
-		if(he.isEdge()){
-			edges.remove(he);
-			halfedges.remove(hep);
-		}else{
-			halfedges.remove(he);
-			edges.remove(hep);
-		}
-		unpairedHalfedges.add(he);
-		unpairedHalfedges.add(hep);
-
+		remove(he);
+		remove(hep);
 		he._clearPair();
 		hep._clearPair();
-
-
+		add(he);
+		add(hep);
 	}
 
 	/**
