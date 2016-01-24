@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -61,45 +61,45 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public HE_FaceEdgeCirculator feCrc() {
 		return new HE_FaceEdgeCirculator(this);
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public HE_FaceFaceCirculator ffCrc() {
 		return new HE_FaceFaceCirculator(this);
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public HE_FaceVertexCirculator fvCrc() {
 		return new HE_FaceVertexCirculator(this);
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public HE_FaceHalfedgeInnerCirculator fheiCrc() {
 		return new HE_FaceHalfedgeInnerCirculator(this);
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public HE_FaceHalfedgeOuterCirculator fheoCrc() {
 		return new HE_FaceHalfedgeOuterCirculator(this);
@@ -284,7 +284,7 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 	 *
 	 * @return
 	 */
-	public List<HE_Vertex> getFaceVertices() {
+	public List<HE_Vertex> getUniqueFaceVertices() {
 		final List<HE_Vertex> fv = new FastTable<HE_Vertex>();
 		if (_halfedge == null) {
 			return fv;
@@ -299,10 +299,25 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 		return fv;
 	}
 
+	public List<HE_Vertex> getFaceVertices() {
+		final List<HE_Vertex> fv = new FastTable<HE_Vertex>();
+		if (_halfedge == null) {
+			return fv;
+		}
+		HE_Halfedge he = _halfedge;
+		do {
+
+			fv.add(he.getVertex());
+
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		return fv;
+	}
+
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public List<HE_TextureCoordinate> getFaceUVWs() {
 		final List<HE_TextureCoordinate> fv = new FastTable<HE_TextureCoordinate>();
@@ -418,10 +433,10 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param v 
-	 * @return 
+	 *
+	 * @param v
+	 * @return
 	 */
 	public HE_Halfedge getHalfedge(final HE_Vertex v) {
 		HE_Halfedge he = _halfedge;
@@ -729,9 +744,9 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public boolean isPlanar() {
 		final WB_Plane P = getPlane();
@@ -826,18 +841,18 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public int getTextureId() {
 		return textureId;
 	}
 
 	/**
-	 * 
 	 *
-	 * @param i 
+	 *
+	 * @param i
 	 */
 	public void setTextureId(final int i) {
 		textureId = i;

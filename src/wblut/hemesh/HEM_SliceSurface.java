@@ -26,6 +26,8 @@ import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_Line;
 import wblut.geom.WB_Plane;
+import wblut.geom.WB_Point;
+import wblut.geom.WB_Polygon;
 import wblut.math.WB_Epsilon;
 
 /**
@@ -383,10 +385,12 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		final List<HE_Halfedge> edges = new FastTable<HE_Halfedge>();
 		for (final HE_Halfedge he : cutEdges.getEdgesAsList()) {
 			final HE_Face f = he.getFace();
-			if (WB_GeometryOp.classifyPointToPlane3D(f.getFaceCenter(), P) == WB_Classification.FRONT) {
-				edges.add(he.getPair());
-			} else {
-				edges.add(he);
+			if(f!=null){
+				if (WB_GeometryOp.classifyPointToPlane3D(f.getFaceCenter(), P) == WB_Classification.FRONT) {
+					edges.add(he.getPair());
+				} else {
+					edges.add(he);
+				}
 			}
 		}
 		WB_ProgressCounter counter = new WB_ProgressCounter(edges.size(), 10);
@@ -447,7 +451,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 
 	void splitFaceInIntersections(final HE_Face f, final HE_Mesh mesh){
 
-		Long[] intersectionVertices=new Long[f.getFaceOrder()];
+		Long[] intersectionVertices=new Long[2*f.getFaceOrder()];
 		Long[] polygon=new Long[2*f.getFaceOrder()];
 		int intersectionCount=0;
 		int polygonCount=0;
@@ -460,6 +464,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 				intersectionVertices[intersectionCount++]=v.getKey();
 
 				if(v.getTemporaryLabel()==ONVERTEX) {
+
 					polygon[polygonCount++]=v.getKey();
 				}
 				v.clearVisited();
@@ -494,6 +499,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 				long key1 = intersectionVertices[1];
 				int index0=indexOf(key0,polygon);
 				int index1=indexOf(key1,polygon);
+
 				boolean solved = false;
 				if(firstUnvisited(polygon, index0,mesh) == index1) {
 					solved = true;
@@ -512,7 +518,10 @@ public class HEM_SliceSurface extends HEM_Modifier {
 				if(solved)
 				{
 					trial--;
-					subPolygons.add(getSubPolygon(polygon,index0,index1));
+					Long[] subPolygon=getSubPolygon(polygon,index0,index1);
+					if(subPolygon.length>2) {
+						subPolygons.add(subPolygon);
+					}
 					polygon=getSubPolygon(polygon,index1,index0);
 					intersectionVertices=Arrays.copyOfRange(intersectionVertices, 2,intersectionVertices.length);
 					if(intersectionVertices.length <2) {
@@ -528,42 +537,44 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			}
 
 			for(Long[] subPoly:subPolygons){
-				if(subPoly.length>2){
-					FastTable<HE_Halfedge> halfedges=new FastTable<HE_Halfedge>();
-					HE_Halfedge he;
-					HE_Face subFace=new HE_Face();
-					subFace.copyProperties(f);
-
-					for(int j=0;j<subPoly.length;j++){
-						he=new HE_Halfedge();
+				FastTable<HE_Halfedge> halfedges=new FastTable<HE_Halfedge>();
+				HE_Halfedge he;
+				HE_Face subFace=new HE_Face();
+				subFace.copyProperties(f);
+				for(int j=0;j<subPoly.length;j++){
+					he=new HE_Halfedge();
+					if(subPoly[j]!=subPoly[(j+1)%subPoly.length]){
 						mesh.setVertex(he,mesh.getVertexWithKey(subPoly[j]));
 						mesh.setHalfedge(he.getVertex(),he);
 						mesh.setFace(he,subFace);
 						halfedges.add(he);
+						if(j==(subPoly.length-1)){
+							he.setTemporaryLabel(1);
+							cutEdges.add(he);
+						}
 					}
+				}
 
-					halfedges.getLast().setTemporaryLabel(1);
-					cutEdges.add(halfedges.getLast());
-
-					for(int j=0;j<subPoly.length;j++){
-						if(mesh.getVertexWithKey(subPoly[j]).getTemporaryLabel()==FRONT){
+				if(halfedges.size()>2){
+					for(HE_Halfedge fhe:halfedges){
+						if(fhe.getVertex().getTemporaryLabel()==FRONT){
 							front.add(subFace);
-						}else if(mesh.getVertexWithKey(subPoly[j]).getTemporaryLabel()==BACK){
+						}else if(fhe.getVertex().getTemporaryLabel()==BACK){
 							back.add(subFace);
 
 						}
 
 					}
 					mesh.setHalfedge(subFace, halfedges.get(0));
-					for(int j=0,k=subPoly.length-1;j<subPoly.length;k=j,j++){
+					for(int j=0,k=halfedges.size()-1;j<halfedges.size();k=j,j++){
 						mesh.setNext(halfedges.get(k),halfedges.get(j));
 					}
 					mesh.add(subFace);
 					mesh.addHalfedges(halfedges);
-
-
-
 				}
+
+
+
 
 
 			}
@@ -649,6 +660,29 @@ public class HEM_SliceSurface extends HEM_Modifier {
 
 
 
+	public static void main(final String[] args) {
+		WB_Point[] basepoints =new WB_Point[24];
+		for (int i=0;i<24;i++) {
+			basepoints[i]=new WB_Point(0,50+(250*(i%2)),0);
+			if(i>0) {
+				basepoints[i].rotateAbout2PointAxisSelf((Math.PI/12.0)*i,0,0,0,0,0,1);
+			}
+		}
+
+		//create polygon from base points, HEC_Polygon assumes the polygon is planar
+		WB_Polygon polygon=WB_GeometryFactory.instance().createSimplePolygon(basepoints);
+
+		HEC_Polygon creator=new HEC_Polygon();
+
+		creator.setPolygon(polygon);//alternatively polygon can be a WB_Polygon2D
+		creator.setThickness(50);// thickness 0 creates a surface
+
+		HE_Mesh mesh=new HE_Mesh(creator);
+		mesh.modify(new HEM_SliceSurface().setPlane(0,50.0,0,0,-1,0));
+
+
+
+	}
 
 
 }

@@ -429,8 +429,11 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param smooth
 	 */
 	public void drawFace(final HE_Face f, final boolean smooth) {
+
 		final int fo = f.getFaceOrder();
+
 		final List<HE_Vertex> vertices = f.getFaceVertices();
+
 		if ((fo < 3) || (vertices.size() < 3)) {
 		} else if (fo == 3) {
 			final int[] tri = new int[] { 0, 1, 2 };

@@ -184,7 +184,9 @@ public class HEM_Slice extends HEM_Modifier {
 			face = fItr.next();
 			final WB_Classification cptp = WB_GeometryOp.classifyPointToPlane3D(face.getFaceCenter(), lP);
 			if ((cptp == WB_Classification.FRONT) || (cptp == WB_Classification.ON)) {
-				newFaces.add(face);
+				if(!face.isDegenerate()) {
+					newFaces.add(face);
+				}
 			} else {
 				if (cut.contains(face)) {
 					cut.remove(face);

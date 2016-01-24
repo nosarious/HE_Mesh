@@ -18,9 +18,9 @@ You need to add some other external *.jar files to the properties of your Eclips
 * `exp4j.jar`: A simple expression evaluator for Java: https://github.com/fasseg/exp4j. Download a built version here:http://www.wblut.com/hemesh/exp4j.zip
 * `objparser.jar`: A simple OBJ file parser for Java: https://github.com/momchil-atanasov/java-data-front  Download a built version here:http://www.wblut.com/hemesh/objparser.zip
 
-## Build-of-the-day HE_Mesh (2016/01/19)
+## Build-of-the-day HE_Mesh (2016/01/24)
 
-Download a recent built here: http://www.wblut.com/hemesh/hemesh20160119.zip.
+Download a recent built here: http://www.wblut.com/hemesh/hemesh20160124.zip.
 
 ## License
 
