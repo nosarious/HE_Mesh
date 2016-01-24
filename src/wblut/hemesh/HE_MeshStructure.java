@@ -1216,7 +1216,15 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @param he2
 	 */
 	public void setPair(final HE_Halfedge he1, final HE_Halfedge he2){
-		if(he1.getPair()==null){
+		remove(he1);
+		remove(he2);
+		he1._setPair(he2);
+		he2._setPair(he1);
+		add(he1);
+		add(he2);
+
+
+		/*if(he1.getPair()==null){
 			unpairedHalfedges.remove(he1);
 		}else{
 			if(he1.isEdge()){
@@ -1248,7 +1256,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		else if (he2.isEdge()){
 			edges.add(he2);
 			halfedges.add(he1);
-		}
+		}*/
 	}
 
 	/**

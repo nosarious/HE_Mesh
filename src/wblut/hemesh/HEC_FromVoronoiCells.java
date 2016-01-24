@@ -201,7 +201,7 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 		}
 		result.fixNonManifoldVertices();
 		if (!capBoundaries) {
-			final HE_Selection sel = HE_Selection.selectFacesWithInternalLabel(result,-1);
+			final HE_Selection sel = HE_Selection.selectFacesWithTemporaryLabel(result,-1);
 			final HE_FaceIterator fitr = sel.fItr();
 			while (fitr.hasNext()) {
 				result.deleteFace(fitr.next());

@@ -289,7 +289,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 		inner = new HE_Selection(result);
 		for (int i = 0; i < labels.length; i++) {
 			final HE_Selection sel =
-					HE_Selection.selectFacesWithInternalLabel(result,labels[i]);
+					HE_Selection.selectFacesWithTemporaryLabel(result,labels[i]);
 			if (sel.getNumberOfFaces() > 0) {
 				final HE_FaceIterator fitr = sel.fItr();
 				while (fitr.hasNext()) {

@@ -412,4 +412,15 @@ public class HES_CatmullClark extends HES_Subdividor {
 		}
 		return selection.parent;
 	}
+
+	public static void main(final String[] args) {
+		HEC_Cylinder creator=new HEC_Cylinder();
+		creator.setFacets(9).setSteps(4).setRadius(150).setHeight(400).setCap(false, true).setCenter(0, 0, 0);
+		HE_Mesh mesh=new HE_Mesh(creator);
+		mesh.modify(new HEM_Noise().setDistance(50));
+
+		mesh.smooth(2);
+		mesh.validate();
+	}
+
 }

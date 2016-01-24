@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -30,9 +30,9 @@ public class HET_Diagnosis {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param mesh 
+	 *
+	 * @param mesh
 	 */
 	public static void stats(final HE_Mesh mesh) {
 		System.out.println("Faces: " + mesh.getNumberOfFaces());
@@ -508,5 +508,23 @@ public class HET_Diagnosis {
 		System.out.println();
 	}
 
+
+	public static void checkHalfedges(final HE_MeshStructure mesh){
+		for(HE_Halfedge he:mesh.halfedges){
+			if(mesh.edges.contains(he)) {
+				System.out.println("Duplicate halfedge "+he.getKey()+" in halfedgs and edges." );
+			}
+			if(mesh.unpairedHalfedges.contains(he)) {
+				System.out.println("Duplicate halfedge "+he.getKey()+" in halfedges and unpairedHalfedges." );
+			}
+		}
+
+		for(HE_Halfedge he:mesh.edges){
+			if(mesh.unpairedHalfedges.contains(he)) {
+				System.out.println("Duplicate halfedge "+he.getKey()+" in edges and unpairedHalfedges." );
+			}
+		}
+
+	}
 
 }

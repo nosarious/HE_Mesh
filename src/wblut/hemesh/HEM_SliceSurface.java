@@ -26,8 +26,6 @@ import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_Line;
 import wblut.geom.WB_Plane;
-import wblut.geom.WB_Point;
-import wblut.geom.WB_Polygon;
 import wblut.math.WB_Epsilon;
 
 /**
@@ -485,7 +483,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			int i=1;
 			do{
 				v1=mesh.getVertexWithKey(intersectionVertices[i++]);
-			}while(WB_Epsilon.isZeroSq(v0.getSqDistance3D(v1)));
+			}while(WB_Epsilon.isZeroSq(v0.getSqDistance3D(v1))&&(i<intersectionCount));
 
 			WB_Line intersectionLine= gf.createLineThroughPoints(v0, v1);
 			Arrays.sort(intersectionVertices, new VertexOnLineComparator(mesh,intersectionLine));
@@ -661,6 +659,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 
 
 	public static void main(final String[] args) {
+		/*
 		WB_Point[] basepoints =new WB_Point[24];
 		for (int i=0;i<24;i++) {
 			basepoints[i]=new WB_Point(0,50+(250*(i%2)),0);
@@ -679,7 +678,16 @@ public class HEM_SliceSurface extends HEM_Modifier {
 
 		HE_Mesh mesh=new HE_Mesh(creator);
 		mesh.modify(new HEM_SliceSurface().setPlane(0,50.0,0,0,-1,0));
+		 */
+		HEC_Cylinder creator=new HEC_Cylinder();
+		creator.setFacets(32).setSteps(16).setRadius(50).setHeight(400).setCenter(0,0,0);
+		HE_Mesh mesh=new HE_Mesh(creator);
+		HEM_Slice modifier=new HEM_Slice();
 
+
+		modifier.setPlane(new WB_Plane(0,0,0,1,1,1));
+
+		mesh.modify(modifier);
 
 
 	}
