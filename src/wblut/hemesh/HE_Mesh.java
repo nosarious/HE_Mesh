@@ -27,7 +27,7 @@ import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_FaceListMesh;
+import wblut.geom.WB_FacelistMesh;
 import wblut.geom.WB_Frame;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
@@ -591,7 +591,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 *
 	 * @return
 	 */
-	public WB_FaceListMesh toFaceListMesh() {
+	public WB_FacelistMesh toFaceListMesh() {
 		return WB_GeometryFactory.instance().createMesh(getVerticesAsPoint(), getFacesAsInt());
 	}
 

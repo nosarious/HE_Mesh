@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -487,5 +487,20 @@ public class HES_Planar extends HES_Subdividor {
 		selection.parent.removeFaces(selection.getFacesAsArray());
 		selection.parent.addFaces(newFaces);
 		return selection.parent;
+	}
+
+	public static void main(final String[] args) {
+		HEC_Cube creator=new HEC_Cube(400, 1,1, 1);
+		HE_Mesh mesh=new HE_Mesh(creator);
+		mesh.modify(new HEM_ChamferCorners().setDistance(70));
+		HES_Planar subdividor=new HES_Planar();
+
+		subdividor.setRandom(true);// Randomize center edge and center face points
+		subdividor.setRange(0.3);// Random range of center offset, from 0 (no random) to 1(fully random)
+		subdividor.setSeed(1234L);// Seed of random point generator
+		subdividor.setKeepTriangles(true);// Subdivide triangles into 4 triangles instead of 3 quads
+		mesh.subdivide(subdividor);
+
+		mesh.validate();
 	}
 }

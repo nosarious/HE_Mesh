@@ -14,7 +14,7 @@ import java.util.Collection;
 /**
  *
  */
-public class WB_TriangleMesh extends WB_FaceListMesh {
+public class WB_TriangleMesh extends WB_FacelistMesh {
 
 	/**
 	 *
@@ -93,7 +93,7 @@ public class WB_TriangleMesh extends WB_FaceListMesh {
 	 *
 	 * @param mesh
 	 */
-	protected WB_TriangleMesh(final WB_FaceListMesh mesh) {
+	protected WB_TriangleMesh(final WB_FacelistMesh mesh) {
 		vertices = mesh.getPoints();
 		faces = mesh.getFacesAsInt();
 		aabb = new WB_AABB(vertices);

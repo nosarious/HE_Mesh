@@ -29,7 +29,7 @@ import wblut.geom.WB_Circle;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_Curve;
-import wblut.geom.WB_FaceListMesh;
+import wblut.geom.WB_FacelistMesh;
 import wblut.geom.WB_Frame;
 import wblut.geom.WB_FrameNode;
 import wblut.geom.WB_FrameStrut;
@@ -4137,10 +4137,10 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param mesh
 	 * @return
 	 */
-	public PShape toFacetedPShape(final WB_FaceListMesh mesh) {
+	public PShape toFacetedPShape(final WB_FacelistMesh mesh) {
 		final PShape retained = home.createShape();
 		retained.beginShape(PConstants.TRIANGLES);
-		final WB_FaceListMesh lmesh = geometryfactory.createTriMesh(mesh);
+		final WB_FacelistMesh lmesh = geometryfactory.createTriMesh(mesh);
 		final List<WB_Coord> seq = lmesh.getPoints();
 		WB_Coord p = seq.get(0);
 		for (int i = 0; i < lmesh.getNumberOfFaces(); i++) {
@@ -4254,10 +4254,10 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param mesh
 	 * @return
 	 */
-	public PShape toSmoothPShape(final WB_FaceListMesh mesh) {
+	public PShape toSmoothPShape(final WB_FacelistMesh mesh) {
 		final PShape retained = home.createShape();
 		retained.beginShape(PConstants.TRIANGLES);
-		final WB_FaceListMesh lmesh = geometryfactory.createTriMesh(mesh);
+		final WB_FacelistMesh lmesh = geometryfactory.createTriMesh(mesh);
 		final WB_Vector v = geometryfactory.createVector();
 		final List<WB_Coord> seq = lmesh.getPoints();
 		WB_Coord p = seq.get(0);

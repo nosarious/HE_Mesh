@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 import javolution.util.FastTable;
 
 
-public class WB_FaceListMesh implements WB_Mesh {
+public class WB_FacelistMesh implements WB_Mesh {
 
 	protected int[][] faces;
 
@@ -85,7 +85,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 	/**
 	 *
 	 */
-	protected WB_FaceListMesh() {
+	protected WB_FacelistMesh() {
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 	 *
 	 * @param mesh
 	 */
-	protected WB_FaceListMesh(final WB_FaceListMesh mesh) {
+	protected WB_FacelistMesh(final WB_FacelistMesh mesh) {
 		vertices = createVertices(mesh.vertices);
 		this.faces = new int[mesh.faces.length][];
 		int i = 0;
@@ -142,7 +142,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 	 * @param points
 	 * @param faces
 	 */
-	protected WB_FaceListMesh(final Collection<? extends WB_Coord> points, final int[][] faces) {
+	protected WB_FacelistMesh(final Collection<? extends WB_Coord> points, final int[][] faces) {
 		vertices = createVertices(points);
 		this.faces = new int[faces.length][];
 		int i = 0;
@@ -162,7 +162,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 	 * @param points
 	 * @param faces
 	 */
-	protected WB_FaceListMesh(final WB_Coord[] points, final int[][] faces) {
+	protected WB_FacelistMesh(final WB_Coord[] points, final int[][] faces) {
 		vertices = createVertices(points);
 		this.faces = new int[faces.length][];
 		int i = 0;
@@ -181,8 +181,8 @@ public class WB_FaceListMesh implements WB_Mesh {
 	 *
 	 * @return
 	 */
-	public WB_FaceListMesh get() {
-		return new WB_FaceListMesh(this);
+	public WB_FacelistMesh get() {
+		return new WB_FacelistMesh(this);
 	}
 
 
@@ -352,7 +352,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 	 * @param AABB
 	 * @return
 	 */
-	public WB_FaceListMesh isoFitInAABB(final WB_AABB AABB) {
+	public WB_FacelistMesh isoFitInAABB(final WB_AABB AABB) {
 		final WB_AABB self = getAABB();
 		final double scx = self.getCenterX();
 		final double acx = AABB.getCenterX();
@@ -379,7 +379,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 	 *
 	 * @return
 	 */
-	public WB_FaceListMesh triangulate() {
+	public WB_FacelistMesh triangulate() {
 		return triangulateMT();
 	}
 
@@ -388,7 +388,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 	 *
 	 * @return
 	 */
-	public WB_FaceListMesh triangulateForceST() {
+	public WB_FacelistMesh triangulateForceST() {
 		return triangulateST();
 	}
 
@@ -397,7 +397,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 	 *
 	 * @return
 	 */
-	public WB_FaceListMesh triangulateForceMT() {
+	public WB_FacelistMesh triangulateForceMT() {
 		return triangulateMT();
 	}
 
@@ -407,7 +407,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 	 *
 	 * @return
 	 */
-	private WB_FaceListMesh triangulateST() {
+	private WB_FacelistMesh triangulateST() {
 		tris = new FastTable<int[]>();
 		int[] face;
 		int[] triangles;
@@ -439,7 +439,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 	 *
 	 * @return
 	 */
-	private WB_FaceListMesh triangulateMT() {
+	private WB_FacelistMesh triangulateMT() {
 		try {
 			int threadCount = Runtime.getRuntime().availableProcessors();
 			int dfaces = faces.length / threadCount;
@@ -831,7 +831,7 @@ public class WB_FaceListMesh implements WB_Mesh {
 	 * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
 	 */
 	@Override
-	public WB_FaceListMesh apply(final WB_Transform WB_Point) {
+	public WB_FacelistMesh apply(final WB_Transform WB_Point) {
 		final FastTable<WB_Point> newvertices = new FastTable<WB_Point>();
 
 		WB_Point point;

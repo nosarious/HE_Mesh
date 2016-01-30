@@ -3516,7 +3516,7 @@ public class WB_GeometryOp {
 		WB_Point closest = new WB_Point();
 		WB_Point tmp;
 
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; i+=3) {
 
 			tmp = getClosestPointToTriangle3D(p, poly.getPoint(T[i]), poly.getPoint(T[i + 1]), poly.getPoint(T[i + 2]));
 			final double d2 = getSqDistance3D(tmp, p);
@@ -4357,7 +4357,7 @@ public class WB_GeometryOp {
 		double dmax2 = Double.POSITIVE_INFINITY;
 		WB_Coord tmp;
 
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; i+=3) {
 
 			tmp = WB_GeometryOp.getClosestPointToTriangle3D(p, poly.getPoint(T[i]), poly.getPoint(T[i + 1]),
 					poly.getPoint(T[i + 2]));

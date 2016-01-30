@@ -31,7 +31,7 @@ public class WB_Geodesic implements WB_MeshCreator {
 	public static final int ICOSAHEDRON = 4;
 
 
-	private WB_FaceListMesh mesh;
+	private WB_FacelistMesh mesh;
 
 
 	private final double radius;
@@ -82,7 +82,7 @@ public class WB_Geodesic implements WB_MeshCreator {
 	 * @see wblut.geom.WB_MeshCreator#getMesh()
 	 */
 	@Override
-	public WB_FaceListMesh getMesh() {
+	public WB_FacelistMesh getMesh() {
 		createMesh();
 		return mesh;
 	}

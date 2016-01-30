@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.processing;
 
@@ -74,7 +74,7 @@ public class WB_DebugRender3D {
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			if (!mesh.contains(v.getHalfedge())) {
+			if ((v.getHalfedge()==null) || !mesh.contains(v.getHalfedge())) {
 				home.pushMatrix();
 				home.translate(v.xf(), v.yf(), v.zf());
 				home.box((float) d);

@@ -361,7 +361,7 @@ public class WB_Voronoi {
 			final ArrayList<WB_Plane> cutPlanes = new ArrayList<WB_Plane>();
 			final WB_Point O = new WB_Point();
 			WB_Plane P;
-			final WB_FaceListMesh cell = geometryfactory.createMesh(aabb);
+			final WB_FacelistMesh cell = geometryfactory.createMesh(aabb);
 			for (int j = 0; j < n; j++) {
 				if (j != i) {
 					final WB_Vector N = new WB_Vector(points.get(i));
@@ -433,7 +433,7 @@ public class WB_Voronoi {
 			final ArrayList<WB_Plane> cutPlanes = new ArrayList<WB_Plane>();
 			final WB_Point O = new WB_Point();
 			WB_Plane P;
-			final WB_FaceListMesh cell = geometryfactory.createMesh(aabb);
+			final WB_FacelistMesh cell = geometryfactory.createMesh(aabb);
 			for (int j = 0; j < n; j++) {
 				if (j != i) {
 					final WB_Vector N = new WB_Vector(points[i]);
