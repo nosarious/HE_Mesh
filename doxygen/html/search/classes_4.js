@@ -137,6 +137,7 @@ var searchData=
   ['hem_5fshell',['HEM_Shell',['../classwblut_1_1hemesh_1_1_h_e_m___shell.html',1,'wblut::hemesh']]],
   ['hem_5fskew',['HEM_Skew',['../classwblut_1_1hemesh_1_1_h_e_m___skew.html',1,'wblut::hemesh']]],
   ['hem_5fslice',['HEM_Slice',['../classwblut_1_1hemesh_1_1_h_e_m___slice.html',1,'wblut::hemesh']]],
+  ['hem_5fsliceedges',['HEM_SliceEdges',['../classwblut_1_1hemesh_1_1_h_e_m___slice_edges.html',1,'wblut::hemesh']]],
   ['hem_5fslicesurface',['HEM_SliceSurface',['../classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html',1,'wblut::hemesh']]],
   ['hem_5fsmooth',['HEM_Smooth',['../classwblut_1_1hemesh_1_1_h_e_m___smooth.html',1,'wblut::hemesh']]],
   ['hem_5fsmoothinset',['HEM_SmoothInset',['../classwblut_1_1hemesh_1_1_h_e_m___smooth_inset.html',1,'wblut::hemesh']]],

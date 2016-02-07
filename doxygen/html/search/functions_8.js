@@ -127,6 +127,7 @@ var searchData=
   ['hem_5fshell',['HEM_Shell',['../classwblut_1_1hemesh_1_1_h_e_m___shell.html#a8d96aa7622049bcb396b4942fbaa0b38',1,'wblut::hemesh::HEM_Shell']]],
   ['hem_5fskew',['HEM_Skew',['../classwblut_1_1hemesh_1_1_h_e_m___skew.html#aeeadef5de7a3418e122410a15ee5d415',1,'wblut::hemesh::HEM_Skew']]],
   ['hem_5fslice',['HEM_Slice',['../classwblut_1_1hemesh_1_1_h_e_m___slice.html#aa2780aa4ece47d565d4f9ca4d0502044',1,'wblut::hemesh::HEM_Slice']]],
+  ['hem_5fsliceedges',['HEM_SliceEdges',['../classwblut_1_1hemesh_1_1_h_e_m___slice_edges.html#a22248071a1cdeeb2a4f688451c84a89c',1,'wblut::hemesh::HEM_SliceEdges']]],
   ['hem_5fslicesurface',['HEM_SliceSurface',['../classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html#ab6a3ad72e57a721b800d7510dc0c7276',1,'wblut::hemesh::HEM_SliceSurface']]],
   ['hem_5fsmooth',['HEM_Smooth',['../classwblut_1_1hemesh_1_1_h_e_m___smooth.html#ac9b5785536b34ce05cc8921fe74c0497',1,'wblut::hemesh::HEM_Smooth']]],
   ['hem_5fsmoothinset',['HEM_SmoothInset',['../classwblut_1_1hemesh_1_1_h_e_m___smooth_inset.html#a68f77de13745bcc042fcab8858323593',1,'wblut::hemesh::HEM_SmoothInset']]],

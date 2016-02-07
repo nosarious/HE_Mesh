@@ -1,7 +1,7 @@
 var searchData=
 [
   ['b',['B',['../enumwblut_1_1geom_1_1_w_b___danzer_1_1_type.html#ae41a8b31d19b149d89637d167bc00e16',1,'wblut.geom.WB_Danzer.Type.B()'],['../classwblut_1_1geom_1_1_w_b___geodesic.html#a046c1f18ef236da9998ca4a4c8c5736f',1,'wblut.geom.WB_Geodesic.b()'],['../classwblut_1_1geom_1_1_w_b___triangle.html#a06868797517a77c3e536ea4bf7c4f3fe',1,'wblut.geom.WB_Triangle.b()'],['../classwblut_1_1hemesh_1_1_h_e_c___geodesic.html#a9b75d781c97ea96ff78418131a892897',1,'wblut.hemesh.HEC_Geodesic.b()']]],
-  ['back',['BACK',['../enumwblut_1_1geom_1_1_w_b___classification.html#a2e498bbd99349740e404d68a5734845d',1,'wblut.geom.WB_Classification.BACK()'],['../classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html#a3488ebc7698a5451f852b61852bd53ff',1,'wblut.hemesh.HEM_SliceSurface.back()']]],
+  ['back',['back',['../classwblut_1_1hemesh_1_1_h_e_m___slice_edges.html#a7bbca1927f041d335e054a5029141e53',1,'wblut.hemesh.HEM_SliceEdges.back()'],['../classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html#a3488ebc7698a5451f852b61852bd53ff',1,'wblut.hemesh.HEM_SliceSurface.back()'],['../enumwblut_1_1geom_1_1_w_b___classification.html#a2e498bbd99349740e404d68a5734845d',1,'wblut.geom.WB_Classification.BACK()']]],
   ['backexcl',['BACKEXCL',['../enumwblut_1_1geom_1_1_w_b___classification.html#afb07820acc7733763e418eeca1b903e1',1,'wblut::geom::WB_Classification']]],
   ['basecolor',['baseColor',['../classwblut_1_1hemesh_1_1_h_e_t___s_t_l_writer_1_1_materialise_s_t_l_color_model.html#ae7a1f821312ada5dcd78c770bd4bd0e9',1,'wblut::hemesh::HET_STLWriter::MaterialiseSTLColorModel']]],
   ['bendaxis',['bendAxis',['../classwblut_1_1hemesh_1_1_h_e_m___bend.html#abeb3057f189a405a1accc0b796cc0e9e',1,'wblut::hemesh::HEM_Bend']]],
