@@ -18,7 +18,7 @@ void setup() {
   smooth(8);
   render=new WB_Render3D(this);
   createPolygon();
-  polygon=new WB_Triangulate().makeSimplePolygon(polygon);
+  polygon=gf.createSimplePolygon(polygon);
   background(255);
 }
 

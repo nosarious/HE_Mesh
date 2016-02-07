@@ -11,7 +11,7 @@ WB_Polygon polygon1, polygon2;
 List<WB_Polygon> booleanResult;
 
 void setup() {
-  size(800, 800, P3D);
+  size(800, 800, P2D);
   smooth(8);
   render=new WB_Render2D(this);
   shell= new ArrayList<WB_Point>();

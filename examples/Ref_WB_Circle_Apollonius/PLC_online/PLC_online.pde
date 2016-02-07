@@ -30,7 +30,7 @@ void draw() {
   noFill();
   strokeWeight(1);
   stroke(0, 120);
-  render.drawPoint(p, 5);
+  render.drawPoint2D(p, 5);
   render.drawLine2D(L, 2*width);
   render.drawCircle2D(C);
   stroke(255, 0, 0, 120);

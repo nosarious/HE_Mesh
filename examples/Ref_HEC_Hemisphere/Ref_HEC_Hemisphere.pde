@@ -8,7 +8,7 @@ HE_Mesh mesh;
 WB_Render render;
 
 void setup() {
-  size(800, 800, OPENGL);
+  size(800, 800, P3D);
   smooth(8);
   HEC_Hemisphere creator=new HEC_Hemisphere();
   creator.setRadius(200); 

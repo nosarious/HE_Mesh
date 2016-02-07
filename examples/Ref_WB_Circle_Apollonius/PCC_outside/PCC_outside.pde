@@ -29,7 +29,7 @@ void draw() {
   create();
   noFill();
   stroke(0, 120);
-  render.drawPoint(p, 5);
+  render.drawPoint2D(p, 5);
   render.drawCircle2D(C1);
   render.drawCircle2D(C2);
   stroke(255,0,0, 120);

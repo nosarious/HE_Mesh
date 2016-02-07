@@ -19,8 +19,9 @@ void setup() {
   println(WB_Disclaimer.disclaimer());
   WB_TriGrid trigrid=new WB_TriGrid();
   trigrid.setScale(40*2*cos(PI/6));
-  trimesh=new HE_Mesh(trigrid.getHex(3));
+  trimesh=new HE_Mesh(trigrid.getHex(5));
   hexmesh=new HE_Mesh(new HEC_Dual().setSource(trimesh).setKeepBoundary(true));
+
 }
 
 void draw() {
@@ -31,4 +32,5 @@ void draw() {
   render.drawEdges(trimesh);
   stroke(0);
   render.drawEdges(hexmesh);
+
 }

@@ -47,7 +47,7 @@ void draw() {
   ellipse(0,0,2*radius,2*radius);
   stroke(0);
   for (WB_Circle C : circles) {
-    render.drawCircle(C);
+    render.drawCircle2D(C);
   }
   
   //Replace one circle every frame

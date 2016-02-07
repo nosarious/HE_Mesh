@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -15,7 +15,7 @@ package wblut.hemesh;
  * @author Frederik Vanhoutte (W:Blut)
  *
  */
-public class HEM_RemoveSmallFragments extends HEM_Modifier {
+public class HEM_RemoveParts extends HEM_Modifier {
 
 	/**
 	 *
@@ -25,9 +25,17 @@ public class HEM_RemoveSmallFragments extends HEM_Modifier {
 	/**
 	 *
 	 */
-	public HEM_RemoveSmallFragments() {
+	public HEM_RemoveParts() {
 		super();
 		n = 4;
+	}
+
+	/**
+	 *
+	 */
+	public HEM_RemoveParts(final int min) {
+		super();
+		n = min;
 	}
 
 	/**
@@ -36,7 +44,7 @@ public class HEM_RemoveSmallFragments extends HEM_Modifier {
 	 * @param n
 	 * @return
 	 */
-	public HEM_RemoveSmallFragments setMinimumFaces(final int n) {
+	public HEM_RemoveParts setMinimumFaces(final int n) {
 		this.n = n;
 		return this;
 	}

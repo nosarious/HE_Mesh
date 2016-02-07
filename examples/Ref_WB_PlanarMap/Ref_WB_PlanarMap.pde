@@ -32,7 +32,7 @@ void setup() {
   WB_Plane plane=new WB_Plane(0, 0, 0, 1, 1, 1);
   P=new WB_PlanarMap(plane);
   
-  // WB_PlanarMap is a  coordinate system ransform, it converts 3D world coordinates to local 3D coordinates in the system of a plane, and vice versa. 
+  // WB_PlanarMap is a  coordinate system transform, it converts 3D world coordinates to local 3D coordinates in the system of a plane, and vice versa. 
   // This is for example useful to 2D triangulate a polygon with an arbitrary orientation in space.
   // WB_PlanarMap is not identical to projection since the origin of 3D space is mapped to the origin of the plane.
   // (Projection would map the origin to the closest point on the plane, not always the origin of that plane.)
@@ -64,7 +64,7 @@ void draw() {
   //any WB_Map2D to the XY-plane.
   //Render functions labelled "unmapped" do the reverse, unmapping a point before rendering it.
   //To show the results of a WB_Map2D embedded in 3D space, use render functions labelled with "embedded2D". This is a special case of
-  // the "unmapped" functions that ignore the local z-coordinate (for example the elevetion in a WB_planar map). 
+  // the "unmapped" functions that ignore the local z-coordinate (for example the elevation in a WB_Planar map). 
   
   
   render.drawPointEmbedded2D(points, 2, XY);

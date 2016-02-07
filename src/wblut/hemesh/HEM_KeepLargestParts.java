@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -18,7 +18,7 @@ import java.util.Comparator;
  * @author Frederik Vanhoutte (W:Blut)
  *
  */
-public class HEM_KeepLargestFragments extends HEM_Modifier {
+public class HEM_KeepLargestParts extends HEM_Modifier {
 
 	/**
 	 *
@@ -28,9 +28,14 @@ public class HEM_KeepLargestFragments extends HEM_Modifier {
 	/**
 	 *
 	 */
-	public HEM_KeepLargestFragments() {
+	public HEM_KeepLargestParts() {
 		super();
 		n = 1;
+	}
+
+	public HEM_KeepLargestParts(final int number) {
+		super();
+		n = number;
 	}
 
 	/**
@@ -39,7 +44,7 @@ public class HEM_KeepLargestFragments extends HEM_Modifier {
 	 * @param n
 	 * @return
 	 */
-	public HEM_KeepLargestFragments setNumberOfFragments(final int n) {
+	public HEM_KeepLargestParts setNumberOfParts(final int n) {
 		this.n = n;
 		return this;
 	}
@@ -81,7 +86,7 @@ public class HEM_KeepLargestFragments extends HEM_Modifier {
 
 	static class MeshSizeComparator implements Comparator<HE_Mesh>
 	{
-		
+
 		/* (non-Javadoc)
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */

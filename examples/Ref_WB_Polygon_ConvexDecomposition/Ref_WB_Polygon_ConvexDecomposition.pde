@@ -13,7 +13,7 @@ WB_Polygon polygon;
 List<WB_Polygon> convexDecomposition;
 
 void setup() {
-  size(800, 800, P3D);
+  size(800, 800);
   smooth(8);
   render=new WB_Render2D(this);
   shell= new ArrayList<WB_Point>();
