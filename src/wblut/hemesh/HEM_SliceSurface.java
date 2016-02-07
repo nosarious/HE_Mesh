@@ -121,7 +121,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		cutEdges = new HE_Selection(mesh);
 		mesh.resetEdgeTemporaryLabels();
 		mesh.resetVertexTemporaryLabels();
-		mesh.resetFaceTemporaryLabels();
+
 		paths = new FastTable<HE_Path>();
 		// no plane defined
 		if (P == null) {
@@ -252,7 +252,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 	public HE_Mesh apply(final HE_Selection selection) {
 		tracker.setStatus(this, "Starting HEM_SliceSurface.", +1);
 		selection.parent.resetEdgeTemporaryLabels();
-		selection.parent.resetFaceTemporaryLabels();
+
 		selection.parent.resetVertexTemporaryLabels();
 		cut = new HE_Selection(selection.parent);
 		front = new HE_Selection(selection.parent);
