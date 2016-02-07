@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -16,42 +16,42 @@ import javolution.util.FastTable;
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
 public class WB_PolyLine implements WB_Geometry {
 
 	/**
-	 * 
+	 *
 	 */
 	FastTable<WB_Point> points;
 
 	/**
-	 * 
+	 *
 	 */
 	FastTable<WB_Vector> directions;
 
 	/**
-	 * 
+	 *
 	 */
 	double[] incLengths;
 
 	/**
-	 * 
+	 *
 	 */
 	int numberOfPoints;
 
 	/**
-	 * 
+	 *
 	 */
 	int hashcode;
 
 	/**
-	 * 
+	 *
 	 */
 	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @return
@@ -64,7 +64,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @param j
@@ -78,7 +78,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @param j
@@ -92,7 +92,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param t
 	 * @return
@@ -114,7 +114,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param t
 	 * @return
@@ -131,7 +131,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @return
@@ -144,7 +144,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @return
@@ -164,7 +164,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @return
@@ -177,7 +177,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @return
@@ -190,7 +190,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @return
@@ -204,7 +204,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -213,7 +213,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @return
@@ -226,7 +226,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @return
@@ -239,13 +239,13 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected WB_PolyLine() {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 */
@@ -260,7 +260,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 */
@@ -275,7 +275,7 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void getDirections() {
 		directions = new FastTable<WB_Vector>();
@@ -292,7 +292,7 @@ public class WB_PolyLine implements WB_Geometry {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -317,7 +317,7 @@ public class WB_PolyLine implements WB_Geometry {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -333,7 +333,7 @@ public class WB_PolyLine implements WB_Geometry {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Geometry#getType()
 	 */
 	@Override
@@ -343,7 +343,7 @@ public class WB_PolyLine implements WB_Geometry {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
 	 */
 	@Override
@@ -357,11 +357,11 @@ public class WB_PolyLine implements WB_Geometry {
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
-	protected List<WB_Point> getPoints() {
+	public List<WB_Point> getPoints() {
 		return points;
 
 	}

@@ -182,6 +182,14 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor,WB_MutableC
 		return new WB_Point(vx,vy,vz).addMulSelf(d, getVertexNormal());
 	}
 
+	public HE_Vertex getNextInFace() {
+		return getHalfedge().getNextInFace().getVertex();
+	}
+
+	public HE_Vertex getPrevInFace() {
+		return getHalfedge().getPrevInFace().getVertex();
+	}
+
 	/**
 	 * Get vertex type. Returns stored value if update status is true.
 	 *

@@ -368,14 +368,9 @@ public class HET_MeshOp {
 	 */
 	public static HE_Selection splitFace(final HE_Face face, final HE_Vertex vi, final HE_Vertex vj,
 			final HE_Mesh mesh) {
-		System.out.println("inside splitface");
-		System.out.println("  "+face);
-		System.out.println("  "+vi);
-		System.out.println("  "+vj);
 		final HE_Selection out = new HE_Selection(mesh);
 		final HE_Halfedge hei = vi.getHalfedge(face);
 		final HE_Halfedge hej = vj.getHalfedge(face);
-		System.out.println("inside splitface 2");
 		final HE_TextureCoordinate ti = (hei.hasUVW()) ? hei.getUVW() : null;
 		final HE_TextureCoordinate tj = (hej.hasUVW()) ? hej.getUVW() : null;
 		final double d = vi.getDistance3D(vj);

@@ -109,7 +109,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 	public WB_SimpleVector(final double[] x) {
 		this.x = x[0];
 		this.y = x[1];
-		this.z = (x.length>1)?x[2]:0;
+		this.z = (x.length>2)?x[2]:0;
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 	public WB_SimpleVector(final double[] fromPoint, final double[] toPoint) {
 		this.x = toPoint[0] - fromPoint[0];
 		this.y = toPoint[1] - fromPoint[1];
-		this.z = ((fromPoint.length>1)&&(toPoint.length>1))?toPoint[2] - fromPoint[2]:0;
+		this.z = ((fromPoint.length>2)&&(toPoint.length>2))?toPoint[2] - fromPoint[2]:0;
 	}
 
 	/**

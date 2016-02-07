@@ -753,7 +753,10 @@ public class HE_Selection extends HE_MeshStructure {
 	public void collectEdgesByFace() {
 		final HE_FaceIterator fitr = fItr();
 		while (fitr.hasNext()) {
-			addHalfedges(fitr.next().getFaceEdges());
+			HE_FaceEdgeCirculator feCrc=fitr.next().feCrc();
+			while(feCrc.hasNext()){
+				add(feCrc.next());
+			}
 		}
 	}
 
@@ -921,6 +924,7 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return
 	 * @deprecated Use {@link #selectFacesWithTemporaryLabel(HE_Mesh,int)} instead
 	 */
+	@Deprecated
 	public static HE_Selection selectFacesWithInternalLabel(final HE_Mesh mesh,final int label) {
 		return selectFacesWithTemporaryLabel(mesh, label);
 	}
@@ -953,6 +957,7 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return
 	 * @deprecated Use {@link #selectFacesWithOtherTemporaryLabel(HE_Mesh,int)} instead
 	 */
+	@Deprecated
 	public static HE_Selection selectFacesWithOtherInternalLabel(final HE_Mesh mesh,final int label) {
 		return selectFacesWithOtherTemporaryLabel(mesh, label);
 	}
@@ -1369,6 +1374,7 @@ public class HE_Selection extends HE_MeshStructure {
 	/**
 	 * @deprecated Use {@link #selectVerticesWithTemporaryLabel(HE_Mesh,int)} instead
 	 */
+	@Deprecated
 	public static HE_Selection selectVerticesWithInternalLabel(final HE_Mesh mesh,final int label) {
 		return selectVerticesWithTemporaryLabel(mesh, label);
 	}
@@ -1390,6 +1396,7 @@ public class HE_Selection extends HE_MeshStructure {
 	/**
 	 * @deprecated Use {@link #selectVerticesWithOtherTemporaryLabel(HE_Mesh,int)} instead
 	 */
+	@Deprecated
 	public static HE_Selection selectVerticesWithOtherInternalLabel(final HE_Mesh mesh,final int label) {
 		return selectVerticesWithOtherTemporaryLabel(mesh, label);
 	}

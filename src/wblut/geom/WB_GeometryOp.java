@@ -232,7 +232,7 @@ public class WB_GeometryOp {
 			final double c1 = (d1 - (d2 * N1N2)) / det;
 			final double c2 = (d2 - (d1 * N1N2)) / det;
 			final WB_Point O = new WB_Point(N1.mul(c1).addSelf(N2.mul(c2)));
-			new WB_Line(O, N1xN2);
+
 			final WB_IntersectionResult i = new WB_IntersectionResult();
 			i.intersection = true;
 			i.t1 = 0;
@@ -5615,7 +5615,7 @@ public class WB_GeometryOp {
 	 *
 	 * @param P
 	 * @param p
-	 * @return
+	 * @return WB_Classification.ON,WB_Classification.FRONT or WB_Classification.BACK
 	 */
 	public static WB_Classification classifyPointToPlane3D(final WB_Plane P, final WB_Coord p) {
 		if (WB_Epsilon.isZero(WB_GeometryOp.getDistanceToPlane3D(p, P))) {
