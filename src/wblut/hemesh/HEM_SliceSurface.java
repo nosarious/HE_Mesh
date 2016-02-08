@@ -224,6 +224,10 @@ public class HEM_SliceSurface extends HEM_Modifier {
 
 			counter.increment();
 		}
+
+
+
+
 		counter = new WB_ProgressCounter(split.getNumberOfFaces(), 10);
 
 		tracker.setStatus(this, "Splitting faces.", counter);
@@ -231,6 +235,8 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		final Iterator<HE_Face> fItr = split.fItr();
 		while (fItr.hasNext()) {
 			f = fItr.next();
+			checkConsistency(f,lP);
+
 			splitFace(f,mesh,lP);
 			counter.increment();
 		}
@@ -242,6 +248,8 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		tracker.setStatus(this, "Exiting HEM_SliceSurface.", -1);
 		return mesh;
 	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -370,6 +378,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			final Iterator<HE_Face> fItr = split.fItr();
 			while (fItr.hasNext()) {
 				f = fItr.next();
+				checkConsistency(f,lP);
 				splitFace(f,lsel.parent,lP);
 				counter.increment();
 			}
@@ -457,6 +466,30 @@ public class HEM_SliceSurface extends HEM_Modifier {
 	public List<HE_Path> getPaths() {
 		return paths;
 	}
+
+
+
+	void checkConsistency(final HE_Face f, final WB_Plane P){
+		HE_FaceEdgeCirculator feCrc=f.feCrc();
+		HE_Halfedge e;
+		while(feCrc.hasNext()){
+			e=feCrc.next();
+			if(((e.getVertex().getTemporaryLabel()==FRONT) && (e.getEndVertex().getTemporaryLabel()==BACK))||((e.getVertex().getTemporaryLabel()==BACK) && (e.getEndVertex().getTemporaryLabel()==FRONT))){
+				double e0=WB_GeometryOp.getDistanceToPlane3D(e.getVertex(), P);
+				double e1=WB_GeometryOp.getDistanceToPlane3D(e.getEndVertex(), P);
+				if(e0<e1){
+					e.getVertex().setTemporaryLabel(ON);
+					e.getVertex().set(WB_GeometryOp.projectOnPlane( e.getVertex(),P));
+				}else{
+					e.getEndVertex().setTemporaryLabel(ON);
+					e.getEndVertex().set(WB_GeometryOp.projectOnPlane( e.getEndVertex(),P));
+				}
+			}
+		}
+
+	}
+
+
 
 
 	void splitFace(final HE_Face f, final HE_Mesh mesh, final WB_Plane P){

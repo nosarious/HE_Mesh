@@ -65,7 +65,6 @@ class HET_FaceSplitter {
 	{
 		splitPoly=new FastTable<PolyEdge>();
 		edgesOnLine=new FastTable<PolyEdge>();
-
 		for (int i=0; i<coords.size(); i++)
 		{
 
@@ -99,73 +98,82 @@ class HET_FaceSplitter {
 
 	void splitPolygon()
 	{
-		PolyEdge reUseSrc = null;
+		if(edgesOnLine.size()==2){
+			createBridge(edgesOnLine.get(0), edgesOnLine.get(1));
+			verifyCycles();
+		}else{
 
-		for (int i=0; i<edgesOnLine.size(); i++)
-		{
-			// find source
-			PolyEdge srcEdge = reUseSrc;
-			reUseSrc = null;
+			PolyEdge reUseSrc = null;
 
-			for (; (srcEdge==null) && (i<edgesOnLine.size()); i++)
+
+
+
+			for (int i=0; i<edgesOnLine.size(); i++)
 			{
-				PolyEdge curEdge = edgesOnLine.get(i);
-				WB_Classification curSide = curEdge.side;
-				WB_Classification prevSide = curEdge.prev.side;
-				WB_Classification nextSide = curEdge.next.side;
-				assert(curSide == ON);
+				// find source
+				PolyEdge srcEdge = reUseSrc;
+				reUseSrc = null;
 
-				if (((prevSide == FRONT) && (nextSide == BACK)) ||
-						((prevSide == FRONT) && (nextSide == ON) && (curEdge.next.distOnLine < curEdge.distOnLine)) ||
-						((prevSide == ON) && (nextSide == BACK) && (curEdge.prev.distOnLine < curEdge.distOnLine)))
+				for (; (srcEdge==null) && (i<edgesOnLine.size()); i++)
 				{
-					srcEdge = curEdge;
-					srcEdge.isSource = true;
+					PolyEdge curEdge = edgesOnLine.get(i);
+					WB_Classification curSide = curEdge.side;
+					WB_Classification prevSide = curEdge.prev.side;
+					WB_Classification nextSide = curEdge.next.side;
+					assert(curSide == ON);
+
+					if (((prevSide == FRONT) && (nextSide == BACK)) ||
+							((prevSide == FRONT) && (nextSide == ON) && (curEdge.next.distOnLine < curEdge.distOnLine)) ||
+							((prevSide == ON) && (nextSide == BACK) && (curEdge.prev.distOnLine < curEdge.distOnLine)))
+					{
+						srcEdge = curEdge;
+						srcEdge.isSource = true;
+					}
 				}
-			}
 
-			// find destination
-			PolyEdge dstEdge = null;
+				// find destination
+				PolyEdge dstEdge = null;
 
-			for (; (dstEdge==null) && (i<edgesOnLine.size()); )
-			{
-				PolyEdge curEdge = edgesOnLine.get(i);
-				WB_Classification  curSide = curEdge.side;
-				WB_Classification prevSide = curEdge.prev.side;
-				WB_Classification nextSide = curEdge.next.side;
-				assert(curSide == ON);
-
-				if (((prevSide == BACK) && (nextSide == FRONT))  ||
-						((prevSide == ON) && (nextSide == FRONT))     ||
-						((prevSide == BACK) && (nextSide == ON))    ||
-						((prevSide == BACK) && (nextSide == BACK)) ||
-						((prevSide == FRONT) && (nextSide == FRONT)))
+				for (; (dstEdge==null) && (i<edgesOnLine.size()); )
 				{
-					dstEdge = curEdge;
-					dstEdge.isDestination = true;
-				} else {
-					i++;
+					PolyEdge curEdge = edgesOnLine.get(i);
+					WB_Classification  curSide = curEdge.side;
+					WB_Classification prevSide = curEdge.prev.side;
+					WB_Classification nextSide = curEdge.next.side;
+					assert(curSide == ON);
+
+					if (((prevSide == BACK) && (nextSide == FRONT))  ||
+							((prevSide == ON) && (nextSide == FRONT))     ||
+							((prevSide == BACK) && (nextSide == ON))    ||
+							((prevSide == BACK) && (nextSide == BACK)) ||
+							((prevSide == FRONT) && (nextSide == FRONT)))
+					{
+						dstEdge = curEdge;
+						dstEdge.isDestination = true;
+					} else {
+						i++;
+					}
 				}
-			}
 
 
-			// bridge source and destination
-			if ((srcEdge!=null) && (dstEdge!=null))
-			{
-				createBridge(srcEdge, dstEdge);
-				verifyCycles();
-
-				// is it a configuration in which a vertex
-				// needs to be reused as source vertex?
-				if (srcEdge.prev.prev.side == FRONT)
+				// bridge source and destination
+				if ((srcEdge!=null) && (dstEdge!=null))
 				{
-					reUseSrc = srcEdge.prev;
-					reUseSrc.isSource = true;
-				}
-				else if (dstEdge.next.side == BACK)
-				{
-					reUseSrc = dstEdge;
-					reUseSrc.isSource = true;
+					createBridge(srcEdge, dstEdge);
+					verifyCycles();
+
+					// is it a configuration in which a vertex
+					// needs to be reused as source vertex?
+					if (srcEdge.prev.prev.side == FRONT)
+					{
+						reUseSrc = srcEdge.prev;
+						reUseSrc.isSource = true;
+					}
+					else if (dstEdge.next.side == BACK)
+					{
+						reUseSrc = dstEdge;
+						reUseSrc.isSource = true;
+					}
 				}
 			}
 		}
@@ -210,6 +218,7 @@ class HET_FaceSplitter {
 	List<HE_Vertex[]> collectPolygons()
 	{
 		List<HE_Vertex[]> resPolys=new ArrayList<HE_Vertex[]>();
+
 		for (PolyEdge e : splitPoly)
 		{
 			if (!e.visited)
@@ -228,6 +237,7 @@ class HET_FaceSplitter {
 					poly[i]=edges.get(i).pos;
 				}
 				resPolys.add(poly);
+
 			}
 		}
 
