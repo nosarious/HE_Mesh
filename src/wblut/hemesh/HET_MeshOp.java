@@ -52,6 +52,7 @@ public class HET_MeshOp {
 	public static HE_Selection splitEdge(final HE_Halfedge edge, final double f, final HE_Mesh mesh) {
 		final WB_Point v = gf.createInterpolatedPoint(edge.getVertex(), edge.getEndVertex(),
 				edge.isEdge() ? f : 1.0 - f);
+
 		return splitEdge(edge, v, mesh);
 	}
 
@@ -164,7 +165,7 @@ public class HET_MeshOp {
 		if (he1.getFace() != null) {
 			mesh.setFace(he1new,he1.getFace());
 		}
-		vNew.setTemporaryLabel(1);
+		vNew.setInternalLabel(1);
 		mesh.add(vNew);
 		mesh.add(he0new);
 		mesh.add(he1new);
@@ -405,8 +406,8 @@ public class HET_MeshOp {
 				mesh.setNext(heiPrev,he1new);
 				mesh.setNext(hejPrev,he0new);
 				mesh.setPair(he0new,he1new);
-				he0new.setTemporaryLabel(1);
-				he1new.setTemporaryLabel(1);
+				he0new.setInternalLabel(1);
+				he1new.setInternalLabel(1);
 				mesh.setFace(he0new,face);
 				faceNew = new HE_Face();
 				mesh.setHalfedge(face,hei);
@@ -710,7 +711,7 @@ public class HET_MeshOp {
 				}
 			} else if (fo > 3) {
 				vi = new HE_Vertex(faceCenters[i]);
-				vi.setTemporaryLabel(2);
+				vi.setInternalLabel(2);
 				double u = 0;
 				double v = 0;
 				double w = 0;
@@ -869,7 +870,7 @@ public class HET_MeshOp {
 				}
 			} else if (fo > 3) {
 				vi = new HE_Vertex(faceCenters[i]);
-				vi.setTemporaryLabel(2);
+				vi.setInternalLabel(2);
 				double u = 0;
 				double v = 0;
 				double w = 0;
@@ -1655,7 +1656,7 @@ public class HET_MeshOp {
 	 * @param mesh
 	 * @return
 	 */
-	public static HE_Mesh flipAllFaces(final HE_Mesh mesh) {
+	public static HE_Mesh flipFaces(final HE_Mesh mesh) {
 		tracker.setStatus("HET_MeshOp", "Flipping faces.", +1);
 		WB_ProgressCounter counter = new WB_ProgressCounter(mesh.getNumberOfEdges(), 10);
 		tracker.setStatus("HET_MeshOp", "Reversing edges.", counter);

@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -22,10 +22,10 @@ import com.vividsolutions.jts.geom.Polygon;
 import javolution.util.FastTable;
 import wblut.core.WB_ProgressCounter;
 import wblut.core.WB_ProgressTracker;
-import wblut.geom.WB_Map2D;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_KDTree;
+import wblut.geom.WB_Map2D;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Polygon;
@@ -63,6 +63,7 @@ class HET_PlanarPathTriangulator {
 	 * @return
 	 */
 	public static long[][] getTriangleKeys(final List<? extends HE_Path> paths, final WB_Plane P) {
+
 		tracker.setStatus("HET_PlanarPathTriangulator", "Starting planar path triangulation.", +1);
 		final WB_Map2D emb = geometryfactory.createEmbeddedPlane(P);
 		final RingTree ringtree = new RingTree();
@@ -93,7 +94,7 @@ class HET_PlanarPathTriangulator {
 		WB_ProgressCounter counter = new WB_ProgressCounter(polygons.size(), 10);
 		tracker.setStatus("HET_PlanarPathTriangulator", "Triangulating polygons.", counter);
 		for (final WB_Polygon poly : polygons) {
-			final int[] tris = poly.getTriangles(false);
+			final int[] tris = poly.getTriangles(true);
 			for (int i = 0; i < tris.length; i += 3) {
 				triangles.add(new WB_Coord[] { poly.getPoint(tris[i]), poly.getPoint(tris[i + 1]),
 						poly.getPoint(tris[i + 2]) });

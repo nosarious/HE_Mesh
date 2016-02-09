@@ -496,7 +496,7 @@ public class HEM_Extrude extends HEM_Modifier {
 		final WB_Coord n = _faceNormals.get(f.key());
 		final List<HE_Face> neighborhood = new FastTable<HE_Face>();
 		neighborhood.add(f);
-		f.setTemporaryLabel(1);
+		f.setInternalLabel(1);
 		visited[id] = true;
 
 		extruded.addFaces(neighborhood);
@@ -550,7 +550,7 @@ public class HEM_Extrude extends HEM_Modifier {
 			final HE_Face fNew = new HE_Face();
 			walls.add(fNew);
 			fNew.copyProperties(f);
-			fNew.setTemporaryLabel(2);
+			fNew.setInternalLabel(2);
 			final HE_Halfedge heOrig1 = outerHalfedges.get(c);
 			final HE_Halfedge heOrig2 = pairHalfedges.get(c);
 			final HE_Halfedge heNew1 = new HE_Halfedge();
@@ -624,7 +624,7 @@ public class HEM_Extrude extends HEM_Modifier {
 		final WB_Coord n = _faceNormals.get(f.key());
 		final List<HE_Face> neighborhood = new FastTable<HE_Face>();
 		neighborhood.add(f);
-		f.setTemporaryLabel(1);
+		f.setInternalLabel(1);
 		visited[id] = true;
 		int no = 0;
 		int nn = 1;
@@ -641,7 +641,7 @@ public class HEM_Extrude extends HEM_Modifier {
 							if (ij >= 0) {
 								if (!neighborhood.contains(fj)) {
 									neighborhood.add(fj);
-									fj.setTemporaryLabel(1);
+									fj.setInternalLabel(1);
 								}
 								visited[ij] = true;
 							}
@@ -702,7 +702,7 @@ public class HEM_Extrude extends HEM_Modifier {
 			final HE_Face fNew = new HE_Face();
 			walls.add(fNew);
 			fNew.copyProperties(f);
-			fNew.setTemporaryLabel(2);
+			fNew.setInternalLabel(2);
 			final HE_Halfedge heOrig1 = outerHalfedges.get(c);
 			final HE_Halfedge heOrig2 = pairHalfedges.get(c);
 			final HE_Halfedge heNew1 = new HE_Halfedge();
@@ -809,7 +809,7 @@ public class HEM_Extrude extends HEM_Modifier {
 		final WB_Vector n = new WB_Vector(_faceNormals.get(f.key()));
 		final WB_Point fc = new WB_Point(_faceCenters.get(f.key()));
 		walls.add(f);
-		f.setTemporaryLabel(4);
+		f.setInternalLabel(4);
 		final HE_Face[] newFaces = HEM_TriSplit.splitFaceTri(mesh, f, fc.addSelf(n.mulSelf(d))).getFacesAsArray();
 		for (final HE_Face newFace : newFaces) {
 			newFace.copyProperties(f);
@@ -870,11 +870,11 @@ public class HEM_Extrude extends HEM_Modifier {
 				final HE_Face f1 = e.getFace();
 				final HE_Face f2 = e.getPair().getFace();
 				if ((f1 != null) && (f2 != null)) {
-					if ((f1.getTemporaryLabel() == 2) && (f2.getTemporaryLabel() == 2)) {
+					if ((f1.getInternalLabel() == 2) && (f2.getInternalLabel() == 2)) {
 						if (WB_Vector.cross(f1.getFaceNormal(), f2.getFaceNormal()).getSqLength3D() < sin2FA) {
 							final HE_Face f = mesh.deleteEdge(e);
 							if (f != null) {
-								f.setTemporaryLabel(3);
+								f.setInternalLabel(3);
 							}
 						}
 					}
@@ -971,7 +971,7 @@ public class HEM_Extrude extends HEM_Modifier {
 		}
 		if (isPossible) {
 			extruded.add(f);
-			f.setTemporaryLabel(1);
+			f.setInternalLabel(1);
 			final List<HE_Halfedge> newhes = new FastTable<HE_Halfedge>();
 			int c = 0;
 			he = f.getHalfedge();
@@ -979,7 +979,7 @@ public class HEM_Extrude extends HEM_Modifier {
 				final HE_Face fNew = new HE_Face();
 				walls.add(fNew);
 				fNew.copyProperties(f);
-				fNew.setTemporaryLabel(2);
+				fNew.setInternalLabel(2);
 				final HE_Halfedge heOrig1 = he;
 				final HE_Halfedge heOrig2 = he.getPair();
 				final HE_Halfedge heNew1 = new HE_Halfedge();

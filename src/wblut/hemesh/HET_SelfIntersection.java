@@ -65,7 +65,7 @@ public class HET_SelfIntersection {
 						&& (ir.object != null)
 						&& !WB_Epsilon.isZero(((WB_Segment) ir.object)
 								.getLength())) {
-					candidate.setTemporaryLabel(1);
+					candidate.setInternalLabel(1);
 					selfints.add(new HET_SelfIntersectionResult(tri, candidate,
 							(WB_Segment) ir.object));
 				}

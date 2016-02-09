@@ -118,6 +118,6 @@ public class HEC_Polygon extends HEC_Creator {
 	}
 	final HEC_FromFacelist fl = new HEC_FromFacelist();
 	fl.setVertices(points).setFaces(faces).setDuplicate(false);
-	return fl.createBase().flipAllFaces();
+	return fl.createBase().flipFaces();
     }
 }

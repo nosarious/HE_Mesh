@@ -157,10 +157,10 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 				final Iterator<HE_Face> fItr = m.fItr();
 				while (fItr.hasNext()) {
 					final HE_Face f = fItr.next();
-					if (f.getTemporaryLabel() == -1) {
+					if (f.getInternalLabel() == -1) {
 						tmpfaces.add(f);
 						nv += f.getFaceOrder();
-					} else if (!on[f.getTemporaryLabel()] || membrane) {
+					} else if (!on[f.getInternalLabel()] || membrane) {
 						tmpfaces.add(f);
 						nv += f.getFaceOrder();
 					}
@@ -177,7 +177,7 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 			final HE_Face f = tmpfaces.get(i);
 			faces[i] = new int[f.getFaceOrder()];
 			labels[i] = f.getLabel();
-			intlabels[i] = f.getTemporaryLabel();
+			intlabels[i] = f.getInternalLabel();
 			colors[i] = f.getColor();
 			HE_Halfedge he = f.getHalfedge();
 			for (int j = 0; j < f.getFaceOrder(); j++) {
@@ -195,13 +195,13 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 		while (fItr.hasNext()) {
 			f = fItr.next();
 			f.setLabel(labels[i]);
-			f.setTemporaryLabel(intlabels[i]);
+			f.setInternalLabel(intlabels[i]);
 			f.setColor(colors[i]);
 			i++;
 		}
 		result.fixNonManifoldVertices();
 		if (!capBoundaries) {
-			final HE_Selection sel = HE_Selection.selectFacesWithTemporaryLabel(result,-1);
+			final HE_Selection sel = HE_Selection.selectFacesWithInternalLabel(result,-1);
 			final HE_FaceIterator fitr = sel.fItr();
 			while (fitr.hasNext()) {
 				result.deleteFace(fitr.next());

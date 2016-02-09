@@ -254,4 +254,21 @@ public class HEM_Slice extends HEM_Modifier {
 	public HE_Mesh apply(final HE_Selection selection) {
 		return apply(selection.parent);
 	}
+
+	public static void main(final String[] args) {
+		HEC_Torus creator=new HEC_Torus(80,200,6,16);
+		HE_Mesh mesh=new HE_Mesh(creator);
+
+		HEM_Slice modifier=new HEM_Slice();
+
+		WB_Plane P=new WB_Plane(0,0,0,0,0,1);
+		modifier.setPlane(P);
+		modifier.setOffset(0);
+		modifier.setCap(true);
+		modifier.setKeepCenter(false);
+		modifier.setReverse(false);
+		modifier.setSimpleCap(false);
+		mesh.modify(modifier);
+
+	}
 }

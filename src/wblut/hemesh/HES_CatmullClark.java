@@ -143,7 +143,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 		vItr = inner.iterator();
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			if (v.getTemporaryLabel() == -1) {
+			if (v.getInternalLabel() == -1) {
 				p = avgFC.get(v.key());
 				neighbors = v.getNeighborVertices();
 				final int order = neighbors.size();
@@ -164,7 +164,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 				for (int i = 0; i < order; i++) {
 					n = neighbors.get(i);
 					p.addSelf(n);
-					if (n.getTemporaryLabel() == -1) {
+					if (n.getInternalLabel() == -1) {
 						edgePoint = true;
 					}
 				}
@@ -269,7 +269,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 		vItr = inner.iterator();
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			if (v.getTemporaryLabel() == -1) {
+			if (v.getInternalLabel() == -1) {
 				p = avgFC.get(v.key());
 				neighbors = v.getNeighborVertices();
 				final int order = neighbors.size();
@@ -290,7 +290,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 				for (int i = 0; i < order; i++) {
 					n = neighbors.get(i);
 					p.addSelf(n);
-					if (n.getTemporaryLabel() == -1) {
+					if (n.getInternalLabel() == -1) {
 						edgePoint = true;
 					}
 				}

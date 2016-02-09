@@ -236,7 +236,7 @@ public class HEC_Dual extends HEC_Creator {
 		if (setCenter) {
 			result.moveTo(source.getCenter());
 		}
-		result.flipAllFaces();
+		result.flipFaces();
 		final List<HE_Face> faces = result.getFaces();
 		final int fs = faces.size();
 		for (int i = 0; i < fs; i++) {

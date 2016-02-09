@@ -115,7 +115,7 @@ public class HEC_FromMesh extends HEC_Creator {
 		for (final int[] face : faces) {
 			final ArrayList<HE_Halfedge> faceEdges = new ArrayList<HE_Halfedge>();
 			final HE_Face hef = new HE_Face();
-			hef.setTemporaryLabel(id);
+			hef.setInternalLabel(id);
 			id++;
 			final int fl = face.length;
 			final int[] locface = new int[fl];
@@ -220,7 +220,7 @@ public class HEC_FromMesh extends HEC_Creator {
 			mesh.add(v);
 			for (int i = 1; i < source.getNumberOfVertices(); i++) {
 				v = new HE_Vertex(source.getVertex(i));
-				v.setTemporaryLabel(i);
+				v.setInternalLabel(i);
 				neighbor = kdtree.getNearestNeighbor(v);
 				if (neighbor.d2 < WB_Epsilon.SQEPSILON) {
 					uniqueVertices.add(uniqueVertices.get(neighbor.value));
@@ -234,7 +234,7 @@ public class HEC_FromMesh extends HEC_Creator {
 			HE_Vertex v;
 			for (int i = 0; i < source.getNumberOfVertices(); i++) {
 				v = new HE_Vertex(source.getVertex(i));
-				v.setTemporaryLabel(i);
+				v.setInternalLabel(i);
 				uniqueVertices.add(v);
 				mesh.add(v);
 			}

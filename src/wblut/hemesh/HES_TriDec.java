@@ -152,7 +152,7 @@ public class HES_TriDec extends HES_Simplifier {
 			do {
 				entry = heap.pop();
 				v = entry.v;
-				valid = mesh.contains(v) && (entry.version == v.getTemporaryLabel());
+				valid = mesh.contains(v) && (entry.version == v.getInternalLabel());
 			} while ((heap.size() > 0) && !valid);
 
 			if (valid) {
@@ -212,7 +212,7 @@ public class HES_TriDec extends HES_Simplifier {
 			do {
 				entry = heap.pop();
 				v = entry.v;
-				valid = selection.contains(v) && _mesh.contains(v) && (entry.version == v.getTemporaryLabel());
+				valid = selection.contains(v) && _mesh.contains(v) && (entry.version == v.getInternalLabel());
 			} while ((heap.size() > 0) && !valid);
 			if (valid) {
 				vertices = v.getNeighborVertices();
@@ -252,7 +252,7 @@ public class HES_TriDec extends HES_Simplifier {
 		double vvi;
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			v.setTemporaryLabel(counter);
+			v.setInternalLabel(counter);
 			vvi = visualImportance(v);
 			if (vvi < Double.POSITIVE_INFINITY) {
 				vstar = v.getHalfedgeStar();
@@ -306,7 +306,7 @@ public class HES_TriDec extends HES_Simplifier {
 		for (final HE_Vertex v : vertices) {
 			if ((selection == null) || selection.contains(v)) {
 				vvi = visualImportance(v);
-				v.setTemporaryLabel(counter);
+				v.setInternalLabel(counter);
 				vertexCost.remove(v.key());
 
 				vstar = v.getHalfedgeStar();
@@ -468,7 +468,7 @@ public class HES_TriDec extends HES_Simplifier {
 		 * @param obj
 		 */
 		public void push(final Double key, final HE_Vertex obj) {
-			heap.add(new Entry(obj, obj.getTemporaryLabel()));
+			heap.add(new Entry(obj, obj.getInternalLabel()));
 			keys.add(key);
 			pushUp(heap.size() - 1);
 		}

@@ -244,7 +244,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 				HE_Face f;
 				while (fItr.hasNext()) {
 					f = fItr.next();
-					f.setTemporaryLabel(labels[i]);
+					f.setInternalLabel(labels[i]);
 				}
 				if (triangulate) {
 					mesh.triangulateConcaveFaces();
@@ -255,7 +255,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 		HE_Face f;
 		while (fItr.hasNext()) {
 			f = fItr.next();
-			if (f.getTemporaryLabel() == -1) {
+			if (f.getInternalLabel() == -1) {
 				origFaces.add(f);
 			} else {
 				newFaces.add(f);

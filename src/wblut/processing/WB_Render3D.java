@@ -388,7 +388,7 @@ public class WB_Render3D extends WB_Render2D {
 		HE_Halfedge e;
 		while (eItr.hasNext()) {
 			e = eItr.next();
-			if (e.getTemporaryLabel() == label) {
+			if (e.getInternalLabel() == label) {
 				line(e.getVertex(), e.getEndVertex());
 			}
 		}
@@ -1195,7 +1195,7 @@ public class WB_Render3D extends WB_Render2D {
 		HE_Face f;
 		while (fItr.hasNext()) {
 			f = fItr.next();
-			if (f.getTemporaryLabel() == label) {
+			if (f.getInternalLabel() == label) {
 				drawFace(f);
 			}
 		}
@@ -1320,7 +1320,7 @@ public class WB_Render3D extends WB_Render2D {
 		HE_Halfedge he;
 		while (heItr.hasNext()) {
 			he = heItr.next();
-			if (he.getTemporaryLabel() == label) {
+			if (he.getInternalLabel() == label) {
 				line(he.getVertex(), he.getEndVertex());
 			}
 		}
@@ -4080,7 +4080,60 @@ public class WB_Render3D extends WB_Render2D {
 			he = f.getHalfedge();
 			do {
 				v = he.getVertex();
-				retained.vertex(v.xf(), v.yf(), v.zf());
+				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				he = he.getNextInFace();
+			} while (he != f.getHalfedge());
+		}
+		retained.endShape();
+		return retained;
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @return
+	 */
+	public PShape toFacetedPShape(final HE_Mesh mesh, final PImage img) {
+		final PShape retained = home.createShape();
+		retained.beginShape(PConstants.TRIANGLES);
+		retained.texture(img);
+		final HE_Mesh lmesh = mesh.get();
+		lmesh.triangulate();
+		final Iterator<HE_Face> fItr = lmesh.fItr();
+		HE_Face f;
+		HE_Vertex v;
+		HE_Halfedge he;
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			he = f.getHalfedge();
+			do {
+				v = he.getVertex();
+				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				he = he.getNextInFace();
+			} while (he != f.getHalfedge());
+		}
+		retained.endShape();
+		return retained;
+	}
+
+	public PShape toFacetedPShape(final HE_Mesh mesh, final PImage[] img) {
+		final PShape retained = home.createShape();
+		retained.beginShape(PConstants.TRIANGLES);
+
+		final HE_Mesh lmesh = mesh.get();
+		lmesh.triangulate();
+		final Iterator<HE_Face> fItr = lmesh.fItr();
+		HE_Face f;
+		HE_Vertex v;
+		HE_Halfedge he;
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			retained.texture(img[f.getTextureId()]);
+			he = f.getHalfedge();
+			do {
+				v = he.getVertex();
+				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4115,13 +4168,13 @@ public class WB_Render3D extends WB_Render2D {
 				for (int i = 0; i < tris.length; i += 3) {
 					v = vertices.get(tris[i]);
 					fn = v.getVertexNormal();
-					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()));
+					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()),v.getUVW(f).xf(),v.getUVW(f).yf());
 					v = vertices.get(tris[i + 1]);
 					fn = v.getVertexNormal();
-					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()));
+					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()),v.getUVW(f).xf(),v.getUVW(f).yf());
 					v = vertices.get(tris[i + 2]);
 					fn = v.getVertexNormal();
-					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()));
+					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()),v.getUVW(f).xf(),v.getUVW(f).yf());
 				}
 			}
 			counter.increment();
@@ -4180,7 +4233,7 @@ public class WB_Render3D extends WB_Render2D {
 			retained.fill(f.getColor());
 			do {
 				v = he.getVertex();
-				retained.vertex(v.xf(), v.yf(), v.zf());
+				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4209,7 +4262,7 @@ public class WB_Render3D extends WB_Render2D {
 			do {
 				v = he.getVertex();
 				retained.fill(v.getColor());
-				retained.vertex(v.xf(), v.yf(), v.zf());
+				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4240,7 +4293,59 @@ public class WB_Render3D extends WB_Render2D {
 				v = he.getVertex();
 				n = v.getVertexNormal();
 				retained.normal(n.xf(), n.yf(), n.zf());
-				retained.vertex(v.xf(), v.yf(), v.zf());
+				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				he = he.getNextInFace();
+			} while (he != f.getHalfedge());
+		}
+		retained.endShape();
+		return retained;
+	}
+
+	public PShape toSmoothPShape(final HE_Mesh mesh, final PImage img) {
+		final PShape retained = home.createShape();
+		retained.beginShape(PConstants.TRIANGLES);
+		retained.texture(img);
+		final HE_Mesh lmesh = mesh.get();
+		lmesh.triangulate();
+		WB_Coord n = new WB_Vector();
+		final Iterator<HE_Face> fItr = lmesh.fItr();
+		HE_Face f;
+		HE_Vertex v;
+		HE_Halfedge he;
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			he = f.getHalfedge();
+			do {
+				v = he.getVertex();
+				n = v.getVertexNormal();
+				retained.normal(n.xf(), n.yf(), n.zf());
+				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				he = he.getNextInFace();
+			} while (he != f.getHalfedge());
+		}
+		retained.endShape();
+		return retained;
+	}
+
+	public PShape toSmoothPShape(final HE_Mesh mesh,final PImage[] img) {
+		final PShape retained = home.createShape();
+		retained.beginShape(PConstants.TRIANGLES);
+		final HE_Mesh lmesh = mesh.get();
+		lmesh.triangulate();
+		WB_Coord n = new WB_Vector();
+		final Iterator<HE_Face> fItr = lmesh.fItr();
+		HE_Face f;
+		HE_Vertex v;
+		HE_Halfedge he;
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			retained.texture(img[f.getTextureId()]);
+			he = f.getHalfedge();
+			do {
+				v = he.getVertex();
+				n = v.getVertexNormal();
+				retained.normal(n.xf(), n.yf(), n.zf());
+				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4306,7 +4411,7 @@ public class WB_Render3D extends WB_Render2D {
 				v = he.getVertex();
 				n = v.getVertexNormal();
 				retained.normal(n.xf(), n.yf(), n.zf());
-				retained.vertex(v.xf(), v.yf(), v.zf());
+				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4338,7 +4443,7 @@ public class WB_Render3D extends WB_Render2D {
 				retained.fill(v.getColor());
 				n = v.getVertexNormal();
 				retained.normal(n.xf(), n.yf(), n.zf());
-				retained.vertex(v.xf(), v.yf(), v.zf());
+				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4467,7 +4572,7 @@ public class WB_Render3D extends WB_Render2D {
 		HE_Vertex v;
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			if (v.getTemporaryLabel() == label) {
+			if (v.getInternalLabel() == label) {
 				drawVertex(v,d);
 			}
 		}
@@ -4490,6 +4595,65 @@ public class WB_Render3D extends WB_Render2D {
 				drawVertex(v,d);
 			}
 		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @return
+	 */
+	public PShape toFacettedPShape(final HE_Mesh mesh) {
+		return toFacetedPShape(mesh);
+	}
+
+	public PShape toFacettedPShape(final HE_Mesh mesh, final PImage img) {
+		return toFacetedPShape(mesh,img);
+	}
+
+	public PShape toFacettedPShape(final HE_Mesh mesh, final PImage[] img ) {
+		return toFacetedPShape(mesh,img);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param offset
+	 * @return
+	 */
+	public PShape toFacettedPShape(final HE_MeshStructure mesh, final double offset) {
+		return toFacetedPShape(mesh,offset);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @return
+	 */
+	public PShape toFacettedPShape(final WB_FacelistMesh mesh) {
+		return toFacetedPShape(mesh);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @return
+	 */
+	public PShape toFacettedPShapeWithFaceColor(final HE_Mesh mesh) {
+		return toFacetedPShapeWithFaceColor(mesh);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @return
+	 */
+	public PShape toFacettedPShapeWithVertexColor(final HE_Mesh mesh) {
+		return toFacetedPShapeWithVertexColor(mesh);
 	}
 
 }

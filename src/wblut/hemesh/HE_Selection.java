@@ -917,32 +917,21 @@ public class HE_Selection extends HE_MeshStructure {
 	}
 
 
+
+
 	/**
 	 *
 	 *
 	 * @param label
 	 * @return
-	 * @deprecated Use {@link #selectFacesWithTemporaryLabel(HE_Mesh,int)} instead
 	 */
-	@Deprecated
 	public static HE_Selection selectFacesWithInternalLabel(final HE_Mesh mesh,final int label) {
-		return selectFacesWithTemporaryLabel(mesh, label);
-	}
-
-
-	/**
-	 *
-	 *
-	 * @param label
-	 * @return
-	 */
-	public static HE_Selection selectFacesWithTemporaryLabel(final HE_Mesh mesh,final int label) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		HE_Face f;
 		final Iterator<HE_Face> fItr = mesh.fItr();
 		while (fItr.hasNext()) {
 			f = fItr.next();
-			if (f.getTemporaryLabel() == label) {
+			if (f.getInternalLabel() == label) {
 				_selection.add(f);
 			}
 		}
@@ -955,27 +944,14 @@ public class HE_Selection extends HE_MeshStructure {
 	 *
 	 * @param label
 	 * @return
-	 * @deprecated Use {@link #selectFacesWithOtherTemporaryLabel(HE_Mesh,int)} instead
 	 */
-	@Deprecated
 	public static HE_Selection selectFacesWithOtherInternalLabel(final HE_Mesh mesh,final int label) {
-		return selectFacesWithOtherTemporaryLabel(mesh, label);
-	}
-
-
-	/**
-	 *
-	 *
-	 * @param label
-	 * @return
-	 */
-	public static HE_Selection selectFacesWithOtherTemporaryLabel(final HE_Mesh mesh,final int label) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		HE_Face f;
 		final Iterator<HE_Face> fItr = mesh.fItr();
 		while (fItr.hasNext()) {
 			f = fItr.next();
-			if (f.getTemporaryLabel() != label) {
+			if (f.getInternalLabel() != label) {
 				_selection.add(f);
 			}
 		}
@@ -1371,44 +1347,39 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
+
+
 	/**
-	 * @deprecated Use {@link #selectVerticesWithTemporaryLabel(HE_Mesh,int)} instead
+	 * @deprecated Use {@link #selectVerticesWithInternalLabel(HE_Mesh,int)} instead
 	 */
 	@Deprecated
-	public static HE_Selection selectVerticesWithInternalLabel(final HE_Mesh mesh,final int label) {
-		return selectVerticesWithTemporaryLabel(mesh, label);
+	public static HE_Selection selectVerticesWithTemporaryLabel(final HE_Mesh mesh,final int label) {
+		return selectVerticesWithInternalLabel(mesh, label);
 	}
 
 
-	public static HE_Selection selectVerticesWithTemporaryLabel(final HE_Mesh mesh,final int label) {
+	public static HE_Selection selectVerticesWithInternalLabel(final HE_Mesh mesh,final int label) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			if (v.getTemporaryLabel() == label) {
+			if (v.getInternalLabel() == label) {
 				_selection.add(v);
 			}
 		}
 		return _selection;
 	}
 
-	/**
-	 * @deprecated Use {@link #selectVerticesWithOtherTemporaryLabel(HE_Mesh,int)} instead
-	 */
-	@Deprecated
+
+
 	public static HE_Selection selectVerticesWithOtherInternalLabel(final HE_Mesh mesh,final int label) {
-		return selectVerticesWithOtherTemporaryLabel(mesh, label);
-	}
-
-
-	public static HE_Selection selectVerticesWithOtherTemporaryLabel(final HE_Mesh mesh,final int label) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			if (v.getTemporaryLabel() != label) {
+			if (v.getInternalLabel() != label) {
 				_selection.add(v);
 			}
 		}

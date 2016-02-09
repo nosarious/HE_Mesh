@@ -217,7 +217,7 @@ public class HEM_Lattice extends HEM_Modifier {
 			}
 			counter.increment();
 		}
-		innerMesh.flipAllFaces();
+		innerMesh.flipFaces();
 		final int nf = mesh.getNumberOfFaces();
 		final HE_Face[] origFaces = mesh.getFacesAsArray();
 		mesh.addVertices(innerMesh.getVerticesAsArray());
@@ -323,7 +323,7 @@ public class HEM_Lattice extends HEM_Modifier {
 		}
 		mesh.pairHalfedges();
 		if (d < 0) {
-			mesh.flipAllFaces();
+			mesh.flipFaces();
 		}
 		tracker.setStatus(this, "Exiting HEM_Lattice.", -1);
 		return mesh;
@@ -384,7 +384,7 @@ public class HEM_Lattice extends HEM_Modifier {
 			}
 			counter.increment();
 		}
-		innerMesh.flipAllFaces();
+		innerMesh.flipFaces();
 		final int nf = selection.parent.getNumberOfFaces();
 		final HE_Face[] origFaces = selection.parent.getFacesAsArray();
 		selection.parent.addVertices(innerMesh.getVerticesAsArray());
@@ -488,7 +488,7 @@ public class HEM_Lattice extends HEM_Modifier {
 		}
 		selection.parent.pairHalfedges();
 		if (d < 0) {
-			selection.parent.flipAllFaces();
+			selection.parent.flipFaces();
 		}
 		tracker.setStatus(this, "Exiting HEM_Lattice.", -1);
 		return selection.parent;

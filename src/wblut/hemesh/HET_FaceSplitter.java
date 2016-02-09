@@ -232,12 +232,14 @@ class HET_FaceSplitter {
 				}
 				while (curEdge != e);
 
-				HE_Vertex[] poly=new HE_Vertex[edges.size()];
-				for(int i=0;i<edges.size();i++){
-					poly[i]=edges.get(i).pos;
-				}
-				resPolys.add(poly);
+				if(edges.size()>2){
+					HE_Vertex[] poly=new HE_Vertex[edges.size()];
+					for(int i=0;i<edges.size();i++){
+						poly[i]=edges.get(i).pos;
+					}
 
+					resPolys.add(poly);
+				}
 			}
 		}
 

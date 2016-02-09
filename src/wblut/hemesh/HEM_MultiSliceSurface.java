@@ -92,7 +92,7 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 		if (planes == null) {
 			return mesh;
 		}
-		final HEM_SliceSurface slice = new HEM_SliceSurface();
+		final HEM_SliceEdges slice = new HEM_SliceEdges();
 		boolean unique=true;
 		WB_Plane Pi,Pj;
 		for (int i = 0; i < planes.size(); i++) {
@@ -117,7 +117,7 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 		newEdges.cleanSelection();
 		final Iterator<HE_Halfedge> eItr = newEdges.eItr();
 		while (eItr.hasNext()) {
-			eItr.next().setTemporaryLabel(1);
+			eItr.next().setInternalLabel(1);
 		}
 		return mesh;
 	}
@@ -137,7 +137,7 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 		if (planes == null) {
 			return selection.parent;
 		}
-		final HEM_SliceSurface slice = new HEM_SliceSurface();
+		final HEM_SliceEdges slice = new HEM_SliceEdges();
 		boolean unique=true;
 		WB_Plane Pi,Pj;
 		for (int i = 0; i < planes.size(); i++) {
@@ -162,7 +162,7 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 		newEdges.cleanSelection();
 		final Iterator<HE_Halfedge> eItr = newEdges.eItr();
 		while (eItr.hasNext()) {
-			eItr.next().setTemporaryLabel(1);
+			eItr.next().setInternalLabel(1);
 		}
 		return selection.parent;
 	}

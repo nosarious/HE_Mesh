@@ -287,20 +287,19 @@ public class HEC_VoronoiCell extends HEC_Creator {
 		.setSimpleCap(simpleCap);
 		result.modify(msm);
 		inner = new HE_Selection(result);
+
 		for (int i = 0; i < labels.length; i++) {
 			final HE_Selection sel =
-					HE_Selection.selectFacesWithTemporaryLabel(result,labels[i]);
+					HE_Selection.selectFacesWithInternalLabel(result,labels[i]);
 			if (sel.getNumberOfFaces() > 0) {
 				final HE_FaceIterator fitr = sel.fItr();
 				while (fitr.hasNext()) {
-					result.deleteFace(fitr.next());
+					inner.add(fitr.next());
 				}
-				result.cleanUnusedElementsByFace();
-				for (final HE_Face f : result.capHoles()) {
-					f.copyProperties(sel.getFaceWithIndex(0));
-				}
+
 			}
 		}
+
 		outer = msm.origFaces;
 		return result;
 	}

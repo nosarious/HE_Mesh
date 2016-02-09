@@ -544,7 +544,7 @@ public class HEC_FromFrame extends HEC_Creator {
 						P.getNormal());
 				p.addSelf(localu);
 				final HE_Vertex vrtx = new HE_Vertex(p);
-				vrtx.setTemporaryLabel(strutNodeConnections[id].node.getIndex());
+				vrtx.setInternalLabel(strutNodeConnections[id].node.getIndex());
 				strutNodeConnections[id].vertices.add(vrtx);
 				mesh.add(vrtx);
 			}
@@ -619,7 +619,7 @@ public class HEC_FromFrame extends HEC_Creator {
 					mesh.setNext(he3,he0);
 					mesh.setFace(he0,f);
 					mesh.setHalfedge(f,he0);
-					f.setTemporaryLabel(1);
+					f.setInternalLabel(1);
 					mesh.setFace(he1,f);
 					mesh.setFace(he2,f);
 					mesh.setFace(he3,f);
@@ -678,7 +678,7 @@ public class HEC_FromFrame extends HEC_Creator {
 						mesh.add(he);
 					}
 					mesh.setHalfedge(f,hes.get(0));
-					f.setTemporaryLabel(3);
+					f.setInternalLabel(3);
 					if (node == struts.get(0).start()) {
 						for (int k = 0, j = strutFacets - 1; k < strutFacets; j = k, k++) {
 							mesh.setNext(hes.get(k),hes.get(j));
@@ -729,7 +729,7 @@ public class HEC_FromFrame extends HEC_Creator {
 						final ArrayList<HE_Face> facesToRemove = new ArrayList<HE_Face>();
 						while (tmpfItr.hasNext()) {
 							f = tmpfItr.next();
-							f.setTemporaryLabel(2);
+							f.setInternalLabel(2);
 							tmphe = f.getHalfedge();
 							int initid = vertexToPointIndex.get(tmphe
 									.getVertex().key());

@@ -286,7 +286,7 @@ public class HES_Planar extends HES_Subdividor {
 				} while (origHE1 != startHE);
 				mesh.pairHalfedges();
 			}
-			face.setTemporaryLabel(0);
+			face.setInternalLabel(0);
 		}// end of face loop
 		mesh.replaceFaces(newFaces);
 		return mesh;

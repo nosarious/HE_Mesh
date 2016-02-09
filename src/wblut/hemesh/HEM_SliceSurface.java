@@ -158,11 +158,11 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			v = vItr.next();
 			tmp = WB_GeometryOp.classifyPointToPlane3D(v, lP);
 			if(tmp==WB_Classification.ON) {
-				v.setTemporaryLabel(ON);
+				v.setInternalLabel(ON);
 			} else if(tmp==WB_Classification.BACK) {
-				v.setTemporaryLabel(BACK);
+				v.setInternalLabel(BACK);
 			} else if(tmp==WB_Classification.FRONT) {
-				v.setTemporaryLabel(FRONT);
+				v.setInternalLabel(FRONT);
 			}
 			vertexClass.put(v.key(), tmp);
 			counter.increment();
@@ -180,8 +180,8 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			if (vertexClass.get(e.getStartVertex().key()) == WB_Classification.ON) {
 				if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.ON) {
 					cutEdges.add(e);
-					e.setTemporaryLabel(1);
-					e.getPair().setTemporaryLabel(1);
+					e.setInternalLabel(1);
+					e.getPair().setInternalLabel(1);
 				} else {
 					edgeInt.put(e.key(), 0.0);
 				}
@@ -218,7 +218,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 				split.add(ce.getEndVertex());
 			} else {
 				HE_Vertex vi=mesh.splitEdge(ce, u).vItr().next();
-				vi.setTemporaryLabel(ON);
+				vi.setInternalLabel(ON);
 				split.add(vi);
 			}
 
@@ -329,7 +329,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 				if (vertexClass.get(e.getStartVertex().key()) == WB_Classification.ON) {
 					if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.ON) {
 						cutEdges.add(e);
-						e.setTemporaryLabel(1);
+						e.setInternalLabel(1);
 					} else {
 						edgeInt.put(e.key(), 0.0);
 					}
@@ -366,7 +366,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 					split.add(ce.getEndVertex());
 				} else {
 					HE_Vertex vi=lsel.parent.splitEdge(ce, u).vItr().next();
-					vi.setTemporaryLabel(ON);
+					vi.setInternalLabel(ON);
 					split.add(vi);
 				}
 				counter.increment();
@@ -383,9 +383,10 @@ public class HEM_SliceSurface extends HEM_Modifier {
 				counter.increment();
 			}
 			paths = new FastTable<HE_Path>();
-			if (cutEdges.getNumberOfEdges() > 1) {
-				buildPaths(cutEdges);
-			}
+
+		}
+		if (cutEdges.getNumberOfEdges() > 1) {
+			buildPaths(cutEdges);
 		}
 		tracker.setStatus(this, "Exiting HEM_SliceSurface.", -1);
 		return lsel.parent;
@@ -398,6 +399,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 	 */
 	private void buildPaths(final HE_Selection cutEdges) {
 		tracker.setStatus(this, "Building slice paths.", 0);
+
 		if (cutEdges.getNumberOfEdges() == 0) {
 			return;
 		}
@@ -412,10 +414,12 @@ public class HEM_SliceSurface extends HEM_Modifier {
 				}
 			}
 		}
+
 		WB_ProgressCounter counter = new WB_ProgressCounter(edges.size(), 10);
 
 		tracker.setStatus(this, "Processing slice edges.", counter);
 		while (edges.size() > 0) {
+
 			final List<HE_Halfedge> pathedges = new FastTable<HE_Halfedge>();
 			HE_Halfedge current = edges.get(0);
 			pathedges.add(current);
@@ -457,6 +461,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			}
 			counter.increment(pathedges.size());
 		}
+
 	}
 
 	/**
@@ -474,14 +479,14 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		HE_Halfedge e;
 		while(feCrc.hasNext()){
 			e=feCrc.next();
-			if(((e.getVertex().getTemporaryLabel()==FRONT) && (e.getEndVertex().getTemporaryLabel()==BACK))||((e.getVertex().getTemporaryLabel()==BACK) && (e.getEndVertex().getTemporaryLabel()==FRONT))){
+			if(((e.getVertex().getInternalLabel()==FRONT) && (e.getEndVertex().getInternalLabel()==BACK))||((e.getVertex().getInternalLabel()==BACK) && (e.getEndVertex().getInternalLabel()==FRONT))){
 				double e0=WB_GeometryOp.getDistanceToPlane3D(e.getVertex(), P);
 				double e1=WB_GeometryOp.getDistanceToPlane3D(e.getEndVertex(), P);
 				if(e0<e1){
-					e.getVertex().setTemporaryLabel(ON);
+					e.getVertex().setInternalLabel(ON);
 					e.getVertex().set(WB_GeometryOp.projectOnPlane( e.getVertex(),P));
 				}else{
-					e.getEndVertex().setTemporaryLabel(ON);
+					e.getEndVertex().setInternalLabel(ON);
 					e.getEndVertex().set(WB_GeometryOp.projectOnPlane( e.getEndVertex(),P));
 				}
 			}
@@ -497,67 +502,91 @@ public class HEM_SliceSurface extends HEM_Modifier {
 
 		HE_FaceVertexCirculator fvCrc=f.fvCrc();
 		while(fvCrc.hasNext()){
-			fvCrc.next();
-			intersectionCount++;
+			if(fvCrc.next().getInternalLabel()==ON){
+				intersectionCount++;
+			}
 		}
-
 		if(intersectionCount<2) {
 			return;
 		}
 		else{
 			List<HE_Vertex[]> subPolygons=new HET_FaceSplitter().splitFace(f, P);
-			FastTable<HE_Halfedge> allhalfedges=new FastTable<HE_Halfedge>();
-			for(HE_Vertex[] subPoly:subPolygons){
-				FastTable<HE_Halfedge> halfedges=new FastTable<HE_Halfedge>();
-				HE_Halfedge he;
-				HE_Face subFace=new HE_Face();
-				subFace.copyProperties(f);
-				for(int j=0;j<subPoly.length;j++){
-					he=new HE_Halfedge();
-					if(subPoly[j]!=subPoly[(j+1)%subPoly.length]){
-						mesh.setVertex(he,subPoly[j]);
-						mesh.setHalfedge(subPoly[j],he);
-						mesh.setFace(he,subFace);
-						halfedges.add(he);
-						allhalfedges.add(he);
-					}
+			if(subPolygons.size()>1){
+				FastTable<HE_Halfedge> allhalfedges=new FastTable<HE_Halfedge>();
+				Map<Long, HE_TextureCoordinate> UVWs=new FastMap<Long, HE_TextureCoordinate>();
+				List<HE_Vertex> vertices=f.getFaceVertices();
+				for(HE_Vertex v:vertices){
+					UVWs.put(v.getKey(), v.getUVW(f));
 				}
 
-				if(halfedges.size()>2){
-					for(HE_Halfedge fhe:halfedges){
-						if(fhe.getVertex().getTemporaryLabel()==FRONT){
-							front.add(subFace);
-						}else if(fhe.getVertex().getTemporaryLabel()==BACK){
-							back.add(subFace);
+
+				for(HE_Vertex[] subPoly:subPolygons){
+					FastTable<HE_Halfedge> halfedges=new FastTable<HE_Halfedge>();
+					HE_Halfedge he;
+					HE_Face subFace=new HE_Face();
+					subFace.copyProperties(f);
+					for(int j=0;j<subPoly.length;j++){
+						he=new HE_Halfedge();
+						if(subPoly[j]!=subPoly[(j+1)%subPoly.length]){
+							he.setUVW(UVWs.get(subPoly[j].getKey()));
+							mesh.setVertex(he,subPoly[j]);
+							mesh.setHalfedge(subPoly[j],he);
+							mesh.setFace(he,subFace);
+							halfedges.add(he);
+							allhalfedges.add(he);
+						}
+					}
+
+					if(halfedges.size()>2){
+						for(HE_Halfedge fhe:halfedges){
+							if(fhe.getVertex().getInternalLabel()==FRONT){
+								front.add(subFace);
+							}else if(fhe.getVertex().getInternalLabel()==BACK){
+								back.add(subFace);
+
+							}
 
 						}
+						mesh.setHalfedge(subFace, halfedges.get(0));
+						for(int j=0,k=halfedges.size()-1;j<halfedges.size();k=j,j++){
+							mesh.setNext(halfedges.get(k),halfedges.get(j));
+						}
+						mesh.add(subFace);
+						mesh.addHalfedges(halfedges);
+					}
 
-					}
-					mesh.setHalfedge(subFace, halfedges.get(0));
-					for(int j=0,k=halfedges.size()-1;j<halfedges.size();k=j,j++){
-						mesh.setNext(halfedges.get(k),halfedges.get(j));
-					}
-					mesh.add(subFace);
-					mesh.addHalfedges(halfedges);
+
 				}
-
-
-			}
-			mesh.cutFace(f);
-			mesh.pairHalfedges();
-			for(HE_Halfedge he:allhalfedges){
-				if(he.isEdge()){
-					if((he.getVertex().getTemporaryLabel()==ON) && (he.getEndVertex().getTemporaryLabel()==ON)){
-						cutEdges.add(he);
-						he.setTemporaryLabel(1);
+				mesh.cutFace(f);
+				mesh.pairHalfedges();
+				for(HE_Halfedge he:allhalfedges){
+					if(he.isEdge()){
+						if((he.getVertex().getInternalLabel()==ON) && (he.getEndVertex().getInternalLabel()==ON)){
+							cutEdges.add(he);
+							he.setInternalLabel(1);
+						}
 					}
 				}
 			}
+
 		}
 
 
 
 	}
+
+
+	public static void main(final String[] args) {
+		HEC_Torus creator=new HEC_Torus(80,200,6,16);
+		HE_Mesh mesh=new HE_Mesh(creator);
+		HEM_SliceSurface modifier=new HEM_SliceSurface();
+		WB_Plane P=new WB_Plane(0,0,0,0,0,1);
+		modifier.setPlane(P);
+		modifier.setOffset(0);
+		mesh.modify(modifier);
+
+	}
+
 
 
 }

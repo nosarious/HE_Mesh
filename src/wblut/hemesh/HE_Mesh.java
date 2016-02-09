@@ -1643,9 +1643,20 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * Reverse all faces. Flips normals.
 	 *
 	 * @return
+	 * @deprecated Use {@link #flipFaces()} instead
 	 */
+	@Deprecated
 	public HE_Mesh flipAllFaces() {
-		return HET_MeshOp.flipAllFaces(this);
+		return flipFaces();
+	}
+
+	/**
+	 * Reverse all faces. Flips normals.
+	 *
+	 * @return
+	 */
+	public HE_Mesh flipFaces() {
+		return HET_MeshOp.flipFaces(this);
 	}
 
 
@@ -3067,7 +3078,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	public void resetVertexTemporaryLabels() {
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
-			vItr.next().setTemporaryLabel(-1);
+			vItr.next().setInternalLabel(-1);
 		}
 	}
 
@@ -3086,7 +3097,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	public void resetFaceTemporaryLabels() {
 		final Iterator<HE_Face> fItr = fItr();
 		while (fItr.hasNext()) {
-			fItr.next().setTemporaryLabel(-1);
+			fItr.next().setInternalLabel(-1);
 		}
 	}
 
@@ -3105,7 +3116,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	public void resetEdgeTemporaryLabels() {
 		final Iterator<HE_Halfedge> eItr = eItr();
 		while (eItr.hasNext()) {
-			eItr.next().setTemporaryLabel(-1);
+			eItr.next().setInternalLabel(-1);
 		}
 	}
 
@@ -3756,7 +3767,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Face f;
 		while (fitr.hasNext()) {
 			f = fitr.next();
-			if (f.getTemporaryLabel() == i) {
+			if (f.getInternalLabel() == i) {
 				f.setColor(color);
 			}
 		}
@@ -3790,7 +3801,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Vertex f;
 		while (fitr.hasNext()) {
 			f = fitr.next();
-			if (f.getTemporaryLabel() == i) {
+			if (f.getInternalLabel() == i) {
 				f.setColor(color);
 			}
 		}
@@ -3824,7 +3835,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Halfedge f;
 		while (fitr.hasNext()) {
 			f = fitr.next();
-			if (f.getTemporaryLabel() == i) {
+			if (f.getInternalLabel() == i) {
 				f.setColor(color);
 			}
 		}
@@ -3858,7 +3869,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Face f;
 		while (fitr.hasNext()) {
 			f = fitr.next();
-			if (f.getTemporaryLabel() != i) {
+			if (f.getInternalLabel() != i) {
 				f.setColor(color);
 			}
 		}
@@ -3892,7 +3903,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Vertex v;
 		while (vitr.hasNext()) {
 			v = vitr.next();
-			if (v.getTemporaryLabel() != i) {
+			if (v.getInternalLabel() != i) {
 				v.setColor(color);
 			}
 		}
@@ -3926,7 +3937,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Halfedge f;
 		while (heitr.hasNext()) {
 			f = heitr.next();
-			if (f.getTemporaryLabel() != i) {
+			if (f.getInternalLabel() != i) {
 				f.setColor(color);
 			}
 		}

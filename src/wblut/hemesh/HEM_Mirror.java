@@ -144,8 +144,8 @@ public class HEM_Mirror extends HEM_Modifier {
 			lP.flipNormal();
 		}
 		lP = new WB_Plane(lP.getNormal(), lP.d() + offset);
-		HEM_SliceSurface ss;
-		ss = new HEM_SliceSurface().setPlane(lP);
+		HEM_SliceEdges ss;
+		ss = new HEM_SliceEdges().setPlane(lP);
 		mesh.modify(ss);
 		cut = ss.cut;
 		final HE_Selection newFaces = new HE_Selection(mesh);
@@ -226,7 +226,7 @@ public class HEM_Mirror extends HEM_Modifier {
 			}
 			counter.increment();
 		}
-		mirrormesh.flipAllFaces();
+		mirrormesh.flipFaces();
 		mesh.uncapBoundaryHalfedges();
 		mirrormesh.uncapBoundaryHalfedges();
 		tracker.setStatus(this, "Adding Mirrored mesh.",0);

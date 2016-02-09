@@ -24,7 +24,7 @@ import wblut.geom.WB_Plane;
 import wblut.math.WB_Epsilon;
 
 /**
- * Planar cut of a mesh. No faces are removed.
+ * Planar cut of a mesh. No edges are created, no faces are removed.
  *
  * @author Frederik Vanhoutte (W:Blut)
  *
@@ -35,14 +35,10 @@ public class HEM_SliceEdges extends HEM_Modifier {
 	private WB_Plane P;
 	/** Stores cut faces. */
 	public HE_Selection cut;
-	/**
-	 *
-	 */
-	public HE_Selection front;
-	/**
-	 *
-	 */
-	public HE_Selection back;
+
+	/** Stores new edges. */
+	public HE_Selection cutEdges;
+
 
 	private WB_GeometryFactory gf=WB_GeometryFactory.instance();
 
@@ -108,11 +104,9 @@ public class HEM_SliceEdges extends HEM_Modifier {
 	public HE_Mesh apply(final HE_Mesh mesh) {
 		tracker.setStatus(this, "Starting HEM_SliceEdges.", +1);
 		cut = new HE_Selection(mesh);
-		front = new HE_Selection(mesh);
-		back = new HE_Selection(mesh);
+		cutEdges = new HE_Selection(mesh);
 		mesh.resetEdgeTemporaryLabels();
 		mesh.resetVertexTemporaryLabels();
-		mesh.resetFaceTemporaryLabels();
 		// no plane defined
 		if (P == null) {
 			tracker.setStatus(this, "No cutplane defined. Exiting HEM_SliceEdges.", -1);
@@ -148,11 +142,11 @@ public class HEM_SliceEdges extends HEM_Modifier {
 			v = vItr.next();
 			tmp = WB_GeometryOp.classifyPointToPlane3D(v, lP);
 			if(tmp==WB_Classification.ON) {
-				v.setTemporaryLabel(ON);
+				v.setInternalLabel(ON);
 			} else if(tmp==WB_Classification.BACK) {
-				v.setTemporaryLabel(BACK);
+				v.setInternalLabel(BACK);
 			} else if(tmp==WB_Classification.FRONT) {
-				v.setTemporaryLabel(FRONT);
+				v.setInternalLabel(FRONT);
 			}
 			vertexClass.put(v.key(), tmp);
 			counter.increment();
@@ -169,8 +163,9 @@ public class HEM_SliceEdges extends HEM_Modifier {
 			e = eItr.next();
 			if (vertexClass.get(e.getStartVertex().key()) == WB_Classification.ON) {
 				if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.ON) {
-					e.setTemporaryLabel(1);
-					e.getPair().setTemporaryLabel(1);
+					cutEdges.add(e);
+					e.setInternalLabel(1);
+					e.getPair().setInternalLabel(1);
 				} else {
 					edgeInt.put(e.key(), 0.0);
 				}
@@ -201,24 +196,24 @@ public class HEM_SliceEdges extends HEM_Modifier {
 			if (ce.getPair().getFace() != null) {
 				split.add(ce.getPair().getFace());
 			}
-
 			if (u < WB_Epsilon.EPSILON) {
 				split.add(ce.getStartVertex());
 			} else if (u > (1.0 - WB_Epsilon.EPSILON)) {
 				split.add(ce.getEndVertex());
 			} else {
 				HE_Vertex vi=mesh.splitEdge(ce, u).vItr().next();
-				vi.setTemporaryLabel(ON);
+				vi.setInternalLabel(ON);
 				split.add(vi);
 			}
 
-
-
 			counter.increment();
 		}
+
 		tracker.setStatus(this, "Exiting HEM_SliceEdges.", -1);
 		return mesh;
 	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -229,11 +224,10 @@ public class HEM_SliceEdges extends HEM_Modifier {
 	public HE_Mesh apply(final HE_Selection selection) {
 		tracker.setStatus(this, "Starting HEM_SliceEdges.", +1);
 		selection.parent.resetEdgeTemporaryLabels();
-		selection.parent.resetFaceTemporaryLabels();
+
 		selection.parent.resetVertexTemporaryLabels();
 		cut = new HE_Selection(selection.parent);
-		front = new HE_Selection(selection.parent);
-		back = new HE_Selection(selection.parent);
+		cutEdges = new HE_Selection(selection.parent);
 		// no plane defined
 		if (P == null) {
 			tracker.setStatus(this, "No cutplane defined. Exiting HEM_SliceEdges.", -1);
@@ -295,8 +289,8 @@ public class HEM_SliceEdges extends HEM_Modifier {
 				e = eItr.next();
 				if (vertexClass.get(e.getStartVertex().key()) == WB_Classification.ON) {
 					if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.ON) {
-
-						e.setTemporaryLabel(1);
+						cutEdges.add(e);
+						e.setInternalLabel(1);
 					} else {
 						edgeInt.put(e.key(), 0.0);
 					}
@@ -329,22 +323,15 @@ public class HEM_SliceEdges extends HEM_Modifier {
 				}
 				if (u < WB_Epsilon.EPSILON) {
 					split.add(ce.getStartVertex());
-				} else if (u > (1.0-WB_Epsilon.EPSILON)) {
+				} else if (u > (1.0 - WB_Epsilon.EPSILON)) {
 					split.add(ce.getEndVertex());
 				} else {
-					if (u < WB_Epsilon.EPSILON) {
-						split.add(ce.getStartVertex());
-					} else if (u > (1.0 - WB_Epsilon.EPSILON)) {
-						split.add(ce.getEndVertex());
-					} else {
-						HE_Vertex vi=lsel.parent.splitEdge(ce, u).vItr().next();
-						vi.setTemporaryLabel(ON);
-						split.add(vi);
-					}
+					HE_Vertex vi=lsel.parent.splitEdge(ce, u).vItr().next();
+					vi.setInternalLabel(ON);
+					split.add(vi);
 				}
 				counter.increment();
 			}
-
 		}
 		tracker.setStatus(this, "Exiting HEM_SliceEdges.", -1);
 		return lsel.parent;
