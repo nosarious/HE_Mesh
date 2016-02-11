@@ -1729,6 +1729,11 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param path
 	 */
 	public void drawPath(final HE_Path path) {
+		if(path.getPathOrder()==1){
+			drawSegment(path.getPathHalfedge().getStartVertex(),path.getPathHalfedge().getEndVertex());
+
+		}
+
 		home.beginShape();
 		for (final HE_Vertex v : path.getPathVertices()) {
 			home.vertex(v.xf(), v.yf(), v.zf());
@@ -1736,7 +1741,7 @@ public class WB_Render3D extends WB_Render2D {
 		if (path.isLoop()) {
 			home.endShape(PConstants.CLOSE);
 		} else {
-			home.endShape(PConstants.OPEN);
+			home.endShape();
 		}
 	}
 
@@ -1784,6 +1789,19 @@ public class WB_Render3D extends WB_Render2D {
 
 	public void drawPoint(final WB_Coord p) {
 		home.point(p.xf(), p.yf(), p.zf());
+	}
+
+	/**
+	 *
+	 *
+	 * @param points
+	 * @param d
+	 */
+
+	public void drawPoint(final WB_Coord[] points) {
+		for (final WB_Coord v : points) {
+			drawPoint(v);
+		}
 	}
 
 	/**
@@ -3902,6 +3920,38 @@ public class WB_Render3D extends WB_Render2D {
 	/**
 	 *
 	 *
+	 * @param tree
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public HE_Halfedge pickEdge(final WB_AABBTree tree, final double x, final double y) {
+		final WB_Ray mouseRay3d = getPickingRay(x, y);
+		final HE_FaceIntersection p = HE_GeometryOp.getClosestIntersection(tree, mouseRay3d);
+		if (p == null) {
+			return null;
+		}
+		final HE_Face f = p.face;
+		final HE_FaceEdgeCirculator fec = f.feCrc();
+		HE_Halfedge trial;
+		HE_Halfedge closest = null;
+		double d2 = 0;
+		double d2min = Double.MAX_VALUE;
+		while (fec.hasNext()) {
+			trial = fec.next();
+			d2 = WB_GeometryOp.getDistanceToSegment3D(p.point, trial.getStartVertex(),
+					trial.getEndVertex());
+			if (d2 < d2min) {
+				d2min = d2;
+				closest = trial;
+			}
+		}
+		return closest;
+	}
+
+	/**
+	 *
+	 *
 	 * @param mesh
 	 * @param x
 	 * @param y
@@ -3974,6 +4024,37 @@ public class WB_Render3D extends WB_Render2D {
 	public HE_Vertex pickVertex(final HE_Mesh mesh, final double x, final double y) {
 		final WB_Ray mouseRay3d = getPickingRay(x, y);
 		final HE_FaceIntersection p = HE_GeometryOp.getClosestIntersection(mesh, mouseRay3d);
+		if (p == null) {
+			return null;
+		}
+		final HE_Face f = p.face;
+		final HE_FaceVertexCirculator fvc = f.fvCrc();
+		HE_Vertex trial;
+		HE_Vertex closest = null;
+		double d2 = 0;
+		double d2min = Double.MAX_VALUE;
+		while (fvc.hasNext()) {
+			trial = fvc.next();
+			d2 = trial.getSqDistance3D(p.point);
+			if (d2 < d2min) {
+				d2min = d2;
+				closest = trial;
+			}
+		}
+		return closest;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public HE_Vertex pickVertex(final WB_AABBTree tree, final double x, final double y) {
+		final WB_Ray mouseRay3d = getPickingRay(x, y);
+		final HE_FaceIntersection p = HE_GeometryOp.getClosestIntersection(tree, mouseRay3d);
 		if (p == null) {
 			return null;
 		}

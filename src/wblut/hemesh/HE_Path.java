@@ -3,15 +3,16 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
 import java.util.List;
 
 import javolution.util.FastTable;
+import wblut.geom.WB_MeshGraph;
 
 
 /**
@@ -81,14 +82,28 @@ public class HE_Path extends HE_MeshElement  {
 		HE_Halfedge circuit;
 		do {
 			circuit = hev.getNextInFace();
-			while (circuit.getPair() != hev.getNextInVertex()) {
+			while (circuit.getPair() != hev.getPrevInVertex()) {
 				halfedges.add(circuit);
 				circuit = circuit.getNextInFace();
 			}
-			hev = hev.getNextInVertex();
+			hev = hev.getPrevInVertex();
 		} while (hev != v.getHalfedge());
 		createFromList(halfedges, true);
 	}
+
+
+	public static HE_Path getShortestPath(final HE_Vertex v0, final HE_Vertex v1, final HE_Mesh mesh) {
+		if(!mesh.contains(v0) || !mesh.contains(v1)||(v0==v1)){
+
+			return null;
+		}
+		WB_MeshGraph graph=new WB_MeshGraph(mesh);
+		int[] shortestpath=graph.getShortestPathBetweenVertices(mesh.getIndex(v0), mesh.getIndex(v1));
+		return  mesh.createPathFromIndices(shortestpath,false);
+
+
+	}
+
 
 	/**
 	 * Create a looping path from a list of halfedges. The list is assumed to be

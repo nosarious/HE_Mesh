@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 
 package wblut.geom;
@@ -23,14 +23,14 @@ public class WB_Danzer {
 
 
 	public static enum Type {
-		A, B, C, K
+		A, B, C
 	}
 
 
 	static class DanzerTile {
 
 
-		public int p1, p2, p3, p4;
+		public int p1, p2, p3;
 
 
 		public Type type;
@@ -38,8 +38,6 @@ public class WB_Danzer {
 
 		public int generation;
 
-
-		public double h, s, b;
 
 
 		/**
@@ -50,7 +48,7 @@ public class WB_Danzer {
 		 */
 		public DanzerTile(final Type t, final int g) {
 			type = t;
-			p1 = p2 = p3 = p4 = -1;
+			p1 = p2 = p3=-1;
 			generation = g;
 
 		}

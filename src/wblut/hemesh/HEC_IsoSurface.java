@@ -547,7 +547,6 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 *
 	 * @param i
 	 * @param j
-	 * @param k
 	 * @return
 	 */
 	private int index(final int i, final int j) {

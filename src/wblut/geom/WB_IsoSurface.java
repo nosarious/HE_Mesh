@@ -541,7 +541,6 @@ public class WB_IsoSurface {
 	 *
 	 * @param i
 	 * @param j
-	 * @param k
 	 * @return
 	 */
 	private int index(final int i, final int j) {
@@ -788,14 +787,6 @@ public class WB_IsoSurface {
 	/**
 	 * Gets the polygons.
 	 *
-	 * @param i
-	 *            the i
-	 * @param j
-	 *            the j
-	 * @param k
-	 *            the k
-	 * @param cubeindex
-	 *            the cubeindex
 	 * @return the polygons
 	 */
 	private void getPolygons(final int i, final int j, final int k, final int cubeindex,final List<WB_Coord >triangles,final WB_Coord[] vertlist) {
