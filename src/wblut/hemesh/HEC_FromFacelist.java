@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -84,10 +84,10 @@ public class HEC_FromFacelist extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param vs 
-	 * @return 
+	 *
+	 * @param vs
+	 * @return
 	 */
 	public HEC_FromFacelist setUVW(final Collection<? extends WB_Coord> vs) {
 		final int n = vs.size();
@@ -102,10 +102,10 @@ public class HEC_FromFacelist extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param vs 
-	 * @return 
+	 *
+	 * @param vs
+	 * @return
 	 */
 	public HEC_FromFacelist setUVW(final WB_Coord[] vs) {
 		final int n = vs.length;
@@ -119,10 +119,10 @@ public class HEC_FromFacelist extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param vs 
-	 * @return 
+	 *
+	 * @param vs
+	 * @return
 	 */
 	public HEC_FromFacelist setUVW(final double[][] vs) {
 		final int n = vs.length;
@@ -266,10 +266,10 @@ public class HEC_FromFacelist extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param fts 
-	 * @return 
+	 *
+	 * @param fts
+	 * @return
 	 */
 	public HEC_FromFacelist setFaceTextureIds(final int[] fts) {
 		faceTextureIds = fts;
@@ -435,50 +435,52 @@ public class HEC_FromFacelist extends HEC_Creator {
 			}
 			final boolean useFaceTextures = (faceTextureIds != null) && (faceTextureIds.length == faces.length);
 			for (final int[] face : faces) {
-				final ArrayList<HE_Halfedge> faceEdges = new ArrayList<HE_Halfedge>();
-				final HE_Face hef = new HE_Face();
-				hef.setInternalLabel(id);
-				if (useFaceTextures) {
-					hef.setTextureId(faceTextureIds[id]);
-				}
-				id++;
-				final int fl = face.length;
-				final int[] locface = new int[fl];
-				int li = 0;
-				locface[li++] = face[0];
-				for (int i = 1; i < (fl - 1); i++) {
-					if (uniqueVertices[face[i]] != uniqueVertices[face[i - 1]]) {
-						locface[li++] = face[i];
+				if(face!=null){
+					final ArrayList<HE_Halfedge> faceEdges = new ArrayList<HE_Halfedge>();
+					final HE_Face hef = new HE_Face();
+					hef.setInternalLabel(id);
+					if (useFaceTextures) {
+						hef.setTextureId(faceTextureIds[id]);
 					}
-				}
-				if ((uniqueVertices[face[fl - 1]] != uniqueVertices[face[fl - 2]])
-						&& (uniqueVertices[face[fl - 1]] != uniqueVertices[face[0]])) {
-					locface[li++] = face[fl - 1];
-				}
-				if (li > 2) {
-					for (int i = 0; i < li; i++) {
-						he = new HE_Halfedge();
-						faceEdges.add(he);
-						mesh.setFace(he,hef);
-						if (hef.getHalfedge() == null) {
-							mesh.setHalfedge(hef,he);
+					id++;
+					final int fl = face.length;
+					final int[] locface = new int[fl];
+					int li = 0;
+					locface[li++] = face[0];
+					for (int i = 1; i < (fl - 1); i++) {
+						if (uniqueVertices[face[i]] != uniqueVertices[face[i - 1]]) {
+							locface[li++] = face[i];
 						}
-						mesh.setVertex(he,uniqueVertices[locface[i]]);
-						if (useUVW) {
-							if (duplicated[locface[i]]) {
-								final HE_TextureCoordinate uvw = uniqueVertices[locface[i]].getVertexUVW();
-								if ((uvw.ud() != uvws[locface[i]].xd()) || (uvw.vd() != uvws[locface[i]].yd())
-										|| (uvw.wd() != uvws[locface[i]].zd())) {
-									he.setUVW(uvws[locface[i]]);
+					}
+					if ((uniqueVertices[face[fl - 1]] != uniqueVertices[face[fl - 2]])
+							&& (uniqueVertices[face[fl - 1]] != uniqueVertices[face[0]])) {
+						locface[li++] = face[fl - 1];
+					}
+					if (li > 2) {
+						for (int i = 0; i < li; i++) {
+							he = new HE_Halfedge();
+							faceEdges.add(he);
+							mesh.setFace(he,hef);
+							if (hef.getHalfedge() == null) {
+								mesh.setHalfedge(hef,he);
+							}
+							mesh.setVertex(he,uniqueVertices[locface[i]]);
+							if (useUVW) {
+								if (duplicated[locface[i]]) {
+									final HE_TextureCoordinate uvw = uniqueVertices[locface[i]].getVertexUVW();
+									if ((uvw.ud() != uvws[locface[i]].xd()) || (uvw.vd() != uvws[locface[i]].yd())
+											|| (uvw.wd() != uvws[locface[i]].zd())) {
+										he.setUVW(uvws[locface[i]]);
 
+									}
 								}
 							}
+							mesh.setHalfedge(he.getVertex(),he);
 						}
-						mesh.setHalfedge(he.getVertex(),he);
+						mesh.add(hef);
+						mesh.cycleHalfedges(faceEdges);
+						mesh.addHalfedges(faceEdges);
 					}
-					mesh.add(hef);
-					mesh.cycleHalfedges(faceEdges);
-					mesh.addHalfedges(faceEdges);
 				}
 			}
 			mesh.pairHalfedges();

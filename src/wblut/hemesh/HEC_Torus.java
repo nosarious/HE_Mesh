@@ -26,18 +26,24 @@ public class HEC_Torus extends HEC_Creator {
 	private int tubefacets;
 	/** Height steps. */
 	private int torusfacets;
-	/** The twist. */
+
 	private int twist;
+
+	private double tubephase;
+
+	private double torusphase;
 
 	/**
 	 *
 	 */
 	public HEC_Torus() {
 		super();
-		Ri = 0;
-		Ro = 0;
+		Ri = 50;
+		Ro = 100;
 		tubefacets = 6;
 		torusfacets = 6;
+		tubephase=0.0;
+		torusphase=0.0;
 	}
 
 	/**
@@ -112,6 +118,30 @@ public class HEC_Torus extends HEC_Creator {
 		return this;
 	}
 
+	/**
+	 * Sets torus phase.
+	 *
+	 * @param p
+	 *
+	 * @return
+	 */
+	public HEC_Torus setTorusPhase(final double p) {
+		torusphase = p;
+		return this;
+	}
+
+	/**
+	 * Sets tube phase.
+	 *
+	 * @param p
+	 *
+	 * @return
+	 */
+	public HEC_Torus setTubePhase(final double p) {
+		tubephase = p;
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -132,13 +162,13 @@ public class HEC_Torus extends HEC_Creator {
 		WB_Point basevertex;
 		for (int j = 0; j < (torusfacets + 1); j++) {
 			final int lj = (j == torusfacets) ? 0 : j;
-			final double ca = Math.cos(lj * dtoa);
-			final double sa = Math.sin(lj * dtoa);
+			final double ca = Math.cos((lj * dtoa)+torusphase);
+			final double sa = Math.sin((lj * dtoa)+torusphase);
 			for (int i = 0; i < (tubefacets + 1); i++) {
 				final int li = (i == tubefacets) ? 0 : i;
 				basevertex = new WB_Point(Ro
-						+ (Ri * Math.cos((dtua * li) + (j * dtwa))), 0, Ri
-						* Math.sin((dtua * li) + (j * dtwa)));
+						+ (Ri * Math.cos((dtua * li) + (j * dtwa)+tubephase)), 0, Ri
+						* Math.sin((dtua * li) + (j * dtwa)+tubephase));
 				vertices[id] = new WB_Point(ca * basevertex.xd(), sa
 						* basevertex.xd(), basevertex.zd());
 				uvws[id] = new WB_Point(j * du, i * dv, 0);
@@ -159,14 +189,7 @@ public class HEC_Torus extends HEC_Creator {
 				id++;
 			}
 		}
-		/*
-		 * for (int i = 0; i < tubefacets; i++) { faces[id] = new int[4];
-		 * faces[id][0] = i + ((torusfacets - 1) * (tubefacets + 1));
-		 * faces[id][1] = (i + twist) % (tubefacets + 1) + (torusfacets *
-		 * (tubefacets + 1)); faces[id][2] = (i + twist + 1) % (tubefacets + 1)
-		 * + (torusfacets * (tubefacets + 1)); faces[id][3] = (i + 1) +
-		 * ((torusfacets - 1) * (tubefacets + 1)); id++; }
-		 */
+
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
 		fl.setVertices(vertices).setFaces(faces).setUVW(uvws);
 		return fl.createBase();

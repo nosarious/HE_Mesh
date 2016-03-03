@@ -3,17 +3,17 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
 /**
  * Tetrahedron.
- * 
+ *
  * @author Frederik Vanhoutte (W:Blut)
- * 
+ *
  */
 public class HEC_Tetrahedron extends HEC_Creator {
 	/** Outer radius. */
@@ -21,16 +21,16 @@ public class HEC_Tetrahedron extends HEC_Creator {
 
 	/**
 	 * Instantiates a new HEC_Tetrahedron.
-	 * 
+	 *
 	 */
 	public HEC_Tetrahedron() {
 		super();
-		R = 0f;
+		R = 100;
 	}
 
 	/**
 	 * Set edge length.
-	 * 
+	 *
 	 * @param E
 	 *            edge length
 	 * @return self
@@ -42,7 +42,7 @@ public class HEC_Tetrahedron extends HEC_Creator {
 
 	/**
 	 * Set radius of inscribed sphere.
-	 * 
+	 *
 	 * @param R
 	 *            radius
 	 * @return self
@@ -54,7 +54,7 @@ public class HEC_Tetrahedron extends HEC_Creator {
 
 	/**
 	 * Set radius of circumscribed sphere.
-	 * 
+	 *
 	 * @param R
 	 *            radius
 	 * @return self
@@ -65,10 +65,10 @@ public class HEC_Tetrahedron extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param R 
-	 * @return 
+	 *
+	 * @param R
+	 * @return
 	 */
 	public HEC_Tetrahedron setRadius(final double R) {
 		this.R = R;
@@ -77,7 +77,7 @@ public class HEC_Tetrahedron extends HEC_Creator {
 
 	/**
 	 * Set radius of tangential sphere.
-	 * 
+	 *
 	 * @param R
 	 *            radius
 	 * @return self
@@ -89,9 +89,9 @@ public class HEC_Tetrahedron extends HEC_Creator {
 
 	/**
 	 * Code adapted from http://www.cs.umbc.edu/~squire/
-	 * 
+	 *
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @return the h e_ mesh
 	 * @see wblut.hemesh.HEC_Creator#create()
 	 */

@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -43,8 +43,8 @@ public class HEC_Cone extends HEC_Creator {
 	 */
 	public HEC_Cone() {
 		super();
-		R = 0;
-		H = 0;
+		R = 100;
+		H = 100;
 		facets = 6;
 		steps = 1;
 		Z = new WB_Vector(WB_Vector.Y());
@@ -146,24 +146,24 @@ public class HEC_Cone extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param direction 
-	 * @return 
+	 *
+	 * @param direction
+	 * @return
 	 */
-	public HEC_Cone align(WB_Coord direction) {
+	public HEC_Cone align(final WB_Coord direction) {
 		setZAxis(direction);
 		return this;
 	}
 
 	/**
-	 * 
 	 *
-	 * @param origin 
-	 * @param endpoint 
-	 * @return 
+	 *
+	 * @param origin
+	 * @param endpoint
+	 * @return
 	 */
-	public HEC_Cone align(WB_Coord origin, WB_Coord endpoint) {
+	public HEC_Cone align(final WB_Coord origin, final WB_Coord endpoint) {
 		setHeight(WB_GeometryOp.getDistance3D(origin, endpoint));
 		setCenter(WB_Point.mulAddMul(0.5, origin, 0.5, endpoint));
 		setZAxis(new WB_Vector(origin, endpoint));
@@ -171,12 +171,12 @@ public class HEC_Cone extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param segment 
-	 * @return 
+	 *
+	 * @param segment
+	 * @return
 	 */
-	public HEC_Cone align(WB_Segment segment) {
+	public HEC_Cone align(final WB_Segment segment) {
 		setHeight(segment.getLength());
 		setCenter(segment.getCenter());
 		setZAxis(segment.getDirection());
@@ -197,13 +197,13 @@ public class HEC_Cone extends HEC_Creator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Creator#create()
 	 */
 	@Override
 	protected HE_Mesh createBase() {
-		final double[][] vertices = new double[(facets + 1) * steps + facets + ((cap) ? facets : 0)][3];
-		final double[][] uvws = new double[(facets + 1) * steps + facets + ((cap) ? facets : 0)][3];
+		final double[][] vertices = new double[((facets + 1) * steps) + facets + ((cap) ? facets : 0)][3];
+		final double[][] uvws = new double[((facets + 1) * steps) + facets + ((cap) ? facets : 0)][3];
 		final int[][] faces = new int[(cap) ? (facets * steps) + facets : facets * steps][];
 		final int[] faceTextureIds = new int[(cap) ? (facets * steps) + facets : facets * steps];
 		double Ri;
@@ -213,12 +213,12 @@ public class HEC_Cone extends HEC_Creator {
 		for (int i = 0; i < steps; i++) {
 			Ri = R - (Math.pow(i * invs, taper) * R);
 			Hj = (reverse) ? H - ((i * H) / steps) : (i * H) / steps;
-			for (int j = 0; j < facets + 1; j++) {
+			for (int j = 0; j < (facets + 1); j++) {
 				vertices[id][0] = Ri * Math.cos(((2 * Math.PI) / facets) * j);
 				vertices[id][2] = Ri * Math.sin(((2 * Math.PI) / facets) * j);
 				vertices[id][1] = Hj;
-				uvws[id][0] = j * 1.0 / facets;
-				uvws[id][1] = i * 1.0 / steps;
+				uvws[id][0] = (j * 1.0) / facets;
+				uvws[id][1] = (i * 1.0) / steps;
 				uvws[id][2] = 0;
 				id++;
 			}
@@ -250,17 +250,17 @@ public class HEC_Cone extends HEC_Creator {
 			for (int i = 0; i < (steps - 1); i++) {
 				faces[id] = new int[4];
 				faceTextureIds[id] = 0;
-				faces[id][0] = j + i * (facets + 1);
-				faces[id][1] = j + (i + 1) * (facets + 1);
-				faces[id][2] = j + 1 + (i + 1) * (facets + 1);
-				faces[id][3] = j + 1 + i * (facets + 1);
+				faces[id][0] = j + (i * (facets + 1));
+				faces[id][1] = j + ((i + 1) * (facets + 1));
+				faces[id][2] = j + 1 + ((i + 1) * (facets + 1));
+				faces[id][3] = j + 1 + (i * (facets + 1));
 				id++;
 			}
 			faces[id] = new int[3];
 			faceTextureIds[id] = 0;
 			faces[id][0] = tipoffset + j;
-			faces[id][2] = j + (steps - 1) * (facets + 1);
-			faces[id][1] = j + 1 + (steps - 1) * (facets + 1);
+			faces[id][2] = j + ((steps - 1) * (facets + 1));
+			faces[id][1] = j + 1 + ((steps - 1) * (facets + 1));
 			id++;
 			if (cap) {
 				faces[id] = new int[3];

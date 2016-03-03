@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -33,11 +33,11 @@ public class HEC_Cylinder extends HEC_Creator {
 	private int facets;
 	/** Height steps. */
 	private int steps;
-	/** The topcap. */
+
 	private boolean topcap;
-	/** The bottomcap. */
+
 	private boolean bottomcap;
-	/** The taper. */
+
 	private double taper;
 
 	/**
@@ -46,9 +46,9 @@ public class HEC_Cylinder extends HEC_Creator {
 	 */
 	public HEC_Cylinder() {
 		super();
-		Ri = 0;
-		Ro = 0;
-		H = 0;
+		Ri = 100;
+		Ro = 100;
+		H = 100;
 		facets = 6;
 		steps = 1;
 		Z = new WB_Vector(WB_Vector.Y());
@@ -173,24 +173,24 @@ public class HEC_Cylinder extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param direction 
-	 * @return 
+	 *
+	 * @param direction
+	 * @return
 	 */
-	public HEC_Cylinder align(WB_Coord direction) {
+	public HEC_Cylinder align(final WB_Coord direction) {
 		setZAxis(direction);
 		return this;
 	}
 
 	/**
-	 * 
 	 *
-	 * @param origin 
-	 * @param endpoint 
-	 * @return 
+	 *
+	 * @param origin
+	 * @param endpoint
+	 * @return
 	 */
-	public HEC_Cylinder align(WB_Coord origin, WB_Coord endpoint) {
+	public HEC_Cylinder align(final WB_Coord origin, final WB_Coord endpoint) {
 		setHeight(WB_GeometryOp.getDistance3D(origin, endpoint));
 		setCenter(WB_Point.mulAddMul(0.5, origin, 0.5, endpoint));
 		setZAxis(new WB_Vector(origin, endpoint));
@@ -198,12 +198,12 @@ public class HEC_Cylinder extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param segment 
-	 * @return 
+	 *
+	 * @param segment
+	 * @return
 	 */
-	public HEC_Cylinder align(WB_Segment segment) {
+	public HEC_Cylinder align(final WB_Segment segment) {
 		setHeight(segment.getLength());
 		setCenter(segment.getCenter());
 		setZAxis(segment.getDirection());
@@ -212,7 +212,7 @@ public class HEC_Cylinder extends HEC_Creator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Creator#create()
 	 */
 	@Override
@@ -228,10 +228,10 @@ public class HEC_Cylinder extends HEC_Creator {
 			cone.setReverse(true);
 			return cone.createBase();
 		}
-		final double[][] vertices = new double[(steps + 1) * (facets + 1) + ((bottomcap) ? facets : 0)
-				+ ((topcap) ? facets : 0)][3];
-		final double[][] uvw = new double[(steps + 1) * (facets + 1) + ((bottomcap) ? facets : 0)
-				+ ((topcap) ? facets : 0)][3];
+		final double[][] vertices = new double[((steps + 1) * (facets + 1)) + ((bottomcap) ? facets : 0)
+		                                       + ((topcap) ? facets : 0)][3];
+		final double[][] uvw = new double[((steps + 1) * (facets + 1)) + ((bottomcap) ? facets : 0)
+		                                  + ((topcap) ? facets : 0)][3];
 		final double invs = 1.0 / steps;
 		int id = 0;
 		for (int i = 0; i < (steps + 1); i++) {
@@ -241,8 +241,8 @@ public class HEC_Cylinder extends HEC_Creator {
 				vertices[id][0] = R * Math.cos(((2 * Math.PI) / facets) * j);
 				vertices[id][2] = R * Math.sin(((2 * Math.PI) / facets) * j);
 				vertices[id][1] = Hj;
-				uvw[id][0] = (j * 1.0 / facets);
-				uvw[id][1] = i * 1.0 / steps;
+				uvw[id][0] = ((j * 1.0) / facets);
+				uvw[id][1] = (i * 1.0) / steps;
 				uvw[id][2] = 0.0;
 				id++;
 			}

@@ -84,7 +84,6 @@ public class WB_Render3D extends WB_Render2D {
 
 	public static final WB_ProgressTracker tracker = WB_ProgressTracker.instance();
 
-
 	/**
 	 *
 	 */
@@ -169,10 +168,10 @@ public class WB_Render3D extends WB_Render2D {
 		final Iterator<HE_Halfedge> heItr = mesh.heItr();
 		while (heItr.hasNext()) {
 			he = heItr.next();
-			if(he.getFace()==null){
-				if (he.getPair()!= null) {
+			if (he.getFace() == null) {
+				if (he.getPair() != null) {
 					line(he.getVertex(), he.getPair().getVertex());
-				}else if(he.getNextInFace() != null) {
+				} else if (he.getNextInFace() != null) {
 					line(he.getVertex(), he.getNextInFace().getVertex());
 				}
 			}
@@ -619,44 +618,13 @@ public class WB_Render3D extends WB_Render2D {
 			WB_Coord n0, n1, n2;
 			if (smooth) {
 				home.beginShape(PConstants.TRIANGLES);
-				home.texture(textures[fti]);
-				v0 = vertices.get(tri[0]);
-				n0 = v0.getVertexNormal();
-				v1 = vertices.get(tri[1]);
-				n1 = v1.getVertexNormal();
-				v2 = vertices.get(tri[2]);
-				n2 = v2.getVertexNormal();
-				normal(n0);
-				home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0.getUVW(f).vf());
-				normal(n1);
-				home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1.getUVW(f).vf());
-				normal(n2);
-				home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2.getUVW(f).vf());
-				home.endShape();
-			} else {
-				home.beginShape(PConstants.TRIANGLES);
-				home.texture(textures[fti]);
-				v0 = vertices.get(tri[0]);
-				v1 = vertices.get(tri[1]);
-				v2 = vertices.get(tri[2]);
-				home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0.getUVW(f).vf());
-				home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1.getUVW(f).vf());
-				home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2.getUVW(f).vf());
-				home.endShape();
-			}
-		} else {
-			final int[] tris = f.getTriangles();
-			HE_Vertex v0, v1, v2;
-			WB_Coord n0, n1, n2;
-			if (smooth) {
-				for (int i = 0; i < tris.length; i += 3) {
-					home.beginShape(PConstants.TRIANGLES);
+				if ((fti>=0)&&(fti<textures.length)) {
 					home.texture(textures[fti]);
-					v0 = vertices.get(tris[i]);
+					v0 = vertices.get(tri[0]);
 					n0 = v0.getVertexNormal();
-					v1 = vertices.get(tris[i + 1]);
+					v1 = vertices.get(tri[1]);
 					n1 = v1.getVertexNormal();
-					v2 = vertices.get(tris[i + 2]);
+					v2 = vertices.get(tri[2]);
 					n2 = v2.getVertexNormal();
 					normal(n0);
 					home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0.getUVW(f).vf());
@@ -665,18 +633,104 @@ public class WB_Render3D extends WB_Render2D {
 					normal(n2);
 					home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2.getUVW(f).vf());
 					home.endShape();
+				} else {
+					v0 = vertices.get(tri[0]);
+					n0 = v0.getVertexNormal();
+					v1 = vertices.get(tri[1]);
+					n1 = v1.getVertexNormal();
+					v2 = vertices.get(tri[2]);
+					n2 = v2.getVertexNormal();
+					normal(n0);
+					home.vertex(v0.xf(), v0.yf(), v0.zf());
+					normal(n1);
+					home.vertex(v1.xf(), v1.yf(), v1.zf());
+					normal(n2);
+					home.vertex(v2.xf(), v2.yf(), v2.zf());
+					home.endShape();
 				}
 			} else {
-				for (int i = 0; i < tris.length; i += 3) {
-					home.beginShape(PConstants.TRIANGLES);
+				home.beginShape(PConstants.TRIANGLES);
+				if ((fti>=0)&&(fti<textures.length)) {
 					home.texture(textures[fti]);
-					v0 = vertices.get(tris[i]);
-					v1 = vertices.get(tris[i + 1]);
-					v2 = vertices.get(tris[i + 2]);
+					v0 = vertices.get(tri[0]);
+					v1 = vertices.get(tri[1]);
+					v2 = vertices.get(tri[2]);
 					home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0.getUVW(f).vf());
 					home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1.getUVW(f).vf());
 					home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2.getUVW(f).vf());
 					home.endShape();
+				} else {
+					v0 = vertices.get(tri[0]);
+					v1 = vertices.get(tri[1]);
+					v2 = vertices.get(tri[2]);
+					home.vertex(v0.xf(), v0.yf(), v0.zf());
+					home.vertex(v1.xf(), v1.yf(), v1.zf());
+					home.vertex(v2.xf(), v2.yf(), v2.zf());
+					home.endShape();
+				}
+			}
+		} else {
+			final int[] tris = f.getTriangles();
+			HE_Vertex v0, v1, v2;
+			WB_Coord n0, n1, n2;
+			if (smooth) {
+				for (int i = 0; i < tris.length; i += 3) {
+					home.beginShape(PConstants.TRIANGLES);
+					if ((fti>=0)&&(fti<textures.length)) {
+						home.texture(textures[fti]);
+						v0 = vertices.get(tris[i]);
+						n0 = v0.getVertexNormal();
+						v1 = vertices.get(tris[i + 1]);
+						n1 = v1.getVertexNormal();
+						v2 = vertices.get(tris[i + 2]);
+						n2 = v2.getVertexNormal();
+						normal(n0);
+						home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0.getUVW(f).vf());
+						normal(n1);
+						home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1.getUVW(f).vf());
+						normal(n2);
+						home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2.getUVW(f).vf());
+						home.endShape();
+					} else {
+						v0 = vertices.get(tris[i]);
+						n0 = v0.getVertexNormal();
+						v1 = vertices.get(tris[i + 1]);
+						n1 = v1.getVertexNormal();
+						v2 = vertices.get(tris[i + 2]);
+						n2 = v2.getVertexNormal();
+						normal(n0);
+						home.vertex(v0.xf(), v0.yf(), v0.zf());
+						normal(n1);
+						home.vertex(v1.xf(), v1.yf(), v1.zf());
+						normal(n2);
+						home.vertex(v2.xf(), v2.yf(), v2.zf());
+						home.endShape();
+
+					}
+				}
+			} else {
+				for (int i = 0; i < tris.length; i += 3) {
+					home.beginShape(PConstants.TRIANGLES);
+
+					if ((fti>=0)&&(fti<textures.length)) {
+						home.texture(textures[fti]);
+						v0 = vertices.get(tris[i]);
+						v1 = vertices.get(tris[i + 1]);
+						v2 = vertices.get(tris[i + 2]);
+						home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0.getUVW(f).vf());
+						home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1.getUVW(f).vf());
+						home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2.getUVW(f).vf());
+						home.endShape();
+					} else {
+						v0 = vertices.get(tris[i]);
+						v1 = vertices.get(tris[i + 1]);
+						v2 = vertices.get(tris[i + 2]);
+						home.vertex(v0.xf(), v0.yf(), v0.zf());
+						home.vertex(v1.xf(), v1.yf(), v1.zf());
+						home.vertex(v2.xf(), v2.yf(), v2.zf());
+						home.endShape();
+
+					}
 				}
 			}
 		}
@@ -1313,10 +1367,8 @@ public class WB_Render3D extends WB_Render2D {
 		line(strut.start(), strut.end());
 	}
 
-
-
 	public void drawHalfedgesWithInternalLabel(final int label, final HE_MeshStructure mesh) {
-		HE_HalfedgeIterator heItr= mesh.heItr();
+		HE_HalfedgeIterator heItr = mesh.heItr();
 		HE_Halfedge he;
 		while (heItr.hasNext()) {
 			he = heItr.next();
@@ -1327,7 +1379,7 @@ public class WB_Render3D extends WB_Render2D {
 	}
 
 	public void drawHalfedgesWithLabel(final int label, final HE_MeshStructure mesh) {
-		HE_HalfedgeIterator heItr= mesh.heItr();
+		HE_HalfedgeIterator heItr = mesh.heItr();
 		HE_Halfedge he;
 		while (heItr.hasNext()) {
 			he = heItr.next();
@@ -1729,8 +1781,8 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param path
 	 */
 	public void drawPath(final HE_Path path) {
-		if(path.getPathOrder()==1){
-			drawSegment(path.getPathHalfedge().getStartVertex(),path.getPathHalfedge().getEndVertex());
+		if (path.getPathOrder() == 1) {
+			drawSegment(path.getPathHalfedge().getStartVertex(), path.getPathHalfedge().getEndVertex());
 
 		}
 
@@ -2774,14 +2826,13 @@ public class WB_Render3D extends WB_Render2D {
 		home.endShape();
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param tetras
 	 */
 	public void drawTetrahedron(final Collection<? extends WB_Tetrahedron> tetras) {
-		for(WB_Tetrahedron tetra:tetras){
+		for (WB_Tetrahedron tetra : tetras) {
 			home.beginShape(PConstants.TRIANGLES);
 			vertex(tetra.p1());
 			vertex(tetra.p2());
@@ -2805,7 +2856,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param tetras
 	 */
 	public void drawTetrahedron(final WB_Tetrahedron[] tetras) {
-		for(WB_Tetrahedron tetra:tetras){
+		for (WB_Tetrahedron tetra : tetras) {
 			home.beginShape(PConstants.TRIANGLES);
 			vertex(tetra.p1());
 			vertex(tetra.p2());
@@ -3427,7 +3478,8 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param points
 	 * @param map
 	 */
-	public void drawTriangulationEdgesEmbedded2D(final WB_Triangulation2D tri, final WB_Coord[] points, final WB_Map2D map) {
+	public void drawTriangulationEdgesEmbedded2D(final WB_Triangulation2D tri, final WB_Coord[] points,
+			final WB_Map2D map) {
 		final int[] edges = tri.getEdges();
 		for (int i = 0; i < edges.length; i += 2) {
 			drawSegmentEmbedded2D(points[edges[i]], points[edges[i + 1]], map);
@@ -3485,7 +3537,8 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param points
 	 * @param map
 	 */
-	public void drawTriangulationEdgesUnmapped(final WB_Triangulation2D tri, final WB_Coord[] points, final WB_Map map) {
+	public void drawTriangulationEdgesUnmapped(final WB_Triangulation2D tri, final WB_Coord[] points,
+			final WB_Map map) {
 		final int[] edges = tri.getEdges();
 		for (int i = 0; i < edges.length; i += 2) {
 			drawSegmentUnmapped(points[edges[i]], points[edges[i + 1]], map);
@@ -3754,8 +3807,6 @@ public class WB_Render3D extends WB_Render2D {
 		}
 	}
 
-
-
 	/**
 	 *
 	 *
@@ -3778,49 +3829,50 @@ public class WB_Render3D extends WB_Render2D {
 		return home;
 	}
 
-
-
-	class PickingRay
-	{
-		double iwidth=0.0;//inverse width
-		double iheight=0.0;//inverse height
+	class PickingRay {
+		double iwidth = 0.0;// inverse width
+		double iheight = 0.0;// inverse height
 		PMatrix3D unprojection = new PMatrix3D();
 
-		void getContext(final PGraphicsOpenGL home)
-		{
+		void getContext(final PGraphicsOpenGL home) {
 
 			unprojection.set(home.projection);
 			unprojection.apply(home.modelview);
 			unprojection.invert();
-			iwidth=1.0/home.width;
-			iheight=1.0/home.height;
+			iwidth = 1.0 / home.width;
+			iheight = 1.0 / home.height;
 
 		}
 
-		WB_Coord unproject(final double x, final double y, final double z)
-		{
-			//Normalized screen coordinates
-			//x=mouseX to -1..1
-			//y=mouseY to -1..1
-			//z=0 if on near clipping plane, z=1 if on far clipping plane to -1..1
-			double normScreenX = 2.0* ((iwidth * x) - 0.5);
-			double normScreenY = 2.0* (0.5-(iheight * y));
-			double normScreenZ = 2.0* (constrain(z, 0, 1)-0.5 );
-			//normScreenW=1.0
+		WB_Coord unproject(final double x, final double y, final double z) {
+			// Normalized screen coordinates
+			// x=mouseX to -1..1
+			// y=mouseY to -1..1
+			// z=0 if on near clipping plane, z=1 if on far clipping plane to
+			// -1..1
+			double normScreenX = 2.0 * ((iwidth * x) - 0.5);
+			double normScreenY = 2.0 * (0.5 - (iheight * y));
+			double normScreenZ = 2.0 * (constrain(z, 0, 1) - 0.5);
+			// normScreenW=1.0
 
-			//Homogeneous coordinates in world space x',y',z',w' = normalized screen coordinates * inverse projection matrix
-			//Only possible if w' is not zero
-			double wPrime = (normScreenX*unprojection.m30)  + (normScreenY*unprojection.m31) + (unprojection.m32 * normScreenZ)+ unprojection.m33 ;
-			//Homogeneous coordinates to Cartesian coordinates: x=x'/w', y=y'/w',z=z'/w'
-			if (Math.abs(wPrime)<1e-12)
-			{ // "Point in infinity"
+			// Homogeneous coordinates in world space x',y',z',w' = normalized
+			// screen coordinates * inverse projection matrix
+			// Only possible if w' is not zero
+			double wPrime = (normScreenX * unprojection.m30) + (normScreenY * unprojection.m31)
+					+ (unprojection.m32 * normScreenZ) + unprojection.m33;
+			// Homogeneous coordinates to Cartesian coordinates: x=x'/w',
+			// y=y'/w',z=z'/w'
+			if (Math.abs(wPrime) < 1e-12) { // "Point in infinity"
 				return null;
 			}
-			double iw= 1.0 / wPrime;
-			double xPrime = (normScreenX*unprojection.m00)  + (normScreenY*unprojection.m01) +(normScreenZ* unprojection.m02)  + unprojection.m03 ;
-			double yPrime = (normScreenX*unprojection.m10)  + (normScreenY*unprojection.m11) + (normScreenZ*unprojection.m12)  + unprojection.m13 ;
-			double zPrime = (normScreenX*unprojection.m20) + (normScreenY*unprojection.m21)  +(normScreenZ* unprojection.m22)  + unprojection.m23 ;
-			return new WB_Point(xPrime*iw, yPrime*iw,zPrime*iw);
+			double iw = 1.0 / wPrime;
+			double xPrime = (normScreenX * unprojection.m00) + (normScreenY * unprojection.m01)
+					+ (normScreenZ * unprojection.m02) + unprojection.m03;
+			double yPrime = (normScreenX * unprojection.m10) + (normScreenY * unprojection.m11)
+					+ (normScreenZ * unprojection.m12) + unprojection.m13;
+			double zPrime = (normScreenX * unprojection.m20) + (normScreenY * unprojection.m21)
+					+ (normScreenZ * unprojection.m22) + unprojection.m23;
+			return new WB_Point(xPrime * iw, yPrime * iw, zPrime * iw);
 		}
 
 		WB_Ray getPickingRay(final double x, final double y) {
@@ -3828,18 +3880,17 @@ public class WB_Render3D extends WB_Render2D {
 		}
 
 		double constrain(final double val, final double min, final double max) {
-			if (val<=min) {
+			if (val <= min) {
 				return min;
 			}
-			if (val>=max) {
+			if (val >= max) {
 				return max;
 			}
 			return val;
 		}
 	}
 
-	final PickingRay PRay=new PickingRay();
-
+	final PickingRay PRay = new PickingRay();
 
 	/**
 	 *
@@ -3850,12 +3901,9 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 	public WB_Ray getPickingRay(final double x, final double y) {
 		PRay.getContext(home);
-		WB_Ray ray = PRay.getPickingRay(x,y);
+		WB_Ray ray = PRay.getPickingRay(x, y);
 		return ray;
 	}
-
-
-
 
 	/**
 	 *
@@ -3907,8 +3955,7 @@ public class WB_Render3D extends WB_Render2D {
 		double d2min = Double.MAX_VALUE;
 		while (fec.hasNext()) {
 			trial = fec.next();
-			d2 = WB_GeometryOp.getDistanceToSegment3D(p.point, trial.getStartVertex(),
-					trial.getEndVertex());
+			d2 = WB_GeometryOp.getDistanceToSegment3D(p.point, trial.getStartVertex(), trial.getEndVertex());
 			if (d2 < d2min) {
 				d2min = d2;
 				closest = trial;
@@ -3939,8 +3986,7 @@ public class WB_Render3D extends WB_Render2D {
 		double d2min = Double.MAX_VALUE;
 		while (fec.hasNext()) {
 			trial = fec.next();
-			d2 = WB_GeometryOp.getDistanceToSegment3D(p.point, trial.getStartVertex(),
-					trial.getEndVertex());
+			d2 = WB_GeometryOp.getDistanceToSegment3D(p.point, trial.getStartVertex(), trial.getEndVertex());
 			if (d2 < d2min) {
 				d2min = d2;
 				closest = trial;
@@ -4161,7 +4207,7 @@ public class WB_Render3D extends WB_Render2D {
 			he = f.getHalfedge();
 			do {
 				v = he.getVertex();
-				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4190,7 +4236,7 @@ public class WB_Render3D extends WB_Render2D {
 			he = f.getHalfedge();
 			do {
 				v = he.getVertex();
-				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4214,7 +4260,7 @@ public class WB_Render3D extends WB_Render2D {
 			he = f.getHalfedge();
 			do {
 				v = he.getVertex();
-				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4249,13 +4295,16 @@ public class WB_Render3D extends WB_Render2D {
 				for (int i = 0; i < tris.length; i += 3) {
 					v = vertices.get(tris[i]);
 					fn = v.getVertexNormal();
-					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()),v.getUVW(f).xf(),v.getUVW(f).yf());
+					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()),
+							v.getUVW(f).xf(), v.getUVW(f).yf());
 					v = vertices.get(tris[i + 1]);
 					fn = v.getVertexNormal();
-					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()),v.getUVW(f).xf(),v.getUVW(f).yf());
+					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()),
+							v.getUVW(f).xf(), v.getUVW(f).yf());
 					v = vertices.get(tris[i + 2]);
 					fn = v.getVertexNormal();
-					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()),v.getUVW(f).xf(),v.getUVW(f).yf());
+					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()),
+							v.getUVW(f).xf(), v.getUVW(f).yf());
 				}
 			}
 			counter.increment();
@@ -4314,7 +4363,7 @@ public class WB_Render3D extends WB_Render2D {
 			retained.fill(f.getColor());
 			do {
 				v = he.getVertex();
-				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4343,7 +4392,7 @@ public class WB_Render3D extends WB_Render2D {
 			do {
 				v = he.getVertex();
 				retained.fill(v.getColor());
-				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4374,7 +4423,7 @@ public class WB_Render3D extends WB_Render2D {
 				v = he.getVertex();
 				n = v.getVertexNormal();
 				retained.normal(n.xf(), n.yf(), n.zf());
-				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4400,7 +4449,7 @@ public class WB_Render3D extends WB_Render2D {
 				v = he.getVertex();
 				n = v.getVertexNormal();
 				retained.normal(n.xf(), n.yf(), n.zf());
-				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4408,7 +4457,7 @@ public class WB_Render3D extends WB_Render2D {
 		return retained;
 	}
 
-	public PShape toSmoothPShape(final HE_Mesh mesh,final PImage[] img) {
+	public PShape toSmoothPShape(final HE_Mesh mesh, final PImage[] img) {
 		final PShape retained = home.createShape();
 		retained.beginShape(PConstants.TRIANGLES);
 		final HE_Mesh lmesh = mesh.get();
@@ -4426,7 +4475,7 @@ public class WB_Render3D extends WB_Render2D {
 				v = he.getVertex();
 				n = v.getVertexNormal();
 				retained.normal(n.xf(), n.yf(), n.zf());
-				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4492,7 +4541,7 @@ public class WB_Render3D extends WB_Render2D {
 				v = he.getVertex();
 				n = v.getVertexNormal();
 				retained.normal(n.xf(), n.yf(), n.zf());
-				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4524,7 +4573,7 @@ public class WB_Render3D extends WB_Render2D {
 				retained.fill(v.getColor());
 				n = v.getVertexNormal();
 				retained.normal(n.xf(), n.yf(), n.zf());
-				retained.vertex(v.xf(), v.yf(), v.zf(),v.getUVW(f).xf(),v.getUVW(f).yf());
+				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
 				he = he.getNextInFace();
 			} while (he != f.getHalfedge());
 		}
@@ -4648,13 +4697,13 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param label
 	 * @param mesh
 	 */
-	public void drawVerticesWithTemporaryLabel(final int label, final HE_MeshStructure mesh,final double d) {
+	public void drawVerticesWithTemporaryLabel(final int label, final HE_MeshStructure mesh, final double d) {
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
 		HE_Vertex v;
 		while (vItr.hasNext()) {
 			v = vItr.next();
 			if (v.getInternalLabel() == label) {
-				drawVertex(v,d);
+				drawVertex(v, d);
 			}
 		}
 	}
@@ -4667,13 +4716,13 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param mesh
 	 *            the mesh
 	 */
-	public void drawVerticesWithLabel(final int label, final HE_MeshStructure mesh,final double d) {
+	public void drawVerticesWithLabel(final int label, final HE_MeshStructure mesh, final double d) {
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
 		HE_Vertex v;
 		while (vItr.hasNext()) {
 			v = vItr.next();
 			if (v.getLabel() == label) {
-				drawVertex(v,d);
+				drawVertex(v, d);
 			}
 		}
 	}
@@ -4689,11 +4738,11 @@ public class WB_Render3D extends WB_Render2D {
 	}
 
 	public PShape toFacettedPShape(final HE_Mesh mesh, final PImage img) {
-		return toFacetedPShape(mesh,img);
+		return toFacetedPShape(mesh, img);
 	}
 
-	public PShape toFacettedPShape(final HE_Mesh mesh, final PImage[] img ) {
-		return toFacetedPShape(mesh,img);
+	public PShape toFacettedPShape(final HE_Mesh mesh, final PImage[] img) {
+		return toFacetedPShape(mesh, img);
 	}
 
 	/**
@@ -4704,7 +4753,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @return
 	 */
 	public PShape toFacettedPShape(final HE_MeshStructure mesh, final double offset) {
-		return toFacetedPShape(mesh,offset);
+		return toFacetedPShape(mesh, offset);
 	}
 
 	/**

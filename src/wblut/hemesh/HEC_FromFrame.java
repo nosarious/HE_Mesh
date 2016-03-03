@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -191,7 +191,7 @@ public class HEC_FromFrame extends HEC_Creator {
 	 *
 	 */
 	public HEC_FromFrame() {
-		strutRadius = new WB_ConstantScalarParameter(10.0);
+		strutRadius = new WB_ConstantScalarParameter(5.0);
 		strutFacets = 6;
 		maximumStrutLength = 100.0;
 		override = true;

@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -42,7 +42,7 @@ public class HEC_Plato extends HEC_Creator {
 	 */
 	public HEC_Plato() {
 		super();
-		R = 1;
+		R = 100;
 		type = 1;
 		name = "default";
 	}
@@ -102,7 +102,7 @@ public class HEC_Plato extends HEC_Creator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Creator#create()
 	 */
 	@Override
@@ -117,7 +117,7 @@ public class HEC_Plato extends HEC_Creator {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public static void printTypes() {
 		for (int i = 0; i < names.length; i++) {

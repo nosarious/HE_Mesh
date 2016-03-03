@@ -1666,7 +1666,7 @@ public class HET_MeshOp {
 		HE_Halfedge[] prevHe;
 		HE_TextureCoordinate[] nextHeUVW;
 		HE_Halfedge he;
-
+		mesh.clearVisitedElements();
 		prevHe = new HE_Halfedge[mesh.getNumberOfHalfedges()];
 		nextHeUVW = new HE_TextureCoordinate[mesh.getNumberOfHalfedges()];
 		int i = 0;
@@ -1693,8 +1693,8 @@ public class HET_MeshOp {
 			i++;
 			counter.increment();
 		}
-
-
+		counter = new WB_ProgressCounter(2 * mesh.getNumberOfEdges(), 10);
+		tracker.setStatus(mesh, "Flipping edges.", counter);
 
 		final HE_EdgeIterator eItr = mesh.eItr();
 		while (eItr.hasNext()) {

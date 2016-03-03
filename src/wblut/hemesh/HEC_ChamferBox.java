@@ -9,7 +9,6 @@
  */
 package wblut.hemesh;
 
-import wblut.geom.WB_AABB;
 import wblut.geom.WB_Coord;
 
 /**
@@ -18,7 +17,7 @@ import wblut.geom.WB_Coord;
  * @author Frederik Vanhoutte (W:Blut)
  *
  */
-public class HEC_Box extends HEC_Creator {
+public class HEC_ChamferBox extends HEC_Creator {
 	/** width. */
 	private double W;
 	/** height. */
@@ -32,14 +31,30 @@ public class HEC_Box extends HEC_Creator {
 	/** depth segments. */
 	private int N;
 
+	/** chamfer width. */
+	private double CW;
+	/** chamfer height. */
+	private double CH;
+	/** chamfer depth. */
+	private double CD;
+
+
+	/** inner width. */
+	private double IW;
+	/** inner height. */
+	private double IH;
+	/** inner depth. */
+	private double ID;
+
 	/**
 	 * Create a placeholder box.
 	 *
 	 */
-	public HEC_Box() {
+	public HEC_ChamferBox() {
 		super();
 		W = H = D = 100;
 		L = M = N = 1;
+		CW=CH=CD=10;
 	}
 
 	/**
@@ -51,6 +66,12 @@ public class HEC_Box extends HEC_Creator {
 	 *            height (Y)
 	 * @param D
 	 *            depth (Z)
+	 * @param CW
+	 *            chamfer width (X)
+	 * @param CH
+	 *            chamfer height (Y)
+	 * @param CD
+	 *            chamfer depth (Z)
 	 * @param L
 	 *            number of width divisions
 	 * @param M
@@ -58,12 +79,15 @@ public class HEC_Box extends HEC_Creator {
 	 * @param N
 	 *            number of depth divisions
 	 */
-	public HEC_Box(final double W, final double H, final double D, final int L,
+	public HEC_ChamferBox(final double W, final double H, final double D,final double CW, final double CH, final double CD, final int L,
 			final int M, final int N) {
 		this();
 		this.W = W;
 		this.H = H;
 		this.D = D;
+		this.CW = CW;
+		this.CH = CH;
+		this.CD = CD;
 		this.L = Math.max(1, L);
 		this.M = Math.max(1, M);
 		this.N = Math.max(1, N);
@@ -85,6 +109,12 @@ public class HEC_Box extends HEC_Creator {
 	 *            height (Y)
 	 * @param D
 	 *            depth (Z)
+	 * @param CW
+	 *            chamfer width (X)
+	 * @param CH
+	 *            chamfer height (Y)
+	 * @param CD
+	 *            chamfer depth (Z)
 	 * @param L
 	 *            number of width divisions
 	 * @param M
@@ -92,14 +122,17 @@ public class HEC_Box extends HEC_Creator {
 	 * @param N
 	 *            number of depth divisions
 	 */
-	public HEC_Box(final double x, final double y, final double z,
-			final double W, final double H, final double D, final int L,
+	public HEC_ChamferBox(final double x, final double y, final double z,
+			final double W, final double H, final double D,final double CW, final double CH, final double CD, final int L,
 			final int M, final int N) {
 		this();
 		setCenter(x, y, z);
 		this.W = W;
 		this.H = H;
 		this.D = D;
+		this.CW = CW;
+		this.CH = CH;
+		this.CD = CD;
 		this.L = Math.max(1, L);
 		this.M = Math.max(1, M);
 		this.N = Math.max(1, N);
@@ -117,6 +150,12 @@ public class HEC_Box extends HEC_Creator {
 	 *            height (Y)
 	 * @param D
 	 *            depth (Z)
+	 * @param CW
+	 *            chamfer width (X)
+	 * @param CH
+	 *            chamfer height (Y)
+	 * @param CD
+	 *            chamfer depth (Z)
 	 * @param L
 	 *            number of width divisions
 	 * @param M
@@ -124,70 +163,21 @@ public class HEC_Box extends HEC_Creator {
 	 * @param N
 	 *            number of depth divisions
 	 */
-	public HEC_Box(final WB_Coord center, final double W, final double H,
-			final double D, final int L, final int M, final int N) {
+	public HEC_ChamferBox(final WB_Coord center, final double W, final double H,
+			final double D,final double CW, final double CH, final double CD, final int L, final int M, final int N) {
 		this();
 		setCenter(center.xd(), center.yd(), center.zd());
 		this.W = W;
 		this.H = H;
 		this.D = D;
+		this.CW = CW;
+		this.CH = CH;
+		this.CD = CD;
 		this.L = Math.max(1, L);
 		this.M = Math.max(1, M);
 		this.N = Math.max(1, N);
 	}
 
-	/**
-	 * Set box from AABB.
-	 *
-	 * @param AABB
-	 *            WB_AABB
-	 * @param padding
-	 *            the padding
-	 * @return self
-	 */
-	public HEC_Box setFromAABB(final WB_AABB AABB, final double padding) {
-		W = AABB.getWidth() + (2 * padding);
-		H = AABB.getHeight() + (2 * padding);
-		D = AABB.getDepth() + (2 * padding);
-		setCenter(AABB.getCenter());
-		return this;
-	}
-
-	/**
-	 *
-	 * @param min
-	 * @param max
-	 * @return
-	 */
-	public HEC_Box setFromCorners(final WB_Coord min,
-			final WB_Coord max) {
-		W = max.xd() - min.xd();
-		H = max.yd() - min.yd();
-		D = max.zd() - min.zd();
-		setCenter(0.5 * (max.xd() + min.xd()), 0.5 * (max.yd() + min.yd()),
-				0.5 * (max.zd() + min.zd()));
-		return this;
-	}
-
-	/**
-	 *
-	 * @param minx
-	 * @param miny
-	 * @param minz
-	 * @param maxx
-	 * @param maxy
-	 * @param maxz
-	 * @return
-	 */
-	public HEC_Box setFromCorners(final double minx, final double miny,
-			final double minz, final double maxx, final double maxy,
-			final double maxz) {
-		W = maxx - minx;
-		H = maxy - miny;
-		D = maxz - minz;
-		setCenter(0.5 * (maxx + minx), 0.5 * (maxy + miny), 0.5 * (maxz + minz));
-		return this;
-	}
 
 	/**
 	 *
@@ -196,7 +186,7 @@ public class HEC_Box extends HEC_Creator {
 	 * @param N
 	 * @return
 	 */
-	public HEC_Box setSegments(final int L, final int M, final int N) {
+	public HEC_ChamferBox setSegments(final int L, final int M, final int N) {
 		this.L = L;
 		this.M = M;
 		this.N = N;
@@ -210,7 +200,7 @@ public class HEC_Box extends HEC_Creator {
 	 *            width of box (x-axis)
 	 * @return self
 	 */
-	public HEC_Box setWidth(final double W) {
+	public HEC_ChamferBox setWidth(final double W) {
 		this.W = W;
 		return this;
 	}
@@ -222,7 +212,7 @@ public class HEC_Box extends HEC_Creator {
 	 *            height of box (y-axis)
 	 * @return self
 	 */
-	public HEC_Box setHeight(final double H) {
+	public HEC_ChamferBox setHeight(final double H) {
 		this.H = H;
 		return this;
 	}
@@ -234,7 +224,7 @@ public class HEC_Box extends HEC_Creator {
 	 *            depth of box (z-axis)
 	 * @return self
 	 */
-	public HEC_Box setDepth(final double D) {
+	public HEC_ChamferBox setDepth(final double D) {
 		this.D = D;
 		return this;
 	}
@@ -246,7 +236,7 @@ public class HEC_Box extends HEC_Creator {
 	 *            number of width segments (x-axis)
 	 * @return self
 	 */
-	public HEC_Box setWidthSegments(final int L) {
+	public HEC_ChamferBox setWidthSegments(final int L) {
 		this.L = Math.max(1, L);
 		return this;
 	}
@@ -258,7 +248,7 @@ public class HEC_Box extends HEC_Creator {
 	 *            number of height segments (y-axis)
 	 * @return self
 	 */
-	public HEC_Box setHeightSegments(final int M) {
+	public HEC_ChamferBox setHeightSegments(final int M) {
 		this.M = Math.max(1, M);
 		return this;
 	}
@@ -270,8 +260,21 @@ public class HEC_Box extends HEC_Creator {
 	 *            number of depth segments (z-axis)
 	 * @return self
 	 */
-	public HEC_Box setDepthSegments(final int N) {
+	public HEC_ChamferBox setDepthSegments(final int N) {
 		this.N = Math.max(1, N);
+		return this;
+	}
+
+
+	public HEC_ChamferBox setChamfer(final double c) {
+		CW=CH=CD=c;
+		return this;
+	}
+
+	public HEC_ChamferBox setChamfer(final double CW, final double CH, final double CD) {
+		this.CW=CW;
+		this.CH=CH;
+		this.CD=CD;
 		return this;
 	}
 
@@ -282,12 +285,19 @@ public class HEC_Box extends HEC_Creator {
 	 */
 	@Override
 	protected HE_Mesh createBase() {
+		IW=W-(2*CW);
+		IH=H-(2*CH);
+		ID=D-(2*CD);
+
 		final double oW = -0.5 * W;// X
 		final double oH = -0.5 * H;// Y
 		final double oD = -0.5 * D;// Z
-		final double dW = (W * 1.0) / L;
-		final double dH = (H * 1.0) / M;
-		final double dD = (D * 1.0) / N;
+		final double oiW = -0.5 * IW;// X
+		final double oiH = -0.5 * IH;// Y
+		final double oiD = -0.5 * ID;// Z
+		final double dW = (IW * 1.0) / L;
+		final double dH = (IH * 1.0) / M;
+		final double dD = (ID * 1.0) / N;
 		final double di = 1.0 / L;
 		final double dj = 1.0 / M;
 		final double dk = 1.0 / N;
@@ -295,9 +305,9 @@ public class HEC_Box extends HEC_Creator {
 		                                       + (2 * (L + 1) * (N + 1)) + (2 * (M + 1) * (N + 1))][3];
 		final double[][] uvws = new double[(2 * (L + 1) * (M + 1))
 		                                   + (2 * (L + 1) * (N + 1)) + (2 * (M + 1) * (N + 1))][3];
-		final int[][] faces = new int[(2 * M * L) + (2 * L * N) + (2 * M * N)][4];// XY,XZ,YZ
+		final int[][] faces = new int[(2 * M * L) + (2 * L * N) + (2 * M * N)+(4*L) +(4*M)+(4*N)+8][];// 6 faces + 12 edges+ 8 corners,
 		final int[] faceTextureIds = new int[(2 * M * L) + (2 * L * N)
-		                                     + (2 * M * N)];
+		                                     + (2 * M * N)+(4*L) +(4*M)+(4*N)+8];
 		int idv = 0;
 		int idf = 0;
 		final int LMv = (L + 1) * (M + 1);
@@ -308,8 +318,8 @@ public class HEC_Box extends HEC_Creator {
 		final int MNf = M * N;
 		for (int v = 0; v < (M + 1); v++) {
 			for (int u = 0; u < (L + 1); u++) {
-				vertices[idv][0] = vertices[idv + LMv][0] = oW + (u * dW);
-				vertices[idv][1] = vertices[idv + LMv][1] = oH + (v * dH);
+				vertices[idv][0] = vertices[idv + LMv][0] = oiW + (u * dW);
+				vertices[idv][1] = vertices[idv + LMv][1] = oiH + (v * dH);
 				vertices[idv][2] = oD;
 				vertices[idv + LMv][2] = -oD;
 				uvws[idv][0] = di * u;
@@ -321,10 +331,12 @@ public class HEC_Box extends HEC_Creator {
 		}
 		for (int j = 0; j < M; j++) {
 			for (int i = 0; i < L; i++) {
+				faces[idf]=new int[4];
 				faces[idf][3] = i + (j * (L + 1));
 				faces[idf][2] = i + 1 + (j * (L + 1));
 				faces[idf][1] = i + 1 + ((j + 1) * (L + 1));
 				faces[idf][0] = i + ((j + 1) * (L + 1));
+				faces[idf+LMf]=new int[4];
 				faces[idf + LMf][0] = i + (j * (L + 1)) + LMv;
 				faces[idf + LMf][1] = i + 1 + (j * (L + 1)) + LMv;
 				faces[idf + LMf][2] = i + 1 + ((j + 1) * (L + 1)) + LMv;
@@ -338,8 +350,8 @@ public class HEC_Box extends HEC_Creator {
 		idv = offset;
 		for (int v = 0; v < (N + 1); v++) {
 			for (int u = 0; u < (L + 1); u++) {
-				vertices[idv][0] = vertices[idv + LNv][0] = oW + (u * dW);
-				vertices[idv][2] = vertices[idv + LNv][2] = oD + (v * dD);
+				vertices[idv][0] = vertices[idv + LNv][0] = oiW + (u * dW);
+				vertices[idv][2] = vertices[idv + LNv][2] = oiD + (v * dD);
 				vertices[idv][1] = oH;
 				vertices[idv + LNv][1] = -oH;
 				uvws[idv][0] = uvws[idv + LNv][0] = di * u;
@@ -352,10 +364,12 @@ public class HEC_Box extends HEC_Creator {
 		idf = 2 * LMf;
 		for (int j = 0; j < N; j++) {
 			for (int i = 0; i < L; i++) {
+				faces[idf]=new int[4];
 				faces[idf][0] = i + (j * (L + 1)) + offset;
 				faces[idf][1] = i + 1 + (j * (L + 1)) + offset;
 				faces[idf][2] = i + 1 + ((j + 1) * (L + 1)) + offset;
 				faces[idf][3] = i + ((j + 1) * (L + 1)) + offset;
+				faces[idf+LNf]=new int[4];
 				faces[idf + LNf][3] = i + (j * (L + 1)) + LNv + offset;
 				faces[idf + LNf][2] = i + 1 + (j * (L + 1)) + LNv + offset;
 				faces[idf + LNf][1] = i + 1 + ((j + 1) * (L + 1)) + LNv
@@ -370,8 +384,9 @@ public class HEC_Box extends HEC_Creator {
 		idv = offset;
 		for (int u = 0; u < (N + 1); u++) {
 			for (int v = 0; v < (M + 1); v++) {
-				vertices[idv][1] = vertices[idv + MNv][1] = oH + (v * dH);
-				vertices[idv][2] = vertices[idv + MNv][2] = oD + (u * dD);
+
+				vertices[idv][1] = vertices[idv + MNv][1] = oiH + (v * dH);
+				vertices[idv][2] = vertices[idv + MNv][2] = oiD + (u * dD);
 				vertices[idv][0] = oW;
 				vertices[idv + MNv][0] = -oW;
 				uvws[idv + MNv][0] = dk * u;
@@ -384,10 +399,12 @@ public class HEC_Box extends HEC_Creator {
 		idf = (2 * LMf) + (2 * LNf);
 		for (int j = 0; j < N; j++) {
 			for (int i = 0; i < M; i++) {
+				faces[idf]=new int[4];
 				faces[idf][3] = i + (j * (M + 1)) + offset;
 				faces[idf][2] = i + 1 + (j * (M + 1)) + offset;
 				faces[idf][1] = i + 1 + ((j + 1) * (M + 1)) + offset;
 				faces[idf][0] = i + ((j + 1) * (M + 1)) + offset;
+				faces[idf+MNf]=new int[4];
 				faces[idf + MNf][0] = i + (j * (M + 1)) + MNv + offset;
 				faces[idf + MNf][1] = i + 1 + (j * (M + 1)) + MNv + offset;
 				faces[idf + MNf][2] = i + 1 + ((j + 1) * (M + 1)) + MNv
@@ -398,9 +415,172 @@ public class HEC_Box extends HEC_Creator {
 				idf++;
 			}
 		}
+		idf = (2 * LMf) + (2 * LNf)+(2*MNf);
+		//4 X-edges
+		for( int i=0;i<L;i++){
+			faces[idf]=new int[4];
+			faces[idf][0]=i;
+			faces[idf][1]=i+1;
+			faces[idf][2]=(2*LMv)+i+1;
+			faces[idf][3]=(2*LMv)+i;
+			faceTextureIds[idf]=7;
+			idf++;
+			faces[idf]=new int[4];
+			faces[idf][3]=i+(M*(L+1));
+			faces[idf][2]=i+(M*(L+1))+1;
+			faces[idf][1]=(2*LMv)+LNv+i+1;
+			faces[idf][0]=(2*LMv)+LNv+i;
+			faceTextureIds[idf]=7;
+			idf++;
+			faces[idf]=new int[4];
+			faces[idf][3]=i+LMv;
+			faces[idf][2]=i+LMv+1;
+			faces[idf][1]=(2*LMv)+(N*(L+1))+i+1;
+			faces[idf][0]=(2*LMv)+(N*(L+1))+i;
+			faceTextureIds[idf]=7;
+			idf++;
+			faces[idf]=new int[4];
+			faces[idf][0]=i+(M*(L+1))+LMv;
+			faces[idf][1]=i+(M*(L+1))+LMv+1;
+			faces[idf][2]=(2*LMv)+(N*(L+1))+LNv+i+1;
+			faces[idf][3]=(2*LMv)+(N*(L+1))+LNv+i;
+			faceTextureIds[idf]=7;
+			idf++;
+		}
+		//4 Y-edges
+		for( int i=0;i<M;i++){
+			faces[idf]=new int[4];
+			faces[idf][3]=i*(L+1);
+			faces[idf][2]=(i+1)*(L+1);
+			faces[idf][1]=(2*LMv)+(2*LNv)+i+1;
+			faces[idf][0]=(2*LMv)+(2*LNv)+i;
+			faceTextureIds[idf]=7;
+			idf++;
+			faces[idf]=new int[4];
+			faces[idf][0]=(i*(L+1))+L;
+			faces[idf][1]=((i+1)*(L+1))+L;
+			faces[idf][2]=(2*LMv)+(2*LNv)+i+1+MNv;
+			faces[idf][3]=(2*LMv)+(2*LNv)+i+MNv;
+			faceTextureIds[idf]=7;
+			idf++;
+			faces[idf]=new int[4];
+			faces[idf][0]=(i*(L+1))+LMv;
+			faces[idf][1]=((i+1)*(L+1))+LMv;
+			faces[idf][2]=(2*LMv)+(2*LNv)+(N*(M+1))+i+1;
+			faces[idf][3]=(2*LMv)+(2*LNv)+(N*(M+1))+i;
+			faceTextureIds[idf]=7;
+			idf++;
+			faces[idf]=new int[4];
+			faces[idf][3]=(i*(L+1))+L+LMv;
+			faces[idf][2]=((i+1)*(L+1))+L+LMv;
+			faces[idf][1]=(2*LMv)+(2*LNv)+(N*(M+1))+i+1+MNv;
+			faces[idf][0]=(2*LMv)+(2*LNv)+(N*(M+1))+i+MNv;
+			faceTextureIds[idf]=7;
+			idf++;
+		}
+		//4 Z-edges
+		for( int i=0;i<N;i++){
+			faces[idf]=new int[4];
+			faces[idf][0]=(2*LMv)+(i*(L+1));
+			faces[idf][1]=(2*LMv)+((i+1)*(L+1));
+			faces[idf][2]=(2*LMv)+(2*LNv)+((i+1)*(M+1));
+			faces[idf][3]=(2*LMv)+(2*LNv)+(i*(M+1));
+			faceTextureIds[idf]=7;
+			idf++;
+			faces[idf]=new int[4];
+			faces[idf][3]=(2*LMv)+(i*(L+1))+L;
+			faces[idf][2]=(2*LMv)+((i+1)*(L+1))+L;
+			faces[idf][1]=(2*LMv)+(2*LNv)+(((i+1)*(M+1))+MNv);
+			faces[idf][0]=(2*LMv)+(2*LNv)+(i*(M+1))+MNv;
+			faceTextureIds[idf]=7;
+			idf++;
+			faces[idf]=new int[4];
+			faces[idf][3]=(2*LMv)+(i*(L+1))+LNv;
+			faces[idf][2]=(2*LMv)+((i+1)*(L+1))+LNv;
+			faces[idf][1]=(2*LMv)+(2*LNv)+((i+1)*(M+1))+M;
+			faces[idf][0]=(2*LMv)+(2*LNv)+(i*(M+1))+M;
+			faceTextureIds[idf]=7;
+			idf++;
+			faces[idf]=new int[4];
+			faces[idf][0]=(2*LMv)+(i*(L+1))+L+LNv;
+			faces[idf][1]=(2*LMv)+((i+1)*(L+1))+L+LNv;
+			faces[idf][2]=(2*LMv)+(2*LNv)+(((i+1)*(M+1))+M+MNv);
+			faces[idf][3]=(2*LMv)+(2*LNv)+(i*(M+1))+M+MNv;
+			faceTextureIds[idf]=7;
+			idf++;
+
+		}
+
+		//8 corners
+
+		faces[idf]=new int[3];
+		faces[idf][0]=0;
+		faces[idf][1]=2*LMv;
+		faces[idf][2]=(2*LMv)+(2*LNv);
+		faceTextureIds[idf]=8;
+		idf++;
+
+		faces[idf]=new int[3];
+		faces[idf][2]=L;
+		faces[idf][1]=(2*LMv)+L;
+		faces[idf][0]=(2*LMv)+(2*LNv)+MNv;
+		faceTextureIds[idf]=8;
+		idf++;
+
+		faces[idf]=new int[3];
+		faces[idf][2]=M*(L+1);
+		faces[idf][1]=(2*LMv)+LNv;
+		faces[idf][0]=(2*LMv)+(2*LNv)+M;
+		faceTextureIds[idf]=8;
+		idf++;
+
+		faces[idf]=new int[3];
+		faces[idf][0]=(M*(L+1))+L;
+		faces[idf][1]=(2*LMv)+L+LNv;
+		faces[idf][2]=(2*LMv)+(2*LNv)+M+MNv;
+		faceTextureIds[idf]=8;
+		idf++;
+
+		faces[idf]=new int[3];
+		faces[idf][2]=LMv;
+		faces[idf][1]=(2*LMv)+(N*(L+1));
+		faces[idf][0]=(2*LMv)+(2*LNv)+(N*(M+1));
+		faceTextureIds[idf]=8;
+		idf++;
+
+		faces[idf]=new int[3];
+		faces[idf][0]=L+LMv;
+		faces[idf][1]=(2*LMv)+(N*(L+1))+L;
+		faces[idf][2]=(2*LMv)+(2*LNv)+(N*(M+1))+MNv;
+		faceTextureIds[idf]=8;
+		idf++;
+
+		faces[idf]=new int[3];
+		faces[idf][0]=(M*(L+1))+LMv;
+		faces[idf][1]=(2*LMv)+LNv+(N*(L+1));
+		faces[idf][2]=(2*LMv)+(2*LNv)+M+(N*(M+1));
+		faceTextureIds[idf]=8;
+		idf++;
+
+		faces[idf]=new int[3];
+		faces[idf][2]=(2*LMv)-1;
+		faces[idf][1]=((2*LMv)+(2*LNv))-1;
+		faces[idf][0]=((2*LMv)+(2*LNv)+(2*MNv))-1;
+		faceTextureIds[idf]=8;
+		idf++;
+
+
+
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
 		fl.setVertices(vertices).setFaces(faces).setDuplicate(true)
 		.setUVW(uvws).setFaceTextureIds(faceTextureIds);
 		return fl.createBase();
+	}
+
+	public static void main(final String [ ] args){
+		HEC_ChamferBox creator=new HEC_ChamferBox();
+		creator.setWidth(400).setHeight(60).setDepth(200);
+		creator.setWidthSegments(14).setHeightSegments(3).setDepthSegments(20);
+		new HE_Mesh(creator);
 	}
 }

@@ -3,32 +3,32 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
 /**
- * 
+ *
  */
 public class HEC_Icosahedron extends HEC_Creator {
 
 	/**
-	 * 
+	 *
 	 */
 	private double R;
 
 	/**
-	 * 
+	 *
 	 */
 	public HEC_Icosahedron() {
 		super();
-		R = 0f;
+		R = 100;
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param E
 	 * @return
@@ -39,7 +39,7 @@ public class HEC_Icosahedron extends HEC_Creator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param R
 	 * @return
@@ -50,7 +50,7 @@ public class HEC_Icosahedron extends HEC_Creator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param R
 	 * @return
@@ -61,10 +61,10 @@ public class HEC_Icosahedron extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param R 
-	 * @return 
+	 *
+	 * @param R
+	 * @return
 	 */
 	public HEC_Icosahedron setRadius(final double R) {
 		this.R = R;
@@ -72,7 +72,7 @@ public class HEC_Icosahedron extends HEC_Creator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param R
 	 * @return
@@ -84,15 +84,15 @@ public class HEC_Icosahedron extends HEC_Creator {
 
 	/*
 	 * Code adapted from http://www.cs.umbc.edu/~squire/ (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Creator#create()
 	 */
 	@Override
 	protected HE_Mesh createBase() {
 		final double[][] vertices = new double[12][3]; /*
-														 * 12 vertices with x,
-														 * y, z coordinates
-														 */
+		 * 12 vertices with x,
+		 * y, z coordinates
+		 */
 		final double Pi = 3.141592653589793238462643383279502884197;
 		final double phiaa = 26.56505; /* phi needed for generation */
 		final double phia = (Pi * phiaa) / 180.0; /* 2 sets of four points */

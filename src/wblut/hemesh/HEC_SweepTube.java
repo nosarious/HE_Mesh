@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -46,7 +46,7 @@ public class HEC_SweepTube extends HEC_Creator {
 	 */
 	public HEC_SweepTube() {
 		super();
-		R = 0;
+		R = 100;
 		facets = 6;
 		steps = 1;
 		topcap = true;
@@ -77,13 +77,13 @@ public class HEC_SweepTube extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param umin 
-	 * @param umax 
-	 * @return 
+	 *
+	 * @param umin
+	 * @param umax
+	 * @return
 	 */
-	public HEC_SweepTube setRange(final double umin, double umax) {
+	public HEC_SweepTube setRange(final double umin, final double umax) {
 		this.umin = umin;
 		this.umax = umax;
 		return this;
@@ -180,9 +180,9 @@ public class HEC_SweepTube extends HEC_Creator {
 		WB_Vector oldderiv = new WB_Vector(0, 0, 1);
 		final WB_Point origin = new WB_Point(0, 0, 0);
 		for (int i = 0; i < (steps + 1); i++) {
-			onCurve = curve.curvePoint(umin + i * ds);
+			onCurve = curve.curvePoint(umin + (i * ds));
 
-			deriv = curve.curveDirection(umin + i * ds);
+			deriv = curve.curveDirection(umin + (i * ds));
 
 			final WB_Vector axis = oldderiv.cross(deriv);
 			final double angle = Math.acos(WB_Math.clamp(oldderiv.dot(deriv), -1, 1));

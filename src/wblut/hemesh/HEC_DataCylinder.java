@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -77,9 +77,9 @@ public class HEC_DataCylinder extends HEC_Creator {
 	 */
 	public HEC_DataCylinder() {
 		super();
-		Ri = 0;
-		Ro = 0;
-		H = 0;
+		Ri = 100;
+		Ro = 100;
+		H = 100;
 		_facets = 6;
 		_steps = 1;
 		Z = new WB_Vector(WB_Vector.Y());

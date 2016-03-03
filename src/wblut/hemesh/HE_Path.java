@@ -106,7 +106,7 @@ public class HE_Path extends HE_MeshElement  {
 
 
 	/**
-	 * Create a looping path from a list of halfedges. The list is assumed to be
+	 * Create a path from a list of halfedges. The list is assumed to be
 	 * a proper sequence or loop. No checking is performed.
 	 *
 	 * @param halfedges
