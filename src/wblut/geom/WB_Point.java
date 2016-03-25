@@ -131,7 +131,7 @@ public class WB_Point extends WB_Vector {
 	 */
 	@Override
 	public WB_Point addMulSelf(final double f, final double... x) {
-		set(xd() + (f * x[0]), yd() + (f * x[1]), zd() + (f * x[2]));
+		set(xd() + f * x[0], yd() + f * x[1], zd() + f * x[2]);
 		return this;
 	}
 
@@ -142,11 +142,13 @@ public class WB_Point extends WB_Vector {
 	 */
 	@Override
 	public WB_Point addMulSelf(final double f, final WB_Coord p) {
-		set(xd() + (f * p.xd()), yd() + (f * p.yd()), zd() + (f * p.zd()));
+		set(xd() + f * p.xd(), yd() + f * p.yd(), zd() + f * p.zd());
 		return this;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.geom.WB_Vector#addSelf(double, double, double)
 	 */
 	@Override
@@ -217,8 +219,8 @@ public class WB_Point extends WB_Vector {
 	 */
 	@Override
 	public WB_Point crossSelf(final WB_Coord p) {
-		set((yd() * p.zd()) - (this.zd() * p.yd()), (this.zd() * p.xd()) - (this.xd() * p.zd()),
-				(this.xd() * p.yd()) - (yd() * p.xd()));
+		set(yd() * p.zd() - this.zd() * p.yd(), this.zd() * p.xd() - this.xd() * p.zd(),
+				this.xd() * p.yd() - yd() * p.xd());
 		return this;
 	}
 
@@ -240,22 +242,20 @@ public class WB_Point extends WB_Vector {
 	 */
 	@Override
 	public WB_Point mulAddMulSelf(final double f, final double g, final WB_Coord p) {
-		set((f * xd()) + (g * p.xd()), (f * yd()) + (g * p.yd()), (f * zd()) + (g * p.zd()));
+		set(f * xd() + g * p.xd(), f * yd() + g * p.yd(), f * zd() + g * p.zd());
 		return this;
 	}
 
 	@Override
 	public WB_Point mulAddMulSelf(final double f, final double g, final double... x) {
-		if(x.length==3){
-			set((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), (f * this.zd()) + (g * x[2]));
+		if (x.length == 3) {
+			set(f * this.xd() + g * x[0], f * this.yd() + g * x[1], f * this.zd() + g * x[2]);
 			return this;
-		}else if(x.length==2){
-			set((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), this.zd());
+		} else if (x.length == 2) {
+			set(f * this.xd() + g * x[0], f * this.yd() + g * x[1], this.zd());
 			return this;
 		}
 		throw new IllegalArgumentException("Array should be length 2 or 3.");
-
-
 
 	}
 
@@ -341,7 +341,7 @@ public class WB_Point extends WB_Vector {
 	 */
 	@Override
 	public WB_Point trimSelf(final double d) {
-		if (getSqLength3D() > (d * d)) {
+		if (getSqLength3D() > d * d) {
 			normalizeSelf();
 			mulSelf(d);
 		}
@@ -375,7 +375,7 @@ public class WB_Point extends WB_Vector {
 	 */
 	@Override
 	public WB_Point addMul(final double f, final double... x) {
-		return new WB_Point(this.xd() + (f * x[0]), this.yd() + (f * x[1]), this.zd() + (f * x[2]));
+		return new WB_Point(this.xd() + f * x[0], this.yd() + f * x[1], this.zd() + f * x[2]);
 	}
 
 	/**
@@ -387,7 +387,7 @@ public class WB_Point extends WB_Vector {
 	 * @return
 	 */
 	public static WB_Point addMul(final WB_Coord p, final double f, final WB_Coord q) {
-		return new WB_Point(p.xd() + (f * q.xd()), p.yd() + (f * q.yd()), p.zd() + (f * q.zd()));
+		return new WB_Point(p.xd() + f * q.xd(), p.yd() + f * q.yd(), p.zd() + f * q.zd());
 	}
 
 	/*
@@ -397,7 +397,7 @@ public class WB_Point extends WB_Vector {
 	 */
 	@Override
 	public WB_Point addMul(final double f, final WB_Coord p) {
-		return new WB_Point(xd() + (f * p.xd()), yd() + (f * p.yd()), zd() + (f * p.zd()));
+		return new WB_Point(xd() + f * p.xd(), yd() + f * p.yd(), zd() + f * p.zd());
 	}
 
 	/*
@@ -464,8 +464,8 @@ public class WB_Point extends WB_Vector {
 	 */
 	@Override
 	public WB_Point cross(final WB_Coord p) {
-		return new WB_Point((yd() * p.zd()) - (zd() * p.yd()), (zd() * p.xd()) - (xd() * p.zd()),
-				(xd() * p.yd()) - (yd() * p.xd()));
+		return new WB_Point(yd() * p.zd() - zd() * p.yd(), zd() * p.xd() - xd() * p.zd(),
+				xd() * p.yd() - yd() * p.xd());
 	}
 
 	/*
@@ -520,11 +520,11 @@ public class WB_Point extends WB_Vector {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see wblut.geom.WB_Vector#hashCode()
+	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		return WB_GeometryOp.calculateHashCode(xd(), yd(), zd());
+		return WB_HashCode.calculateHashCode(xd(), yd(), zd());
 	}
 
 	/*
@@ -545,19 +545,17 @@ public class WB_Point extends WB_Vector {
 	 */
 	@Override
 	public WB_Point mulAddMul(final double f, final double g, final WB_Coord p) {
-		return new WB_Point((f * xd()) + (g * p.xd()), (f * yd()) + (g * p.yd()), (f * zd()) + (g * p.zd()));
+		return new WB_Point(f * xd() + g * p.xd(), f * yd() + g * p.yd(), f * zd() + g * p.zd());
 	}
 
 	@Override
 	public WB_Point mulAddMul(final double f, final double g, final double... x) {
-		if(x.length==3){
-			return new WB_Point((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), (f * this.zd()) + (g * x[2]));
-		}else if(x.length==2){
-			return new WB_Point((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), this.zd());
+		if (x.length == 3) {
+			return new WB_Point(f * this.xd() + g * x[0], f * this.yd() + g * x[1], f * this.zd() + g * x[2]);
+		} else if (x.length == 2) {
+			return new WB_Point(f * this.xd() + g * x[0], f * this.yd() + g * x[1], this.zd());
 		}
 		throw new IllegalArgumentException("Array should be length 2 or 3.");
-
-
 
 	}
 
@@ -681,7 +679,9 @@ public class WB_Point extends WB_Vector {
 	 * double, double, double, double, double, double)
 	 */
 	/**
-	 * @deprecated Use {@link #rotateAboutAxis2P(double,double,double,double,double,double,double)} instead
+	 * @deprecated Use
+	 *             {@link #rotateAboutAxis2P(double,double,double,double,double,double,double)}
+	 *             instead
 	 */
 	@Deprecated
 	@Override
@@ -713,7 +713,8 @@ public class WB_Point extends WB_Vector {
 	 * wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
 	 */
 	/**
-	 * @deprecated Use {@link #rotateAboutAxis2P(double,WB_Coord,WB_Coord)} instead
+	 * @deprecated Use {@link #rotateAboutAxis2P(double,WB_Coord,WB_Coord)}
+	 *             instead
 	 */
 	@Deprecated
 	@Override
@@ -744,7 +745,9 @@ public class WB_Point extends WB_Vector {
 	 * , double, double, double, double, double, double)
 	 */
 	/**
-	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,double,double,double,double,double,double)} instead
+	 * @deprecated Use
+	 *             {@link #rotateAboutAxis2PSelf(double,double,double,double,double,double,double)}
+	 *             instead
 	 */
 	@Deprecated
 	@Override
@@ -777,7 +780,8 @@ public class WB_Point extends WB_Vector {
 	 * , wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
 	 */
 	/**
-	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,WB_Coord,WB_Coord)} instead
+	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,WB_Coord,WB_Coord)}
+	 *             instead
 	 */
 	@Deprecated
 	@Override
@@ -965,8 +969,8 @@ public class WB_Point extends WB_Vector {
 	 * @return
 	 */
 	public static WB_Point cross(final WB_Coord p, final WB_Coord q) {
-		return new WB_Point((p.yd() * q.zd()) - (p.zd() * q.yd()), (p.zd() * q.xd()) - (p.xd() * q.zd()),
-				(p.xd() * q.yd()) - (p.yd() * q.xd()));
+		return new WB_Point(p.yd() * q.zd() - p.zd() * q.yd(), p.zd() * q.xd() - p.xd() * q.zd(),
+				p.xd() * q.yd() - p.yd() * q.xd());
 	}
 
 	/**
@@ -1153,9 +1157,9 @@ public class WB_Point extends WB_Vector {
 	 * @return
 	 */
 	public static boolean isParallel(final WB_Coord p, final WB_Coord q) {
-		final double pm2 = (p.xd() * p.xd()) + (p.yd() * p.yd()) + (p.zd() * p.zd());
-		final double qm2 = (q.xd() * q.xd()) + (q.yd() * q.yd()) + (q.zd() * q.zd());
-		return ((cross(p, q).getSqLength3D() / (pm2 * qm2)) < WB_Epsilon.SQEPSILON);
+		final double pm2 = p.xd() * p.xd() + p.yd() * p.yd() + p.zd() * p.zd();
+		final double qm2 = q.xd() * q.xd() + q.yd() * q.yd() + q.zd() * q.zd();
+		return cross(p, q).getSqLength3D() / (pm2 * qm2) < WB_Epsilon.SQEPSILON;
 	}
 
 	/**
@@ -1167,9 +1171,9 @@ public class WB_Point extends WB_Vector {
 	 * @return
 	 */
 	public static boolean isParallel(final WB_Coord p, final WB_Coord q, final double t) {
-		final double pm2 = (p.xd() * p.xd()) + (p.yd() * p.yd()) + (p.zd() * p.zd());
-		final double qm2 = (q.xd() * q.xd()) + (q.yd() * q.yd()) + (q.zd() * q.zd());
-		return ((cross(p, q).getSqLength3D() / (pm2 * qm2)) < (t + WB_Epsilon.SQEPSILON));
+		final double pm2 = p.xd() * p.xd() + p.yd() * p.yd() + p.zd() * p.zd();
+		final double qm2 = q.xd() * q.xd() + q.yd() * q.yd() + q.zd() * q.zd();
+		return cross(p, q).getSqLength3D() / (pm2 * qm2) < t + WB_Epsilon.SQEPSILON;
 	}
 
 	/**
@@ -1180,7 +1184,7 @@ public class WB_Point extends WB_Vector {
 	 * @return
 	 */
 	public static boolean isParallelNorm(final WB_Coord p, final WB_Coord q) {
-		return (cross(p, q).getLength3D() < WB_Epsilon.EPSILON);
+		return cross(p, q).getLength3D() < WB_Epsilon.EPSILON;
 	}
 
 	/**
@@ -1192,7 +1196,7 @@ public class WB_Point extends WB_Vector {
 	 * @return
 	 */
 	public static boolean isParallelNorm(final WB_Coord p, final WB_Coord q, final double t) {
-		return (cross(p, q).getLength3D() < (t + WB_Epsilon.EPSILON));
+		return cross(p, q).getLength3D() < t + WB_Epsilon.EPSILON;
 	}
 
 	/**
@@ -1216,7 +1220,7 @@ public class WB_Point extends WB_Vector {
 	 * @return
 	 */
 	public static WB_Point mulAddMul(final double f, final WB_Coord p, final double g, final WB_Coord q) {
-		return new WB_Point((f * p.xd()) + (g * q.xd()), (f * p.yd()) + (g * q.yd()), (f * p.zd()) + (g * q.zd()));
+		return new WB_Point(f * p.xd() + g * q.xd(), f * p.yd() + g * q.yd(), f * p.zd() + g * q.zd());
 	}
 
 	/**
@@ -1252,4 +1256,23 @@ public class WB_Point extends WB_Vector {
 	public static WB_Vector subToVector3D(final WB_Coord p, final WB_Coord q) {
 		return new WB_Vector(p.xd() - q.xd(), p.yd() - q.yd(), p.zd() - q.zd());
 	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(final WB_Coord p) {
+		int cmp = Double.compare(xd(), p.xd());
+		if (cmp != 0) {
+			return cmp;
+		}
+		cmp = Double.compare(yd(), p.yd());
+		if (cmp != 0) {
+			return cmp;
+		}
+		return Double.compare(zd(), p.zd());
+	}
+
 }

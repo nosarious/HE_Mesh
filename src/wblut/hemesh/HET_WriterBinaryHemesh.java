@@ -21,7 +21,7 @@ import java.util.zip.DeflaterOutputStream;
  * @author Frederik Vanhoutte, W:Blut
  *
  */
-public class HET_BinaryHemeshWriter {
+public class HET_WriterBinaryHemesh {
 	/** The hemesh stream. */
 	protected FileOutputStream hemeshStream;
 	/** The hemesh writer. */

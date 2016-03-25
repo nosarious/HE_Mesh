@@ -888,7 +888,9 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @param p2z
 	 *            z-coordinate of second point on axis
 	 * @return self
-	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,double,double,double,double,double,double)} instead
+	 * @deprecated Use
+	 *             {@link #rotateAboutAxis2PSelf(double,double,double,double,double,double,double)}
+	 *             instead
 	 */
 	@Deprecated
 	public HE_Mesh rotateAbout2PointAxis(final double angle, final double p1x, final double p1y, final double p1z,
@@ -942,7 +944,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @param p2
 	 *            second point on axis
 	 * @return self
-	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,WB_Coord,WB_Coord)} instead
+	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,WB_Coord,WB_Coord)}
+	 *             instead
 	 */
 	@Deprecated
 	public HE_Mesh rotateAbout2PointAxis(final double angle, final WB_Coord p1, final WB_Coord p2) {
@@ -977,7 +980,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	}
 
 	/**
-	 * Rotate entire mesh around an arbitrary axis defined by a point and a direction.
+	 * Rotate entire mesh around an arbitrary axis defined by a point and a
+	 * direction.
 	 *
 	 * @param angle
 	 *            angle
@@ -986,7 +990,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @param a
 	 *            axis
 	 * @return self
-	 * @deprecated Use {@link #rotateAboutAxisSelf(double,WB_Coord,WB_Coord)} instead
+	 * @deprecated Use {@link #rotateAboutAxisSelf(double,WB_Coord,WB_Coord)}
+	 *             instead
 	 */
 	@Deprecated
 	public HE_Mesh rotateAboutAxis(final double angle, final WB_Coord p, final WB_Coord a) {
@@ -994,7 +999,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	}
 
 	/**
-	 * Rotate entire mesh around an arbitrary axis defined by a point and a direction.
+	 * Rotate entire mesh around an arbitrary axis defined by a point and a
+	 * direction.
 	 *
 	 * @param angle
 	 *            angle
@@ -1021,7 +1027,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	}
 
 	/**
-	 * Rotate entire mesh around an arbitrary axis defined by a point and a direction.
+	 * Rotate entire mesh around an arbitrary axis defined by a point and a
+	 * direction.
 	 *
 	 * @param angle
 	 * @param px
@@ -1031,7 +1038,9 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @param ay
 	 * @param az
 	 * @return
-	 * @deprecated Use {@link #rotateAboutAxisSelf(double,double,double,double,double,double,double)} instead
+	 * @deprecated Use
+	 *             {@link #rotateAboutAxisSelf(double,double,double,double,double,double,double)}
+	 *             instead
 	 */
 	@Deprecated
 	public HE_Mesh rotateAboutAxis(final double angle, final double px, final double py, final double pz,
@@ -1040,7 +1049,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	}
 
 	/**
-	 * Rotate entire mesh around an arbitrary axis defined by a point and a direction.
+	 * Rotate entire mesh around an arbitrary axis defined by a point and a
+	 * direction.
 	 *
 	 * @param angle
 	 * @param px
@@ -1084,7 +1094,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
-		raa.addRotateAboutOrigin(angle,  a);
+		raa.addRotateAboutOrigin(angle, a);
 		while (vItr.hasNext()) {
 			v = vItr.next();
 			raa.applySelfAsPoint(v);
@@ -1103,8 +1113,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @param az
 	 * @return
 	 */
-	public HE_Mesh rotateAboutOriginSelf(final double angle,
-			final double ax, final double ay, final double az) {
+	public HE_Mesh rotateAboutOriginSelf(final double angle, final double ax, final double ay, final double az) {
 		if (!isCenterUpdated) {
 			getCenter();
 		}
@@ -1131,7 +1140,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	public HE_Mesh rotateAboutCenterSelf(final double angle, final WB_Coord a) {
 
-		return rotateAboutAxisSelf(angle,getCenter(),a);
+		return rotateAboutAxisSelf(angle, getCenter(), a);
 	}
 
 	/**
@@ -1143,9 +1152,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @param az
 	 * @return
 	 */
-	public HE_Mesh rotateAboutCenterSelf(final double angle,
-			final double ax, final double ay, final double az) {
-		return rotateAboutAxisSelf(angle,getCenter(),new WB_Vector(ax,ay,az));
+	public HE_Mesh rotateAboutCenterSelf(final double angle, final double ax, final double ay, final double az) {
+		return rotateAboutAxisSelf(angle, getCenter(), new WB_Vector(ax, ay, az));
 	}
 
 	/**
@@ -1170,11 +1178,11 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			v.set(c.xd() + (scaleFactorx * (v.xd() - c.xd())), c.yd() + (scaleFactory * (v.yd() - c.yd())),
-					c.zd() + (scaleFactorz * (v.zd() - c.zd())));
+			v.set(c.xd() + scaleFactorx * (v.xd() - c.xd()), c.yd() + scaleFactory * (v.yd() - c.yd()),
+					c.zd() + scaleFactorz * (v.zd() - c.zd()));
 		}
-		center = new WB_Point(c.xd() + (scaleFactorx * (-c.xd() + center.xd())),
-				c.yd() + (scaleFactory * (-c.yd() + center.yd())), c.zd() + (scaleFactorz * (-c.zd() + center.zd())));
+		center = new WB_Point(c.xd() + scaleFactorx * (-c.xd() + center.xd()),
+				c.yd() + scaleFactory * (-c.yd() + center.yd()), c.zd() + scaleFactorz * (-c.zd() + center.zd()));
 		;
 		return this;
 	}
@@ -1211,9 +1219,9 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			v.set(center.xd() + (scaleFactorx * (v.xd() - center.xd())),
-					center.yd() + (scaleFactory * (v.yd() - center.yd())),
-					center.zd() + (scaleFactorz * (v.zd() - center.zd())));
+			v.set(center.xd() + scaleFactorx * (v.xd() - center.xd()),
+					center.yd() + scaleFactory * (v.yd() - center.yd()),
+					center.zd() + scaleFactorz * (v.zd() - center.zd()));
 		}
 		;
 		return this;
@@ -1260,8 +1268,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		isCenterUpdated = true;
 	}
 
-
-
 	/**
 	 * Cycle halfedges.
 	 *
@@ -1272,12 +1278,12 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Halfedge he;
 		final int n = halfedges.size();
 		if (n > 0) {
-			for (int j = 0; j < (n - 1); j++) {
+			for (int j = 0; j < n - 1; j++) {
 				he = halfedges.get(j);
-				setNext(he,halfedges.get(j + 1));
+				setNext(he, halfedges.get(j + 1));
 			}
 			he = halfedges.get(n - 1);
-			setNext(he,halfedges.get(0));
+			setNext(he, halfedges.get(0));
 		}
 	}
 
@@ -1292,11 +1298,11 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		final int n = halfedges.size();
 		if (n > 0) {
 			he = halfedges.get(0);
-			setNext(he,halfedges.get(n - 1));
+			setNext(he, halfedges.get(n - 1));
 
 			for (int j = 1; j < n; j++) {
 				he = halfedges.get(j);
-				setNext(he,halfedges.get(j - 1));
+				setNext(he, halfedges.get(j - 1));
 
 			}
 		}
@@ -1306,9 +1312,9 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		HE_Halfedge he;
 		final int n = halfedges.size();
 		if (n > 0) {
-			for (int j = 0; j < (n - 1); j++) {
+			for (int j = 0; j < n - 1; j++) {
 				he = halfedges.get(j);
-				setNext(he,halfedges.get(j + 1));
+				setNext(he, halfedges.get(j + 1));
 			}
 		}
 	}
@@ -1324,16 +1330,13 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		final int n = halfedges.size();
 		if (n > 0) {
 
-
 			for (int j = 1; j < n; j++) {
 				he = halfedges.get(j);
-				setNext(he,halfedges.get(j - 1));
+				setNext(he, halfedges.get(j - 1));
 
 			}
 		}
 	}
-
-
 
 	/**
 	 * Collect all boundary halfedges.
@@ -1409,16 +1412,16 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 					for (int j = 0; j < vInfo.in.size(); j++) {
 						he2 = vInfo.in.get(j);
 						if (he2.getPair() == null) {
-							if ((he.getVertex() == he2.getNextInFace().getVertex())
-									&& (he2.getVertex() == he.getNextInFace().getVertex())) {
-								setPair(he,he2);
+							if (he.getVertex() == he2.getNextInFace().getVertex()
+									&& he2.getVertex() == he.getNextInFace().getVertex()) {
+								setPair(he, he2);
 								break;
 							}
 						}
 					}
 					for (int j = 0; j < vInfo.out.size(); j++) {
 						he2 = vInfo.out.get(j);
-						if ((he2 != he) && (he2.getPair() == null)) {
+						if (he2 != he && he2.getPair() == null) {
 							if (he.getNextInFace().getVertex() == he2.getNextInFace().getVertex()) {
 								mismatchedHalfedges.add(he);
 								mismatchedHalfedges.add(he2);
@@ -1462,7 +1465,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 						heitr2 = new HE_FaceHalfedgeInnerCirculator(f2);
 						while (heitr2.hasNext()) {
 							he2 = heitr2.next();
-							if ((he2.getPair() == null) && (he2.getNextInFace().getVertex() == v1)) {
+							if (he2.getPair() == null && he2.getNextInFace().getVertex() == v1) {
 								return true;
 							}
 						}
@@ -1527,16 +1530,16 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 					for (int j = 0; j < vInfo.in.size(); j++) {
 						he2 = vInfo.in.get(j);
 						if (he2.getPair() == null) {
-							if ((he.getVertex() == he2.getNextInFace().getVertex())
-									&& (he2.getVertex() == he.getNextInFace().getVertex())) {
-								setPair(he,he2);
+							if (he.getVertex() == he2.getNextInFace().getVertex()
+									&& he2.getVertex() == he.getNextInFace().getVertex()) {
+								setPair(he, he2);
 								break;
 							}
 						}
 					}
 					for (int j = 0; j < vInfo.out.size(); j++) {
 						he2 = vInfo.out.get(j);
-						if ((he2 != he) && (he2.getPair() == null)) {
+						if (he2 != he && he2.getPair() == null) {
 							if (he.getNextInFace().getVertex() == he2.getNextInFace().getVertex()) {
 								System.out.println("Two identical halfedges found!");
 								break;
@@ -1565,8 +1568,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		for (int i = 0; i < nuh; i++) {
 			he1 = unpairedHalfedges.get(i);
 			he2 = new HE_Halfedge();
-			setVertex(he2,he1.getNextInFace().getVertex());
-			setPair(he1,he2);
+			setVertex(he2, he1.getNextInFace().getVertex());
+			setPair(he1, he2);
 			newHalfedges[i] = he2;
 			add(he2);
 			counter.increment();
@@ -1580,7 +1583,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 					he2 = newHalfedges[j];
 					if (!he2.isVisited()) {
 						if (he2.getVertex() == he1.getPair().getVertex()) {
-							setNext(he1,he2);
+							setNext(he1, he2);
 							he2.setVisited();
 							break;
 						}
@@ -1600,12 +1603,12 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		WB_ProgressCounter counter = new WB_ProgressCounter(getNumberOfHalfedges(), 10);
 		tracker.setStatus(this, "Detecting and uncapping boundary edges.", 0);
 
-		List<HE_Halfedge> halfedges=getHalfedges();
+		List<HE_Halfedge> halfedges = getHalfedges();
 		final HE_RAS<HE_Halfedge> keep = new HE_RASTrove<HE_Halfedge>();
-		for (HE_Halfedge he: halfedges) {
+		for (HE_Halfedge he : halfedges) {
 
 			if (he.getFace() == null) {
-				setHalfedge(he.getVertex(),he.getNextInVertex());
+				setHalfedge(he.getVertex(), he.getNextInVertex());
 				clearPair(he);
 			} else {
 				keep.add(he);
@@ -1624,7 +1627,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return all new faces as FastTable<HE_Face>
 	 */
 	public List<HE_Face> capHoles() {
-		HEM_CapHoles ch=new HEM_CapHoles();
+		HEM_CapHoles ch = new HEM_CapHoles();
 		modify(ch);
 		return ch.caps;
 	}
@@ -1659,7 +1662,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		return HET_MeshOp.flipFaces(this);
 	}
 
-
 	/**
 	 *
 	 *
@@ -1667,7 +1669,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return
 	 */
 	public boolean flipEdge(final HE_Halfedge he) {
-		return HET_MeshOp.flipEdge(this,he);
+		return HET_MeshOp.flipEdge(this, he);
 	}
 
 	/**
@@ -1675,7 +1677,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * This function can result in non-manifold meshes.
 	 *
 	 * @param he
-	 *            the he
+	 *
 	 * @return true, if successful
 	 */
 	public boolean collapseHalfedge(final HE_Halfedge he) {
@@ -1691,23 +1693,27 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			final HE_Halfedge hePairn = hePair.getNextInFace();
 			final HE_Halfedge hePairp = hePair.getPrevInFace();
 			if (f != null) {
-				setHalfedge(f,hen);
+				setHalfedge(f, hen);
 			}
 			if (fp != null) {
-				setHalfedge(fp,hePairn);
+				setHalfedge(fp, hePairn);
 			}
-			setNext(hep,hen);
-			setNext(hePairp,hePairn);
+			setNext(hep, hen);
+			setNext(hePairp, hePairn);
 			for (int i = 0; i < tmp.size(); i++) {
-				setVertex(tmp.get(i),vp);
+				setVertex(tmp.get(i), vp);
 			}
-			setHalfedge(vp,hen);
+			setHalfedge(vp, hen);
 			remove(he);
 			remove(hePair);
 			remove(v);
 
-			deleteTwoEdgeFace(f);
-			deleteTwoEdgeFace(fp);
+			if (f != null) {
+				HET_Fixer.deleteTwoEdgeFace(this, f);
+			}
+			if (fp != null) {
+				HET_Fixer.deleteTwoEdgeFace(this, fp);
+			}
 
 			return true;
 		}
@@ -1715,13 +1721,13 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	}
 
 	/**
-	 * Collapse halfedge bp.
+	 * Collapse halfedge if its vertex doesn't belong to the boundary
 	 *
 	 * @param he
-	 *            the he
+	 *            he
 	 * @return true, if successful
 	 */
-	public boolean collapseHalfedgeBP(final HE_Halfedge he) {
+	public boolean collapseHalfedgeBoundaryPreserving(final HE_Halfedge he) {
 		if (contains(he)) {
 			final HE_Halfedge hePair = he.getPair();
 			final HE_Face f = he.getFace();
@@ -1733,26 +1739,26 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			}
 			final List<HE_Halfedge> tmp = v.getHalfedgeStar();
 			for (int i = 0; i < tmp.size(); i++) {
-				setVertex(tmp.get(i),vp);
+				setVertex(tmp.get(i), vp);
 			}
-			setHalfedge(vp,hePair.getNextInVertex());
+			setHalfedge(vp, hePair.getNextInVertex());
 			final HE_Halfedge hen = he.getNextInFace();
 			final HE_Halfedge hep = he.getPrevInFace();
 			final HE_Halfedge hePairn = hePair.getNextInFace();
 			final HE_Halfedge hePairp = hePair.getPrevInFace();
 			if (f != null) {
-				setHalfedge(f,hen);
+				setHalfedge(f, hen);
 			}
 			if (fp != null) {
-				setHalfedge(fp,hePairn);
+				setHalfedge(fp, hePairn);
 			}
-			setNext(hep,hen);
-			setNext(hePairp,hePairn);
+			setNext(hep, hen);
+			setNext(hePairp, hePairn);
 			remove(he);
 			remove(hePair);
 			remove(v);
-			deleteTwoEdgeFace(f);
-			deleteTwoEdgeFace(fp);
+			HET_Fixer.deleteTwoEdgeFace(this, f);
+			HET_Fixer.deleteTwoEdgeFace(this, fp);
 			return true;
 		}
 		return false;
@@ -1768,7 +1774,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	public boolean collapseEdge(final HE_Halfedge e) {
 		if (contains(e)) {
-			final HE_Halfedge he = (e.isEdge()) ? e : e.getPair();
+			final HE_Halfedge he = e.isEdge() ? e : e.getPair();
 			final HE_Halfedge hePair = he.getPair();
 			final HE_Face f = he.getFace();
 			final HE_Face fp = hePair.getFace();
@@ -1777,41 +1783,48 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			vp.addSelf(v).mulSelf(0.5);
 			final List<HE_Halfedge> tmp = v.getHalfedgeStar();
 			for (int i = 0; i < tmp.size(); i++) {
-				setVertex(tmp.get(i),vp);
+				setVertex(tmp.get(i), vp);
 			}
-			setHalfedge(vp,hePair.getNextInVertex());
+			setHalfedge(vp, hePair.getNextInVertex());
 			final HE_Halfedge hen = he.getNextInFace();
 			final HE_Halfedge hep = he.getPrevInFace();
 			final HE_Halfedge hePairn = hePair.getNextInFace();
 			final HE_Halfedge hePairp = hePair.getPrevInFace();
 			if (f != null) {
-				setHalfedge(f,hen);
+				setHalfedge(f, hen);
 			}
 			if (fp != null) {
-				setHalfedge(fp,hePairn);
+				setHalfedge(fp, hePairn);
 			}
-			setNext(hep,hen);
-			setNext(hePairp,hePairn);
+			setNext(hep, hen);
+			setNext(hePairp, hePairn);
 			remove(he);
 			remove(hePair);
 			remove(v);
-			deleteTwoEdgeFace(f);
-			deleteTwoEdgeFace(fp);
+			if (f != null) {
+				HET_Fixer.deleteTwoEdgeFace(this, f);
+			}
+			if (fp != null) {
+				HET_Fixer.deleteTwoEdgeFace(this, fp);
+			}
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 *
+	 * Collapse edge to its midpoint or to point on boundary
 	 *
 	 * @param e
 	 * @param strict
+	 *            if true then an edge with two vertices on the boundary is
+	 *            always preserved
+	 *
 	 * @return
 	 */
-	public boolean collapseEdgeBP(final HE_Halfedge e, final boolean strict) {
+	public boolean collapseEdgeBoundaryPreserving(final HE_Halfedge e, final boolean strict) {
 		if (contains(e)) {
-			final HE_Halfedge he = (e.isEdge()) ? e : e.getPair();
+			final HE_Halfedge he = e.isEdge() ? e : e.getPair();
 			final HE_Halfedge hePair = he.getPair();
 			final HE_Face f = he.getFace();
 			final HE_Face fp = hePair.getFace();
@@ -1819,7 +1832,11 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			final HE_Vertex vp = hePair.getVertex();
 			if (v.isBoundary()) {
 				if (vp.isBoundary()) {
-					if ((!he.isInnerBoundary()) || strict) {
+					// In some cases both vertices are on the boundary but the
+					// edge itself is not a boundary edge.
+					// Collapsing this edge would pinch the mesh creating an
+					// invalid topology.
+					if (!he.isInnerBoundary() || strict) {
 						return false;
 					}
 					vp.addSelf(v).mulSelf(0.5);
@@ -1833,173 +1850,39 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			}
 			final List<HE_Halfedge> tmp = v.getHalfedgeStar();
 			for (int i = 0; i < tmp.size(); i++) {
-				setVertex(tmp.get(i),vp);
+				setVertex(tmp.get(i), vp);
 			}
-			setHalfedge(vp,hePair.getNextInVertex());
+			setHalfedge(vp, hePair.getNextInVertex());
 			final HE_Halfedge hen = he.getNextInFace();
 			final HE_Halfedge hep = he.getPrevInFace();
 			final HE_Halfedge hePairn = hePair.getNextInFace();
 			final HE_Halfedge hePairp = hePair.getPrevInFace();
 			if (f != null) {
-				setHalfedge(f,hen);
+				setHalfedge(f, hen);
 			}
 			if (fp != null) {
-				setHalfedge(fp,hePairn);
+				setHalfedge(fp, hePairn);
 			}
-			setNext(hep,hen);
-			setNext(hePairp,hePairn);
+			setNext(hep, hen);
+			setNext(hePairp, hePairn);
 			remove(he);
 			remove(hePair);
 			remove(e);
 			remove(v);
-			deleteTwoEdgeFace(f);
-			deleteTwoEdgeFace(fp);
+			if (f != null) {
+				HET_Fixer.deleteTwoEdgeFace(this, f);
+			}
+			if (fp != null) {
+				HET_Fixer.deleteTwoEdgeFace(this, fp);
+			}
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Remove a face if it has only two vertices and stitch the mesh together.
-	 *
-	 * @param f
-	 *            face to check
-	 */
-	public void deleteTwoEdgeFace(final HE_Face f) {
-		if (contains(f)) {
-			final HE_Halfedge he = f.getHalfedge();
-			final HE_Halfedge hen = he.getNextInFace();
-			if (he == hen.getNextInFace()) {
-				final HE_Halfedge hePair = he.getPair();
-				final HE_Halfedge henPair = hen.getPair();
-				remove(f);
-				remove(he);
-				setHalfedge(he.getVertex(),he.getNextInVertex());
-				remove(hen);
-				setHalfedge(hen.getVertex(),hen.getNextInVertex());
-				setPair(hePair,henPair);
-
-			}
-		}
-	}
-
-	/**
-	 *
-	 */
-	public void deleteTwoEdgeFaces() {
-		HE_FaceIterator fItr=fItr();
-		HE_Face f;
-		while(fItr.hasNext())
-		{
-			f=fItr.next();
-			final HE_Halfedge he = f.getHalfedge();
-			final HE_Halfedge hen = he.getNextInFace();
-			if (he == hen.getNextInFace()) {
-				final HE_Halfedge hePair = he.getPair();
-				final HE_Halfedge henPair = hen.getPair();
-				remove(f);
-				remove(he);
-				setHalfedge(he.getVertex(),he.getNextInVertex());
-				remove(hen);
-				setHalfedge(hen.getVertex(),hen.getNextInVertex());
-				setPair(hePair,henPair);
-
-			}
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param v
-	 */
-	public void deleteTwoEdgeVertex(final HE_Vertex v) {
-		if (contains(v) && (v.getVertexOrder() == 2)) {
-			final HE_Halfedge he0 = v.getHalfedge();
-			final HE_Halfedge he1 = he0.getNextInVertex();
-			final HE_Halfedge he0n = he0.getNextInFace();
-			final HE_Halfedge he1n = he1.getNextInFace();
-			final HE_Halfedge he0p = he0.getPair();
-			final HE_Halfedge he1p = he1.getPair();
-			setNext(he0p,he1n);
-			setNext(he1p,he0n);
-			if (he0.getFace() != null) {
-				setHalfedge(he0.getFace(),he1p);
-			}
-			if (he1.getFace() != null) {
-				setHalfedge(he1.getFace(),he0p);
-			}
-			setHalfedge(he0n.getVertex(),he0n);
-			setHalfedge(he1n.getVertex(),he1n);
-			setPair(he0p,he1p);
-			remove(he0);
-			remove(he1);
-			remove(v);
-		}
-	}
-
-	/**
-	 *
-	 */
-	public void deleteTwoEdgeVertices() {
-		final HE_VertexIterator vitr = vItr();
-		HE_Vertex v;
-		final List<HE_Vertex> toremove = new FastTable<HE_Vertex>();
-		while (vitr.hasNext()) {
-			v = vitr.next();
-			if (v.getVertexOrder() == 2) {
-				toremove.add(v);
-			}
-		}
-		for (final HE_Vertex vtr : toremove) {
-			deleteTwoEdgeVertex(vtr);
-		}
-	}
-
-
-
-	/**
-	 * Collapse all zero-length edges.
-	 *
-	 */
-	public void collapseDegenerateEdges() {
-		final FastTable<HE_Halfedge> edgesToRemove = new FastTable<HE_Halfedge>();
-		final Iterator<HE_Halfedge> eItr = eItr();
-		HE_Halfedge e;
-		while (eItr.hasNext()) {
-			e = eItr.next();
-			if (isZeroSq(WB_GeometryOp.getSqDistance3D(e.getVertex(), e.getEndVertex()))) {
-				edgesToRemove.add(e);
-			}
-		}
-		for (int i = 0; i < edgesToRemove.size(); i++) {
-			collapseEdge(edgesToRemove.get(i));
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param d
-	 */
-	public void collapseDegenerateEdges(final double d) {
-		final FastTable<HE_Halfedge> edgesToRemove = new FastTable<HE_Halfedge>();
-		final Iterator<HE_Halfedge> eItr = eItr();
-		HE_Halfedge e;
-		final double d2 = d * d;
-		while (eItr.hasNext()) {
-			e = eItr.next();
-			if (WB_GeometryOp.getSqDistance3D(e.getVertex(), e.getEndVertex()) < d2) {
-				edgesToRemove.add(e);
-			}
-		}
-		for (int i = 0; i < edgesToRemove.size(); i++) {
-			collapseEdge(edgesToRemove.get(i));
-		}
-	}
-
-	/**
-	 * Delete face and remove all references.
+	 * Delete face and remove all references. The halfedges remain and form a
+	 * valid boundary loop.
 	 *
 	 * @param f
 	 *            face to delete
@@ -2013,10 +1896,17 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		remove(f);
 	}
 
+	/**
+	 * Delete face and remove all references. The halfedges are removed, the
+	 * boundary loop is unpaired.
+	 *
+	 * @param f
+	 */
+
 	public void cutFace(final HE_Face f) {
 		HE_Halfedge he = f.getHalfedge();
 		do {
-			setHalfedge(he.getVertex(),he.getNextInVertex());
+			setHalfedge(he.getVertex(), he.getNextInVertex());
 
 			he = he.getNextInFace();
 		} while (he != f.getHalfedge());
@@ -2047,21 +1937,22 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		final HE_Halfedge he2p = he2.getPrevInFace();
 		HE_Vertex v = he1.getVertex();
 		if (v.getHalfedge() == he1) {
-			setHalfedge(v,he1.getNextInVertex());
+			setHalfedge(v, he1.getNextInVertex());
 		}
 		v = he2.getVertex();
 		if (v.getHalfedge() == he2) {
-			setHalfedge(v,he2.getNextInVertex());
+			setHalfedge(v, he2.getNextInVertex());
 		}
-		setNext(he1p,he2n);
-		setNext(he2p,he1n);
-		if ((he1.getFace() != null) && (he2.getFace() != null)) {
+		setNext(he1p, he2n);
+		setNext(he2p, he1n);
+		if (he1.getFace() != null && he2.getFace() != null) {
 			f = new HE_Face();
+			f.copyProperties(e.getPair().getFace());
 			add(f);
-			setHalfedge(f,he1p);
+			setHalfedge(f, he1p);
 			HE_Halfedge he = he1p;
 			do {
-				setFace(he,f);
+				setFace(he, f);
 				he = he.getNextInFace();
 			} while (he != he1p);
 		}
@@ -2281,7 +2172,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * Divide edge.
 	 *
 	 * @param edge
-	 * @param n            number of parts
+	 * @param n
+	 *            number of parts
 	 */
 	public void divideEdge(final HE_Halfedge edge, final int n) {
 		HET_MeshOp.divideEdge(edge, n, this);
@@ -2622,7 +2514,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	/**
 	 * Triangulate face if concave.
 	 *
-	 * @param key            key of face
+	 * @param key
+	 *            key of face
 	 * @return
 	 */
 	public HE_Selection triangulateConcaveFace(final long key) {
@@ -2632,7 +2525,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	/**
 	 * Triangulate face if concave.
 	 *
-	 * @param face            key of face
+	 * @param face
+	 *            key of face
 	 * @return
 	 */
 	public HE_Selection triangulateConcaveFace(final HE_Face face) {
@@ -2668,26 +2562,26 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			he = he.getNextInVertex();
 		} while (he != v.getHalfedge());
 		final HE_Vertex vNew = new HE_Vertex(vn);
-		setHalfedge(vNew,he1);
+		setHalfedge(vNew, he1);
 		add(vNew);
 		he = he1;
 		do {
-			setVertex(he,vNew);
+			setVertex(he, vNew);
 			he = he.getNextInVertex();
 		} while (he != he2);
 		final HE_Halfedge he1p = he1.getPrevInFace();
 		final HE_Halfedge he2p = he2.getPrevInFace();
 		final HE_Halfedge he1new = new HE_Halfedge();
 		final HE_Halfedge he2new = new HE_Halfedge();
-		setVertex(he1new,v);
-		setVertex(he2new,vNew);
-		setNext(he1p,he1new);
-		setNext(he1new,he1);
-		setNext(he2p,he2new);
-		setNext(he2new,he2);
-		setPair(he1new,he2new);
-		setFace(he1new,f1);
-		setFace(he2new,f2);
+		setVertex(he1new, v);
+		setVertex(he2new, vNew);
+		setNext(he1p, he1new);
+		setNext(he1new, he1);
+		setNext(he2p, he2new);
+		setNext(he2new, he2);
+		setPair(he1new, he2new);
+		setFace(he1new, f1);
+		setFace(he2new, f2);
 		add(he1new);
 		add(he2new);
 	}
@@ -2738,7 +2632,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 				}
 			}
 		}
-		return (isConvex) ? true : ((c % 2) == 1);
+		return isConvex ? true : c % 2 == 1;
 	}
 
 	/**
@@ -2820,17 +2714,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		capHalfedges();
 	}
 
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * Fuse all coplanar faces connected to face. New face can be concave.
 	 *
@@ -2841,6 +2724,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return new face
 	 */
 	public HE_Face fuseCoplanarFace(final HE_Face face, final double a) {
+
 		List<HE_Face> neighbors;
 		FastTable<HE_Face> facesToCheck = new FastTable<HE_Face>();
 		final FastTable<HE_Face> newFacesToCheck = new FastTable<HE_Face>();
@@ -2879,18 +2763,18 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		final HE_Face newFace = new HE_Face();
 		add(newFace);
 		newFace.copyProperties(sel.getFaceWithIndex(0));
-		setHalfedge(newFace,halfedges.get(0));
+		setHalfedge(newFace, halfedges.get(0));
 		for (int i = 0; i < halfedges.size(); i++) {
 			final HE_Halfedge hei = halfedges.get(i);
 			final HE_Halfedge hep = halfedges.get(i).getPair();
 			for (int j = 0; j < halfedges.size(); j++) {
 				final HE_Halfedge hej = halfedges.get(j);
-				if ((i != j) && (hep.getVertex() == hej.getVertex())) {
-					setNext(hei,hej);
+				if (i != j && hep.getVertex() == hej.getVertex()) {
+					setNext(hei, hej);
 				}
 			}
-			setFace(hei,newFace);
-			setHalfedge(hei.getVertex(),hei);
+			setFace(hei, newFace);
+			setHalfedge(hei.getVertex(), hei);
 		}
 		removeFaces(sel.getFacesAsArray());
 		cleanUnusedElementsByFace();
@@ -2925,85 +2809,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			}
 			no = getNumberOfFaces();
 		} while (no < ni);
-	}
-
-	/**
-	 * Remove all redundant vertices in straight edges.
-	 *
-	 */
-	public void deleteCollinearVertices() {
-		final Iterator<HE_Vertex> vItr = vItr();
-		HE_Vertex v;
-		HE_Halfedge he;
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			if (v.getVertexOrder() == 2) {
-				he = v.getHalfedge();
-				if (WB_Vector.isParallel(he.getHalfedgeTangent(), he.getNextInVertex().getHalfedgeTangent())) {
-					setNext(he.getPrevInFace(),he.getNextInFace());
-					setNext(he.getPair().getPrevInFace(),he.getPair().getNextInFace());
-					setVertex(he.getPair().getNextInFace(),he.getNextInFace().getVertex());
-					if (he.getFace() != null) {
-						if (he.getFace().getHalfedge() == he) {
-							setHalfedge(he.getFace(),he.getNextInFace());
-						}
-					}
-					if (he.getPair().getFace() != null) {
-						if (he.getPair().getFace().getHalfedge() == he.getPair()) {
-							setHalfedge(he.getPair().getFace(),he.getPair().getNextInFace());
-						}
-					}
-					vItr.remove();
-					remove(he);
-					remove(he.getPair());
-				}
-			}
-		}
-	}
-
-	/**
-	 *
-	 */
-	public void deleteDegenerateTriangles() {
-		final List<HE_Face> faces = this.getFacesAsList();
-		HE_Halfedge he;
-		for (final HE_Face face : faces) {
-			if (!contains(face)) {
-				continue; // face already removed by a previous change
-			}
-			if (face.isDegenerate()) {
-				final int fo = face.getFaceOrder();
-				if (fo == 3) {
-					HE_Halfedge degeneratehe = null;
-					he = face.getHalfedge();
-					do {
-						if (isZero(he.getLength())) {
-							degeneratehe = he;
-							break;
-						}
-						he = he.getNextInFace();
-					} while (he != face.getHalfedge());
-					if (degeneratehe != null) {
-						// System.out.println("Zero length change!");
-						collapseHalfedge(he);
-						continue;
-					}
-					he = face.getHalfedge();
-					double d;
-					double dmax = 0;
-					do {
-						d = he.getLength();
-						if (d > dmax) {
-							degeneratehe = he;
-							dmax = d;
-						}
-						he = he.getNextInFace();
-					} while (he != face.getHalfedge());
-					// System.out.println("Deleting longest edge: " + he);
-					deleteEdge(degeneratehe);
-				}
-			}
-		}
 	}
 
 	/**
@@ -3047,6 +2852,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 
 	/**
 	 * Reset labels.
+	 *
 	 * @deprecated Use {@link #resetTemporaryLabels()} instead
 	 */
 	@Deprecated
@@ -3065,6 +2871,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 
 	/**
 	 * Reset vertex labels.
+	 *
 	 * @deprecated Use {@link #resetVertexTemporaryLabels()} instead
 	 */
 	@Deprecated
@@ -3084,6 +2891,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 
 	/**
 	 * Reset face labels.
+	 *
 	 * @deprecated Use {@link #resetFaceTemporaryLabels()} instead
 	 */
 	@Deprecated
@@ -3103,6 +2911,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 
 	/**
 	 * Reset edge labels.
+	 *
 	 * @deprecated Use {@link #resetEdgeTemporaryLabels()} instead
 	 */
 	@Deprecated
@@ -3361,97 +3170,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	}
 
 	/**
-	 * @deprecated Use {@link #fixNonManifoldVerticesOnePass()} instead
-	 */
-	@Deprecated
-	public void resolvePinchPoints() {
-		fixNonManifoldVerticesOnePass();
-	}
-
-	/**
-	 *
-	 *
-	 * @return
-	 */
-	public boolean fixNonManifoldVerticesOnePass() {
-		class VertexInfo {
-			FastTable<HE_Halfedge> out;
-
-			VertexInfo() {
-				out = new FastTable<HE_Halfedge>();
-			}
-		}
-		final TLongObjectMap<VertexInfo> vertexLists = new TLongObjectHashMap<VertexInfo>(1024, 0.5f, -1L);
-		HE_Vertex v;
-		VertexInfo vi;
-		WB_ProgressCounter counter = new WB_ProgressCounter(getNumberOfHalfedges(), 10);
-		tracker.setStatus(this, "Classifying halfedges per vertex.", counter);
-		HE_HalfedgeIterator heItr=heItr();
-		HE_Halfedge he;
-		while (heItr.hasNext()) {
-			he=heItr.next();
-			v = he.getVertex();
-			vi = vertexLists.get(v.key());
-			if (vi == null) {
-				vi = new VertexInfo();
-				vertexLists.put(v.key(), vi);
-			}
-			vi.out.add(he);
-			counter.increment();
-		}
-		final List<HE_Vertex> toUnweld = new FastTable<HE_Vertex>();
-		counter = new WB_ProgressCounter(getNumberOfVertices(), 10);
-		tracker.setStatus(this, "Checking vertex umbrellas.", counter);
-		Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			final List<HE_Halfedge> outgoing = vertexLists.get(v.key()).out;
-			final List<HE_Halfedge> vStar = v.getHalfedgeStar();
-			if (outgoing.size() != vStar.size()) {
-				toUnweld.add(v);
-			}
-		}
-		vItr = toUnweld.iterator();
-		counter = new WB_ProgressCounter(toUnweld.size(), 10);
-		tracker.setStatus(this, "Splitting vertex umbrellas. ", counter);
-
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			final List<HE_Halfedge> vHalfedges = vertexLists.get(v.key()).out;
-			final List<HE_Halfedge> vStar = v.getHalfedgeStar();
-			final HE_Vertex vc = new HE_Vertex(v);
-			add(vc);
-			for (int i = 0; i < vStar.size(); i++) {
-				setVertex(vStar.get(i),vc);
-			}
-			setHalfedge(vc,vStar.get(0));
-			for (int i = 0; i < vHalfedges.size(); i++) {
-				he = vHalfedges.get(i);
-				if (he.getVertex() == v) {
-					setHalfedge(v,he);
-					break;
-				}
-			}
-			counter.increment();
-		}
-		return (toUnweld.size() > 0);
-	}
-
-	/**
-	 *
-	 */
-	public void fixNonManifoldVertices() {
-		int counter = 0;
-		do {
-			counter++;
-		} while (fixNonManifoldVerticesOnePass() || (counter < 10));// Normally
-		// this should
-		// run at most
-		// 3 or 4
-		// times
-	}
-
-	/**
 	 *
 	 *
 	 * @return
@@ -3549,23 +3267,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		subdivide(new HES_CatmullClark(), rep);
 	}
 
-	/**
-	 * Fix loops.
-	 */
-	public void fixLoops() {
-		for (final HE_Halfedge he : getHalfedgesAsList()) {
-			if (he.getPrevInFace() == null) {
-				HE_Halfedge hen = he.getNextInFace();
-				while (hen.getNextInFace() != he) {
-					hen = hen.getNextInFace();
-				}
-				setNext(hen,he);
-			}
-		}
-	}
-
-
-
 	/*
 	 * (non-Javadoc)
 	 *
@@ -3583,7 +3284,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	@Override
 	public HE_Mesh apply(final WB_Transform T) {
-		return new HEC_Transform(this,T).create();
+		return new HEC_Transform(this, T).create();
 	}
 
 	/**
@@ -3933,7 +3634,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @param i
 	 */
 	public void setHalfedgeColorWithOtherInternalLabel(final int color, final int i) {
-		final HE_HalfedgeIterator heitr = heItr();;
+		final HE_HalfedgeIterator heitr = heItr();
+		;
 		HE_Halfedge f;
 		while (heitr.hasNext()) {
 			f = heitr.next();
@@ -3949,7 +3651,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return
 	 */
 	public int getGenus() {
-		return (2 - getEulerCharacteristic()-getNumberOfBoundaryComponents() ) / 2;
+		return (2 - getEulerCharacteristic() - getNumberOfBoundaryComponents()) / 2;
 	}
 
 	/**
@@ -3958,7 +3660,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return
 	 */
 	public int getEulerCharacteristic() {
-		return (getNumberOfVertices() - getNumberOfEdges()) + getNumberOfFaces();
+		return getNumberOfVertices() - getNumberOfEdges() + getNumberOfFaces();
 	}
 
 	/**
@@ -3981,25 +3683,12 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 
 	/**
 	 *
-	 */
-	public void cleanUVW() {
-		HE_VertexIterator vItr = vItr();
-		while (vItr.hasNext()) {
-			vItr.next().cleanUVW();
-
-		}
-	}
-
-	/**
-	 *
 	 *
 	 * @return
 	 */
-	public int getNumberOfBoundaryComponents(){
+	public int getNumberOfBoundaryComponents() {
 		return getBoundaryLoopHalfedges().size();
 
-
 	}
-
 
 }

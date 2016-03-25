@@ -41,7 +41,7 @@ import wblut.math.WB_Math;
  * @author Frederik Vanhoutte (W:Blut)
  *
  */
-public class HE_Face extends HE_MeshElement implements WB_HasColor {
+public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<HE_Face> {
 	/** Halfedge associated with this face. */
 	private HE_Halfedge _halfedge;
 	private int facecolor;
@@ -224,38 +224,38 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 		final double z = WB_Math.fastAbs(n.zd());
 		double area = 0;
 		int coord = 3;
-		if ((x >= y) && (x >= z)) {
+		if (x >= y && x >= z) {
 			coord = 1;
-		} else if ((y >= x) && (y >= z)) {
+		} else if (y >= x && y >= z) {
 			coord = 2;
 		}
 		HE_Halfedge he = _halfedge;
 		do {
 			switch (coord) {
 			case 1:
-				area += (he.getVertex().yd()
-						* (he.getNextInFace().getVertex().zd() - he.getPrevInFace().getVertex().zd()));
+				area += he.getVertex().yd()
+						* (he.getNextInFace().getVertex().zd() - he.getPrevInFace().getVertex().zd());
 				break;
 			case 2:
-				area += (he.getVertex().xd()
-						* (he.getNextInFace().getVertex().zd() - he.getPrevInFace().getVertex().zd()));
+				area += he.getVertex().xd()
+						* (he.getNextInFace().getVertex().zd() - he.getPrevInFace().getVertex().zd());
 				break;
 			case 3:
-				area += (he.getVertex().xd()
-						* (he.getNextInFace().getVertex().yd() - he.getPrevInFace().getVertex().yd()));
+				area += he.getVertex().xd()
+						* (he.getNextInFace().getVertex().yd() - he.getPrevInFace().getVertex().yd());
 				break;
 			}
 			he = he.getNextInFace();
 		} while (he != _halfedge);
 		switch (coord) {
 		case 1:
-			area *= (0.5 / x);
+			area *= 0.5 / x;
 			break;
 		case 2:
-			area *= (0.5 / y);
+			area *= 0.5 / y;
 			break;
 		case 3:
-			area *= (0.5 / z);
+			area *= 0.5 / z;
 		}
 		return WB_Math.fastAbs(area);
 	}
@@ -386,8 +386,8 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 		do {
 			if (!fhe.contains(he)) {
 				fhe.add(he);
-				if(he.getPair()!=null) {
-					if(!fhe.contains(he.getPair())) {
+				if (he.getPair() != null) {
+					if (!fhe.contains(he.getPair())) {
 						fhe.add(he.getPair());
 					}
 				}
@@ -552,6 +552,28 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 	/**
 	 *
 	 *
+	 * @param he
+	 * @return
+	 */
+	@Override
+	public int compareTo(final HE_Face f) {
+		if (f.getHalfedge() == null) {
+			if (getHalfedge() == null) {
+
+				return 0;
+			} else {
+				return 1;
+			}
+		} else if (getHalfedge() == null) {
+			return -1;
+		}
+
+		return getHalfedge().compareTo(f.getHalfedge());
+	}
+
+	/**
+	 *
+	 *
 	 * @return
 	 */
 	public int[] getTriangles() {
@@ -581,10 +603,10 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 		} else if (isDegenerate()) {
 			// degenerate face
 			triangles = new int[3 * (fo - 2)];
-			for (int i = 0; i < (fo - 2); i++) {
+			for (int i = 0; i < fo - 2; i++) {
 				triangles[3 * i] = 0;
-				triangles[(3 * i) + 1] = i + 1;
-				triangles[(3 * i) + 2] = i + 2;
+				triangles[3 * i + 1] = i + 1;
+				triangles[3 * i + 2] = i + 2;
 			}
 		} else if (fo == 4) {
 			// tracker.setStatus("Triangulating face with " + fo
@@ -694,7 +716,7 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 		HE_Halfedge he = getHalfedge();
 		do {
 			final HE_Halfedge hep = he.getPair();
-			if ((hep != null) && (hep.getFace() != null)) {
+			if (hep != null && hep.getFace() != null) {
 				if (hep.getFace() != this) {
 					if (!ff.contains(hep.getFace())) {
 						ff.add(hep.getFace());
@@ -715,7 +737,7 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor {
 	public String toString() {
 		String s = "HE_Face key: " + key() + ". Connects " + getFaceOrder() + " vertices: ";
 		HE_Halfedge he = getHalfedge();
-		for (int i = 0; i < (getFaceOrder() - 1); i++) {
+		for (int i = 0; i < getFaceOrder() - 1; i++) {
 			s += he.getVertex()._key + "-";
 			he = he.getNextInFace();
 		}

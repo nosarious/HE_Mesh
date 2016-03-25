@@ -53,40 +53,41 @@ public class HEM_Shell extends HEM_Modifier {
 		if (d == 0) {
 			return mesh;
 		}
-		HEC_Copy cc=new HEC_Copy().setMesh(mesh);
-		final HE_Mesh innerMesh =cc.create();
 
-		TLongLongMap heCorrelation=cc.halfedgeCorrelation;
+		HEC_Copy cc = new HEC_Copy().setMesh(mesh);
+		final HE_Mesh innerMesh = cc.create();
 
+		TLongLongMap heCorrelation = cc.halfedgeCorrelation;
 
 		final HEM_VertexExpand expm = new HEM_VertexExpand().setDistance(-d);
 		innerMesh.modify(expm);
 		innerMesh.flipFaces();
 		mesh.add(innerMesh);
-		HE_Halfedge he1, he2,heio,heoi;
+		HE_Halfedge he1, he2, heio, heoi;
 		HE_Face fNew;
-		for ( TLongLongIterator it = heCorrelation.iterator(); it.hasNext(); ) {
+		for (TLongLongIterator it = heCorrelation.iterator(); it.hasNext();) {
 			it.advance();
 			he1 = mesh.getHalfedgeWithKey(it.key());
-			if(he1.isOuterBoundary()){
+			if (he1.isOuterBoundary()) {
 				he2 = mesh.getHalfedgeWithKey(it.value());
-				heio=new HE_Halfedge();
-				heoi=new HE_Halfedge();
-				mesh.setVertex(heio,he1.getPair().getVertex());
+				heio = new HE_Halfedge();
+				heoi = new HE_Halfedge();
+				mesh.setVertex(heio, he1.getPair().getVertex());
 				heio.setUVW(he1.getPair().getVertex().getUVW(he1.getPair().getFace()));
-				mesh.setVertex(heoi,he2.getPair().getVertex());
+				mesh.setVertex(heoi, he2.getPair().getVertex());
 				heoi.setUVW(he2.getPair().getVertex().getUVW(he2.getPair().getFace()));
-				mesh.setNext(he1,heio);
-				mesh.setNext(heio,he2);
-				mesh.setNext(he2,heoi);
-				mesh.setNext(heoi,he1);
+				mesh.setNext(he1, heio);
+				mesh.setNext(heio, he2);
+				mesh.setNext(he2, heoi);
+				mesh.setNext(heoi, he1);
 				fNew = new HE_Face();
+				fNew.setInternalLabel(1);
 				mesh.add(fNew);
-				mesh.setHalfedge(fNew,he1);
-				mesh.setFace(he1,fNew);
-				mesh.setFace(he2,fNew);
-				mesh.setFace(heio,fNew);
-				mesh.setFace(heoi,fNew);
+				mesh.setHalfedge(fNew, he1);
+				mesh.setFace(he1, fNew);
+				mesh.setFace(he2, fNew);
+				mesh.setFace(heio, fNew);
+				mesh.setFace(heoi, fNew);
 				mesh.add(heio);
 				mesh.add(heoi);
 			}

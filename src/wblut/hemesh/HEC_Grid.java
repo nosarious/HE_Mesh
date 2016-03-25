@@ -63,8 +63,7 @@ public class HEC_Grid extends HEC_Creator {
 	 * @param uSize
 	 * @param vSize
 	 */
-	public HEC_Grid(final int U, final int V, final double uSize,
-			final double vSize) {
+	public HEC_Grid(final int U, final int V, final double uSize, final double vSize) {
 		this();
 		this.uSize = uSize;
 		this.vSize = vSize;
@@ -124,8 +123,8 @@ public class HEC_Grid extends HEC_Creator {
 	 */
 	public HEC_Grid setWValues(final double[][] values) {
 		this.values = new double[U + 1][V + 1];
-		for (int i = 0; i < (U + 1); i++) {
-			for (int j = 0; j < (V + 1); j++) {
+		for (int i = 0; i < U + 1; i++) {
+			for (int j = 0; j < V + 1; j++) {
 				this.values[i][j] = values[i][j];
 				maxWValue = Math.max(maxWValue, values[i][j]);
 				minWValue = Math.min(minWValue, values[i][j]);
@@ -144,12 +143,12 @@ public class HEC_Grid extends HEC_Creator {
 	 * @param dv
 	 * @return
 	 */
-	public HEC_Grid setWValues(final WB_ScalarParameter height,
-			final double ui, final double vi, final double du, final double dv) {
+	public HEC_Grid setWValues(final WB_ScalarParameter height, final double ui, final double vi, final double du,
+			final double dv) {
 		values = new double[U + 1][V + 1];
-		for (int i = 0; i < (U + 1); i++) {
-			for (int j = 0; j < (V + 1); j++) {
-				values[i][j] = height.evaluate(ui + (i * du), vi + (j * dv));
+		for (int i = 0; i < U + 1; i++) {
+			for (int j = 0; j < V + 1; j++) {
+				values[i][j] = height.evaluate(ui + i * du, vi + j * dv);
 				maxWValue = Math.max(maxWValue, values[i][j]);
 				minWValue = Math.min(minWValue, values[i][j]);
 			}
@@ -165,8 +164,8 @@ public class HEC_Grid extends HEC_Creator {
 	 */
 	public HEC_Grid setWValues(final float[][] values) {
 		this.values = new double[U + 1][V + 1];
-		for (int i = 0; i < (U + 1); i++) {
-			for (int j = 0; j < (V + 1); j++) {
+		for (int i = 0; i < U + 1; i++) {
+			for (int j = 0; j < V + 1; j++) {
 				this.values[i][j] = values[i][j];
 				maxWValue = Math.max(maxWValue, values[i][j]);
 				minWValue = Math.min(minWValue, values[i][j]);
@@ -184,8 +183,8 @@ public class HEC_Grid extends HEC_Creator {
 	public HEC_Grid setWValues(final float[] values) {
 		int id = 0;
 		this.values = new double[U + 1][V + 1];
-		for (int j = 0; j < (V + 1); j++) {
-			for (int i = 0; i < (U + 1); i++) {
+		for (int j = 0; j < V + 1; j++) {
+			for (int i = 0; i < U + 1; i++) {
 				this.values[i][j] = values[id];
 				maxWValue = Math.max(maxWValue, values[id]);
 				minWValue = Math.min(minWValue, values[id]);
@@ -204,8 +203,8 @@ public class HEC_Grid extends HEC_Creator {
 	public HEC_Grid setWValues(final double[] values) {
 		int id = 0;
 		this.values = new double[U + 1][V + 1];
-		for (int j = 0; j < (V + 1); j++) {
-			for (int i = 0; i < (U + 1); i++) {
+		for (int j = 0; j < V + 1; j++) {
+			for (int i = 0; i < U + 1; i++) {
 				this.values[i][j] = values[id];
 				maxWValue = Math.max(maxWValue, values[id]);
 				minWValue = Math.min(minWValue, values[id]);
@@ -233,7 +232,7 @@ public class HEC_Grid extends HEC_Creator {
 	 */
 	@Override
 	protected HE_Mesh createBase() {
-		if ((uSize == 0) || (vSize == 0)) {
+		if (uSize == 0 || vSize == 0) {
 			return new HE_Mesh();
 		}
 		final double dU = uSize / U;
@@ -245,8 +244,8 @@ public class HEC_Grid extends HEC_Creator {
 		final int[][] faces = new int[U * V][4];
 		int index = 0;
 		if (values == null) {
-			for (int j = 0; j < (V + 1); j++) {
-				for (int i = 0; i < (U + 1); i++) {
+			for (int j = 0; j < V + 1; j++) {
+				for (int i = 0; i < U + 1; i++) {
 					points[index][0] = i * dU;
 					points[index][1] = j * dV;
 					points[index][2] = 0;
@@ -257,8 +256,8 @@ public class HEC_Grid extends HEC_Creator {
 				}
 			}
 		} else {
-			for (int j = 0; j < (V + 1); j++) {
-				for (int i = 0; i < (U + 1); i++) {
+			for (int j = 0; j < V + 1; j++) {
+				for (int i = 0; i < U + 1; i++) {
 					points[index][0] = i * dU;
 					points[index][1] = j * dV;
 					points[index][2] = WScale * values[i][j];
@@ -275,16 +274,15 @@ public class HEC_Grid extends HEC_Creator {
 		index = 0;
 		for (int j = 0; j < V; j++) {
 			for (int i = 0; i < U; i++) {
-				faces[index][0] = i + ((U + 1) * j);
-				faces[index][1] = i + 1 + ((U + 1) * j);
-				faces[index][2] = i + 1 + ((U + 1) * (j + 1));
-				faces[index][3] = i + ((U + 1) * (j + 1));
+				faces[index][0] = i + (U + 1) * j;
+				faces[index][1] = i + 1 + (U + 1) * j;
+				faces[index][2] = i + 1 + (U + 1) * (j + 1);
+				faces[index][3] = i + (U + 1) * (j + 1);
 				index++;
 			}
 		}
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
-		fl.setVertices(points).setUVW(uvw).setFaces(faces).setDuplicate(false)
-		.setCheckNormals(false);
+		fl.setVertices(points).setUVW(uvw).setFaces(faces).setDuplicate(false).setCheckNormals(false);
 		return fl.createBase();
 	}
 }

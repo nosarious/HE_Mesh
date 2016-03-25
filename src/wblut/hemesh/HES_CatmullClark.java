@@ -44,7 +44,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 	private WB_ScalarParameter blendFactor;
 
 	/**
-	 * Instantiates a new hE s_ catmull clark.
+	
 	 */
 	public HES_CatmullClark() {
 		super();
@@ -198,7 +198,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 						c++;
 					}
 				}
-				newPositions.put(v.key(), (nc > 1) ? gf.createInterpolatedPoint(v, p.scaleSelf(1.0 / c),
+				newPositions.put(v.key(), nc > 1 ? gf.createInterpolatedPoint(v, p.scaleSelf(1.0 / c),
 						blendFactor.evaluate(v.xd(), v.yd(), v.zd())) : v);
 			}
 			counter.increment();
@@ -315,13 +315,13 @@ public class HES_CatmullClark extends HES_Subdividor {
 				int nc = 0;
 				for (int i = 0; i < neighbors.size(); i++) {
 					n = neighbors.get(i);
-					if ((boundary.contains(n)) && (selection.contains(n))) {
+					if (boundary.contains(n) && selection.contains(n)) {
 						p.addSelf(n);
 						nc++;
 						c++;
 					}
 				}
-				newPositions.put(v.key(), (nc > 1) ? gf.createInterpolatedPoint(v, p.scaleSelf(1.0 / c),
+				newPositions.put(v.key(), nc > 1 ? gf.createInterpolatedPoint(v, p.scaleSelf(1.0 / c),
 						blendFactor.evaluate(v.xd(), v.yd(), v.zd())) : v);
 			}
 		}
@@ -414,9 +414,9 @@ public class HES_CatmullClark extends HES_Subdividor {
 	}
 
 	public static void main(final String[] args) {
-		HEC_Cylinder creator=new HEC_Cylinder();
+		HEC_Cylinder creator = new HEC_Cylinder();
 		creator.setFacets(9).setSteps(4).setRadius(150).setHeight(400).setCap(false, true).setCenter(0, 0, 0);
-		HE_Mesh mesh=new HE_Mesh(creator);
+		HE_Mesh mesh = new HE_Mesh(creator);
 		mesh.modify(new HEM_Noise().setDistance(50));
 
 		mesh.smooth(2);

@@ -52,6 +52,7 @@ import wblut.geom.WB_Triangle;
 import wblut.geom.WB_Triangulation2D;
 import wblut.geom.WB_Triangulation3D;
 import wblut.geom.WB_Vector;
+import wblut.hemesh.HEC_ChamferBox;
 import wblut.hemesh.HE_EdgeIterator;
 import wblut.hemesh.HE_Face;
 import wblut.hemesh.HE_FaceEdgeCirculator;
@@ -254,7 +255,7 @@ public class WB_Render3D extends WB_Render2D {
 		WB_Point p1;
 		final double du = (maxU - minU) / n;
 		for (int i = 0; i < n; i++) {
-			p1 = C.curvePoint(minU + ((i + 1) * du));
+			p1 = C.curvePoint(minU + (i + 1) * du);
 			line(p0, p1);
 			p0 = p1;
 		}
@@ -433,7 +434,7 @@ public class WB_Render3D extends WB_Render2D {
 
 		final List<HE_Vertex> vertices = f.getFaceVertices();
 
-		if ((fo < 3) || (vertices.size() < 3)) {
+		if (fo < 3 || vertices.size() < 3) {
 		} else if (fo == 3) {
 			final int[] tri = new int[] { 0, 1, 2 };
 			HE_Vertex v0, v1, v2;
@@ -520,7 +521,7 @@ public class WB_Render3D extends WB_Render2D {
 	public void drawFace(final HE_Face f, final PImage texture, final boolean smooth) {
 		final int fo = f.getFaceOrder();
 		final List<HE_Vertex> vertices = f.getFaceVertices();
-		if ((fo < 3) || (vertices.size() < 3)) {
+		if (fo < 3 || vertices.size() < 3) {
 		} else if (fo == 3) {
 			final int[] tri = new int[] { 0, 1, 2 };
 			HE_Vertex v0, v1, v2;
@@ -611,14 +612,14 @@ public class WB_Render3D extends WB_Render2D {
 		final int fo = f.getFaceOrder();
 		final int fti = f.getTextureId();
 		final List<HE_Vertex> vertices = f.getFaceVertices();
-		if ((fo < 3) || (vertices.size() < 3)) {
+		if (fo < 3 || vertices.size() < 3) {
 		} else if (fo == 3) {
 			final int[] tri = new int[] { 0, 1, 2 };
 			HE_Vertex v0, v1, v2;
 			WB_Coord n0, n1, n2;
 			if (smooth) {
 				home.beginShape(PConstants.TRIANGLES);
-				if ((fti>=0)&&(fti<textures.length)) {
+				if (fti >= 0 && fti < textures.length) {
 					home.texture(textures[fti]);
 					v0 = vertices.get(tri[0]);
 					n0 = v0.getVertexNormal();
@@ -650,7 +651,7 @@ public class WB_Render3D extends WB_Render2D {
 				}
 			} else {
 				home.beginShape(PConstants.TRIANGLES);
-				if ((fti>=0)&&(fti<textures.length)) {
+				if (fti >= 0 && fti < textures.length) {
 					home.texture(textures[fti]);
 					v0 = vertices.get(tri[0]);
 					v1 = vertices.get(tri[1]);
@@ -676,7 +677,7 @@ public class WB_Render3D extends WB_Render2D {
 			if (smooth) {
 				for (int i = 0; i < tris.length; i += 3) {
 					home.beginShape(PConstants.TRIANGLES);
-					if ((fti>=0)&&(fti<textures.length)) {
+					if (fti >= 0 && fti < textures.length) {
 						home.texture(textures[fti]);
 						v0 = vertices.get(tris[i]);
 						n0 = v0.getVertexNormal();
@@ -712,7 +713,7 @@ public class WB_Render3D extends WB_Render2D {
 				for (int i = 0; i < tris.length; i += 3) {
 					home.beginShape(PConstants.TRIANGLES);
 
-					if ((fti>=0)&&(fti<textures.length)) {
+					if (fti >= 0 && fti < textures.length) {
 						home.texture(textures[fti]);
 						v0 = vertices.get(tris[i]);
 						v1 = vertices.get(tris[i + 1]);
@@ -931,7 +932,7 @@ public class WB_Render3D extends WB_Render2D {
 	public void drawFaceOffset(final HE_Face f, final double d) {
 		final int fo = f.getFaceOrder();
 		final List<HE_Vertex> vertices = f.getFaceVertices();
-		if ((fo < 3) || (vertices.size() < 3)) {
+		if (fo < 3 || vertices.size() < 3) {
 		} else if (fo == 3) {
 			final WB_Coord fn = f.getFaceNormal();
 			final int[] tri = new int[] { 0, 1, 2 };
@@ -941,9 +942,9 @@ public class WB_Render3D extends WB_Render2D {
 			v0 = vertices.get(tri[0]);
 			v1 = vertices.get(tri[1]);
 			v2 = vertices.get(tri[2]);
-			home.vertex(v0.xf() + (df * fn.xf()), v0.yf() + (df * fn.yf()), v0.zf() + (df * fn.zf()));
-			home.vertex(v1.xf() + (df * fn.xf()), v1.yf() + (df * fn.yf()), v1.zf() + (df * fn.zf()));
-			home.vertex(v2.xf() + (df * fn.xf()), v2.yf() + (df * fn.yf()), v2.zf() + (df * fn.zf()));
+			home.vertex(v0.xf() + df * fn.xf(), v0.yf() + df * fn.yf(), v0.zf() + df * fn.zf());
+			home.vertex(v1.xf() + df * fn.xf(), v1.yf() + df * fn.yf(), v1.zf() + df * fn.zf());
+			home.vertex(v2.xf() + df * fn.xf(), v2.yf() + df * fn.yf(), v2.zf() + df * fn.zf());
 			home.endShape();
 		} else {
 			final int[] tris = f.getTriangles();
@@ -955,9 +956,9 @@ public class WB_Render3D extends WB_Render2D {
 				v0 = vertices.get(tris[i]);
 				v1 = vertices.get(tris[i + 1]);
 				v2 = vertices.get(tris[i + 2]);
-				home.vertex(v0.xf() + (df * fn.xf()), v0.yf() + (df * fn.yf()), v0.zf() + (df * fn.zf()));
-				home.vertex(v1.xf() + (df * fn.xf()), v1.yf() + (df * fn.yf()), v1.zf() + (df * fn.zf()));
-				home.vertex(v2.xf() + (df * fn.xf()), v2.yf() + (df * fn.yf()), v2.zf() + (df * fn.zf()));
+				home.vertex(v0.xf() + df * fn.xf(), v0.yf() + df * fn.yf(), v0.zf() + df * fn.zf());
+				home.vertex(v1.xf() + df * fn.xf(), v1.yf() + df * fn.yf(), v1.zf() + df * fn.zf());
+				home.vertex(v2.xf() + df * fn.xf(), v2.yf() + df * fn.yf(), v2.zf() + df * fn.zf());
 				home.endShape();
 			}
 		}
@@ -1630,12 +1631,12 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 
 	public void drawLine(final WB_Line L, final double d) {
-		home.line((float) (L.getOrigin().xd() - (d * L.getDirection().xd())),
-				(float) (L.getOrigin().yd() - (d * L.getDirection().yd())),
-				(float) (L.getOrigin().zd() - (d * L.getDirection().zd())),
-				(float) (L.getOrigin().xd() + (d * L.getDirection().xd())),
-				(float) (L.getOrigin().yd() + (d * L.getDirection().yd())),
-				(float) (L.getOrigin().zd() + (d * L.getDirection().zd())));
+		home.line((float) (L.getOrigin().xd() - d * L.getDirection().xd()),
+				(float) (L.getOrigin().yd() - d * L.getDirection().yd()),
+				(float) (L.getOrigin().zd() - d * L.getDirection().zd()),
+				(float) (L.getOrigin().xd() + d * L.getDirection().xd()),
+				(float) (L.getOrigin().yd() + d * L.getDirection().yd()),
+				(float) (L.getOrigin().zd() + d * L.getDirection().zd()));
 	}
 
 	/**
@@ -1805,18 +1806,18 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 	public void drawPlane(final WB_Plane P, final double d) {
 		home.beginShape(PConstants.QUAD);
-		home.vertex((float) (P.getOrigin().xd() - (d * P.getU().xd()) - (d * P.getV().xd())),
-				(float) (P.getOrigin().yd() - (d * P.getU().yd()) - (d * P.getV().yd())),
-				(float) (P.getOrigin().zd() - (d * P.getU().zd()) - (d * P.getV().zd())));
-		home.vertex((float) ((P.getOrigin().xd() - (d * P.getU().xd())) + (d * P.getV().xd())),
-				(float) ((P.getOrigin().yd() - (d * P.getU().yd())) + (d * P.getV().yd())),
-				(float) ((P.getOrigin().zd() - (d * P.getU().zd())) + (d * P.getV().zd())));
-		home.vertex((float) (P.getOrigin().xd() + (d * P.getU().xd()) + (d * P.getV().xd())),
-				(float) (P.getOrigin().yd() + (d * P.getU().yd()) + (d * P.getV().yd())),
-				(float) (P.getOrigin().zd() + (d * P.getU().zd()) + (d * P.getV().zd())));
-		home.vertex((float) ((P.getOrigin().xd() + (d * P.getU().xd())) - (d * P.getV().xd())),
-				(float) ((P.getOrigin().yd() + (d * P.getU().yd())) - (d * P.getV().yd())),
-				(float) ((P.getOrigin().zd() + (d * P.getU().zd())) - (d * P.getV().zd())));
+		home.vertex((float) (P.getOrigin().xd() - d * P.getU().xd() - d * P.getV().xd()),
+				(float) (P.getOrigin().yd() - d * P.getU().yd() - d * P.getV().yd()),
+				(float) (P.getOrigin().zd() - d * P.getU().zd() - d * P.getV().zd()));
+		home.vertex((float) (P.getOrigin().xd() - d * P.getU().xd() + d * P.getV().xd()),
+				(float) (P.getOrigin().yd() - d * P.getU().yd() + d * P.getV().yd()),
+				(float) (P.getOrigin().zd() - d * P.getU().zd() + d * P.getV().zd()));
+		home.vertex((float) (P.getOrigin().xd() + d * P.getU().xd() + d * P.getV().xd()),
+				(float) (P.getOrigin().yd() + d * P.getU().yd() + d * P.getV().yd()),
+				(float) (P.getOrigin().zd() + d * P.getU().zd() + d * P.getV().zd()));
+		home.vertex((float) (P.getOrigin().xd() + d * P.getU().xd() - d * P.getV().xd()),
+				(float) (P.getOrigin().yd() + d * P.getU().yd() - d * P.getV().yd()),
+				(float) (P.getOrigin().zd() + d * P.getU().zd() - d * P.getV().zd()));
 		home.endShape();
 	}
 
@@ -2165,7 +2166,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param points
 	 */
 	public void drawPolygon(final int[] indices, final List<? extends WB_Coord> points) {
-		if ((points != null) && (indices != null)) {
+		if (points != null && indices != null) {
 			home.beginShape(PConstants.POLYGON);
 			for (final int indice : indices) {
 				home.vertex(points.get(indice).xf(), points.get(indice).yf(), points.get(indice).zf());
@@ -2206,7 +2207,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param points
 	 */
 	public void drawPolygonEdges(final int[] indices, final List<? extends WB_Coord> points) {
-		if ((points != null) && (indices != null)) {
+		if (points != null && indices != null) {
 			home.beginShape();
 			for (final int indice : indices) {
 				home.vertex(points.get(indice).xf(), points.get(indice).yf(), points.get(indice).zf());
@@ -2364,7 +2365,7 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 
 	public void drawPolyLine(final WB_PolyLine P) {
-		for (int i = 0; i < (P.getNumberOfPoints() - 1); i++) {
+		for (int i = 0; i < P.getNumberOfPoints() - 1; i++) {
 			line(P.getPoint(i), P.getPoint(i + 1));
 		}
 	}
@@ -2387,7 +2388,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param P
 	 */
 	public void drawPolylineEdges(final WB_PolyLine P) {
-		for (int i = 0; i < (P.getNumberOfPoints() - 1); i++) {
+		for (int i = 0; i < P.getNumberOfPoints() - 1; i++) {
 			line(P.getPoint(i), P.getPoint(i + 1));
 		}
 	}
@@ -2399,7 +2400,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param map
 	 */
 	public void drawPolyLineEmbedded2D(final WB_PolyLine P, final WB_Map2D map) {
-		for (int i = 0; i < (P.getNumberOfPoints() - 1); i++) {
+		for (int i = 0; i < P.getNumberOfPoints() - 1; i++) {
 			drawSegmentEmbedded2D(P.getPoint(i), P.getPoint(i + 1), map);
 		}
 	}
@@ -2411,7 +2412,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param map
 	 */
 	public void drawPolyLineMapped(final WB_PolyLine P, final WB_Map map) {
-		for (int i = 0; i < (P.getNumberOfPoints() - 1); i++) {
+		for (int i = 0; i < P.getNumberOfPoints() - 1; i++) {
 			drawSegmentMapped(P.getPoint(i), P.getPoint(i + 1), map);
 		}
 	}
@@ -2423,7 +2424,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param map
 	 */
 	public void drawPolyLineUnmapped(final WB_PolyLine P, final WB_Map map) {
-		for (int i = 0; i < (P.getNumberOfPoints() - 1); i++) {
+		for (int i = 0; i < P.getNumberOfPoints() - 1; i++) {
 			drawSegmentUnmapped(P.getPoint(i), P.getPoint(i + 1), map);
 		}
 	}
@@ -2466,10 +2467,10 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 
 	public void drawRay(final WB_Ray R, final double d) {
-		home.line((float) (R.getOrigin().xd()), (float) (R.getOrigin().yd()), (float) (R.getOrigin().zd()),
-				(float) (R.getOrigin().xd() + (d * R.getDirection().xd())),
-				(float) (R.getOrigin().yd() + (d * R.getDirection().yd())),
-				(float) (R.getOrigin().zd() + (d * R.getDirection().zd())));
+		home.line((float) R.getOrigin().xd(), (float) R.getOrigin().yd(), (float) R.getOrigin().zd(),
+				(float) (R.getOrigin().xd() + d * R.getDirection().xd()),
+				(float) (R.getOrigin().yd() + d * R.getDirection().yd()),
+				(float) (R.getOrigin().zd() + d * R.getDirection().zd()));
 	}
 
 	/**
@@ -2756,7 +2757,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param points
 	 */
 	public void drawTetrahedron(final int[] indices, final List<? extends WB_Coord> points) {
-		if ((points != null) && (indices != null)) {
+		if (points != null && indices != null) {
 			for (int i = 0; i < indices.length; i += 4) {
 				drawTetrahedron(points.get(indices[i]), points.get(indices[i + 1]), points.get(indices[i + 2]),
 						points.get(indices[i + 3]));
@@ -2771,7 +2772,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param points
 	 */
 	public void drawTetrahedron(final int[] indices, final WB_Coord[] points) {
-		if ((points != null) && (indices != null)) {
+		if (points != null && indices != null) {
 			for (int i = 0; i < indices.length; i += 4) {
 				drawTetrahedron(points[indices[i]], points[indices[i + 1]], points[indices[i + 2]],
 						points[indices[i + 3]]);
@@ -3850,28 +3851,28 @@ public class WB_Render3D extends WB_Render2D {
 			// y=mouseY to -1..1
 			// z=0 if on near clipping plane, z=1 if on far clipping plane to
 			// -1..1
-			double normScreenX = 2.0 * ((iwidth * x) - 0.5);
-			double normScreenY = 2.0 * (0.5 - (iheight * y));
+			double normScreenX = 2.0 * (iwidth * x - 0.5);
+			double normScreenY = 2.0 * (0.5 - iheight * y);
 			double normScreenZ = 2.0 * (constrain(z, 0, 1) - 0.5);
 			// normScreenW=1.0
 
 			// Homogeneous coordinates in world space x',y',z',w' = normalized
 			// screen coordinates * inverse projection matrix
 			// Only possible if w' is not zero
-			double wPrime = (normScreenX * unprojection.m30) + (normScreenY * unprojection.m31)
-					+ (unprojection.m32 * normScreenZ) + unprojection.m33;
+			double wPrime = normScreenX * unprojection.m30 + normScreenY * unprojection.m31
+					+ unprojection.m32 * normScreenZ + unprojection.m33;
 			// Homogeneous coordinates to Cartesian coordinates: x=x'/w',
 			// y=y'/w',z=z'/w'
 			if (Math.abs(wPrime) < 1e-12) { // "Point in infinity"
 				return null;
 			}
 			double iw = 1.0 / wPrime;
-			double xPrime = (normScreenX * unprojection.m00) + (normScreenY * unprojection.m01)
-					+ (normScreenZ * unprojection.m02) + unprojection.m03;
-			double yPrime = (normScreenX * unprojection.m10) + (normScreenY * unprojection.m11)
-					+ (normScreenZ * unprojection.m12) + unprojection.m13;
-			double zPrime = (normScreenX * unprojection.m20) + (normScreenY * unprojection.m21)
-					+ (normScreenZ * unprojection.m22) + unprojection.m23;
+			double xPrime = normScreenX * unprojection.m00 + normScreenY * unprojection.m01
+					+ normScreenZ * unprojection.m02 + unprojection.m03;
+			double yPrime = normScreenX * unprojection.m10 + normScreenY * unprojection.m11
+					+ normScreenZ * unprojection.m12 + unprojection.m13;
+			double zPrime = normScreenX * unprojection.m20 + normScreenY * unprojection.m21
+					+ normScreenZ * unprojection.m22 + unprojection.m23;
 			return new WB_Point(xPrime * iw, yPrime * iw, zPrime * iw);
 		}
 
@@ -3916,7 +3917,7 @@ public class WB_Render3D extends WB_Render2D {
 	public HE_Face pickClosestFace(final HE_Mesh mesh, final double x, final double y) {
 		final WB_Ray mouseRay3d = getPickingRay(x, y);
 		final HE_FaceIntersection p = HE_GeometryOp.getClosestIntersection(mesh, mouseRay3d);
-		return (p == null) ? null : p.face;
+		return p == null ? null : p.face;
 	}
 
 	/**
@@ -3930,7 +3931,7 @@ public class WB_Render3D extends WB_Render2D {
 	public HE_Face pickClosestFace(final WB_AABBTree meshtree, final double x, final double y) {
 		final WB_Ray mouseRay3d = getPickingRay(x, y);
 		final HE_FaceIntersection p = HE_GeometryOp.getClosestIntersection(meshtree, mouseRay3d);
-		return (p == null) ? null : p.face;
+		return p == null ? null : p.face;
 	}
 
 	/**
@@ -4042,7 +4043,7 @@ public class WB_Render3D extends WB_Render2D {
 	public HE_Face pickFurthestFace(final HE_Mesh mesh, final double x, final double y) {
 		final WB_Ray mouseRay3d = getPickingRay(x, y);
 		final HE_FaceIntersection p = HE_GeometryOp.getFurthestIntersection(mesh, mouseRay3d);
-		return (p == null) ? null : p.face;
+		return p == null ? null : p.face;
 	}
 
 	/**
@@ -4056,7 +4057,7 @@ public class WB_Render3D extends WB_Render2D {
 	public HE_Face pickFurthestFace(final WB_AABBTree meshtree, final double x, final double y) {
 		final WB_Ray mouseRay3d = getPickingRay(x, y);
 		final HE_FaceIntersection p = HE_GeometryOp.getFurthestIntersection(meshtree, mouseRay3d);
-		return (p == null) ? null : p.face;
+		return p == null ? null : p.face;
 	}
 
 	/**
@@ -4295,15 +4296,15 @@ public class WB_Render3D extends WB_Render2D {
 				for (int i = 0; i < tris.length; i += 3) {
 					v = vertices.get(tris[i]);
 					fn = v.getVertexNormal();
-					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()),
+					retained.vertex(v.xf() + df * fn.xf(), v.yf() + df * fn.yf(), v.zf() + df * fn.zf(),
 							v.getUVW(f).xf(), v.getUVW(f).yf());
 					v = vertices.get(tris[i + 1]);
 					fn = v.getVertexNormal();
-					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()),
+					retained.vertex(v.xf() + df * fn.xf(), v.yf() + df * fn.yf(), v.zf() + df * fn.zf(),
 							v.getUVW(f).xf(), v.getUVW(f).yf());
 					v = vertices.get(tris[i + 2]);
 					fn = v.getVertexNormal();
-					retained.vertex(v.xf() + (df * fn.xf()), v.yf() + (df * fn.yf()), v.zf() + (df * fn.zf()),
+					retained.vertex(v.xf() + df * fn.xf(), v.yf() + df * fn.yf(), v.zf() + df * fn.zf(),
 							v.getUVW(f).xf(), v.getUVW(f).yf());
 				}
 			}
@@ -4784,6 +4785,13 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 	public PShape toFacettedPShapeWithVertexColor(final HE_Mesh mesh) {
 		return toFacetedPShapeWithVertexColor(mesh);
+	}
+
+	public static void main(final String[] args) {
+		HEC_ChamferBox creator = new HEC_ChamferBox();
+		creator.setWidth(400).setHeight(60).setDepth(200);
+		creator.setWidthSegments(14).setHeightSegments(3).setDepthSegments(20);
+		new HE_Mesh(creator);
 	}
 
 }

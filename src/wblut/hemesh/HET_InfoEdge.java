@@ -9,7 +9,7 @@
  */
 package wblut.hemesh;
 
-public  interface HET_EdgeInfo<E extends Object>{
+public  interface HET_InfoEdge<E extends Object>{
 	
 	/**
 	 * 

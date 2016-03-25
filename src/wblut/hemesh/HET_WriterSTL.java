@@ -31,7 +31,7 @@ import wblut.geom.WB_Vector;
  *
  * http://en.wikipedia.org/wiki/STL_(file_format)
  */
-public class HET_STLWriter {
+public class HET_WriterSTL {
     
     /**
      * 
@@ -92,7 +92,7 @@ public class HET_STLWriter {
     /**
      * 
      */
-    public HET_STLWriter() {
+    public HET_WriterSTL() {
 	this(DEFAULT, DEFAULT_BUFFER);
     }
 
@@ -102,7 +102,7 @@ public class HET_STLWriter {
      * @param cm 
      * @param bufSize 
      */
-    public HET_STLWriter(final STLColorModel cm, final int bufSize) {
+    public HET_WriterSTL(final STLColorModel cm, final int bufSize) {
 	colorModel = cm;
 	this.bufferSize = bufSize;
     }

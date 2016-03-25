@@ -16,7 +16,7 @@ import wblut.geom.WB_Coord;
 /**
  * 
  */
-public class HET_POVWriter {
+public class HET_WriterPoV {
     /** The comma. */
     final String COMMA = ", ";
     /** The pov writer. */

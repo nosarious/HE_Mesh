@@ -38,7 +38,6 @@ public class HEC_ChamferBox extends HEC_Creator {
 	/** chamfer depth. */
 	private double CD;
 
-
 	/** inner width. */
 	private double IW;
 	/** inner height. */
@@ -54,7 +53,7 @@ public class HEC_ChamferBox extends HEC_Creator {
 		super();
 		W = H = D = 100;
 		L = M = N = 1;
-		CW=CH=CD=10;
+		CW = CH = CD = 10;
 	}
 
 	/**
@@ -79,8 +78,8 @@ public class HEC_ChamferBox extends HEC_Creator {
 	 * @param N
 	 *            number of depth divisions
 	 */
-	public HEC_ChamferBox(final double W, final double H, final double D,final double CW, final double CH, final double CD, final int L,
-			final int M, final int N) {
+	public HEC_ChamferBox(final double W, final double H, final double D, final double CW, final double CH,
+			final double CD, final int L, final int M, final int N) {
 		this();
 		this.W = W;
 		this.H = H;
@@ -122,9 +121,8 @@ public class HEC_ChamferBox extends HEC_Creator {
 	 * @param N
 	 *            number of depth divisions
 	 */
-	public HEC_ChamferBox(final double x, final double y, final double z,
-			final double W, final double H, final double D,final double CW, final double CH, final double CD, final int L,
-			final int M, final int N) {
+	public HEC_ChamferBox(final double x, final double y, final double z, final double W, final double H,
+			final double D, final double CW, final double CH, final double CD, final int L, final int M, final int N) {
 		this();
 		setCenter(x, y, z);
 		this.W = W;
@@ -163,8 +161,8 @@ public class HEC_ChamferBox extends HEC_Creator {
 	 * @param N
 	 *            number of depth divisions
 	 */
-	public HEC_ChamferBox(final WB_Coord center, final double W, final double H,
-			final double D,final double CW, final double CH, final double CD, final int L, final int M, final int N) {
+	public HEC_ChamferBox(final WB_Coord center, final double W, final double H, final double D, final double CW,
+			final double CH, final double CD, final int L, final int M, final int N) {
 		this();
 		setCenter(center.xd(), center.yd(), center.zd());
 		this.W = W;
@@ -177,7 +175,6 @@ public class HEC_ChamferBox extends HEC_Creator {
 		this.M = Math.max(1, M);
 		this.N = Math.max(1, N);
 	}
-
 
 	/**
 	 *
@@ -265,16 +262,15 @@ public class HEC_ChamferBox extends HEC_Creator {
 		return this;
 	}
 
-
 	public HEC_ChamferBox setChamfer(final double c) {
-		CW=CH=CD=c;
+		CW = CH = CD = c;
 		return this;
 	}
 
 	public HEC_ChamferBox setChamfer(final double CW, final double CH, final double CD) {
-		this.CW=CW;
-		this.CH=CH;
-		this.CD=CD;
+		this.CW = CW;
+		this.CH = CH;
+		this.CD = CD;
 		return this;
 	}
 
@@ -285,9 +281,9 @@ public class HEC_ChamferBox extends HEC_Creator {
 	 */
 	@Override
 	protected HE_Mesh createBase() {
-		IW=W-(2*CW);
-		IH=H-(2*CH);
-		ID=D-(2*CD);
+		IW = W - 2 * CW;
+		IH = H - 2 * CH;
+		ID = D - 2 * CD;
 
 		final double oW = -0.5 * W;// X
 		final double oH = -0.5 * H;// Y
@@ -295,19 +291,23 @@ public class HEC_ChamferBox extends HEC_Creator {
 		final double oiW = -0.5 * IW;// X
 		final double oiH = -0.5 * IH;// Y
 		final double oiD = -0.5 * ID;// Z
-		final double dW = (IW * 1.0) / L;
-		final double dH = (IH * 1.0) / M;
-		final double dD = (ID * 1.0) / N;
+		final double dW = IW * 1.0 / L;
+		final double dH = IH * 1.0 / M;
+		final double dD = ID * 1.0 / N;
 		final double di = 1.0 / L;
 		final double dj = 1.0 / M;
 		final double dk = 1.0 / N;
-		final double[][] vertices = new double[(2 * (L + 1) * (M + 1))
-		                                       + (2 * (L + 1) * (N + 1)) + (2 * (M + 1) * (N + 1))][3];
-		final double[][] uvws = new double[(2 * (L + 1) * (M + 1))
-		                                   + (2 * (L + 1) * (N + 1)) + (2 * (M + 1) * (N + 1))][3];
-		final int[][] faces = new int[(2 * M * L) + (2 * L * N) + (2 * M * N)+(4*L) +(4*M)+(4*N)+8][];// 6 faces + 12 edges+ 8 corners,
-		final int[] faceTextureIds = new int[(2 * M * L) + (2 * L * N)
-		                                     + (2 * M * N)+(4*L) +(4*M)+(4*N)+8];
+		final double[][] vertices = new double[2 * (L + 1) * (M + 1) + 2 * (L + 1) * (N + 1)
+				+ 2 * (M + 1) * (N + 1)][3];
+		final double[][] uvws = new double[2 * (L + 1) * (M + 1) + 2 * (L + 1) * (N + 1) + 2 * (M + 1) * (N + 1)][3];
+		final int[][] faces = new int[2 * M * L + 2 * L * N + 2 * M * N + 4 * L + 4 * M + 4 * N + 8][];// 6
+																										// faces
+																										// +
+																										// 12
+																										// edges+
+																										// 8
+																										// corners,
+		final int[] faceTextureIds = new int[2 * M * L + 2 * L * N + 2 * M * N + 4 * L + 4 * M + 4 * N + 8];
 		int idv = 0;
 		int idf = 0;
 		final int LMv = (L + 1) * (M + 1);
@@ -316,10 +316,10 @@ public class HEC_ChamferBox extends HEC_Creator {
 		final int LNf = L * N;
 		final int MNv = (M + 1) * (N + 1);
 		final int MNf = M * N;
-		for (int v = 0; v < (M + 1); v++) {
-			for (int u = 0; u < (L + 1); u++) {
-				vertices[idv][0] = vertices[idv + LMv][0] = oiW + (u * dW);
-				vertices[idv][1] = vertices[idv + LMv][1] = oiH + (v * dH);
+		for (int v = 0; v < M + 1; v++) {
+			for (int u = 0; u < L + 1; u++) {
+				vertices[idv][0] = vertices[idv + LMv][0] = oiW + u * dW;
+				vertices[idv][1] = vertices[idv + LMv][1] = oiH + v * dH;
 				vertices[idv][2] = oD;
 				vertices[idv + LMv][2] = -oD;
 				uvws[idv][0] = di * u;
@@ -331,16 +331,16 @@ public class HEC_ChamferBox extends HEC_Creator {
 		}
 		for (int j = 0; j < M; j++) {
 			for (int i = 0; i < L; i++) {
-				faces[idf]=new int[4];
-				faces[idf][3] = i + (j * (L + 1));
-				faces[idf][2] = i + 1 + (j * (L + 1));
-				faces[idf][1] = i + 1 + ((j + 1) * (L + 1));
-				faces[idf][0] = i + ((j + 1) * (L + 1));
-				faces[idf+LMf]=new int[4];
-				faces[idf + LMf][0] = i + (j * (L + 1)) + LMv;
-				faces[idf + LMf][1] = i + 1 + (j * (L + 1)) + LMv;
-				faces[idf + LMf][2] = i + 1 + ((j + 1) * (L + 1)) + LMv;
-				faces[idf + LMf][3] = i + ((j + 1) * (L + 1)) + LMv;
+				faces[idf] = new int[4];
+				faces[idf][3] = i + j * (L + 1);
+				faces[idf][2] = i + 1 + j * (L + 1);
+				faces[idf][1] = i + 1 + (j + 1) * (L + 1);
+				faces[idf][0] = i + (j + 1) * (L + 1);
+				faces[idf + LMf] = new int[4];
+				faces[idf + LMf][0] = i + j * (L + 1) + LMv;
+				faces[idf + LMf][1] = i + 1 + j * (L + 1) + LMv;
+				faces[idf + LMf][2] = i + 1 + (j + 1) * (L + 1) + LMv;
+				faces[idf + LMf][3] = i + (j + 1) * (L + 1) + LMv;
 				faceTextureIds[idf] = 0;
 				faceTextureIds[idf + LMf] = 1;
 				idf++;
@@ -348,10 +348,10 @@ public class HEC_ChamferBox extends HEC_Creator {
 		}
 		int offset = 2 * LMv;
 		idv = offset;
-		for (int v = 0; v < (N + 1); v++) {
-			for (int u = 0; u < (L + 1); u++) {
-				vertices[idv][0] = vertices[idv + LNv][0] = oiW + (u * dW);
-				vertices[idv][2] = vertices[idv + LNv][2] = oiD + (v * dD);
+		for (int v = 0; v < N + 1; v++) {
+			for (int u = 0; u < L + 1; u++) {
+				vertices[idv][0] = vertices[idv + LNv][0] = oiW + u * dW;
+				vertices[idv][2] = vertices[idv + LNv][2] = oiD + v * dD;
 				vertices[idv][1] = oH;
 				vertices[idv + LNv][1] = -oH;
 				uvws[idv][0] = uvws[idv + LNv][0] = di * u;
@@ -364,29 +364,28 @@ public class HEC_ChamferBox extends HEC_Creator {
 		idf = 2 * LMf;
 		for (int j = 0; j < N; j++) {
 			for (int i = 0; i < L; i++) {
-				faces[idf]=new int[4];
-				faces[idf][0] = i + (j * (L + 1)) + offset;
-				faces[idf][1] = i + 1 + (j * (L + 1)) + offset;
-				faces[idf][2] = i + 1 + ((j + 1) * (L + 1)) + offset;
-				faces[idf][3] = i + ((j + 1) * (L + 1)) + offset;
-				faces[idf+LNf]=new int[4];
-				faces[idf + LNf][3] = i + (j * (L + 1)) + LNv + offset;
-				faces[idf + LNf][2] = i + 1 + (j * (L + 1)) + LNv + offset;
-				faces[idf + LNf][1] = i + 1 + ((j + 1) * (L + 1)) + LNv
-						+ offset;
-				faces[idf + LNf][0] = i + ((j + 1) * (L + 1)) + LNv + offset;
+				faces[idf] = new int[4];
+				faces[idf][0] = i + j * (L + 1) + offset;
+				faces[idf][1] = i + 1 + j * (L + 1) + offset;
+				faces[idf][2] = i + 1 + (j + 1) * (L + 1) + offset;
+				faces[idf][3] = i + (j + 1) * (L + 1) + offset;
+				faces[idf + LNf] = new int[4];
+				faces[idf + LNf][3] = i + j * (L + 1) + LNv + offset;
+				faces[idf + LNf][2] = i + 1 + j * (L + 1) + LNv + offset;
+				faces[idf + LNf][1] = i + 1 + (j + 1) * (L + 1) + LNv + offset;
+				faces[idf + LNf][0] = i + (j + 1) * (L + 1) + LNv + offset;
 				faceTextureIds[idf] = 2;
 				faceTextureIds[idf + LNf] = 3;
 				idf++;
 			}
 		}
-		offset = (2 * LMv) + (2 * LNv);
+		offset = 2 * LMv + 2 * LNv;
 		idv = offset;
-		for (int u = 0; u < (N + 1); u++) {
-			for (int v = 0; v < (M + 1); v++) {
+		for (int u = 0; u < N + 1; u++) {
+			for (int v = 0; v < M + 1; v++) {
 
-				vertices[idv][1] = vertices[idv + MNv][1] = oiH + (v * dH);
-				vertices[idv][2] = vertices[idv + MNv][2] = oiD + (u * dD);
+				vertices[idv][1] = vertices[idv + MNv][1] = oiH + v * dH;
+				vertices[idv][2] = vertices[idv + MNv][2] = oiD + u * dD;
 				vertices[idv][0] = oW;
 				vertices[idv + MNv][0] = -oW;
 				uvws[idv + MNv][0] = dk * u;
@@ -396,189 +395,185 @@ public class HEC_ChamferBox extends HEC_Creator {
 				idv++;
 			}
 		}
-		idf = (2 * LMf) + (2 * LNf);
+		idf = 2 * LMf + 2 * LNf;
 		for (int j = 0; j < N; j++) {
 			for (int i = 0; i < M; i++) {
-				faces[idf]=new int[4];
-				faces[idf][3] = i + (j * (M + 1)) + offset;
-				faces[idf][2] = i + 1 + (j * (M + 1)) + offset;
-				faces[idf][1] = i + 1 + ((j + 1) * (M + 1)) + offset;
-				faces[idf][0] = i + ((j + 1) * (M + 1)) + offset;
-				faces[idf+MNf]=new int[4];
-				faces[idf + MNf][0] = i + (j * (M + 1)) + MNv + offset;
-				faces[idf + MNf][1] = i + 1 + (j * (M + 1)) + MNv + offset;
-				faces[idf + MNf][2] = i + 1 + ((j + 1) * (M + 1)) + MNv
-						+ offset;
-				faces[idf + MNf][3] = i + ((j + 1) * (M + 1)) + MNv + offset;
+				faces[idf] = new int[4];
+				faces[idf][3] = i + j * (M + 1) + offset;
+				faces[idf][2] = i + 1 + j * (M + 1) + offset;
+				faces[idf][1] = i + 1 + (j + 1) * (M + 1) + offset;
+				faces[idf][0] = i + (j + 1) * (M + 1) + offset;
+				faces[idf + MNf] = new int[4];
+				faces[idf + MNf][0] = i + j * (M + 1) + MNv + offset;
+				faces[idf + MNf][1] = i + 1 + j * (M + 1) + MNv + offset;
+				faces[idf + MNf][2] = i + 1 + (j + 1) * (M + 1) + MNv + offset;
+				faces[idf + MNf][3] = i + (j + 1) * (M + 1) + MNv + offset;
 				faceTextureIds[idf] = 4;
 				faceTextureIds[idf + MNf] = 5;
 				idf++;
 			}
 		}
-		idf = (2 * LMf) + (2 * LNf)+(2*MNf);
-		//4 X-edges
-		for( int i=0;i<L;i++){
-			faces[idf]=new int[4];
-			faces[idf][0]=i;
-			faces[idf][1]=i+1;
-			faces[idf][2]=(2*LMv)+i+1;
-			faces[idf][3]=(2*LMv)+i;
-			faceTextureIds[idf]=7;
+		idf = 2 * LMf + 2 * LNf + 2 * MNf;
+		// 4 X-edges
+		for (int i = 0; i < L; i++) {
+			faces[idf] = new int[4];
+			faces[idf][0] = i;
+			faces[idf][1] = i + 1;
+			faces[idf][2] = 2 * LMv + i + 1;
+			faces[idf][3] = 2 * LMv + i;
+			faceTextureIds[idf] = 7;
 			idf++;
-			faces[idf]=new int[4];
-			faces[idf][3]=i+(M*(L+1));
-			faces[idf][2]=i+(M*(L+1))+1;
-			faces[idf][1]=(2*LMv)+LNv+i+1;
-			faces[idf][0]=(2*LMv)+LNv+i;
-			faceTextureIds[idf]=7;
+			faces[idf] = new int[4];
+			faces[idf][3] = i + M * (L + 1);
+			faces[idf][2] = i + M * (L + 1) + 1;
+			faces[idf][1] = 2 * LMv + LNv + i + 1;
+			faces[idf][0] = 2 * LMv + LNv + i;
+			faceTextureIds[idf] = 7;
 			idf++;
-			faces[idf]=new int[4];
-			faces[idf][3]=i+LMv;
-			faces[idf][2]=i+LMv+1;
-			faces[idf][1]=(2*LMv)+(N*(L+1))+i+1;
-			faces[idf][0]=(2*LMv)+(N*(L+1))+i;
-			faceTextureIds[idf]=7;
+			faces[idf] = new int[4];
+			faces[idf][3] = i + LMv;
+			faces[idf][2] = i + LMv + 1;
+			faces[idf][1] = 2 * LMv + N * (L + 1) + i + 1;
+			faces[idf][0] = 2 * LMv + N * (L + 1) + i;
+			faceTextureIds[idf] = 7;
 			idf++;
-			faces[idf]=new int[4];
-			faces[idf][0]=i+(M*(L+1))+LMv;
-			faces[idf][1]=i+(M*(L+1))+LMv+1;
-			faces[idf][2]=(2*LMv)+(N*(L+1))+LNv+i+1;
-			faces[idf][3]=(2*LMv)+(N*(L+1))+LNv+i;
-			faceTextureIds[idf]=7;
-			idf++;
-		}
-		//4 Y-edges
-		for( int i=0;i<M;i++){
-			faces[idf]=new int[4];
-			faces[idf][3]=i*(L+1);
-			faces[idf][2]=(i+1)*(L+1);
-			faces[idf][1]=(2*LMv)+(2*LNv)+i+1;
-			faces[idf][0]=(2*LMv)+(2*LNv)+i;
-			faceTextureIds[idf]=7;
-			idf++;
-			faces[idf]=new int[4];
-			faces[idf][0]=(i*(L+1))+L;
-			faces[idf][1]=((i+1)*(L+1))+L;
-			faces[idf][2]=(2*LMv)+(2*LNv)+i+1+MNv;
-			faces[idf][3]=(2*LMv)+(2*LNv)+i+MNv;
-			faceTextureIds[idf]=7;
-			idf++;
-			faces[idf]=new int[4];
-			faces[idf][0]=(i*(L+1))+LMv;
-			faces[idf][1]=((i+1)*(L+1))+LMv;
-			faces[idf][2]=(2*LMv)+(2*LNv)+(N*(M+1))+i+1;
-			faces[idf][3]=(2*LMv)+(2*LNv)+(N*(M+1))+i;
-			faceTextureIds[idf]=7;
-			idf++;
-			faces[idf]=new int[4];
-			faces[idf][3]=(i*(L+1))+L+LMv;
-			faces[idf][2]=((i+1)*(L+1))+L+LMv;
-			faces[idf][1]=(2*LMv)+(2*LNv)+(N*(M+1))+i+1+MNv;
-			faces[idf][0]=(2*LMv)+(2*LNv)+(N*(M+1))+i+MNv;
-			faceTextureIds[idf]=7;
+			faces[idf] = new int[4];
+			faces[idf][0] = i + M * (L + 1) + LMv;
+			faces[idf][1] = i + M * (L + 1) + LMv + 1;
+			faces[idf][2] = 2 * LMv + N * (L + 1) + LNv + i + 1;
+			faces[idf][3] = 2 * LMv + N * (L + 1) + LNv + i;
+			faceTextureIds[idf] = 7;
 			idf++;
 		}
-		//4 Z-edges
-		for( int i=0;i<N;i++){
-			faces[idf]=new int[4];
-			faces[idf][0]=(2*LMv)+(i*(L+1));
-			faces[idf][1]=(2*LMv)+((i+1)*(L+1));
-			faces[idf][2]=(2*LMv)+(2*LNv)+((i+1)*(M+1));
-			faces[idf][3]=(2*LMv)+(2*LNv)+(i*(M+1));
-			faceTextureIds[idf]=7;
+		// 4 Y-edges
+		for (int i = 0; i < M; i++) {
+			faces[idf] = new int[4];
+			faces[idf][3] = i * (L + 1);
+			faces[idf][2] = (i + 1) * (L + 1);
+			faces[idf][1] = 2 * LMv + 2 * LNv + i + 1;
+			faces[idf][0] = 2 * LMv + 2 * LNv + i;
+			faceTextureIds[idf] = 7;
 			idf++;
-			faces[idf]=new int[4];
-			faces[idf][3]=(2*LMv)+(i*(L+1))+L;
-			faces[idf][2]=(2*LMv)+((i+1)*(L+1))+L;
-			faces[idf][1]=(2*LMv)+(2*LNv)+(((i+1)*(M+1))+MNv);
-			faces[idf][0]=(2*LMv)+(2*LNv)+(i*(M+1))+MNv;
-			faceTextureIds[idf]=7;
+			faces[idf] = new int[4];
+			faces[idf][0] = i * (L + 1) + L;
+			faces[idf][1] = (i + 1) * (L + 1) + L;
+			faces[idf][2] = 2 * LMv + 2 * LNv + i + 1 + MNv;
+			faces[idf][3] = 2 * LMv + 2 * LNv + i + MNv;
+			faceTextureIds[idf] = 7;
 			idf++;
-			faces[idf]=new int[4];
-			faces[idf][3]=(2*LMv)+(i*(L+1))+LNv;
-			faces[idf][2]=(2*LMv)+((i+1)*(L+1))+LNv;
-			faces[idf][1]=(2*LMv)+(2*LNv)+((i+1)*(M+1))+M;
-			faces[idf][0]=(2*LMv)+(2*LNv)+(i*(M+1))+M;
-			faceTextureIds[idf]=7;
+			faces[idf] = new int[4];
+			faces[idf][0] = i * (L + 1) + LMv;
+			faces[idf][1] = (i + 1) * (L + 1) + LMv;
+			faces[idf][2] = 2 * LMv + 2 * LNv + N * (M + 1) + i + 1;
+			faces[idf][3] = 2 * LMv + 2 * LNv + N * (M + 1) + i;
+			faceTextureIds[idf] = 7;
 			idf++;
-			faces[idf]=new int[4];
-			faces[idf][0]=(2*LMv)+(i*(L+1))+L+LNv;
-			faces[idf][1]=(2*LMv)+((i+1)*(L+1))+L+LNv;
-			faces[idf][2]=(2*LMv)+(2*LNv)+(((i+1)*(M+1))+M+MNv);
-			faces[idf][3]=(2*LMv)+(2*LNv)+(i*(M+1))+M+MNv;
-			faceTextureIds[idf]=7;
+			faces[idf] = new int[4];
+			faces[idf][3] = i * (L + 1) + L + LMv;
+			faces[idf][2] = (i + 1) * (L + 1) + L + LMv;
+			faces[idf][1] = 2 * LMv + 2 * LNv + N * (M + 1) + i + 1 + MNv;
+			faces[idf][0] = 2 * LMv + 2 * LNv + N * (M + 1) + i + MNv;
+			faceTextureIds[idf] = 7;
+			idf++;
+		}
+		// 4 Z-edges
+		for (int i = 0; i < N; i++) {
+			faces[idf] = new int[4];
+			faces[idf][0] = 2 * LMv + i * (L + 1);
+			faces[idf][1] = 2 * LMv + (i + 1) * (L + 1);
+			faces[idf][2] = 2 * LMv + 2 * LNv + (i + 1) * (M + 1);
+			faces[idf][3] = 2 * LMv + 2 * LNv + i * (M + 1);
+			faceTextureIds[idf] = 7;
+			idf++;
+			faces[idf] = new int[4];
+			faces[idf][3] = 2 * LMv + i * (L + 1) + L;
+			faces[idf][2] = 2 * LMv + (i + 1) * (L + 1) + L;
+			faces[idf][1] = 2 * LMv + 2 * LNv + (i + 1) * (M + 1) + MNv;
+			faces[idf][0] = 2 * LMv + 2 * LNv + i * (M + 1) + MNv;
+			faceTextureIds[idf] = 7;
+			idf++;
+			faces[idf] = new int[4];
+			faces[idf][3] = 2 * LMv + i * (L + 1) + LNv;
+			faces[idf][2] = 2 * LMv + (i + 1) * (L + 1) + LNv;
+			faces[idf][1] = 2 * LMv + 2 * LNv + (i + 1) * (M + 1) + M;
+			faces[idf][0] = 2 * LMv + 2 * LNv + i * (M + 1) + M;
+			faceTextureIds[idf] = 7;
+			idf++;
+			faces[idf] = new int[4];
+			faces[idf][0] = 2 * LMv + i * (L + 1) + L + LNv;
+			faces[idf][1] = 2 * LMv + (i + 1) * (L + 1) + L + LNv;
+			faces[idf][2] = 2 * LMv + 2 * LNv + (i + 1) * (M + 1) + M + MNv;
+			faces[idf][3] = 2 * LMv + 2 * LNv + i * (M + 1) + M + MNv;
+			faceTextureIds[idf] = 7;
 			idf++;
 
 		}
 
-		//8 corners
+		// 8 corners
 
-		faces[idf]=new int[3];
-		faces[idf][0]=0;
-		faces[idf][1]=2*LMv;
-		faces[idf][2]=(2*LMv)+(2*LNv);
-		faceTextureIds[idf]=8;
+		faces[idf] = new int[3];
+		faces[idf][0] = 0;
+		faces[idf][1] = 2 * LMv;
+		faces[idf][2] = 2 * LMv + 2 * LNv;
+		faceTextureIds[idf] = 8;
 		idf++;
 
-		faces[idf]=new int[3];
-		faces[idf][2]=L;
-		faces[idf][1]=(2*LMv)+L;
-		faces[idf][0]=(2*LMv)+(2*LNv)+MNv;
-		faceTextureIds[idf]=8;
+		faces[idf] = new int[3];
+		faces[idf][2] = L;
+		faces[idf][1] = 2 * LMv + L;
+		faces[idf][0] = 2 * LMv + 2 * LNv + MNv;
+		faceTextureIds[idf] = 8;
 		idf++;
 
-		faces[idf]=new int[3];
-		faces[idf][2]=M*(L+1);
-		faces[idf][1]=(2*LMv)+LNv;
-		faces[idf][0]=(2*LMv)+(2*LNv)+M;
-		faceTextureIds[idf]=8;
+		faces[idf] = new int[3];
+		faces[idf][2] = M * (L + 1);
+		faces[idf][1] = 2 * LMv + LNv;
+		faces[idf][0] = 2 * LMv + 2 * LNv + M;
+		faceTextureIds[idf] = 8;
 		idf++;
 
-		faces[idf]=new int[3];
-		faces[idf][0]=(M*(L+1))+L;
-		faces[idf][1]=(2*LMv)+L+LNv;
-		faces[idf][2]=(2*LMv)+(2*LNv)+M+MNv;
-		faceTextureIds[idf]=8;
+		faces[idf] = new int[3];
+		faces[idf][0] = M * (L + 1) + L;
+		faces[idf][1] = 2 * LMv + L + LNv;
+		faces[idf][2] = 2 * LMv + 2 * LNv + M + MNv;
+		faceTextureIds[idf] = 8;
 		idf++;
 
-		faces[idf]=new int[3];
-		faces[idf][2]=LMv;
-		faces[idf][1]=(2*LMv)+(N*(L+1));
-		faces[idf][0]=(2*LMv)+(2*LNv)+(N*(M+1));
-		faceTextureIds[idf]=8;
+		faces[idf] = new int[3];
+		faces[idf][2] = LMv;
+		faces[idf][1] = 2 * LMv + N * (L + 1);
+		faces[idf][0] = 2 * LMv + 2 * LNv + N * (M + 1);
+		faceTextureIds[idf] = 8;
 		idf++;
 
-		faces[idf]=new int[3];
-		faces[idf][0]=L+LMv;
-		faces[idf][1]=(2*LMv)+(N*(L+1))+L;
-		faces[idf][2]=(2*LMv)+(2*LNv)+(N*(M+1))+MNv;
-		faceTextureIds[idf]=8;
+		faces[idf] = new int[3];
+		faces[idf][0] = L + LMv;
+		faces[idf][1] = 2 * LMv + N * (L + 1) + L;
+		faces[idf][2] = 2 * LMv + 2 * LNv + N * (M + 1) + MNv;
+		faceTextureIds[idf] = 8;
 		idf++;
 
-		faces[idf]=new int[3];
-		faces[idf][0]=(M*(L+1))+LMv;
-		faces[idf][1]=(2*LMv)+LNv+(N*(L+1));
-		faces[idf][2]=(2*LMv)+(2*LNv)+M+(N*(M+1));
-		faceTextureIds[idf]=8;
+		faces[idf] = new int[3];
+		faces[idf][0] = M * (L + 1) + LMv;
+		faces[idf][1] = 2 * LMv + LNv + N * (L + 1);
+		faces[idf][2] = 2 * LMv + 2 * LNv + M + N * (M + 1);
+		faceTextureIds[idf] = 8;
 		idf++;
 
-		faces[idf]=new int[3];
-		faces[idf][2]=(2*LMv)-1;
-		faces[idf][1]=((2*LMv)+(2*LNv))-1;
-		faces[idf][0]=((2*LMv)+(2*LNv)+(2*MNv))-1;
-		faceTextureIds[idf]=8;
+		faces[idf] = new int[3];
+		faces[idf][2] = 2 * LMv - 1;
+		faces[idf][1] = 2 * LMv + 2 * LNv - 1;
+		faces[idf][0] = 2 * LMv + 2 * LNv + 2 * MNv - 1;
+		faceTextureIds[idf] = 8;
 		idf++;
-
-
 
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
-		fl.setVertices(vertices).setFaces(faces).setDuplicate(true)
-		.setUVW(uvws).setFaceTextureIds(faceTextureIds);
+		fl.setVertices(vertices).setFaces(faces).setDuplicate(true).setUVW(uvws).setFaceTextureIds(faceTextureIds);
 		return fl.createBase();
 	}
 
-	public static void main(final String [ ] args){
-		HEC_ChamferBox creator=new HEC_ChamferBox();
+	public static void main(final String[] args) {
+		HEC_ChamferBox creator = new HEC_ChamferBox();
 		creator.setWidth(400).setHeight(60).setDepth(200);
 		creator.setWidthSegments(14).setHeightSegments(3).setDepthSegments(20);
 		new HE_Mesh(creator);

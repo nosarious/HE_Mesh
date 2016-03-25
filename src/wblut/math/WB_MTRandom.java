@@ -176,52 +176,21 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 
-
 public class WB_MTRandom implements Serializable, Cloneable {
-	/** The Constant serialVersionUID. */
+
 	private static final long serialVersionUID = 3636987267914792302L;
-	/** The Constant N. */
 	private static final int N = 624;
-	/** The Constant M. */
 	private static final int M = 397;
-	/** The Constant MATRIX_A. */
-	private static final int MATRIX_A = 0x9908b0df; // private
-	// static
-	// final *
-	// constant
-	// vector a
-	/** The Constant UPPER_MASK. */
-	private static final int UPPER_MASK = 0x80000000; // most
-	// significant
-	// w-r bits
-	/** The Constant LOWER_MASK. */
-	private static final int LOWER_MASK = 0x7fffffff; // least
-	// significant
-	// r bits
-	// Tempering parameters
-	/** The Constant TEMPERING_MASK_B. */
+	private static final int MATRIX_A = 0x9908b0df;
+	private static final int UPPER_MASK = 0x80000000;
+	private static final int LOWER_MASK = 0x7fffffff;
 	private static final int TEMPERING_MASK_B = 0x9d2c5680;
-	/** The Constant TEMPERING_MASK_C. */
 	private static final int TEMPERING_MASK_C = 0xefc60000;
-	/** The mt. */
-	private int mt[]; // the
-	// array
-	// for the
-	// state
-	// vector
-	/** The mti. */
-	private int mti; // mti==N+1
-	// means
-	// mt[N] is
-	// not
-	// initialized
-	/** The mag01. */
+	private int mt[];
+	private int mti;
 	private int mag01[];
-	// a good initial seed (of int size, though stored in a long)
 	// private static final long GOOD_SEED = 4357;
-	/** The __next next gaussian. */
 	private double __nextNextGaussian;
-	/** The __have next next gaussian. */
 	private boolean __haveNextNextGaussian;
 	private long seed;
 
@@ -236,24 +205,17 @@ public class WB_MTRandom implements Serializable, Cloneable {
 	 */
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		final WB_MTRandom f = (WB_MTRandom) (super.clone());
-		f.mt = (mt.clone());
-		f.mag01 = (mag01.clone());
+		final WB_MTRandom f = (WB_MTRandom) super.clone();
+		f.mt = mt.clone();
+		f.mag01 = mag01.clone();
 		return f;
 	}
 
-	/**
-	 * State equals.
-	 *
-	 * @param o
-	 *            the o
-	 * @return true, if successful
-	 */
 	public boolean stateEquals(final Object o) {
 		if (o == this) {
 			return true;
 		}
-		if ((o == null) || !(o instanceof WB_MTRandom)) {
+		if (o == null || !(o instanceof WB_MTRandom)) {
 			return false;
 		}
 		final WB_MTRandom other = (WB_MTRandom) o;
@@ -354,7 +316,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 		mag01[1] = MATRIX_A;
 		mt[0] = (int) (seed & 0xffffffff);
 		for (mti = 1; mti < N; mti++) {
-			mt[mti] = ((1812433253 * (mt[mti - 1] ^ (mt[mti - 1] >>> 30))) + mti);
+			mt[mti] = 1812433253 * (mt[mti - 1] ^ mt[mti - 1] >>> 30) + mti;
 			/* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
 			/* In the previous versions, MSBs of the seed affect */
 			/* only MSBs of the array mt[]. */
@@ -383,23 +345,23 @@ public class WB_MTRandom implements Serializable, Cloneable {
 			int kk;
 			final int[] mt = this.mt; // locals are slightly faster
 			final int[] mag01 = this.mag01; // locals are slightly faster
-			for (kk = 0; kk < (N - M); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (kk = 0; kk < N - M; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			for (; kk < (N - 1); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (; kk < N - 1; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-			mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+			y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+			mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 			mti = 0;
 		}
 		y = mt[mti++];
 		y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-		y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-		y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-		y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
+		y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+		y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+		y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
 		return y;
 	}
 
@@ -415,23 +377,23 @@ public class WB_MTRandom implements Serializable, Cloneable {
 			int kk;
 			final int[] mt = this.mt; // locals are slightly faster
 			final int[] mag01 = this.mag01; // locals are slightly faster
-			for (kk = 0; kk < (N - M); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (kk = 0; kk < N - M; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			for (; kk < (N - 1); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (; kk < N - 1; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-			mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+			y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+			mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 			mti = 0;
 		}
 		y = mt[mti++];
 		y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-		y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-		y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-		y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
+		y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+		y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+		y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
 		return (short) (y >>> 16);
 	}
 
@@ -447,23 +409,23 @@ public class WB_MTRandom implements Serializable, Cloneable {
 			int kk;
 			final int[] mt = this.mt; // locals are slightly faster
 			final int[] mag01 = this.mag01; // locals are slightly faster
-			for (kk = 0; kk < (N - M); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (kk = 0; kk < N - M; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			for (; kk < (N - 1); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (; kk < N - 1; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-			mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+			y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+			mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 			mti = 0;
 		}
 		y = mt[mti++];
 		y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-		y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-		y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-		y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
+		y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+		y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+		y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
 		return (char) (y >>> 16);
 	}
 
@@ -479,24 +441,24 @@ public class WB_MTRandom implements Serializable, Cloneable {
 			int kk;
 			final int[] mt = this.mt; // locals are slightly faster
 			final int[] mag01 = this.mag01; // locals are slightly faster
-			for (kk = 0; kk < (N - M); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (kk = 0; kk < N - M; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			for (; kk < (N - 1); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (; kk < N - 1; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-			mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+			y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+			mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 			mti = 0;
 		}
 		y = mt[mti++];
 		y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-		y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-		y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-		y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
-		return ((y >>> 31) != 0);
+		y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+		y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+		y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
+		return y >>> 31 != 0;
 	}
 
 	/**
@@ -512,7 +474,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 	 */
 	public final boolean nextBoolean(final float probability) {
 		int y;
-		if ((probability < 0.0f) || (probability > 1.0f)) {
+		if (probability < 0.0f || probability > 1.0f) {
 			throw new IllegalArgumentException("probability must be between 0.0 and 1.0 inclusive.");
 		}
 		if (probability == 0.0f) {
@@ -525,24 +487,24 @@ public class WB_MTRandom implements Serializable, Cloneable {
 			int kk;
 			final int[] mt = this.mt; // locals are slightly faster
 			final int[] mag01 = this.mag01; // locals are slightly faster
-			for (kk = 0; kk < (N - M); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (kk = 0; kk < N - M; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			for (; kk < (N - 1); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (; kk < N - 1; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-			mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+			y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+			mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 			mti = 0;
 		}
 		y = mt[mti++];
 		y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-		y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-		y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-		y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
-		return ((y >>> 8) / ((float) (1 << 24))) < probability;
+		y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+		y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+		y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
+		return (y >>> 8) / (float) (1 << 24) < probability;
 	}
 
 	/**
@@ -557,7 +519,7 @@ public class WB_MTRandom implements Serializable, Cloneable {
 	public final boolean nextBoolean(final double probability) {
 		int y;
 		int z;
-		if ((probability < 0.0) || (probability > 1.0)) {
+		if (probability < 0.0 || probability > 1.0) {
 			throw new IllegalArgumentException("probability must be between 0.0 and 1.0 inclusive.");
 		}
 		if (probability == 0.0) {
@@ -570,47 +532,47 @@ public class WB_MTRandom implements Serializable, Cloneable {
 			int kk;
 			final int[] mt = this.mt; // locals are slightly faster
 			final int[] mag01 = this.mag01; // locals are slightly faster
-			for (kk = 0; kk < (N - M); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (kk = 0; kk < N - M; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			for (; kk < (N - 1); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (; kk < N - 1; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-			mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+			y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+			mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 			mti = 0;
 		}
 		y = mt[mti++];
 		y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-		y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-		y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-		y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
+		y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+		y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+		y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
 		if (mti >= N) // generate N words at one time
 		{
 			int kk;
 			final int[] mt = this.mt; // locals are slightly faster
 			final int[] mag01 = this.mag01; // locals are slightly faster
-			for (kk = 0; kk < (N - M); kk++) {
-				z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + M] ^ (z >>> 1) ^ mag01[z & 0x1];
+			for (kk = 0; kk < N - M; kk++) {
+				z = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M] ^ z >>> 1 ^ mag01[z & 0x1];
 			}
-			for (; kk < (N - 1); kk++) {
-				z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + (M - N)] ^ (z >>> 1) ^ mag01[z & 0x1];
+			for (; kk < N - 1; kk++) {
+				z = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M - N] ^ z >>> 1 ^ mag01[z & 0x1];
 			}
-			z = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-			mt[N - 1] = mt[M - 1] ^ (z >>> 1) ^ mag01[z & 0x1];
+			z = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+			mt[N - 1] = mt[M - 1] ^ z >>> 1 ^ mag01[z & 0x1];
 			mti = 0;
 		}
 		z = mt[mti++];
 		z ^= z >>> 11; // TEMPERING_SHIFT_U(z)
-		z ^= (z << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(z)
-		z ^= (z << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(z)
-		z ^= (z >>> 18); // TEMPERING_SHIFT_L(z)
+		z ^= z << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(z)
+		z ^= z << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(z)
+		z ^= z >>> 18; // TEMPERING_SHIFT_L(z)
 		/* derived from nextDouble documentation in jdk 1.2 docs, see top */
-		return (((((long) (y >>> 6)) << 27) + (z >>> 5)) / (double) (1L << 53)) < probability;
+		return (((long) (y >>> 6) << 27) + (z >>> 5)) / (double) (1L << 53) < probability;
 	}
 
 	/**
@@ -625,23 +587,23 @@ public class WB_MTRandom implements Serializable, Cloneable {
 			int kk;
 			final int[] mt = this.mt; // locals are slightly faster
 			final int[] mag01 = this.mag01; // locals are slightly faster
-			for (kk = 0; kk < (N - M); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (kk = 0; kk < N - M; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			for (; kk < (N - 1); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (; kk < N - 1; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-			mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+			y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+			mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 			mti = 0;
 		}
 		y = mt[mti++];
 		y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-		y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-		y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-		y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
+		y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+		y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+		y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
 		return (byte) (y >>> 24);
 	}
 
@@ -659,23 +621,23 @@ public class WB_MTRandom implements Serializable, Cloneable {
 				int kk;
 				final int[] mt = this.mt; // locals are slightly faster
 				final int[] mag01 = this.mag01; // locals are slightly faster
-				for (kk = 0; kk < (N - M); kk++) {
-					y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+				for (kk = 0; kk < N - M; kk++) {
+					y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+					mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 				}
-				for (; kk < (N - 1); kk++) {
-					y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+				for (; kk < N - 1; kk++) {
+					y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+					mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 				}
-				y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-				mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+				y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+				mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 				mti = 0;
 			}
 			y = mt[mti++];
 			y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-			y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-			y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-			y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
+			y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+			y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+			y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
 			bytes[x] = (byte) (y >>> 24);
 		}
 	}
@@ -693,46 +655,46 @@ public class WB_MTRandom implements Serializable, Cloneable {
 			int kk;
 			final int[] mt = this.mt; // locals are slightly faster
 			final int[] mag01 = this.mag01; // locals are slightly faster
-			for (kk = 0; kk < (N - M); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (kk = 0; kk < N - M; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			for (; kk < (N - 1); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (; kk < N - 1; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-			mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+			y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+			mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 			mti = 0;
 		}
 		y = mt[mti++];
 		y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-		y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-		y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-		y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
+		y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+		y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+		y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
 		if (mti >= N) // generate N words at one time
 		{
 			int kk;
 			final int[] mt = this.mt; // locals are slightly faster
 			final int[] mag01 = this.mag01; // locals are slightly faster
-			for (kk = 0; kk < (N - M); kk++) {
-				z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + M] ^ (z >>> 1) ^ mag01[z & 0x1];
+			for (kk = 0; kk < N - M; kk++) {
+				z = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M] ^ z >>> 1 ^ mag01[z & 0x1];
 			}
-			for (; kk < (N - 1); kk++) {
-				z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + (M - N)] ^ (z >>> 1) ^ mag01[z & 0x1];
+			for (; kk < N - 1; kk++) {
+				z = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M - N] ^ z >>> 1 ^ mag01[z & 0x1];
 			}
-			z = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-			mt[N - 1] = mt[M - 1] ^ (z >>> 1) ^ mag01[z & 0x1];
+			z = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+			mt[N - 1] = mt[M - 1] ^ z >>> 1 ^ mag01[z & 0x1];
 			mti = 0;
 		}
 		z = mt[mti++];
 		z ^= z >>> 11; // TEMPERING_SHIFT_U(z)
-		z ^= (z << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(z)
-		z ^= (z << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(z)
-		z ^= (z >>> 18); // TEMPERING_SHIFT_L(z)
-		return (((long) y) << 32) + z;
+		z ^= z << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(z)
+		z ^= z << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(z)
+		z ^= z >>> 18; // TEMPERING_SHIFT_L(z)
+		return ((long) y << 32) + z;
 	}
 
 	/**
@@ -756,48 +718,48 @@ public class WB_MTRandom implements Serializable, Cloneable {
 				int kk;
 				final int[] mt = this.mt; // locals are slightly faster
 				final int[] mag01 = this.mag01; // locals are slightly faster
-				for (kk = 0; kk < (N - M); kk++) {
-					y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+				for (kk = 0; kk < N - M; kk++) {
+					y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+					mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 				}
-				for (; kk < (N - 1); kk++) {
-					y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+				for (; kk < N - 1; kk++) {
+					y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+					mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 				}
-				y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-				mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+				y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+				mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 				mti = 0;
 			}
 			y = mt[mti++];
 			y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-			y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-			y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-			y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
+			y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+			y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+			y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
 			if (mti >= N) // generate N words at one time
 			{
 				int kk;
 				final int[] mt = this.mt; // locals are slightly faster
 				final int[] mag01 = this.mag01; // locals are slightly faster
-				for (kk = 0; kk < (N - M); kk++) {
-					z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + M] ^ (z >>> 1) ^ mag01[z & 0x1];
+				for (kk = 0; kk < N - M; kk++) {
+					z = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+					mt[kk] = mt[kk + M] ^ z >>> 1 ^ mag01[z & 0x1];
 				}
-				for (; kk < (N - 1); kk++) {
-					z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + (M - N)] ^ (z >>> 1) ^ mag01[z & 0x1];
+				for (; kk < N - 1; kk++) {
+					z = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+					mt[kk] = mt[kk + M - N] ^ z >>> 1 ^ mag01[z & 0x1];
 				}
-				z = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-				mt[N - 1] = mt[M - 1] ^ (z >>> 1) ^ mag01[z & 0x1];
+				z = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+				mt[N - 1] = mt[M - 1] ^ z >>> 1 ^ mag01[z & 0x1];
 				mti = 0;
 			}
 			z = mt[mti++];
 			z ^= z >>> 11; // TEMPERING_SHIFT_U(z)
-			z ^= (z << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(z)
-			z ^= (z << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(z)
-			z ^= (z >>> 18); // TEMPERING_SHIFT_L(z)
-			bits = (((((long) y) << 32) + z) >>> 1);
+			z ^= z << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(z)
+			z ^= z << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(z)
+			z ^= z >>> 18; // TEMPERING_SHIFT_L(z)
+			bits = ((long) y << 32) + z >>> 1;
 			val = bits % n;
-		} while (((bits - val) + (n - 1)) < 0);
+		} while (bits - val + n - 1 < 0);
 		return val;
 	}
 
@@ -815,47 +777,47 @@ public class WB_MTRandom implements Serializable, Cloneable {
 			int kk;
 			final int[] mt = this.mt; // locals are slightly faster
 			final int[] mag01 = this.mag01; // locals are slightly faster
-			for (kk = 0; kk < (N - M); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (kk = 0; kk < N - M; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			for (; kk < (N - 1); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (; kk < N - 1; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-			mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+			y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+			mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 			mti = 0;
 		}
 		y = mt[mti++];
 		y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-		y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-		y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-		y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
+		y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+		y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+		y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
 		if (mti >= N) // generate N words at one time
 		{
 			int kk;
 			final int[] mt = this.mt; // locals are slightly faster
 			final int[] mag01 = this.mag01; // locals are slightly faster
-			for (kk = 0; kk < (N - M); kk++) {
-				z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + M] ^ (z >>> 1) ^ mag01[z & 0x1];
+			for (kk = 0; kk < N - M; kk++) {
+				z = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M] ^ z >>> 1 ^ mag01[z & 0x1];
 			}
-			for (; kk < (N - 1); kk++) {
-				z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + (M - N)] ^ (z >>> 1) ^ mag01[z & 0x1];
+			for (; kk < N - 1; kk++) {
+				z = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M - N] ^ z >>> 1 ^ mag01[z & 0x1];
 			}
-			z = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-			mt[N - 1] = mt[M - 1] ^ (z >>> 1) ^ mag01[z & 0x1];
+			z = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+			mt[N - 1] = mt[M - 1] ^ z >>> 1 ^ mag01[z & 0x1];
 			mti = 0;
 		}
 		z = mt[mti++];
 		z ^= z >>> 11; // TEMPERING_SHIFT_U(z)
-		z ^= (z << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(z)
-		z ^= (z << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(z)
-		z ^= (z >>> 18); // TEMPERING_SHIFT_L(z)
+		z ^= z << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(z)
+		z ^= z << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(z)
+		z ^= z >>> 18; // TEMPERING_SHIFT_L(z)
 		/* derived from nextDouble documentation in jdk 1.2 docs, see top */
-		return ((((long) (y >>> 6)) << 27) + (z >>> 5)) / (double) (1L << 53);
+		return (((long) (y >>> 6) << 27) + (z >>> 5)) / (double) (1L << 53);
 	}
 
 	/**
@@ -890,101 +852,101 @@ public class WB_MTRandom implements Serializable, Cloneable {
 					final int[] mt = this.mt; // locals are slightly faster
 					final int[] mag01 = this.mag01; // locals are slightly
 					// faster
-					for (kk = 0; kk < (N - M); kk++) {
-						y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-						mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+					for (kk = 0; kk < N - M; kk++) {
+						y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+						mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 					}
-					for (; kk < (N - 1); kk++) {
-						y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-						mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+					for (; kk < N - 1; kk++) {
+						y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+						mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 					}
-					y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-					mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+					y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+					mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 					mti = 0;
 				}
 				y = mt[mti++];
 				y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-				y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-				y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-				y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
+				y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+				y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+				y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
 				if (mti >= N) // generate N words at one time
 				{
 					int kk;
 					final int[] mt = this.mt; // locals are slightly faster
 					final int[] mag01 = this.mag01; // locals are slightly
 					// faster
-					for (kk = 0; kk < (N - M); kk++) {
-						z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-						mt[kk] = mt[kk + M] ^ (z >>> 1) ^ mag01[z & 0x1];
+					for (kk = 0; kk < N - M; kk++) {
+						z = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+						mt[kk] = mt[kk + M] ^ z >>> 1 ^ mag01[z & 0x1];
 					}
-					for (; kk < (N - 1); kk++) {
-						z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-						mt[kk] = mt[kk + (M - N)] ^ (z >>> 1) ^ mag01[z & 0x1];
+					for (; kk < N - 1; kk++) {
+						z = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+						mt[kk] = mt[kk + M - N] ^ z >>> 1 ^ mag01[z & 0x1];
 					}
-					z = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-					mt[N - 1] = mt[M - 1] ^ (z >>> 1) ^ mag01[z & 0x1];
+					z = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+					mt[N - 1] = mt[M - 1] ^ z >>> 1 ^ mag01[z & 0x1];
 					mti = 0;
 				}
 				z = mt[mti++];
 				z ^= z >>> 11; // TEMPERING_SHIFT_U(z)
-				z ^= (z << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(z)
-				z ^= (z << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(z)
-				z ^= (z >>> 18); // TEMPERING_SHIFT_L(z)
+				z ^= z << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(z)
+				z ^= z << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(z)
+				z ^= z >>> 18; // TEMPERING_SHIFT_L(z)
 				if (mti >= N) // generate N words at one time
 				{
 					int kk;
 					final int[] mt = this.mt; // locals are slightly faster
 					final int[] mag01 = this.mag01; // locals are slightly
 					// faster
-					for (kk = 0; kk < (N - M); kk++) {
-						a = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-						mt[kk] = mt[kk + M] ^ (a >>> 1) ^ mag01[a & 0x1];
+					for (kk = 0; kk < N - M; kk++) {
+						a = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+						mt[kk] = mt[kk + M] ^ a >>> 1 ^ mag01[a & 0x1];
 					}
-					for (; kk < (N - 1); kk++) {
-						a = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-						mt[kk] = mt[kk + (M - N)] ^ (a >>> 1) ^ mag01[a & 0x1];
+					for (; kk < N - 1; kk++) {
+						a = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+						mt[kk] = mt[kk + M - N] ^ a >>> 1 ^ mag01[a & 0x1];
 					}
-					a = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-					mt[N - 1] = mt[M - 1] ^ (a >>> 1) ^ mag01[a & 0x1];
+					a = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+					mt[N - 1] = mt[M - 1] ^ a >>> 1 ^ mag01[a & 0x1];
 					mti = 0;
 				}
 				a = mt[mti++];
 				a ^= a >>> 11; // TEMPERING_SHIFT_U(a)
-				a ^= (a << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(a)
-				a ^= (a << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(a)
-				a ^= (a >>> 18); // TEMPERING_SHIFT_L(a)
+				a ^= a << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(a)
+				a ^= a << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(a)
+				a ^= a >>> 18; // TEMPERING_SHIFT_L(a)
 				if (mti >= N) // generate N words at one time
 				{
 					int kk;
 					final int[] mt = this.mt; // locals are slightly faster
 					final int[] mag01 = this.mag01; // locals are slightly
 					// faster
-					for (kk = 0; kk < (N - M); kk++) {
-						b = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-						mt[kk] = mt[kk + M] ^ (b >>> 1) ^ mag01[b & 0x1];
+					for (kk = 0; kk < N - M; kk++) {
+						b = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+						mt[kk] = mt[kk + M] ^ b >>> 1 ^ mag01[b & 0x1];
 					}
-					for (; kk < (N - 1); kk++) {
-						b = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-						mt[kk] = mt[kk + (M - N)] ^ (b >>> 1) ^ mag01[b & 0x1];
+					for (; kk < N - 1; kk++) {
+						b = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+						mt[kk] = mt[kk + M - N] ^ b >>> 1 ^ mag01[b & 0x1];
 					}
-					b = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-					mt[N - 1] = mt[M - 1] ^ (b >>> 1) ^ mag01[b & 0x1];
+					b = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+					mt[N - 1] = mt[M - 1] ^ b >>> 1 ^ mag01[b & 0x1];
 					mti = 0;
 				}
 				b = mt[mti++];
 				b ^= b >>> 11; // TEMPERING_SHIFT_U(b)
-				b ^= (b << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(b)
-				b ^= (b << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(b)
-				b ^= (b >>> 18); // TEMPERING_SHIFT_L(b)
+				b ^= b << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(b)
+				b ^= b << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(b)
+				b ^= b >>> 18; // TEMPERING_SHIFT_L(b)
 				/*
 				 * derived from nextDouble documentation in jdk 1.2 docs, see
 				 * top
 				 */
-				v1 = (2 * (((((long) (y >>> 6)) << 27) + (z >>> 5)) / (double) (1L << 53))) - 1;
-				v2 = (2 * (((((long) (a >>> 6)) << 27) + (b >>> 5)) / (double) (1L << 53))) - 1;
-				s = (v1 * v1) + (v2 * v2);
-			} while ((s >= 1) || (s == 0));
-			final double multiplier = /* Strict */Math.sqrt((-2 * /* Strict */Math.log(s)) / s);
+				v1 = 2 * ((((long) (y >>> 6) << 27) + (z >>> 5)) / (double) (1L << 53)) - 1;
+				v2 = 2 * ((((long) (a >>> 6) << 27) + (b >>> 5)) / (double) (1L << 53)) - 1;
+				s = v1 * v1 + v2 * v2;
+			} while (s >= 1 || s == 0);
+			final double multiplier = /* Strict */Math.sqrt(-2 * /* Strict */Math.log(s) / s);
 			__nextNextGaussian = v2 * multiplier;
 			__haveNextNextGaussian = true;
 			return v1 * multiplier;
@@ -1004,24 +966,24 @@ public class WB_MTRandom implements Serializable, Cloneable {
 			int kk;
 			final int[] mt = this.mt; // locals are slightly faster
 			final int[] mag01 = this.mag01; // locals are slightly faster
-			for (kk = 0; kk < (N - M); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (kk = 0; kk < N - M; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			for (; kk < (N - 1); kk++) {
-				y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-				mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+			for (; kk < N - 1; kk++) {
+				y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+				mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 			}
-			y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-			mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+			y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+			mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 			mti = 0;
 		}
 		y = mt[mti++];
 		y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-		y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-		y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-		y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
-		return (y >>> 8) / ((float) (1 << 24));
+		y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+		y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+		y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
+		return (y >>> 8) / (float) (1 << 24);
 	}
 
 	/**
@@ -1054,24 +1016,24 @@ public class WB_MTRandom implements Serializable, Cloneable {
 				int kk;
 				final int[] mt = this.mt; // locals are slightly faster
 				final int[] mag01 = this.mag01; // locals are slightly faster
-				for (kk = 0; kk < (N - M); kk++) {
-					y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+				for (kk = 0; kk < N - M; kk++) {
+					y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+					mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 				}
-				for (; kk < (N - 1); kk++) {
-					y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+				for (; kk < N - 1; kk++) {
+					y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+					mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 				}
-				y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-				mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+				y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+				mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 				mti = 0;
 			}
 			y = mt[mti++];
 			y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-			y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-			y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-			y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
-			return (int) ((n * (long) (y >>> 1)) >> 31);
+			y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+			y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+			y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
+			return (int) (n * (long) (y >>> 1) >> 31);
 		}
 		int bits, val;
 		do {
@@ -1081,26 +1043,26 @@ public class WB_MTRandom implements Serializable, Cloneable {
 				int kk;
 				final int[] mt = this.mt; // locals are slightly faster
 				final int[] mag01 = this.mag01; // locals are slightly faster
-				for (kk = 0; kk < (N - M); kk++) {
-					y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
+				for (kk = 0; kk < N - M; kk++) {
+					y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+					mt[kk] = mt[kk + M] ^ y >>> 1 ^ mag01[y & 0x1];
 				}
-				for (; kk < (N - 1); kk++) {
-					y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
-					mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+				for (; kk < N - 1; kk++) {
+					y = mt[kk] & UPPER_MASK | mt[kk + 1] & LOWER_MASK;
+					mt[kk] = mt[kk + M - N] ^ y >>> 1 ^ mag01[y & 0x1];
 				}
-				y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-				mt[N - 1] = mt[M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+				y = mt[N - 1] & UPPER_MASK | mt[0] & LOWER_MASK;
+				mt[N - 1] = mt[M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
 				mti = 0;
 			}
 			y = mt[mti++];
 			y ^= y >>> 11; // TEMPERING_SHIFT_U(y)
-			y ^= (y << 7) & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
-			y ^= (y << 15) & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
-			y ^= (y >>> 18); // TEMPERING_SHIFT_L(y)
-			bits = (y >>> 1);
+			y ^= y << 7 & TEMPERING_MASK_B; // TEMPERING_SHIFT_S(y)
+			y ^= y << 15 & TEMPERING_MASK_C; // TEMPERING_SHIFT_T(y)
+			y ^= y >>> 18; // TEMPERING_SHIFT_L(y)
+			bits = y >>> 1;
 			val = bits % n;
-		} while (((bits - val) + (n - 1)) < 0);
+		} while (bits - val + n - 1 < 0);
 		return val;
 	}
 }

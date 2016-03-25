@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 /**
  *
  */
-public class HET_HemeshWriter {
+public class HET_WriterHemesh {
 
 	/**
 	 *

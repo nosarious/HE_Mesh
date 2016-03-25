@@ -33,7 +33,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToOBJ(final HE_Mesh mesh, final String path, final String name) {
-		HET_OBJWriter.saveMesh(mesh, path, name);
+		HET_WriterOBJ.saveMesh(mesh, path, name);
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class HET_Export {
 	 * @param name 
 	 */
 	public static void saveToOBJNN(final HE_Mesh mesh, final String path, final String name) {
-		HET_OBJWriter.saveMeshNN(mesh, path, name);
+		HET_WriterOBJ.saveMeshNN(mesh, path, name);
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToOBJWithFaceColor(final HE_Mesh mesh, final String path, final String name) {
-		HET_OBJWriter.saveMeshWithFaceColor(mesh, path, name);
+		HET_WriterOBJ.saveMeshWithFaceColor(mesh, path, name);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToOBJWithVertexColor(final HE_Mesh mesh, final String path, final String name) {
-		HET_OBJWriter.saveMeshWithVertexColor(mesh, path, name);
+		HET_WriterOBJ.saveMeshWithVertexColor(mesh, path, name);
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToOBJ(final Collection<? extends HE_Mesh> mesh, final String path, final String name) {
-		HET_OBJWriter.saveMesh(mesh, path, name);
+		HET_WriterOBJ.saveMesh(mesh, path, name);
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class HET_Export {
 	 * @param name 
 	 */
 	public static void saveToOBJNN(final Collection<? extends HE_Mesh> mesh, final String path, final String name) {
-		HET_OBJWriter.saveMeshNN(mesh, path, name);
+		HET_WriterOBJ.saveMeshNN(mesh, path, name);
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class HET_Export {
 	 */
 	public static void saveToOBJWithFaceColor(final Collection<? extends HE_Mesh> mesh, final String path,
 			final String name) {
-		HET_OBJWriter.saveMeshWithFaceColor(mesh, path, name);
+		HET_WriterOBJ.saveMeshWithFaceColor(mesh, path, name);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class HET_Export {
 	 */
 	public static void saveToOBJWithVertexColor(final Collection<? extends HE_Mesh> mesh, final String path,
 			final String name) {
-		HET_OBJWriter.saveMeshWithVertexColor(mesh, path, name);
+		HET_WriterOBJ.saveMeshWithVertexColor(mesh, path, name);
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToOBJ(final HE_Mesh[] mesh, final String path, final String name) {
-		HET_OBJWriter.saveMesh(mesh, path, name);
+		HET_WriterOBJ.saveMesh(mesh, path, name);
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class HET_Export {
 	 * @param name 
 	 */
 	public static void saveToOBJNN(final HE_Mesh[] mesh, final String path, final String name) {
-		HET_OBJWriter.saveMeshNN(mesh, path, name);
+		HET_WriterOBJ.saveMeshNN(mesh, path, name);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToOBJWithFaceColor(final HE_Mesh[] mesh, final String path, final String name) {
-		HET_OBJWriter.saveMeshWithFaceColor(mesh, path, name);
+		HET_WriterOBJ.saveMeshWithFaceColor(mesh, path, name);
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToOBJWithVertexColor(final HE_Mesh[] mesh, final String path, final String name) {
-		HET_OBJWriter.saveMeshWithVertexColor(mesh, path, name);
+		HET_WriterOBJ.saveMeshWithVertexColor(mesh, path, name);
 	}
 
 	/**
@@ -180,8 +180,8 @@ public class HET_Export {
 	 */
 	public static void saveToSTLWithFaceColor(final HE_Mesh mesh, final String path, final String name,
 			final int colormodel) {
-		final HET_STLWriter stl = new HET_STLWriter((colormodel == 1) ? HET_STLWriter.MATERIALISE
-				: (colormodel == 0) ? HET_STLWriter.DEFAULT : HET_STLWriter.NONE, HET_STLWriter.DEFAULT_BUFFER);
+		final HET_WriterSTL stl = new HET_WriterSTL((colormodel == 1) ? HET_WriterSTL.MATERIALISE
+				: (colormodel == 0) ? HET_WriterSTL.DEFAULT : HET_WriterSTL.NONE, HET_WriterSTL.DEFAULT_BUFFER);
 		stl.beginSave(path, name, mesh.getNumberOfFaces());
 		saveToSTLWithFaceColor(mesh, stl);
 		stl.endSave();
@@ -193,7 +193,7 @@ public class HET_Export {
 	 * @param mesh
 	 * @param stl
 	 */
-	public static void saveToSTLWithFaceColor(final HE_Mesh mesh, final HET_STLWriter stl) {
+	public static void saveToSTLWithFaceColor(final HE_Mesh mesh, final HET_WriterSTL stl) {
 		final HE_FaceIterator fitr = mesh.fItr();
 		HE_Face f;
 		while (fitr.hasNext()) {
@@ -215,7 +215,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToSimpleMesh(final HE_Mesh mesh, final String path, final String name) {
-		final HET_SimpleMeshWriter hem = new HET_SimpleMeshWriter();
+		final HET_WriterSimpleMesh hem = new HET_WriterSimpleMesh();
 		hem.beginSave(path, name);
 		final WB_Coord[] points = mesh.getVerticesAsPoint();
 		hem.intValue(mesh.getNumberOfVertices());
@@ -239,7 +239,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToHemesh(final HE_Mesh mesh, final String path, final String name) {
-		final HET_HemeshWriter hem = new HET_HemeshWriter();
+		final HET_WriterHemesh hem = new HET_WriterHemesh();
 		hem.beginSave(path, name);
 		final TLongIntMap vertexKeys = new TLongIntHashMap(10, 0.5f, -1L, -1);
 		Iterator<HE_Vertex> vItr = mesh.vItr();
@@ -336,7 +336,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToBinaryHemesh(final HE_Mesh mesh, final String path, final String name) {
-		final HET_BinaryHemeshWriter hem = new HET_BinaryHemeshWriter();
+		final HET_WriterBinaryHemesh hem = new HET_WriterBinaryHemesh();
 		hem.beginSave(path, name);
 		final TLongIntMap vertexKeys = new TLongIntHashMap(10, 0.5f, -1L, -1);
 		Iterator<HE_Vertex> vItr = mesh.vItr();
@@ -439,7 +439,7 @@ public class HET_Export {
 	 * @param saveNormals
 	 */
 	public static void saveToPOV(final HE_Mesh mesh, final String path, final String name, final boolean saveNormals) {
-		final HET_POVWriter obj = new HET_POVWriter();
+		final HET_WriterPoV obj = new HET_WriterPoV();
 		obj.beginSave(path, name);
 		saveToPOV(mesh, obj, saveNormals);
 		obj.endSave();
@@ -453,9 +453,9 @@ public class HET_Export {
 	 * @param pov
 	 *            instance of HET_POVWriter
 	 * @param normals
-	 *            smooth faces {@link HET_POVWriter} instance.
+	 *            smooth faces {@link HET_WriterPoV} instance.
 	 */
-	public static void saveToPOV(final HE_Mesh mesh, final HET_POVWriter pov, final boolean normals) {
+	public static void saveToPOV(final HE_Mesh mesh, final HET_WriterPoV pov, final boolean normals) {
 		final int vOffset = pov.getCurrVertexOffset();
 		pov.beginMesh2(String.format("obj%d", mesh.getKey()));
 		final TLongIntMap keyToIndex = new TLongIntHashMap(10, 0.5f, -1L, -1);
@@ -514,7 +514,7 @@ public class HET_Export {
 	 *            boolean (Smooth face or otherwise)
 	 */
 	public static void saveToPOV(final HE_Mesh mesh, final PrintWriter pw, final boolean saveNormals) {
-		final HET_POVWriter obj = new HET_POVWriter();
+		final HET_WriterPoV obj = new HET_WriterPoV();
 		obj.beginSave(pw);
 		saveToPOV(mesh, obj, saveNormals);
 		obj.endSave();
@@ -541,7 +541,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToWRLWithFaceColor(final HE_Mesh mesh, final String path, final String name) {
-		HET_WRLWriter.saveMeshWithFaceColor(mesh, path, name);
+		HET_WriterWRL.saveMeshWithFaceColor(mesh, path, name);
 	}
 
 	/**
@@ -552,7 +552,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToWRLWithVertexColor(final HE_Mesh mesh, final String path, final String name) {
-		HET_WRLWriter.saveMeshWithVertexColor(mesh, path, name);
+		HET_WriterWRL.saveMeshWithVertexColor(mesh, path, name);
 	}
 
 	/**
@@ -563,7 +563,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToWRL(final HE_Mesh mesh, final String path, final String name) {
-		HET_WRLWriter.saveMesh(mesh, path, name);
+		HET_WriterWRL.saveMesh(mesh, path, name);
 	}
 
 	/**
@@ -574,7 +574,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToPLY(final HE_Mesh mesh, final String path, final String name) {
-		HET_PLYWriter.saveMesh(mesh, path, name);
+		HET_WriterPLY.saveMesh(mesh, path, name);
 	}
 
 	/**
@@ -585,7 +585,7 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToPLYWithVertexColor(final HE_Mesh mesh, final String path, final String name) {
-		HET_PLYWriter.saveMeshWithVertexColor(mesh, path, name);
+		HET_WriterPLY.saveMeshWithVertexColor(mesh, path, name);
 	}
 
 	/**
@@ -596,6 +596,6 @@ public class HET_Export {
 	 * @param name
 	 */
 	public static void saveToPLYWithFaceColor(final HE_Mesh mesh, final String path, final String name) {
-		HET_PLYWriter.saveMeshWithFaceColor(mesh, path, name);
+		HET_WriterPLY.saveMeshWithFaceColor(mesh, path, name);
 	}
 }

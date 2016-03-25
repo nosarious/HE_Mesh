@@ -22,7 +22,7 @@ import wblut.geom.WB_Coord;
  * @author Frederik Vanhoutte, W:Blut
  *
  */
-public class HET_SimpleMeshWriter {
+public class HET_WriterSimpleMesh {
     /** The simple mesh stream. */
     protected OutputStream simpleMeshStream;
     /** The simple mesh writer. */

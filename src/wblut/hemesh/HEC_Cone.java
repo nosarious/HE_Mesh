@@ -36,6 +36,7 @@ public class HEC_Cone extends HEC_Creator {
 	private boolean reverse;
 	/** The taper. */
 	private double taper;
+	private double phase;
 
 	/**
 	 * Instantiates a new cone.
@@ -50,6 +51,7 @@ public class HEC_Cone extends HEC_Creator {
 		Z = new WB_Vector(WB_Vector.Y());
 		cap = true;
 		taper = 1.0;
+
 	}
 
 	/**
@@ -195,6 +197,11 @@ public class HEC_Cone extends HEC_Creator {
 		return this;
 	}
 
+	public HEC_Cone setPhase(final double p) {
+		phase=p;
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -214,8 +221,8 @@ public class HEC_Cone extends HEC_Creator {
 			Ri = R - (Math.pow(i * invs, taper) * R);
 			Hj = (reverse) ? H - ((i * H) / steps) : (i * H) / steps;
 			for (int j = 0; j < (facets + 1); j++) {
-				vertices[id][0] = Ri * Math.cos(((2 * Math.PI) / facets) * j);
-				vertices[id][2] = Ri * Math.sin(((2 * Math.PI) / facets) * j);
+				vertices[id][0] = Ri * Math.cos((((2 * Math.PI) / facets) * j)+phase);
+				vertices[id][2] = Ri * Math.sin((((2 * Math.PI) / facets) * j)+phase);
 				vertices[id][1] = Hj;
 				uvws[id][0] = (j * 1.0) / facets;
 				uvws[id][1] = (i * 1.0) / steps;

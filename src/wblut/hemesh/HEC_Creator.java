@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -72,10 +72,10 @@ public abstract class HEC_Creator extends HE_Machine {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param s 
-	 * @return 
+	 *
+	 * @param s
+	 * @return
 	 */
 	public HEC_Creator setScale(final double s) {
 		scale = s;
@@ -200,10 +200,10 @@ public abstract class HEC_Creator extends HE_Machine {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param b 
-	 * @return 
+	 *
+	 * @param b
+	 * @return
 	 */
 	public HEC_Creator setManifoldCheck(final boolean b) {
 		manifoldCheck = b;
@@ -211,10 +211,10 @@ public abstract class HEC_Creator extends HE_Machine {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param b 
-	 * @return 
+	 *
+	 * @param b
+	 * @return
 	 */
 	public HEC_Creator setOverride(final boolean b) {
 		override = b;
@@ -246,7 +246,7 @@ public abstract class HEC_Creator extends HE_Machine {
 			if (!WB_Epsilon.isZeroSq(tmp.getSqLength3D())) {
 				base.rotateAboutAxis2PSelf(-Math.acos(WB_Math.clamp(zaxis.dot(Z), -1, 1)), ctr.xd(), ctr.yd(), ctr.zd(),
 						ctr.xd() + tmp.xd(), ctr.yd() + tmp.yd(), ctr.zd() + tmp.zd());
-			} else if (zaxis.dot(Z) < (-1 + WB_Epsilon.EPSILON)) {
+			} else if (zaxis.dot(Z) < -1 + WB_Epsilon.EPSILON) {
 				base.scale(1, 1, -1);
 			}
 			base.moveTo(center);
@@ -266,7 +266,7 @@ public abstract class HEC_Creator extends HE_Machine {
 			}
 		}
 		if (manifoldCheck) {
-			base.fixNonManifoldVertices();
+			HET_Fixer.fixNonManifoldVertices(base);
 		}
 		return base;
 	}

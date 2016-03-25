@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -26,7 +26,7 @@ import wblut.geom.WB_Point;
  */
 public class HEC_ConvexHull extends HEC_Creator {
 	/** Points. */
-	private WB_Point[] points;
+	private WB_Coord[] points;
 	/** Number of points. */
 	private int numberOfPoints;
 	/** The vertex to point index. */
@@ -48,23 +48,8 @@ public class HEC_ConvexHull extends HEC_Creator {
 	 *            array of vertex positions
 	 * @return self
 	 */
-	public HEC_ConvexHull setPoints(final WB_Point[] points) {
-		this.points = new WB_Point[points.length];
-		for (int i = 0; i < points.length; i++) {
-			this.points[i] = new WB_Point(points[i]);
-		}
-		return this;
-	}
-
-	/**
-	 * Set points that define vertices.
-	 *
-	 * @param points
-	 *            array of vertex positions
-	 * @return self
-	 */
-	public HEC_ConvexHull setPoints(final HE_Vertex[] points) {
-		this.points = new WB_Point[points.length];
+	public HEC_ConvexHull setPoints(final WB_Coord[] points) {
+		this.points = new WB_Coord[points.length];
 		for (int i = 0; i < points.length; i++) {
 			this.points[i] = new WB_Point(points[i]);
 		}
@@ -78,9 +63,9 @@ public class HEC_ConvexHull extends HEC_Creator {
 	 *            any Collection of vertex positions
 	 * @return self
 	 */
-	public HEC_ConvexHull setPoints(final Collection<? extends WB_Point> points) {
-		this.points = new WB_Point[points.size()];
-		final Iterator<? extends WB_Point> itr = points.iterator();
+	public HEC_ConvexHull setPoints(final Collection<? extends WB_Coord> points) {
+		this.points = new WB_Coord[points.size()];
+		final Iterator<? extends WB_Coord> itr = points.iterator();
 		int i = 0;
 		while (itr.hasNext()) {
 			this.points[i] = itr.next();
@@ -96,8 +81,7 @@ public class HEC_ConvexHull extends HEC_Creator {
 	 *            any Collection of vertex positions
 	 * @return self
 	 */
-	public HEC_ConvexHull setPointsFromVertices(
-			final Collection<? extends WB_Coord> points) {
+	public HEC_ConvexHull setPointsFromVertices(final Collection<? extends WB_Coord> points) {
 		this.points = new WB_Point[points.size()];
 		final Iterator<? extends WB_Coord> itr = points.iterator();
 		int i = 0;
@@ -119,8 +103,7 @@ public class HEC_ConvexHull extends HEC_Creator {
 		final int n = points.length;
 		this.points = new WB_Point[n];
 		for (int i = 0; i < n; i++) {
-			this.points[i] = new WB_Point(points[i][0], points[i][1],
-					points[i][2]);
+			this.points[i] = new WB_Point(points[i][0], points[i][1], points[i][2]);
 		}
 		return this;
 	}
@@ -136,8 +119,7 @@ public class HEC_ConvexHull extends HEC_Creator {
 		final int n = points.length;
 		this.points = new WB_Point[n];
 		for (int i = 0; i < n; i++) {
-			this.points[i] = new WB_Point(points[i][0], points[i][1],
-					points[i][2]);
+			this.points[i] = new WB_Point(points[i][0], points[i][1], points[i][2]);
 		}
 		return this;
 	}
@@ -153,8 +135,7 @@ public class HEC_ConvexHull extends HEC_Creator {
 		final int n = points.length;
 		this.points = new WB_Point[n];
 		for (int i = 0; i < n; i++) {
-			this.points[i] = new WB_Point(points[i][0], points[i][1],
-					points[i][2]);
+			this.points[i] = new WB_Point(points[i][0], points[i][1], points[i][2]);
 		}
 		return this;
 	}
@@ -196,8 +177,7 @@ public class HEC_ConvexHull extends HEC_Creator {
 		final WB_QuickHull3D hull = new WB_QuickHull3D(points);
 		final int[][] faceIndices = hull.getFaces();
 		final int[] originalindices = hull.getVertexPointIndices();
-		final HEC_FromFacelist ffl = new HEC_FromFacelist()
-				.setVertices(hull.getVertices()).setFaces(faceIndices)
+		final HEC_FromFacelist ffl = new HEC_FromFacelist().setVertices(hull.getVertices()).setFaces(faceIndices)
 				.setDuplicate(false).setCheckNormals(false);
 		final HE_Mesh result = ffl.createBase();
 		vertexToPointIndex = new FastMap<Long, Integer>();

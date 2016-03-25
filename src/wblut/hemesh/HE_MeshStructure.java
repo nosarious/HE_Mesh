@@ -10,6 +10,7 @@
 package wblut.hemesh;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,16 +27,14 @@ import wblut.geom.WB_Vector;
  * @author Frederik Vanhoutte (W:Blut)
  *
  */
-public class HE_MeshStructure extends HE_MeshElement  {
-
+public class HE_MeshStructure extends HE_MeshElement {
 
 	protected HE_RAS<HE_Vertex> vertices;
 
 	protected HE_RAS<HE_Halfedge> halfedges;
 	protected HE_RAS<HE_Halfedge> edges;
-	protected  HE_RAS<HE_Halfedge> unpairedHalfedges;
+	protected HE_RAS<HE_Halfedge> unpairedHalfedges;
 	protected HE_RAS<HE_Face> faces;
-
 
 	/**
 	 * Instantiates a new HE_Selection.
@@ -86,8 +85,8 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		final double cta = Math.cos(ta);
 		HE_FaceIterator fItr = this.fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			if (nn.dot(f.getFaceNormal()) > cta) {
 				add(f);
 			}
@@ -111,11 +110,11 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 *            halfedge to add
 	 */
 	public final void add(final HE_Halfedge he) {
-		if(he.getPair()==null){
+		if (he.getPair() == null) {
 			unpairedHalfedges.add(he);
-		}else if(he.isEdge()){
+		} else if (he.isEdge()) {
 			edges.add(he);
-		}else{
+		} else {
 			halfedges.add(he);
 		}
 	}
@@ -149,7 +148,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 *            faces to add as List<HE_Face>
 	 */
 	public final void addFaces(final Collection<HE_Face> faces) {
-		for (HE_Face f:faces) {
+		for (HE_Face f : faces) {
 			add(f);
 		}
 	}
@@ -182,7 +181,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 *            halfedges to add as List<HE_Halfedge>
 	 */
 	public final void addHalfedges(final Collection<HE_Halfedge> halfedges) {
-		for (HE_Halfedge he:halfedges) {
+		for (HE_Halfedge he : halfedges) {
 			add(he);
 		}
 	}
@@ -236,7 +235,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 *            vertices to add as List<HE_Vertex>
 	 */
 	public final void addVertices(final Collection<HE_Vertex> vertices) {
-		for (HE_Vertex v:vertices) {
+		for (HE_Vertex v : vertices) {
 			add(v);
 		}
 	}
@@ -264,10 +263,9 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	public final void clearHalfedges() {
 		halfedges = new HE_RASTrove<HE_Halfedge>();
 		edges = new HE_RASTrove<HE_Halfedge>();
-		unpairedHalfedges= new HE_RASTrove<HE_Halfedge>();
+		unpairedHalfedges = new HE_RASTrove<HE_Halfedge>();
 
 	}
-
 
 	/**
 	 * Clear edges.
@@ -275,7 +273,6 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	public final void clearEdges() {
 
 		edges = new HE_RASTrove<HE_Halfedge>();
-
 
 	}
 
@@ -305,8 +302,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @return true, if successful
 	 */
 	public final boolean contains(final HE_Halfedge he) {
-		return edges.contains(he)||
-				halfedges.contains(he)||	unpairedHalfedges.contains(he);
+		return edges.contains(he) || halfedges.contains(he) || unpairedHalfedges.contains(he);
 
 	}
 
@@ -384,16 +380,13 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @return
 	 */
 	public final HE_Halfedge getHalfedgeWithIndex(final int i) {
-		if(i>=(edges.size()+halfedges.size())) {
-			return unpairedHalfedges.get(i-edges.size()-halfedges.size());
-		}else if(i>=edges.size()) {
-			return halfedges.get(i-edges.size());
+		if (i >= edges.size() + halfedges.size()) {
+			return unpairedHalfedges.get(i - edges.size() - halfedges.size());
+		} else if (i >= edges.size()) {
+			return halfedges.get(i - edges.size());
 		}
 		return edges.get(i);
 	}
-
-
-
 
 	/**
 	 *
@@ -515,7 +508,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @return the number of halfedges
 	 */
 	public final int getNumberOfHalfedges() {
-		return halfedges.size()+edges.size()+unpairedHalfedges.size();
+		return halfedges.size() + edges.size() + unpairedHalfedges.size();
 	}
 
 	/**
@@ -594,8 +587,6 @@ public class HE_MeshStructure extends HE_MeshElement  {
 			remove(f);
 		}
 	}
-
-
 
 	/**
 	 * Removes halfedges.
@@ -676,7 +667,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		halfedges.addAll(this.halfedges);
 		halfedges.addAll(this.edges);
 		halfedges.addAll(this.unpairedHalfedges);
-		return (halfedges);
+		return halfedges;
 	}
 
 	/**
@@ -714,7 +705,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @return
 	 */
 	public final boolean containsHalfedge(final long key) {
-		return halfedges.containsKey(key)||edges.containsKey(key)||unpairedHalfedges.containsKey(key);
+		return halfedges.containsKey(key) || edges.containsKey(key) || unpairedHalfedges.containsKey(key);
 	}
 
 	/**
@@ -747,9 +738,6 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		return faces.indexOf(f);
 	}
 
-
-
-
 	/**
 	 *
 	 *
@@ -759,7 +747,6 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	public final int getIndex(final HE_Vertex v) {
 		return vertices.indexOf(v);
 	}
-
 
 	/**
 	 * Replace faces.
@@ -801,8 +788,8 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 */
 	protected final void replaceHalfedges(final HE_Mesh mesh) {
 		clearHalfedges();
-		HE_HalfedgeIterator heItr=mesh.heItr();
-		while(heItr.hasNext()){
+		HE_HalfedgeIterator heItr = mesh.heItr();
+		while (heItr.hasNext()) {
 			add(heItr.next());
 
 		}
@@ -853,7 +840,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @param vertices
 	 *            vertices to replace with as HE_Vertex[]
 	 */
-	protected  final void replaceVertices(final HE_Vertex[] vertices) {
+	protected final void replaceVertices(final HE_Vertex[] vertices) {
 		clearVertices();
 		for (final HE_Vertex vertice : vertices) {
 			add(vertice);
@@ -866,7 +853,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @param vertices
 	 *            vertices to replace with as List<HE_Vertex>
 	 */
-	protected  final void replaceVertices(final List<HE_Vertex> vertices) {
+	protected final void replaceVertices(final List<HE_Vertex> vertices) {
 		clearVertices();
 		addVertices(vertices);
 	}
@@ -934,7 +921,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		while (eItr.hasNext()) {
 			edges.add(eItr.next());
 		}
-		return (edges);
+		return edges;
 	}
 
 	/**
@@ -985,7 +972,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	public final List<HE_Face> getFacesAsList() {
 		final List<HE_Face> faces = new FastTable<HE_Face>();
 		faces.addAll(this.faces);
-		return (faces);
+		return faces;
 	}
 
 	/**
@@ -1009,12 +996,12 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @return halfedge
 	 */
 	public final HE_Halfedge getHalfedgeWithKey(final long key) {
-		HE_Halfedge he=edges.getWithKey(key);
-		if (he!=null) {
+		HE_Halfedge he = edges.getWithKey(key);
+		if (he != null) {
 			return he;
 		}
-		he=halfedges.getWithKey(key);
-		if (he!=null) {
+		he = halfedges.getWithKey(key);
+		if (he != null) {
 			return he;
 		}
 		return unpairedHalfedges.getWithKey(key);
@@ -1028,12 +1015,12 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @return halfedge
 	 */
 	public final HE_Halfedge getEdgeWithKey(final long key) {
-		HE_Halfedge he=edges.getWithKey(key);
-		if (he!=null) {
+		HE_Halfedge he = edges.getWithKey(key);
+		if (he != null) {
 			return he;
 		}
-		he=halfedges.getWithKey(key);
-		if (he!=null) {
+		he = halfedges.getWithKey(key);
+		if (he != null) {
 			return he;
 		}
 		return unpairedHalfedges.getWithKey(key);
@@ -1075,7 +1062,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		halfedges.addAll(this.halfedges);
 		halfedges.addAll(this.edges);
 		halfedges.addAll(this.unpairedHalfedges);
-		return (halfedges);
+		return halfedges;
 	}
 
 	/**
@@ -1128,9 +1115,8 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		final List<HE_Vertex> vertices = new FastTable<HE_Vertex>();
 		final Collection<HE_Vertex> _vertices = this.vertices;
 		vertices.addAll(_vertices);
-		return (vertices);
+		return vertices;
 	}
-
 
 	/**
 	 *
@@ -1143,7 +1129,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		final List<HE_Halfedge> halfedges = new FastTable<HE_Halfedge>();
 		if (vertices.length > 1) {
 			HE_Halfedge he;
-			for (int i = 0; i < (vertices.length - 1); i++) {
+			for (int i = 0; i < vertices.length - 1; i++) {
 				he = searchHalfedgeFromTo(getVertexWithIndex(vertices[i]), getVertexWithIndex(vertices[i + 1]));
 				if (he == null) {
 					throw new IllegalArgumentException(
@@ -1181,17 +1167,16 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		return null;
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param he
 	 * @param f
 	 */
-	public void setFace(final HE_Halfedge he, final HE_Face f){
+	public void setFace(final HE_Halfedge he, final HE_Face f) {
 		he._setFace(f);
-		if(he.getPair()!=null) {
-			setPair(he,he.getPair());
+		if (he.getPair() != null) {
+			setPair(he, he.getPair());
 		}
 
 	}
@@ -1201,10 +1186,10 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 *
 	 * @param he
 	 */
-	public void clearFace(final HE_Halfedge he){
+	public void clearFace(final HE_Halfedge he) {
 		he._clearFace();
-		if(he.getPair()!=null){
-			setPair(he,he.getPair());
+		if (he.getPair() != null) {
+			setPair(he, he.getPair());
 		}
 
 	}
@@ -1215,7 +1200,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @param he1
 	 * @param he2
 	 */
-	public void setPair(final HE_Halfedge he1, final HE_Halfedge he2){
+	public void setPair(final HE_Halfedge he1, final HE_Halfedge he2) {
 		remove(he1);
 		remove(he2);
 		he1._setPair(he2);
@@ -1223,40 +1208,22 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		add(he1);
 		add(he2);
 
-
-		/*if(he1.getPair()==null){
-			unpairedHalfedges.remove(he1);
-		}else{
-			if(he1.isEdge()){
-				edges.remove(he1);
-
-			}else{
-				halfedges.remove(he1);
-
-			}
-		}
-		if(he2.getPair()==null){
-			unpairedHalfedges.remove(he2);
-		}else{
-			if(he2.isEdge()){
-				edges.remove(he2);
-
-			}else{
-				halfedges.remove(he2);
-			}
-		}
-
-		he1._setPair(he2);
-		he2._setPair(he1);
-
-		if(he1.isEdge()){
-			edges.add(he1);
-			halfedges.add(he2);
-		}
-		else if (he2.isEdge()){
-			edges.add(he2);
-			halfedges.add(he1);
-		}*/
+		/*
+		 * if(he1.getPair()==null){ unpairedHalfedges.remove(he1); }else{
+		 * if(he1.isEdge()){ edges.remove(he1);
+		 *
+		 * }else{ halfedges.remove(he1);
+		 *
+		 * } } if(he2.getPair()==null){ unpairedHalfedges.remove(he2); }else{
+		 * if(he2.isEdge()){ edges.remove(he2);
+		 *
+		 * }else{ halfedges.remove(he2); } }
+		 *
+		 * he1._setPair(he2); he2._setPair(he1);
+		 *
+		 * if(he1.isEdge()){ edges.add(he1); halfedges.add(he2); } else if
+		 * (he2.isEdge()){ edges.add(he2); halfedges.add(he1); }
+		 */
 	}
 
 	/**
@@ -1264,11 +1231,11 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 *
 	 * @param he
 	 */
-	public void clearPair(final HE_Halfedge he){
-		if(he.getPair()==null) {
+	public void clearPair(final HE_Halfedge he) {
+		if (he.getPair() == null) {
 			return;
 		}
-		HE_Halfedge hep=he.getPair();
+		HE_Halfedge hep = he.getPair();
 		remove(he);
 		remove(hep);
 		he._clearPair();
@@ -1283,11 +1250,10 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @param he
 	 * @param hen
 	 */
-	public void setNext(final HE_Halfedge he, final HE_Halfedge hen){
+	public void setNext(final HE_Halfedge he, final HE_Halfedge hen) {
 		he._setNext(hen);
 		hen._setPrev(he);
 
-
 	}
 
 	/**
@@ -1296,9 +1262,8 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @param he
 	 * @param v
 	 */
-	public void setVertex(final HE_Halfedge he, final HE_Vertex v){
+	public void setVertex(final HE_Halfedge he, final HE_Vertex v) {
 		he._setVertex(v);
-
 
 	}
 
@@ -1308,9 +1273,8 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 * @param f
 	 * @param he
 	 */
-	public void setHalfedge(final HE_Face f, final HE_Halfedge he){
+	public void setHalfedge(final HE_Face f, final HE_Halfedge he) {
 		f._setHalfedge(he);
-
 
 	}
 
@@ -1319,20 +1283,18 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 *
 	 * @param f
 	 */
-	public void clearHalfedge(final HE_Face f){
+	public void clearHalfedge(final HE_Face f) {
 		f._clearHalfedge();
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param v
 	 * @param he
 	 */
-	public void setHalfedge(final HE_Vertex v, final HE_Halfedge he){
+	public void setHalfedge(final HE_Vertex v, final HE_Halfedge he) {
 		v._setHalfedge(he);
-
 
 	}
 
@@ -1341,17 +1303,16 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 *
 	 * @param v
 	 */
-	public void clearHalfedge(final HE_Vertex v){
+	public void clearHalfedge(final HE_Vertex v) {
 		v._clearHalfedge();
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param he
 	 */
-	public void clearNext(final HE_Halfedge he){
+	public void clearNext(final HE_Halfedge he) {
 		he._clearNext();
 	}
 
@@ -1360,7 +1321,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 *
 	 * @param he
 	 */
-	public void clearPrev(final HE_Halfedge he){
+	public void clearPrev(final HE_Halfedge he) {
 		he._clearPrev();
 	}
 
@@ -1369,7 +1330,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 	 *
 	 * @param he
 	 */
-	public void clearVertex(final HE_Halfedge he){
+	public void clearVertex(final HE_Halfedge he) {
 		he._clearVertex();
 	}
 
@@ -1381,7 +1342,7 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		HE_Halfedge he;
 		while (heItr.hasNext()) {
 			he = heItr.next();
-			setHalfedge(he.getVertex(),he);
+			setHalfedge(he.getVertex(), he);
 		}
 	}
 
@@ -1396,7 +1357,24 @@ public class HE_MeshStructure extends HE_MeshElement  {
 		return halfedges;
 	}
 
+	/**
+	 * Sort all faces and vertices in lexo+graphical order
+	 */
+	public void sort() {
+		HE_FaceIterator fItr = fItr();
+		while (fItr.hasNext()) {
+			fItr.next().sort();
+		}
 
+		List<HE_Face> sortedFaces = getFacesAsList();
+		Collections.sort(sortedFaces);
+		clearFaces();
+		addFaces(sortedFaces);
 
+		List<HE_Vertex> sortedVertices = getVerticesAsList();
+		Collections.sort(sortedVertices);
+		clearVertices();
+		addVertices(sortedVertices);
+	}
 
 }

@@ -14,6 +14,7 @@ import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_HasColor;
+import wblut.geom.WB_HashCode;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
@@ -24,7 +25,7 @@ import wblut.math.WB_Math;
  * @author Frederik Vanhoutte (W:Blut)
  *
  */
-public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
+public class HE_Halfedge extends HE_MeshElement implements WB_HasColor, Comparable<HE_Halfedge> {
 	/** Start vertex of halfedge. */
 	private HE_Vertex _vertex;
 	/** Halfedge pair. */
@@ -47,11 +48,11 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 		super();
 		hecolor = -1;
 		uvw = null;
-		_vertex=null;
-		_pair=null;
-		_next=null;
-		_prev=null;
-		_face=null;
+		_vertex = null;
+		_pair = null;
+		_next = null;
+		_prev = null;
+		_face = null;
 	}
 
 	/**
@@ -73,12 +74,38 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	}
 
 	/**
+	 * Get n'th previous halfedge in face.
+	 *
+	 * @return
+	 */
+	public HE_Halfedge getPrevInFace(final int n) {
+		HE_Halfedge he = this;
+		for (int i = 0; i < n; i++) {
+			he = he.getPrevInFace();
+		}
+		return he;
+	}
+
+	/**
 	 * Get next halfedge in face.
 	 *
 	 * @return next halfedge
 	 */
 	public HE_Halfedge getNextInFace() {
 		return _next;
+	}
+
+	/**
+	 * Get n'th next halfedge in face.
+	 *
+	 * @return next halfedge
+	 */
+	public HE_Halfedge getNextInFace(final int n) {
+		HE_Halfedge he = this;
+		for (int i = 0; i < n; i++) {
+			he = he.getNextInFace();
+		}
+		return he;
 	}
 
 	/**
@@ -94,15 +121,41 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	}
 
 	/**
+	 * Get n'th next halfedge in vertex.
+	 *
+	 * @return
+	 */
+	public HE_Halfedge getNextInVertex(final int n) {
+		HE_Halfedge he = this;
+		for (int i = 0; i < n; i++) {
+			he = he.getNextInVertex();
+		}
+		return he;
+	}
+
+	/**
 	 * Get previous halfedge in vertex.
 	 *
-	 * @return previous halfedge
+	 * @return
 	 */
 	public HE_Halfedge getPrevInVertex() {
 		if (_prev == null) {
 			return null;
 		}
 		return getPrevInFace().getPair();
+	}
+
+	/**
+	 * Get n'th previous halfedge in vertex.
+	 *
+	 * @return
+	 */
+	public HE_Halfedge getPrevInVertex(final int n) {
+		HE_Halfedge he = this;
+		for (int i = 0; i < n; i++) {
+			he = he.getPrevInVertex();
+		}
+		return he;
 	}
 
 	/**
@@ -180,7 +233,7 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	 * @return tangent
 	 */
 	public WB_Coord getHalfedgeTangent() {
-		if ((_pair != null) && (_vertex != null) && (_pair.getVertex() != null)) {
+		if (_pair != null && _vertex != null && _pair.getVertex() != null) {
 			final WB_Vector v = _pair.getVertex().subToVector3D(_vertex);
 			v.normalizeSelf();
 			return v;
@@ -207,7 +260,7 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	 * @return center
 	 */
 	public WB_Coord getHalfedgeCenter() {
-		if ((_next != null) && (_vertex != null) && (_next.getVertex() != null)) {
+		if (_next != null && _vertex != null && _next.getVertex() != null) {
 			return gf.createMidpoint(_next.getVertex(), _vertex);
 		}
 		return null;
@@ -219,7 +272,7 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	 * @return
 	 */
 	public WB_Coord getEdgeCenter() {
-		if ((_next != null) && (_vertex != null) && (_next.getVertex() != null)) {
+		if (_next != null && _vertex != null && _next.getVertex() != null) {
 			return gf.createMidpoint(_next.getVertex(), _vertex);
 		}
 		return null;
@@ -232,7 +285,7 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	 * @return
 	 */
 	public WB_Coord getEdgeCenter(final double f) {
-		if ((_next != null) && (_vertex != null) && (_next.getVertex() != null)) {
+		if (_next != null && _vertex != null && _next.getVertex() != null) {
 			return gf.createMidpoint(_next.getVertex(), _vertex).addMulSelf(f, getEdgeNormal());
 		}
 		return null;
@@ -364,11 +417,11 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 			he1 = _pair;
 			he2 = this;
 		}
-		if ((he1._face == null) && (he2._face == null)) {
+		if (he1._face == null && he2._face == null) {
 			return null;
 		}
-		final WB_Coord n1 = (he1._face != null) ? he1._face.getFaceNormal() : new WB_Vector(0, 0, 0);
-		final WB_Coord n2 = (he2._face != null) ? he2._face.getFaceNormal() : new WB_Vector(0, 0, 0);
+		final WB_Coord n1 = he1._face != null ? he1._face.getFaceNormal() : new WB_Vector(0, 0, 0);
+		final WB_Coord n2 = he2._face != null ? he2._face.getFaceNormal() : new WB_Vector(0, 0, 0);
 		final WB_Vector n = new WB_Vector(n1.xd() + n2.xd(), n1.yd() + n2.yd(), n1.zd() + n2.zd());
 		n.normalizeSelf();
 		return n;
@@ -381,7 +434,7 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	 */
 	public WB_Coord getHalfedgeNormal() {
 		WB_Coord fn;
-		if ((getFace() == null) && (getPair() == null)) {
+		if (getFace() == null && getPair() == null) {
 			return null;
 		}
 		if (getFace() == null) {
@@ -459,11 +512,12 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	}
 
 	/**
-	 * A halfedge is considered an edge if it has a paired halfedge and one of these conditions is met:
+	 * A halfedge is considered an edge if it has a paired halfedge and one of
+	 * these conditions is met:
 	 *
-	 *  a) both the halfedge and its pair have no face, and the halfedge key is lower
-	 *  b) the halfedge has a face and its pair has no face
-	 *  c) both the halfedge and its pair have a face, and the halfedge key is lower.
+	 * a) both the halfedge and its pair have no face, and the halfedge key is
+	 * lower b) the halfedge has a face and its pair has no face c) both the
+	 * halfedge and its pair have a face, and the halfedge key is lower.
 	 *
 	 * @return
 	 */
@@ -471,18 +525,17 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 		if (_pair == null) {
 			return false;
 		}
-		if(_face==null){
-			if (_pair._face == null) {//both halfedges are faceless
-				return (_key < _pair._key);
-			}else{
+		if (_face == null) {
+			if (_pair._face == null) {// both halfedges are faceless
+				return _key < _pair._key;
+			} else {
 				return false;
 			}
-		}else if (_pair._face == null) {
+		} else if (_pair._face == null) {
 			return true;
 		}
 
-
-		return (_key < _pair._key);
+		return _key < _pair._key;
 
 	}
 
@@ -503,7 +556,7 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	 * @return
 	 */
 	public boolean isInnerBoundary() {
-		if ((_face == null) || (_pair == null)) {
+		if (_face == null || _pair == null) {
 			return false;
 		}
 		if (_pair._face == null) {
@@ -541,7 +594,7 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 			he1 = _pair;
 			he2 = this;
 		}
-		if ((he1._face == null) && (he2._face == null)) {
+		if (he1._face == null && he2._face == null) {
 			return Double.NaN;
 		}
 		double result = 0;
@@ -574,7 +627,7 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 			he1 = _pair;
 			he2 = this;
 		}
-		if ((he1._face == null) || (he2._face == null)) {
+		if (he1._face == null || he2._face == null) {
 			return Double.NaN;
 		} else {
 			final WB_Coord n1 = he1._face.getFaceNormal();
@@ -639,7 +692,7 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 		if (c == null) {
 			return Double.NaN;
 		}
-		return WB_GeometryOp.cotan(c,p1,p2);
+		return WB_GeometryOp.cotan(c, p1, p2);
 	}
 
 	// TEXTURE COORDINATES
@@ -710,7 +763,8 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	/**
 	 * Set halfedge UVW.
 	 *
-	 * @param uvw            WB_Coord
+	 * @param uvw
+	 *            WB_Coord
 	 */
 	public void setUVW(final WB_Coord uvw) {
 		if (uvw == null) {
@@ -722,7 +776,8 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	/**
 	 * Set halfedge UVW.
 	 *
-	 * @param uvw            HE_TextureCoordinate
+	 * @param uvw
+	 *            HE_TextureCoordinate
 	 */
 	public void setUVW(final HE_TextureCoordinate uvw) {
 		if (uvw == null) {
@@ -751,7 +806,7 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 		if (uvw != null) {
 			return true;
 		}
-		if ((_vertex != null) && _vertex.hasVertexUVW()) {
+		if (_vertex != null && _vertex.hasVertexUVW()) {
 			return true;
 		}
 		return false;
@@ -763,10 +818,41 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor {
 	 * @return
 	 */
 	public boolean hasVertexUVW() {
-		if ((_vertex != null) && _vertex.hasVertexUVW()) {
+		if (_vertex != null && _vertex.hasVertexUVW()) {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 *
+	 *
+	 * @param he
+	 * @return
+	 */
+	@Override
+	public int compareTo(final HE_Halfedge he) {
+		if (he.getVertex() == null) {
+			if (getVertex() == null) {
+
+				return 0;
+			} else {
+				return 1;
+			}
+		} else if (getVertex() == null) {
+			return -1;
+		}
+
+		return getVertex().compareTo(he.getVertex());
+	}
+
+	@Override
+	public int hashCode() {
+		if (getVertex() == null) {
+			return WB_HashCode.calculateHashCode(0, 0, 0);
+		}
+		return getVertex().hashCode();
+
 	}
 
 }

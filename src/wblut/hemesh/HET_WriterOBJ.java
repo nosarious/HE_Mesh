@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.zip.GZIPOutputStream;
 import wblut.geom.WB_Coord;
 
-class HET_OBJWriter {
+class HET_WriterOBJ {
     /**
      *
      */

@@ -14,7 +14,7 @@ import wblut.math.WB_Epsilon;
 /**
  *
  */
-public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
+public class WB_SimpleVector implements WB_MutableCoord {
 	/** Coordinates. */
 	private double x, y, z;
 
@@ -109,7 +109,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 	public WB_SimpleVector(final double[] x) {
 		this.x = x[0];
 		this.y = x[1];
-		this.z = (x.length>2)?x[2]:0;
+		this.z = x.length > 2 ? x[2] : 0;
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 	public WB_SimpleVector(final double[] fromPoint, final double[] toPoint) {
 		this.x = toPoint[0] - fromPoint[0];
 		this.y = toPoint[1] - fromPoint[1];
-		this.z = ((fromPoint.length>2)&&(toPoint.length>2))?toPoint[2] - fromPoint[2]:0;
+		this.z = fromPoint.length > 2 && toPoint.length > 2 ? toPoint[2] - fromPoint[2] : 0;
 	}
 
 	/**
@@ -410,7 +410,9 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 		return Double.compare(wd(), p.wd());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -435,5 +437,15 @@ public class WB_SimpleVector implements Comparable<WB_Coord>, WB_MutableCoord {
 			return false;
 		}
 		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return WB_HashCode.calculateHashCode(xd(), yd(), zd(), wd());
 	}
 }

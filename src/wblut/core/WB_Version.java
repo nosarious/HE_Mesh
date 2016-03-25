@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 
 package wblut.core;
@@ -19,9 +19,9 @@ public class WB_Version {
 
 	public static final int MINOR = 0;
 
-	public static final int PATCH = 0;
+	public static final int PATCH = 3;
 
-	private static final String releaseInfo = "Ursa Minor";
+	private static final String releaseInfo = "Ursa Major";
 
 
 	/**

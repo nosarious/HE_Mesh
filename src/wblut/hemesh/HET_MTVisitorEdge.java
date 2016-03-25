@@ -25,8 +25,8 @@ import javolution.util.FastTable;
  * @author FVH
  *
  */
-public  class HET_MTEdgeVisitor<E extends Object> {
-	HET_EdgeInfo<E> edgeInfo;
+public  class HET_MTVisitorEdge<E extends Object> {
+	HET_InfoEdge<E> edgeInfo;
 
 
 	/**
@@ -34,7 +34,7 @@ public  class HET_MTEdgeVisitor<E extends Object> {
 	 *
 	 * @param edgeInfo 
 	 */
-	public HET_MTEdgeVisitor(final HET_EdgeInfo<E> edgeInfo){
+	public HET_MTVisitorEdge(final HET_InfoEdge<E> edgeInfo){
 		this.edgeInfo=edgeInfo;
 	}
 

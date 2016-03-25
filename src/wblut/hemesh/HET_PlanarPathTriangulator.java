@@ -73,7 +73,7 @@ class HET_PlanarPathTriangulator {
 		tracker.setStatus("HET_PlanarPathTriangulator", "Building contours tree.", 0);
 		for (int i = 0; i < paths.size(); i++) {
 			final HE_Path path = paths.get(i);
-			if (path.isLoop() && (path.getPathOrder() > 2)) {
+			if (path.isLoop() && path.getPathOrder() > 2) {
 				vertices = path.getPathVertices();
 				pts = new Coordinate[vertices.size() + 1];
 				for (int j = 0; j < vertices.size(); j++) {
@@ -131,7 +131,7 @@ class HET_PlanarPathTriangulator {
 		tracker.setStatus("HET_PlanarPathTriangulator", "Building contours tree.", 0);
 		for (int i = 0; i < paths.size(); i++) {
 			final HE_Path path = paths.get(i);
-			if (path.isLoop() && (path.getPathOrder() > 2)) {
+			if (path.isLoop() && path.getPathOrder() > 2) {
 				vertices = path.getPathVertices();
 				pts = new Coordinate[vertices.size() + 1];
 				for (int j = 0; j < vertices.size(); j++) {

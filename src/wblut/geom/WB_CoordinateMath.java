@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -70,8 +70,7 @@ public interface WB_CoordinateMath {
 	 *            multiplier
 	 * @param x
 	 */
-	public void addMulInto(final WB_MutableCoord result, final double f,
-			final double... x);
+	public void addMulInto(final WB_MutableCoord result, final double f, final double... x);
 
 	/**
 	 * Add multiple of coordinate values.
@@ -89,8 +88,7 @@ public interface WB_CoordinateMath {
 	 * @param f
 	 * @param p
 	 */
-	public void addMulInto(final WB_MutableCoord result, final double f,
-			final WB_Coord p);
+	public void addMulInto(final WB_MutableCoord result, final double f, final WB_Coord p);
 
 	/**
 	 * Subtract coordinate values.
@@ -149,8 +147,7 @@ public interface WB_CoordinateMath {
 	 * @param x
 	 * @return new WB_coordinate
 	 */
-	public WB_Coord mulAddMul(final double f, final double g,
-			final double... x);
+	public WB_Coord mulAddMul(final double f, final double g, final double... x);
 
 	/**
 	 * Multiply this coordinate by factor f and add other coordinate values
@@ -161,8 +158,7 @@ public interface WB_CoordinateMath {
 	 * @param p
 	 * @return new WB_coordinate
 	 */
-	public WB_Coord mulAddMul(final double f, final double g,
-			final WB_Coord p);
+	public WB_Coord mulAddMul(final double f, final double g, final WB_Coord p);
 
 	/**
 	 * Multiply this coordinate by factor f, add other coordinate values
@@ -173,8 +169,7 @@ public interface WB_CoordinateMath {
 	 * @param g
 	 * @param x
 	 */
-	public void mulAddMulInto(final WB_MutableCoord result,
-			final double f, final double g, final double... x);
+	public void mulAddMulInto(final WB_MutableCoord result, final double f, final double g, final double... x);
 
 	/**
 	 * Multiply this coordinate by factor f, add other coordinate values
@@ -185,8 +180,7 @@ public interface WB_CoordinateMath {
 	 * @param g
 	 * @param p
 	 */
-	public void mulAddMulInto(final WB_MutableCoord result,
-			final double f, final double g, final WB_Coord p);
+	public void mulAddMulInto(final WB_MutableCoord result, final double f, final double g, final WB_Coord p);
 
 	/**
 	 * Divide by factor.
@@ -219,8 +213,7 @@ public interface WB_CoordinateMath {
 	 * @param result
 	 * @param p
 	 */
-	public void crossInto(final WB_MutableCoord result,
-			final WB_Coord p);
+	public void crossInto(final WB_MutableCoord result, final WB_Coord p);
 
 	/**
 	 * Dot product.
@@ -270,4 +263,5 @@ public interface WB_CoordinateMath {
 	 * @return scalar triple
 	 */
 	public double scalarTriple(final WB_Coord v, final WB_Coord w);
+
 }

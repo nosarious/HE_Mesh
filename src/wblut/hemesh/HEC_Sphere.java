@@ -25,6 +25,8 @@ public class HEC_Sphere extends HEC_Creator {
 	/** V facets. */
 	private int vFacets;
 
+	private double phase;
+
 	/**
 	 * Instantiates a new HEC_Sphere.
 	 *
@@ -90,6 +92,11 @@ public class HEC_Sphere extends HEC_Creator {
 		return this;
 	}
 
+	public HEC_Sphere setPhase(final double p) {
+		phase=p;
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -118,9 +125,9 @@ public class HEC_Sphere extends HEC_Creator {
 			final double Rs = Math.sin((v * Math.PI) / vFacets);
 			final double Rc = Math.cos((v * Math.PI) / vFacets);
 			for (int u = 0; u < (uFacets + 1); u++) {
-				vertices[id][0] = Rs * Math.cos((2 * u * Math.PI) / uFacets);
+				vertices[id][0] = Rs * Math.cos(((2 * u * Math.PI) / uFacets)+phase);
 				vertices[id][1] = Rc;
-				vertices[id][2] = Rs * Math.sin((2 * u * Math.PI) / uFacets);
+				vertices[id][2] = Rs * Math.sin(((2 * u * Math.PI) / uFacets)+phase);
 				uvws[id][0] = (u * 1.0) / uFacets;
 				uvws[id][1] = 1 - ((v * 1.0) / vFacets);
 				uvws[id][2] = 0;
@@ -149,13 +156,7 @@ public class HEC_Sphere extends HEC_Creator {
 			faces[u + (uFacets * (vFacets - 1))][1] = index(u + 1, vFacets - 1);
 			faces[u + (uFacets * (vFacets - 1))][2] = (2 * u) + 1;
 		}
-		/*
-		 * for(int j=0;j<facets;j++){ int jp=(j==facets-1)?0:j+1;
-		 * faces[facets-1+facets*j]=new int[3];
-		 * faces[facets-1+facets*j][0]=facets-1+(facets+1)*j;
-		 * faces[facets-1+facets*j][1]=(facets+1)*facets-1;
-		 * faces[facets-1+facets*j][2]=facets-1+(facets+1)*jp; }
-		 */
+
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
 		fl.setVertices(vertices).setFaces(faces).setUVW(uvws);
 		HE_Mesh mesh = fl.createBase();

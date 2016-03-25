@@ -23,7 +23,7 @@ import gnu.trove.map.hash.TLongIntHashMap;
 /**
  *
  */
-public class HET_WRLWriter {
+public class HET_WriterWRL {
 
 	/**
 	 *

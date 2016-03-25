@@ -9,7 +9,7 @@
  */
 package wblut.hemesh;
 
-public  interface HET_VertexInfo<E extends Object>{
+public  interface HET_InfoVertex<E extends Object>{
 	
 	/**
 	 * 

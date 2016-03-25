@@ -21,7 +21,7 @@ import wblut.geom.WB_Coord;
 /**
  *
  */
-public class HET_PLYWriter {
+public class HET_WriterPLY {
 
 	/**
 	 *

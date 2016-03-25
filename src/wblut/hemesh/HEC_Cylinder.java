@@ -40,6 +40,8 @@ public class HEC_Cylinder extends HEC_Creator {
 
 	private double taper;
 
+	private double phase;
+
 	/**
 	 * Instantiates a new cylinder.
 	 *
@@ -172,6 +174,11 @@ public class HEC_Cylinder extends HEC_Creator {
 		return this;
 	}
 
+	public HEC_Cylinder setPhase(final double p) {
+		phase= p;
+		return this;
+	}
+
 	/**
 	 *
 	 *
@@ -238,8 +245,8 @@ public class HEC_Cylinder extends HEC_Creator {
 			final double R = Ri + (Math.pow(i * invs, taper) * (Ro - Ri));
 			final double Hj = i * H * invs;
 			for (int j = 0; j < (facets + 1); j++) {
-				vertices[id][0] = R * Math.cos(((2 * Math.PI) / facets) * j);
-				vertices[id][2] = R * Math.sin(((2 * Math.PI) / facets) * j);
+				vertices[id][0] = R * Math.cos((((2 * Math.PI) / facets) * j)+phase);
+				vertices[id][2] = R * Math.sin((((2 * Math.PI) / facets) * j)+phase);
 				vertices[id][1] = Hj;
 				uvw[id][0] = ((j * 1.0) / facets);
 				uvw[id][1] = (i * 1.0) / steps;

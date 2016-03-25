@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.core;
 
@@ -23,9 +23,6 @@ public class WB_ProgressCounter {
 
 	/**
 	 *
-	 *
-	 * @param limit
-	 * @param percentageStep
 	 */
 	public WB_ProgressCounter(final int limit, final int percentageStep) {
 		this.count = 0;

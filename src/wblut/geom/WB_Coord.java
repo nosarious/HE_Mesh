@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -17,7 +17,7 @@ package wblut.geom;
  * @author Frederik Vanhoutte
  *
  */
-public interface WB_Coord {
+public interface WB_Coord extends Comparable<WB_Coord> {
 	/**
 	 * Get x as double.
 	 *
@@ -91,4 +91,5 @@ public interface WB_Coord {
 	 * @return i'th ordinate
 	 */
 	public float getf(int i);
+
 }

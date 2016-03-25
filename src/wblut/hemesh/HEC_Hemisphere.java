@@ -27,6 +27,8 @@ public class HEC_Hemisphere extends HEC_Creator {
 
 	private boolean cap;
 
+	private double phase;
+
 	/**
 	 * Instantiates a new HEC_Sphere.
 	 *
@@ -104,6 +106,12 @@ public class HEC_Hemisphere extends HEC_Creator {
 		return this;
 	}
 
+	public HEC_Hemisphere setPhase(final double p) {
+		phase=p;
+		return this;
+	}
+
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -129,9 +137,9 @@ public class HEC_Hemisphere extends HEC_Creator {
 			final double Rs = Math.sin((v * 0.5 * Math.PI) / vFacets);
 			final double Rc = Math.cos((v * 0.5 * Math.PI) / vFacets);
 			for (int u = 0; u < (uFacets + 1); u++) {
-				vertices[id][0] = Rs * Math.cos((2 * u * Math.PI) / uFacets);
+				vertices[id][0] = Rs * Math.cos(((2 * u * Math.PI) / uFacets)+phase);
 				vertices[id][1] = Rc;
-				vertices[id][2] = Rs * Math.sin((2 * u * Math.PI) / uFacets);
+				vertices[id][2] = Rs * Math.sin(((2 * u * Math.PI) / uFacets)+phase);
 				uvws[id][0] = (u * 1.0) / uFacets;
 				uvws[id][1] = 1 - ((v * 1.0) / vFacets);
 				uvws[id][2] = 0;

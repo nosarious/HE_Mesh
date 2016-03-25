@@ -142,11 +142,11 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public WB_Vector addMulSelf(final double f, final double... x) {
-		if(x.length==3){
-			set(xd() + (f * x[0]), yd() + (f * x[1]), zd() + (f * x[2]));
+		if (x.length == 3) {
+			set(xd() + f * x[0], yd() + f * x[1], zd() + f * x[2]);
 			return this;
-		}else if(x.length==2){
-			set(xd() + (f * x[0]), yd() + (f * x[1]), zd() );
+		} else if (x.length == 2) {
+			set(xd() + f * x[0], yd() + f * x[1], zd());
 			return this;
 
 		}
@@ -163,7 +163,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public WB_Vector addMulSelf(final double f, final WB_Coord p) {
-		set(xd() + (f * p.xd()), yd() + (f * p.yd()), zd() + (f * p.zd()));
+		set(xd() + f * p.xd(), yd() + f * p.yd(), zd() + f * p.zd());
 		return this;
 	}
 
@@ -174,11 +174,11 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public WB_Vector addSelf(final double... x) {
-		if(x.length==3){
+		if (x.length == 3) {
 			set(xd() + x[0], yd() + x[1], zd() + x[2]);
 			return this;
-		}else if(x.length==2){
-			set(xd() + x[0], yd() + x[1],zd());
+		} else if (x.length == 2) {
+			set(xd() + x[0], yd() + x[1], zd());
 			return this;
 
 		}
@@ -256,8 +256,8 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public WB_Vector crossSelf(final WB_Coord p) {
-		set((yd() * p.zd()) - (this.zd() * p.yd()), (this.zd() * p.xd()) - (this.xd() * p.zd()),
-				(this.xd() * p.yd()) - (yd() * p.xd()));
+		set(yd() * p.zd() - this.zd() * p.yd(), this.zd() * p.xd() - this.xd() * p.zd(),
+				this.xd() * p.yd() - yd() * p.xd());
 		return this;
 	}
 
@@ -286,7 +286,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public WB_Vector mulAddMulSelf(final double f, final double g, final WB_Coord p) {
-		set((f * xd()) + (g * p.xd()), (f * yd()) + (g * p.yd()), (f * zd()) + (g * p.zd()));
+		set(f * xd() + g * p.xd(), f * yd() + g * p.yd(), f * zd() + g * p.zd());
 		return this;
 	}
 
@@ -294,20 +294,18 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * (non-Javadoc)
 	 *
 	 * @see wblut.geom.WB_MutableCoordinateMath#mulAddMulSelf(double, double,
-	 *  double[])
+	 * double[])
 	 */
 	@Override
 	public WB_Vector mulAddMulSelf(final double f, final double g, final double... x) {
-		if(x.length==3){
-			set((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), (f * this.zd()) + (g * x[2]));
+		if (x.length == 3) {
+			set(f * this.xd() + g * x[0], f * this.yd() + g * x[1], f * this.zd() + g * x[2]);
 			return this;
-		}else if(x.length==2){
-			set((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), this.zd());
+		} else if (x.length == 2) {
+			set(f * this.xd() + g * x[0], f * this.yd() + g * x[1], this.zd());
 			return this;
 		}
 		throw new IllegalArgumentException("Array should be length 2 or 3.");
-
-
 
 	}
 
@@ -388,11 +386,11 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public WB_Vector subSelf(final double... x) {
-		if(x.length==3){
+		if (x.length == 3) {
 			set(xd() - x[0], yd() - x[1], zd() - x[2]);
 			return this;
-		}else if(x.length==2){
-			set(xd() - x[0], yd() - x[1],zd());
+		} else if (x.length == 2) {
+			set(xd() - x[0], yd() - x[1], zd());
 			return this;
 		}
 		throw new IllegalArgumentException("Array should be length 2 or 3.");
@@ -417,7 +415,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public WB_Vector trimSelf(final double d) {
-		if (getSqLength3D() > (d * d)) {
+		if (getSqLength3D() > d * d) {
 			normalizeSelf();
 			mulSelf(d);
 		}
@@ -473,9 +471,9 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public WB_Vector add(final double... x) {
-		if(x.length==3){
+		if (x.length == 3) {
 			return new WB_Vector(this.xd() + x[0], this.yd() + x[1], this.zd() + x[2]);
-		}else if(x.length==2){
+		} else if (x.length == 2) {
 			return new WB_Vector(this.xd() + x[0], this.yd() + x[1], this.zd());
 
 		}
@@ -490,11 +488,11 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public void addInto(final WB_MutableCoord result, final double... x) {
-		if(x.length==3){
+		if (x.length == 3) {
 			result.set(xd() + x[0], yd() + x[1], zd() + x[2]);
-		}else if(x.length==2){
-			result.set(xd() + x[0], yd() + x[1],zd());
-		}else{
+		} else if (x.length == 2) {
+			result.set(xd() + x[0], yd() + x[1], zd());
+		} else {
 
 			throw new IllegalArgumentException("Array should be length 2 or 3.");
 		}
@@ -540,10 +538,10 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public WB_Vector addMul(final double f, final double... x) {
-		if(x.length==3){
-			return new WB_Vector(this.xd() + (f * x[0]), this.yd() + (f * x[1]), this.zd() + (f * x[2]));
-		}else if(x.length==2){
-			return new WB_Vector(this.xd() + (f * x[0]), this.yd() + (f * x[1]), this.zd() );
+		if (x.length == 3) {
+			return new WB_Vector(this.xd() + f * x[0], this.yd() + f * x[1], this.zd() + f * x[2]);
+		} else if (x.length == 2) {
+			return new WB_Vector(this.xd() + f * x[0], this.yd() + f * x[1], this.zd());
 		}
 		throw new IllegalArgumentException("Array should be length 2 or 3.");
 	}
@@ -556,12 +554,12 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public void addMulInto(final WB_MutableCoord result, final double f, final double... x) {
-		if(x.length==3){
-			result.set(xd() + (f * x[0]), yd() + (f * x[1]), zd() + (f * x[2]));
+		if (x.length == 3) {
+			result.set(xd() + f * x[0], yd() + f * x[1], zd() + f * x[2]);
 
-		}else if(x.length==2){
-			result.set(xd() + (f * x[0]), yd() + (f * x[1]), zd() );
-		}else{
+		} else if (x.length == 2) {
+			result.set(xd() + f * x[0], yd() + f * x[1], zd());
+		} else {
 
 			throw new IllegalArgumentException("Array should be length 2 or 3.");
 		}
@@ -576,7 +574,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public WB_Vector addMul(final double f, final WB_Coord p) {
-		return new WB_Vector(xd() + (f * p.xd()), yd() + (f * p.yd()), zd() + (f * p.zd()));
+		return new WB_Vector(xd() + f * p.xd(), yd() + f * p.yd(), zd() + f * p.zd());
 	}
 
 	/**
@@ -588,7 +586,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static WB_Vector addMul(final WB_Coord p, final double f, final WB_Coord q) {
-		return new WB_Vector(p.xd() + (f * q.xd()), p.yd() + (f * q.yd()), p.zd() + (f * q.zd()));
+		return new WB_Vector(p.xd() + f * q.xd(), p.yd() + f * q.yd(), p.zd() + f * q.zd());
 	}
 
 	/*
@@ -599,7 +597,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public void addMulInto(final WB_MutableCoord result, final double f, final WB_Coord p) {
-		result.set(xd() + (f * p.xd()), yd() + (f * p.yd()), zd() + (f * p.zd()));
+		result.set(xd() + f * p.xd(), yd() + f * p.yd(), zd() + f * p.zd());
 	}
 
 	/*
@@ -802,8 +800,8 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public WB_Vector cross(final WB_Coord p) {
-		return new WB_Vector((yd() * p.zd()) - (zd() * p.yd()), (zd() * p.xd()) - (xd() * p.zd()),
-				(xd() * p.yd()) - (yd() * p.xd()));
+		return new WB_Vector(yd() * p.zd() - zd() * p.yd(), zd() * p.xd() - xd() * p.zd(),
+				xd() * p.yd() - yd() * p.xd());
 	}
 
 	/**
@@ -814,8 +812,8 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static WB_Vector cross(final WB_Coord p, final WB_Coord q) {
-		return new WB_Vector((p.yd() * q.zd()) - (p.zd() * q.yd()), (p.zd() * q.xd()) - (p.xd() * q.zd()),
-				(p.xd() * q.yd()) - (p.yd() * q.xd()));
+		return new WB_Vector(p.yd() * q.zd() - p.zd() * q.yd(), p.zd() * q.xd() - p.xd() * q.zd(),
+				p.xd() * q.yd() - p.yd() * q.xd());
 	}
 
 	/*
@@ -826,8 +824,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public void crossInto(final WB_MutableCoord result, final WB_Coord p) {
-		result.set((yd() * p.zd()) - (zd() * p.yd()), (zd() * p.xd()) - (xd() * p.zd()),
-				(xd() * p.yd()) - (yd() * p.xd()));
+		result.set(yd() * p.zd() - zd() * p.yd(), zd() * p.xd() - xd() * p.zd(), xd() * p.yd() - yd() * p.xd());
 	}
 
 	/*
@@ -903,7 +900,6 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	public static double dot2D(final WB_Coord p, final WB_Coord q) {
 		return WB_GeometryOp.dot2D(p.xd(), p.yd(), q.xd(), q.yd());
 	}
-
 
 	@Override
 	public boolean equals(final Object o) {
@@ -1156,7 +1152,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public int hashCode() {
-		return WB_GeometryOp.calculateHashCode(xd(), yd(), zd());
+		return WB_HashCode.calculateHashCode(xd(), yd(), zd());
 	}
 
 	/*
@@ -1213,7 +1209,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(this, p))) {
 			return true;
 		}
-		return  (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine3D(this,p, q)));
+		return WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine3D(this, p, q));
 	}
 
 	/**
@@ -1234,7 +1230,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(o, p))) {
 			return true;
 		}
-		return  (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine3D(o,p, q)));
+		return WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine3D(o, p, q));
 	}
 
 	/**
@@ -1254,7 +1250,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(this, p))) {
 			return true;
 		}
-		return  (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine2D(this,p, q)));
+		return WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine2D(this, p, q));
 	}
 
 	/**
@@ -1275,7 +1271,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(o, p))) {
 			return true;
 		}
-		return  (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine2D(o,p, q)));
+		return WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine2D(o, p, q));
 	}
 
 	/**
@@ -1307,7 +1303,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isParallel(final WB_Coord p, final double t) {
-		return WB_GeometryOp.isParallel(this, p,t);
+		return WB_GeometryOp.isParallel(this, p, t);
 	}
 
 	/**
@@ -1319,7 +1315,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isParallel(final WB_Coord p, final WB_Coord q, final double t) {
-		return WB_GeometryOp.isParallel(p, q,t);
+		return WB_GeometryOp.isParallel(p, q, t);
 	}
 
 	/**
@@ -1340,7 +1336,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isParallelNorm(final WB_Coord p, final WB_Coord q) {
-		return WB_GeometryOp.isParallelNorm(p,q);
+		return WB_GeometryOp.isParallelNorm(p, q);
 	}
 
 	/**
@@ -1351,7 +1347,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isParallelNorm(final WB_Coord p, final double t) {
-		return WB_GeometryOp.isParallelNorm(this,p,t);
+		return WB_GeometryOp.isParallelNorm(this, p, t);
 	}
 
 	/**
@@ -1363,7 +1359,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isParallelNorm(final WB_Coord p, final WB_Coord q, final double t) {
-		return WB_GeometryOp.isParallelNorm(p,q,t);
+		return WB_GeometryOp.isParallelNorm(p, q, t);
 	}
 
 	/**
@@ -1395,7 +1391,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isParallel2D(final WB_Coord p, final double t) {
-		return WB_GeometryOp.isParallel2D(this, p,t);
+		return WB_GeometryOp.isParallel2D(this, p, t);
 	}
 
 	/**
@@ -1407,7 +1403,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isParallel2D(final WB_Coord p, final WB_Coord q, final double t) {
-		return WB_GeometryOp.isParallel2D(p, q,t);
+		return WB_GeometryOp.isParallel2D(p, q, t);
 	}
 
 	/**
@@ -1428,7 +1424,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isParallelNorm2D(final WB_Coord p, final WB_Coord q) {
-		return WB_GeometryOp.isParallelNorm(p,q);
+		return WB_GeometryOp.isParallelNorm(p, q);
 	}
 
 	/**
@@ -1439,7 +1435,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isParallelNorm2D(final WB_Coord p, final double t) {
-		return WB_GeometryOp.isParallelNorm(this,p,t);
+		return WB_GeometryOp.isParallelNorm(this, p, t);
 	}
 
 	/**
@@ -1451,7 +1447,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isParallelNorm2D(final WB_Coord p, final WB_Coord q, final double t) {
-		return WB_GeometryOp.isParallelNorm(p,q,t);
+		return WB_GeometryOp.isParallelNorm(p, q, t);
 	}
 
 	/**
@@ -1483,7 +1479,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isOrthogonal(final WB_Coord p, final double t) {
-		return WB_GeometryOp.isOrthogonal(this, p,t);
+		return WB_GeometryOp.isOrthogonal(this, p, t);
 	}
 
 	/**
@@ -1495,7 +1491,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isOrthogonal(final WB_Coord p, final WB_Coord q, final double t) {
-		return WB_GeometryOp.isOrthogonal(p, q,t);
+		return WB_GeometryOp.isOrthogonal(p, q, t);
 	}
 
 	/**
@@ -1516,7 +1512,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isOrthogonalNorm(final WB_Coord p, final WB_Coord q) {
-		return WB_GeometryOp.isOrthogonalNorm(p,q);
+		return WB_GeometryOp.isOrthogonalNorm(p, q);
 	}
 
 	/**
@@ -1527,7 +1523,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isOrthogonalNorm(final WB_Coord p, final double t) {
-		return WB_GeometryOp.isOrthogonalNorm(this,p,t);
+		return WB_GeometryOp.isOrthogonalNorm(this, p, t);
 	}
 
 	/**
@@ -1539,7 +1535,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isOrthogonalNorm(final WB_Coord p, final WB_Coord q, final double t) {
-		return WB_GeometryOp.isOrthogonalNorm(p,q,t);
+		return WB_GeometryOp.isOrthogonalNorm(p, q, t);
 	}
 
 	/**
@@ -1571,7 +1567,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isOrthogonal2D(final WB_Coord p, final double t) {
-		return WB_GeometryOp.isOrthogonal2D(this, p,t);
+		return WB_GeometryOp.isOrthogonal2D(this, p, t);
 	}
 
 	/**
@@ -1583,7 +1579,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isOrthogonal2D(final WB_Coord p, final WB_Coord q, final double t) {
-		return WB_GeometryOp.isOrthogonal2D(p, q,t);
+		return WB_GeometryOp.isOrthogonal2D(p, q, t);
 	}
 
 	/**
@@ -1604,7 +1600,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isOrthogonalNorm2D(final WB_Coord p, final WB_Coord q) {
-		return WB_GeometryOp.isOrthogonalNorm(p,q);
+		return WB_GeometryOp.isOrthogonalNorm(p, q);
 	}
 
 	/**
@@ -1615,7 +1611,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isOrthogonalNorm2D(final WB_Coord p, final double t) {
-		return WB_GeometryOp.isOrthogonalNorm(this,p,t);
+		return WB_GeometryOp.isOrthogonalNorm(this, p, t);
 	}
 
 	/**
@@ -1627,7 +1623,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isOrthogonalNorm2D(final WB_Coord p, final WB_Coord q, final double t) {
-		return WB_GeometryOp.isOrthogonalNorm(p,q,t);
+		return WB_GeometryOp.isOrthogonalNorm(p, q, t);
 	}
 
 	/*
@@ -1680,7 +1676,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public WB_Vector mulAddMul(final double f, final double g, final WB_Coord p) {
-		return new WB_Vector((f * xd()) + (g * p.xd()), (f * yd()) + (g * p.yd()), (f * zd()) + (g * p.zd()));
+		return new WB_Vector(f * xd() + g * p.xd(), f * yd() + g * p.yd(), f * zd() + g * p.zd());
 	}
 
 	/**
@@ -1693,7 +1689,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static WB_Vector mulAddMul(final double f, final WB_Coord p, final double g, final WB_Coord q) {
-		return new WB_Vector((f * p.xd()) + (g * q.xd()), (f * p.yd()) + (g * q.yd()), (f * p.zd()) + (g * q.zd()));
+		return new WB_Vector(f * p.xd() + g * q.xd(), f * p.yd() + g * q.yd(), f * p.zd() + g * q.zd());
 	}
 
 	/*
@@ -1704,7 +1700,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public void mulAddMulInto(final WB_MutableCoord result, final double f, final double g, final WB_Coord p) {
-		result.set((f * xd()) + (g * p.xd()), (f * yd()) + (g * p.yd()), (f * zd()) + (g * p.zd()));
+		result.set(f * xd() + g * p.xd(), f * yd() + g * p.yd(), f * zd() + g * p.zd());
 	}
 
 	/*
@@ -1715,7 +1711,9 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * , double, double, double, double, double, double)
 	 */
 	/**
-	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,double,double,double,double,double,double)} instead
+	 * @deprecated Use
+	 *             {@link #rotateAboutAxis2PSelf(double,double,double,double,double,double,double)}
+	 *             instead
 	 */
 	@Deprecated
 	@Override
@@ -1748,7 +1746,8 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * , wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
 	 */
 	/**
-	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,WB_Coord,WB_Coord)} instead
+	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,WB_Coord,WB_Coord)}
+	 *             instead
 	 */
 	@Deprecated
 	@Override
@@ -1808,7 +1807,9 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * double, double, double, double, double, double)
 	 */
 	/**
-	 * @deprecated Use {@link #rotateAboutAxis2P(double,double,double,double,double,double,double)} instead
+	 * @deprecated Use
+	 *             {@link #rotateAboutAxis2P(double,double,double,double,double,double,double)}
+	 *             instead
 	 */
 	@Deprecated
 	@Override
@@ -1840,7 +1841,8 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
 	 */
 	/**
-	 * @deprecated Use {@link #rotateAboutAxis2P(double,WB_Coord,WB_Coord)} instead
+	 * @deprecated Use {@link #rotateAboutAxis2P(double,WB_Coord,WB_Coord)}
+	 *             instead
 	 */
 	@Deprecated
 	@Override
@@ -1980,16 +1982,24 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		return WB_GeometryOp.scalarTriple(u.xd(), u.yd(), u.zd(), v.xd(), v.yd(), v.zd(), w.xd(), w.yd(), w.zd());
 	}
 
-	/* (non-Javadoc)
-	 * @see wblut.geom.WB_CoordinateTransform#scaleInto(wblut.geom.WB_MutableCoord, double)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * wblut.geom.WB_CoordinateTransform#scaleInto(wblut.geom.WB_MutableCoord,
+	 * double)
 	 */
 	@Override
 	public void scaleInto(final WB_MutableCoord result, final double f) {
 		result.set(xd() * f, yd() * f, zd() * f);
 	}
 
-	/* (non-Javadoc)
-	 * @see wblut.geom.WB_CoordinateTransform#scaleInto(wblut.geom.WB_MutableCoord, double, double, double)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * wblut.geom.WB_CoordinateTransform#scaleInto(wblut.geom.WB_MutableCoord,
+	 * double, double, double)
 	 */
 	@Override
 	public void scaleInto(final WB_MutableCoord result, final double fx, final double fy, final double fz) {
@@ -2005,40 +2015,45 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	public boolean smallerThan(final WB_Coord otherXYZ) {
 		int _tmp = WB_Epsilon.compareAbs(xd(), otherXYZ.xd());
 		if (_tmp != 0) {
-			return (_tmp < 0);
+			return _tmp < 0;
 		}
 		_tmp = WB_Epsilon.compareAbs(yd(), otherXYZ.yd());
 		if (_tmp != 0) {
-			return (_tmp < 0);
+			return _tmp < 0;
 		}
 		_tmp = WB_Epsilon.compareAbs(zd(), otherXYZ.zd());
-		return (_tmp < 0);
+		return _tmp < 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.geom.WB_CoordinateMath#sub(double[])
 	 */
 	@Override
 	public WB_Vector sub(final double... x) {
-		if(x.length==3){
+		if (x.length == 3) {
 			return new WB_Vector(this.xd() - x[0], this.yd() - x[1], this.zd() - x[2]);
-		}else if(x.length==2){
+		} else if (x.length == 2) {
 			return new WB_Vector(this.xd() - x[0], this.yd() - x[1], this.zd());
 
 		}
 		throw new IllegalArgumentException("Array should be length 2 or 3.");
 	}
 
-	/* (non-Javadoc)
-	 * @see wblut.geom.WB_CoordinateMath#subInto(wblut.geom.WB_MutableCoord, double[])
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see wblut.geom.WB_CoordinateMath#subInto(wblut.geom.WB_MutableCoord,
+	 * double[])
 	 */
 	@Override
 	public void subInto(final WB_MutableCoord result, final double... x) {
-		if(x.length==3){
+		if (x.length == 3) {
 			result.set(xd() - x[0], yd() - x[1], zd() - x[2]);
-		}else if(x.length==2){
-			result.set(xd() - x[0], yd() - x[1],zd());
-		}else{
+		} else if (x.length == 2) {
+			result.set(xd() - x[0], yd() - x[1], zd());
+		} else {
 
 			throw new IllegalArgumentException("Array should be length 2 or 3.");
 		}
@@ -2163,34 +2178,38 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.geom.WB_CoordinateMath#mulAddMul(double, double, double[])
 	 */
 	@Override
 	public WB_Vector mulAddMul(final double f, final double g, final double... x) {
-		if(x.length==3){
-			return new WB_Vector((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), (f * this.zd()) + (g * x[2]));
-		}else if(x.length==2){
-			return new WB_Vector((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), this.zd());
+		if (x.length == 3) {
+			return new WB_Vector(f * this.xd() + g * x[0], f * this.yd() + g * x[1], f * this.zd() + g * x[2]);
+		} else if (x.length == 2) {
+			return new WB_Vector(f * this.xd() + g * x[0], f * this.yd() + g * x[1], this.zd());
 		}
 		throw new IllegalArgumentException("Array should be length 2 or 3.");
 
-
-
 	}
 
-	/* (non-Javadoc)
-	 * @see wblut.geom.WB_CoordinateMath#mulAddMulInto(wblut.geom.WB_MutableCoord, double, double, double[])
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * wblut.geom.WB_CoordinateMath#mulAddMulInto(wblut.geom.WB_MutableCoord,
+	 * double, double, double[])
 	 */
 	@Override
 	public void mulAddMulInto(final WB_MutableCoord result, final double f, final double g, final double... x) {
-		if(x.length==3){
-			result.set((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), (f * this.zd()) + (g * x[2]));
+		if (x.length == 3) {
+			result.set(f * this.xd() + g * x[0], f * this.yd() + g * x[1], f * this.zd() + g * x[2]);
 
-		}else if(x.length==2){
-			result.set((f * this.xd()) + (g * x[0]), (f * this.yd()) + (g * x[1]), this.zd());
+		} else if (x.length == 2) {
+			result.set(f * this.xd() + g * x[0], f * this.yd() + g * x[1], this.zd());
 
-		}else{
+		} else {
 			throw new IllegalArgumentException("Array should be length 2 or 3.");
 		}
 	}
@@ -2216,4 +2235,23 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	public static WB_Vector subToVector2D(final WB_Coord p, final WB_Coord q) {
 		return new WB_Vector(p.xd() - q.xd(), p.yd() - q.yd());
 	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(final WB_Coord p) {
+		int cmp = Double.compare(xd(), p.xd());
+		if (cmp != 0) {
+			return cmp;
+		}
+		cmp = Double.compare(yd(), p.yd());
+		if (cmp != 0) {
+			return cmp;
+		}
+		return Double.compare(zd(), p.zd());
+	}
+
 }

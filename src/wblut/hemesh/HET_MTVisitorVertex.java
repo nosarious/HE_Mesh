@@ -25,17 +25,17 @@ import javolution.util.FastTable;
  * @author FVH
  *
  */
-public  class HET_MTFaceVisitor<E extends Object> {
-	HET_FaceInfo<E> faceInfo;
+public  class HET_MTVisitorVertex<E extends Object> {
+	HET_InfoVertex<E> vertexInfo;
 
 
 	/**
 	 * 
 	 *
-	 * @param faceInfo 
+	 * @param vertexInfo 
 	 */
-	public HET_MTFaceVisitor(final HET_FaceInfo<E> faceInfo){
-		this.faceInfo=faceInfo;
+	public HET_MTVisitorVertex(final HET_InfoVertex<E> vertexInfo){
+		this.vertexInfo=vertexInfo;
 	}
 
 
@@ -45,30 +45,30 @@ public  class HET_MTFaceVisitor<E extends Object> {
 	 * @param mesh 
 	 * @return 
 	 */
-	public List<E> getFaceInfo(final HE_MeshStructure mesh){
-		return visit(mesh.faces.getObjects());
+	public List<E> getVertexInfo(final HE_MeshStructure mesh){
+		return visit(mesh.vertices.getObjects());
 	}
 
 	/**
 	 * 
 	 *
-	 * @param faces 
+	 * @param vertices 
 	 * @return 
 	 */
-	private List<E> visit(final List<HE_Face> faces){
+	private List<E> visit(final List<HE_Vertex> vertices){
 
 		List<E> result=new FastTable<E>();
 		try {
 			int threadCount = Runtime.getRuntime().availableProcessors();
-			int dfaces = faces.size() / threadCount;
+			int dvertices = vertices.size() / threadCount;
 			final ExecutorService executor = Executors.newFixedThreadPool(threadCount);
 			final List<Future<List<E>>>  list=new ArrayList<Future<List<E>>>();
 			int i = 0;
 			for (i = 0; i < (threadCount - 1); i++) {
-				final Callable<List<E>> runner = new HET_FaceVisitor(dfaces * i, (dfaces * (i + 1)) - 1,i,faces);
+				final Callable<List<E>> runner = new HET_VertexVisitor(dvertices * i, (dvertices * (i + 1)) - 1,i,vertices);
 				list.add(executor.submit(runner));
 			}
-			final Callable<List<E>> runner = new HET_FaceVisitor(dfaces * i, faces.size() - 1,i,faces);
+			final Callable<List<E>> runner = new HET_VertexVisitor(dvertices * i, vertices.size() - 1,i,vertices);
 			list.add(executor.submit(runner));
 
 			for (Future<List<E>> future : list) {
@@ -90,11 +90,11 @@ public  class HET_MTFaceVisitor<E extends Object> {
 
 
 
-	class HET_FaceVisitor implements Callable<List<E>>{
+	class HET_VertexVisitor implements Callable<List<E>>{
 		int start;
 		int end;
 		int id;
-		List<HE_Face> faces;
+		List<HE_Vertex> vertices;
 
 
 		/**
@@ -103,13 +103,13 @@ public  class HET_MTFaceVisitor<E extends Object> {
 		 * @param s 
 		 * @param e 
 		 * @param id 
-		 * @param faces 
+		 * @param vertices 
 		 */
-		public HET_FaceVisitor(final int s, final int e,final int id,final List<HE_Face> faces) {
+		public HET_VertexVisitor(final int s, final int e,final int id,final List<HE_Vertex> vertices) {
 			start = s;
 			end = e;
 			this.id=id;
-			this.faces=faces;
+			this.vertices=vertices;
 
 		}
 
@@ -119,9 +119,9 @@ public  class HET_MTFaceVisitor<E extends Object> {
 		@Override
 		public List<E> call() {
 			ArrayList<E> result=new ArrayList<E>();
-			ListIterator<HE_Face> itr=faces.listIterator(start);
+			ListIterator<HE_Vertex> itr=vertices.listIterator(start);
 			for (int i = start; i <= end; i++) {
-				result.add(faceInfo.retrieve(itr.next()));
+				result.add(vertexInfo.retrieve(itr.next()));
 			}
 			return result;
 		}

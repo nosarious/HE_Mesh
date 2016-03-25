@@ -18,7 +18,6 @@ import javolution.util.FastMap;
 import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_AABBTree;
 import wblut.geom.WB_Classification;
-import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_Plane;
 import wblut.math.WB_Epsilon;
@@ -30,7 +29,7 @@ import wblut.math.WB_Epsilon;
  *
  */
 public class HEM_SliceEdges extends HEM_Modifier {
-	static final int ON=1,BACK=2, FRONT=3;
+	static final int ON = 1, BACK = 2, FRONT = 3;
 	/** Cut plane. */
 	private WB_Plane P;
 	/** Stores cut faces. */
@@ -38,9 +37,6 @@ public class HEM_SliceEdges extends HEM_Modifier {
 
 	/** Stores new edges. */
 	public HE_Selection cutEdges;
-
-
-	private WB_GeometryFactory gf=WB_GeometryFactory.instance();
 
 	/**
 	 * Instantiates a new HEM_SliceEdges.
@@ -72,8 +68,8 @@ public class HEM_SliceEdges extends HEM_Modifier {
 	 * @param nz
 	 * @return
 	 */
-	public HEM_SliceEdges setPlane(final double ox, final double oy, final double oz, final double nx,
-			final double ny, final double nz) {
+	public HEM_SliceEdges setPlane(final double ox, final double oy, final double oz, final double nx, final double ny,
+			final double nz) {
 		P = new WB_Plane(ox, oy, oz, nx, ny, nz);
 		return this;
 	}
@@ -120,12 +116,11 @@ public class HEM_SliceEdges extends HEM_Modifier {
 		// check if plane intersects mesh
 		final WB_Plane lP = new WB_Plane(P.getNormal(), P.d() + offset);
 		if (!WB_GeometryOp.checkIntersection3D(mesh.getAABB(), lP)) {
-			tracker.setStatus(this,
-					"Plane doesn't intersect bounding box. Exiting HEM_SliceEdges.", -1);
+			tracker.setStatus(this, "Plane doesn't intersect bounding box. Exiting HEM_SliceEdges.", -1);
 			return mesh;
 		}
 		tracker.setStatus(this, "Creating bounding box tree.", 0);
-		final WB_AABBTree tree = new WB_AABBTree(mesh, Math.max(64, (int)Math.sqrt(mesh.getNumberOfFaces())));
+		final WB_AABBTree tree = new WB_AABBTree(mesh, Math.max(64, (int) Math.sqrt(mesh.getNumberOfFaces())));
 		final HE_Selection faces = new HE_Selection(mesh);
 		tracker.setStatus(this, "Retrieving intersection candidates.", 0);
 		faces.addFaces(HE_GeometryOp.getPotentialIntersectedFaces(tree, lP));
@@ -141,11 +136,11 @@ public class HEM_SliceEdges extends HEM_Modifier {
 		while (vItr.hasNext()) {
 			v = vItr.next();
 			tmp = WB_GeometryOp.classifyPointToPlane3D(v, lP);
-			if(tmp==WB_Classification.ON) {
+			if (tmp == WB_Classification.ON) {
 				v.setInternalLabel(ON);
-			} else if(tmp==WB_Classification.BACK) {
+			} else if (tmp == WB_Classification.BACK) {
 				v.setInternalLabel(BACK);
-			} else if(tmp==WB_Classification.FRONT) {
+			} else if (tmp == WB_Classification.FRONT) {
 				v.setInternalLabel(FRONT);
 			}
 			vertexClass.put(v.key(), tmp);
@@ -198,10 +193,10 @@ public class HEM_SliceEdges extends HEM_Modifier {
 			}
 			if (u < WB_Epsilon.EPSILON) {
 				split.add(ce.getStartVertex());
-			} else if (u > (1.0 - WB_Epsilon.EPSILON)) {
+			} else if (u > 1.0 - WB_Epsilon.EPSILON) {
 				split.add(ce.getEndVertex());
 			} else {
-				HE_Vertex vi=mesh.splitEdge(ce, u).vItr().next();
+				HE_Vertex vi = mesh.splitEdge(ce, u).vItr().next();
 				vi.setInternalLabel(ON);
 				split.add(vi);
 			}
@@ -212,8 +207,6 @@ public class HEM_SliceEdges extends HEM_Modifier {
 		tracker.setStatus(this, "Exiting HEM_SliceEdges.", -1);
 		return mesh;
 	}
-
-
 
 	/*
 	 * (non-Javadoc)
@@ -250,8 +243,7 @@ public class HEM_SliceEdges extends HEM_Modifier {
 		lsel.collectVertices();
 		// empty mesh
 		if (lsel.getNumberOfVertices() == 0) {
-			tracker.setStatus(this,
-					"Plane doesn't intersect bounding box tree. Exiting HEM_SliceEdges.", -1);
+			tracker.setStatus(this, "Plane doesn't intersect bounding box tree. Exiting HEM_SliceEdges.", -1);
 			return lsel.parent;
 		}
 		// check if plane intersects mesh
@@ -323,10 +315,10 @@ public class HEM_SliceEdges extends HEM_Modifier {
 				}
 				if (u < WB_Epsilon.EPSILON) {
 					split.add(ce.getStartVertex());
-				} else if (u > (1.0 - WB_Epsilon.EPSILON)) {
+				} else if (u > 1.0 - WB_Epsilon.EPSILON) {
 					split.add(ce.getEndVertex());
 				} else {
-					HE_Vertex vi=lsel.parent.splitEdge(ce, u).vItr().next();
+					HE_Vertex vi = lsel.parent.splitEdge(ce, u).vItr().next();
 					vi.setInternalLabel(ON);
 					split.add(vi);
 				}
@@ -336,6 +328,5 @@ public class HEM_SliceEdges extends HEM_Modifier {
 		tracker.setStatus(this, "Exiting HEM_SliceEdges.", -1);
 		return lsel.parent;
 	}
-
 
 }

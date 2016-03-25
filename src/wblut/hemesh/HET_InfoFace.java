@@ -14,7 +14,7 @@ import wblut.geom.WB_Triangulate;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Math;
 
-public  interface HET_FaceInfo<E extends Object>{
+public  interface HET_InfoFace<E extends Object>{
 	
 	/**
 	 * 
@@ -24,7 +24,7 @@ public  interface HET_FaceInfo<E extends Object>{
 	 */
 	public E retrieve(final HE_Face face);
 
-	public static class HET_FaceNormal implements HET_FaceInfo<WB_Vector>{
+	public static class HET_FaceNormal implements HET_InfoFace<WB_Vector>{
 
 		/* (non-Javadoc)
 		 * @see wblut.hemesh.HET_FaceInfo#retrieve(wblut.hemesh.HE_Face)
@@ -53,7 +53,7 @@ public  interface HET_FaceInfo<E extends Object>{
 	}
 
 
-	public static class HET_FaceCenter implements HET_FaceInfo<WB_Point>{
+	public static class HET_FaceCenter implements HET_InfoFace<WB_Point>{
 
 		/* (non-Javadoc)
 		 * @see wblut.hemesh.HET_FaceInfo#retrieve(wblut.hemesh.HE_Face)
@@ -77,7 +77,7 @@ public  interface HET_FaceInfo<E extends Object>{
 
 	}
 
-	public static class HET_FaceArea implements HET_FaceInfo<Double>{
+	public static class HET_FaceArea implements HET_InfoFace<Double>{
 
 		/* (non-Javadoc)
 		 * @see wblut.hemesh.HET_FaceInfo#retrieve(wblut.hemesh.HE_Face)
@@ -144,7 +144,7 @@ public  interface HET_FaceInfo<E extends Object>{
 		}
 	}
 
-	public static class HET_FaceTriangles implements HET_FaceInfo<int[]>{
+	public static class HET_FaceTriangles implements HET_InfoFace<int[]>{
 
 
 		/* (non-Javadoc)

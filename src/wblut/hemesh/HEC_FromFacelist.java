@@ -41,6 +41,8 @@ public class HEC_FromFacelist extends HEC_Creator {
 	/** Check face normal consistency?. */
 	private boolean normalcheck;
 
+	private boolean manifoldcheck;
+
 	/**
 	 * Instantiates a new HEC_Facelist.
 	 *
@@ -300,6 +302,11 @@ public class HEC_FromFacelist extends HEC_Creator {
 		return this;
 	}
 
+	public HEC_FromFacelist setCheckManifold(final boolean b) {
+		manifoldcheck = b;
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -308,11 +315,11 @@ public class HEC_FromFacelist extends HEC_Creator {
 	@Override
 	protected HE_Mesh createBase() {
 		final HE_Mesh mesh = new HE_Mesh();
-		if ((faces != null) && (vertices != null)) {
+		if (faces != null && vertices != null) {
 			if (faces.length == 0) {
 				return mesh;
 			}
-			final boolean useUVW = (uvws != null) && (uvws.length == vertices.length);
+			final boolean useUVW = uvws != null && uvws.length == vertices.length;
 			final HE_Vertex[] uniqueVertices = new HE_Vertex[vertices.length];
 			final boolean[] duplicated = new boolean[vertices.length];
 			if (duplicate) {
@@ -412,7 +419,7 @@ public class HEC_FromFacelist extends HEC_Creator {
 										}
 										if (consistentOrder(j, (j + 1) % fl, face, faces[neighbor]) == -1) {
 											final int fln = faces[neighbor].length;
-											for (int k = 0; k < (fln / 2); k++) {
+											for (int k = 0; k < fln / 2; k++) {
 												temp = faces[neighbor][k];
 												faces[neighbor][k] = faces[neighbor][fln - k - 1];
 												faces[neighbor][fln - k - 1] = temp;
@@ -433,9 +440,9 @@ public class HEC_FromFacelist extends HEC_Creator {
 					}
 				} while (facesleft);
 			}
-			final boolean useFaceTextures = (faceTextureIds != null) && (faceTextureIds.length == faces.length);
+			final boolean useFaceTextures = faceTextureIds != null && faceTextureIds.length == faces.length;
 			for (final int[] face : faces) {
-				if(face!=null){
+				if (face != null) {
 					final ArrayList<HE_Halfedge> faceEdges = new ArrayList<HE_Halfedge>();
 					final HE_Face hef = new HE_Face();
 					hef.setInternalLabel(id);
@@ -447,35 +454,35 @@ public class HEC_FromFacelist extends HEC_Creator {
 					final int[] locface = new int[fl];
 					int li = 0;
 					locface[li++] = face[0];
-					for (int i = 1; i < (fl - 1); i++) {
+					for (int i = 1; i < fl - 1; i++) {
 						if (uniqueVertices[face[i]] != uniqueVertices[face[i - 1]]) {
 							locface[li++] = face[i];
 						}
 					}
-					if ((uniqueVertices[face[fl - 1]] != uniqueVertices[face[fl - 2]])
-							&& (uniqueVertices[face[fl - 1]] != uniqueVertices[face[0]])) {
+					if (uniqueVertices[face[fl - 1]] != uniqueVertices[face[fl - 2]]
+							&& uniqueVertices[face[fl - 1]] != uniqueVertices[face[0]]) {
 						locface[li++] = face[fl - 1];
 					}
 					if (li > 2) {
 						for (int i = 0; i < li; i++) {
 							he = new HE_Halfedge();
 							faceEdges.add(he);
-							mesh.setFace(he,hef);
+							mesh.setFace(he, hef);
 							if (hef.getHalfedge() == null) {
-								mesh.setHalfedge(hef,he);
+								mesh.setHalfedge(hef, he);
 							}
-							mesh.setVertex(he,uniqueVertices[locface[i]]);
+							mesh.setVertex(he, uniqueVertices[locface[i]]);
 							if (useUVW) {
 								if (duplicated[locface[i]]) {
 									final HE_TextureCoordinate uvw = uniqueVertices[locface[i]].getVertexUVW();
-									if ((uvw.ud() != uvws[locface[i]].xd()) || (uvw.vd() != uvws[locface[i]].yd())
-											|| (uvw.wd() != uvws[locface[i]].zd())) {
+									if (uvw.ud() != uvws[locface[i]].xd() || uvw.vd() != uvws[locface[i]].yd()
+											|| uvw.wd() != uvws[locface[i]].zd()) {
 										he.setUVW(uvws[locface[i]]);
 
 									}
 								}
 							}
-							mesh.setHalfedge(he.getVertex(),he);
+							mesh.setHalfedge(he.getVertex(), he);
 						}
 						mesh.add(hef);
 						mesh.cycleHalfedges(faceEdges);
@@ -484,7 +491,11 @@ public class HEC_FromFacelist extends HEC_Creator {
 				}
 			}
 			mesh.pairHalfedges();
+			mesh.cleanUnusedElementsByFace();
 			mesh.capHalfedges();
+			if (manifoldcheck) {
+				HET_Fixer.fixNonManifoldVertices(mesh);
+			}
 			if (normalcheck) {
 				final HE_FaceIterator fitr = mesh.fItr();
 				HE_Face f;
@@ -507,15 +518,6 @@ public class HEC_FromFacelist extends HEC_Creator {
 		return mesh;
 	}
 
-	/**
-	 * Ohash.
-	 *
-	 * @param u
-	 *            the u
-	 * @param v
-	 *            the v
-	 * @return the long
-	 */
 	private Long ohash(final int u, final int v) {
 		int lu = u;
 		int lv = v;
@@ -523,30 +525,17 @@ public class HEC_FromFacelist extends HEC_Creator {
 			lu = v;
 			lv = u;
 		}
-		final long A = (lu >= 0) ? 2 * lu : (-2 * lu) - 1;
-		final long B = (lv >= 0) ? 2 * lv : (-2 * lv) - 1;
-		return (A >= B) ? (A * A) + A + B : A + (B * B);
+		final long A = lu >= 0 ? 2 * lu : -2 * lu - 1;
+		final long B = lv >= 0 ? 2 * lv : -2 * lv - 1;
+		return A >= B ? A * A + A + B : A + B * B;
 	}
 
-	/**
-	 * Consistent order.
-	 *
-	 * @param i
-	 *            the i
-	 * @param j
-	 *            the j
-	 * @param face
-	 *            the face
-	 * @param neighbor
-	 *            the neighbor
-	 * @return the int
-	 */
 	private int consistentOrder(final int i, final int j, final int[] face, final int[] neighbor) {
 		for (int k = 0; k < neighbor.length; k++) {
-			if ((neighbor[k] == face[i]) && (neighbor[(k + 1) % neighbor.length] == face[j])) {
+			if (neighbor[k] == face[i] && neighbor[(k + 1) % neighbor.length] == face[j]) {
 				return -1;
 			}
-			if ((neighbor[k] == face[j]) && (neighbor[(k + 1) % neighbor.length] == face[i])) {
+			if (neighbor[k] == face[j] && neighbor[(k + 1) % neighbor.length] == face[i]) {
 				return 1;
 			}
 		}

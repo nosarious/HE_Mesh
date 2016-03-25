@@ -183,10 +183,12 @@ public class HEM_Slice extends HEM_Modifier {
 		while (fItr.hasNext()) {
 			face = fItr.next();
 			final WB_Classification cptp = WB_GeometryOp.classifyPointToPlane3D(face.getFaceCenter(), lP);
-			if ((cptp == WB_Classification.FRONT) || (cptp == WB_Classification.ON)) {
-				if(!face.isDegenerate()) {
-					newFaces.add(face);
+			if (cptp == WB_Classification.FRONT || cptp == WB_Classification.ON) {
+				if (face.isDegenerate()) {
+
 				}
+				newFaces.add(face);
+
 			} else {
 				if (cut.contains(face)) {
 					cut.remove(face);
@@ -204,39 +206,46 @@ public class HEM_Slice extends HEM_Modifier {
 				cap.addFaces(mesh.capHoles());
 			} else {
 				final List<HE_Path> cutpaths = ss.getPaths();
-				tracker.setStatus(this, "Triangulating cut paths.", 0);
-				final long[][] triKeys = HET_PlanarPathTriangulator.getTriangleKeys(cutpaths, lP);
-				HE_Face tri;
-				HE_Vertex v0, v1, v2;
-				HE_Halfedge he0, he1, he2;
-				for (int i = 0; i < triKeys.length; i++) {
-					tri = new HE_Face();
-					v0 = mesh.getVertexWithKey(triKeys[i][0]);
-					v1 = mesh.getVertexWithKey(triKeys[i][1]);
-					v2 = mesh.getVertexWithKey(triKeys[i][2]);
-					he0 = new HE_Halfedge();
-					he1 = new HE_Halfedge();
-					he2 = new HE_Halfedge();
-					mesh.setHalfedge(tri,he0);
-					mesh.setVertex(he0,v0);
-					mesh.setVertex(he1,v1);
-					mesh.setVertex(he2,v2);
-					mesh.setNext(he0,he1);
-					mesh.setNext(he1,he2);
-					mesh.setNext(he2,he0);
-					mesh.setFace(he0,tri);
-					mesh.setFace(he1,tri);
-					mesh.setFace(he2,tri);
-					cap.add(tri);
-					mesh.add(tri);
-					mesh.add(he0);
-					mesh.add(he1);
-					mesh.add(he2);
+				if (cutpaths.size() == 1) {
+					cap.addFaces(mesh.capHoles());
+
+				} else {
+					tracker.setStatus(this, "Triangulating cut paths.", 0);
+					final long[][] triKeys = HET_PlanarPathTriangulator.getTriangleKeys(cutpaths, lP);
+					HE_Face tri = null;
+					HE_Vertex v0, v1, v2;
+					HE_Halfedge he0, he1, he2;
+					for (int i = 0; i < triKeys.length; i++) {
+						tri = new HE_Face();
+						v0 = mesh.getVertexWithKey(triKeys[i][0]);
+						v1 = mesh.getVertexWithKey(triKeys[i][1]);
+						v2 = mesh.getVertexWithKey(triKeys[i][2]);
+						he0 = new HE_Halfedge();
+						he1 = new HE_Halfedge();
+						he2 = new HE_Halfedge();
+						mesh.setHalfedge(tri, he0);
+						mesh.setVertex(he0, v0);
+						mesh.setVertex(he1, v1);
+						mesh.setVertex(he2, v2);
+						mesh.setNext(he0, he1);
+						mesh.setNext(he1, he2);
+						mesh.setNext(he2, he0);
+						mesh.setFace(he0, tri);
+						mesh.setFace(he1, tri);
+						mesh.setFace(he2, tri);
+						cap.add(tri);
+						mesh.add(tri);
+						mesh.add(he0);
+						mesh.add(he1);
+						mesh.add(he2);
+					}
+
 				}
 			}
 		}
 		mesh.pairHalfedges();
 		mesh.capHalfedges();
+
 		if (!keepCenter) {
 			mesh.resetCenter();
 		}
@@ -256,12 +265,12 @@ public class HEM_Slice extends HEM_Modifier {
 	}
 
 	public static void main(final String[] args) {
-		HEC_Torus creator=new HEC_Torus(80,200,6,16);
-		HE_Mesh mesh=new HE_Mesh(creator);
+		HEC_Torus creator = new HEC_Torus(80, 200, 6, 16);
+		HE_Mesh mesh = new HE_Mesh(creator);
 
-		HEM_Slice modifier=new HEM_Slice();
+		HEM_Slice modifier = new HEM_Slice();
 
-		WB_Plane P=new WB_Plane(0,0,0,0,0,1);
+		WB_Plane P = new WB_Plane(0, 0, 0, 0, 0, 1);
 		modifier.setPlane(P);
 		modifier.setOffset(0);
 		modifier.setCap(true);
