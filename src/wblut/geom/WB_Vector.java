@@ -9,6 +9,7 @@
  */
 package wblut.geom;
 
+import wblut.math.WB_Ease;
 import wblut.math.WB_Epsilon;
 import wblut.math.WB_M33;
 import wblut.math.WB_Math;
@@ -2254,4 +2255,23 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		return Double.compare(zd(), p.zd());
 	}
 
+	public static WB_Vector interpolate(final WB_Coord v, final WB_Coord w, final double f) {
+		return new WB_Vector(WB_GeometryOp.interpolate(v.xd(), v.yd(), v.zd(), w.xd(), w.yd(), w.zd(), f));
+	}
+
+	public static WB_Vector interpolateEaseIn(final WB_Coord v, final WB_Coord w, final double f,
+			final WB_Ease.Ease ease) {
+		return new WB_Vector(WB_GeometryOp.interpolateEaseIn(v.xd(), v.yd(), v.zd(), w.xd(), w.yd(), w.zd(), f, ease));
+	}
+
+	public static WB_Vector interpolateEaseOut(final WB_Coord v, final WB_Coord w, final double f,
+			final WB_Ease.Ease ease) {
+		return new WB_Vector(WB_GeometryOp.interpolateEaseOut(v.xd(), v.yd(), v.zd(), w.xd(), w.yd(), w.zd(), f, ease));
+	}
+
+	public static WB_Vector interpolateEaseInOut(final WB_Coord v, final WB_Coord w, final double f,
+			final WB_Ease.Ease ease) {
+		return new WB_Vector(
+				WB_GeometryOp.interpolateEaseInOut(v.xd(), v.yd(), v.zd(), w.xd(), w.yd(), w.zd(), f, ease));
+	}
 }

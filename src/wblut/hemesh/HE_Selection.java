@@ -43,7 +43,6 @@ public class HE_Selection extends HE_MeshStructure {
 		this.parent = parent;
 	}
 
-
 	/**
 	 * Get outer edges.
 	 *
@@ -54,14 +53,13 @@ public class HE_Selection extends HE_MeshStructure {
 		sel.collectEdgesByFace();
 		final List<HE_Halfedge> result = new FastTable<HE_Halfedge>();
 		HE_Halfedge he;
-		HE_HalfedgeIterator heItr=sel.heItr();
-		while(heItr.hasNext()) {
-			he=heItr.next();
+		HE_HalfedgeIterator heItr = sel.heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
 			if (he.isEdge()) {
 				final HE_Face f1 = he.getFace();
 				final HE_Face f2 = he.getPair().getFace();
-				if ((f1 == null) || (f2 == null) || (!contains(f1))
-						|| (!contains(f2))) {
+				if (f1 == null || f2 == null || !contains(f1) || !contains(f2)) {
 					result.add(he);
 				}
 			}
@@ -79,13 +77,13 @@ public class HE_Selection extends HE_MeshStructure {
 		sel.collectEdgesByFace();
 		final List<HE_Halfedge> result = new FastTable<HE_Halfedge>();
 		HE_Halfedge he;
-		HE_HalfedgeIterator heItr=sel.heItr();
-		while(heItr.hasNext()) {
-			he=heItr.next();
+		HE_HalfedgeIterator heItr = sel.heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
 			if (he.isEdge()) {
 				final HE_Face f1 = he.getFace();
 				final HE_Face f2 = he.getPair().getFace();
-				if (!((f1 == null) || (f2 == null) || (!contains(f1)) || (!contains(f2)))) {
+				if (!(f1 == null || f2 == null || !contains(f1) || !contains(f2))) {
 					result.add(he);
 				}
 			}
@@ -125,10 +123,10 @@ public class HE_Selection extends HE_MeshStructure {
 		sel.collectVertices();
 		final List<HE_Vertex> result = new FastTable<HE_Vertex>();
 		final List<HE_Vertex> outerVertices = getOuterVertices();
-		HE_VertexIterator vItr=sel.vItr();
+		HE_VertexIterator vItr = sel.vItr();
 		HE_Vertex v;
 		while (vItr.hasNext()) {
-			v=vItr.next();
+			v = vItr.next();
 			if (!outerVertices.contains(v)) {
 				result.add(v);
 			}
@@ -146,7 +144,7 @@ public class HE_Selection extends HE_MeshStructure {
 		final List<HE_Halfedge> outerEdges = getOuterEdges();
 		for (int i = 0; i < outerEdges.size(); i++) {
 			final HE_Halfedge e = outerEdges.get(i);
-			if ((e.getFace() == null) || (e.getPair().getFace() == null)) {
+			if (e.getFace() == null || e.getPair().getFace() == null) {
 				final HE_Vertex v1 = e.getVertex();
 				final HE_Vertex v2 = e.getEndVertex();
 				if (!result.contains(v1)) {
@@ -170,11 +168,11 @@ public class HE_Selection extends HE_MeshStructure {
 		sel.collectHalfedges();
 		final List<HE_Halfedge> result = new FastTable<HE_Halfedge>();
 		HE_Halfedge he;
-		HE_HalfedgeIterator heItr=sel.heItr();
-		while(heItr.hasNext()) {
-			he=heItr.next();
+		HE_HalfedgeIterator heItr = sel.heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
 			final HE_Face f1 = he.getFace();
-			if ((f1 == null) || (!contains(f1))) {
+			if (f1 == null || !contains(f1)) {
 				result.add(he);
 			}
 		}
@@ -191,11 +189,11 @@ public class HE_Selection extends HE_MeshStructure {
 		sel.collectHalfedges();
 		final List<HE_Halfedge> result = new FastTable<HE_Halfedge>();
 		HE_Halfedge he;
-		HE_HalfedgeIterator heItr=sel.heItr();
-		while(heItr.hasNext()) {
-			he=heItr.next();
+		HE_HalfedgeIterator heItr = sel.heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
 			final HE_Face f1 = he.getPair().getFace();
-			if ((f1 == null) || (!contains(f1))) {
+			if (f1 == null || !contains(f1)) {
 				result.add(he);
 			}
 		}
@@ -212,9 +210,9 @@ public class HE_Selection extends HE_MeshStructure {
 		sel.collectHalfedges();
 		final List<HE_Halfedge> result = new FastTable<HE_Halfedge>();
 		HE_Halfedge he;
-		HE_HalfedgeIterator heItr=sel.heItr();
-		while(heItr.hasNext()) {
-			he=heItr.next();
+		HE_HalfedgeIterator heItr = sel.heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
 			if (contains(he.getPair().getFace()) && contains(he.getFace())) {
 				result.add(he);
 			}
@@ -231,20 +229,20 @@ public class HE_Selection extends HE_MeshStructure {
 		final HE_Selection copy = new HE_Selection(parent);
 		HE_FaceIterator fItr = fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			copy.add(f);
 		}
 		HE_Halfedge he;
-		HE_HalfedgeIterator heItr=heItr();
-		while(heItr.hasNext()) {
-			he=heItr.next();
+		HE_HalfedgeIterator heItr = heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
 			copy.add(he);
 		}
-		HE_VertexIterator vItr=vItr();
+		HE_VertexIterator vItr = vItr();
 		HE_Vertex v;
 		while (vItr.hasNext()) {
-			v=vItr.next();
+			v = vItr.next();
 			copy.add(v);
 		}
 		return copy;
@@ -282,8 +280,7 @@ public class HE_Selection extends HE_MeshStructure {
 			while (fvcrc.hasNext()) {
 				add(fvcrc.next());
 			}
-			final HE_FaceHalfedgeInnerCirculator fheicrc = new HE_FaceHalfedgeInnerCirculator(
-					f);
+			final HE_FaceHalfedgeInnerCirculator fheicrc = new HE_FaceHalfedgeInnerCirculator(f);
 			while (fheicrc.hasNext()) {
 				he = fheicrc.next();
 				add(he);
@@ -295,12 +292,11 @@ public class HE_Selection extends HE_MeshStructure {
 		fitr = this.fItr();
 		while (fitr.hasNext()) {
 			f = fitr.next();
-			final HE_FaceHalfedgeInnerCirculator fheicrc = new HE_FaceHalfedgeInnerCirculator(
-					f);
+			final HE_FaceHalfedgeInnerCirculator fheicrc = new HE_FaceHalfedgeInnerCirculator(f);
 			while (fheicrc.hasNext()) {
 				he = fheicrc.next();
 				if (!contains(he.getVertex().getHalfedge())) {
-					parent.setHalfedge(he.getVertex(),he);
+					parent.setHalfedge(he.getVertex(), he);
 				}
 			}
 		}
@@ -315,20 +311,20 @@ public class HE_Selection extends HE_MeshStructure {
 	public void add(final HE_Selection sel) {
 		HE_FaceIterator fItr = sel.fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			add(f);
 		}
 		HE_Halfedge he;
-		HE_HalfedgeIterator heItr=sel.heItr();
-		while(heItr.hasNext()) {
-			he=heItr.next();
+		HE_HalfedgeIterator heItr = sel.heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
 			add(he);
 		}
-		HE_VertexIterator vItr=sel.vItr();
+		HE_VertexIterator vItr = sel.vItr();
 		HE_Vertex v;
 		while (vItr.hasNext()) {
-			v=vItr.next();
+			v = vItr.next();
 			add(v);
 		}
 	}
@@ -341,21 +337,21 @@ public class HE_Selection extends HE_MeshStructure {
 	public void union(final HE_Selection sel) {
 		HE_FaceIterator fItr = sel.fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			add(f);
 		}
 		HE_Halfedge he;
-		HE_HalfedgeIterator heItr=sel.heItr();
-		while(heItr.hasNext()) {
-			he=heItr.next();
+		HE_HalfedgeIterator heItr = sel.heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
 
 			add(he);
 		}
-		HE_VertexIterator vItr=sel.vItr();
+		HE_VertexIterator vItr = sel.vItr();
 		HE_Vertex v;
 		while (vItr.hasNext()) {
-			v=vItr.next();
+			v = vItr.next();
 			add(v);
 		}
 	}
@@ -369,20 +365,20 @@ public class HE_Selection extends HE_MeshStructure {
 	public void subtract(final HE_Selection sel) {
 		HE_FaceIterator fItr = sel.fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			remove(f);
 		}
 		HE_Halfedge he;
-		HE_HalfedgeIterator heItr=sel.heItr();
-		while(heItr.hasNext()) {
-			he=heItr.next();
+		HE_HalfedgeIterator heItr = sel.heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
 			remove(he);
 		}
-		HE_VertexIterator vItr=sel.vItr();
+		HE_VertexIterator vItr = sel.vItr();
 		HE_Vertex v;
 		while (vItr.hasNext()) {
-			v=vItr.next();
+			v = vItr.next();
 			remove(v);
 		}
 	}
@@ -397,8 +393,8 @@ public class HE_Selection extends HE_MeshStructure {
 		final HE_RAS<HE_Face> newFaces = new HE_RASTrove<HE_Face>();
 		HE_FaceIterator fItr = sel.fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			if (contains(f)) {
 				newFaces.add(f);
 			}
@@ -407,20 +403,20 @@ public class HE_Selection extends HE_MeshStructure {
 		addFaces(newFaces);
 		final HE_RAS<HE_Halfedge> newHalfedges = new HE_RASTrove<HE_Halfedge>();
 		HE_Halfedge he;
-		HE_HalfedgeIterator heItr=sel.heItr();
-		while(heItr.hasNext()) {
-			he=heItr.next();
+		HE_HalfedgeIterator heItr = sel.heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
 			if (contains(he)) {
 				newHalfedges.add(he);
 			}
 		}
 		clearHalfedges();
-		addHalfedges( newHalfedges);
+		addHalfedges(newHalfedges);
 		final HE_RAS<HE_Vertex> newVertices = new HE_RASTrove<HE_Vertex>();
-		HE_VertexIterator vItr=sel.vItr();
+		HE_VertexIterator vItr = sel.vItr();
 		HE_Vertex v;
 		while (vItr.hasNext()) {
-			v=vItr.next();
+			v = vItr.next();
 			if (contains(v)) {
 				newVertices.add(v);
 			}
@@ -436,8 +432,8 @@ public class HE_Selection extends HE_MeshStructure {
 		final FastTable<HE_Face> currentFaces = new FastTable<HE_Face>();
 		HE_Face f;
 		HE_FaceIterator fItr = fItr();
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			currentFaces.add(f);
 			addFaces(f.getNeighborFaces());
 		}
@@ -464,10 +460,10 @@ public class HE_Selection extends HE_MeshStructure {
 			final HE_Halfedge e = outerEdges.get(i);
 			final HE_Face f1 = e.getFace();
 			final HE_Face f2 = e.getPair().getFace();
-			if ((f1 == null) || (!contains(f1))) {
+			if (f1 == null || !contains(f1)) {
 				remove(f2);
 			}
-			if ((f2 == null) || (!contains(f2))) {
+			if (f2 == null || !contains(f2)) {
 				remove(f1);
 			}
 		}
@@ -490,10 +486,10 @@ public class HE_Selection extends HE_MeshStructure {
 	 */
 	public void surround() {
 		final FastTable<HE_Face> currentFaces = new FastTable<HE_Face>();
-		HE_FaceIterator fItr =fItr();
+		HE_FaceIterator fItr = fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			currentFaces.add(f);
 			addFaces(f.getNeighborFaces());
 		}
@@ -521,13 +517,13 @@ public class HE_Selection extends HE_MeshStructure {
 	 */
 	public void smooth(final int threshold) {
 		final FastTable<HE_Halfedge> currentHalfedges = new FastTable<HE_Halfedge>();
-		HE_HalfedgeIterator heItr=heItr();
-		while(heItr.hasNext()) {
+		HE_HalfedgeIterator heItr = heItr();
+		while (heItr.hasNext()) {
 			currentHalfedges.add(heItr.next());
 		}
 		for (int i = 0; i < currentHalfedges.size(); i++) {
 			final HE_Face f = currentHalfedges.get(i).getPair().getFace();
-			if ((f != null) && (!contains(f))) {
+			if (f != null && !contains(f)) {
 				int ns = 0;
 				HE_Halfedge he = f.getHalfedge();
 				do {
@@ -552,13 +548,13 @@ public class HE_Selection extends HE_MeshStructure {
 	 */
 	public void smooth(final double threshold) {
 		final FastTable<HE_Halfedge> currentHalfedges = new FastTable<HE_Halfedge>();
-		HE_HalfedgeIterator heItr=heItr();
-		while(heItr.hasNext()) {
+		HE_HalfedgeIterator heItr = heItr();
+		while (heItr.hasNext()) {
 			currentHalfedges.add(heItr.next());
 		}
 		for (int i = 0; i < currentHalfedges.size(); i++) {
 			final HE_Face f = currentHalfedges.get(i).getPair().getFace();
-			if ((f != null) && (!contains(f))) {
+			if (f != null && !contains(f)) {
 				int ns = 0;
 				HE_Halfedge he = f.getHalfedge();
 				do {
@@ -567,7 +563,7 @@ public class HE_Selection extends HE_MeshStructure {
 					}
 					he = he.getNextInFace();
 				} while (he != f.getHalfedge());
-				if (ns >= (threshold * f.getFaceOrder())) {
+				if (ns >= threshold * f.getFaceOrder()) {
 					add(f);
 				}
 			}
@@ -596,8 +592,8 @@ public class HE_Selection extends HE_MeshStructure {
 		final HE_RAS<HE_Face> newFaces = new HE_RASTrove<HE_Face>();
 		HE_FaceIterator fItr = parent.fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			if (!contains(f)) {
 				newFaces.add(f);
 			}
@@ -614,10 +610,10 @@ public class HE_Selection extends HE_MeshStructure {
 	 */
 	public HE_Selection invertEdges() {
 		final HE_RAS<HE_Halfedge> newEdges = new HE_RASTrove<HE_Halfedge>();
-		HE_EdgeIterator eItr=parent.eItr();
+		HE_EdgeIterator eItr = parent.eItr();
 		HE_Halfedge e;
-		while(eItr.hasNext()){
-			e=eItr.next();
+		while (eItr.hasNext()) {
+			e = eItr.next();
 			if (!contains(e)) {
 				newEdges.add(e);
 			}
@@ -634,10 +630,10 @@ public class HE_Selection extends HE_MeshStructure {
 	 */
 	public HE_Selection invertVertices() {
 		final HE_RAS<HE_Vertex> newVertices = new HE_RASTrove<HE_Vertex>();
-		HE_VertexIterator vItr=parent.vItr();
+		HE_VertexIterator vItr = parent.vItr();
 		HE_Vertex v;
 		while (vItr.hasNext()) {
-			v=vItr.next();
+			v = vItr.next();
 			if (!contains(v)) {
 				newVertices.add(v);
 			}
@@ -654,10 +650,10 @@ public class HE_Selection extends HE_MeshStructure {
 	 */
 	public HE_Selection invertHalfedges() {
 		final HE_RAS<HE_Halfedge> newHalfedges = new HE_RASTrove<HE_Halfedge>();
-		HE_HalfedgeIterator heItr=parent.heItr();
+		HE_HalfedgeIterator heItr = parent.heItr();
 		HE_Halfedge he;
 		while (heItr.hasNext()) {
-			he=heItr.next();
+			he = heItr.next();
 			if (!contains(he)) {
 				newHalfedges.add(he);
 			}
@@ -677,8 +673,8 @@ public class HE_Selection extends HE_MeshStructure {
 		final HE_RAS<HE_Face> newFaces = new HE_RASTrove<HE_Face>();
 		HE_FaceIterator fItr = fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			if (parent.contains(f)) {
 				newFaces.add(f);
 			}
@@ -687,10 +683,10 @@ public class HE_Selection extends HE_MeshStructure {
 		addFaces(newFaces);
 
 		final HE_RAS<HE_Halfedge> newHalfedges = new HE_RASTrove<HE_Halfedge>();
-		HE_HalfedgeIterator heItr=heItr();
+		HE_HalfedgeIterator heItr = heItr();
 		HE_Halfedge he;
-		while(heItr.hasNext()) {
-			he=heItr.next();
+		while (heItr.hasNext()) {
+			he = heItr.next();
 			if (parent.contains(he)) {
 				newHalfedges.add(he);
 			}
@@ -698,10 +694,10 @@ public class HE_Selection extends HE_MeshStructure {
 		clearHalfedges();
 		addHalfedges(newHalfedges);
 		final HE_RAS<HE_Vertex> newVertices = new HE_RASTrove<HE_Vertex>();
-		HE_VertexIterator vItr=vItr();
+		HE_VertexIterator vItr = vItr();
 		HE_Vertex v;
 		while (vItr.hasNext()) {
-			v=vItr.next();
+			v = vItr.next();
 			if (parent.contains(v)) {
 				newVertices.add(v);
 			}
@@ -718,13 +714,13 @@ public class HE_Selection extends HE_MeshStructure {
 		List<HE_Vertex> tmpVertices = new FastTable<HE_Vertex>();
 		HE_FaceIterator fItr = fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 
 			tmpVertices = f.getUniqueFaceVertices();
 			addVertices(tmpVertices);
 		}
-		HE_HalfedgeIterator heItr=heItr();
+		HE_HalfedgeIterator heItr = heItr();
 		while (heItr.hasNext()) {
 			add(heItr.next().getVertex());
 		}
@@ -734,18 +730,17 @@ public class HE_Selection extends HE_MeshStructure {
 	 * Collect faces belonging to selection elements.
 	 */
 	public void collectFaces() {
-		HE_VertexIterator vItr=vItr();
+		HE_VertexIterator vItr = vItr();
 		HE_Vertex v;
 		while (vItr.hasNext()) {
-			v=vItr.next();
+			v = vItr.next();
 			addFaces(v.getFaceStar());
 		}
-		HE_HalfedgeIterator heItr=heItr();
+		HE_HalfedgeIterator heItr = heItr();
 		while (heItr.hasNext()) {
 			add(heItr.next().getFace());
 		}
 	}
-
 
 	/**
 	 * Collect edges belonging to face selection.
@@ -753,8 +748,8 @@ public class HE_Selection extends HE_MeshStructure {
 	public void collectEdgesByFace() {
 		final HE_FaceIterator fitr = fItr();
 		while (fitr.hasNext()) {
-			HE_FaceEdgeCirculator feCrc=fitr.next().feCrc();
-			while(feCrc.hasNext()){
+			HE_FaceEdgeCirculator feCrc = fitr.next().feCrc();
+			while (feCrc.hasNext()) {
 				add(feCrc.next());
 			}
 		}
@@ -776,13 +771,12 @@ public class HE_Selection extends HE_MeshStructure {
 	public void collectHalfedges() {
 		HE_FaceIterator fItr = fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			addHalfedges(f.getFaceHalfedgesTwoSided());
 		}
 
 	}
-
 
 	/**
 	 * Select all mesh elements.
@@ -790,13 +784,12 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return current selection
 	 */
 	public static HE_Selection selectAll(final HE_Mesh mesh) {
-		HE_Selection sel=new HE_Selection(mesh);
+		HE_Selection sel = new HE_Selection(mesh);
 		sel.addFaces(mesh);
 		sel.addHalfedges(mesh);
 		sel.addVertices(mesh);
 		return sel;
 	}
-
 
 	/**
 	 *
@@ -804,11 +797,10 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return
 	 */
 	public static HE_Selection selectAllFaces(final HE_Mesh mesh) {
-		HE_Selection sel=new HE_Selection(mesh);
+		HE_Selection sel = new HE_Selection(mesh);
 		sel.addFaces(mesh);
 		return sel;
 	}
-
 
 	/**
 	 *
@@ -816,12 +808,12 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @param r
 	 * @return
 	 */
-	public static HE_Selection selectRandomFaces(final HE_Mesh mesh,final double r) {
-		HE_Selection sel=new HE_Selection(mesh);
+	public static HE_Selection selectRandomFaces(final HE_Mesh mesh, final double r) {
+		HE_Selection sel = new HE_Selection(mesh);
 		HE_FaceIterator fItr = mesh.fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			if (f != null) {
 				if (Math.random() < r) {
 					sel.add(f);
@@ -831,7 +823,6 @@ public class HE_Selection extends HE_MeshStructure {
 		return sel;
 	}
 
-
 	/**
 	 *
 	 *
@@ -839,13 +830,13 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @param seed
 	 * @return
 	 */
-	public static HE_Selection selectRandomFaces(final HE_Mesh mesh,final double r, final long seed) {
+	public static HE_Selection selectRandomFaces(final HE_Mesh mesh, final double r, final long seed) {
 		final WB_MTRandom random = new WB_MTRandom(seed);
-		HE_Selection sel=new HE_Selection(mesh);
+		HE_Selection sel = new HE_Selection(mesh);
 		HE_FaceIterator fItr = mesh.fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			if (f != null) {
 				if (random.nextFloat() < r) {
 					sel.add(f);
@@ -854,7 +845,6 @@ public class HE_Selection extends HE_MeshStructure {
 		}
 		return sel;
 	}
-
 
 	/**
 	 * Select all faces on boundary.
@@ -874,7 +864,6 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
-
 	/**
 	 * Select all faces with given label.
 	 *
@@ -882,7 +871,7 @@ public class HE_Selection extends HE_MeshStructure {
 	 *
 	 * @return
 	 */
-	public static HE_Selection selectFacesWithLabel(final HE_Mesh mesh,final int label) {
+	public static HE_Selection selectFacesWithLabel(final HE_Mesh mesh, final int label) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		HE_Face f;
 		final Iterator<HE_Face> fItr = mesh.fItr();
@@ -895,7 +884,6 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
-
 	/**
 	 * Select all faces except with given label.
 	 *
@@ -903,7 +891,7 @@ public class HE_Selection extends HE_MeshStructure {
 	 *
 	 * @return
 	 */
-	public static HE_Selection selectFacesWithOtherLabel(final HE_Mesh mesh,final int label) {
+	public static HE_Selection selectFacesWithOtherLabel(final HE_Mesh mesh, final int label) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		HE_Face f;
 		final Iterator<HE_Face> fItr = mesh.fItr();
@@ -916,16 +904,13 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
-
-
-
 	/**
 	 *
 	 *
 	 * @param label
 	 * @return
 	 */
-	public static HE_Selection selectFacesWithInternalLabel(final HE_Mesh mesh,final int label) {
+	public static HE_Selection selectFacesWithInternalLabel(final HE_Mesh mesh, final int label) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		HE_Face f;
 		final Iterator<HE_Face> fItr = mesh.fItr();
@@ -938,14 +923,13 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param label
 	 * @return
 	 */
-	public static HE_Selection selectFacesWithOtherInternalLabel(final HE_Mesh mesh,final int label) {
+	public static HE_Selection selectFacesWithOtherInternalLabel(final HE_Mesh mesh, final int label) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		HE_Face f;
 		final Iterator<HE_Face> fItr = mesh.fItr();
@@ -958,14 +942,13 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param v
 	 * @return
 	 */
-	public static HE_Selection selectFacesWithNormal(final HE_Mesh mesh,final WB_Coord v) {
+	public static HE_Selection selectFacesWithNormal(final HE_Mesh mesh, final WB_Coord v) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		final WB_Vector w = new WB_Vector(v);
 		w.normalizeSelf();
@@ -973,22 +956,21 @@ public class HE_Selection extends HE_MeshStructure {
 		final Iterator<HE_Face> fItr = mesh.fItr();
 		while (fItr.hasNext()) {
 			f = fItr.next();
-			if (WB_Vector.dot(f.getFaceNormal(), v) > (1.0 - WB_Epsilon.EPSILON)) {
+			if (WB_Vector.dot(f.getFaceNormal(), v) > 1.0 - WB_Epsilon.EPSILON) {
 				_selection.add(f);
 			}
 		}
 		return _selection;
 	}
 
-
 	public static HE_Selection selectFacesWithNormal(final HE_Mesh mesh, final WB_Coord n, final double ta) {
-		HE_Selection sel=new HE_Selection(mesh);
+		HE_Selection sel = new HE_Selection(mesh);
 		final WB_Vector nn = geometryfactory.createNormalizedVector(n);
 		final double cta = Math.cos(ta);
 		HE_FaceIterator fItr = sel.parent.fItr();
 		HE_Face f;
-		while(fItr.hasNext()){
-			f=fItr.next();
+		while (fItr.hasNext()) {
+			f = fItr.next();
 			if (nn.dot(f.getFaceNormal()) > cta) {
 				sel.add(f);
 			}
@@ -996,6 +978,24 @@ public class HE_Selection extends HE_MeshStructure {
 		return sel;
 	}
 
+	/**
+	 *
+	 *
+	 * @param P
+	 * @return
+	 */
+	public static HE_Selection selectFrontFaces(final HE_Mesh mesh, final WB_Plane P) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final HE_FaceIterator fitr = mesh.fItr();
+		HE_Face f;
+		while (fitr.hasNext()) {
+			f = fitr.next();
+			if (HET_MeshOp.classifyFaceToPlane3D(f, P) == WB_Classification.FRONT) {
+				_selection.add(f);
+			}
+		}
+		return _selection;
+	}
 
 	/**
 	 *
@@ -1003,19 +1003,18 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @param P
 	 * @return
 	 */
-	public static HE_Selection selectFrontFaces(final HE_Mesh mesh,final WB_Plane P) {
+	public static HE_Selection selectBackFaces(final HE_Mesh mesh, final WB_Plane P) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		final HE_FaceIterator fitr = mesh.fItr();
 		HE_Face f;
 		while (fitr.hasNext()) {
 			f = fitr.next();
-			if (HE_GeometryOp.classifyFaceToPlane3D(f, P) == WB_Classification.FRONT) {
+			if (HET_MeshOp.classifyFaceToPlane3D(f, P) == WB_Classification.BACK) {
 				_selection.add(f);
 			}
 		}
 		return _selection;
 	}
-
 
 	/**
 	 *
@@ -1023,39 +1022,18 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @param P
 	 * @return
 	 */
-	public static HE_Selection selectBackFaces(final HE_Mesh mesh,final WB_Plane P) {
+	public static HE_Selection selectCrossingFaces(final HE_Mesh mesh, final WB_Plane P) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		final HE_FaceIterator fitr = mesh.fItr();
 		HE_Face f;
 		while (fitr.hasNext()) {
 			f = fitr.next();
-			if (HE_GeometryOp.classifyFaceToPlane3D(f, P) == WB_Classification.BACK) {
+			if (HET_MeshOp.classifyFaceToPlane3D(f, P) == WB_Classification.CROSSING) {
 				_selection.add(f);
 			}
 		}
 		return _selection;
 	}
-
-
-	/**
-	 *
-	 *
-	 * @param P
-	 * @return
-	 */
-	public static HE_Selection selectCrossingFaces(final HE_Mesh mesh,final WB_Plane P) {
-		final HE_Selection _selection = new HE_Selection(mesh);
-		final HE_FaceIterator fitr = mesh.fItr();
-		HE_Face f;
-		while (fitr.hasNext()) {
-			f = fitr.next();
-			if (HE_GeometryOp.classifyFaceToPlane3D(f, P) == WB_Classification.CROSSING) {
-				_selection.add(f);
-			}
-		}
-		return _selection;
-	}
-
 
 	/**
 	 *
@@ -1063,7 +1041,7 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return
 	 */
 	public static HE_Selection selectAllEdges(final HE_Mesh mesh) {
-		HE_Selection sel=new HE_Selection(mesh);
+		HE_Selection sel = new HE_Selection(mesh);
 		sel.addEdges(mesh);
 		return sel;
 	}
@@ -1074,12 +1052,12 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @param r
 	 * @return
 	 */
-	public static HE_Selection selectRandomEdges(final HE_Mesh mesh,final double r) {
-		HE_Selection sel=new HE_Selection(mesh);
+	public static HE_Selection selectRandomEdges(final HE_Mesh mesh, final double r) {
+		HE_Selection sel = new HE_Selection(mesh);
 		HE_EdgeIterator eItr = mesh.eItr();
 		HE_Halfedge e;
-		while(eItr.hasNext()){
-			e=eItr.next();
+		while (eItr.hasNext()) {
+			e = eItr.next();
 			if (e != null) {
 				if (Math.random() < r) {
 					sel.add(e);
@@ -1089,7 +1067,6 @@ public class HE_Selection extends HE_MeshStructure {
 		return sel;
 	}
 
-
 	/**
 	 *
 	 *
@@ -1097,13 +1074,13 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @param seed
 	 * @return
 	 */
-	public static HE_Selection selectRandomEdges(final HE_Mesh mesh,final double r, final long seed) {
+	public static HE_Selection selectRandomEdges(final HE_Mesh mesh, final double r, final long seed) {
 		final WB_MTRandom random = new WB_MTRandom(seed);
-		HE_Selection sel=new HE_Selection(mesh);
+		HE_Selection sel = new HE_Selection(mesh);
 		HE_EdgeIterator eItr = mesh.eItr();
 		HE_Halfedge e;
-		while(eItr.hasNext()){
-			e=eItr.next();
+		while (eItr.hasNext()) {
+			e = eItr.next();
 			if (e != null) {
 				if (random.nextFloat() < r) {
 					sel.add(e);
@@ -1112,8 +1089,6 @@ public class HE_Selection extends HE_MeshStructure {
 		}
 		return sel;
 	}
-
-
 
 	/**
 	 * Select all edges on boundary.
@@ -1133,6 +1108,24 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
+	/**
+	 *
+	 *
+	 * @param P
+	 * @return
+	 */
+	public static HE_Selection selectFrontEdges(final HE_Mesh mesh, final WB_Plane P) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		final HE_EdgeIterator eitr = mesh.eItr();
+		HE_Halfedge e;
+		while (eitr.hasNext()) {
+			e = eitr.next();
+			if (HET_MeshOp.classifyEdgeToPlane3D(e, P) == WB_Classification.FRONT) {
+				_selection.add(e);
+			}
+		}
+		return _selection;
+	}
 
 	/**
 	 *
@@ -1140,19 +1133,18 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @param P
 	 * @return
 	 */
-	public static HE_Selection selectFrontEdges(final HE_Mesh mesh,final WB_Plane P) {
+	public static HE_Selection selectBackEdges(final HE_Mesh mesh, final WB_Plane P) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		final HE_EdgeIterator eitr = mesh.eItr();
 		HE_Halfedge e;
 		while (eitr.hasNext()) {
 			e = eitr.next();
-			if (HE_GeometryOp.classifyEdgeToPlane3D(e, P) == WB_Classification.FRONT) {
+			if (HET_MeshOp.classifyEdgeToPlane3D(e, P) == WB_Classification.BACK) {
 				_selection.add(e);
 			}
 		}
 		return _selection;
 	}
-
 
 	/**
 	 *
@@ -1160,39 +1152,70 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @param P
 	 * @return
 	 */
-	public static HE_Selection selectBackEdges(final HE_Mesh mesh,final WB_Plane P) {
+	public static HE_Selection selectCrossingEdges(final HE_Mesh mesh, final WB_Plane P) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		final HE_EdgeIterator eitr = mesh.eItr();
 		HE_Halfedge e;
 		while (eitr.hasNext()) {
 			e = eitr.next();
-			if (HE_GeometryOp.classifyEdgeToPlane3D(e, P) == WB_Classification.BACK) {
+			if (HET_MeshOp.classifyEdgeToPlane3D(e, P) == WB_Classification.CROSSING) {
 				_selection.add(e);
 			}
 		}
 		return _selection;
 	}
 
-
-	/**
-	 *
-	 *
-	 * @param P
-	 * @return
-	 */
-	public static HE_Selection selectCrossingEdges(final HE_Mesh mesh,final WB_Plane P) {
+	public static HE_Selection selectEdgesWithLabel(final HE_Mesh mesh, final int label) {
 		final HE_Selection _selection = new HE_Selection(mesh);
-		final HE_EdgeIterator eitr = mesh.eItr();
 		HE_Halfedge e;
-		while (eitr.hasNext()) {
-			e = eitr.next();
-			if (HE_GeometryOp.classifyEdgeToPlane3D(e, P) == WB_Classification.CROSSING) {
+		final Iterator<HE_Halfedge> eItr = mesh.eItr();
+		while (eItr.hasNext()) {
+			e = eItr.next();
+			if (e.getLabel() == label) {
 				_selection.add(e);
 			}
 		}
 		return _selection;
 	}
 
+	public static HE_Selection selectEdgesWithOtherLabel(final HE_Mesh mesh, final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Halfedge e;
+		final Iterator<HE_Halfedge> eItr = mesh.eItr();
+		while (eItr.hasNext()) {
+			e = eItr.next();
+			if (e.getLabel() != label) {
+				_selection.add(e);
+			}
+		}
+		return _selection;
+	}
+
+	public static HE_Selection selectEdgeWithInternalLabel(final HE_Mesh mesh, final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Halfedge e;
+		final Iterator<HE_Halfedge> eItr = mesh.eItr();
+		while (eItr.hasNext()) {
+			e = eItr.next();
+			if (e.getInternalLabel() == label) {
+				_selection.add(e);
+			}
+		}
+		return _selection;
+	}
+
+	public static HE_Selection selectEdgesWithOtherInternalLabel(final HE_Mesh mesh, final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Halfedge e;
+		final Iterator<HE_Halfedge> eItr = mesh.eItr();
+		while (eItr.hasNext()) {
+			e = eItr.next();
+			if (e.getInternalLabel() != label) {
+				_selection.add(e);
+			}
+		}
+		return _selection;
+	}
 
 	/**
 	 *
@@ -1200,11 +1223,10 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return
 	 */
 	public static HE_Selection selectAllHalfedges(final HE_Mesh mesh) {
-		HE_Selection sel=new HE_Selection(mesh);
+		HE_Selection sel = new HE_Selection(mesh);
 		sel.addHalfedges(mesh);
 		return sel;
 	}
-
 
 	/**
 	 * Select all halfedges on inside of boundary.
@@ -1224,7 +1246,6 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
-
 	/**
 	 * Select all halfedges on outside of boundary.
 	 *
@@ -1243,6 +1264,57 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
+	public static HE_Selection selectHalfedgesWithLabel(final HE_Mesh mesh, final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Halfedge he;
+		final Iterator<HE_Halfedge> heItr = mesh.heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
+			if (he.getLabel() == label) {
+				_selection.add(he);
+			}
+		}
+		return _selection;
+	}
+
+	public static HE_Selection selectHalfedgesWithOtherLabel(final HE_Mesh mesh, final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Halfedge he;
+		final Iterator<HE_Halfedge> heItr = mesh.heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
+			if (he.getLabel() != label) {
+				_selection.add(he);
+			}
+		}
+		return _selection;
+	}
+
+	public static HE_Selection selectHalfedgeWithInternalLabel(final HE_Mesh mesh, final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Halfedge he;
+		final Iterator<HE_Halfedge> heItr = mesh.heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
+			if (he.getInternalLabel() == label) {
+				_selection.add(he);
+			}
+		}
+		return _selection;
+	}
+
+	public static HE_Selection selectHalfedgesWithOtherInternalLabel(final HE_Mesh mesh, final int label) {
+		final HE_Selection _selection = new HE_Selection(mesh);
+		HE_Halfedge he;
+		final Iterator<HE_Halfedge> heItr = mesh.heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
+			if (he.getInternalLabel() != label) {
+				_selection.add(he);
+			}
+		}
+		return _selection;
+	}
 
 	/**
 	 *
@@ -1250,12 +1322,10 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return
 	 */
 	public static HE_Selection selectAllVertices(final HE_Mesh mesh) {
-		HE_Selection sel=new HE_Selection(mesh);
+		HE_Selection sel = new HE_Selection(mesh);
 		sel.addVertices(mesh);
 		return sel;
 	}
-
-
 
 	/**
 	 *
@@ -1263,12 +1333,12 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @param r
 	 * @return
 	 */
-	public static HE_Selection selectRandomVertices(final HE_Mesh mesh,final double r) {
-		HE_Selection sel=new HE_Selection(mesh);
+	public static HE_Selection selectRandomVertices(final HE_Mesh mesh, final double r) {
+		HE_Selection sel = new HE_Selection(mesh);
 		HE_VertexIterator vItr = mesh.vItr();
 		HE_Vertex v;
-		while(vItr.hasNext()){
-			v=vItr.next();
+		while (vItr.hasNext()) {
+			v = vItr.next();
 			if (v != null) {
 				if (Math.random() < r) {
 					sel.add(v);
@@ -1278,7 +1348,6 @@ public class HE_Selection extends HE_MeshStructure {
 		return sel;
 	}
 
-
 	/**
 	 *
 	 *
@@ -1286,13 +1355,13 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @param seed
 	 * @return
 	 */
-	public static HE_Selection selectRandomVertices(final HE_Mesh mesh,final double r, final long seed) {
+	public static HE_Selection selectRandomVertices(final HE_Mesh mesh, final double r, final long seed) {
 		final WB_MTRandom random = new WB_MTRandom(seed);
-		HE_Selection sel=new HE_Selection(mesh);
+		HE_Selection sel = new HE_Selection(mesh);
 		HE_VertexIterator vItr = mesh.vItr();
 		HE_Vertex v;
-		while(vItr.hasNext()){
-			v=vItr.next();
+		while (vItr.hasNext()) {
+			v = vItr.next();
 			if (v != null) {
 				if (random.nextFloat() < r) {
 					sel.add(v);
@@ -1301,6 +1370,7 @@ public class HE_Selection extends HE_MeshStructure {
 		}
 		return sel;
 	}
+
 	/**
 	 * Select all vertices on boundary.
 	 *
@@ -1319,8 +1389,7 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
-
-	public static HE_Selection selectVerticesWithLabel(final HE_Mesh mesh,final int label) {
+	public static HE_Selection selectVerticesWithLabel(final HE_Mesh mesh, final int label) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
@@ -1333,8 +1402,7 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
-
-	public static HE_Selection selectVerticesWithOtherLabel(final HE_Mesh mesh,final int label) {
+	public static HE_Selection selectVerticesWithOtherLabel(final HE_Mesh mesh, final int label) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
@@ -1347,18 +1415,7 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
-
-
-	/**
-	 * @deprecated Use {@link #selectVerticesWithInternalLabel(HE_Mesh,int)} instead
-	 */
-	@Deprecated
-	public static HE_Selection selectVerticesWithTemporaryLabel(final HE_Mesh mesh,final int label) {
-		return selectVerticesWithInternalLabel(mesh, label);
-	}
-
-
-	public static HE_Selection selectVerticesWithInternalLabel(final HE_Mesh mesh,final int label) {
+	public static HE_Selection selectVerticesWithInternalLabel(final HE_Mesh mesh, final int label) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
@@ -1371,9 +1428,7 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
-
-
-	public static HE_Selection selectVerticesWithOtherInternalLabel(final HE_Mesh mesh,final int label) {
+	public static HE_Selection selectVerticesWithOtherInternalLabel(final HE_Mesh mesh, final int label) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
@@ -1392,7 +1447,7 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @param P
 	 * @return
 	 */
-	public static HE_Selection selectFrontVertices(final HE_Mesh mesh,final WB_Plane P) {
+	public static HE_Selection selectFrontVertices(final HE_Mesh mesh, final WB_Plane P) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		final HE_VertexIterator vitr = mesh.vItr();
 		HE_Vertex v;
@@ -1405,14 +1460,13 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param P
 	 * @return
 	 */
-	public static HE_Selection selectBackVertices(final HE_Mesh mesh,final WB_Plane P) {
+	public static HE_Selection selectBackVertices(final HE_Mesh mesh, final WB_Plane P) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		final HE_VertexIterator vitr = mesh.vItr();
 		HE_Vertex v;
@@ -1425,14 +1479,13 @@ public class HE_Selection extends HE_MeshStructure {
 		return _selection;
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param P
 	 * @return
 	 */
-	public static HE_Selection selectOnVertices(final HE_Mesh mesh,final WB_Plane P) {
+	public static HE_Selection selectOnVertices(final HE_Mesh mesh, final WB_Plane P) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		final HE_VertexIterator vitr = mesh.vItr();
 		HE_Vertex v;
@@ -1444,7 +1497,5 @@ public class HE_Selection extends HE_MeshStructure {
 		}
 		return _selection;
 	}
-
-
 
 }

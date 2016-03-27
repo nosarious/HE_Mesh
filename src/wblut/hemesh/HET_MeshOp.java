@@ -14,16 +14,27 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import javolution.util.FastTable;
 import wblut.core.WB_ProgressCounter;
 import wblut.core.WB_ProgressTracker;
+import wblut.geom.WB_AABBTree;
+import wblut.geom.WB_AABBTree.WB_AABBNode;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
+import wblut.geom.WB_CoordinateSystem;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_IntersectionResult;
+import wblut.geom.WB_Line;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
+import wblut.geom.WB_Ray;
+import wblut.geom.WB_Segment;
 import wblut.geom.WB_Triangle;
+import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
+import wblut.math.WB_M33;
+import wblut.math.WB_Math;
 
 public class HET_MeshOp {
 	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
@@ -1627,7 +1638,7 @@ public class HET_MeshOp {
 	 * @param mesh
 	 * @return
 	 */
-	public List<HE_Face> createFaceFromHalfedgeLoop(final List<HE_Halfedge> hes, final HE_Mesh mesh) {
+	public static List<HE_Face> createFaceFromHalfedgeLoop(final List<HE_Halfedge> hes, final HE_Mesh mesh) {
 		final List<HE_Face> newFaces = new ArrayList<HE_Face>();
 		if (mesh == null || hes == null) {
 			return newFaces;
@@ -1934,4 +1945,1176 @@ public class HET_MeshOp {
 			he = he.getNextInFace();
 		} while (he != halfedge);
 	}
+
+	/**
+	 *
+	 *
+	 * @param face
+	 * @param line
+	 * @return
+	 */
+	public static HE_FaceIntersection getIntersection(final HE_Face face, final WB_Line line) {
+		final WB_Plane P = face.getPlane();
+		HE_FaceIntersection p = null;
+		final WB_IntersectionResult lpi = WB_GeometryOp.getIntersection3D(line, P);
+		if (lpi.intersection) {
+			p = new HE_FaceIntersection(face, (WB_Point) lpi.object);
+			if (WB_Epsilon.isZero(WB_GeometryOp.getDistanceToClosestPoint3D(p.point, face.toPolygon()))) {
+				return p;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 *
+	 * @param face
+	 * @param ray
+	 * @return
+	 */
+	public static HE_FaceIntersection getIntersection(final HE_Face face, final WB_Ray ray) {
+		final WB_Plane P = face.getPlane();
+		HE_FaceIntersection p = null;
+		final WB_IntersectionResult lpi = WB_GeometryOp.getIntersection3D(ray, P);
+		if (lpi.intersection) {
+			p = new HE_FaceIntersection(face, (WB_Point) lpi.object);
+			if (WB_Epsilon.isZero(WB_GeometryOp.getDistanceToClosestPoint3D(p.point, face.toPolygon()))) {
+				return new HE_FaceIntersection(face, p.point);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 *
+	 * @param face
+	 * @param segment
+	 * @return
+	 */
+	public static HE_FaceIntersection getIntersection(final HE_Face face, final WB_Segment segment) {
+		final WB_Plane P = face.getPlane();
+		HE_FaceIntersection p = null;
+		final WB_IntersectionResult lpi = WB_GeometryOp.getIntersection3D(segment, P);
+		if (lpi.intersection) {
+			p = new HE_FaceIntersection(face, (WB_Point) lpi.object);
+			if (WB_Epsilon.isZero(WB_GeometryOp.getDistanceToClosestPoint3D(p.point, face.toPolygon()))) {
+				return p;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 *
+	 * @param e
+	 * @param P
+	 * @return
+	 */
+	public static double getIntersection(final HE_Halfedge e, final WB_Plane P) {
+		final WB_IntersectionResult i = WB_GeometryOp.getIntersection3D(e.getStartVertex(), e.getEndVertex(), P);
+		if (i.intersection == false) {
+			return -1.0;// intersection beyond endpoints
+		}
+		return i.t1;// intersection on edge
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param ray
+	 * @return
+	 */
+	public static List<HE_FaceIntersection> getIntersection(final WB_AABBTree tree, final WB_Ray ray) {
+		final List<HE_FaceIntersection> p = new FastTable<HE_FaceIntersection>();
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(ray, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		for (final HE_Face face : candidates) {
+			final HE_FaceIntersection sect = getIntersection(face, ray);
+			if (sect != null) {
+				p.add(sect);
+			}
+		}
+		return p;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param segment
+	 * @return
+	 */
+	public static List<HE_FaceIntersection> getIntersection(final WB_AABBTree tree, final WB_Segment segment) {
+		final List<HE_FaceIntersection> p = new FastTable<HE_FaceIntersection>();
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(segment, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		for (final HE_Face face : candidates) {
+			final HE_FaceIntersection sect = getIntersection(face, segment);
+			if (sect != null) {
+				p.add(sect);
+			}
+		}
+		return p;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param line
+	 * @return
+	 */
+	public static List<HE_FaceIntersection> getIntersection(final WB_AABBTree tree, final WB_Line line) {
+		final List<HE_FaceIntersection> p = new FastTable<HE_FaceIntersection>();
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(line, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		for (final HE_Face face : candidates) {
+			final HE_FaceIntersection sect = getIntersection(face, line);
+			if (sect != null) {
+				p.add(sect);
+			}
+		}
+		return p;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param P
+	 * @return
+	 */
+	public static List<WB_Segment> getIntersection(final WB_AABBTree tree, final WB_Plane P) {
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(P, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		final List<WB_Segment> cuts = new FastTable<WB_Segment>();
+		for (final HE_Face face : candidates) {
+			cuts.addAll(WB_GeometryOp.getIntersection3D(face.toPolygon(), P));
+		}
+		return cuts;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param P
+	 * @return
+	 */
+	public static List<HE_Face> getPotentialIntersectedFaces(final WB_AABBTree tree, final WB_Plane P) {
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(P, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		return candidates;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param T
+	 * @return
+	 */
+	public static List<HE_Face> getPotentialIntersectedFaces(final WB_AABBTree tree, final WB_Triangle T) {
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(T, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		return candidates;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param R
+	 * @return
+	 */
+	public static List<HE_Face> getPotentialIntersectedFaces(final WB_AABBTree tree, final WB_Ray R) {
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(R, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		return candidates;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param L
+	 * @return
+	 */
+	public static List<HE_Face> getPotentialIntersectedFaces(final WB_AABBTree tree, final WB_Line L) {
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(L, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		return candidates;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param segment
+	 * @return
+	 */
+	public static List<HE_Face> getPotentialIntersectedFaces(final WB_AABBTree tree, final WB_Segment segment) {
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(segment, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		return candidates;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param ray
+	 * @return
+	 */
+	public static HE_FaceIntersection getClosestIntersection(final WB_AABBTree tree, final WB_Ray ray) {
+		HE_FaceIntersection p = null;
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(ray, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		double d2, d2min = Double.POSITIVE_INFINITY;
+		for (final HE_Face face : candidates) {
+			final HE_FaceIntersection sect = getIntersection(face, ray);
+			if (sect != null) {
+				d2 = sect.point.getSqDistance3D(ray.getOrigin());
+				if (d2 < d2min) {
+					p = sect;
+					d2min = d2;
+				}
+			}
+		}
+		return p;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param ray
+	 * @return
+	 */
+	public static HE_FaceIntersection getFurthestIntersection(final WB_AABBTree tree, final WB_Ray ray) {
+		HE_FaceIntersection p = null;
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(ray, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		double d2, d2max = -1;
+		for (final HE_Face face : candidates) {
+			final HE_FaceIntersection sect = getIntersection(face, ray);
+			if (sect != null) {
+				d2 = sect.point.getSqDistance3D(ray.getOrigin());
+				if (d2 > d2max) {
+					p = sect;
+					d2max = d2;
+				}
+			}
+		}
+		return p;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param line
+	 * @return
+	 */
+	public static HE_FaceIntersection getClosestIntersection(final WB_AABBTree tree, final WB_Line line) {
+		HE_FaceIntersection p = null;
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(line, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		double d2, d2min = Double.POSITIVE_INFINITY;
+		for (final HE_Face face : candidates) {
+			final HE_FaceIntersection sect = getIntersection(face, line);
+			if (sect != null) {
+				d2 = sect.point.getSqDistance3D(line.getOrigin());
+				if (d2 < d2min) {
+					p = sect;
+					d2min = d2;
+				}
+			}
+		}
+		return p;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param line
+	 * @return
+	 */
+	public static HE_FaceIntersection getFurthestIntersection(final WB_AABBTree tree, final WB_Line line) {
+		HE_FaceIntersection p = null;
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(line, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		double d2, d2max = -1;
+		for (final HE_Face face : candidates) {
+			final HE_FaceIntersection sect = getIntersection(face, line);
+			if (sect != null) {
+				d2 = sect.point.getSqDistance3D(line.getOrigin());
+				if (d2 > d2max) {
+					p = sect;
+					d2max = d2;
+				}
+			}
+		}
+		return p;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param segment
+	 * @return
+	 */
+	public static HE_FaceIntersection getClosestIntersection(final WB_AABBTree tree, final WB_Segment segment) {
+		HE_FaceIntersection p = null;
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(segment, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		double d2, d2min = Double.POSITIVE_INFINITY;
+		for (final HE_Face face : candidates) {
+			final HE_FaceIntersection sect = getIntersection(face, segment);
+			if (sect != null) {
+				d2 = sect.point.getSqDistance3D(segment.getOrigin());
+				if (d2 < d2min) {
+					p = sect;
+					d2min = d2;
+				}
+			}
+		}
+		return p;
+	}
+
+	/**
+	 *
+	 *
+	 * @param tree
+	 * @param segment
+	 * @return
+	 */
+	public static HE_FaceIntersection getFurthestIntersection(final WB_AABBTree tree, final WB_Segment segment) {
+		HE_FaceIntersection p = null;
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(segment, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		double d2, d2max = -1;
+		for (final HE_Face face : candidates) {
+			final HE_FaceIntersection sect = getIntersection(face, segment);
+			if (sect != null) {
+				d2 = sect.point.getSqDistance3D(segment.getOrigin());
+				if (d2 > d2max) {
+					p = sect;
+					d2max = d2;
+				}
+			}
+		}
+		return p;
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param ray
+	 * @return
+	 */
+	public static List<HE_FaceIntersection> getIntersection(final HE_Mesh mesh, final WB_Ray ray) {
+		return getIntersection(new WB_AABBTree(mesh, 10), ray);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param segment
+	 * @return
+	 */
+	public static List<HE_FaceIntersection> getIntersection(final HE_Mesh mesh, final WB_Segment segment) {
+		return getIntersection(new WB_AABBTree(mesh, 10), segment);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param line
+	 * @return
+	 */
+	public static List<HE_FaceIntersection> getIntersection(final HE_Mesh mesh, final WB_Line line) {
+		return getIntersection(new WB_AABBTree(mesh, 10), line);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param P
+	 * @return
+	 */
+	public static List<WB_Segment> getIntersection(final HE_Mesh mesh, final WB_Plane P) {
+		return getIntersection(new WB_AABBTree(mesh, 10), P);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param P
+	 * @return
+	 */
+	public static List<HE_Face> getPotentialIntersectedFaces(final HE_Mesh mesh, final WB_Plane P) {
+		return getPotentialIntersectedFaces(new WB_AABBTree(mesh, 10), P);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param R
+	 * @return
+	 */
+	public static List<HE_Face> getPotentialIntersectedFaces(final HE_Mesh mesh, final WB_Ray R) {
+		return getPotentialIntersectedFaces(new WB_AABBTree(mesh, 10), R);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param L
+	 * @return
+	 */
+	public static List<HE_Face> getPotentialIntersectedFaces(final HE_Mesh mesh, final WB_Line L) {
+		return getPotentialIntersectedFaces(new WB_AABBTree(mesh, 10), L);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param segment
+	 * @return
+	 */
+	public static List<HE_Face> getPotentialIntersectedFaces(final HE_Mesh mesh, final WB_Segment segment) {
+		return getPotentialIntersectedFaces(new WB_AABBTree(mesh, 10), segment);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param ray
+	 * @return
+	 */
+	public static HE_FaceIntersection getClosestIntersection(final HE_Mesh mesh, final WB_Ray ray) {
+		return getClosestIntersection(new WB_AABBTree(mesh, 10), ray);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param ray
+	 * @return
+	 */
+	public static HE_FaceIntersection getFurthestIntersection(final HE_Mesh mesh, final WB_Ray ray) {
+		return getFurthestIntersection(new WB_AABBTree(mesh, 10), ray);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param line
+	 * @return
+	 */
+	public static HE_FaceIntersection getClosestIntersection(final HE_Mesh mesh, final WB_Line line) {
+		return getClosestIntersection(new WB_AABBTree(mesh, 10), line);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param line
+	 * @return
+	 */
+	public static HE_FaceIntersection getFurthestIntersection(final HE_Mesh mesh, final WB_Line line) {
+		return getFurthestIntersection(new WB_AABBTree(mesh, 10), line);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param segment
+	 * @return
+	 */
+	public static HE_FaceIntersection getClosestIntersection(final HE_Mesh mesh, final WB_Segment segment) {
+		return getClosestIntersection(new WB_AABBTree(mesh, 10), segment);
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param segment
+	 * @return
+	 */
+	public static HE_FaceIntersection getFurthestIntersection(final HE_Mesh mesh, final WB_Segment segment) {
+		return getFurthestIntersection(new WB_AABBTree(mesh, 10), segment);
+	}
+
+	public static WB_Classification classifyFaceToPlane3D(final HE_Face f, final WB_Plane P) {
+		int numInFront = 0;
+		int numBehind = 0;
+		HE_Halfedge he = f.getHalfedge();
+		do {
+			switch (WB_GeometryOp.classifyPointToPlane3D(P, he.getVertex())) {
+			case FRONT:
+				numInFront++;
+				break;
+			case BACK:
+				numBehind++;
+				break;
+			default:
+			}
+			if (numBehind != 0 && numInFront != 0) {
+				return WB_Classification.CROSSING;
+			}
+			he = he.getNextInFace();
+		} while (he != f.getHalfedge());
+		if (numInFront != 0) {
+			return WB_Classification.FRONT;
+		}
+		if (numBehind != 0) {
+			return WB_Classification.BACK;
+		}
+		return WB_Classification.ON;
+	}
+
+	public static WB_Classification classifyEdgeToPlane3D(final HE_Halfedge edge, final WB_Plane P) {
+		int numInFront = 0;
+		int numBehind = 0;
+
+		switch (WB_GeometryOp.classifyPointToPlane3D(edge.getStartVertex(), P)) {
+		case FRONT:
+			numInFront++;
+			break;
+		case BACK:
+			numBehind++;
+			break;
+		default:
+		}
+		switch (WB_GeometryOp.classifyPointToPlane3D(edge.getEndVertex(), P)) {
+		case FRONT:
+			numInFront++;
+			break;
+		case BACK:
+			numBehind++;
+			break;
+		default:
+		}
+
+		if (numBehind != 0 && numInFront != 0) {
+			return WB_Classification.CROSSING;
+		}
+
+		if (numInFront != 0) {
+			return WB_Classification.FRONT;
+		}
+		if (numBehind != 0) {
+			return WB_Classification.BACK;
+		}
+		return WB_Classification.ON;
+	}
+
+	public static WB_Classification classifyVertexToPlane3D(final HE_Vertex v, final WB_Plane P) {
+		return WB_GeometryOp.classifyPointToPlane3D(v, P);
+
+	}
+
+	public static WB_Classification getVertexType(final HE_Vertex vertex) {
+		HE_Halfedge he = vertex.getHalfedge();
+		if (he == null) {
+			return WB_Classification.UNKNOWN;
+		}
+
+		int nconcave = 0;
+		int nconvex = 0;
+		int nflat = 0;
+		do {
+			HE_Face f = he.getFace();
+			if (f == null) {
+				f = he.getPair().getFace();
+			}
+			final WB_Point v = new WB_Point(he.getNextInFace().getVertex());
+			v.subSelf(he.getVertex());
+			he = he.getNextInVertex();
+			HE_Face fn = he.getFace();
+			if (fn == null) {
+				fn = he.getPair().getFace();
+			}
+			final WB_Vector c = WB_Vector.cross(f.getFaceNormal(), fn.getFaceNormal());
+			final double d = v.dot(c);
+			if (Math.abs(d) < WB_Epsilon.EPSILON) {
+				nflat++;
+			} else if (d < 0) {
+				nconcave++;
+			} else {
+				nconvex++;
+			}
+		} while (he != vertex.getHalfedge());
+		if (nconcave > 0) {
+			if (nconvex > 0) {
+				return WB_Classification.SADDLE;
+			} else {
+				if (nflat > 0) {
+					return WB_Classification.FLATCONCAVE;
+				} else {
+					return WB_Classification.CONCAVE;
+				}
+			}
+		} else if (nconvex > 0) {
+			if (nflat > 0) {
+				return WB_Classification.FLATCONVEX;
+			} else {
+				return WB_Classification.CONVEX;
+			}
+		}
+		return WB_Classification.FLAT;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static WB_CoordinateSystem getVertexCS(final HE_Vertex v) {
+		WB_Coord vn = getVertexNormal(v);
+
+		final WB_Vector normal = vn == null ? null : new WB_Vector(getVertexNormal(v));
+		if (normal == null) {
+			return null;
+		}
+		WB_Vector t2 = new WB_Vector();
+		if (Math.abs(normal.xd()) < Math.abs(normal.yd())) {
+			t2.setX(1.0);
+		} else {
+			t2.setY(1.0);
+		}
+		final WB_Vector t1 = normal.cross(t2);
+		final double n = t1.getLength3D();
+		if (n < WB_Epsilon.EPSILON) {
+			return null;
+		}
+		t1.mulSelf(1.0 / n);
+		t2 = normal.cross(t1);
+		return gf.createCSFromOXYZ(v, t1, t2, normal);
+	}
+
+	// Common area-weighted mean normal
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static WB_Coord getVertexNormal(final HE_Vertex v) {
+		if (v.getHalfedge() == null) {
+			return null;
+		}
+
+		return getVertexAngleNormal(v);
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static WB_Coord getVertexAverageNormal(final HE_Vertex v) {
+		WB_Vector normal = new WB_Vector();
+		final WB_Vector[] temp = new WB_Vector[3];
+		for (int i = 0; i < 3; i++) {
+			temp[i] = new WB_Vector();
+		}
+		HE_Halfedge he = v.getHalfedge();
+		final HE_Vertex d = he.getEndVertex();
+		do {
+			he = he.getNextInVertex();
+			if (he.getFace() == null) {
+				continue;
+			}
+			final double area = computeNormal3D(v, he.getEndVertex(), he.getPrevInFace().getVertex(), temp[0], temp[1],
+					temp[2]);
+			normal.addMulSelf(area, temp[2]);
+		} while (he.getEndVertex() != d);
+		final double n = normal.getLength3D();
+		normal.mulSelf(1.0 / n);
+		return normal;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static WB_Coord getVertexAreaNormal(final HE_Vertex v) {
+		WB_Vector normal = new WB_Vector();
+		final WB_Vector[] temp = new WB_Vector[3];
+		for (int i = 0; i < 3; i++) {
+			temp[i] = new WB_Vector();
+		}
+		HE_Halfedge he = v.getHalfedge();
+		final HE_Vertex d = he.getEndVertex();
+		do {
+			he = he.getNextInVertex();
+			if (he.getFace() == null) {
+				continue;
+			}
+			final double area = computeNormal3D(v, he.getEndVertex(), he.getPrevInFace().getVertex(), temp[0], temp[1],
+					temp[2]);
+			normal.addMulSelf(area, temp[2]);
+		} while (he.getEndVertex() != d);
+		final double n = normal.getLength3D();
+		normal.mulSelf(1.0 / n);
+		return normal;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static WB_Coord getVertexAngleNormal(final HE_Vertex vertex) {
+		HE_Halfedge he = vertex.getHalfedge();
+		WB_Vector v = new WB_Vector();
+		do {
+			if (he.getFace() != null) {
+				v.addMulSelf(he.getAngle(), he.getFace().getFaceNormal());
+			}
+			he = he.getNextInVertex();
+		} while (he != vertex.getHalfedge());
+		v.normalizeSelf();
+		return v;
+
+	}
+
+	/**
+	 * Returns the discrete Gaussian curvature and the mean normal. These
+	 * discrete operators are described in "Discrete Differential-Geometry
+	 * Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun,
+	 * Peter Schrï¿½der, and Alan H. Barr.
+	 * http://www.cs.caltech.edu/~mmeyer/Publications/diffGeomOps.pdf
+	 * http://www.cs.caltech.edu/~mmeyer/Publications/diffGeomOps.pdf Note: on a
+	 * sphere, the Gaussian curvature is very accurate, but not the mean
+	 * curvature. Guoliang Xu suggests improvements in his papers
+	 * http://lsec.cc.ac.cn/~xuguo/xuguo3.htm
+	 *
+	 * @param meanCurvatureVector
+	 * @return
+	 */
+	public static double getGaussianCurvature(final HE_Vertex vertex, final WB_Vector meanCurvatureVector) {
+		meanCurvatureVector.set(0, 0, 0);
+		WB_Vector vect1 = new WB_Vector();
+		WB_Vector vect2 = new WB_Vector();
+		WB_Vector vect3 = new WB_Vector();
+		double mixed = 0.0;
+		double gauss = 0.0;
+		HE_Halfedge ot = vertex.getHalfedge();
+		final HE_Vertex d = ot.getEndVertex();
+		do {
+			ot = ot.getNextInVertex();
+			if (ot.getFace() == null) {
+				continue;
+			}
+			/*
+			 * if (ot.getPair().getFace() == null) { meanCurvatureVector.set(0,
+			 * 0, 0); return 0.0; }
+			 */
+			final HE_Vertex p1 = ot.getEndVertex();
+			final HE_Vertex p2 = ot.getPrevInFace().getVertex();
+			vect1 = new WB_Vector(vertex, p1);
+			vect2 = new WB_Vector(p1, p2);
+			vect3 = new WB_Vector(p2, vertex);
+			final double c12 = vect1.dot(vect2);
+			final double c23 = vect2.dot(vect3);
+			final double c31 = vect3.dot(vect1);
+			// Override vect2
+			vect2 = vect1.cross(vect3);
+			final double area = 0.5 * vect2.getLength3D();
+			if (c31 > 0.0) {
+				mixed += 0.5 * area;
+			} else if (c12 > 0.0 || c23 > 0.0) {
+				mixed += 0.25 * area;
+			} else {
+				if (area > 0.0 && area > -WB_Epsilon.EPSILON * (c12 + c23)) {
+					mixed -= 0.125 * 0.5 * (c12 * vect3.dot(vect3) + c23 * vect1.dot(vect1)) / area;
+				}
+			}
+			gauss += Math.abs(Math.atan2(2.0 * area, -c31));
+			meanCurvatureVector.addMulSelf(0.5 / area, vect3.mulAddMul(c12, -c23, vect1));
+		} while (ot.getEndVertex() != d);
+		meanCurvatureVector.mulSelf(0.5 / mixed);
+		return (2.0 * Math.PI - gauss) / mixed;
+	}
+
+	/**
+	 * Returns the discrete Gaussian curvature. These discrete operators are
+	 * described in "Discrete Differential-Geometry Operators for Triangulated
+	 * 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schröder, and Alan H.
+	 * Barr. http://www.cs.caltech.edu/~mmeyer/Publications/diffGeomOps.pdf
+	 * http://www.cs.caltech.edu/~mmeyer/Publications/diffGeomOps.pdf Note: on a
+	 * sphere, the Gaussian curvature is very accurate, but not the mean
+	 * curvature. Guoliang Xu suggests improvements in his papers
+	 * http://lsec.cc.ac.cn/~xuguo/xuguo3.htm
+	 *
+	 *
+	 * @return
+	 */
+	public static double getGaussianCurvature(final HE_Vertex vertex) {
+		final WB_Vector meanCurvatureVector = new WB_Vector(0, 0, 0);
+		if (vertex.isBoundary()) {
+			return 0.0;
+
+		}
+		WB_Vector vect1 = new WB_Vector();
+		WB_Vector vect2 = new WB_Vector();
+		WB_Vector vect3 = new WB_Vector();
+		double mixed = 0.0;
+		double gauss = 0.0;
+		HE_Halfedge ot = vertex.getHalfedge();
+		final HE_Vertex d = ot.getEndVertex();
+		do {
+			ot = ot.getNextInVertex();
+			if (ot.getFace() == null) {
+				continue;
+			}
+			/*
+			 * if (ot.getPair().getFace() == null) { meanCurvatureVector.set(0,
+			 * 0, 0); return 0.0; }
+			 */
+			final HE_Vertex p1 = ot.getEndVertex();
+			final HE_Vertex p2 = ot.getPrevInFace().getVertex();
+			vect1 = new WB_Vector(vertex, p1);
+			vect2 = new WB_Vector(p1, p2);
+			vect3 = new WB_Vector(p2, vertex);
+			final double c12 = vect1.dot(vect2);
+			final double c23 = vect2.dot(vect3);
+			final double c31 = vect3.dot(vect1);
+
+			vect2 = vect1.cross(vect3);
+			final double area = 0.5 * vect2.getLength3D();
+			// This angle is obtuse
+			if (c31 > 0.0) {
+				mixed += 0.5 * area;
+				// One of the other angles is obtuse
+			} else if (c12 > 0.0 || c23 > 0.0) {
+				mixed += 0.25 * area;
+			} else {
+
+				if (area > 0.0 && area > -WB_Epsilon.EPSILON * (c12 + c23)) {
+					mixed -= 0.125 * 0.5 * (c12 * vect3.dot(vect3) + c23 * vect1.dot(vect1)) / area;
+				}
+			}
+			gauss += Math.abs(Math.atan2(2.0 * area, -c31));
+			meanCurvatureVector.addMulSelf(0.5 / area, vect3.mulAddMul(c12, -c23, vect1));
+		} while (ot.getEndVertex() != d);
+		meanCurvatureVector.mulSelf(0.5 / mixed);
+		// Discrete gaussian curvature
+		return (2.0 * Math.PI - gauss) / mixed;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static WB_CoordinateSystem getCurvatureDirections(final HE_Vertex v) {
+		final WB_CoordinateSystem tangent = getVertexCS(v);
+		if (tangent == null) {
+			return null;
+		}
+		final WB_Vector vect1 = findOptimalSolution(v, tangent.getZ(), tangent.getX(), tangent.getY());
+		if (vect1 == null) {
+			return null;
+		}
+		double e1, e2;
+		if (Math.abs(vect1.yd()) < WB_Epsilon.EPSILON) {
+			if (Math.abs(vect1.xd()) < Math.abs(vect1.zd())) {
+				e1 = 0.0;
+				e2 = 1.0;
+			} else {
+				e1 = 1.0;
+				e2 = 0.0;
+			}
+		} else {
+			e2 = 1.0;
+			final double delta = Math
+					.sqrt((vect1.xd() - vect1.zd()) * (vect1.xd() - vect1.zd()) + 4.0 * vect1.yd() * vect1.yd());
+			double K1;
+			if (vect1.xd() + vect1.zd() < 0.0) {
+				K1 = 0.5 * (vect1.xd() + vect1.zd() - delta);
+			} else {
+				K1 = 0.5 * (vect1.xd() + vect1.zd() + delta);
+			}
+			e1 = (K1 - vect1.xd()) / vect1.yd();
+			final double n = Math.sqrt(e1 * e1 + e2 * e2);
+			e1 /= n;
+			e2 /= n;
+		}
+		final WB_Vector t1 = tangent.getX();
+		final WB_Vector t2 = tangent.getY();
+		final WB_Vector X = t1.mulAddMul(e1, e2, t2);
+		final WB_Vector Y = t1.mulAddMul(-e2, e1, t2);
+		return gf.createCSFromOXYZ(v, X, Y, tangent.getZ());
+	}
+
+	/**
+	 *
+	 *
+	 * @param p0
+	 * @param p1
+	 * @param p2
+	 * @param tempD1
+	 * @param tempD2
+	 * @param ret
+	 * @return
+	 */
+	private static double computeNormal3D(final WB_Coord p0, final WB_Coord p1, final WB_Coord p2, WB_Vector tempD1,
+			WB_Vector tempD2, final WB_Vector ret) {
+		tempD1 = WB_Point.subToVector3D(p1, p2);
+		tempD2 = WB_Point.subToVector3D(p2, p0);
+		tempD1.crossInto(ret, tempD2);
+		double norm = ret.getLength3D();
+		if (norm * norm > WB_Epsilon.SQEPSILON
+				* (tempD1.xd() * tempD1.xd() + tempD1.yd() * tempD1.yd() + tempD1.zd() * tempD1.zd()
+						+ tempD2.xd() * tempD2.xd() + tempD2.yd() * tempD2.yd() + tempD2.zd() * tempD2.zd())) {
+			ret.mulSelf(1.0 / norm);
+		} else {
+			ret.set(0, 0, 0);
+			norm = 0.0;
+		}
+		return 0.5 * norm;
+	}
+
+	/**
+	 *
+	 *
+	 * @param normal
+	 * @param t1
+	 * @param t2
+	 * @return
+	 */
+	private static WB_Vector findOptimalSolution(final HE_Vertex v, final WB_Vector normal, final WB_Vector t1,
+			final WB_Vector t2) {
+		WB_Vector vect1 = new WB_Vector();
+		WB_Vector vect2 = new WB_Vector();
+		WB_Vector vect3 = new WB_Vector();
+		final WB_Vector g0 = new WB_Vector();
+		final WB_Vector g1 = new WB_Vector();
+		final WB_Vector g2 = new WB_Vector();
+		final WB_Vector h = new WB_Vector();
+		HE_Halfedge ot = v.getHalfedge();
+		final HE_Vertex d = ot.getEndVertex();
+		do {
+			ot = ot.getNextInVertex();
+			if (ot.getFace() == null) {
+				continue;
+			}
+			final WB_Coord p1 = ot.getEndVertex();
+			final WB_Coord p2 = ot.getPrevInFace().getVertex();
+			vect1 = new WB_Vector(v, p1);
+			vect2 = new WB_Vector(p1, p2);
+			vect3 = new WB_Vector(p2, v);
+			final double c12 = vect1.dot(vect2);
+			final double c23 = vect2.dot(vect3);
+			// Override vect2
+			vect2 = vect1.cross(vect3);
+			final double area = 0.5 * vect2.getLength3D();
+			final double len2 = vect1.dot(vect1);
+			if (len2 < WB_Epsilon.SQEPSILON) {
+				continue;
+			}
+			final double kappa = 2.0 * vect1.dot(normal) / len2;
+			double d1 = vect1.dot(t1);
+			double d2 = vect1.dot(t2);
+			final double n = Math.sqrt(d1 * d1 + d2 * d2);
+			if (n < WB_Epsilon.EPSILON) {
+				continue;
+			}
+			d1 /= n;
+			d2 /= n;
+			final double omega = 0.5 * (c12 * vect3.dot(vect3) + c23 * vect1.dot(vect1)) / area;
+			g0.addSelf(omega * d1 * d1 * d1 * d1, omega * 2.0 * d1 * d1 * d1 * d2, omega * d1 * d1 * d2 * d2);
+			g1.addSelf(omega * 4.0 * d1 * d1 * d2 * d2, omega * 2.0 * d1 * d2 * d2 * d2, omega * d2 * d2 * d2 * d2);
+			h.addSelf(omega * kappa * d1 * d1, omega * kappa * 2.0 * d1 * d2, omega * kappa * d2 * d2);
+		} while (ot.getEndVertex() != d);
+		g1.setX(g0.yd());
+		g2.setX(g0.zd());
+		g2.setY(g1.zd());
+		WB_M33 G = new WB_M33(g0.xd(), g1.xd(), g2.xd(), g0.yd(), g1.yd(), g2.yd(), g0.zd(), g1.zd(), g2.zd());
+		G = G.inverse();
+		if (G == null) {
+			return null;
+		}
+		return WB_M33.mulToPoint(G, h);
+	}
+
+	public static WB_Coord getFaceNormal(final HE_Face face) {
+		HE_Halfedge he = face.getHalfedge();
+		if (he == null) {
+			return null;
+		}
+		// calculate normal with Newell's method
+
+		final WB_Vector _normal = new WB_Vector();
+		HE_Vertex p0;
+		HE_Vertex p1;
+		do {
+			p0 = he.getVertex();
+			p1 = he.getNextInFace().getVertex();
+			_normal.addSelf((p0.yd() - p1.yd()) * (p0.zd() + p1.zd()), (p0.zd() - p1.zd()) * (p0.xd() + p1.xd()),
+					(p0.xd() - p1.xd()) * (p0.yd() + p1.yd()));
+			he = he.getNextInFace();
+		} while (he != face.getHalfedge());
+		_normal.normalizeSelf();
+		return _normal;
+	}
+
+	public static WB_Coord getNonNormFaceNormal(final HE_Face face) {
+		HE_Halfedge he = face.getHalfedge();
+		if (he == null) {
+			return null;
+		}
+		// calculate normal with Newell's method
+		final WB_Vector _normal = new WB_Vector();
+		HE_Vertex p0;
+		HE_Vertex p1;
+		do {
+			p0 = he.getVertex();
+			p1 = he.getNextInFace().getVertex();
+			_normal.addSelf((p0.yd() - p1.yd()) * (p0.zd() + p1.zd()), (p0.zd() - p1.zd()) * (p0.xd() + p1.xd()),
+					(p0.xd() - p1.xd()) * (p0.yd() + p1.yd()));
+			he = he.getNextInFace();
+		} while (he != face.getHalfedge());
+		return _normal;
+	}
+
+	public static double getFaceArea(final HE_Face face) {
+		HE_Halfedge he = face.getHalfedge();
+		if (he == null) {
+			return 0;
+		}
+		final WB_Coord n = getFaceNormal(face);
+		if (WB_Vector.getLength3D(n) < 0.5) {
+			return 0;
+		}
+		final double x = WB_Math.fastAbs(n.xd());
+		final double y = WB_Math.fastAbs(n.yd());
+		final double z = WB_Math.fastAbs(n.zd());
+		double area = 0;
+		int coord = 3;
+		if (x >= y && x >= z) {
+			coord = 1;
+		} else if (y >= x && y >= z) {
+			coord = 2;
+		}
+		do {
+			switch (coord) {
+			case 1:
+				area += he.getVertex().yd()
+						* (he.getNextInFace().getVertex().zd() - he.getPrevInFace().getVertex().zd());
+				break;
+			case 2:
+				area += he.getVertex().xd()
+						* (he.getNextInFace().getVertex().zd() - he.getPrevInFace().getVertex().zd());
+				break;
+			case 3:
+				area += he.getVertex().xd()
+						* (he.getNextInFace().getVertex().yd() - he.getPrevInFace().getVertex().yd());
+				break;
+			}
+			he = he.getNextInFace();
+		} while (he != face.getHalfedge());
+		switch (coord) {
+		case 1:
+			area *= 0.5 / x;
+			break;
+		case 2:
+			area *= 0.5 / y;
+			break;
+		case 3:
+			area *= 0.5 / z;
+		}
+		return WB_Math.fastAbs(area);
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static WB_Classification getFaceType(final HE_Face face) {
+		HE_Halfedge he = face.getHalfedge();
+		if (he == null) {
+			return WB_Classification.UNKNOWN;
+		}
+
+		do {
+			if (he.getHalfedgeType() == WB_Classification.CONCAVE) {
+				return WB_Classification.CONCAVE;
+			}
+			he = he.getNextInFace();
+		} while (he != face.getHalfedge());
+		return WB_Classification.CONVEX;
+	}
+
 }

@@ -205,53 +205,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 *         least one face each
 	 */
 	public WB_Classification getVertexType() {
-		if (_halfedge == null) {
-			return null;
-		}
-		HE_Halfedge he = _halfedge;
-		int nconcave = 0;
-		int nconvex = 0;
-		int nflat = 0;
-		do {
-			HE_Face f = he.getFace();
-			if (f == null) {
-				f = he.getPair().getFace();
-			}
-			final WB_Point v = new WB_Point(he.getNextInFace().getVertex());
-			v.subSelf(he.getVertex());
-			he = he.getNextInVertex();
-			HE_Face fn = he.getFace();
-			if (fn == null) {
-				fn = he.getPair().getFace();
-			}
-			final WB_Vector c = WB_Vector.cross(f.getFaceNormal(), fn.getFaceNormal());
-			final double d = v.dot(c);
-			if (Math.abs(d) < WB_Epsilon.EPSILON) {
-				nflat++;
-			} else if (d < 0) {
-				nconcave++;
-			} else {
-				nconvex++;
-			}
-		} while (he != _halfedge);
-		if (nconcave > 0) {
-			if (nconvex > 0) {
-				return WB_Classification.SADDLE;
-			} else {
-				if (nflat > 0) {
-					return WB_Classification.FLATCONCAVE;
-				} else {
-					return WB_Classification.CONCAVE;
-				}
-			}
-		} else if (nconvex > 0) {
-			if (nflat > 0) {
-				return WB_Classification.FLATCONVEX;
-			} else {
-				return WB_Classification.CONVEX;
-			}
-		}
-		return WB_Classification.FLAT;
+		return HET_MeshOp.getVertexType(this);
 	}
 
 	/*
@@ -774,11 +728,8 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 * @return
 	 */
 	public WB_Coord getVertexNormal() {
-		if (_halfedge == null) {
-			return null;
-		}
 
-		return getVertexAngleNormal();
+		return HET_MeshOp.getVertexNormal(this);
 	}
 
 	/**
@@ -787,24 +738,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 * @return
 	 */
 	public WB_Coord getVertexAverageNormal() {
-		WB_Vector normal = new WB_Vector();
-		final WB_Vector[] temp = new WB_Vector[3];
-		for (int i = 0; i < 3; i++) {
-			temp[i] = new WB_Vector();
-		}
-		final HE_Vertex d = _halfedge.getEndVertex();
-		do {
-			_halfedge = _halfedge.getNextInVertex();
-			if (_halfedge.getFace() == null) {
-				continue;
-			}
-			final double area = computeNormal3D(this, _halfedge.getEndVertex(), _halfedge.getPrevInFace().getVertex(),
-					temp[0], temp[1], temp[2]);
-			normal.addMulSelf(area, temp[2]);
-		} while (_halfedge.getEndVertex() != d);
-		final double n = normal.getLength3D();
-		normal.mulSelf(1.0 / n);
-		return normal;
+		return HET_MeshOp.getVertexAverageNormal(this);
 	}
 
 	/**
@@ -813,24 +747,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 * @return
 	 */
 	public WB_Coord getVertexAreaNormal() {
-		WB_Vector normal = new WB_Vector();
-		final WB_Vector[] temp = new WB_Vector[3];
-		for (int i = 0; i < 3; i++) {
-			temp[i] = new WB_Vector();
-		}
-		final HE_Vertex d = _halfedge.getEndVertex();
-		do {
-			_halfedge = _halfedge.getNextInVertex();
-			if (_halfedge.getFace() == null) {
-				continue;
-			}
-			final double area = computeNormal3D(this, _halfedge.getEndVertex(), _halfedge.getPrevInFace().getVertex(),
-					temp[0], temp[1], temp[2]);
-			normal.addMulSelf(area, temp[2]);
-		} while (_halfedge.getEndVertex() != d);
-		final double n = normal.getLength3D();
-		normal.mulSelf(1.0 / n);
-		return normal;
+		return HET_MeshOp.getVertexAreaNormal(this);
 	}
 
 	/**
@@ -839,16 +756,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 * @return
 	 */
 	public WB_Coord getVertexAngleNormal() {
-		HE_Halfedge he = getHalfedge();
-		WB_Vector v = new WB_Vector();
-		do {
-			if (he.getFace() != null) {
-				v.addMulSelf(he.getAngle(), he.getFace().getFaceNormal());
-			}
-			he = he.getNextInVertex();
-		} while (he != getHalfedge());
-		v.normalizeSelf();
-		return v;
+		return HET_MeshOp.getVertexAngleNormal(this);
 
 	}
 
@@ -867,48 +775,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 * @return
 	 */
 	public double getGaussianCurvature(final WB_Vector meanCurvatureVector) {
-		meanCurvatureVector.set(0, 0, 0);
-		WB_Vector vect1 = new WB_Vector();
-		WB_Vector vect2 = new WB_Vector();
-		WB_Vector vect3 = new WB_Vector();
-		double mixed = 0.0;
-		double gauss = 0.0;
-		HE_Halfedge ot = getHalfedge();
-		final HE_Vertex d = ot.getEndVertex();
-		do {
-			ot = ot.getNextInVertex();
-			if (ot.getFace() == null) {
-				continue;
-			}
-			/*
-			 * if (ot.getPair().getFace() == null) { meanCurvatureVector.set(0,
-			 * 0, 0); return 0.0; }
-			 */
-			final HE_Vertex p1 = ot.getEndVertex();
-			final HE_Vertex p2 = ot.getPrevInFace().getVertex();
-			vect1 = new WB_Vector(this, p1);
-			vect2 = new WB_Vector(p1, p2);
-			vect3 = new WB_Vector(p2, this);
-			final double c12 = vect1.dot(vect2);
-			final double c23 = vect2.dot(vect3);
-			final double c31 = vect3.dot(vect1);
-			// Override vect2
-			vect2 = vect1.cross(vect3);
-			final double area = 0.5 * vect2.getLength3D();
-			if (c31 > 0.0) {
-				mixed += 0.5 * area;
-			} else if (c12 > 0.0 || c23 > 0.0) {
-				mixed += 0.25 * area;
-			} else {
-				if (area > 0.0 && area > -WB_Epsilon.EPSILON * (c12 + c23)) {
-					mixed -= 0.125 * 0.5 * (c12 * vect3.dot(vect3) + c23 * vect1.dot(vect1)) / area;
-				}
-			}
-			gauss += Math.abs(Math.atan2(2.0 * area, -c31));
-			meanCurvatureVector.addMulSelf(0.5 / area, vect3.mulAddMul(c12, -c23, vect1));
-		} while (ot.getEndVertex() != d);
-		meanCurvatureVector.mulSelf(0.5 / mixed);
-		return (2.0 * Math.PI - gauss) / mixed;
+		return HET_MeshOp.getGaussianCurvature(this, meanCurvatureVector);
 	}
 
 	/**
@@ -925,56 +792,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 * @return
 	 */
 	public double getGaussianCurvature() {
-		final WB_Vector meanCurvatureVector = new WB_Vector(0, 0, 0);
-		if (isBoundary()) {
-			return 0.0;
-
-		}
-		WB_Vector vect1 = new WB_Vector();
-		WB_Vector vect2 = new WB_Vector();
-		WB_Vector vect3 = new WB_Vector();
-		double mixed = 0.0;
-		double gauss = 0.0;
-		HE_Halfedge ot = getHalfedge();
-		final HE_Vertex d = ot.getEndVertex();
-		do {
-			ot = ot.getNextInVertex();
-			if (ot.getFace() == null) {
-				continue;
-			}
-			/*
-			 * if (ot.getPair().getFace() == null) { meanCurvatureVector.set(0,
-			 * 0, 0); return 0.0; }
-			 */
-			final HE_Vertex p1 = ot.getEndVertex();
-			final HE_Vertex p2 = ot.getPrevInFace().getVertex();
-			vect1 = new WB_Vector(this, p1);
-			vect2 = new WB_Vector(p1, p2);
-			vect3 = new WB_Vector(p2, this);
-			final double c12 = vect1.dot(vect2);
-			final double c23 = vect2.dot(vect3);
-			final double c31 = vect3.dot(vect1);
-
-			vect2 = vect1.cross(vect3);
-			final double area = 0.5 * vect2.getLength3D();
-			// This angle is obtuse
-			if (c31 > 0.0) {
-				mixed += 0.5 * area;
-				// One of the other angles is obtuse
-			} else if (c12 > 0.0 || c23 > 0.0) {
-				mixed += 0.25 * area;
-			} else {
-
-				if (area > 0.0 && area > -WB_Epsilon.EPSILON * (c12 + c23)) {
-					mixed -= 0.125 * 0.5 * (c12 * vect3.dot(vect3) + c23 * vect1.dot(vect1)) / area;
-				}
-			}
-			gauss += Math.abs(Math.atan2(2.0 * area, -c31));
-			meanCurvatureVector.addMulSelf(0.5 / area, vect3.mulAddMul(c12, -c23, vect1));
-		} while (ot.getEndVertex() != d);
-		meanCurvatureVector.mulSelf(0.5 / mixed);
-		// Discrete gaussian curvature
-		return (2.0 * Math.PI - gauss) / mixed;
+		return HET_MeshOp.getGaussianCurvature(this);
 	}
 
 	/**
@@ -983,133 +801,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 * @return
 	 */
 	public WB_CoordinateSystem getCurvatureDirections() {
-		final WB_CoordinateSystem tangent = getCS();
-		if (tangent == null) {
-			return null;
-		}
-		final WB_Vector vect1 = findOptimalSolution(tangent.getZ(), tangent.getX(), tangent.getY());
-		if (vect1 == null) {
-			return null;
-		}
-		double e1, e2;
-		if (Math.abs(vect1.yd()) < WB_Epsilon.EPSILON) {
-			if (Math.abs(vect1.xd()) < Math.abs(vect1.zd())) {
-				e1 = 0.0;
-				e2 = 1.0;
-			} else {
-				e1 = 1.0;
-				e2 = 0.0;
-			}
-		} else {
-			e2 = 1.0;
-			final double delta = Math
-					.sqrt((vect1.xd() - vect1.zd()) * (vect1.xd() - vect1.zd()) + 4.0 * vect1.yd() * vect1.yd());
-			double K1;
-			if (vect1.xd() + vect1.zd() < 0.0) {
-				K1 = 0.5 * (vect1.xd() + vect1.zd() - delta);
-			} else {
-				K1 = 0.5 * (vect1.xd() + vect1.zd() + delta);
-			}
-			e1 = (K1 - vect1.xd()) / vect1.yd();
-			final double n = Math.sqrt(e1 * e1 + e2 * e2);
-			e1 /= n;
-			e2 /= n;
-		}
-		final WB_Vector t1 = tangent.getX();
-		final WB_Vector t2 = tangent.getY();
-		final WB_Vector X = t1.mulAddMul(e1, e2, t2);
-		final WB_Vector Y = t1.mulAddMul(-e2, e1, t2);
-		return geometryfactory.createCSFromOXYZ(this, X, Y, tangent.getZ());
-	}
-
-	/**
-	 *
-	 *
-	 * @param p0
-	 * @param p1
-	 * @param p2
-	 * @param tempD1
-	 * @param tempD2
-	 * @param ret
-	 * @return
-	 */
-	private static double computeNormal3D(final WB_Coord p0, final WB_Coord p1, final WB_Coord p2, WB_Vector tempD1,
-			WB_Vector tempD2, final WB_Vector ret) {
-		tempD1 = WB_Point.subToVector3D(p1, p2);
-		tempD2 = WB_Point.subToVector3D(p2, p0);
-		tempD1.crossInto(ret, tempD2);
-		double norm = ret.getLength3D();
-		if (norm * norm > WB_Epsilon.SQEPSILON
-				* (tempD1.xd() * tempD1.xd() + tempD1.yd() * tempD1.yd() + tempD1.zd() * tempD1.zd()
-						+ tempD2.xd() * tempD2.xd() + tempD2.yd() * tempD2.yd() + tempD2.zd() * tempD2.zd())) {
-			ret.mulSelf(1.0 / norm);
-		} else {
-			ret.set(0, 0, 0);
-			norm = 0.0;
-		}
-		return 0.5 * norm;
-	}
-
-	/**
-	 *
-	 *
-	 * @param normal
-	 * @param t1
-	 * @param t2
-	 * @return
-	 */
-	private WB_Vector findOptimalSolution(final WB_Vector normal, final WB_Vector t1, final WB_Vector t2) {
-		WB_Vector vect1 = new WB_Vector();
-		WB_Vector vect2 = new WB_Vector();
-		WB_Vector vect3 = new WB_Vector();
-		final WB_Vector g0 = new WB_Vector();
-		final WB_Vector g1 = new WB_Vector();
-		final WB_Vector g2 = new WB_Vector();
-		final WB_Vector h = new WB_Vector();
-		HE_Halfedge ot = getHalfedge();
-		final HE_Vertex d = ot.getEndVertex();
-		do {
-			ot = ot.getNextInVertex();
-			if (ot.getFace() == null) {
-				continue;
-			}
-			final WB_Coord p1 = ot.getEndVertex();
-			final WB_Coord p2 = ot.getPrevInFace().getVertex();
-			vect1 = new WB_Vector(this, p1);
-			vect2 = new WB_Vector(p1, p2);
-			vect3 = new WB_Vector(p2, this);
-			final double c12 = vect1.dot(vect2);
-			final double c23 = vect2.dot(vect3);
-			// Override vect2
-			vect2 = vect1.cross(vect3);
-			final double area = 0.5 * vect2.getLength3D();
-			final double len2 = vect1.dot(vect1);
-			if (len2 < WB_Epsilon.SQEPSILON) {
-				continue;
-			}
-			final double kappa = 2.0 * vect1.dot(normal) / len2;
-			double d1 = vect1.dot(t1);
-			double d2 = vect1.dot(t2);
-			final double n = Math.sqrt(d1 * d1 + d2 * d2);
-			if (n < WB_Epsilon.EPSILON) {
-				continue;
-			}
-			d1 /= n;
-			d2 /= n;
-			final double omega = 0.5 * (c12 * vect3.dot(vect3) + c23 * vect1.dot(vect1)) / area;
-			g0.addSelf(omega * d1 * d1 * d1 * d1, omega * 2.0 * d1 * d1 * d1 * d2, omega * d1 * d1 * d2 * d2);
-			g1.addSelf(omega * 4.0 * d1 * d1 * d2 * d2, omega * 2.0 * d1 * d2 * d2 * d2, omega * d2 * d2 * d2 * d2);
-			h.addSelf(omega * kappa * d1 * d1, omega * kappa * 2.0 * d1 * d2, omega * kappa * d2 * d2);
-		} while (ot.getEndVertex() != d);
-		g1.setX(g0.yd());
-		g2.setX(g0.zd());
-		g2.setY(g1.zd());
-		WB_M33 G = new WB_M33(g0.xd(), g1.xd(), g2.xd(), g0.yd(), g1.yd(), g2.yd(), g0.zd(), g1.zd(), g2.zd());
-		G = G.inverse();
-		if (G == null) {
-			return null;
-		}
-		return WB_M33.mulToPoint(G, h);
+		return HET_MeshOp.getCurvatureDirections(this);
 	}
 
 	/**

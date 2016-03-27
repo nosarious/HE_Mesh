@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -105,8 +105,7 @@ public class HEC_ShrinkWrap extends HEC_Creator {
 	 * @param z
 	 * @return
 	 */
-	public HEC_ShrinkWrap setWrapCenter(final double x, final double y,
-			final double z) {
+	public HEC_ShrinkWrap setWrapCenter(final double x, final double y, final double z) {
 		wcenter = new WB_Point(x, y, z);
 		return this;
 	}
@@ -126,10 +125,8 @@ public class HEC_ShrinkWrap extends HEC_Creator {
 		if (wcenter == null) {
 			wcenter = aabb.getCenter();
 		}
-		final double radius = WB_GeometryOp
-				.getDistance3D(center, aabb.getMax()) + WB_Epsilon.EPSILON;
-		final HE_Mesh sphere = new HE_Mesh(new HEC_Geodesic().setB(level)
-				.setC(0).setRadius(radius).setCenter(wcenter));
+		final double radius = WB_GeometryOp.getDistance3D(center, aabb.getMax()) + WB_Epsilon.EPSILON;
+		final HE_Mesh sphere = new HE_Mesh(new HEC_Geodesic().setB(level).setC(0).setRadius(radius).setCenter(wcenter));
 		result = sphere.get();
 		final Iterator<HE_Vertex> vItr = sphere.vItr();
 		final Iterator<HE_Vertex> vmodItr = result.vItr();
@@ -143,7 +140,7 @@ public class HEC_ShrinkWrap extends HEC_Creator {
 			v = vItr.next();
 			vmod = vmodItr.next();
 			R = new WB_Ray(v, WB_Vector.mul(v.getVertexNormal(), -1));
-			final WB_Point p = HE_GeometryOp.getClosestIntersection(tree, R).point;
+			final WB_Point p = HET_MeshOp.getClosestIntersection(tree, R).point;
 			if (p != null) {
 				if (WB_GeometryOp.getDistance3D(v, p) < radius) {
 					vmod.set(p);

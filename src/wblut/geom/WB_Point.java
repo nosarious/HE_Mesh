@@ -9,6 +9,7 @@
  */
 package wblut.geom;
 
+import wblut.math.WB_Ease;
 import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
 
@@ -1273,6 +1274,26 @@ public class WB_Point extends WB_Vector {
 			return cmp;
 		}
 		return Double.compare(zd(), p.zd());
+	}
+
+	public static WB_Point interpolate(final WB_Coord v, final WB_Coord w, final double f) {
+		return new WB_Point(WB_GeometryOp.interpolate(v.xd(), v.yd(), v.zd(), w.xd(), w.yd(), w.zd(), f));
+	}
+
+	public static WB_Point interpolateEaseIn(final WB_Coord v, final WB_Coord w, final double f,
+			final WB_Ease.Ease ease) {
+		return new WB_Point(WB_GeometryOp.interpolateEaseIn(v.xd(), v.yd(), v.zd(), w.xd(), w.yd(), w.zd(), f, ease));
+	}
+
+	public static WB_Point interpolateEaseOut(final WB_Coord v, final WB_Coord w, final double f,
+			final WB_Ease.Ease ease) {
+		return new WB_Point(WB_GeometryOp.interpolateEaseOut(v.xd(), v.yd(), v.zd(), w.xd(), w.yd(), w.zd(), f, ease));
+	}
+
+	public static WB_Point interpolateEaseInOut(final WB_Coord v, final WB_Coord w, final double f,
+			final WB_Ease.Ease ease) {
+		return new WB_Point(
+				WB_GeometryOp.interpolateEaseInOut(v.xd(), v.yd(), v.zd(), w.xd(), w.yd(), w.zd(), f, ease));
 	}
 
 }

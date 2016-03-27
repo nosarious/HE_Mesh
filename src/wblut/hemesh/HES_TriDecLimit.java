@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -107,9 +107,9 @@ public class HES_TriDecLimit extends HES_Simplifier {
 		}
 		final double range = max - min;
 		final boolean monochrome = WB_Epsilon.isZero(range);
-		final double invrange = (monochrome) ? 0 : 1.0 / range;
+		final double invrange = monochrome ? 0 : 1.0 / range;
 		for (i = 0; i < mesh.getNumberOfVertices(); i++) {
-			values[i] = (monochrome) ? 0 : (values[i] - min) * invrange;
+			values[i] = monochrome ? 0 : (values[i] - min) * invrange;
 		}
 		return values;
 	}
@@ -129,7 +129,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 			return _mesh;
 		}
 		_mesh.triangulate();
-		_mesh.resetVertexTemporaryLabels();
+		_mesh.resetVertexInternalLabels();
 		buildHeap(_mesh);
 		HE_Vertex v;
 		Entry entry;
@@ -137,13 +137,13 @@ public class HES_TriDecLimit extends HES_Simplifier {
 		WB_ProgressCounter pcounter = new WB_ProgressCounter(mesh.getNumberOfVertices(), 10);
 		tracker.setStatus(this, "Removing vertices.", pcounter);
 		double lastcost = 0;
-		while ((lastcost <= limit) && (heap.size() > 0) && (_mesh.getNumberOfVertices() > 4)) {
+		while (lastcost <= limit && heap.size() > 0 && _mesh.getNumberOfVertices() > 4) {
 			boolean valid = false;
 			do {
 				entry = heap.pop();
 				v = entry.v;
-				valid = mesh.contains(v) && (entry.version == v.getInternalLabel());
-			} while ((heap.size() > 0) && !valid);
+				valid = mesh.contains(v) && entry.version == v.getInternalLabel();
+			} while (heap.size() > 0 && !valid);
 			if (valid) {
 				vertices = v.getNeighborVertices();
 				// vertices.addAll(v.getNextNeighborVertices());
@@ -179,7 +179,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 			return _mesh;
 		}
 		_mesh.triangulate();
-		_mesh.resetVertexTemporaryLabels();
+		_mesh.resetVertexInternalLabels();
 		buildHeap(_mesh);
 		HE_Vertex v;
 		Entry entry;
@@ -187,13 +187,13 @@ public class HES_TriDecLimit extends HES_Simplifier {
 		WB_ProgressCounter pcounter = new WB_ProgressCounter(selection.getNumberOfVertices(), 10);
 		tracker.setStatus(this, "Removing vertices.", pcounter);
 		double lastcost = 0;
-		while ((lastcost <= limit) && (heap.size() > 0) && (_mesh.getNumberOfVertices() > 4)) {
+		while (lastcost <= limit && heap.size() > 0 && _mesh.getNumberOfVertices() > 4) {
 			boolean valid = false;
 			do {
 				entry = heap.pop();
 				v = entry.v;
-				valid = selection.contains(v) && _mesh.contains(v) && (entry.version == v.getInternalLabel());
-			} while ((heap.size() > 0) && !valid);
+				valid = selection.contains(v) && _mesh.contains(v) && entry.version == v.getInternalLabel();
+			} while (heap.size() > 0 && !valid);
 			if (valid) {
 				vertices = v.getNeighborVertices();
 				// vertices.addAll(v.getNextNeighborVertices());
@@ -257,7 +257,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 				} else {
 					for (int i = 0; i < vstar.size(); i++) {
 						c = halfedgeCollapseCost(vstar.get(i));
-						if (!Double.isNaN(c) && (c < min)) {
+						if (!Double.isNaN(c) && c < min) {
 							min = c;
 							minhe = vstar.get(i);
 						}
@@ -265,7 +265,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 				}
 				if (min < Double.POSITIVE_INFINITY) {
 					vertexCost.put(v.key(), min * vvi);
-					sel.setHalfedge(v,minhe);
+					sel.setHalfedge(v, minhe);
 					heap.push(min * vvi, v);
 				}
 			}
@@ -286,7 +286,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 		List<HE_Halfedge> vstar;
 		double vvi;
 		for (final HE_Vertex v : vertices) {
-			if ((selection == null) || selection.contains(v)) {
+			if (selection == null || selection.contains(v)) {
 				vvi = visualImportance(v);
 				v.setInternalLabel(counter);
 				vertexCost.remove(v.key());
@@ -309,7 +309,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 				} else {
 					for (int i = 0; i < vstar.size(); i++) {
 						c = halfedgeCollapseCost(vstar.get(i));
-						if (!Double.isNaN(c) && (c < min)) {
+						if (!Double.isNaN(c) && c < min) {
 							min = c;
 							minhe = vstar.get(i);
 						}
@@ -317,7 +317,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 				}
 				if (min < Double.POSITIVE_INFINITY) {
 					vertexCost.put(v.key(), min * vvi);
-					selection.setHalfedge(v,minhe);
+					selection.setHalfedge(v, minhe);
 					heap.push(min * vvi, v);
 				}
 			}
@@ -365,7 +365,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 		final List<HE_Vertex> vineighbors = he.getVertex().getNeighborVertices();
 		final List<HE_Vertex> vfneighbors = he.getEndVertex().getNeighborVertices();
 		int shared = 0;
-		final int max = ((f == null) || (fp == null)) ? 1 : 2;
+		final int max = f == null || fp == null ? 1 : 2;
 		for (final HE_Vertex vi : vineighbors) {
 			for (final HE_Vertex vf : vfneighbors) {
 				if (vi == vf) {
@@ -384,9 +384,9 @@ public class HES_TriDecLimit extends HES_Simplifier {
 		HE_Halfedge helooper = he.getNextInVertex();
 		WB_Triangle T;
 		WB_Plane P;
-		if ((f == null) || (fp == null)) {
+		if (f == null || fp == null) {
 			boundary = he.getNextInVertex();
-			while ((boundary.getFace() != null) && (boundary.getPair().getFace() != null)) {
+			while (boundary.getFace() != null && boundary.getPair().getFace() != null) {
 				boundary = boundary.getNextInVertex();
 			}
 			v1 = he.getEndVertex().subToVector3D(he.getVertex());
@@ -398,7 +398,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 			do {
 				final HE_Face fl = helooper.getFace();
 				if (fl != null) {
-					if ((fl != f) && (fl != fp)) {
+					if (fl != f && fl != fp) {
 						T = new WB_Triangle(he.getEndVertex(), helooper.getNextInFace().getVertex(),
 								helooper.getNextInFace().getNextInFace().getVertex());
 						P = T.getPlane();
@@ -522,7 +522,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 		 * @return
 		 */
 		protected int left(final int i) {
-			return (2 * i) + 1;
+			return 2 * i + 1;
 		}
 
 		/**
@@ -532,7 +532,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 		 * @return
 		 */
 		protected int right(final int i) {
-			return (2 * i) + 2;
+			return 2 * i + 2;
 		}
 
 		/**
@@ -570,10 +570,10 @@ public class HES_TriDecLimit extends HES_Simplifier {
 			final int left = left(i);
 			final int right = right(i);
 			int highest = i;
-			if ((left < heap.size()) && !hasPriority(highest, left)) {
+			if (left < heap.size() && !hasPriority(highest, left)) {
 				highest = left;
 			}
-			if ((right < heap.size()) && !hasPriority(highest, right)) {
+			if (right < heap.size() && !hasPriority(highest, right)) {
 				highest = right;
 			}
 			if (highest != i) {
@@ -588,7 +588,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 		 * @param i
 		 */
 		public void pushUp(int i) {
-			while ((i > 0) && !hasPriority(parent(i), i)) {
+			while (i > 0 && !hasPriority(parent(i), i)) {
 				swap(parent(i), i);
 				i = parent(i);
 			}
@@ -605,7 +605,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 			int rowStart = 0;
 			int rowSize = 1;
 			for (int i = 0; i < heap.size(); i++) {
-				if (i == (rowStart + rowSize)) {
+				if (i == rowStart + rowSize) {
 					s.append('\n');
 					rowStart = i;
 					rowSize *= 2;

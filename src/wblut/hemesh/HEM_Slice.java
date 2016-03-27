@@ -32,8 +32,7 @@ public class HEM_Slice extends HEM_Modifier {
 	private boolean capHoles = true;
 	/** The simple cap. */
 	private boolean simpleCap = true;
-	/** Keep center of cut mesh?. */
-	private boolean keepCenter = false;
+
 	/** Store cut faces. */
 	public HE_Selection cut;
 	/** Store cap faces. */
@@ -132,18 +131,6 @@ public class HEM_Slice extends HEM_Modifier {
 	 */
 	public HEM_Slice setSimpleCap(final Boolean b) {
 		simpleCap = b;
-		return this;
-	}
-
-	/**
-	 * Set option to reset mesh center.
-	 *
-	 * @param b
-	 *            true, false;
-	 * @return self
-	 */
-	public HEM_Slice setKeepCenter(final Boolean b) {
-		keepCenter = b;
 		return this;
 	}
 
@@ -246,9 +233,6 @@ public class HEM_Slice extends HEM_Modifier {
 		mesh.pairHalfedges();
 		mesh.capHalfedges();
 
-		if (!keepCenter) {
-			mesh.resetCenter();
-		}
 		tracker.setStatus(this, "Ending HEM_Slice.", -1);
 		return mesh;
 	}
@@ -274,7 +258,7 @@ public class HEM_Slice extends HEM_Modifier {
 		modifier.setPlane(P);
 		modifier.setOffset(0);
 		modifier.setCap(true);
-		modifier.setKeepCenter(false);
+
 		modifier.setReverse(false);
 		modifier.setSimpleCap(false);
 		mesh.modify(modifier);

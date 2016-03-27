@@ -262,7 +262,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
 		tracker.setStatus(this, "Starting HEM_Extrude.", +1);
-		mesh.resetFaceTemporaryLabels();
+		mesh.resetFaceInternalLabels();
 		walls = new HE_Selection(mesh);
 		extruded = new HE_Selection(mesh);
 		_halfedgeNormals = new FastMap<Long, WB_Coord>();
@@ -355,7 +355,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
 		tracker.setStatus(this, "Starting HEM_Extrude.", +1);
-		selection.parent.resetFaceTemporaryLabels();
+		selection.parent.resetFaceInternalLabels();
 		walls = new HE_Selection(selection.parent);
 		extruded = new HE_Selection(selection.parent);
 		if (selection.getNumberOfFaces() == 0) {

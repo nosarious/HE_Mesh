@@ -879,7 +879,7 @@ public class WB_Vector4D extends WB_SimpleVector4D implements WB_MutableCoordina
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_CoordinateMath#sub(double[])
 	 */
 	@Override
@@ -889,7 +889,7 @@ public class WB_Vector4D extends WB_SimpleVector4D implements WB_MutableCoordina
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_CoordinateMath#subInto(wblut.geom.WB_MutableCoord,
 	 * double[])
 	 */
@@ -952,7 +952,7 @@ public class WB_Vector4D extends WB_SimpleVector4D implements WB_MutableCoordina
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_CoordinateMath#mulAddMul(double, double, double[])
 	 */
 	@Override
@@ -963,7 +963,7 @@ public class WB_Vector4D extends WB_SimpleVector4D implements WB_MutableCoordina
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * wblut.geom.WB_CoordinateMath#mulAddMulInto(wblut.geom.WB_MutableCoord,
 	 * double, double, double[])
@@ -976,7 +976,7 @@ public class WB_Vector4D extends WB_SimpleVector4D implements WB_MutableCoordina
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_CoordinateMath#scalarTriple(wblut.geom.WB_Coord,
 	 * wblut.geom.WB_Coord)
 	 */

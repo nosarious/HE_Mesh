@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -41,15 +41,14 @@ public class HEM_MeanCurvatureSmooth extends HEM_Modifier {
 	private int iter;
 
 	/**
-	 * 
+	 *
 	 */
-	public HEM_MeanCurvatureSmooth(){
-		lambda=0.5;
-		iter=1;
-		keepBoundary=false;
+	public HEM_MeanCurvatureSmooth() {
+		lambda = 0.5;
+		iter = 1;
+		keepBoundary = false;
 
 	}
-
 
 	/**
 	 *
@@ -61,9 +60,6 @@ public class HEM_MeanCurvatureSmooth extends HEM_Modifier {
 		autoRescale = b;
 		return this;
 	}
-
-
-
 
 	/**
 	 *
@@ -88,13 +84,13 @@ public class HEM_MeanCurvatureSmooth extends HEM_Modifier {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param lambda 
-	 * @return 
+	 *
+	 * @param lambda
+	 * @return
 	 */
-	public HEM_MeanCurvatureSmooth setLambda(final double lambda){
-		this.lambda=lambda;
+	public HEM_MeanCurvatureSmooth setLambda(final double lambda) {
+		this.lambda = lambda;
 		return this;
 	}
 
@@ -127,18 +123,18 @@ public class HEM_MeanCurvatureSmooth extends HEM_Modifier {
 				if (v.isBoundary() && keepBoundary) {
 					newPositions[id] = v;
 				} else {
-					p=new WB_Point();
-					double factor=0;
-					HE_Halfedge he=v.getHalfedge();
+					p = new WB_Point();
+					double factor = 0;
+					HE_Halfedge he = v.getHalfedge();
 					do {
-						double cotana=he.getPrevInFace().getCotan();
-						double cotanb=he.getPair().getPrevInFace().getCotan();
-						p.addMulSelf(cotana+cotanb,WB_Vector.sub(he.getEndVertex(),v));
-						factor+=cotana+cotanb;
+						double cotana = he.getPrevInFace().getCotan();
+						double cotanb = he.getPair().getPrevInFace().getCotan();
+						p.addMulSelf(cotana + cotanb, WB_Vector.sub(he.getEndVertex(), v));
+						factor += cotana + cotanb;
 
-						he=he.getNextInVertex();
-					}while(he!=v.getHalfedge());
-					newPositions[id] = p.mulSelf(lambda/factor).addSelf(v);
+						he = he.getNextInVertex();
+					} while (he != v.getHalfedge());
+					newPositions[id] = p.mulSelf(lambda / factor).addSelf(v);
 
 				}
 				id++;
@@ -152,7 +148,7 @@ public class HEM_MeanCurvatureSmooth extends HEM_Modifier {
 				counter.increment();
 			}
 		}
-		mesh.resetCenter();
+
 		if (autoRescale) {
 			mesh.fitInAABB(box);
 		}
@@ -203,9 +199,9 @@ public class HEM_MeanCurvatureSmooth extends HEM_Modifier {
 					}
 
 					for (int i = 0; i < neighbors.size(); i++) {
-						p.addMulSelf(lambda/neighbors.size(),neighbors.get(i));
+						p.addMulSelf(lambda / neighbors.size(), neighbors.get(i));
 					}
-					newPositions[id] = p.addMulSelf(1.0-lambda,v);
+					newPositions[id] = p.addMulSelf(1.0 - lambda, v);
 				}
 				id++;
 			}
@@ -217,7 +213,6 @@ public class HEM_MeanCurvatureSmooth extends HEM_Modifier {
 				counter.increment();
 			}
 		}
-		selection.parent.resetCenter();
 		if (autoRescale) {
 			selection.parent.fitInAABB(box);
 		}

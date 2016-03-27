@@ -16,14 +16,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import wblut.geom.WB_AABBTree.WB_AABBNode;
+import wblut.math.WB_Ease;
 import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
-
 
 public class WB_GeometryOp {
 
 	private static final WB_GeometryFactory gf = WB_GeometryFactory.instance();
-
 
 	/**
 	 *
@@ -35,7 +34,7 @@ public class WB_GeometryOp {
 	public static WB_IntersectionResult getIntersection3D(final WB_Segment S, final WB_Plane P) {
 		final WB_Vector ab = WB_Vector.subToVector3D(S.getEndpoint(), S.getOrigin());
 		double t = (P.d() - P.getNormal().dot(S.getOrigin())) / P.getNormal().dot(ab);
-		if ((t >= -WB_Epsilon.EPSILON) && (t <= (1.0 + WB_Epsilon.EPSILON))) {
+		if (t >= -WB_Epsilon.EPSILON && t <= 1.0 + WB_Epsilon.EPSILON) {
 			t = WB_Epsilon.clampEpsilon(t, 0, 1);
 			final WB_IntersectionResult i = new WB_IntersectionResult();
 			i.intersection = true;
@@ -49,7 +48,6 @@ public class WB_GeometryOp {
 		return NOINTERSECTION(t, t);
 	}
 
-
 	/**
 	 *
 	 *
@@ -61,14 +59,14 @@ public class WB_GeometryOp {
 	public static WB_IntersectionResult getIntersection3D(final WB_Coord a, final WB_Coord b, final WB_Plane P) {
 		final WB_Vector ab = new WB_Vector(a, b);
 		double t = (P.d() - P.getNormal().dot(a)) / P.getNormal().dot(ab);
-		if ((t >= -WB_Epsilon.EPSILON) && (t <= (1.0 + WB_Epsilon.EPSILON))) {
+		if (t >= -WB_Epsilon.EPSILON && t <= 1.0 + WB_Epsilon.EPSILON) {
 			t = WB_Epsilon.clampEpsilon(t, 0, 1);
 			final WB_IntersectionResult i = new WB_IntersectionResult();
 			i.intersection = true;
 			i.t1 = t;
 			i.t2 = t;
-			i.object = new WB_Point(a.xd() + (t * (b.xd() - a.xd())), a.yd() + (t * (b.yd() - a.yd())),
-					a.zd() + (t * (b.zd() - a.zd())));
+			i.object = new WB_Point(a.xd() + t * (b.xd() - a.xd()), a.yd() + t * (b.yd() - a.yd()),
+					a.zd() + t * (b.zd() - a.zd()));
 			i.dimension = 0;
 			i.sqDist = 0;
 			return i;
@@ -102,7 +100,6 @@ public class WB_GeometryOp {
 		return NOINTERSECTION(t, t);
 	}
 
-
 	/**
 	 *
 	 *
@@ -116,7 +113,7 @@ public class WB_GeometryOp {
 		double tmin = 0.0;
 		double tmax = Double.POSITIVE_INFINITY;
 		if (WB_Epsilon.isZero(d.xd())) {
-			if ((p.xd() < aabb.getMinX()) || (p.xd() > aabb.getMaxX())) {
+			if (p.xd() < aabb.getMinX() || p.xd() > aabb.getMaxX()) {
 				return NOINTERSECTION();
 			}
 		} else {
@@ -135,7 +132,7 @@ public class WB_GeometryOp {
 			}
 		}
 		if (WB_Epsilon.isZero(d.yd())) {
-			if ((p.yd() < aabb.getMinY()) || (p.yd() > aabb.getMaxY())) {
+			if (p.yd() < aabb.getMinY() || p.yd() > aabb.getMaxY()) {
 				return NOINTERSECTION();
 			}
 		} else {
@@ -154,7 +151,7 @@ public class WB_GeometryOp {
 			}
 		}
 		if (WB_Epsilon.isZero(d.zd())) {
-			if ((p.zd() < aabb.getMinZ()) || (p.zd() > aabb.getMaxZ())) {
+			if (p.zd() < aabb.getMinZ() || p.zd() > aabb.getMaxZ()) {
 				return NOINTERSECTION();
 			}
 		} else {
@@ -228,9 +225,9 @@ public class WB_GeometryOp {
 			final double d1 = P1.d();
 			final double d2 = P2.d();
 			final double N1N2 = N1.dot(N2);
-			final double det = 1 - (N1N2 * N1N2);
-			final double c1 = (d1 - (d2 * N1N2)) / det;
-			final double c2 = (d2 - (d1 * N1N2)) / det;
+			final double det = 1 - N1N2 * N1N2;
+			final double c1 = (d1 - d2 * N1N2) / det;
+			final double c2 = (d2 - d1 * N1N2) / det;
 			final WB_Point O = new WB_Point(N1.mul(c1).addSelf(N2.mul(c2)));
 
 			final WB_IntersectionResult i = new WB_IntersectionResult();
@@ -293,18 +290,17 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static boolean checkIntersection3D(final WB_AABB one, final WB_AABB other) {
-		if ((one.getMaxX() < other.getMinX()) || (one.getMinX() > other.getMaxX())) {
+		if (one.getMaxX() < other.getMinX() || one.getMinX() > other.getMaxX()) {
 			return false;
 		}
-		if ((one.getMaxY() < other.getMinY()) || (one.getMinY() > other.getMaxY())) {
+		if (one.getMaxY() < other.getMinY() || one.getMinY() > other.getMaxY()) {
 			return false;
 		}
-		if ((one.getMaxZ() < other.getMinZ()) || (one.getMinZ() > other.getMaxZ())) {
+		if (one.getMaxZ() < other.getMinZ() || one.getMinZ() > other.getMaxZ()) {
 			return false;
 		}
 		return true;
 	}
-
 
 	/**
 	 *
@@ -316,12 +312,11 @@ public class WB_GeometryOp {
 	public static boolean checkIntersection3D(final WB_AABB AABB, final WB_Plane P) {
 		final WB_Point c = AABB.getMax().add(AABB.getMin()).mulSelf(0.5);
 		final WB_Point e = AABB.getMax().sub(c);
-		final double r = (e.xd() * WB_Math.fastAbs(P.getNormal().xd())) + (e.yd() * WB_Math.fastAbs(P.getNormal().yd()))
-				+ (e.zd() * WB_Math.fastAbs(P.getNormal().zd()));
+		final double r = e.xd() * WB_Math.fastAbs(P.getNormal().xd()) + e.yd() * WB_Math.fastAbs(P.getNormal().yd())
+				+ e.zd() * WB_Math.fastAbs(P.getNormal().zd());
 		final double s = P.getNormal().dot(c) - P.d();
 		return WB_Math.fastAbs(s) <= r;
 	}
-
 
 	/**
 	 *
@@ -332,9 +327,8 @@ public class WB_GeometryOp {
 	 */
 	public static boolean checkIntersection3D(final WB_AABB AABB, final WB_Sphere S) {
 		final double d2 = getSqDistance3D(S.getCenter(), AABB);
-		return d2 <= (S.getRadius() * S.getRadius());
+		return d2 <= S.getRadius() * S.getRadius();
 	}
-
 
 	/**
 	 *
@@ -345,7 +339,7 @@ public class WB_GeometryOp {
 	 */
 	public static boolean checkIntersection3D(final WB_Triangle T, final WB_Sphere S) {
 		final WB_Point p = getClosestPoint3D(S.getCenter(), T);
-		return (p.subToVector3D(S.getCenter())).getSqLength3D() <= (S.getRadius() * S.getRadius());
+		return p.subToVector3D(S.getCenter()).getSqLength3D() <= S.getRadius() * S.getRadius();
 	}
 
 	// TRIANGLE-AABB
@@ -381,7 +375,7 @@ public class WB_GeometryOp {
 			p0 = v0.dot(a);
 			p1 = v1.dot(a);
 			p2 = v2.dot(a);
-			r = (e0 * WB_Math.fastAbs(a.xd())) + (e1 * WB_Math.fastAbs(a.yd())) + (e2 * WB_Math.fastAbs(a.zd()));
+			r = e0 * WB_Math.fastAbs(a.xd()) + e1 * WB_Math.fastAbs(a.yd()) + e2 * WB_Math.fastAbs(a.zd());
 			if (WB_Math.max(WB_Math.min(p0, p1, p2), -WB_Math.max(p0, p1, p2)) > r) {
 				return false;
 			}
@@ -395,7 +389,7 @@ public class WB_GeometryOp {
 			p0 = v0.dot(a);
 			p1 = v1.dot(a);
 			p2 = v2.dot(a);
-			r = (e0 * WB_Math.fastAbs(a.xd())) + (e1 * WB_Math.fastAbs(a.yd())) + (e2 * WB_Math.fastAbs(a.zd()));
+			r = e0 * WB_Math.fastAbs(a.xd()) + e1 * WB_Math.fastAbs(a.yd()) + e2 * WB_Math.fastAbs(a.zd());
 			if (WB_Math.max(WB_Math.min(p0, p1, p2), -WB_Math.max(p0, p1, p2)) > r) {
 				return false;
 			}
@@ -409,7 +403,7 @@ public class WB_GeometryOp {
 			p0 = v0.dot(a);
 			p1 = v1.dot(a);
 			p2 = v2.dot(a);
-			r = (e0 * WB_Math.fastAbs(a.xd())) + (e1 * WB_Math.fastAbs(a.yd())) + (e2 * WB_Math.fastAbs(a.zd()));
+			r = e0 * WB_Math.fastAbs(a.xd()) + e1 * WB_Math.fastAbs(a.yd()) + e2 * WB_Math.fastAbs(a.zd());
 			if (WB_Math.max(WB_Math.min(p0, p1, p2), -WB_Math.max(p0, p1, p2)) > r) {
 				return false;
 			}
@@ -423,7 +417,7 @@ public class WB_GeometryOp {
 			p0 = v0.dot(a);
 			p1 = v1.dot(a);
 			p2 = v2.dot(a);
-			r = (e0 * WB_Math.fastAbs(a.xd())) + (e1 * WB_Math.fastAbs(a.yd())) + (e2 * WB_Math.fastAbs(a.zd()));
+			r = e0 * WB_Math.fastAbs(a.xd()) + e1 * WB_Math.fastAbs(a.yd()) + e2 * WB_Math.fastAbs(a.zd());
 			if (WB_Math.max(WB_Math.min(p0, p1, p2), -WB_Math.max(p0, p1, p2)) > r) {
 				return false;
 			}
@@ -437,7 +431,7 @@ public class WB_GeometryOp {
 			p0 = v0.dot(a);
 			p1 = v1.dot(a);
 			p2 = v2.dot(a);
-			r = (e0 * WB_Math.fastAbs(a.xd())) + (e1 * WB_Math.fastAbs(a.yd())) + (e2 * WB_Math.fastAbs(a.zd()));
+			r = e0 * WB_Math.fastAbs(a.xd()) + e1 * WB_Math.fastAbs(a.yd()) + e2 * WB_Math.fastAbs(a.zd());
 			if (WB_Math.max(WB_Math.min(p0, p1, p2), -WB_Math.max(p0, p1, p2)) > r) {
 				return false;
 			}
@@ -451,7 +445,7 @@ public class WB_GeometryOp {
 			p0 = v0.dot(a);
 			p1 = v1.dot(a);
 			p2 = v2.dot(a);
-			r = (e0 * WB_Math.fastAbs(a.xd())) + (e1 * WB_Math.fastAbs(a.yd())) + (e2 * WB_Math.fastAbs(a.zd()));
+			r = e0 * WB_Math.fastAbs(a.xd()) + e1 * WB_Math.fastAbs(a.yd()) + e2 * WB_Math.fastAbs(a.zd());
 			if (WB_Math.max(WB_Math.min(p0, p1, p2), -WB_Math.max(p0, p1, p2)) > r) {
 				return false;
 			}
@@ -465,7 +459,7 @@ public class WB_GeometryOp {
 			p0 = v0.dot(a);
 			p1 = v1.dot(a);
 			p2 = v2.dot(a);
-			r = (e0 * WB_Math.fastAbs(a.xd())) + (e1 * WB_Math.fastAbs(a.yd())) + (e2 * WB_Math.fastAbs(a.zd()));
+			r = e0 * WB_Math.fastAbs(a.xd()) + e1 * WB_Math.fastAbs(a.yd()) + e2 * WB_Math.fastAbs(a.zd());
 			if (WB_Math.max(WB_Math.min(p0, p1, p2), -WB_Math.max(p0, p1, p2)) > r) {
 				return false;
 			}
@@ -479,7 +473,7 @@ public class WB_GeometryOp {
 			p0 = v0.dot(a);
 			p1 = v1.dot(a);
 			p2 = v2.dot(a);
-			r = (e0 * WB_Math.fastAbs(a.xd())) + (e1 * WB_Math.fastAbs(a.yd())) + (e2 * WB_Math.fastAbs(a.zd()));
+			r = e0 * WB_Math.fastAbs(a.xd()) + e1 * WB_Math.fastAbs(a.yd()) + e2 * WB_Math.fastAbs(a.zd());
 			if (WB_Math.max(WB_Math.min(p0, p1, p2), -WB_Math.max(p0, p1, p2)) > r) {
 				return false;
 			}
@@ -493,18 +487,18 @@ public class WB_GeometryOp {
 			p0 = v0.dot(a);
 			p1 = v1.dot(a);
 			p2 = v2.dot(a);
-			r = (e0 * WB_Math.fastAbs(a.xd())) + (e1 * WB_Math.fastAbs(a.yd())) + (e2 * WB_Math.fastAbs(a.zd()));
+			r = e0 * WB_Math.fastAbs(a.xd()) + e1 * WB_Math.fastAbs(a.yd()) + e2 * WB_Math.fastAbs(a.zd());
 			if (WB_Math.max(WB_Math.min(p0, p1, p2), -WB_Math.max(p0, p1, p2)) > r) {
 				return false;
 			}
 		}
-		if ((WB_Math.max(v0.xd(), v1.xd(), v2.xd()) < -e0) || (WB_Math.max(v0.xd(), v1.xd(), v2.xd()) > e0)) {
+		if (WB_Math.max(v0.xd(), v1.xd(), v2.xd()) < -e0 || WB_Math.max(v0.xd(), v1.xd(), v2.xd()) > e0) {
 			return false;
 		}
-		if ((WB_Math.max(v0.yd(), v1.yd(), v2.yd()) < -e1) || (WB_Math.max(v0.yd(), v1.yd(), v2.yd()) > e1)) {
+		if (WB_Math.max(v0.yd(), v1.yd(), v2.yd()) < -e1 || WB_Math.max(v0.yd(), v1.yd(), v2.yd()) > e1) {
 			return false;
 		}
-		if ((WB_Math.max(v0.zd(), v1.zd(), v2.zd()) < -e2) || (WB_Math.max(v0.zd(), v1.zd(), v2.zd()) > e2)) {
+		if (WB_Math.max(v0.zd(), v1.zd(), v2.zd()) < -e2 || WB_Math.max(v0.zd(), v1.zd(), v2.zd()) > e2) {
 			return false;
 		}
 		WB_Vector n = f0.cross(f1);
@@ -557,31 +551,31 @@ public class WB_GeometryOp {
 	public static boolean checkIntersection3D(final WB_Segment S, final WB_AABB AABB) {
 		final WB_Vector e = AABB.getMax().subToVector3D(AABB.getMin());
 		final WB_Vector d = WB_Vector.subToVector3D(S.getEndpoint(), S.getOrigin());
-		final WB_Point m = new WB_Point((S.getEndpoint().xd() + S.getOrigin().xd()) - AABB.getMinX() - AABB.getMaxX(),
-				(S.getEndpoint().yd() + S.getOrigin().yd()) - AABB.getMinY() - AABB.getMaxY(),
-				(S.getEndpoint().zd() + S.getOrigin().zd()) - AABB.getMinZ() - AABB.getMaxZ());
+		final WB_Point m = new WB_Point(S.getEndpoint().xd() + S.getOrigin().xd() - AABB.getMinX() - AABB.getMaxX(),
+				S.getEndpoint().yd() + S.getOrigin().yd() - AABB.getMinY() - AABB.getMaxY(),
+				S.getEndpoint().zd() + S.getOrigin().zd() - AABB.getMinZ() - AABB.getMaxZ());
 		double adx = WB_Math.fastAbs(d.xd());
-		if (WB_Math.fastAbs(m.xd()) > (e.xd() + adx)) {
+		if (WB_Math.fastAbs(m.xd()) > e.xd() + adx) {
 			return false;
 		}
 		double ady = WB_Math.fastAbs(d.yd());
-		if (WB_Math.fastAbs(m.yd()) > (e.yd() + ady)) {
+		if (WB_Math.fastAbs(m.yd()) > e.yd() + ady) {
 			return false;
 		}
 		double adz = WB_Math.fastAbs(d.zd());
-		if (WB_Math.fastAbs(m.zd()) > (e.zd() + adz)) {
+		if (WB_Math.fastAbs(m.zd()) > e.zd() + adz) {
 			return false;
 		}
 		adx += WB_Epsilon.EPSILON;
 		ady += WB_Epsilon.EPSILON;
 		adz += WB_Epsilon.EPSILON;
-		if (WB_Math.fastAbs((m.yd() * d.zd()) - (m.zd() * d.yd())) > ((e.yd() * adz) + (e.zd() * ady))) {
+		if (WB_Math.fastAbs(m.yd() * d.zd() - m.zd() * d.yd()) > e.yd() * adz + e.zd() * ady) {
 			return false;
 		}
-		if (WB_Math.fastAbs((m.zd() * d.xd()) - (m.xd() * d.zd())) > ((e.xd() * adz) + (e.zd() * adx))) {
+		if (WB_Math.fastAbs(m.zd() * d.xd() - m.xd() * d.zd()) > e.xd() * adz + e.zd() * adx) {
 			return false;
 		}
-		if (WB_Math.fastAbs((m.xd() * d.yd()) - (m.yd() * d.xd())) > ((e.xd() * ady) + (e.yd() * adx))) {
+		if (WB_Math.fastAbs(m.xd() * d.yd() - m.yd() * d.xd()) > e.xd() * ady + e.yd() * adx) {
 			return false;
 		}
 		return true;
@@ -600,7 +594,7 @@ public class WB_GeometryOp {
 		final WB_Vector d = S1.getCenter().subToVector3D(S2.getCenter());
 		final double d2 = d.getSqLength3D();
 		final double radiusSum = S1.getRadius() + S2.getRadius();
-		return d2 <= (radiusSum * radiusSum);
+		return d2 <= radiusSum * radiusSum;
 	}
 
 	// RAY-SPHERE
@@ -614,7 +608,7 @@ public class WB_GeometryOp {
 	 */
 	public static boolean checkIntersection3D(final WB_Ray R, final WB_Sphere S) {
 		final WB_Vector m = WB_Vector.subToVector3D(R.getOrigin(), S.getCenter());
-		final double c = m.dot(m) - (S.getRadius() * S.getRadius());
+		final double c = m.dot(m) - S.getRadius() * S.getRadius();
 		if (c <= 0) {
 			return true;
 		}
@@ -622,13 +616,12 @@ public class WB_GeometryOp {
 		if (b >= 0) {
 			return false;
 		}
-		final double disc = (b * b) - c;
+		final double disc = b * b - c;
 		if (disc < 0) {
 			return false;
 		}
 		return true;
 	}
-
 
 	/**
 	 *
@@ -648,8 +641,8 @@ public class WB_GeometryOp {
 			tnear = tfar;
 			tfar = tmp;
 		}
-		t0 = (tnear > t0) ? tnear : t0;
-		t1 = (tfar < t1) ? tfar : t1;
+		t0 = tnear > t0 ? tnear : t0;
+		t1 = tfar < t1 ? tfar : t1;
 		if (t0 > t1) {
 			return false;
 		}
@@ -661,8 +654,8 @@ public class WB_GeometryOp {
 			tnear = tfar;
 			tfar = tmp;
 		}
-		t0 = (tnear > t0) ? tnear : t0;
-		t1 = (tfar < t1) ? tfar : t1;
+		t0 = tnear > t0 ? tnear : t0;
+		t1 = tfar < t1 ? tfar : t1;
 		if (t0 > t1) {
 			return false;
 		}
@@ -674,14 +667,13 @@ public class WB_GeometryOp {
 			tnear = tfar;
 			tfar = tmp;
 		}
-		t0 = (tnear > t0) ? tnear : t0;
-		t1 = (tfar < t1) ? tfar : t1;
+		t0 = tnear > t0 ? tnear : t0;
+		t1 = tfar < t1 ? tfar : t1;
 		if (t0 > t1) {
 			return false;
 		}
 		return true;
 	}
-
 
 	/**
 	 *
@@ -716,7 +708,6 @@ public class WB_GeometryOp {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -750,7 +741,6 @@ public class WB_GeometryOp {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -769,8 +759,8 @@ public class WB_GeometryOp {
 			tnear = tfar;
 			tfar = tmp;
 		}
-		t0 = (tnear > t0) ? tnear : t0;
-		t1 = (tfar < t1) ? tfar : t1;
+		t0 = tnear > t0 ? tnear : t0;
+		t1 = tfar < t1 ? tfar : t1;
 		if (t0 > t1) {
 			return false;
 		}
@@ -782,8 +772,8 @@ public class WB_GeometryOp {
 			tnear = tfar;
 			tfar = tmp;
 		}
-		t0 = (tnear > t0) ? tnear : t0;
-		t1 = (tfar < t1) ? tfar : t1;
+		t0 = tnear > t0 ? tnear : t0;
+		t1 = tfar < t1 ? tfar : t1;
 		if (t0 > t1) {
 			return false;
 		}
@@ -795,14 +785,13 @@ public class WB_GeometryOp {
 			tnear = tfar;
 			tfar = tmp;
 		}
-		t0 = (tnear > t0) ? tnear : t0;
-		t1 = (tfar < t1) ? tfar : t1;
+		t0 = tnear > t0 ? tnear : t0;
+		t1 = tfar < t1 ? tfar : t1;
 		if (t0 > t1) {
 			return false;
 		}
 		return true;
 	}
-
 
 	/**
 	 *
@@ -837,7 +826,6 @@ public class WB_GeometryOp {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -871,7 +859,6 @@ public class WB_GeometryOp {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -904,7 +891,6 @@ public class WB_GeometryOp {
 		}
 		return result;
 	}
-
 
 	/**
 	 *
@@ -981,13 +967,12 @@ public class WB_GeometryOp {
 			}
 		}
 		for (int i = 0; i < splitVerts.size(); i += 2) {
-			if (((i + 1) < splitVerts.size()) && (splitVerts.get(i + 1) != null)) {
+			if (i + 1 < splitVerts.size() && splitVerts.get(i + 1) != null) {
 				result.add(new WB_Segment(splitVerts.get(i), splitVerts.get(i + 1)));
 			}
 		}
 		return result;
 	}
-
 
 	/**
 	 *
@@ -1052,10 +1037,10 @@ public class WB_GeometryOp {
 		double t2 = 0;
 		final double c = d1.dot(r);
 		final double b = d1.dot(d2);
-		final double denom = (a * e) - (b * b);
+		final double denom = a * e - b * b;
 		if (!WB_Epsilon.isZero(denom)) {
 			// Non-parallel segments
-			t1 = WB_Math.clamp(((b * f) - (c * e)) / denom, 0, 1);
+			t1 = WB_Math.clamp((b * f - c * e) / denom, 0, 1);
 		} else {
 			// Parallel segments, non-parallel code handles case where
 			// projections of segments are disjoint.
@@ -1109,7 +1094,7 @@ public class WB_GeometryOp {
 			}
 			t1 = 0;
 		}
-		final double tnom = (b * t1) + f;
+		final double tnom = b * t1 + f;
 		if (tnom < 0) {
 			t1 = WB_Math.clamp(-c / a, 0, 1);
 		} else if (tnom > e) {
@@ -1133,7 +1118,6 @@ public class WB_GeometryOp {
 		return i;
 	}
 
-
 	/**
 	 *
 	 *
@@ -1144,9 +1128,8 @@ public class WB_GeometryOp {
 	public static WB_Point getClosestPoint3D(final WB_Coord p, final WB_Plane P) {
 		final WB_Vector n = P.getNormal();
 		final double t = n.dot(p) - P.d();
-		return new WB_Point(p.xd() - (t * n.xd()), p.yd() - (t * n.yd()), p.zd() - (t * n.zd()));
+		return new WB_Point(p.xd() - t * n.xd(), p.yd() - t * n.yd(), p.zd() - t * n.zd());
 	}
-
 
 	/**
 	 *
@@ -1158,7 +1141,6 @@ public class WB_GeometryOp {
 	public static WB_Point getClosestPoint3D(final WB_Plane P, final WB_Coord p) {
 		return getClosestPoint3D(P, p);
 	}
-
 
 	/**
 	 *
@@ -1186,7 +1168,6 @@ public class WB_GeometryOp {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -1197,7 +1178,6 @@ public class WB_GeometryOp {
 	public static WB_Point getClosestPoint3D(final WB_Segment S, final WB_Coord p) {
 		return getClosestPoint3D(p, S);
 	}
-
 
 	/**
 	 *
@@ -1214,7 +1194,7 @@ public class WB_GeometryOp {
 			return 0;
 		} else {
 			final double denom = S.getLength() * S.getLength();
-			if (t >= (denom - WB_Epsilon.EPSILON)) {
+			if (t >= denom - WB_Epsilon.EPSILON) {
 				t = 1;
 				return 1;
 			} else {
@@ -1223,7 +1203,6 @@ public class WB_GeometryOp {
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -1235,7 +1214,6 @@ public class WB_GeometryOp {
 	public static double getClosestPointT3D(final WB_Segment S, final WB_Coord p) {
 		return getClosestPointT3D(p, S);
 	}
-
 
 	/**
 	 *
@@ -1259,11 +1237,10 @@ public class WB_GeometryOp {
 				return new WB_Point(b);
 			} else {
 				t = t / denom;
-				return new WB_Point(a.xd() + (t * ab.xd()), a.yd() + (t * ab.yd()), a.zd() + (t * ab.zd()));
+				return new WB_Point(a.xd() + t * ab.xd(), a.yd() + t * ab.yd(), a.zd() + t * ab.zd());
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -1278,7 +1255,6 @@ public class WB_GeometryOp {
 		return L.getPointOnLine(ca.dot(L.getDirection()));
 	}
 
-
 	/**
 	 *
 	 *
@@ -1290,7 +1266,6 @@ public class WB_GeometryOp {
 	public static WB_Point getClosestPointToLine3D(final WB_Coord p, final WB_Coord a, final WB_Coord b) {
 		return getClosestPoint3D(p, new WB_Line(a, b));
 	}
-
 
 	/**
 	 *
@@ -1310,7 +1285,6 @@ public class WB_GeometryOp {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -1322,7 +1296,6 @@ public class WB_GeometryOp {
 	public static WB_Point getClosestPointToRay3D(final WB_Coord p, final WB_Coord a, final WB_Coord b) {
 		return getClosestPoint3D(p, new WB_Ray(a, new WB_Vector(a, b)));
 	}
-
 
 	/**
 	 *
@@ -1359,7 +1332,6 @@ public class WB_GeometryOp {
 		result.setZ(v);
 		return result;
 	}
-
 
 	/**
 	 *
@@ -1410,42 +1382,41 @@ public class WB_GeometryOp {
 		final WB_Vector ap = new WB_Vector(T.p1(), p);
 		final double d1 = ab.dot(ap);
 		final double d2 = ac.dot(ap);
-		if ((d1 <= 0) && (d2 <= 0)) {
+		if (d1 <= 0 && d2 <= 0) {
 			return new WB_Point(T.p1());
 		}
 		final WB_Vector bp = new WB_Vector(T.p2(), p);
 		final double d3 = ab.dot(bp);
 		final double d4 = ac.dot(bp);
-		if ((d3 >= 0) && (d4 <= d3)) {
+		if (d3 >= 0 && d4 <= d3) {
 			return new WB_Point(T.p2());
 		}
-		final double vc = (d1 * d4) - (d3 * d2);
-		if ((vc <= 0) && (d1 >= 0) && (d3 <= 0)) {
+		final double vc = d1 * d4 - d3 * d2;
+		if (vc <= 0 && d1 >= 0 && d3 <= 0) {
 			final double v = d1 / (d1 - d3);
 			return new WB_Point(T.p1()).addSelf(ab.mulSelf(v));
 		}
 		final WB_Vector cp = new WB_Vector(T.p3(), p);
 		final double d5 = ab.dot(cp);
 		final double d6 = ac.dot(cp);
-		if ((d6 >= 0) && (d5 <= d6)) {
+		if (d6 >= 0 && d5 <= d6) {
 			return new WB_Point(T.p3());
 		}
-		final double vb = (d5 * d2) - (d1 * d6);
-		if ((vb <= 0) && (d2 >= 0) && (d6 <= 0)) {
+		final double vb = d5 * d2 - d1 * d6;
+		if (vb <= 0 && d2 >= 0 && d6 <= 0) {
 			final double w = d2 / (d2 - d6);
 			return new WB_Point(T.p1()).addSelf(ac.mulSelf(w));
 		}
-		final double va = (d3 * d6) - (d5 * d4);
-		if ((va <= 0) && ((d4 - d3) >= 0) && ((d5 - d6) >= 0)) {
-			final double w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
-			return new WB_Point(T.p2()).addSelf((new WB_Point(T.p3()).subToVector3D(T.p2())).mulSelf(w));
+		final double va = d3 * d6 - d5 * d4;
+		if (va <= 0 && d4 - d3 >= 0 && d5 - d6 >= 0) {
+			final double w = (d4 - d3) / (d4 - d3 + (d5 - d6));
+			return new WB_Point(T.p2()).addSelf(new WB_Point(T.p3()).subToVector3D(T.p2()).mulSelf(w));
 		}
 		final double denom = 1.0 / (va + vb + vc);
 		final double v = vb * denom;
 		final double w = vc * denom;
 		return new WB_Point(T.p1()).addSelf(ab.mulSelf(v).addSelf(ac.mulSelf(w)));
 	}
-
 
 	/**
 	 *
@@ -1463,34 +1434,34 @@ public class WB_GeometryOp {
 		final WB_Vector ap = new WB_Vector(a, p);
 		final double d1 = ab.dot(ap);
 		final double d2 = ac.dot(ap);
-		if ((d1 <= 0) && (d2 <= 0)) {
+		if (d1 <= 0 && d2 <= 0) {
 			return new WB_Point(a);
 		}
 		final WB_Vector bp = new WB_Vector(b, p);
 		final double d3 = ab.dot(bp);
 		final double d4 = ac.dot(bp);
-		if ((d3 >= 0) && (d4 <= d3)) {
+		if (d3 >= 0 && d4 <= d3) {
 			return new WB_Point(b);
 		}
-		final double vc = (d1 * d4) - (d3 * d2);
-		if ((vc <= 0) && (d1 >= 0) && (d3 <= 0)) {
+		final double vc = d1 * d4 - d3 * d2;
+		if (vc <= 0 && d1 >= 0 && d3 <= 0) {
 			final double v = d1 / (d1 - d3);
 			return new WB_Point(a).addSelf(ab.mulSelf(v));
 		}
 		final WB_Vector cp = new WB_Vector(c, p);
 		final double d5 = ab.dot(cp);
 		final double d6 = ac.dot(cp);
-		if ((d6 >= 0) && (d5 <= d6)) {
+		if (d6 >= 0 && d5 <= d6) {
 			return new WB_Point(c);
 		}
-		final double vb = (d5 * d2) - (d1 * d6);
-		if ((vb <= 0) && (d2 >= 0) && (d6 <= 0)) {
+		final double vb = d5 * d2 - d1 * d6;
+		if (vb <= 0 && d2 >= 0 && d6 <= 0) {
 			final double w = d2 / (d2 - d6);
 			return new WB_Point(a).addSelf(ac.mulSelf(w));
 		}
-		final double va = (d3 * d6) - (d5 * d4);
-		if ((va <= 0) && ((d4 - d3) >= 0) && ((d5 - d6) >= 0)) {
-			final double w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+		final double va = d3 * d6 - d5 * d4;
+		if (va <= 0 && d4 - d3 >= 0 && d5 - d6 >= 0) {
+			final double w = (d4 - d3) / (d4 - d3 + (d5 - d6));
 			return new WB_Point(b).addSelf(new WB_Vector(b, c).mulSelf(w));
 		}
 		final double denom = 1.0 / (va + vb + vc);
@@ -1498,7 +1469,6 @@ public class WB_GeometryOp {
 		final double w = vc * denom;
 		return new WB_Point(a).addSelf(ab.mulSelf(v).addSelf(ac.mulSelf(w)));
 	}
-
 
 	/**
 	 *
@@ -1513,35 +1483,35 @@ public class WB_GeometryOp {
 		final WB_Vector ap = new WB_Vector(T.p1(), p);
 		final double d1 = ab.dot(ap);
 		final double d2 = ac.dot(ap);
-		if ((d1 <= 0) && (d2 <= 0)) {
+		if (d1 <= 0 && d2 <= 0) {
 			return new WB_Point(T.p1());
 		}
 		final WB_Vector bp = new WB_Vector(T.p2(), p);
 		final double d3 = ab.dot(bp);
 		final double d4 = ac.dot(bp);
-		if ((d3 >= 0) && (d4 <= d3)) {
+		if (d3 >= 0 && d4 <= d3) {
 			return new WB_Point(T.p2());
 		}
-		final double vc = (d1 * d4) - (d3 * d2);
-		if ((vc <= 0) && (d1 >= 0) && (d3 <= 0)) {
+		final double vc = d1 * d4 - d3 * d2;
+		if (vc <= 0 && d1 >= 0 && d3 <= 0) {
 			final double v = d1 / (d1 - d3);
 			return new WB_Point(T.p1()).addSelf(ab.mulSelf(v));
 		}
 		final WB_Vector cp = new WB_Vector(T.p3(), p);
 		final double d5 = ab.dot(cp);
 		final double d6 = ac.dot(cp);
-		if ((d6 >= 0) && (d5 <= d6)) {
+		if (d6 >= 0 && d5 <= d6) {
 			return new WB_Point(T.p3());
 		}
-		final double vb = (d5 * d2) - (d1 * d6);
-		if ((vb <= 0) && (d2 >= 0) && (d6 <= 0)) {
+		final double vb = d5 * d2 - d1 * d6;
+		if (vb <= 0 && d2 >= 0 && d6 <= 0) {
 			final double w = d2 / (d2 - d6);
 			return new WB_Point(T.p1()).addSelf(ac.mulSelf(w));
 		}
-		final double va = (d3 * d6) - (d5 * d4);
-		if ((va <= 0) && ((d4 - d3) >= 0) && ((d5 - d6) >= 0)) {
-			final double w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
-			return new WB_Point(T.p2()).addSelf((new WB_Point(T.p3()).subToVector3D(T.p2())).mulSelf(w));
+		final double va = d3 * d6 - d5 * d4;
+		if (va <= 0 && d4 - d3 >= 0 && d5 - d6 >= 0) {
+			final double w = (d4 - d3) / (d4 - d3 + (d5 - d6));
+			return new WB_Point(T.p2()).addSelf(new WB_Point(T.p3()).subToVector3D(T.p2()).mulSelf(w));
 		}
 		final double denom = 1.0 / (va + vb + vc);
 		final double v = vb * denom;
@@ -1563,9 +1533,9 @@ public class WB_GeometryOp {
 		final double dB2 = getSqDistance3D(p, B);
 		final WB_Point C = getClosestPointToSegment3D(p, T.p1(), T.p2());
 		final double dC2 = getSqDistance3D(p, C);
-		if ((dA2 < dB2) && (dA2 < dC2)) {
+		if (dA2 < dB2 && dA2 < dC2) {
 			return A;
-		} else if ((dB2 < dA2) && (dB2 < dC2)) {
+		} else if (dB2 < dA2 && dB2 < dC2) {
 			return B;
 		} else {
 			return C;
@@ -1615,7 +1585,7 @@ public class WB_GeometryOp {
 		final double c = WB_Vector.dot(L1.getDirection(), r);
 		final double e = WB_Vector.dot(L2.getDirection(), L2.getDirection());
 		final double f = WB_Vector.dot(L2.getDirection(), r);
-		double denom = (a * e) - (b * b);
+		double denom = a * e - b * b;
 		if (WB_Epsilon.isZero(denom)) {
 			final double t2 = r.dot(L1.getDirection());
 			final WB_Point p2 = new WB_Point(L2.getPointOnLine(t2));
@@ -1630,8 +1600,8 @@ public class WB_GeometryOp {
 			return i;
 		}
 		denom = 1.0 / denom;
-		final double t1 = ((b * f) - (c * e)) * denom;
-		final double t2 = ((a * f) - (b * c)) * denom;
+		final double t1 = (b * f - c * e) * denom;
+		final double t2 = (a * f - b * c) * denom;
 		final WB_Point p1 = new WB_Point(L1.getPointOnLine(t1));
 		final WB_Point p2 = new WB_Point(L2.getPointOnLine(t2));
 		final double d2 = getSqDistance3D(p1, p2);
@@ -1670,7 +1640,7 @@ public class WB_GeometryOp {
 		double bestSqDist = Double.POSITIVE_INFINITY;
 		if (pointOtherSideOfPlane(p, T.p4, T.p1, T.p2, T.p3)) {
 			final WB_Point q = getClosestPointToTriangle3D(p, T.p1, T.p2, T.p3);
-			final double sqDist = (q.subToVector3D(p)).getSqLength3D();
+			final double sqDist = q.subToVector3D(p).getSqLength3D();
 			if (sqDist < bestSqDist) {
 				bestSqDist = sqDist;
 				closestPt = q;
@@ -1678,7 +1648,7 @@ public class WB_GeometryOp {
 		}
 		if (pointOtherSideOfPlane(p, T.p2, T.p1, T.p3, T.p4)) {
 			final WB_Point q = getClosestPointToTriangle3D(p, T.p1, T.p3, T.p4);
-			final double sqDist = (q.subToVector3D(p)).getSqLength3D();
+			final double sqDist = q.subToVector3D(p).getSqLength3D();
 			if (sqDist < bestSqDist) {
 				bestSqDist = sqDist;
 				closestPt = q;
@@ -1686,7 +1656,7 @@ public class WB_GeometryOp {
 		}
 		if (pointOtherSideOfPlane(p, T.p3, T.p1, T.p4, T.p2)) {
 			final WB_Point q = getClosestPointToTriangle3D(p, T.p1, T.p4, T.p2);
-			final double sqDist = (q.subToVector3D(p)).getSqLength3D();
+			final double sqDist = q.subToVector3D(p).getSqLength3D();
 			if (sqDist < bestSqDist) {
 				bestSqDist = sqDist;
 				closestPt = q;
@@ -1694,7 +1664,7 @@ public class WB_GeometryOp {
 		}
 		if (pointOtherSideOfPlane(p, T.p1, T.p2, T.p4, T.p3)) {
 			final WB_Point q = getClosestPointToTriangle3D(p, T.p2, T.p4, T.p3);
-			final double sqDist = (q.subToVector3D(p)).getSqLength3D();
+			final double sqDist = q.subToVector3D(p).getSqLength3D();
 			if (sqDist < bestSqDist) {
 				bestSqDist = sqDist;
 				closestPt = q;
@@ -1702,7 +1672,6 @@ public class WB_GeometryOp {
 		}
 		return new WB_Point(closestPt);
 	}
-
 
 	/**
 	 *
@@ -1718,9 +1687,8 @@ public class WB_GeometryOp {
 			final WB_Coord c) {
 		final double signp = new WB_Vector(a, p).dot(new WB_Vector(a, b).crossSelf(new WB_Vector(a, c)));
 		final double signq = new WB_Vector(a, q).dot(new WB_Vector(a, b).crossSelf(new WB_Vector(a, c)));
-		return (signp * signq) <= 0;
+		return signp * signq <= 0;
 	}
-
 
 	protected static class TriangleIntersection {
 
@@ -1735,7 +1703,6 @@ public class WB_GeometryOp {
 		// intersection with the triangle
 	}
 
-
 	/**
 	 *
 	 *
@@ -1747,11 +1714,12 @@ public class WB_GeometryOp {
 	 * @param q3
 	 * @return
 	 */
-	public static WB_IntersectionResult getIntersection3D(final WB_Coord p1, final WB_Coord p2,final WB_Coord p3, final WB_Coord q1, final WB_Coord q2,final WB_Coord q3) {
+	public static WB_IntersectionResult getIntersection3D(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3,
+			final WB_Coord q1, final WB_Coord q2, final WB_Coord q3) {
 		// Taken from
 		// http://jgt.akpeters.com/papers/Moller97/tritri.html#ISECTLINE
 		// Compute plane equation of first triangle: n1 * x + d1 = 0.
-		final WB_Plane P1 = gf.createPlane(p1,p2,p3);
+		final WB_Plane P1 = gf.createPlane(p1, p2, p3);
 		final WB_Vector n1 = P1.getNormal();
 		final double d1 = -P1.d();
 		// Evaluate second triangle with plane equation 1 to determine signed
@@ -1771,12 +1739,12 @@ public class WB_GeometryOp {
 		}
 		final double du0du1 = du0 * du1;
 		final double du0du2 = du0 * du2;
-		if ((du0du1 > 0) && (du0du2 > 0)) {
+		if (du0du1 > 0 && du0du2 > 0) {
 			return NOINTERSECTION();
 			// same sign on all of them + != 0 ==> no
 		}
 		// intersection
-		final WB_Plane P2 = gf.createPlane(q1,q2,q3);
+		final WB_Plane P2 = gf.createPlane(q1, q2, q3);
 		final WB_Vector n2 = P2.getNormal();
 		final double d2 = -P2.d();
 		// Compute plane equation of second triangle: n2 * x + d2 = 0
@@ -1797,7 +1765,7 @@ public class WB_GeometryOp {
 		}
 		final double dv0dv1 = dv0 * dv1;
 		final double dv0dv2 = dv0 * dv2;
-		if ((dv0dv1 > 0) && (dv0dv2 > 0)) {
+		if (dv0dv1 > 0 && dv0dv2 > 0) {
 			return NOINTERSECTION();
 			// same sign on all of them + != 0 ==> no
 		}
@@ -1838,10 +1806,10 @@ public class WB_GeometryOp {
 			up2 = q3.zd();
 		}
 		// Compute interval for triangle 1.
-		final TriangleIntersection isectA = compute_intervals_isectline(p1,p2,p3, vp0, vp1, vp2, dv0, dv1, dv2, dv0dv1,
-				dv0dv2);
+		final TriangleIntersection isectA = compute_intervals_isectline(p1, p2, p3, vp0, vp1, vp2, dv0, dv1, dv2,
+				dv0dv1, dv0dv2);
 		if (isectA == null) {
-			if (coplanarTriangles(n1, p1,p2,p3, q1,q2,q3)) {
+			if (coplanarTriangles(n1, p1, p2, p3, q1, q2, q3)) {
 				return NOINTERSECTION();
 			} else {
 				final WB_IntersectionResult i = new WB_IntersectionResult();
@@ -1857,8 +1825,8 @@ public class WB_GeometryOp {
 			smallest1 = 1;
 		}
 		// Compute interval for triangle 2.
-		final TriangleIntersection isectB = compute_intervals_isectline(q1,q2,q3, up0, up1, up2, du0, du1, du2, du0du1,
-				du0du2);
+		final TriangleIntersection isectB = compute_intervals_isectline(q1, q2, q3, up0, up1, up2, du0, du1, du2,
+				du0du1, du0du2);
 		int smallest2 = 0;
 		if (isectB.s0 > isectB.s1) {
 			final double cc = isectB.s0;
@@ -1866,7 +1834,7 @@ public class WB_GeometryOp {
 			isectB.s1 = cc;
 			smallest2 = 1;
 		}
-		if ((isectA.s1 < isectB.s0) || (isectB.s1 < isectA.s0)) {
+		if (isectA.s1 < isectB.s0 || isectB.s1 < isectA.s0) {
 			return NOINTERSECTION();
 		}
 		// At this point we know that the triangles intersect: there's an
@@ -1918,7 +1886,6 @@ public class WB_GeometryOp {
 		return ir;
 	}
 
-
 	/**
 	 *
 	 *
@@ -1950,7 +1917,7 @@ public class WB_GeometryOp {
 		}
 		final double du0du1 = du0 * du1;
 		final double du0du2 = du0 * du2;
-		if ((du0du1 > 0) && (du0du2 > 0)) {
+		if (du0du1 > 0 && du0du2 > 0) {
 			return NOINTERSECTION();
 			// same sign on all of them + != 0 ==> no
 		}
@@ -1976,7 +1943,7 @@ public class WB_GeometryOp {
 		}
 		final double dv0dv1 = dv0 * dv1;
 		final double dv0dv2 = dv0 * dv2;
-		if ((dv0dv1 > 0) && (dv0dv2 > 0)) {
+		if (dv0dv1 > 0 && dv0dv2 > 0) {
 			return NOINTERSECTION();
 			// same sign on all of them + != 0 ==> no
 		}
@@ -2045,7 +2012,7 @@ public class WB_GeometryOp {
 			isectB.s1 = cc;
 			smallest2 = 1;
 		}
-		if ((isectA.s1 < isectB.s0) || (isectB.s1 < isectA.s0)) {
+		if (isectA.s1 < isectB.s0 || isectB.s1 < isectA.s0) {
 			return NOINTERSECTION();
 		}
 		// At this point we know that the triangles intersect: there's an
@@ -2097,7 +2064,6 @@ public class WB_GeometryOp {
 		return ir;
 	}
 
-
 	/**
 	 *
 	 *
@@ -2120,7 +2086,7 @@ public class WB_GeometryOp {
 			return intersect(v.p3(), v.p1(), v.p2(), vv2, vv0, vv1, d2, d0, d1);
 		} else if (d0d2 > 0) {
 			return intersect(v.p2(), v.p1(), v.p3(), vv1, vv0, vv2, d1, d0, d2);
-		} else if (((d1 * d2) > 0) || (d0 != 0)) {
+		} else if (d1 * d2 > 0 || d0 != 0) {
 			return intersect(v.p1(), v.p2(), v.p3(), vv0, vv1, vv2, d0, d1, d2);
 		} else if (d1 != 0) {
 			return intersect(v.p2(), v.p1(), v.p3(), vv1, vv0, vv2, d1, d0, d2);
@@ -2147,15 +2113,15 @@ public class WB_GeometryOp {
 	 * @param d0d2
 	 * @return
 	 */
-	protected static TriangleIntersection compute_intervals_isectline(final WB_Coord p1,  final WB_Coord p2, final WB_Coord p3, final double vv0,
-			final double vv1, final double vv2, final double d0, final double d1, final double d2, final double d0d1,
-			final double d0d2) {
+	protected static TriangleIntersection compute_intervals_isectline(final WB_Coord p1, final WB_Coord p2,
+			final WB_Coord p3, final double vv0, final double vv1, final double vv2, final double d0, final double d1,
+			final double d2, final double d0d1, final double d0d2) {
 		if (d0d1 > 0) {
 			// plane
 			return intersect(p3, p1, p2, vv2, vv0, vv1, d2, d0, d1);
 		} else if (d0d2 > 0) {
 			return intersect(p2, p1, p3, vv1, vv0, vv2, d1, d0, d2);
-		} else if (((d1 * d2) > 0) || (d0 != 0)) {
+		} else if (d1 * d2 > 0 || d0 != 0) {
 			return intersect(p1, p2, p3, vv0, vv1, vv2, d0, d1, d2);
 		} else if (d1 != 0) {
 			return intersect(p2, p1, p3, vv1, vv0, vv2, d1, d0, d2);
@@ -2165,7 +2131,6 @@ public class WB_GeometryOp {
 			return null; // triangles are coplanar
 		}
 	}
-
 
 	/**
 	 *
@@ -2185,18 +2150,17 @@ public class WB_GeometryOp {
 			final double vv0, final double vv1, final double vv2, final double d0, final double d1, final double d2) {
 		final TriangleIntersection intersection = new TriangleIntersection();
 		double tmp = d0 / (d0 - d1);
-		intersection.s0 = vv0 + ((vv1 - vv0) * tmp);
+		intersection.s0 = vv0 + (vv1 - vv0) * tmp;
 		WB_Vector diff = new WB_Vector(v0, v1);
 		diff.mulSelf(tmp);
 		intersection.p0 = WB_Point.add(v0, diff);
 		tmp = d0 / (d0 - d2);
-		intersection.s1 = vv0 + ((vv2 - vv0) * tmp);
+		intersection.s1 = vv0 + (vv2 - vv0) * tmp;
 		diff = new WB_Vector(v0, v2);
 		diff.mulSelf(tmp);
 		intersection.p1 = WB_Point.add(v0, diff);
 		return intersection;
 	}
-
 
 	/**
 	 *
@@ -2270,7 +2234,8 @@ public class WB_GeometryOp {
 	 * @param q3
 	 * @return
 	 */
-	protected static boolean coplanarTriangles(final WB_Vector n, final WB_Coord p1, final WB_Coord p2, final WB_Coord p3, final WB_Coord q1, final WB_Coord q2, final WB_Coord q3) {
+	protected static boolean coplanarTriangles(final WB_Vector n, final WB_Coord p1, final WB_Coord p2,
+			final WB_Coord p3, final WB_Coord q1, final WB_Coord q2, final WB_Coord q3) {
 		// First project onto an axis-aligned plane that maximizes the are of
 		// the triangles.
 		int i0;
@@ -2322,7 +2287,6 @@ public class WB_GeometryOp {
 		return pointInTri(u0, v0, v1, v2, i0, i1);
 	}
 
-
 	/**
 	 *
 	 *
@@ -2353,7 +2317,6 @@ public class WB_GeometryOp {
 		return edgeEdgeTest(v0, u2, u0, i0, i1, ax, ay);
 	}
 
-
 	/**
 	 *
 	 *
@@ -2372,23 +2335,22 @@ public class WB_GeometryOp {
 		final double by = u0[i1] - u1[i1];
 		final double cx = v0[i0] - u0[i0];
 		final double cy = v0[i1] - u0[i1];
-		final double f = (ay * bx) - (ax * by);
-		final double d = (by * cx) - (bx * cy);
-		if (((f > 0) && (d >= 0) && (d <= f)) || ((f < 0) && (d <= 0) && (d >= f))) {
-			final double e = (ax * cy) - (ay * cx);
+		final double f = ay * bx - ax * by;
+		final double d = by * cx - bx * cy;
+		if (f > 0 && d >= 0 && d <= f || f < 0 && d <= 0 && d >= f) {
+			final double e = ax * cy - ay * cx;
 			if (f > 0) {
-				if ((e >= 0) && (e <= f)) {
+				if (e >= 0 && e <= f) {
 					return true;
 				}
 			} else {
-				if ((e <= 0) && (e >= f)) {
+				if (e <= 0 && e >= f) {
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-
 
 	/**
 	 *
@@ -2405,19 +2367,18 @@ public class WB_GeometryOp {
 			final int i0, final int i1) {
 		double a = u1[i1] - u0[i1];
 		double b = -(u1[i0] - u0[i0]);
-		double c = (-a * u0[i0]) - (b * u0[i1]);
-		final double d0 = (a * v0[i0]) + (b * v0[i1]) + c;
+		double c = -a * u0[i0] - b * u0[i1];
+		final double d0 = a * v0[i0] + b * v0[i1] + c;
 		a = u2[i1] - u1[i1];
 		b = -(u2[i0] - u1[i0]);
-		c = (-a * u1[i0]) - (b * u1[i1]);
-		final double d1 = (a * v0[i0]) + (b * v0[i1]) + c;
+		c = -a * u1[i0] - b * u1[i1];
+		final double d1 = a * v0[i0] + b * v0[i1] + c;
 		a = u0[i1] - u2[i1];
 		b = -(u0[i0] - u2[i0]);
-		c = (-a * u2[i0]) - (b * u2[i1]);
-		final double d2 = (a * v0[i0]) + (b * v0[i1]) + c;
-		return ((d0 * d1) > 0) && ((d0 * d2) > 0);
+		c = -a * u2[i0] - b * u2[i1];
+		final double d2 = a * v0[i0] + b * v0[i1] + c;
+		return d0 * d1 > 0 && d0 * d2 > 0;
 	}
-
 
 	/**
 	 *
@@ -2449,7 +2410,6 @@ public class WB_GeometryOp {
 		return i;
 	}
 
-
 	/**
 	 *
 	 *
@@ -2460,10 +2420,10 @@ public class WB_GeometryOp {
 	public static WB_IntersectionResult getIntersection2D(final WB_Segment S1, final WB_Segment S2) {
 		final double a1 = WB_Triangle.twiceSignedTriArea2D(S1.getOrigin(), S1.getEndpoint(), S2.getEndpoint());
 		final double a2 = WB_Triangle.twiceSignedTriArea2D(S1.getOrigin(), S1.getEndpoint(), S2.getOrigin());
-		if (!WB_Epsilon.isZero(a1) && !WB_Epsilon.isZero(a2) && ((a1 * a2) < 0)) {
+		if (!WB_Epsilon.isZero(a1) && !WB_Epsilon.isZero(a2) && a1 * a2 < 0) {
 			final double a3 = WB_Triangle.twiceSignedTriArea2D(S2.getOrigin(), S2.getEndpoint(), S1.getOrigin());
-			final double a4 = (a3 + a2) - a1;
-			if ((a3 * a4) < 0) {
+			final double a4 = a3 + a2 - a1;
+			if (a3 * a4 < 0) {
 				final double t1 = a3 / (a3 - a4);
 				final double t2 = a1 / (a1 - a2);
 				final WB_IntersectionResult i = new WB_IntersectionResult();
@@ -2479,7 +2439,6 @@ public class WB_GeometryOp {
 		return NOINTERSECTION();
 	}
 
-
 	/**
 	 *
 	 *
@@ -2490,10 +2449,10 @@ public class WB_GeometryOp {
 	public static void getIntersection2DInto(final WB_Segment S1, final WB_Segment S2, final WB_IntersectionResult i) {
 		final double a1 = WB_Triangle.twiceSignedTriArea2D(S1.getOrigin(), S1.getEndpoint(), S2.getEndpoint());
 		final double a2 = WB_Triangle.twiceSignedTriArea2D(S1.getOrigin(), S1.getEndpoint(), S2.getOrigin());
-		if (!WB_Epsilon.isZero(a1) && !WB_Epsilon.isZero(a2) && ((a1 * a2) < 0)) {
+		if (!WB_Epsilon.isZero(a1) && !WB_Epsilon.isZero(a2) && a1 * a2 < 0) {
 			final double a3 = WB_Triangle.twiceSignedTriArea2D(S2.getOrigin(), S2.getEndpoint(), S1.getOrigin());
-			final double a4 = (a3 + a2) - a1;
-			if ((a3 * a4) < 0) {
+			final double a4 = a3 + a2 - a1;
+			if (a3 * a4 < 0) {
 				final double t1 = a3 / (a3 - a4);
 				final double t2 = a1 / (a1 - a2);
 				i.intersection = true;
@@ -2510,7 +2469,6 @@ public class WB_GeometryOp {
 			i.sqDist = Float.POSITIVE_INFINITY;
 		}
 	}
-
 
 	/**
 	 *
@@ -2537,7 +2495,6 @@ public class WB_GeometryOp {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -2549,11 +2506,11 @@ public class WB_GeometryOp {
 	 */
 	public static double[] getIntervalIntersection2D(final double u0, final double u1, final double v0,
 			final double v1) {
-		if ((u0 >= u1) || (v0 >= v1)) {
+		if (u0 >= u1 || v0 >= v1) {
 			throw new IllegalArgumentException("Interval degenerate or reversed.");
 		}
 		final double[] result = new double[3];
-		if ((u1 < v0) || (u0 > v1)) {
+		if (u1 < v0 || u0 > v1) {
 			return result;
 		}
 		if (u1 > v0) {
@@ -2579,7 +2536,6 @@ public class WB_GeometryOp {
 		}
 		return result;
 	}
-
 
 	/**
 	 *
@@ -2641,7 +2597,6 @@ public class WB_GeometryOp {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -2659,18 +2614,18 @@ public class WB_GeometryOp {
 					C0.getRadius() / (C0.getRadius() + C1.getRadius())));
 			return result;
 		}
-		if ((d > (C0.getRadius() + C1.getRadius())) || (d < WB_Math.fastAbs(C0.getRadius() - C1.getRadius()))) {
+		if (d > C0.getRadius() + C1.getRadius() || d < WB_Math.fastAbs(C0.getRadius() - C1.getRadius())) {
 			return result;
 		}
 		final double r02 = C0.getRadius() * C0.getRadius();
 		final double r12 = C1.getRadius() * C1.getRadius();
-		final double a = ((r02 - r12) + d2) / (2 * d);
-		final double h = Math.sqrt(r02 - (a * a));
+		final double a = (r02 - r12 + d2) / (2 * d);
+		final double h = Math.sqrt(r02 - a * a);
 		final WB_Point c = u.mul(a / d).addSelf(C0.getCenter());
-		final double p0x = c.xd() + ((h * (C1.getCenter().yd() - C0.getCenter().yd())) / d);
-		final double p0y = c.yd() - ((h * (C1.getCenter().xd() - C0.getCenter().xd())) / d);
-		final double p1x = c.xd() - ((h * (C1.getCenter().yd() - C0.getCenter().yd())) / d);
-		final double p1y = c.yd() + ((h * (C1.getCenter().xd() - C0.getCenter().xd())) / d);
+		final double p0x = c.xd() + h * (C1.getCenter().yd() - C0.getCenter().yd()) / d;
+		final double p0y = c.yd() - h * (C1.getCenter().xd() - C0.getCenter().xd()) / d;
+		final double p1x = c.xd() - h * (C1.getCenter().yd() - C0.getCenter().yd()) / d;
+		final double p1y = c.yd() + h * (C1.getCenter().xd() - C0.getCenter().xd()) / d;
 		final WB_Point p0 = new WB_Point(p0x, p0y);
 		result.add(p0);
 		final WB_Point p1 = new WB_Point(p1x, p1y);
@@ -2679,7 +2634,6 @@ public class WB_GeometryOp {
 		}
 		return result;
 	}
-
 
 	/**
 	 *
@@ -2690,12 +2644,12 @@ public class WB_GeometryOp {
 	 */
 	public static ArrayList<WB_Point> getIntersection2D(final WB_Line L, final WB_Circle C) {
 		final ArrayList<WB_Point> result = new ArrayList<WB_Point>();
-		final double b = 2 * ((L.getDirection().xd() * (L.getOrigin().xd() - C.getCenter().xd()))
-				+ (L.getDirection().yd() * (L.getOrigin().yd() - C.getCenter().yd())));
-		final double c = (WB_GeometryOp.getSqLength3D(C.getCenter()) + WB_Vector.getSqLength3D(L.getOrigin()))
-				- (2 * ((C.getCenter().xd() * L.getOrigin().xd()) + (C.getCenter().yd() * L.getOrigin().yd())))
-				- (C.getRadius() * C.getRadius());
-		double disc = (b * b) - (4 * c);
+		final double b = 2 * (L.getDirection().xd() * (L.getOrigin().xd() - C.getCenter().xd())
+				+ L.getDirection().yd() * (L.getOrigin().yd() - C.getCenter().yd()));
+		final double c = WB_GeometryOp.getSqLength3D(C.getCenter()) + WB_Vector.getSqLength3D(L.getOrigin())
+				- 2 * (C.getCenter().xd() * L.getOrigin().xd() + C.getCenter().yd() * L.getOrigin().yd())
+				- C.getRadius() * C.getRadius();
+		double disc = b * b - 4 * c;
 		if (disc < -WB_Epsilon.EPSILON) {
 			return result;
 		}
@@ -2709,7 +2663,6 @@ public class WB_GeometryOp {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -2721,17 +2674,16 @@ public class WB_GeometryOp {
 	 */
 	public static boolean checkIntersection2DProper(final WB_Coord a, final WB_Coord b, final WB_Coord c,
 			final WB_Coord d) {
-		if ((WB_Predicates.orient2D(a, b, c) == 0) || (WB_Predicates.orient2D(a, b, d) == 0)
-				|| (WB_Predicates.orient2D(c, d, a) == 0) || (WB_Predicates.orient2D(c, d, b) == 0)) {
+		if (WB_Predicates.orient2D(a, b, c) == 0 || WB_Predicates.orient2D(a, b, d) == 0
+				|| WB_Predicates.orient2D(c, d, a) == 0 || WB_Predicates.orient2D(c, d, b) == 0) {
 			return false;
-		} else if (((WB_Predicates.orient2D(a, b, c) * WB_Predicates.orient2D(a, b, d)) > 0)
-				|| ((WB_Predicates.orient2D(c, d, a) * WB_Predicates.orient2D(c, d, b)) > 0)) {
+		} else if (WB_Predicates.orient2D(a, b, c) * WB_Predicates.orient2D(a, b, d) > 0
+				|| WB_Predicates.orient2D(c, d, a) * WB_Predicates.orient2D(c, d, b) > 0) {
 			return false;
 		} else {
 			return true;
 		}
 	}
-
 
 	/**
 	 *
@@ -2759,7 +2711,6 @@ public class WB_GeometryOp {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -2770,7 +2721,6 @@ public class WB_GeometryOp {
 	public static WB_Point getClosestPoint2D(final WB_Segment S, final WB_Coord p) {
 		return getClosestPoint2D(p, S);
 	}
-
 
 	/**
 	 *
@@ -2794,11 +2744,10 @@ public class WB_GeometryOp {
 				return new WB_Point(b);
 			} else {
 				t = t / denom;
-				return new WB_Point(a.xd() + (t * ab.xd()), a.yd() + (t * ab.yd()));
+				return new WB_Point(a.xd() + t * ab.xd(), a.yd() + t * ab.yd());
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -2815,12 +2764,11 @@ public class WB_GeometryOp {
 			return new WB_Point(p.xd(), L.getOrigin().yd());
 		}
 		final double m = L.getDirection().yd() / L.getDirection().xd();
-		final double b = L.getOrigin().yd() - (m * L.getOrigin().xd());
-		final double x = (((m * p.yd()) + p.xd()) - (m * b)) / ((m * m) + 1);
-		final double y = ((m * m * p.yd()) + (m * p.xd()) + b) / ((m * m) + 1);
+		final double b = L.getOrigin().yd() - m * L.getOrigin().xd();
+		final double x = (m * p.yd() + p.xd() - m * b) / (m * m + 1);
+		final double y = (m * m * p.yd() + m * p.xd() + b) / (m * m + 1);
 		return new WB_Point(x, y);
 	}
-
 
 	/**
 	 *
@@ -2835,7 +2783,6 @@ public class WB_GeometryOp {
 		L.setFromPoints(a, b);
 		return getClosestPoint2D(p, L);
 	}
-
 
 	/**
 	 *
@@ -2855,7 +2802,6 @@ public class WB_GeometryOp {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -2869,7 +2815,6 @@ public class WB_GeometryOp {
 		R.setFromPoints(a, b);
 		return getClosestPoint2D(p, R);
 	}
-
 
 	/**
 	 *
@@ -2905,13 +2850,13 @@ public class WB_GeometryOp {
 				t1 = WB_Math.clamp(-c / a, 0, 1);
 			} else {
 				final double b = d1.dot(d2);
-				final double denom = (a * e) - (b * b);
+				final double denom = a * e - b * b;
 				if (!WB_Epsilon.isZero(denom)) {
-					t1 = WB_Math.clamp(((b * f) - (c * e)) / denom, 0, 1);
+					t1 = WB_Math.clamp((b * f - c * e) / denom, 0, 1);
 				} else {
 					t1 = 0;
 				}
-				final double tnom = (b * t1) + f;
+				final double tnom = b * t1 + f;
 				if (tnom < 0) {
 					t1 = WB_Math.clamp(-c / a, 0, 1);
 				} else if (tnom > e) {
@@ -2923,7 +2868,7 @@ public class WB_GeometryOp {
 			}
 		}
 		final WB_IntersectionResult i = new WB_IntersectionResult();
-		i.intersection = (t1 > 0) && (t1 < 1) && (t2 > 0) && (t2 < 1);
+		i.intersection = t1 > 0 && t1 < 1 && t2 > 0 && t2 < 1;
 		i.t1 = t1;
 		i.t2 = t2;
 		final WB_Point p1 = S1.getParametricPointOnSegment(t1);
@@ -2939,7 +2884,6 @@ public class WB_GeometryOp {
 		return i;
 	}
 
-
 	/**
 	 *
 	 *
@@ -2954,7 +2898,7 @@ public class WB_GeometryOp {
 		final double c = WB_Vector.dot(L1.getDirection(), r);
 		final double e = WB_Vector.dot(L2.getDirection(), L2.getDirection());
 		final double f = WB_Vector.dot(L2.getDirection(), r);
-		double denom = (a * e) - (b * b);
+		double denom = a * e - b * b;
 		if (WB_Epsilon.isZero(denom)) {
 			final double t2 = r.dot(L1.getDirection());
 			final WB_Point p2 = new WB_Point(L2.getPointOnLine(t2));
@@ -2969,8 +2913,8 @@ public class WB_GeometryOp {
 			return i;
 		}
 		denom = 1.0 / denom;
-		final double t1 = ((b * f) - (c * e)) * denom;
-		final double t2 = ((a * f) - (b * c)) * denom;
+		final double t1 = (b * f - c * e) * denom;
+		final double t2 = (a * f - b * c) * denom;
 		final WB_Point p1 = new WB_Point(L1.getPointOnLine(t1));
 		final WB_Point p2 = new WB_Point(L2.getPointOnLine(t2));
 		final double d2 = getSqDistance2D(p1, p2);
@@ -2983,7 +2927,6 @@ public class WB_GeometryOp {
 		i.sqDist = d2;
 		return i;
 	}
-
 
 	/**
 	 *
@@ -3004,7 +2947,7 @@ public class WB_GeometryOp {
 			i.sqDist *= i.sqDist;
 			i.intersection = false;
 		}
-		if (i.t2 >= (S.getLength() - WB_Epsilon.EPSILON)) {
+		if (i.t2 >= S.getLength() - WB_Epsilon.EPSILON) {
 			i.t2 = 1;
 			i.object = new WB_Segment(((WB_Segment) i.object).getOrigin(), S.getEndpoint());
 			i.sqDist = ((WB_Segment) i.object).getLength();
@@ -3013,7 +2956,6 @@ public class WB_GeometryOp {
 		}
 		return i;
 	}
-
 
 	/**
 	 *
@@ -3025,7 +2967,6 @@ public class WB_GeometryOp {
 	public static WB_IntersectionResult getClosestPoint2D(final WB_Segment S, final WB_Line L) {
 		return getClosestPoint2D(L, S);
 	}
-
 
 	/**
 	 *
@@ -3046,7 +2987,7 @@ public class WB_GeometryOp {
 			i.sqDist *= i.sqDist;
 			i.intersection = false;
 		}
-		if (i.t2 >= (S.getLength() - WB_Epsilon.EPSILON)) {
+		if (i.t2 >= S.getLength() - WB_Epsilon.EPSILON) {
 			i.t2 = 1;
 			i.object = new WB_Segment(((WB_Segment) i.object).getOrigin(), S.getEndpoint());
 			i.sqDist = ((WB_Segment) i.object).getLength();
@@ -3071,42 +3012,41 @@ public class WB_GeometryOp {
 		final WB_Vector ap = new WB_Vector(T.p1, p);
 		final double d1 = ab.dot(ap);
 		final double d2 = ac.dot(ap);
-		if ((d1 <= 0) && (d2 <= 0)) {
+		if (d1 <= 0 && d2 <= 0) {
 			return T.p1.get();
 		}
 		final WB_Vector bp = new WB_Vector(T.p2, p);
 		final double d3 = ab.dot(bp);
 		final double d4 = ac.dot(bp);
-		if ((d3 >= 0) && (d4 <= d3)) {
+		if (d3 >= 0 && d4 <= d3) {
 			return T.p2.get();
 		}
-		final double vc = (d1 * d4) - (d3 * d2);
-		if ((vc <= 0) && (d1 >= 0) && (d3 <= 0)) {
+		final double vc = d1 * d4 - d3 * d2;
+		if (vc <= 0 && d1 >= 0 && d3 <= 0) {
 			final double v = d1 / (d1 - d3);
 			return T.p1.add(ab.mulSelf(v));
 		}
 		final WB_Vector cp = new WB_Vector(T.p3, p);
 		final double d5 = ab.dot(cp);
 		final double d6 = ac.dot(cp);
-		if ((d6 >= 0) && (d5 <= d6)) {
+		if (d6 >= 0 && d5 <= d6) {
 			return T.p3.get();
 		}
-		final double vb = (d5 * d2) - (d1 * d6);
-		if ((vb <= 0) && (d2 >= 0) && (d6 <= 0)) {
+		final double vb = d5 * d2 - d1 * d6;
+		if (vb <= 0 && d2 >= 0 && d6 <= 0) {
 			final double w = d2 / (d2 - d6);
 			return T.p1.add(ac.mulSelf(w));
 		}
-		final double va = (d3 * d6) - (d5 * d4);
-		if ((va <= 0) && ((d4 - d3) >= 0) && ((d5 - d6) >= 0)) {
-			final double w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
-			return T.p2.add((T.p3.sub(T.p2)).mulSelf(w));
+		final double va = d3 * d6 - d5 * d4;
+		if (va <= 0 && d4 - d3 >= 0 && d5 - d6 >= 0) {
+			final double w = (d4 - d3) / (d4 - d3 + (d5 - d6));
+			return T.p2.add(T.p3.sub(T.p2).mulSelf(w));
 		}
 		final double denom = 1.0 / (va + vb + vc);
 		final double v = vb * denom;
 		final double w = vc * denom;
 		return T.p1.add(ab.mulSelf(v).addSelf(ac.mulSelf(w)));
 	}
-
 
 	/**
 	 *
@@ -3124,34 +3064,34 @@ public class WB_GeometryOp {
 		final WB_Vector ap = new WB_Vector(a, p);
 		final double d1 = ab.dot(ap);
 		final double d2 = ac.dot(ap);
-		if ((d1 <= 0) && (d2 <= 0)) {
+		if (d1 <= 0 && d2 <= 0) {
 			return new WB_Point(a);
 		}
 		final WB_Vector bp = new WB_Vector(b, p);
 		final double d3 = ab.dot(bp);
 		final double d4 = ac.dot(bp);
-		if ((d3 >= 0) && (d4 <= d3)) {
+		if (d3 >= 0 && d4 <= d3) {
 			return new WB_Point(b);
 		}
-		final double vc = (d1 * d4) - (d3 * d2);
-		if ((vc <= 0) && (d1 >= 0) && (d3 <= 0)) {
+		final double vc = d1 * d4 - d3 * d2;
+		if (vc <= 0 && d1 >= 0 && d3 <= 0) {
 			final double v = d1 / (d1 - d3);
 			return new WB_Point(a).addMulSelf(v, ab);
 		}
 		final WB_Vector cp = new WB_Vector(c, p);
 		final double d5 = ab.dot(cp);
 		final double d6 = ac.dot(cp);
-		if ((d6 >= 0) && (d5 <= d6)) {
+		if (d6 >= 0 && d5 <= d6) {
 			return new WB_Point(c);
 		}
-		final double vb = (d5 * d2) - (d1 * d6);
-		if ((vb <= 0) && (d2 >= 0) && (d6 <= 0)) {
+		final double vb = d5 * d2 - d1 * d6;
+		if (vb <= 0 && d2 >= 0 && d6 <= 0) {
 			final double w = d2 / (d2 - d6);
 			return new WB_Point(a).addMulSelf(w, ac);
 		}
-		final double va = (d3 * d6) - (d5 * d4);
-		if ((va <= 0) && ((d4 - d3) >= 0) && ((d5 - d6) >= 0)) {
-			final double w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+		final double va = d3 * d6 - d5 * d4;
+		if (va <= 0 && d4 - d3 >= 0 && d5 - d6 >= 0) {
+			final double w = (d4 - d3) / (d4 - d3 + (d5 - d6));
 			return new WB_Point(b).addMulSelf(w, new WB_Vector(b, c));
 		}
 		final double denom = 1.0 / (va + vb + vc);
@@ -3159,7 +3099,6 @@ public class WB_GeometryOp {
 		final double w = vc * denom;
 		return new WB_Point(a).addMulSelf(w, ac).addMulSelf(v, ab);
 	}
-
 
 	/**
 	 *
@@ -3174,35 +3113,35 @@ public class WB_GeometryOp {
 		final WB_Vector ap = new WB_Vector(T.p1, p);
 		final double d1 = ab.dot(ap);
 		final double d2 = ac.dot(ap);
-		if ((d1 <= 0) && (d2 <= 0)) {
+		if (d1 <= 0 && d2 <= 0) {
 			return T.p1.get();
 		}
 		final WB_Vector bp = new WB_Vector(T.p2, p);
 		final double d3 = ab.dot(bp);
 		final double d4 = ac.dot(bp);
-		if ((d3 >= 0) && (d4 <= d3)) {
+		if (d3 >= 0 && d4 <= d3) {
 			return T.p2.get();
 		}
-		final double vc = (d1 * d4) - (d3 * d2);
-		if ((vc <= 0) && (d1 >= 0) && (d3 <= 0)) {
+		final double vc = d1 * d4 - d3 * d2;
+		if (vc <= 0 && d1 >= 0 && d3 <= 0) {
 			final double v = d1 / (d1 - d3);
 			return T.p1.add(ab.mulSelf(v));
 		}
 		final WB_Vector cp = new WB_Vector(T.p3, p);
 		final double d5 = ab.dot(cp);
 		final double d6 = ac.dot(cp);
-		if ((d6 >= 0) && (d5 <= d6)) {
+		if (d6 >= 0 && d5 <= d6) {
 			return T.p3.get();
 		}
-		final double vb = (d5 * d2) - (d1 * d6);
-		if ((vb <= 0) && (d2 >= 0) && (d6 <= 0)) {
+		final double vb = d5 * d2 - d1 * d6;
+		if (vb <= 0 && d2 >= 0 && d6 <= 0) {
 			final double w = d2 / (d2 - d6);
 			return T.p1.add(ac.mulSelf(w));
 		}
-		final double va = (d3 * d6) - (d5 * d4);
-		if ((va <= 0) && ((d4 - d3) >= 0) && ((d5 - d6) >= 0)) {
-			final double w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
-			return T.p2.add((T.p3.sub(T.p2)).mulSelf(w));
+		final double va = d3 * d6 - d5 * d4;
+		if (va <= 0 && d4 - d3 >= 0 && d5 - d6 >= 0) {
+			final double w = (d4 - d3) / (d4 - d3 + (d5 - d6));
+			return T.p2.add(T.p3.sub(T.p2).mulSelf(w));
 		}
 		final double denom = 1.0 / (va + vb + vc);
 		final double v = vb * denom;
@@ -3224,9 +3163,9 @@ public class WB_GeometryOp {
 		final double dB2 = getSqDistance2D(p, B);
 		final WB_Point C = getClosestPointToSegment2D(p, T.p1, T.p2);
 		final double dC2 = getSqDistance2D(p, C);
-		if ((dA2 < dB2) && (dA2 < dC2)) {
+		if (dA2 < dB2 && dA2 < dC2) {
 			return A;
-		} else if ((dB2 < dA2) && (dB2 < dC2)) {
+		} else if (dB2 < dA2 && dB2 < dC2) {
 			return B;
 		} else {
 			return C;
@@ -3262,7 +3201,6 @@ public class WB_GeometryOp {
 		return closest;
 	}
 
-
 	/**
 	 *
 	 *
@@ -3287,7 +3225,6 @@ public class WB_GeometryOp {
 		}
 		return closest;
 	}
-
 
 	/**
 	 *
@@ -3329,7 +3266,6 @@ public class WB_GeometryOp {
 		return closest;
 	}
 
-
 	/**
 	 *
 	 *
@@ -3370,7 +3306,6 @@ public class WB_GeometryOp {
 		return closest;
 	}
 
-
 	/**
 	 *
 	 *
@@ -3405,13 +3340,13 @@ public class WB_GeometryOp {
 				t1 = WB_Math.clamp(-c / a, 0, 1);
 			} else {
 				final double b = d1.dot(d2);
-				final double denom = (a * e) - (b * b);
+				final double denom = a * e - b * b;
 				if (!WB_Epsilon.isZero(denom)) {
-					t1 = WB_Math.clamp(((b * f) - (c * e)) / denom, 0, 1);
+					t1 = WB_Math.clamp((b * f - c * e) / denom, 0, 1);
 				} else {
 					t1 = 0;
 				}
-				final double tnom = (b * t1) + f;
+				final double tnom = b * t1 + f;
 				if (tnom < 0) {
 					t1 = WB_Math.clamp(-c / a, 0, 1);
 				} else if (tnom > e) {
@@ -3423,7 +3358,7 @@ public class WB_GeometryOp {
 			}
 		}
 		final WB_IntersectionResult i = new WB_IntersectionResult();
-		i.intersection = (t1 > 0) && (t1 < 1) && (t2 > 0) && (t2 < 1);
+		i.intersection = t1 > 0 && t1 < 1 && t2 > 0 && t2 < 1;
 		i.t1 = t1;
 		i.t2 = t2;
 		final WB_Point p1 = S1.getParametricPointOnSegment(t1);
@@ -3501,7 +3436,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(dmin2);
 	}
 
-
 	/**
 	 *
 	 *
@@ -3516,7 +3450,7 @@ public class WB_GeometryOp {
 		WB_Point closest = new WB_Point();
 		WB_Point tmp;
 
-		for (int i = 0; i < n; i+=3) {
+		for (int i = 0; i < n; i += 3) {
 
 			tmp = getClosestPointToTriangle3D(p, poly.getPoint(T[i]), poly.getPoint(T[i + 1]), poly.getPoint(T[i + 2]));
 			final double d2 = getSqDistance3D(tmp, p);
@@ -3583,7 +3517,6 @@ public class WB_GeometryOp {
 		return closest;
 	}
 
-
 	/**
 	 *
 	 *
@@ -3603,7 +3536,6 @@ public class WB_GeometryOp {
 		ir.intersection = false;
 		return ir;
 	}
-
 
 	/**
 	 *
@@ -3625,7 +3557,6 @@ public class WB_GeometryOp {
 		return ir;
 	}
 
-
 	/**
 	 *
 	 *
@@ -3646,7 +3577,6 @@ public class WB_GeometryOp {
 		return ir;
 	}
 
-
 	/**
 	 *
 	 *
@@ -3663,14 +3593,13 @@ public class WB_GeometryOp {
 		} else {
 			if (getSqDistanceToLine2D(c, a, b) < WB_Epsilon.SQEPSILON) {
 				final double d = projectedDistanceNorm(c, a, b);
-				if ((0 < d) && (d < 1)) {
+				if (0 < d && d < 1) {
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-
 
 	/**
 	 *
@@ -3688,14 +3617,13 @@ public class WB_GeometryOp {
 		} else {
 			if (getSqDistanceToLine2D(c, a, b) < WB_Epsilon.SQEPSILON) {
 				final double d = projectedDistanceNorm(c, a, b);
-				if ((0 < d) && (d < 1)) {
+				if (0 < d && d < 1) {
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-
 
 	/**
 	 *
@@ -3711,7 +3639,6 @@ public class WB_GeometryOp {
 		return false;
 	}
 
-
 	/**
 	 *
 	 *
@@ -3726,9 +3653,8 @@ public class WB_GeometryOp {
 		x2 = p.xd() - a.xd();
 		y1 = b.yd() - a.yd();
 		y2 = p.yd() - a.yd();
-		return ((x1 * x2) + (y1 * y2)) / ((x1 * x1) + (y1 * y1));
+		return (x1 * x2 + y1 * y2) / (x1 * x1 + y1 * y1);
 	}
-
 
 	/**
 	 *
@@ -3743,7 +3669,6 @@ public class WB_GeometryOp {
 		ac.subSelf(L.getOrigin());
 		return ac.dot(ab);
 	}
-
 
 	/**
 	 *
@@ -3777,7 +3702,6 @@ public class WB_GeometryOp {
 		return false;
 	}
 
-
 	/**
 	 *
 	 *
@@ -3786,10 +3710,9 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static boolean contains(final WB_Coord p, final WB_AABB AABB) {
-		return (p.xd() >= AABB.getMinX()) && (p.yd() >= AABB.getMinY()) && (p.zd() >= AABB.getMinZ())
-				&& (p.xd() < AABB.getMaxX()) && (p.yd() < AABB.getMaxY()) && (p.zd() < AABB.getMaxZ());
+		return p.xd() >= AABB.getMinX() && p.yd() >= AABB.getMinY() && p.zd() >= AABB.getMinZ()
+				&& p.xd() < AABB.getMaxX() && p.yd() < AABB.getMaxY() && p.zd() < AABB.getMaxZ();
 	}
-
 
 	/**
 	 *
@@ -3813,7 +3736,6 @@ public class WB_GeometryOp {
 		return false;
 	}
 
-
 	/**
 	 *
 	 *
@@ -3833,7 +3755,6 @@ public class WB_GeometryOp {
 		return false;
 	}
 
-
 	/**
 	 *
 	 *
@@ -3844,7 +3765,6 @@ public class WB_GeometryOp {
 	public static boolean contains(final WB_Coord p, final WB_Triangle T) {
 		return contains(p, T.p1(), T.p2(), T.p3());
 	}
-
 
 	/**
 	 *
@@ -3860,7 +3780,6 @@ public class WB_GeometryOp {
 		return projection.subSelf(n.mulSelf(n.dot(po)));
 	}
 
-
 	/**
 	 *
 	 *
@@ -3871,7 +3790,6 @@ public class WB_GeometryOp {
 	public static double distanceToLine2D(final WB_Coord p, final WB_Line L) {
 		return Math.sqrt(getSqDistanceToLine2D(p, L));
 	}
-
 
 	/**
 	 *
@@ -3884,7 +3802,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(getSqDistance2D(p, S));
 	}
 
-
 	/**
 	 *
 	 *
@@ -3895,7 +3812,6 @@ public class WB_GeometryOp {
 	public static double getDistance2D(final WB_Coord p, final WB_Coord q) {
 		return Math.sqrt(getSqDistance2D(p, q));
 	}
-
 
 	/**
 	 *
@@ -3908,7 +3824,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(getSqDistance2D(p, L));
 	}
 
-
 	/**
 	 *
 	 *
@@ -3919,7 +3834,6 @@ public class WB_GeometryOp {
 	public static double getDistance2D(final WB_Coord p, final WB_Ray R) {
 		return Math.sqrt(getSqDistance2D(p, R));
 	}
-
 
 	/**
 	 *
@@ -3932,7 +3846,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(WB_GeometryOp.getIntersection3D(S, T).sqDist);
 	}
 
-
 	/**
 	 *
 	 *
@@ -3943,7 +3856,6 @@ public class WB_GeometryOp {
 	public static double getDistance3D(final WB_Coord p, final WB_Segment S) {
 		return Math.sqrt(getSqDistance3D(p, S));
 	}
-
 
 	/**
 	 *
@@ -3956,7 +3868,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(getSqDistance3D(p, poly));
 	}
 
-
 	/**
 	 *
 	 *
@@ -3967,7 +3878,6 @@ public class WB_GeometryOp {
 	public static double getDistance3D(final WB_Coord p, final WB_AABB AABB) {
 		return Math.sqrt(getSqDistance3D(p, AABB));
 	}
-
 
 	/**
 	 *
@@ -3980,7 +3890,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(getSqDistance3D(p, q));
 	}
 
-
 	/**
 	 *
 	 *
@@ -3991,7 +3900,6 @@ public class WB_GeometryOp {
 	public static double getDistance3D(final WB_Coord p, final WB_Line L) {
 		return Math.sqrt(getSqDistance3D(p, L));
 	}
-
 
 	/**
 	 *
@@ -4004,7 +3912,6 @@ public class WB_GeometryOp {
 		return P.getNormal().dot(p) - P.d();
 	}
 
-
 	/**
 	 *
 	 *
@@ -4014,9 +3921,8 @@ public class WB_GeometryOp {
 	 */
 	public static double getDistance3D(final double p[], final WB_Plane P) {
 		final WB_Vector n = P.getNormal();
-		return ((n.xd() * p[0]) + (n.yd() * p[1]) + (n.zd() * p[2])) - P.d();
+		return n.xd() * p[0] + n.yd() * p[1] + n.zd() * p[2] - P.d();
 	}
-
 
 	/**
 	 *
@@ -4028,7 +3934,6 @@ public class WB_GeometryOp {
 	public static double getDistance3D(final WB_Coord p, final WB_Ray R) {
 		return Math.sqrt(getSqDistance3D(p, R));
 	}
-
 
 	/**
 	 *
@@ -4042,7 +3947,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(getSqDistanceToLine2D(p, a, b));
 	}
 
-
 	/**
 	 *
 	 *
@@ -4055,7 +3959,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(getSqDistanceToLine3D(p, a, b));
 	}
 
-
 	/**
 	 *
 	 *
@@ -4067,7 +3970,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(getSqDistanceToLine3D(p, L));
 	}
 
-
 	/**
 	 *
 	 *
@@ -4077,9 +3979,8 @@ public class WB_GeometryOp {
 	 */
 	public static double getDistanceToPlane3D(final WB_Coord p, final WB_Plane P) {
 		final double d = P.getNormal().dot(p) - P.d();
-		return (d < 0) ? -d : d;
+		return d < 0 ? -d : d;
 	}
-
 
 	/**
 	 *
@@ -4090,10 +3991,9 @@ public class WB_GeometryOp {
 	 */
 	public static double getDistanceToPlane3D(final double[] p, final WB_Plane P) {
 		final WB_Vector v = P.getNormal();
-		final double d = ((v.xd() * p[0]) + (v.yd() * p[1]) + (v.zd() * p[2])) - P.d();
-		return (d < 0) ? -d : d;
+		final double d = v.xd() * p[0] + v.yd() * p[1] + v.zd() * p[2] - P.d();
+		return d < 0 ? -d : d;
 	}
-
 
 	/**
 	 *
@@ -4106,7 +4006,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(getSqDistanceToPoint2D(p, q));
 	}
 
-
 	/**
 	 *
 	 *
@@ -4117,7 +4016,6 @@ public class WB_GeometryOp {
 	public static double getDistanceToPoint3D(final WB_Coord p, final WB_Coord q) {
 		return Math.sqrt(getSqDistanceToPoint3D(p, q));
 	}
-
 
 	/**
 	 *
@@ -4131,7 +4029,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(getSqDistanceToRay2D(p, a, b));
 	}
 
-
 	/**
 	 *
 	 *
@@ -4144,7 +4041,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(getSqDistanceToRay3D(p, a, b));
 	}
 
-
 	/**
 	 *
 	 *
@@ -4155,7 +4051,6 @@ public class WB_GeometryOp {
 	public static double getDistanceToRay3D(final WB_Coord p, final WB_Ray R) {
 		return Math.sqrt(getSqDistanceToRay3D(p, R));
 	}
-
 
 	/**
 	 *
@@ -4169,7 +4064,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(getSqDistanceToSegment2D(p, a, b));
 	}
 
-
 	/**
 	 *
 	 *
@@ -4182,7 +4076,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(getSqDistanceToSegment3D(p, a, b));
 	}
 
-
 	/**
 	 *
 	 *
@@ -4194,7 +4087,6 @@ public class WB_GeometryOp {
 		return Math.sqrt(getSqDistanceToSegment3D(p, S));
 	}
 
-
 	/**
 	 *
 	 *
@@ -4202,9 +4094,8 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getSqLength2D(final WB_Coord p) {
-		return ((p.xd() * p.xd()) + (p.yd() * p.yd()));
+		return p.xd() * p.xd() + p.yd() * p.yd();
 	}
-
 
 	/**
 	 *
@@ -4213,9 +4104,8 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getSqLength3D(final WB_Coord p) {
-		return ((p.xd() * p.xd()) + (p.yd() * p.yd()) + (p.zd() * p.zd()));
+		return p.xd() * p.xd() + p.yd() * p.yd() + p.zd() * p.zd();
 	}
-
 
 	/**
 	 *
@@ -4224,9 +4114,8 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getLength2D(final WB_Coord p) {
-		return Math.sqrt((p.xd() * p.xd()) + (p.yd() * p.yd()));
+		return Math.sqrt(p.xd() * p.xd() + p.yd() * p.yd());
 	}
-
 
 	/**
 	 *
@@ -4235,9 +4124,8 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getLength3D(final WB_Coord p) {
-		return Math.sqrt((p.xd() * p.xd()) + (p.yd() * p.yd()) + (p.zd() * p.zd()));
+		return Math.sqrt(p.xd() * p.xd() + p.yd() * p.yd() + p.zd() * p.zd());
 	}
-
 
 	/**
 	 *
@@ -4258,9 +4146,8 @@ public class WB_GeometryOp {
 		if (e >= f) {
 			return bc.dot2D(bc);
 		}
-		return ac.dot2D(ac) - ((e * e) / f);
+		return ac.dot2D(ac) - e * e / f;
 	}
-
 
 	/**
 	 *
@@ -4270,9 +4157,8 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getSqDistance2D(final WB_Coord p, final WB_Coord q) {
-		return (((q.xd() - p.xd()) * (q.xd() - p.xd())) + ((q.yd() - p.yd()) * (q.yd() - p.yd())));
+		return (q.xd() - p.xd()) * (q.xd() - p.xd()) + (q.yd() - p.yd()) * (q.yd() - p.yd());
 	}
-
 
 	/**
 	 *
@@ -4286,9 +4172,8 @@ public class WB_GeometryOp {
 		final WB_Vector ac = new WB_Vector(L.getOrigin(), p);
 		final double e = ac.dot2D(ab);
 		final double f = WB_Vector.dot2D(ab, ab);
-		return ac.dot2D(ac) - ((e * e) / f);
+		return ac.dot2D(ac) - e * e / f;
 	}
-
 
 	/**
 	 *
@@ -4305,9 +4190,8 @@ public class WB_GeometryOp {
 			return ac.dot2D(ac);
 		}
 		final double f = WB_Vector.dot2D(ab, ab);
-		return ac.dot2D(ac) - ((e * e) / f);
+		return ac.dot2D(ac) - e * e / f;
 	}
-
 
 	/**
 	 *
@@ -4319,7 +4203,6 @@ public class WB_GeometryOp {
 	public static double getSqDistance3D(final WB_Segment S, final WB_Segment T) {
 		return WB_GeometryOp.getIntersection3D(S, T).sqDist;
 	}
-
 
 	/**
 	 *
@@ -4340,9 +4223,8 @@ public class WB_GeometryOp {
 		if (e >= f) {
 			return bc.dot(bc);
 		}
-		return ac.dot(ac) - ((e * e) / f);
+		return ac.dot(ac) - e * e / f;
 	}
-
 
 	/**
 	 *
@@ -4357,7 +4239,7 @@ public class WB_GeometryOp {
 		double dmax2 = Double.POSITIVE_INFINITY;
 		WB_Coord tmp;
 
-		for (int i = 0; i < n; i+=3) {
+		for (int i = 0; i < n; i += 3) {
 
 			tmp = WB_GeometryOp.getClosestPointToTriangle3D(p, poly.getPoint(T[i]), poly.getPoint(T[i + 1]),
 					poly.getPoint(T[i + 2]));
@@ -4371,7 +4253,6 @@ public class WB_GeometryOp {
 		}
 		return dmax2;
 	}
-
 
 	/**
 	 *
@@ -4416,10 +4297,9 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getSqDistance3D(final WB_Coord p, final WB_Coord q) {
-		return (((q.xd() - p.xd()) * (q.xd() - p.xd())) + ((q.yd() - p.yd()) * (q.yd() - p.yd()))
-				+ ((q.zd() - p.zd()) * (q.zd() - p.zd())));
+		return (q.xd() - p.xd()) * (q.xd() - p.xd()) + (q.yd() - p.yd()) * (q.yd() - p.yd())
+				+ (q.zd() - p.zd()) * (q.zd() - p.zd());
 	}
-
 
 	/**
 	 *
@@ -4433,7 +4313,7 @@ public class WB_GeometryOp {
 		final WB_Vector ac = new WB_Vector(L.getOrigin(), p);
 		final double e = ac.dot(ab);
 		final double f = WB_Vector.dot(ab, ab);
-		return ac.dot(ac) - ((e * e) / f);
+		return ac.dot(ac) - e * e / f;
 	}
 
 	// POINT-PLANE
@@ -4450,7 +4330,6 @@ public class WB_GeometryOp {
 		return d * d;
 	}
 
-
 	/**
 	 *
 	 *
@@ -4466,7 +4345,7 @@ public class WB_GeometryOp {
 			return ac.dot(ac);
 		}
 		final double f = WB_Vector.dot(ab, ab);
-		return ac.dot(ac) - ((e * e) / f);
+		return ac.dot(ac) - e * e / f;
 	}
 
 	// POINT-SEGMENT
@@ -4484,9 +4363,8 @@ public class WB_GeometryOp {
 		final WB_Vector ac = new WB_Vector(a, p);
 		final double e = ac.dot2D(ab);
 		final double f = ab.dot2D(ab);
-		return ac.dot2D(ac) - ((e * e) / f);
+		return ac.dot2D(ac) - e * e / f;
 	}
-
 
 	/**
 	 *
@@ -4500,9 +4378,8 @@ public class WB_GeometryOp {
 		final WB_Point ac = gf.createPoint(p.xd() - L.getOrigin().xd(), p.yd() - L.getOrigin().yd());
 		final double e = ac.dot2D(ab);
 		final double f = ab.dot2D(ab);
-		return ac.dot2D(ac) - ((e * e) / f);
+		return ac.dot2D(ac) - e * e / f;
 	}
-
 
 	/**
 	 *
@@ -4517,9 +4394,8 @@ public class WB_GeometryOp {
 		final WB_Vector ac = new WB_Vector(a, p);
 		final double e = ac.dot(ab);
 		final double f = ab.dot(ab);
-		return ac.dot(ac) - ((e * e) / f);
+		return ac.dot(ac) - e * e / f;
 	}
-
 
 	/**
 	 *
@@ -4533,9 +4409,8 @@ public class WB_GeometryOp {
 		final WB_Vector ac = gf.createVectorFromTo(L.getOrigin(), p);
 		final double e = ac.dot(ab);
 		final double f = WB_Vector.dot(ab, ab);
-		return ac.dot(ac) - ((e * e) / f);
+		return ac.dot(ac) - e * e / f;
 	}
-
 
 	/**
 	 *
@@ -4549,7 +4424,6 @@ public class WB_GeometryOp {
 		return d * d;
 	}
 
-
 	/**
 	 *
 	 *
@@ -4558,7 +4432,7 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getSqDistanceToPoint2D(final WB_Coord p, final WB_Coord q) {
-		return (((q.xd() - p.xd()) * (q.xd() - p.xd())) + ((q.yd() - p.yd()) * (q.yd() - p.yd())));
+		return (q.xd() - p.xd()) * (q.xd() - p.xd()) + (q.yd() - p.yd()) * (q.yd() - p.yd());
 	}
 
 	// POINT-RAY
@@ -4571,10 +4445,9 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getSqDistanceToPoint3D(final WB_Coord p, final WB_Coord q) {
-		return (((q.xd() - p.xd()) * (q.xd() - p.xd())) + ((q.yd() - p.yd()) * (q.yd() - p.yd()))
-				+ ((q.zd() - p.zd()) * (q.zd() - p.zd())));
+		return (q.xd() - p.xd()) * (q.xd() - p.xd()) + (q.yd() - p.yd()) * (q.yd() - p.yd())
+				+ (q.zd() - p.zd()) * (q.zd() - p.zd());
 	}
-
 
 	/**
 	 *
@@ -4592,9 +4465,8 @@ public class WB_GeometryOp {
 			return ac.dot2D(ac);
 		}
 		final double f = ab.dot2D(ab);
-		return ac.dot2D(ac) - ((e * e) / f);
+		return ac.dot2D(ac) - e * e / f;
 	}
-
 
 	/**
 	 *
@@ -4612,7 +4484,7 @@ public class WB_GeometryOp {
 			return ac.dot(ac);
 		}
 		final double f = ab.dot(ab);
-		return ac.dot(ac) - ((e * e) / f);
+		return ac.dot(ac) - e * e / f;
 	}
 
 	// POINT-AABB
@@ -4632,9 +4504,8 @@ public class WB_GeometryOp {
 			return ac.dot(ac);
 		}
 		final double f = WB_Vector.dot(ab, ab);
-		return ac.dot(ac) - ((e * e) / f);
+		return ac.dot(ac) - e * e / f;
 	}
-
 
 	/**
 	 *
@@ -4656,9 +4527,8 @@ public class WB_GeometryOp {
 		if (e >= f) {
 			return bc.dot2D(bc);
 		}
-		return ac.dot2D(ac) - ((e * e) / f);
+		return ac.dot2D(ac) - e * e / f;
 	}
-
 
 	/**
 	 *
@@ -4680,9 +4550,8 @@ public class WB_GeometryOp {
 		if (e >= f) {
 			return bc.dot(bc);
 		}
-		return ac.dot(ac) - ((e * e) / f);
+		return ac.dot(ac) - e * e / f;
 	}
-
 
 	/**
 	 *
@@ -4703,9 +4572,8 @@ public class WB_GeometryOp {
 		if (e >= f) {
 			return bc.dot(bc);
 		}
-		return ac.dot(ac) - ((e * e) / f);
+		return ac.dot(ac) - e * e / f;
 	}
-
 
 	/**
 	 *
@@ -4718,7 +4586,6 @@ public class WB_GeometryOp {
 		final double d = P.getNormal().dot(p) - P.d();
 		return d;
 	}
-
 
 	/**
 	 *
@@ -4746,7 +4613,6 @@ public class WB_GeometryOp {
 		}
 		return Math.acos(d);
 	}
-
 
 	/**
 	 *
@@ -4777,7 +4643,6 @@ public class WB_GeometryOp {
 		}
 		return Math.acos(d);
 	}
-
 
 	/**
 	 *
@@ -4831,7 +4696,6 @@ public class WB_GeometryOp {
 		return d;
 	}
 
-
 	/**
 	 *
 	 *
@@ -4862,7 +4726,6 @@ public class WB_GeometryOp {
 		return d;
 	}
 
-
 	/**
 	 *
 	 *
@@ -4888,7 +4751,6 @@ public class WB_GeometryOp {
 		return d;
 	}
 
-
 	/**
 	 *
 	 *
@@ -4902,9 +4764,8 @@ public class WB_GeometryOp {
 	 */
 	public static double[] cross(final double ux, final double uy, final double uz, final double vx, final double vy,
 			final double vz) {
-		return new double[] { (uy * vz) - (uz * vy), (uz * vx) - (ux * vz), (ux * vy) - (uy * vx) };
+		return new double[] { uy * vz - uz * vy, uz * vx - ux * vz, ux * vy - uy * vx };
 	}
-
 
 	/**
 	 *
@@ -4924,7 +4785,6 @@ public class WB_GeometryOp {
 			final double pz, final double qx, final double qy, final double qz) {
 		return cross(px - cx, py - cy, pz - cz, qx - cx, qy - cy, qz - cz);
 	}
-
 
 	/**
 	 *
@@ -4947,19 +4807,18 @@ public class WB_GeometryOp {
 		final double exp2 = WB_Math.getExp(k2);
 		if (exp0 < exp1) {
 			if (exp0 < exp2) {
-				return (k1 + k2) + k0;
+				return k1 + k2 + k0;
 			} else {
-				return (k0 + k1) + k2;
+				return k0 + k1 + k2;
 			}
 		} else {
 			if (exp1 < exp2) {
-				return (k0 + k2) + k1;
+				return k0 + k2 + k1;
 			} else {
-				return (k0 + k1) + k2;
+				return k0 + k1 + k2;
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -4971,7 +4830,7 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double dot2D(final double ux, final double uy, final double vx, final double vy) {
-		return (ux * vx) + (uy * vy);
+		return ux * vx + uy * vy;
 	}
 
 	/**
@@ -4989,9 +4848,8 @@ public class WB_GeometryOp {
 	 */
 	public static double dot4D(final double ux, final double uy, final double uz, final double uw, final double vx,
 			final double vy, final double vz, final double vw) {
-		return (ux * vx) + (uy * vy) + (uz * vz) + (uw * vw);
+		return ux * vx + uy * vy + uz * vz + uw * vw;
 	}
-
 
 	/**
 	 *
@@ -5003,9 +4861,8 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getDistance2D(final double px, final double py, final double qx, final double qy) {
-		return Math.sqrt(((qx - px) * (qx - px)) + ((qy - py) * (qy - py)));
+		return Math.sqrt((qx - px) * (qx - px) + (qy - py) * (qy - py));
 	}
-
 
 	/**
 	 *
@@ -5020,7 +4877,7 @@ public class WB_GeometryOp {
 	 */
 	public static double getDistance3D(final double px, final double py, final double pz, final double qx,
 			final double qy, final double qz) {
-		return Math.sqrt(((qx - px) * (qx - px)) + ((qy - py) * (qy - py)) + ((qz - pz) * (qz - pz)));
+		return Math.sqrt((qx - px) * (qx - px) + (qy - py) * (qy - py) + (qz - pz) * (qz - pz));
 	}
 
 	/**
@@ -5038,10 +4895,8 @@ public class WB_GeometryOp {
 	 */
 	public static double getDistance4D(final double px, final double py, final double pz, final double pw,
 			final double qx, final double qy, final double qz, final double qw) {
-		return Math.sqrt(
-				((qx - px) * (qx - px)) + ((qy - py) * (qy - py)) + ((qz - pz) * (qz - pz)) + ((qw - pw) * (qw - pw)));
+		return Math.sqrt((qx - px) * (qx - px) + (qy - py) * (qy - py) + (qz - pz) * (qz - pz) + (qw - pw) * (qw - pw));
 	}
-
 
 	/**
 	 *
@@ -5051,9 +4906,8 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getLength2D(final double ux, final double uy) {
-		return Math.sqrt((ux * ux) + (uy * uy));
+		return Math.sqrt(ux * ux + uy * uy);
 	}
-
 
 	/**
 	 *
@@ -5064,7 +4918,7 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getLength3D(final double ux, final double uy, final double uz) {
-		return Math.sqrt((ux * ux) + (uy * uy) + (uz * uz));
+		return Math.sqrt(ux * ux + uy * uy + uz * uz);
 	}
 
 	/**
@@ -5077,9 +4931,8 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getLength4D(final double ux, final double uy, final double uz, final double uw) {
-		return Math.sqrt((ux * ux) + (uy * uy) + (uz * uz) + (uw * uw));
+		return Math.sqrt(ux * ux + uy * uy + uz * uz + uw * uw);
 	}
-
 
 	/**
 	 *
@@ -5091,9 +4944,8 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getSqDistance2D(final double px, final double py, final double qx, final double qy) {
-		return ((qx - px) * (qx - px)) + ((qy - py) * (qy - py));
+		return (qx - px) * (qx - px) + (qy - py) * (qy - py);
 	}
-
 
 	/**
 	 *
@@ -5108,7 +4960,7 @@ public class WB_GeometryOp {
 	 */
 	public static double getSqDistance3D(final double px, final double py, final double pz, final double qx,
 			final double qy, final double qz) {
-		return ((qx - px) * (qx - px)) + ((qy - py) * (qy - py)) + ((qz - pz) * (qz - pz));
+		return (qx - px) * (qx - px) + (qy - py) * (qy - py) + (qz - pz) * (qz - pz);
 	}
 
 	/**
@@ -5126,9 +4978,8 @@ public class WB_GeometryOp {
 	 */
 	public static double getSqDistance4D(final double px, final double py, final double pz, final double pw,
 			final double qx, final double qy, final double qz, final double qw) {
-		return ((qx - px) * (qx - px)) + ((qy - py) * (qy - py)) + ((qz - pz) * (qz - pz)) + ((qw - pw) * (qw - pw));
+		return (qx - px) * (qx - px) + (qy - py) * (qy - py) + (qz - pz) * (qz - pz) + (qw - pw) * (qw - pw);
 	}
-
 
 	/**
 	 *
@@ -5138,9 +4989,8 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getSqLength2D(final double ux, final double uy) {
-		return (ux * ux) + (uy * uy);
+		return ux * ux + uy * uy;
 	}
-
 
 	/**
 	 *
@@ -5151,7 +5001,7 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getSqLength3D(final double ux, final double uy, final double uz) {
-		return (ux * ux) + (uy * uy) + (uz * uz);
+		return ux * ux + uy * uy + uz * uz;
 	}
 
 	/**
@@ -5164,7 +5014,7 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static double getSqLength4D(final double ux, final double uy, final double uz, final double uw) {
-		return (ux * ux) + (uy * uy) + (uz * uz) + (uw * uw);
+		return ux * ux + uy * uy + uz * uz + uw * uw;
 	}
 
 	/**
@@ -5179,9 +5029,26 @@ public class WB_GeometryOp {
 	 */
 	public static double[] interpolate(final double px, final double py, final double qx, final double qy,
 			final double t) {
-		return new double[] { px + (t * (qx - px)), py + (t * (qy - py)) };
+		return new double[] { px + t * (qx - px), py + t * (qy - py) };
 	}
 
+	public static double[] interpolateEaseIn(final double px, final double py, final double qx, final double qy,
+			final double t, final WB_Ease.Ease ease) {
+		double et = ease.easeIn(t);
+		return new double[] { px + et * (qx - px), py + et * (qy - py) };
+	}
+
+	public static double[] interpolateEaseOut(final double px, final double py, final double qx, final double qy,
+			final double t, final WB_Ease.Ease ease) {
+		double et = ease.easeOut(t);
+		return new double[] { px + et * (qx - px), py + et * (qy - py) };
+	}
+
+	public static double[] interpolateEaseInOut(final double px, final double py, final double qx, final double qy,
+			final double t, final WB_Ease.Ease ease) {
+		double et = ease.easeInOut(t);
+		return new double[] { px + et * (qx - px), py + et * (qy - py) };
+	}
 
 	/**
 	 *
@@ -5197,9 +5064,26 @@ public class WB_GeometryOp {
 	 */
 	public static double[] interpolate(final double px, final double py, final double pz, final double qx,
 			final double qy, final double qz, final double t) {
-		return new double[] { px + (t * (qx - px)), py + (t * (qy - py)), pz + (t * (qz - pz)) };
+		return new double[] { px + t * (qx - px), py + t * (qy - py), pz + t * (qz - pz) };
 	}
 
+	public static double[] interpolateEaseIn(final double px, final double py, final double pz, final double qx,
+			final double qy, final double qz, final double t, final WB_Ease.Ease ease) {
+		double et = ease.easeIn(t);
+		return new double[] { px + et * (qx - px), py + et * (qy - py), pz + et * (qz - pz) };
+	}
+
+	public static double[] interpolateEaseOut(final double px, final double py, final double pz, final double qx,
+			final double qy, final double qz, final double t, final WB_Ease.Ease ease) {
+		double et = ease.easeOut(t);
+		return new double[] { px + et * (qx - px), py + et * (qy - py), pz + et * (qz - pz) };
+	}
+
+	public static double[] interpolateEaseInOut(final double px, final double py, final double pz, final double qx,
+			final double qy, final double qz, final double t, final WB_Ease.Ease ease) {
+		double et = ease.easeInOut(t);
+		return new double[] { px + et * (qx - px), py + et * (qy - py), pz + et * (qz - pz) };
+	}
 
 	/**
 	 *
@@ -5210,9 +5094,8 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static boolean isZero2D(final double ux, final double uy, final double uz) {
-		return (getSqLength2D(ux, uy) < WB_Epsilon.SQEPSILON);
+		return getSqLength2D(ux, uy) < WB_Epsilon.SQEPSILON;
 	}
-
 
 	/**
 	 *
@@ -5223,7 +5106,7 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static boolean isZero3D(final double ux, final double uy, final double uz) {
-		return (getSqLength3D(ux, uy, uz) < WB_Epsilon.SQEPSILON);
+		return getSqLength3D(ux, uy, uz) < WB_Epsilon.SQEPSILON;
 	}
 
 	/**
@@ -5236,9 +5119,8 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static boolean isZero4D(final double ux, final double uy, final double uz, final double uw) {
-		return (getSqLength4D(ux, uy, uz, uw) < WB_Epsilon.SQEPSILON);
+		return getSqLength4D(ux, uy, uz, uw) < WB_Epsilon.SQEPSILON;
 	}
-
 
 	/**
 	 *
@@ -5260,7 +5142,6 @@ public class WB_GeometryOp {
 		return dot(ux, uy, uz, c[0], c[1], c[2]);
 	}
 
-
 	/**
 	 *
 	 *
@@ -5275,9 +5156,8 @@ public class WB_GeometryOp {
 	public static double[][] tensor3D(final double ux, final double uy, final double uz, final double vx,
 			final double vy, final double vz) {
 		return new double[][] { { ux * vx, ux * vy, ux * vz }, { uy * vx, uy * vy, uy * vz },
-			{ uz * vx, uz * vy, uz * vz } };
+				{ uz * vx, uz * vy, uz * vz } };
 	}
-
 
 	/**
 	 *
@@ -5334,7 +5214,6 @@ public class WB_GeometryOp {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -5343,8 +5222,8 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static WB_Classification classifyPointToLine2D(final WB_Coord p, final WB_Line L) {
-		final double dist = ((-L.getDirection().yd() * p.xd()) + (L.getDirection().xd() * p.yd())
-				+ (L.getOrigin().xd() * L.getDirection().yd())) - (L.getOrigin().yd() * L.getDirection().xd());
+		final double dist = -L.getDirection().yd() * p.xd() + L.getDirection().xd() * p.yd()
+				+ L.getOrigin().xd() * L.getDirection().yd() - L.getOrigin().yd() * L.getDirection().xd();
 		if (dist > WB_Epsilon.EPSILON) {
 			return WB_Classification.FRONT;
 		}
@@ -5353,7 +5232,6 @@ public class WB_GeometryOp {
 		}
 		return WB_Classification.ON;
 	}
-
 
 	/**
 	 *
@@ -5372,7 +5250,6 @@ public class WB_GeometryOp {
 			return WB_Classification.OUTSIDE;
 		}
 	}
-
 
 	/**
 	 *
@@ -5400,7 +5277,6 @@ public class WB_GeometryOp {
 		return WB_Classification.CROSSING;
 	}
 
-
 	/**
 	 *
 	 *
@@ -5418,7 +5294,6 @@ public class WB_GeometryOp {
 		return WB_Classification.OUTSIDE;
 	}
 
-
 	/**
 	 *
 	 *
@@ -5432,12 +5307,11 @@ public class WB_GeometryOp {
 		final WB_Point pL = L.getPointOnLine(1.0);
 		final double pside = Math.signum(pred.orientTri(L.getOrigin(), pL, p));
 		final double qside = Math.signum(pred.orientTri(L.getOrigin(), pL, q));
-		if ((pside == 0) || (qside == 0) || (pside == qside)) {
+		if (pside == 0 || qside == 0 || pside == qside) {
 			return WB_Classification.SAME;
 		}
 		return WB_Classification.DIFF;
 	}
-
 
 	/**
 	 *
@@ -5465,10 +5339,10 @@ public class WB_GeometryOp {
 				return WB_Classification.BACK;
 			}
 		}
-		if ((a == WB_Classification.FRONT) && (b == WB_Classification.BACK)) {
+		if (a == WB_Classification.FRONT && b == WB_Classification.BACK) {
 			return WB_Classification.CROSSING;
 		}
-		if ((a == WB_Classification.BACK) && (b == WB_Classification.FRONT)) {
+		if (a == WB_Classification.BACK && b == WB_Classification.FRONT) {
 			return WB_Classification.CROSSING;
 		}
 		if (a == WB_Classification.FRONT) {
@@ -5476,7 +5350,6 @@ public class WB_GeometryOp {
 		}
 		return WB_Classification.BACK;
 	}
-
 
 	/**
 	 *
@@ -5494,7 +5367,7 @@ public class WB_GeometryOp {
 			} else if (classifyPointToLine2D(P.getPoint(i), L) == WB_Classification.BACK) {
 				numBack++;
 			}
-			if ((numFront > 0) && (numBack > 0)) {
+			if (numFront > 0 && numBack > 0) {
 				return WB_Classification.CROSSING;
 			}
 		}
@@ -5507,7 +5380,6 @@ public class WB_GeometryOp {
 		return null;
 	}
 
-
 	/**
 	 *
 	 *
@@ -5519,7 +5391,6 @@ public class WB_GeometryOp {
 		return classifyPointToPlaneFast3D(P, p);
 	}
 
-
 	/**
 	 *
 	 *
@@ -5530,7 +5401,6 @@ public class WB_GeometryOp {
 	public static WB_Classification classifyPointToPlane3D(final WB_Coord p, final WB_Plane P) {
 		return classifyPointToPlane3D(P, p);
 	}
-
 
 	/**
 	 *
@@ -5550,13 +5420,13 @@ public class WB_GeometryOp {
 		return WB_Classification.BACK;
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param P
 	 * @param p
-	 * @return WB_Classification.ON,WB_Classification.FRONT or WB_Classification.BACK
+	 * @return WB_Classification.ON,WB_Classification.FRONT or
+	 *         WB_Classification.BACK
 	 */
 	public static WB_Classification classifyPointToPlane3D(final WB_Plane P, final WB_Coord p) {
 		if (WB_Epsilon.isZero(WB_GeometryOp.getDistanceToPlane3D(p, P))) {
@@ -5573,7 +5443,6 @@ public class WB_GeometryOp {
 		}
 		return WB_Classification.BACK;
 	}
-
 
 	/**
 	 *
@@ -5622,15 +5491,14 @@ public class WB_GeometryOp {
 		} else {
 			back++;
 		}
-		if ((front == 4) || (back == 4)) {
+		if (front == 4 || back == 4) {
 			return WB_Classification.INSIDE;
 		}
-		if (((front + on) == 4) || ((back + on) == 4)) {
+		if (front + on == 4 || back + on == 4) {
 			return WB_Classification.ON;
 		}
 		return WB_Classification.OUTSIDE;
 	}
-
 
 	/**
 	 *
@@ -5652,7 +5520,7 @@ public class WB_GeometryOp {
 				break;
 			default:
 			}
-			if ((numBehind != 0) && (numInFront != 0)) {
+			if (numBehind != 0 && numInFront != 0) {
 				return WB_Classification.CROSSING;
 			}
 		}
@@ -5676,7 +5544,7 @@ public class WB_GeometryOp {
 		int numInFront = 0;
 		int numBehind = 0;
 
-		switch (classifyPointToPlane3D(segment.getOrigin(),P)) {
+		switch (classifyPointToPlane3D(segment.getOrigin(), P)) {
 		case FRONT:
 			numInFront++;
 			break;
@@ -5685,7 +5553,7 @@ public class WB_GeometryOp {
 			break;
 		default:
 		}
-		switch (classifyPointToPlane3D(segment.getEndpoint(),P)) {
+		switch (classifyPointToPlane3D(segment.getEndpoint(), P)) {
 		case FRONT:
 			numInFront++;
 			break;
@@ -5695,8 +5563,7 @@ public class WB_GeometryOp {
 		default:
 		}
 
-
-		if ((numBehind != 0) && (numInFront != 0)) {
+		if (numBehind != 0 && numInFront != 0) {
 			return WB_Classification.CROSSING;
 		}
 
@@ -5708,7 +5575,6 @@ public class WB_GeometryOp {
 		}
 		return WB_Classification.ON;
 	}
-
 
 	/**
 	 *
@@ -5728,7 +5594,7 @@ public class WB_GeometryOp {
 			} else if (d < -WB_Epsilon.EPSILON) {
 				numBehind++;
 			}
-			if ((numBehind != 0) && (numInFront != 0)) {
+			if (numBehind != 0 && numInFront != 0) {
 				return WB_Classification.CROSSING;
 			}
 		}
@@ -5741,7 +5607,6 @@ public class WB_GeometryOp {
 		return WB_Classification.ON;
 	}
 
-
 	/**
 	 *
 	 *
@@ -5749,9 +5614,8 @@ public class WB_GeometryOp {
 	 * @param v1
 	 * @return
 	 */
-	public static double cotan(final WB_Coord v0, final WB_Coord v1){
-		return(WB_Vector.dot(v0,v1)/WB_Vector.cross(v0, v1).getLength3D());
-
+	public static double cotan(final WB_Coord v0, final WB_Coord v1) {
+		return WB_Vector.dot(v0, v1) / WB_Vector.cross(v0, v1).getLength3D();
 
 	}
 
@@ -5763,77 +5627,80 @@ public class WB_GeometryOp {
 	 * @param p2
 	 * @return
 	 */
-	public static double cotan(final WB_Coord p0, final WB_Coord p1, final WB_Coord p2){
-		WB_Vector v0=WB_Vector.subToVector3D(p0, p1);
-		WB_Vector v1=WB_Vector.subToVector3D(p0, p2);
-		return(WB_Vector.dot(v0,v1)/WB_Vector.cross(v0, v1).getLength3D());
-
+	public static double cotan(final WB_Coord p0, final WB_Coord p1, final WB_Coord p2) {
+		WB_Vector v0 = WB_Vector.subToVector3D(p0, p1);
+		WB_Vector v1 = WB_Vector.subToVector3D(p0, p2);
+		return WB_Vector.dot(v0, v1) / WB_Vector.cross(v0, v1).getLength3D();
 
 	}
 
-
-	public static boolean isParallel(final WB_Coord v0, final WB_Coord v1){
-		return Math.abs(1.0-(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd())/(getLength3D(v0)*getLength3D(v1))))<WB_Epsilon.EPSILON;
+	public static boolean isParallel(final WB_Coord v0, final WB_Coord v1) {
+		return Math.abs(1.0 - dot(v0.xd(), v0.yd(), v0.zd(), v1.xd(), v1.yd(), v1.zd())
+				/ (getLength3D(v0) * getLength3D(v1))) < WB_Epsilon.EPSILON;
 	}
 
-	public static boolean isParallel2D(final WB_Coord v0, final WB_Coord v1){
-		return Math.abs(1.0-(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd())/(getLength2D(v0)*getLength2D(v1))))<WB_Epsilon.EPSILON;
+	public static boolean isParallel2D(final WB_Coord v0, final WB_Coord v1) {
+		return Math.abs(1.0
+				- dot2D(v0.xd(), v0.yd(), v1.xd(), v1.yd()) / (getLength2D(v0) * getLength2D(v1))) < WB_Epsilon.EPSILON;
 	}
 
-	public static boolean isOrthogonal(final WB_Coord v0, final WB_Coord v1){
-		return WB_Epsilon.isZero(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd())/(getLength3D(v0)*getLength3D(v1)));
+	public static boolean isOrthogonal(final WB_Coord v0, final WB_Coord v1) {
+		return WB_Epsilon.isZero(
+				dot(v0.xd(), v0.yd(), v0.zd(), v1.xd(), v1.yd(), v1.zd()) / (getLength3D(v0) * getLength3D(v1)));
 	}
 
-	public static boolean isOrthogonal2D(final WB_Coord v0, final WB_Coord v1){
-		return WB_Epsilon.isZero(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd())/(getLength2D(v0)*getLength2D(v1)));
+	public static boolean isOrthogonal2D(final WB_Coord v0, final WB_Coord v1) {
+		return WB_Epsilon.isZero(dot2D(v0.xd(), v0.yd(), v1.xd(), v1.yd()) / (getLength2D(v0) * getLength2D(v1)));
 	}
 
-	public static boolean isParallel(final WB_Coord v0, final WB_Coord v1, final double epsilon){
-		return Math.abs(1.0-(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd())/(getLength3D(v0)*getLength3D(v1))))<epsilon;
+	public static boolean isParallel(final WB_Coord v0, final WB_Coord v1, final double epsilon) {
+		return Math.abs(1.0 - dot(v0.xd(), v0.yd(), v0.zd(), v1.xd(), v1.yd(), v1.zd())
+				/ (getLength3D(v0) * getLength3D(v1))) < epsilon;
 	}
 
-	public static boolean isParallel2D(final WB_Coord v0, final WB_Coord v1, final double epsilon){
-		return Math.abs(1.0-(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd())/(getLength2D(v0)*getLength2D(v1))))<epsilon;
+	public static boolean isParallel2D(final WB_Coord v0, final WB_Coord v1, final double epsilon) {
+		return Math
+				.abs(1.0 - dot2D(v0.xd(), v0.yd(), v1.xd(), v1.yd()) / (getLength2D(v0) * getLength2D(v1))) < epsilon;
 	}
 
-	public static boolean isOrthogonal(final WB_Coord v0, final WB_Coord v1, final double epsilon){
-		return Math.abs(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd())/(getLength3D(v0)*getLength3D(v1)))<epsilon;
+	public static boolean isOrthogonal(final WB_Coord v0, final WB_Coord v1, final double epsilon) {
+		return Math.abs(dot(v0.xd(), v0.yd(), v0.zd(), v1.xd(), v1.yd(), v1.zd())
+				/ (getLength3D(v0) * getLength3D(v1))) < epsilon;
 	}
 
-	public static boolean isOrthogonal2D(final WB_Coord v0, final WB_Coord v1, final double epsilon){
-		return Math.abs(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd())/(getLength2D(v0)*getLength2D(v1)))<epsilon;
+	public static boolean isOrthogonal2D(final WB_Coord v0, final WB_Coord v1, final double epsilon) {
+		return Math.abs(dot2D(v0.xd(), v0.yd(), v1.xd(), v1.yd()) / (getLength2D(v0) * getLength2D(v1))) < epsilon;
 	}
 
-
-	public static boolean isParallelNorm(final WB_Coord v0, final WB_Coord v1){
-		return Math.abs(1.0-(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd())))<WB_Epsilon.EPSILON;
+	public static boolean isParallelNorm(final WB_Coord v0, final WB_Coord v1) {
+		return Math.abs(1.0 - dot(v0.xd(), v0.yd(), v0.zd(), v1.xd(), v1.yd(), v1.zd())) < WB_Epsilon.EPSILON;
 	}
 
-	public static boolean isParallelNorm2D(final WB_Coord v0, final WB_Coord v1){
-		return Math.abs(1.0-(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd())))<WB_Epsilon.EPSILON;
+	public static boolean isParallelNorm2D(final WB_Coord v0, final WB_Coord v1) {
+		return Math.abs(1.0 - dot2D(v0.xd(), v0.yd(), v1.xd(), v1.yd())) < WB_Epsilon.EPSILON;
 	}
 
-	public static boolean isOrthogonalNorm(final WB_Coord v0, final WB_Coord v1){
-		return WB_Epsilon.isZero(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd()));
+	public static boolean isOrthogonalNorm(final WB_Coord v0, final WB_Coord v1) {
+		return WB_Epsilon.isZero(dot(v0.xd(), v0.yd(), v0.zd(), v1.xd(), v1.yd(), v1.zd()));
 	}
 
-	public static boolean isOrthogonalNorm2D(final WB_Coord v0, final WB_Coord v1){
-		return WB_Epsilon.isZero(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd()));
+	public static boolean isOrthogonalNorm2D(final WB_Coord v0, final WB_Coord v1) {
+		return WB_Epsilon.isZero(dot2D(v0.xd(), v0.yd(), v1.xd(), v1.yd()));
 	}
 
-	public static boolean isParallelNorm(final WB_Coord v0, final WB_Coord v1, final double epsilon){
-		return Math.abs(1.0-(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd())))<epsilon;
+	public static boolean isParallelNorm(final WB_Coord v0, final WB_Coord v1, final double epsilon) {
+		return Math.abs(1.0 - dot(v0.xd(), v0.yd(), v0.zd(), v1.xd(), v1.yd(), v1.zd())) < epsilon;
 	}
 
-	public static boolean isParallelNorm2D(final WB_Coord v0, final WB_Coord v1, final double epsilon){
-		return Math.abs(1.0-(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd())))<epsilon;
+	public static boolean isParallelNorm2D(final WB_Coord v0, final WB_Coord v1, final double epsilon) {
+		return Math.abs(1.0 - dot2D(v0.xd(), v0.yd(), v1.xd(), v1.yd())) < epsilon;
 	}
 
-	public static boolean isOrthogonalNorm(final WB_Coord v0, final WB_Coord v1, final double epsilon){
-		return Math.abs(dot(v0.xd(),v0.yd(),v0.zd(),v1.xd(),v1.yd(),v1.zd()))<epsilon;
+	public static boolean isOrthogonalNorm(final WB_Coord v0, final WB_Coord v1, final double epsilon) {
+		return Math.abs(dot(v0.xd(), v0.yd(), v0.zd(), v1.xd(), v1.yd(), v1.zd())) < epsilon;
 	}
 
-	public static boolean isOrthogonalNorm2D(final WB_Coord v0, final WB_Coord v1, final double epsilon){
-		return Math.abs(dot2D(v0.xd(),v0.yd(),v1.xd(),v1.yd()))<epsilon;
+	public static boolean isOrthogonalNorm2D(final WB_Coord v0, final WB_Coord v1, final double epsilon) {
+		return Math.abs(dot2D(v0.xd(), v0.yd(), v1.xd(), v1.yd())) < epsilon;
 	}
 }

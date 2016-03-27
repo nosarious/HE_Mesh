@@ -33,7 +33,6 @@ import wblut.geom.WB_Triangle;
 import wblut.geom.WB_Triangulate;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
-import wblut.math.WB_Math;
 
 /**
  * Face element of half-edge data structure.
@@ -163,23 +162,7 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	 * @return
 	 */
 	public WB_Coord getFaceNormal() {
-		if (_halfedge == null) {
-			return null;
-		}
-		// calculate normal with Newell's method
-		HE_Halfedge he = _halfedge;
-		final WB_Vector _normal = new WB_Vector();
-		HE_Vertex p0;
-		HE_Vertex p1;
-		do {
-			p0 = he.getVertex();
-			p1 = he.getNextInFace().getVertex();
-			_normal.addSelf((p0.yd() - p1.yd()) * (p0.zd() + p1.zd()), (p0.zd() - p1.zd()) * (p0.xd() + p1.xd()),
-					(p0.xd() - p1.xd()) * (p0.yd() + p1.yd()));
-			he = he.getNextInFace();
-		} while (he != _halfedge);
-		_normal.normalizeSelf();
-		return _normal;
+		return HET_MeshOp.getFaceNormal(this);
 	}
 
 	/**
@@ -188,22 +171,7 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	 * @return
 	 */
 	public WB_Coord getNonNormFaceNormal() {
-		if (_halfedge == null) {
-			return null;
-		}
-		// calculate normal with Newell's method
-		HE_Halfedge he = _halfedge;
-		final WB_Vector _normal = new WB_Vector();
-		HE_Vertex p0;
-		HE_Vertex p1;
-		do {
-			p0 = he.getVertex();
-			p1 = he.getNextInFace().getVertex();
-			_normal.addSelf((p0.yd() - p1.yd()) * (p0.zd() + p1.zd()), (p0.zd() - p1.zd()) * (p0.xd() + p1.xd()),
-					(p0.xd() - p1.xd()) * (p0.yd() + p1.yd()));
-			he = he.getNextInFace();
-		} while (he != _halfedge);
-		return _normal;
+		return HET_MeshOp.getNonNormFaceNormal(this);
 	}
 
 	/**
@@ -212,52 +180,7 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	 * @return
 	 */
 	public double getFaceArea() {
-		if (_halfedge == null) {
-			return 0;
-		}
-		final WB_Coord n = getFaceNormal();
-		if (WB_Vector.getLength3D(n) < 0.5) {
-			return 0;
-		}
-		final double x = WB_Math.fastAbs(n.xd());
-		final double y = WB_Math.fastAbs(n.yd());
-		final double z = WB_Math.fastAbs(n.zd());
-		double area = 0;
-		int coord = 3;
-		if (x >= y && x >= z) {
-			coord = 1;
-		} else if (y >= x && y >= z) {
-			coord = 2;
-		}
-		HE_Halfedge he = _halfedge;
-		do {
-			switch (coord) {
-			case 1:
-				area += he.getVertex().yd()
-						* (he.getNextInFace().getVertex().zd() - he.getPrevInFace().getVertex().zd());
-				break;
-			case 2:
-				area += he.getVertex().xd()
-						* (he.getNextInFace().getVertex().zd() - he.getPrevInFace().getVertex().zd());
-				break;
-			case 3:
-				area += he.getVertex().xd()
-						* (he.getNextInFace().getVertex().yd() - he.getPrevInFace().getVertex().yd());
-				break;
-			}
-			he = he.getNextInFace();
-		} while (he != _halfedge);
-		switch (coord) {
-		case 1:
-			area *= 0.5 / x;
-			break;
-		case 2:
-			area *= 0.5 / y;
-			break;
-		case 3:
-			area *= 0.5 / z;
-		}
-		return WB_Math.fastAbs(area);
+		return HET_MeshOp.getFaceArea(this);
 	}
 
 	/**
@@ -266,17 +189,7 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	 * @return
 	 */
 	public WB_Classification getFaceType() {
-		if (_halfedge == null) {
-			return null;
-		}
-		HE_Halfedge he = _halfedge;
-		do {
-			if (he.getHalfedgeType() == WB_Classification.CONCAVE) {
-				return WB_Classification.CONCAVE;
-			}
-			he = he.getNextInFace();
-		} while (he != _halfedge);
-		return WB_Classification.CONVEX;
+		return HET_MeshOp.getFaceType(this);
 	}
 
 	/**
@@ -587,21 +500,13 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	 * @return
 	 */
 	public int[] getTriangles(final boolean optimize) {
-		// tracker.setStatus("Starting getTriangles() in face " + getKey() +
-		// ".");
 		int[] triangles;
-		// tracker.setStatus("Triangles not calculated, starting face
-		// triangulation.");
 		final int fo = getFaceOrder();
 		if (fo < 3) {
 			return new int[] { 0, 0, 0 };
 		} else if (fo == 3) {
-			// tracker.setStatus("Triangulating face with " + fo
-			// + " vertices.");
-			// logger.trace("Trivial triangulation of triangle face.");
 			return new int[] { 0, 1, 2 };
 		} else if (isDegenerate()) {
-			// degenerate face
 			triangles = new int[3 * (fo - 2)];
 			for (int i = 0; i < fo - 2; i++) {
 				triangles[3 * i] = 0;
@@ -609,9 +514,6 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 				triangles[3 * i + 2] = i + 2;
 			}
 		} else if (fo == 4) {
-			// tracker.setStatus("Triangulating face with " + fo
-			// + " vertices.");
-			// logger.trace("Triangulation of quad face.");
 			final WB_Point[] points = new WB_Point[4];
 			int i = 0;
 			HE_Halfedge he = _halfedge;
@@ -622,14 +524,9 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 			} while (he != _halfedge);
 			return WB_Triangulate.triangulateQuad(points[0], points[1], points[2], points[3]);
 		} else {
-			// logger.trace("Starting triangulation of face with " + fo +
-			// " faces.");
-			// tracker.setStatus("Triangulating face with " + fo
-			// + " vertices.");
 			triangles = new WB_Triangulate().triangulatePolygon2D(this.toPolygon(), optimize).getTriangles();
 		}
-		// // logger.debug("Returning triangles.");
-		// tracker.setStatus("Triangulation done.");
+
 		return triangles;
 	}
 

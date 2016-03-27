@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -131,8 +131,7 @@ public class HEM_Inflate extends HEM_Modifier {
 				neighbors = tree.getRange(v, radius);
 				for (int i = 0; i < neighbors.length; i++) {
 					if (neighbors[i].coord != v) {
-						final WB_Vector tmp = neighbors[i].coord
-								.subToVector3D(v);
+						final WB_Vector tmp = neighbors[i].coord.subToVector3D(v);
 						tmp.normalizeSelf();
 						dv.addSelf(tmp);
 					}
@@ -149,7 +148,6 @@ public class HEM_Inflate extends HEM_Modifier {
 				id++;
 			}
 		}
-		mesh.resetCenter();
 		if (autoRescale) {
 			mesh.fitInAABBConstrained(box);
 		}
@@ -176,8 +174,7 @@ public class HEM_Inflate extends HEM_Modifier {
 		while (vItr.hasNext()) {
 			tree.add(vItr.next(), id++);
 		}
-		final WB_Point[] newPositions = new WB_Point[selection
-		                                             .getNumberOfVertices()];
+		final WB_Point[] newPositions = new WB_Point[selection.getNumberOfVertices()];
 		if (iter < 1) {
 			iter = 1;
 		}
@@ -191,8 +188,7 @@ public class HEM_Inflate extends HEM_Modifier {
 				neighbors = tree.getRange(v, radius);
 				for (int i = 0; i < neighbors.length; i++) {
 					if (neighbors[i].coord != v) {
-						final WB_Vector tmp = neighbors[i].coord
-								.subToVector3D(v);
+						final WB_Vector tmp = neighbors[i].coord.subToVector3D(v);
 						tmp.normalizeSelf();
 						dv.addSelf(tmp);
 					}
@@ -209,7 +205,6 @@ public class HEM_Inflate extends HEM_Modifier {
 				id++;
 			}
 		}
-		selection.parent.resetCenter();
 		if (autoRescale) {
 			selection.parent.fitInAABBConstrained(box);
 		}

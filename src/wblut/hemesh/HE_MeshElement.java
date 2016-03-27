@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -17,8 +17,7 @@ import wblut.geom.WB_GeometryFactory;
  */
 public abstract class HE_MeshElement extends HE_Element {
 
-
-	protected boolean visited;
+	protected volatile boolean visited;
 	protected final static WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
 	protected static final WB_ProgressTracker tracker = WB_ProgressTracker.instance();
 
@@ -30,33 +29,28 @@ public abstract class HE_MeshElement extends HE_Element {
 		visited = false;
 	}
 
-
-
 	/**
-	 * 
+	 *
 	 */
 	public void clearVisited() {
 		visited = false;
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void setVisited() {
 		visited = true;
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public boolean isVisited() {
 		return visited;
 	}
-
-
-
 
 	/*
 	 * (non-Javadoc)
@@ -65,7 +59,7 @@ public abstract class HE_MeshElement extends HE_Element {
 	 */
 	@Override
 	public int hashCode() {
-		return (int) (_key ^ (_key >>> 32));
+		return (int) (_key ^ _key >>> 32);
 	}
 
 	/*
@@ -97,7 +91,9 @@ public abstract class HE_MeshElement extends HE_Element {
 		visited = el.visited;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.hemesh.HE_Element#clear()
 	 */
 	@Override

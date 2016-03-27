@@ -32,8 +32,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 	private int[] labels;
 	/** Reverse planar cuts. */
 	private boolean reverse = false;
-	/** Keep center of cut mesh. */
-	private boolean keepCenter = false;
+
 	/** Center used to sort cut planes. */
 	private WB_Point center;
 	/** Cap holes?. */
@@ -167,18 +166,6 @@ public class HEM_MultiSlice extends HEM_Modifier {
 		return this;
 	}
 
-	/**
-	 * Set option to reset mesh center.
-	 *
-	 * @param b
-	 *            true, false;
-	 * @return self
-	 */
-	public HEM_MultiSlice setKeepCenter(final Boolean b) {
-		keepCenter = b;
-		return this;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 *
@@ -198,7 +185,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 			}
 		}
 		Iterator<HE_Face> fItr = mesh.fItr();
-		mesh.resetFaceTemporaryLabels();
+		mesh.resetFaceInternalLabels();
 		final HEM_Slice slice = new HEM_Slice();
 		slice.setReverse(reverse).setCap(capHoles).setOffset(offset).setSimpleCap(simpleCap);
 		if (center != null) {
@@ -237,7 +224,6 @@ public class HEM_MultiSlice extends HEM_Modifier {
 			}
 			if (unique) {
 				slice.setPlane(Pi);
-				slice.setKeepCenter(true);
 				slice.apply(mesh);
 				fItr = slice.cap.fItr();
 				// System.out.println(slice.cap.getNumberOfFaces());
@@ -261,9 +247,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 				newFaces.add(f);
 			}
 		}
-		if (!keepCenter) {
-			mesh.resetCenter();
-		}
+
 		return mesh;
 	}
 

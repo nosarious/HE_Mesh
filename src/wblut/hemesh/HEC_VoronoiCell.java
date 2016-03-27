@@ -79,8 +79,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 		final int n = points.length;
 		this.points = new WB_Coord[n];
 		for (int i = 0; i < n; i++) {
-			this.points[i] = new WB_Point(points[i][0], points[i][1],
-					points[i][2]);
+			this.points[i] = new WB_Point(points[i][0], points[i][1], points[i][2]);
 		}
 		return this;
 	}
@@ -96,8 +95,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 		final int n = points.length;
 		this.points = new WB_Point[n];
 		for (int i = 0; i < n; i++) {
-			this.points[i] = new WB_Point(points[i][0], points[i][1],
-					points[i][2]);
+			this.points[i] = new WB_Point(points[i][0], points[i][1], points[i][2]);
 		}
 		return this;
 	}
@@ -231,7 +229,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 		if (numberOfPoints == 0) {
 			numberOfPoints = points.length;
 		}
-		if ((cellIndex < 0) || (cellIndex >= numberOfPoints)) {
+		if (cellIndex < 0 || cellIndex >= numberOfPoints) {
 			return container;
 		}
 		final HE_Mesh result = container.get();
@@ -282,15 +280,13 @@ public class HEC_VoronoiCell extends HEC_Creator {
 			}
 		}
 		final HEM_MultiSlice msm = new HEM_MultiSlice();
-		msm.setPlanes(cutPlanes).setCenter(new WB_Point(points[cellIndex]))
-		.setCap(!surface).setKeepCenter(true).setLabels(labels)
-		.setSimpleCap(simpleCap);
+		msm.setPlanes(cutPlanes).setCenter(new WB_Point(points[cellIndex])).setCap(!surface).setLabels(labels)
+				.setSimpleCap(simpleCap);
 		result.modify(msm);
 		inner = new HE_Selection(result);
 
 		for (int i = 0; i < labels.length; i++) {
-			final HE_Selection sel =
-					HE_Selection.selectFacesWithInternalLabel(result,labels[i]);
+			final HE_Selection sel = HE_Selection.selectFacesWithInternalLabel(result, labels[i]);
 			if (sel.getNumberOfFaces() > 0) {
 				final HE_FaceIterator fitr = sel.fItr();
 				while (fitr.hasNext()) {

@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -41,16 +41,15 @@ public class HEM_TaubinSmooth extends HEM_Modifier {
 	private int iter;
 
 	/**
-	 * 
+	 *
 	 */
-	public HEM_TaubinSmooth(){
-		lambda=0.5;
-		mu=-0.52;
-		iter=1;
-		keepBoundary=false;
+	public HEM_TaubinSmooth() {
+		lambda = 0.5;
+		mu = -0.52;
+		iter = 1;
+		keepBoundary = false;
 
 	}
-
 
 	/**
 	 *
@@ -62,9 +61,6 @@ public class HEM_TaubinSmooth extends HEM_Modifier {
 		autoRescale = b;
 		return this;
 	}
-
-
-
 
 	/**
 	 *
@@ -89,24 +85,24 @@ public class HEM_TaubinSmooth extends HEM_Modifier {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param lambda 
-	 * @return 
+	 *
+	 * @param lambda
+	 * @return
 	 */
-	public HEM_TaubinSmooth setLambda(final double lambda){
-		this.lambda=lambda;
+	public HEM_TaubinSmooth setLambda(final double lambda) {
+		this.lambda = lambda;
 		return this;
 	}
 
 	/**
-	 * 
 	 *
-	 * @param mu 
-	 * @return 
+	 *
+	 * @param mu
+	 * @return
 	 */
-	public HEM_TaubinSmooth setMu(final double mu){
-		this.mu=mu;
+	public HEM_TaubinSmooth setMu(final double mu) {
+		this.mu = mu;
 		return this;
 	}
 
@@ -130,7 +126,7 @@ public class HEM_TaubinSmooth extends HEM_Modifier {
 
 		tracker.setStatus(this, "Smoothing vertices.", counter);
 		for (int r = 0; r < iter; r++) {
-			double f=((r%2)==0)?lambda:mu;
+			double f = r % 2 == 0 ? lambda : mu;
 			Iterator<HE_Vertex> vItr = mesh.vItr();
 			HE_Vertex v;
 			List<HE_Vertex> neighbors;
@@ -142,11 +138,11 @@ public class HEM_TaubinSmooth extends HEM_Modifier {
 				if (v.isBoundary() && keepBoundary) {
 					newPositions[id] = v;
 				} else {
-					p = new WB_Point(v).mulSelf(1.0-f);
+					p = new WB_Point(v).mulSelf(1.0 - f);
 					neighbors = v.getNeighborVertices();
 
 					for (int i = 0; i < neighbors.size(); i++) {
-						p.addMulSelf(f/neighbors.size(),neighbors.get(i));
+						p.addMulSelf(f / neighbors.size(), neighbors.get(i));
 					}
 					newPositions[id] = p;
 				}
@@ -160,7 +156,7 @@ public class HEM_TaubinSmooth extends HEM_Modifier {
 				counter.increment();
 			}
 		}
-		mesh.resetCenter();
+
 		if (autoRescale) {
 			mesh.fitInAABB(box);
 		}
@@ -190,7 +186,7 @@ public class HEM_TaubinSmooth extends HEM_Modifier {
 
 		tracker.setStatus(this, "Smoothing vertices.", counter);
 		for (int r = 0; r < iter; r++) {
-			double f=((r%2)==0)?lambda:mu;
+			double f = r % 2 == 0 ? lambda : mu;
 			Iterator<HE_Vertex> vItr = selection.vItr();
 			HE_Vertex v;
 			HE_Vertex n;
@@ -212,9 +208,9 @@ public class HEM_TaubinSmooth extends HEM_Modifier {
 					}
 
 					for (int i = 0; i < neighbors.size(); i++) {
-						p.addMulSelf(f/neighbors.size(),neighbors.get(i));
+						p.addMulSelf(f / neighbors.size(), neighbors.get(i));
 					}
-					newPositions[id] = p.addMulSelf(1.0-f,v);
+					newPositions[id] = p.addMulSelf(1.0 - f, v);
 				}
 				id++;
 			}
@@ -226,7 +222,7 @@ public class HEM_TaubinSmooth extends HEM_Modifier {
 				counter.increment();
 			}
 		}
-		selection.parent.resetCenter();
+
 		if (autoRescale) {
 			selection.parent.fitInAABB(box);
 		}

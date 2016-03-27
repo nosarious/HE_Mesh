@@ -44,7 +44,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 	private WB_ScalarParameter blendFactor;
 
 	/**
-	
+
 	 */
 	public HES_CatmullClark() {
 		super();
@@ -107,7 +107,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
 		tracker.setStatus(this, "Starting HES_CatmullClark", +1);
-		mesh.resetVertexTemporaryLabels();
+		mesh.resetVertexInternalLabels();
 		final HashMap<Long, WB_Point> avgFC = new HashMap<Long, WB_Point>();
 		HE_Vertex v;
 		Iterator<HE_Vertex> vItr = mesh.vItr();
@@ -227,7 +227,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
-		selection.parent.resetVertexTemporaryLabels();
+		selection.parent.resetVertexInternalLabels();
 		final HashMap<Long, WB_Point> avgFC = new HashMap<Long, WB_Point>();
 		HE_Vertex v;
 		Iterator<HE_Vertex> vItr = selection.parent.vItr();

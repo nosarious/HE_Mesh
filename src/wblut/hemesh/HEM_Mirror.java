@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -27,10 +27,7 @@ import wblut.math.WB_Epsilon;
  */
 public class HEM_Mirror extends HEM_Modifier {
 
-
 	private WB_Plane P;
-
-	private boolean keepCenter = false;
 
 	private boolean keepLargest;
 
@@ -39,7 +36,6 @@ public class HEM_Mirror extends HEM_Modifier {
 	public HE_Selection cut;
 
 	private double offset;
-
 
 	/**
 	 *
@@ -59,7 +55,6 @@ public class HEM_Mirror extends HEM_Modifier {
 		return this;
 	}
 
-
 	/**
 	 *
 	 *
@@ -74,13 +69,13 @@ public class HEM_Mirror extends HEM_Modifier {
 	/**
 	 * Set plane by origin and normal.
 	 *
-	 * @param ox 
-	 * @param oy 
-	 * @param oz 
-	 * @param nx 
-	 * @param ny 
-	 * @param nz 
-	 * @return 
+	 * @param ox
+	 * @param oy
+	 * @param oz
+	 * @param nx
+	 * @param ny
+	 * @param nz
+	 * @return
 	 */
 	public HEM_Mirror setPlane(final double ox, final double oy, final double oz, final double nx, final double ny,
 			final double nz) {
@@ -99,24 +94,14 @@ public class HEM_Mirror extends HEM_Modifier {
 		return this;
 	}
 
-	/** Mirror the largest part? Ignores the reverse setting.
+	/**
+	 * Mirror the largest part? Ignores the reverse setting.
 	 *
 	 * @param b
 	 * @return
 	 */
 	public HEM_Mirror setKeepLargest(final Boolean b) {
 		keepLargest = b;
-		return this;
-	}
-
-	/**
-	 * Reset the center of the mirrored mesh to the center of the original mesh.
-	 *
-	 * @param b 
-	 * @return 
-	 */
-	public HEM_Mirror setKeepCenter(final Boolean b) {
-		keepCenter = b;
 		return this;
 	}
 
@@ -153,8 +138,7 @@ public class HEM_Mirror extends HEM_Modifier {
 		WB_ProgressCounter counter = new WB_ProgressCounter(mesh.getNumberOfFaces(), 10);
 		tracker.setStatus(this, "Classifying mesh faces.", counter);
 		Iterator<HE_Face> fItr = mesh.fItr();
-		List<WB_Classification> sides=new FastTable<WB_Classification>();
-
+		List<WB_Classification> sides = new FastTable<WB_Classification>();
 
 		int front = 0;
 		int back = 0;
@@ -162,25 +146,25 @@ public class HEM_Mirror extends HEM_Modifier {
 			face = fItr.next();
 			final WB_Classification cptp = WB_GeometryOp.classifyPolygonToPlane3D(face.toPolygon(), lP);
 			sides.add(cptp);
-			if ((cptp == WB_Classification.FRONT)) {
+			if (cptp == WB_Classification.FRONT) {
 				front++;
 			} else {
 				back++;
 			}
 
 		}
-		boolean flip=false;
+		boolean flip = false;
 		if (keepLargest) {
 			if (back > front) {
-				flip=true;
+				flip = true;
 			}
 		}
 		fItr = mesh.fItr();
-		int id=0;
+		int id = 0;
 		while (fItr.hasNext()) {
 			face = fItr.next();
 			final WB_Classification cptp = sides.get(id++);
-			if ((cptp ==((flip)?WB_Classification.BACK: WB_Classification.FRONT)) || (cptp == WB_Classification.ON)) {
+			if (cptp == (flip ? WB_Classification.BACK : WB_Classification.FRONT) || cptp == WB_Classification.ON) {
 				newFaces.add(face);
 			} else {
 				if (cut.contains(face)) {
@@ -218,7 +202,7 @@ public class HEM_Mirror extends HEM_Modifier {
 				final List<HE_Halfedge> star = v.getHalfedgeStar();
 				origv = mesh.getVertexWithIndex(i);
 				for (final HE_Halfedge he : star) {
-					mesh.setVertex(he,origv);
+					mesh.setVertex(he, origv);
 				}
 				mirrormesh.remove(v);
 			} else {
@@ -229,13 +213,11 @@ public class HEM_Mirror extends HEM_Modifier {
 		mirrormesh.flipFaces();
 		mesh.uncapBoundaryHalfedges();
 		mirrormesh.uncapBoundaryHalfedges();
-		tracker.setStatus(this, "Adding Mirrored mesh.",0);
+		tracker.setStatus(this, "Adding Mirrored mesh.", 0);
 		mesh.add(mirrormesh);
 		mesh.pairHalfedges();
 		mesh.capHalfedges();
-		if (!keepCenter) {
-			mesh.resetCenter();
-		}
+
 		tracker.setStatus(this, "Exiting HEM_Mirror.", -1);
 		return mesh;
 	}

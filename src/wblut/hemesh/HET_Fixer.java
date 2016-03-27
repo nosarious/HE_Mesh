@@ -424,7 +424,7 @@ public class HET_Fixer {
 	 */
 	public static List<HET_SelfIntersectionResult> checkSelfIntersection(final HE_Mesh mesh) {
 		mesh.triangulate();
-		mesh.resetFaceTemporaryLabels();
+		mesh.resetFaceInternalLabels();
 		final WB_AABBTree tree = new WB_AABBTree(mesh, 1);
 		/*
 		 * final HE_FaceIterator fitr = mesh.fItr(); final
@@ -515,7 +515,7 @@ public class HET_Fixer {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.util.concurrent.Callable#call()
 		 */
 		@Override

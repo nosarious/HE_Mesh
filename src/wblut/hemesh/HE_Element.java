@@ -16,10 +16,9 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public abstract class HE_Element {
 
-	protected static AtomicLong _currentKey=new AtomicLong(0);
+	protected static AtomicLong _currentKey = new AtomicLong(0);
 	protected final long _key;
 	protected long _labels;
-
 
 	/**
 	 *
@@ -29,28 +28,12 @@ public abstract class HE_Element {
 		_labels = mergeLabels(-1, -1);
 	}
 
-
-
-	/**
-	 *
-	 *
-	 * @param internal
-	 * @param external
-	 * @return
-	 */
 	private long mergeLabels(final int internal, final int external) {
-		return (((long) internal) << 32) | (external & 0xffffffffL);
+		return (long) internal << 32 | external & 0xffffffffL;
 
 	}
 
-
-
-	/**
-	 *
-	 *
-	 * @param label
-	 */
-	public final void setInternalLabel(final int label) {
+	protected final void setInternalLabel(final int label) {
 		_labels = mergeLabels(label, getLabel());
 	}
 
@@ -63,7 +46,6 @@ public abstract class HE_Element {
 		_labels = mergeLabels(getInternalLabel(), label);
 	}
 
-
 	/**
 	 *
 	 *
@@ -72,7 +54,6 @@ public abstract class HE_Element {
 	public final long getKey() {
 		return _key;
 	}
-
 
 	/**
 	 *
@@ -100,7 +81,7 @@ public abstract class HE_Element {
 	 */
 	@Override
 	public int hashCode() {
-		return (int) (_key ^ (_key >>> 32));
+		return (int) (_key ^ _key >>> 32);
 	}
 
 	/*

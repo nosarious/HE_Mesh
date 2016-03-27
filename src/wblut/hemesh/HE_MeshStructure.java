@@ -13,7 +13,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import gnu.trove.map.TLongIntMap;
+import gnu.trove.map.hash.TLongIntHashMap;
+import javolution.util.FastMap;
 import javolution.util.FastTable;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_Coord;
@@ -1121,38 +1125,6 @@ public class HE_MeshStructure extends HE_MeshElement {
 	/**
 	 *
 	 *
-	 * @param vertices
-	 * @param loop
-	 * @return
-	 */
-	public HE_Path createPathFromIndices(final int[] vertices, final boolean loop) {
-		final List<HE_Halfedge> halfedges = new FastTable<HE_Halfedge>();
-		if (vertices.length > 1) {
-			HE_Halfedge he;
-			for (int i = 0; i < vertices.length - 1; i++) {
-				he = searchHalfedgeFromTo(getVertexWithIndex(vertices[i]), getVertexWithIndex(vertices[i + 1]));
-				if (he == null) {
-					throw new IllegalArgumentException(
-							"Two vertices " + vertices[i] + " and " + vertices[i + 1] + " in path are not connected.");
-				}
-				halfedges.add(he);
-			}
-			if (loop) {
-				he = searchHalfedgeFromTo(getVertexWithIndex(vertices[vertices.length - 1]),
-						getVertexWithIndex(vertices[0]));
-				if (he == null) {
-					throw new IllegalArgumentException("Vertices " + vertices[vertices.length - 1] + " and "
-							+ vertices[0] + " in path are not connected: path is not a loop.");
-				}
-			}
-		}
-		final HE_Path path = new HE_Path(halfedges, loop);
-		return path;
-	}
-
-	/**
-	 *
-	 *
 	 * @param v0
 	 * @param v1
 	 * @return
@@ -1375,6 +1347,749 @@ public class HE_MeshStructure extends HE_MeshElement {
 		Collections.sort(sortedVertices);
 		clearVertices();
 		addVertices(sortedVertices);
+	}
+
+	/**
+	 * Reset labels.
+	 */
+	public void resetLabels() {
+		resetVertexLabels();
+		resetFaceLabels();
+		resetEdgeLabels();
+		resetHalfedgeLabels();
+	}
+
+	/**
+	 * Reset vertex labels.
+	 */
+	public void resetVertexLabels() {
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			vItr.next().setLabel(-1);
+		}
+	}
+
+	/**
+	 * Reset face labels.
+	 */
+	public void resetFaceLabels() {
+		final Iterator<HE_Face> fItr = fItr();
+		while (fItr.hasNext()) {
+			fItr.next().setLabel(-1);
+		}
+	}
+
+	/**
+	 * Reset edge labels.
+	 */
+	public void resetEdgeLabels() {
+		final Iterator<HE_Halfedge> eItr = eItr();
+		while (eItr.hasNext()) {
+			eItr.next().setLabel(-1);
+		}
+	}
+
+	/**
+	 * Reset edge labels.
+	 */
+	public void resetHalfedgeLabels() {
+		final Iterator<HE_Halfedge> heItr = heItr();
+		while (heItr.hasNext()) {
+			heItr.next().setLabel(-1);
+		}
+	}
+
+	/**
+	 * Reset vertex labels.
+	 */
+	public void setVertexLabels(final int label) {
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			vItr.next().setLabel(label);
+		}
+	}
+
+	/**
+	 * Reset face labels.
+	 */
+	public void setFaceLabels(final int label) {
+		final Iterator<HE_Face> fItr = fItr();
+		while (fItr.hasNext()) {
+			fItr.next().setLabel(label);
+		}
+	}
+
+	/**
+	 * Reset edge labels.
+	 */
+	public void setEdgeLabels(final int label) {
+		final Iterator<HE_Halfedge> eItr = eItr();
+		while (eItr.hasNext()) {
+			eItr.next().setLabel(label);
+		}
+	}
+
+	/**
+	 * Reset edge labels.
+	 */
+	public void setHalfedgeLabels(final int label) {
+		final Iterator<HE_Halfedge> heItr = heItr();
+		while (heItr.hasNext()) {
+			heItr.next().setLabel(label);
+		}
+	}
+
+	/**
+	 * Reset internal labels.
+	 *
+	 */
+
+	protected void resetInternalLabels() {
+		resetVertexInternalLabels();
+		resetFaceInternalLabels();
+		resetEdgeInternalLabels();
+		resetHalfedgeInternalLabels();
+	}
+
+	/**
+	 * Reset vertex labels.
+	 *
+	 *
+	 */
+
+	protected void resetVertexInternalLabels() {
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			vItr.next().setInternalLabel(-1);
+		}
+	}
+
+	/**
+	 * Reset face labels.
+	 *
+	 *
+	 */
+
+	protected void resetFaceInternalLabels() {
+		final Iterator<HE_Face> fItr = fItr();
+		while (fItr.hasNext()) {
+			fItr.next().setInternalLabel(-1);
+		}
+	}
+
+	/**
+	 * Reset edge labels.
+	 *
+	 */
+
+	protected void resetEdgeInternalLabels() {
+		final Iterator<HE_Halfedge> eItr = eItr();
+		while (eItr.hasNext()) {
+			eItr.next().setInternalLabel(-1);
+		}
+	}
+
+	/**
+	 * Reset edge labels.
+	 *
+	 */
+
+	protected void resetHalfedgeInternalLabels() {
+		final Iterator<HE_Halfedge> heItr = heItr();
+		while (heItr.hasNext()) {
+			heItr.next().setInternalLabel(-1);
+		}
+	}
+
+	/**
+	 * Reset vertex labels.
+	 *
+	 *
+	 */
+
+	protected void setVertexInternalLabels(final int label) {
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			vItr.next().setInternalLabel(label);
+		}
+	}
+
+	/**
+	 * Reset face labels.
+	 *
+	 *
+	 */
+
+	protected void setFaceInternalLabels(final int label) {
+		final Iterator<HE_Face> fItr = fItr();
+		while (fItr.hasNext()) {
+			fItr.next().setInternalLabel(label);
+		}
+	}
+
+	/**
+	 * Reset edge labels.
+	 *
+	 */
+
+	protected void setEdgeInternalLabels(final int label) {
+		final Iterator<HE_Halfedge> eItr = eItr();
+		while (eItr.hasNext()) {
+			eItr.next().setInternalLabel(label);
+		}
+	}
+
+	/**
+	 * Reset edge labels.
+	 *
+	 */
+
+	protected void setHalfedgeInternalLabels(final int label) {
+		final Iterator<HE_Halfedge> heItr = heItr();
+		while (heItr.hasNext()) {
+			heItr.next().setInternalLabel(label);
+		}
+	}
+
+	/**
+	 * Return all vertex positions as an array .
+	 *
+	 * @return 2D array of float. First index gives vertex. Second index gives
+	 *         x-,y- or z-coordinate.
+	 */
+	public float[][] getVerticesAsFloat() {
+		final float[][] result = new float[getNumberOfVertices()][3];
+		int i = 0;
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			result[i][0] = v.xf();
+			result[i][1] = v.yf();
+			result[i][2] = v.zf();
+			i++;
+		}
+		return result;
+	}
+
+	/**
+	 * Return all vertex positions as an array .
+	 *
+	 * @return 2D array of double. First index gives vertex. Second index gives
+	 *         x-,y- or z-coordinate.
+	 */
+	public double[][] getVerticesAsDouble() {
+		final double[][] result = new double[getNumberOfVertices()][3];
+		int i = 0;
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			result[i][0] = v.xd();
+			result[i][1] = v.yd();
+			result[i][2] = v.zd();
+			i++;
+		}
+		return result;
+	}
+
+	/**
+	 * Vertex key to index.
+	 *
+	 * @return the map
+	 */
+	public Map<Long, Integer> getVertexKeyToIndexMap() {
+		final Map<Long, Integer> map = new FastMap<Long, Integer>();
+		int i = 0;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			map.put(vItr.next().key(), i);
+			i++;
+		}
+		return map;
+	}
+
+	/**
+	 * Return all vertex positions as an array of immutable WB_Coord.
+	 *
+	 * @return array of WB_Coordinate, no copies are made.
+	 */
+	public WB_Coord[] getVerticesAsPoint() {
+		final WB_Coord[] result = new WB_Coord[getNumberOfVertices()];
+		int i = 0;
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			result[i] = v;
+			i++;
+		}
+		return result;
+	}
+
+	/**
+	 * Return all vertex normals.
+	 *
+	 * @return array of WB_Coordinate.
+	 */
+	public WB_Coord[] getVertexNormals() {
+		final WB_Coord[] result = new WB_Coord[getNumberOfVertices()];
+		int i = 0;
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			result[i] = v.getVertexNormal();
+			i++;
+		}
+		return result;
+	}
+
+	/**
+	 * Get vertex normals mapped on vertex key
+	 *
+	 *
+	 * @return
+	 */
+	public Map<Long, WB_Coord> getKeyedVertexNormals() {
+		final Map<Long, WB_Coord> result = new FastMap<Long, WB_Coord>();
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			result.put(v.key(), v.getVertexNormal());
+		}
+		return result;
+	}
+
+	/**
+	 * Return all vertex positions as an array of mutable HE_Vertex.
+	 *
+	 * @return array of HE_Vertex, no copies are made.
+	 */
+	public HE_Vertex[] getLiveVertices() {
+		final HE_Vertex[] result = new HE_Vertex[getNumberOfVertices()];
+		int i = 0;
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			result[i] = v;
+			i++;
+		}
+		return result;
+	}
+
+	/**
+	 * Return the faces as array of vertex indices.
+	 *
+	 * @return 2D array of int. First index gives face. Second index gives
+	 *         vertices.
+	 */
+
+	public int[][] getFacesAsInt() {
+		final int[][] result = new int[getNumberOfFaces()][];
+		final TLongIntMap vertexKeys = new TLongIntHashMap(10, 0.5f, -1L, -1);
+		final Iterator<HE_Vertex> vItr = vItr();
+		int i = 0;
+		while (vItr.hasNext()) {
+			vertexKeys.put(vItr.next().key(), i);
+			i++;
+		}
+		final Iterator<HE_Face> fItr = fItr();
+		HE_Halfedge he;
+		HE_Face f;
+		i = 0;
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			result[i] = new int[f.getFaceOrder()];
+			he = f.getHalfedge();
+			int j = 0;
+			do {
+				result[i][j] = vertexKeys.get(he.getVertex().key());
+				he = he.getNextInFace();
+				j++;
+			} while (he != f.getHalfedge());
+			i++;
+		}
+		return result;
+	}
+
+	/**
+	 * Return all face normals.
+	 *
+	 * @return array of WB_Coordinate.
+	 */
+	public WB_Coord[] getFaceNormals() {
+		final WB_Coord[] result = new WB_Coord[getNumberOfFaces()];
+		int i = 0;
+		HE_Face f;
+		final Iterator<HE_Face> fItr = fItr();
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			result[i] = f.getFaceNormal();
+			i++;
+		}
+		return result;
+	}
+
+	/**
+	 * Return all face normals.
+	 *
+	 * @return FastMap of WB_Coordinate.
+	 */
+	public Map<Long, WB_Coord> getKeyedFaceNormals() {
+		final Map<Long, WB_Coord> result = new FastMap<Long, WB_Coord>();
+		HE_Face f;
+		final Iterator<HE_Face> fItr = fItr();
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			result.put(f.key(), f.getFaceNormal());
+		}
+		return result;
+	}
+
+	/**
+	 * Return all face centers.
+	 *
+	 * @return array of WB_Coordinate.
+	 */
+	public WB_Coord[] getFaceCenters() {
+		final WB_Coord[] result = new WB_Coord[getNumberOfFaces()];
+		int i = 0;
+		HE_Face f;
+		final Iterator<HE_Face> fItr = fItr();
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			result[i] = f.getFaceCenter();
+			i++;
+		}
+		return result;
+	}
+
+	/**
+	 * Return all face centers.
+	 *
+	 * @return FastMap of WB_Coordinate.
+	 */
+	public Map<Long, WB_Coord> getKeyedFaceCenters() {
+		final Map<Long, WB_Coord> result = new FastMap<Long, WB_Coord>();
+		HE_Face f;
+		final Iterator<HE_Face> fItr = fItr();
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			result.put(f.key(), f.getFaceCenter());
+		}
+		return result;
+	}
+
+	/**
+	 * Return all edge normals.
+	 *
+	 * @return array of WB_Coordinate.
+	 */
+	public WB_Coord[] getEdgeNormals() {
+		final WB_Coord[] result = new WB_Coord[getNumberOfEdges()];
+		int i = 0;
+		HE_Halfedge e;
+		final Iterator<HE_Halfedge> eItr = eItr();
+		while (eItr.hasNext()) {
+			e = eItr.next();
+			result[i] = e.getEdgeNormal();
+			i++;
+		}
+		return result;
+	}
+
+	/**
+	 * Return all edge normals.
+	 *
+	 * @return FastMap of WB_Coordinate.
+	 */
+	public Map<Long, WB_Coord> getKeyedEdgeNormals() {
+		final Map<Long, WB_Coord> result = new FastMap<Long, WB_Coord>();
+		HE_Halfedge e;
+		final Iterator<HE_Halfedge> eItr = eItr();
+		while (eItr.hasNext()) {
+			e = eItr.next();
+			result.put(e.key(), e.getEdgeNormal());
+		}
+		return result;
+	}
+
+	/**
+	 * Return all edge centers.
+	 *
+	 * @return array of WB_Coordinate.
+	 */
+	public WB_Coord[] getEdgeCenters() {
+		final WB_Coord[] result = new WB_Coord[getNumberOfEdges()];
+		int i = 0;
+		HE_Halfedge e;
+		final Iterator<HE_Halfedge> eItr = eItr();
+		while (eItr.hasNext()) {
+			e = eItr.next();
+			result[i] = e.getHalfedgeCenter();
+			i++;
+		}
+		return result;
+	}
+
+	/**
+	 * Return all edge centers.
+	 *
+	 * @return FastMap of WB_Coordinate.
+	 */
+	public Map<Long, WB_Coord> getKeyedEdgeCenters() {
+		final Map<Long, WB_Coord> result = new FastMap<Long, WB_Coord>();
+		HE_Halfedge e;
+		final Iterator<HE_Halfedge> eItr = eItr();
+		while (eItr.hasNext()) {
+			e = eItr.next();
+			result.put(e.key(), e.getHalfedgeCenter());
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 */
+	public void setFaceColor(final int color) {
+		final HE_FaceIterator fitr = fItr();
+		while (fitr.hasNext()) {
+			fitr.next().setColor(color);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 */
+	public void setVertexColor(final int color) {
+		final HE_VertexIterator vitr = vItr();
+		while (vitr.hasNext()) {
+			vitr.next().setColor(color);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 */
+	public void setHalfedgeColor(final int color) {
+		final HE_HalfedgeIterator heitr = heItr();
+		while (heitr.hasNext()) {
+			heitr.next().setColor(color);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 * @param i
+	 */
+	public void setFaceColorWithLabel(final int color, final int i) {
+		final HE_FaceIterator fitr = fItr();
+		HE_Face f;
+		while (fitr.hasNext()) {
+			f = fitr.next();
+			if (f.getLabel() == i) {
+				f.setColor(color);
+			}
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 * @param i
+	 */
+	public void setFaceColorWithInternalLabel(final int color, final int i) {
+		final HE_FaceIterator fitr = fItr();
+		HE_Face f;
+		while (fitr.hasNext()) {
+			f = fitr.next();
+			if (f.getInternalLabel() == i) {
+				f.setColor(color);
+			}
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 * @param i
+	 */
+	public void setVertexColorWithLabel(final int color, final int i) {
+		final HE_VertexIterator fitr = vItr();
+		HE_Vertex f;
+		while (fitr.hasNext()) {
+			f = fitr.next();
+			if (f.getLabel() == i) {
+				f.setColor(color);
+			}
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 * @param i
+	 */
+	public void setVertexColorWithInternalLabel(final int color, final int i) {
+		final HE_VertexIterator fitr = vItr();
+		HE_Vertex f;
+		while (fitr.hasNext()) {
+			f = fitr.next();
+			if (f.getInternalLabel() == i) {
+				f.setColor(color);
+			}
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 * @param i
+	 */
+	public void setHalfedgeColorWithLabel(final int color, final int i) {
+		final HE_HalfedgeIterator fitr = heItr();
+		HE_Halfedge f;
+		while (fitr.hasNext()) {
+			f = fitr.next();
+			if (f.getLabel() == i) {
+				f.setColor(color);
+			}
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 * @param i
+	 */
+	public void setHalfedgeColorWithInternalLabel(final int color, final int i) {
+		final HE_HalfedgeIterator fitr = heItr();
+		HE_Halfedge f;
+		while (fitr.hasNext()) {
+			f = fitr.next();
+			if (f.getInternalLabel() == i) {
+				f.setColor(color);
+			}
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 * @param i
+	 */
+	public void setFaceColorWithOtherLabel(final int color, final int i) {
+		final HE_FaceIterator fitr = fItr();
+		HE_Face f;
+		while (fitr.hasNext()) {
+			f = fitr.next();
+			if (f.getLabel() != i) {
+				f.setColor(color);
+			}
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 * @param i
+	 */
+	public void setFaceColorWithOtherInternalLabel(final int color, final int i) {
+		final HE_FaceIterator fitr = fItr();
+		HE_Face f;
+		while (fitr.hasNext()) {
+			f = fitr.next();
+			if (f.getInternalLabel() != i) {
+				f.setColor(color);
+			}
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 * @param i
+	 */
+	public void setVertexColorWithOtherLabel(final int color, final int i) {
+		final HE_VertexIterator fitr = vItr();
+		HE_Vertex f;
+		while (fitr.hasNext()) {
+			f = fitr.next();
+			if (f.getLabel() != i) {
+				f.setColor(color);
+			}
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 * @param i
+	 */
+	public void setVertexColorWithOtherInternalLabel(final int color, final int i) {
+		final HE_VertexIterator vitr = vItr();
+		HE_Vertex v;
+		while (vitr.hasNext()) {
+			v = vitr.next();
+			if (v.getInternalLabel() != i) {
+				v.setColor(color);
+			}
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 * @param i
+	 */
+	public void setHalfedgeColorWithOtherLabel(final int color, final int i) {
+		final HE_HalfedgeIterator heitr = heItr();
+		HE_Halfedge he;
+		while (heitr.hasNext()) {
+			he = heitr.next();
+			if (he.getLabel() != i) {
+				he.setColor(color);
+			}
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param color
+	 * @param i
+	 */
+	public void setHalfedgeColorWithOtherInternalLabel(final int color, final int i) {
+		final HE_HalfedgeIterator heitr = heItr();
+		;
+		HE_Halfedge f;
+		while (heitr.hasNext()) {
+			f = heitr.next();
+			if (f.getInternalLabel() != i) {
+				f.setColor(color);
+			}
+		}
 	}
 
 }

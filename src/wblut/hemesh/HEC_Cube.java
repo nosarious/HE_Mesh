@@ -16,13 +16,9 @@ package wblut.hemesh;
  *
  */
 public class HEC_Cube extends HEC_Creator {
-	/** The W. */
 	private double W;
-	/** The L. */
 	private int L;
-	/** The M. */
 	private int M;
-	/** The N. */
 	private int N;
 
 	/**
@@ -32,7 +28,7 @@ public class HEC_Cube extends HEC_Creator {
 	public HEC_Cube() {
 		super();
 		W = 100;
-		L=M=N=1;
+		L = M = N = 1;
 	}
 
 	/**

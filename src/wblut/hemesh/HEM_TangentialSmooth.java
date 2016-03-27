@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -43,12 +43,12 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 	private double lambda;
 
 	/**
-	 * 
+	 *
 	 */
-	public HEM_TangentialSmooth(){
-		lambda=0.5;
-		iter=1;
-		keepBoundary=false;
+	public HEM_TangentialSmooth() {
+		lambda = 0.5;
+		iter = 1;
+		keepBoundary = false;
 
 	}
 
@@ -86,13 +86,13 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param lambda 
-	 * @return 
+	 *
+	 * @param lambda
+	 * @return
 	 */
-	public HEM_TangentialSmooth setLambda(final double lambda){
-		this.lambda=lambda;
+	public HEM_TangentialSmooth setLambda(final double lambda) {
+		this.lambda = lambda;
 		return this;
 	}
 
@@ -130,9 +130,9 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 				} else {
 					p = new WB_Point(v);
 					neighbors = v.getNeighborVertices();
-					p.mulSelf(1-lambda);
+					p.mulSelf(1 - lambda);
 					for (int i = 0; i < neighbors.size(); i++) {
-						p.addMulSelf(lambda/neighbors.size(),neighbors.get(i));
+						p.addMulSelf(lambda / neighbors.size(), neighbors.get(i));
 					}
 					newPositions[id] = projectOnPlane(p, tangent);
 				}
@@ -146,7 +146,7 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 				counter.increment();
 			}
 		}
-		mesh.resetCenter();
+
 		if (autoRescale) {
 			mesh.fitInAABB(box);
 		}
@@ -198,9 +198,9 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 					}
 
 					for (int i = 0; i < neighbors.size(); i++) {
-						p.addMulSelf(lambda/neighbors.size(),neighbors.get(i));
+						p.addMulSelf(lambda / neighbors.size(), neighbors.get(i));
 					}
-					newPositions[id] = projectOnPlane(p.addMulSelf(1.0-lambda,v), tangent);
+					newPositions[id] = projectOnPlane(p.addMulSelf(1.0 - lambda, v), tangent);
 				}
 				id++;
 			}
@@ -212,7 +212,7 @@ public class HEM_TangentialSmooth extends HEM_Modifier {
 				counter.increment();
 			}
 		}
-		selection.parent.resetCenter();
+
 		if (autoRescale) {
 			selection.parent.fitInAABB(box);
 		}

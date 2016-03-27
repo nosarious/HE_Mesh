@@ -14,14 +14,12 @@ import static wblut.math.WB_Epsilon.isZeroSq;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import gnu.trove.iterator.TLongObjectIterator;
 import gnu.trove.map.TLongIntMap;
 import gnu.trove.map.TLongObjectMap;
 import gnu.trove.map.hash.TLongIntHashMap;
 import gnu.trove.map.hash.TLongObjectHashMap;
-import javolution.util.FastMap;
 import javolution.util.FastTable;
 import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_AABB;
@@ -33,7 +31,6 @@ import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_GeometryType;
 import wblut.geom.WB_HasColor;
-import wblut.geom.WB_IndexedSegment;
 import wblut.geom.WB_IntersectionResult;
 import wblut.geom.WB_KDTree;
 import wblut.geom.WB_KDTree.WB_KDEntry;
@@ -59,18 +56,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 *
 	 */
 	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
-	/**
-	 *
-	 */
-	private WB_Coord center;
-	/**
-	 *
-	 */
-	private boolean isCenterUpdated;
-	/**
-	 *
-	 */
-	protected int label;
+
 	/**
 	 *
 	 */
@@ -82,9 +68,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	public HE_Mesh() {
 		super();
-		center = new WB_Point();
-		isCenterUpdated = false;
-		label = -1;
 	}
 
 	/**
@@ -96,9 +79,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	public HE_Mesh(final HEC_Creator creator) {
 		super();
 		setNoCopy(creator.create());
-
-		isCenterUpdated = false;
-		label = -1;
 	}
 
 	/**
@@ -284,306 +264,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		replaceVertices(target);
 		replaceFaces(target);
 		replaceHalfedges(target);
-		center = target.center;
-		isCenterUpdated = target.isCenterUpdated;
-	}
 
-	/**
-	 * Return all vertex positions as an array .
-	 *
-	 * @return 2D array of float. First index gives vertex. Second index gives
-	 *         x-,y- or z-coordinate.
-	 */
-	public float[][] getVerticesAsFloat() {
-		final float[][] result = new float[getNumberOfVertices()][3];
-		int i = 0;
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			result[i][0] = v.xf();
-			result[i][1] = v.yf();
-			result[i][2] = v.zf();
-			i++;
-		}
-		return result;
-	}
-
-	/**
-	 * Return all vertex positions as an array .
-	 *
-	 * @return 2D array of double. First index gives vertex. Second index gives
-	 *         x-,y- or z-coordinate.
-	 */
-	public double[][] getVerticesAsDouble() {
-		final double[][] result = new double[getNumberOfVertices()][3];
-		int i = 0;
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			result[i][0] = v.xd();
-			result[i][1] = v.yd();
-			result[i][2] = v.zd();
-			i++;
-		}
-		return result;
-	}
-
-	/**
-	 * Vertex key to index.
-	 *
-	 * @return the map
-	 */
-	public Map<Long, Integer> vertexKeyToIndex() {
-		final Map<Long, Integer> map = new FastMap<Long, Integer>();
-		int i = 0;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			map.put(vItr.next().key(), i);
-			i++;
-		}
-		return map;
-	}
-
-	/**
-	 * Return all vertex positions.
-	 *
-	 * @return array of WB_Point, values are copied.
-	 */
-	public WB_Point[] getVerticesAsNewPoint() {
-		final WB_Point[] result = new WB_Point[getNumberOfVertices()];
-		int i = 0;
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			result[i] = new WB_Point(v);
-			i++;
-		}
-		return result;
-	}
-
-	/**
-	 * Return all vertex positions.
-	 *
-	 * @return array of WB_Coordinate, no copies are made.
-	 */
-	public WB_Coord[] getVerticesAsPoint() {
-		final WB_Coord[] result = new WB_Coord[getNumberOfVertices()];
-		int i = 0;
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			result[i] = v;
-			i++;
-		}
-		return result;
-	}
-
-	/**
-	 * Return all vertex normal.
-	 *
-	 * @return array of WB_Coordinate.
-	 */
-	public WB_Coord[] getVertexNormals() {
-		final WB_Coord[] result = new WB_Coord[getNumberOfVertices()];
-		int i = 0;
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			result[i] = v.getVertexNormal();
-			i++;
-		}
-		return result;
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public Map<Long, WB_Coord> getKeyedVertexNormals() {
-		final Map<Long, WB_Coord> result = new FastMap<Long, WB_Coord>();
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			result.put(v.key(), v.getVertexNormal());
-		}
-		return result;
-	}
-
-	/**
-	 * Return the faces as array of vertex indices.
-	 *
-	 * @return 2D array of int. First index gives face. Second index gives
-	 *         vertices.
-	 */
-	@Override
-	public int[][] getFacesAsInt() {
-		final int[][] result = new int[getNumberOfFaces()][];
-		final TLongIntMap vertexKeys = new TLongIntHashMap(10, 0.5f, -1L, -1);
-		final Iterator<HE_Vertex> vItr = vItr();
-		int i = 0;
-		while (vItr.hasNext()) {
-			vertexKeys.put(vItr.next().key(), i);
-			i++;
-		}
-		final Iterator<HE_Face> fItr = fItr();
-		HE_Halfedge he;
-		HE_Face f;
-		i = 0;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			result[i] = new int[f.getFaceOrder()];
-			he = f.getHalfedge();
-			int j = 0;
-			do {
-				result[i][j] = vertexKeys.get(he.getVertex().key());
-				he = he.getNextInFace();
-				j++;
-			} while (he != f.getHalfedge());
-			i++;
-		}
-		return result;
-	}
-
-	/**
-	 * Return all face normals.
-	 *
-	 * @return array of WB_Coordinate.
-	 */
-	public WB_Coord[] getFaceNormals() {
-		final WB_Coord[] result = new WB_Coord[getNumberOfFaces()];
-		int i = 0;
-		HE_Face f;
-		final Iterator<HE_Face> fItr = fItr();
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			result[i] = f.getFaceNormal();
-			i++;
-		}
-		return result;
-	}
-
-	/**
-	 * Return all face normals.
-	 *
-	 * @return FastMap of WB_Coordinate.
-	 */
-	public Map<Long, WB_Coord> getKeyedFaceNormals() {
-		final Map<Long, WB_Coord> result = new FastMap<Long, WB_Coord>();
-		HE_Face f;
-		final Iterator<HE_Face> fItr = fItr();
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			result.put(f.key(), f.getFaceNormal());
-		}
-		return result;
-	}
-
-	/**
-	 * Return all face centers.
-	 *
-	 * @return array of WB_Coordinate.
-	 */
-	public WB_Coord[] getFaceCenters() {
-		final WB_Coord[] result = new WB_Coord[getNumberOfFaces()];
-		int i = 0;
-		HE_Face f;
-		final Iterator<HE_Face> fItr = fItr();
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			result[i] = f.getFaceCenter();
-			i++;
-		}
-		return result;
-	}
-
-	/**
-	 * Return all face centers.
-	 *
-	 * @return FastMap of WB_Coordinate.
-	 */
-	public Map<Long, WB_Coord> getKeyedFaceCenters() {
-		final Map<Long, WB_Coord> result = new FastMap<Long, WB_Coord>();
-		HE_Face f;
-		final Iterator<HE_Face> fItr = fItr();
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			result.put(f.key(), f.getFaceCenter());
-		}
-		return result;
-	}
-
-	/**
-	 * Return all edge normals.
-	 *
-	 * @return array of WB_Coordinate.
-	 */
-	public WB_Coord[] getEdgeNormals() {
-		final WB_Coord[] result = new WB_Coord[getNumberOfEdges()];
-		int i = 0;
-		HE_Halfedge e;
-		final Iterator<HE_Halfedge> eItr = eItr();
-		while (eItr.hasNext()) {
-			e = eItr.next();
-			result[i] = e.getEdgeNormal();
-			i++;
-		}
-		return result;
-	}
-
-	/**
-	 * Return all edge normals.
-	 *
-	 * @return FastMap of WB_Coordinate.
-	 */
-	public Map<Long, WB_Coord> getKeyedEdgeNormals() {
-		final Map<Long, WB_Coord> result = new FastMap<Long, WB_Coord>();
-		HE_Halfedge e;
-		final Iterator<HE_Halfedge> eItr = eItr();
-		while (eItr.hasNext()) {
-			e = eItr.next();
-			result.put(e.key(), e.getEdgeNormal());
-		}
-		return result;
-	}
-
-	/**
-	 * Return all edge centers.
-	 *
-	 * @return array of WB_Coordinate.
-	 */
-	public WB_Coord[] getEdgeCenters() {
-		final WB_Coord[] result = new WB_Coord[getNumberOfEdges()];
-		int i = 0;
-		HE_Halfedge e;
-		final Iterator<HE_Halfedge> eItr = eItr();
-		while (eItr.hasNext()) {
-			e = eItr.next();
-			result[i] = e.getHalfedgeCenter();
-			i++;
-		}
-		return result;
-	}
-
-	/**
-	 * Return all edge centers.
-	 *
-	 * @return FastMap of WB_Coordinate.
-	 */
-	public Map<Long, WB_Coord> getKeyedEdgeCenters() {
-		final Map<Long, WB_Coord> result = new FastMap<Long, WB_Coord>();
-		HE_Halfedge e;
-		final Iterator<HE_Halfedge> eItr = eItr();
-		while (eItr.hasNext()) {
-			e = eItr.next();
-			result.put(e.key(), e.getHalfedgeCenter());
-		}
-		return result;
 	}
 
 	/**
@@ -591,95 +272,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 *
 	 * @return
 	 */
-	public WB_FacelistMesh toFaceListMesh() {
+	public WB_FacelistMesh toFacelistMesh() {
 		return WB_GeometryFactory.instance().createMesh(getVerticesAsPoint(), getFacesAsInt());
-	}
-
-	/**
-	 * Set vertex positions to values in array.
-	 *
-	 * @param values
-	 *            2D array of float. First index is number of vertices, second
-	 *            index is 3 (x-,y- and z-coordinate)
-	 */
-	public void setVerticesFromFloat(final float[][] values) {
-		int i = 0;
-		final WB_Point c = new WB_Point();
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			v.set(values[i][0], values[i][1], values[i][2]);
-			c.addSelf(v);
-			i++;
-		}
-		c.divSelf(i);
-		center = c;
-	}
-
-	/**
-	 * Set vertex positions to values in array.
-	 *
-	 * @param values
-	 *            array of WB_Coordinate.
-	 */
-	public void setVerticesFromPoint(final WB_Coord[] values) {
-		int i = 0;
-		final WB_Point c = new WB_Point();
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			v.set(values[i]);
-			c.addSelf(v);
-			i++;
-		}
-		c.divSelf(i);
-		center = c;
-	}
-
-	/**
-	 * Set vertex positions to values in array.
-	 *
-	 * @param values
-	 *            2D array of double. First index is number of vertices, second
-	 *            index is 3 (x-,y- and z-coordinate)
-	 */
-	public void setVerticesFromDouble(final double[][] values) {
-		int i = 0;
-		final WB_Point c = new WB_Point();
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			v.set(values[i][0], values[i][1], values[i][2]);
-			c.addSelf(v);
-			i++;
-		}
-		c.divSelf(i);
-		center = c;
-	}
-
-	/**
-	 * Set vertex positions to values in array.
-	 *
-	 * @param values
-	 *            2D array of int. First index is number of vertices, second
-	 *            index is 3 (x-,y- and z-coordinate)
-	 */
-	public void setVerticesFromInt(final int[][] values) {
-		int i = 0;
-		final WB_Point c = new WB_Point();
-		HE_Vertex v;
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			v = vItr.next();
-			v.set(values[i][0], values[i][1], values[i][2]);
-			c.addSelf(v);
-			i++;
-		}
-		c.divSelf(i);
-		center = c;
 	}
 
 	/**
@@ -755,27 +349,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	}
 
 	/**
-	 * Gets the indexed segments.
-	 *
-	 * @return the indexed segments
-	 */
-	public WB_IndexedSegment[] getIndexedSegments() {
-		final WB_IndexedSegment[] result = new WB_IndexedSegment[getNumberOfEdges()];
-		final WB_Coord[] points = getVerticesAsPoint();
-		final TLongIntMap map = new TLongIntHashMap(10, 0.5f, -1L, -1);
-		map.putAll(vertexKeyToIndex());
-		final Iterator<HE_Halfedge> eItr = eItr();
-		HE_Halfedge e;
-		int i = 0;
-		while (eItr.hasNext()) {
-			e = eItr.next();
-			result[i] = new WB_IndexedSegment(map.get(e.getVertex().key()), map.get(e.getEndVertex().key()), points);
-			i++;
-		}
-		return result;
-	}
-
-	/**
 	 * Gets the frame.
 	 *
 	 * @return the frame
@@ -783,7 +356,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	public WB_Frame getFrame() {
 		final WB_Frame frame = new WB_Frame(getVerticesAsPoint());
 		final TLongIntMap map = new TLongIntHashMap(10, 0.5f, -1L, -1);
-		map.putAll(vertexKeyToIndex());
+		map.putAll(getVertexKeyToIndexMap());
 		final Iterator<HE_Halfedge> eItr = eItr();
 		HE_Halfedge e;
 		while (eItr.hasNext()) {
@@ -817,7 +390,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh move(final double x, final double y, final double z) {
-		center = new WB_Point(center).addSelf(x, y, z);
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
 			vItr.next().addSelf(x, y, z);
@@ -848,14 +420,12 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh moveTo(final double x, final double y, final double z) {
-		if (!isCenterUpdated) {
-			getCenter();
-		}
+
+		WB_Point center = getCenter();
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
 			vItr.next().addSelf(x - center.xd(), y - center.yd(), z - center.zd());
 		}
-		center = new WB_Point(x, y, z);
 		return this;
 	}
 
@@ -919,9 +489,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	public HE_Mesh rotateAboutAxis2PSelf(final double angle, final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z) {
-		if (!isCenterUpdated) {
-			getCenter();
-		}
+
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -930,7 +498,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v = vItr.next();
 			raa.applySelfAsPoint(v);
 		}
-		center = raa.applyAsPoint(center);
 		return this;
 	}
 
@@ -964,9 +531,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh rotateAboutAxis2PSelf(final double angle, final WB_Coord p1, final WB_Coord p2) {
-		if (!isCenterUpdated) {
-			getCenter();
-		}
+
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -975,7 +540,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v = vItr.next();
 			raa.applySelfAsPoint(v);
 		}
-		center = raa.applyAsPoint(center);
 		return this;
 	}
 
@@ -1011,9 +575,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh rotateAboutAxisSelf(final double angle, final WB_Coord p, final WB_Coord a) {
-		if (!isCenterUpdated) {
-			getCenter();
-		}
+
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -1022,7 +584,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v = vItr.next();
 			raa.applySelfAsPoint(v);
 		}
-		center = raa.applyAsPoint(center);
 		return this;
 	}
 
@@ -1063,9 +624,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	public HE_Mesh rotateAboutAxisSelf(final double angle, final double px, final double py, final double pz,
 			final double ax, final double ay, final double az) {
-		if (!isCenterUpdated) {
-			getCenter();
-		}
+
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -1074,7 +633,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v = vItr.next();
 			raa.applySelfAsPoint(v);
 		}
-		center = raa.applyAsPoint(center);
 		return this;
 	}
 
@@ -1088,9 +646,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh rotateAboutOriginSelf(final double angle, final WB_Coord a) {
-		if (!isCenterUpdated) {
-			getCenter();
-		}
+
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -1099,7 +655,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v = vItr.next();
 			raa.applySelfAsPoint(v);
 		}
-		center = raa.applyAsPoint(center);
 		return this;
 	}
 
@@ -1114,9 +669,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return
 	 */
 	public HE_Mesh rotateAboutOriginSelf(final double angle, final double ax, final double ay, final double az) {
-		if (!isCenterUpdated) {
-			getCenter();
-		}
+
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -1125,7 +678,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v = vItr.next();
 			raa.applySelfAsPoint(v);
 		}
-		center = raa.applyAsPoint(center);
 		return this;
 	}
 
@@ -1171,9 +723,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	public HE_Mesh scale(final double scaleFactorx, final double scaleFactory, final double scaleFactorz,
 			final WB_Coord c) {
-		if (!isCenterUpdated) {
-			getCenter();
-		}
+
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
@@ -1181,9 +731,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v.set(c.xd() + scaleFactorx * (v.xd() - c.xd()), c.yd() + scaleFactory * (v.yd() - c.yd()),
 					c.zd() + scaleFactorz * (v.zd() - c.zd()));
 		}
-		center = new WB_Point(c.xd() + scaleFactorx * (-c.xd() + center.xd()),
-				c.yd() + scaleFactory * (-c.yd() + center.yd()), c.zd() + scaleFactorz * (-c.zd() + center.zd()));
-		;
+
 		return this;
 	}
 
@@ -1212,9 +760,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh scale(final double scaleFactorx, final double scaleFactory, final double scaleFactorz) {
-		if (!isCenterUpdated) {
-			getCenter();
-		}
+		WB_Point center = getCenter();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
@@ -1244,28 +790,14 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return the center
 	 */
 	@Override
-	public WB_Coord getCenter() {
-		if (isCenterUpdated) {
-			return center;
-		} else {
-			resetCenter();
-			return center;
-		}
-	}
-
-	/**
-	 * Reset the center to the average of all vertex positions).
-	 *
-	 */
-	public void resetCenter() {
+	public WB_Point getCenter() {
 		final WB_Point c = new WB_Point(0, 0, 0);
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
 			c.addSelf(vItr.next());
 		}
 		c.divSelf(getNumberOfVertices());
-		center = c;
-		isCenterUpdated = true;
+		return c;
 	}
 
 	/**
@@ -2812,169 +2344,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	}
 
 	/**
-	 * Reset labels.
-	 */
-	public void resetLabels() {
-		resetVertexLabels();
-		resetFaceLabels();
-		resetEdgeLabels();
-	}
-
-	/**
-	 * Reset vertex labels.
-	 */
-	public void resetVertexLabels() {
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			vItr.next().setLabel(-1);
-		}
-	}
-
-	/**
-	 * Reset face labels.
-	 */
-	public void resetFaceLabels() {
-		final Iterator<HE_Face> fItr = fItr();
-		while (fItr.hasNext()) {
-			fItr.next().setLabel(-1);
-		}
-	}
-
-	/**
-	 * Reset edge labels.
-	 */
-	public void resetEdgeLabels() {
-		final Iterator<HE_Halfedge> eItr = eItr();
-		while (eItr.hasNext()) {
-			eItr.next().setLabel(-1);
-		}
-	}
-
-	/**
-	 * Reset labels.
-	 *
-	 * @deprecated Use {@link #resetTemporaryLabels()} instead
-	 */
-	@Deprecated
-	public void resetInternalLabels() {
-		resetTemporaryLabels();
-	}
-
-	/**
-	 * Reset labels.
-	 */
-	public void resetTemporaryLabels() {
-		resetVertexTemporaryLabels();
-		resetFaceTemporaryLabels();
-		resetEdgeTemporaryLabels();
-	}
-
-	/**
-	 * Reset vertex labels.
-	 *
-	 * @deprecated Use {@link #resetVertexTemporaryLabels()} instead
-	 */
-	@Deprecated
-	public void resetVertexInternalLabels() {
-		resetVertexTemporaryLabels();
-	}
-
-	/**
-	 * Reset vertex labels.
-	 */
-	public void resetVertexTemporaryLabels() {
-		final Iterator<HE_Vertex> vItr = vItr();
-		while (vItr.hasNext()) {
-			vItr.next().setInternalLabel(-1);
-		}
-	}
-
-	/**
-	 * Reset face labels.
-	 *
-	 * @deprecated Use {@link #resetFaceTemporaryLabels()} instead
-	 */
-	@Deprecated
-	public void resetFaceInternalLabels() {
-		resetFaceTemporaryLabels();
-	}
-
-	/**
-	 * Reset face labels.
-	 */
-	public void resetFaceTemporaryLabels() {
-		final Iterator<HE_Face> fItr = fItr();
-		while (fItr.hasNext()) {
-			fItr.next().setInternalLabel(-1);
-		}
-	}
-
-	/**
-	 * Reset edge labels.
-	 *
-	 * @deprecated Use {@link #resetEdgeTemporaryLabels()} instead
-	 */
-	@Deprecated
-	public void resetEdgeInternalLabels() {
-		resetEdgeTemporaryLabels();
-	}
-
-	/**
-	 * Reset edge labels.
-	 */
-	public void resetEdgeTemporaryLabels() {
-		final Iterator<HE_Halfedge> eItr = eItr();
-		while (eItr.hasNext()) {
-			eItr.next().setInternalLabel(-1);
-		}
-	}
-
-	/**
-	 * Label all faces of a selection.
-	 *
-	 * @param sel
-	 *            selection
-	 * @param label
-	 *            label to use
-	 */
-	public void labelFaceSelection(final HE_Selection sel, final int label) {
-		final Iterator<HE_Face> fItr = sel.fItr();
-		while (fItr.hasNext()) {
-			fItr.next().setLabel(label);
-		}
-	}
-
-	/**
-	 * Label edge selection.
-	 *
-	 * @param sel
-	 *            the sel
-	 * @param label
-	 *            the label
-	 */
-	public void labelEdgeSelection(final HE_Selection sel, final int label) {
-		final Iterator<HE_Halfedge> eItr = sel.eItr();
-		while (eItr.hasNext()) {
-			eItr.next().setLabel(label);
-		}
-	}
-
-	/**
-	 * Label vertex selection.
-	 *
-	 * @param sel
-	 *            the sel
-	 * @param label
-	 *            the label
-	 */
-	public void labelVertexSelection(final HE_Selection sel, final int label) {
-		final Iterator<HE_Vertex> vItr = sel.vItr();
-		while (vItr.hasNext()) {
-			vItr.next().setLabel(label);
-		}
-	}
-
-	/**
 	 * Return a KD-tree containing all face centers.
 	 *
 	 * @return WB_KDTree
@@ -3366,6 +2735,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	}
 
 	/*
+	 * Get the vertices as a List<WB_Coord>
+	 *
 	 * (non-Javadoc)
 	 *
 	 * @see wblut.geom.WB_Mesh#getPoints()
@@ -3373,7 +2744,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	@Override
 	public List<WB_Coord> getPoints() {
 		final List<WB_Coord> result = new FastTable<WB_Coord>();
-
+		result.addAll(vertices.getObjects());
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
@@ -3402,247 +2773,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	@Override
 	public void setColor(final int color) {
 		meshcolor = color;
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 */
-	public void setFaceColor(final int color) {
-		final HE_FaceIterator fitr = fItr();
-		while (fitr.hasNext()) {
-			fitr.next().setColor(color);
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 */
-	public void setVertexColor(final int color) {
-		final HE_VertexIterator vitr = vItr();
-		while (vitr.hasNext()) {
-			vitr.next().setColor(color);
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 */
-	public void setHalfedgeColor(final int color) {
-		final HE_HalfedgeIterator heitr = heItr();
-		while (heitr.hasNext()) {
-			heitr.next().setColor(color);
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 * @param i
-	 */
-	public void setFaceColorWithLabel(final int color, final int i) {
-		final HE_FaceIterator fitr = fItr();
-		HE_Face f;
-		while (fitr.hasNext()) {
-			f = fitr.next();
-			if (f.getLabel() == i) {
-				f.setColor(color);
-			}
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 * @param i
-	 */
-	public void setFaceColorWithInternalLabel(final int color, final int i) {
-		final HE_FaceIterator fitr = fItr();
-		HE_Face f;
-		while (fitr.hasNext()) {
-			f = fitr.next();
-			if (f.getInternalLabel() == i) {
-				f.setColor(color);
-			}
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 * @param i
-	 */
-	public void setVertexColorWithLabel(final int color, final int i) {
-		final HE_VertexIterator fitr = vItr();
-		HE_Vertex f;
-		while (fitr.hasNext()) {
-			f = fitr.next();
-			if (f.getLabel() == i) {
-				f.setColor(color);
-			}
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 * @param i
-	 */
-	public void setVertexColorWithInternalLabel(final int color, final int i) {
-		final HE_VertexIterator fitr = vItr();
-		HE_Vertex f;
-		while (fitr.hasNext()) {
-			f = fitr.next();
-			if (f.getInternalLabel() == i) {
-				f.setColor(color);
-			}
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 * @param i
-	 */
-	public void setHalfedgeColorWithLabel(final int color, final int i) {
-		final HE_HalfedgeIterator fitr = heItr();
-		HE_Halfedge f;
-		while (fitr.hasNext()) {
-			f = fitr.next();
-			if (f.getLabel() == i) {
-				f.setColor(color);
-			}
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 * @param i
-	 */
-	public void setHalfedgeColorWithInternalLabel(final int color, final int i) {
-		final HE_HalfedgeIterator fitr = heItr();
-		HE_Halfedge f;
-		while (fitr.hasNext()) {
-			f = fitr.next();
-			if (f.getInternalLabel() == i) {
-				f.setColor(color);
-			}
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 * @param i
-	 */
-	public void setFaceColorWithOtherLabel(final int color, final int i) {
-		final HE_FaceIterator fitr = fItr();
-		HE_Face f;
-		while (fitr.hasNext()) {
-			f = fitr.next();
-			if (f.getLabel() != i) {
-				f.setColor(color);
-			}
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 * @param i
-	 */
-	public void setFaceColorWithOtherInternalLabel(final int color, final int i) {
-		final HE_FaceIterator fitr = fItr();
-		HE_Face f;
-		while (fitr.hasNext()) {
-			f = fitr.next();
-			if (f.getInternalLabel() != i) {
-				f.setColor(color);
-			}
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 * @param i
-	 */
-	public void setVertexColorWithOtherLabel(final int color, final int i) {
-		final HE_VertexIterator fitr = vItr();
-		HE_Vertex f;
-		while (fitr.hasNext()) {
-			f = fitr.next();
-			if (f.getLabel() != i) {
-				f.setColor(color);
-			}
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 * @param i
-	 */
-	public void setVertexColorWithOtherInternalLabel(final int color, final int i) {
-		final HE_VertexIterator vitr = vItr();
-		HE_Vertex v;
-		while (vitr.hasNext()) {
-			v = vitr.next();
-			if (v.getInternalLabel() != i) {
-				v.setColor(color);
-			}
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 * @param i
-	 */
-	public void setHalfedgeColorWithOtherLabel(final int color, final int i) {
-		final HE_HalfedgeIterator heitr = heItr();
-		HE_Halfedge he;
-		while (heitr.hasNext()) {
-			he = heitr.next();
-			if (he.getLabel() != i) {
-				he.setColor(color);
-			}
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param color
-	 * @param i
-	 */
-	public void setHalfedgeColorWithOtherInternalLabel(final int color, final int i) {
-		final HE_HalfedgeIterator heitr = heItr();
-		;
-		HE_Halfedge f;
-		while (heitr.hasNext()) {
-			f = heitr.next();
-			if (f.getInternalLabel() != i) {
-				f.setColor(color);
-			}
-		}
 	}
 
 	/**
@@ -3689,6 +2819,209 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	public int getNumberOfBoundaryComponents() {
 		return getBoundaryLoopHalfedges().size();
 
+	}
+
+	/**
+	 *
+	 *
+	 * @param vertices
+	 * @param loop
+	 * @return
+	 */
+	public HE_Path createPathFromIndices(final int[] vertices, final boolean loop) {
+		final List<HE_Halfedge> halfedges = new FastTable<HE_Halfedge>();
+		if (vertices.length > 1) {
+			HE_Halfedge he;
+			for (int i = 0; i < vertices.length - 1; i++) {
+				he = searchHalfedgeFromTo(getVertexWithIndex(vertices[i]), getVertexWithIndex(vertices[i + 1]));
+				if (he == null) {
+					throw new IllegalArgumentException(
+							"Two vertices " + vertices[i] + " and " + vertices[i + 1] + " in path are not connected.");
+				}
+				halfedges.add(he);
+			}
+			if (loop) {
+				he = searchHalfedgeFromTo(getVertexWithIndex(vertices[vertices.length - 1]),
+						getVertexWithIndex(vertices[0]));
+				if (he == null) {
+					throw new IllegalArgumentException("Vertices " + vertices[vertices.length - 1] + " and "
+							+ vertices[0] + " in path are not connected: path is not a loop.");
+				}
+			}
+		}
+		final HE_Path path = new HE_Path(halfedges, loop);
+		return path;
+	}
+
+	/**
+	 * Set vertex positions to values in a 2D array. If length of array is not
+	 * the same as number of vertices, nothing happens.
+	 *
+	 * @param values
+	 *            2D array of float. First index is number of vertices, second
+	 *            index is 3 (x-,y- and z-coordinate)
+	 */
+	public void setVerticesFromFloat(final float[][] values) {
+		if (values.length != getNumberOfVertices()) {
+			return;
+		}
+		int i = 0;
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			v.set(values[i][0], values[i][1], values[i][2]);
+			i++;
+		}
+	}
+
+	/**
+	 * Set vertex positions to values in a 1D array. If length of array is not
+	 * 3* number of vertices, nothing happens.
+	 *
+	 * @param values
+	 *            1D array of float. 3 values, x,y, and z, per point
+	 */
+	public void setVerticesFromFloat(final float[] values) {
+		if (values.length != 3 * getNumberOfVertices()) {
+			return;
+		}
+		int i = 0;
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			v.set(values[i], values[i + 1], values[i + 2]);
+			i += 3;
+		}
+	}
+
+	/**
+	 * Set vertex positions to array of WB_Coord. If length of array is not the
+	 * same as number of vertices, nothing happens.
+	 *
+	 * @param values
+	 *            array of WB_Coord.
+	 */
+	public void setVerticesFromPoint(final WB_Coord[] values) {
+		if (values.length != getNumberOfVertices()) {
+			return;
+		}
+		int i = 0;
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			v.set(values[i]);
+			i++;
+		}
+	}
+
+	/**
+	 * Set vertex positions to List of WB_Coord. If the size of the List is not
+	 * the same as number of vertices, nothing happens.
+	 *
+	 * @param values
+	 *            array of WB_Coord.
+	 */
+	public void setVerticesFromPoint(final List<? extends WB_Coord> values) {
+		if (values.size() != getNumberOfVertices()) {
+			return;
+		}
+		int i = 0;
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			v.set(values.get(i));
+			i++;
+		}
+	}
+
+	/**
+	 * Set vertex positions to values in a 2D array. If length of array is not
+	 * the same as number of vertices, nothing happens.
+	 *
+	 * @param values
+	 *            2D array of double. First index is number of vertices, second
+	 *            index is 3 (x-,y- and z-coordinate)
+	 */
+	public void setVerticesFromDouble(final double[][] values) {
+		if (values.length != getNumberOfVertices()) {
+			return;
+		}
+		int i = 0;
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			v.set(values[i][0], values[i][1], values[i][2]);
+			i++;
+		}
+	}
+
+	/**
+	 * Set vertex positions to values in a 1D array. If length of array is not
+	 * 3* number of vertices, nothing happens.
+	 *
+	 * @param values
+	 *            1D array of float. 3 values, x,y, and z, per point
+	 */
+	public void setVerticesFromFloat(final double[] values) {
+		if (values.length != 3 * getNumberOfVertices()) {
+			return;
+		}
+		int i = 0;
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			v.set(values[i], values[i + 1], values[i + 2]);
+			i += 3;
+		}
+	}
+
+	/**
+	 * Set vertex positions to values in a 2D array. If length of array is not
+	 * the same as number of vertices, nothing happens.
+	 *
+	 * @param values
+	 *            2D array of int. First index is number of vertices, second
+	 *            index is 3 (x-,y- and z-coordinate)
+	 */
+	public void setVerticesFromInt(final int[][] values) {
+		if (values.length != getNumberOfVertices()) {
+			return;
+		}
+		int i = 0;
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			v.set(values[i][0], values[i][1], values[i][2]);
+			i++;
+		}
+	}
+
+	/**
+	 * Set vertex positions to values in a 1D array. If length of array is not
+	 * 3* number of vertices, nothing happens.
+	 *
+	 * @param values
+	 *            1D array of float. 3 values, x,y, and z, per point
+	 */
+	public void setVerticesFromFloat(final int[] values) {
+		if (values.length != 3 * getNumberOfVertices()) {
+			return;
+		}
+		int i = 0;
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			v.set(values[i], values[i + 1], values[i + 2]);
+			i += 3;
+		}
 	}
 
 }

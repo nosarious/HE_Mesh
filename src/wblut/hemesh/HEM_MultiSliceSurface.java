@@ -87,14 +87,14 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 	public HE_Mesh apply(final HE_Mesh mesh) {
 		cut = new HE_Selection(mesh);
 		newEdges = new HE_Selection(mesh);
-		mesh.resetFaceTemporaryLabels();
-		mesh.resetEdgeTemporaryLabels();
+		mesh.resetFaceInternalLabels();
+		mesh.resetEdgeInternalLabels();
 		if (planes == null) {
 			return mesh;
 		}
 		final HEM_SliceEdges slice = new HEM_SliceEdges();
-		boolean unique=true;
-		WB_Plane Pi,Pj;
+		boolean unique = true;
+		WB_Plane Pi, Pj;
 		for (int i = 0; i < planes.size(); i++) {
 			Pi = planes.get(i);
 			unique = true;
@@ -105,7 +105,7 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 					break;
 				}
 			}
-			if(unique){
+			if (unique) {
 
 				slice.setPlane(Pi).setOffset(offset);
 				slice.apply(mesh);
@@ -130,16 +130,16 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
-		selection.parent.resetFaceTemporaryLabels();
-		selection.parent.resetEdgeTemporaryLabels();
+		selection.parent.resetFaceInternalLabels();
+		selection.parent.resetEdgeInternalLabels();
 		cut = new HE_Selection(selection.parent);
 		newEdges = new HE_Selection(selection.parent);
 		if (planes == null) {
 			return selection.parent;
 		}
 		final HEM_SliceEdges slice = new HEM_SliceEdges();
-		boolean unique=true;
-		WB_Plane Pi,Pj;
+		boolean unique = true;
+		WB_Plane Pi, Pj;
 		for (int i = 0; i < planes.size(); i++) {
 			Pi = planes.get(i);
 			unique = true;
@@ -150,7 +150,7 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 					break;
 				}
 			}
-			if(unique){
+			if (unique) {
 
 				slice.setPlane(Pi).setOffset(offset);
 				slice.apply(selection);

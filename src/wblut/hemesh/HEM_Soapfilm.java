@@ -74,8 +74,7 @@ public class HEM_Soapfilm extends HEM_Modifier {
 		if (autoRescale) {
 			box = mesh.getAABB();
 		}
-		final TLongObjectMap<WB_Coord> newPositions = new TLongObjectHashMap<WB_Coord>(
-				10, 0.5f, 0L);
+		final TLongObjectMap<WB_Coord> newPositions = new TLongObjectHashMap<WB_Coord>(10, 0.5f, 0L);
 		if (iter < 1) {
 			iter = 1;
 		}
@@ -98,7 +97,6 @@ public class HEM_Soapfilm extends HEM_Modifier {
 				v.set(newPositions.get(v.getKey()));
 			}
 		}
-		mesh.resetCenter();
 		if (autoRescale) {
 			mesh.fitInAABB(box);
 		}
@@ -119,8 +117,7 @@ public class HEM_Soapfilm extends HEM_Modifier {
 		if (autoRescale) {
 			box = selection.parent.getAABB();
 		}
-		final TLongObjectMap<WB_Coord> newPositions = new TLongObjectHashMap<WB_Coord>(
-				10, 0.5f, 0L);
+		final TLongObjectMap<WB_Coord> newPositions = new TLongObjectHashMap<WB_Coord>(10, 0.5f, 0L);
 		if (iter < 1) {
 			iter = 1;
 		}
@@ -143,7 +140,6 @@ public class HEM_Soapfilm extends HEM_Modifier {
 				v.set(newPositions.get(v.getKey()));
 			}
 		}
-		selection.parent.resetCenter();
 		if (autoRescale) {
 			selection.parent.fitInAABB(box);
 		}
@@ -172,15 +168,13 @@ public class HEM_Soapfilm extends HEM_Modifier {
 			neighbor = he.getEndVertex();
 			{
 				corner = he.getPrevInFace().getVertex();
-				cota = WB_GeometryOp.cosAngleBetween(corner.xd(),
-						corner.yd(), corner.zd(), neighbor.xd(), neighbor.yd(),
-						neighbor.zd(), v.xd(), v.yd(), v.zd());
-				cotsum += cota / Math.sqrt(1 - (cota * cota));
+				cota = WB_GeometryOp.cosAngleBetween(corner.xd(), corner.yd(), corner.zd(), neighbor.xd(),
+						neighbor.yd(), neighbor.zd(), v.xd(), v.yd(), v.zd());
+				cotsum += cota / Math.sqrt(1 - cota * cota);
 				corner = he.getPair().getPrevInFace().getVertex();
-				cotb = WB_GeometryOp.cosAngleBetween(corner.xd(),
-						corner.yd(), corner.zd(), neighbor.xd(), neighbor.yd(),
-						neighbor.zd(), v.xd(), v.yd(), v.zd());
-				cotsum += cotb / Math.sqrt(1 - (cotb * cotb));
+				cotb = WB_GeometryOp.cosAngleBetween(corner.xd(), corner.yd(), corner.zd(), neighbor.xd(),
+						neighbor.yd(), neighbor.zd(), v.xd(), v.yd(), v.zd());
+				cotsum += cotb / Math.sqrt(1 - cotb * cotb);
 			}
 			result.addMulSelf(cotsum, neighbor);
 			weight += cotsum;
