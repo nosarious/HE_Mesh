@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -37,11 +37,11 @@ public class HET_Export {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param mesh 
-	 * @param path 
-	 * @param name 
+	 *
+	 * @param mesh
+	 * @param path
+	 * @param name
 	 */
 	public static void saveToOBJNN(final HE_Mesh mesh, final String path, final String name) {
 		HET_WriterOBJ.saveMeshNN(mesh, path, name);
@@ -80,14 +80,22 @@ public class HET_Export {
 		HET_WriterOBJ.saveMesh(mesh, path, name);
 	}
 
+	public static void saveToOBJ(final HE_MeshCollection mesh, final String path, final String name) {
+		HET_WriterOBJ.saveMesh(mesh, path, name);
+	}
+
 	/**
-	 * 
 	 *
-	 * @param mesh 
-	 * @param path 
-	 * @param name 
+	 *
+	 * @param mesh
+	 * @param path
+	 * @param name
 	 */
 	public static void saveToOBJNN(final Collection<? extends HE_Mesh> mesh, final String path, final String name) {
+		HET_WriterOBJ.saveMeshNN(mesh, path, name);
+	}
+
+	public static void saveToOBJNN(final HE_MeshCollection mesh, final String path, final String name) {
 		HET_WriterOBJ.saveMeshNN(mesh, path, name);
 	}
 
@@ -103,6 +111,10 @@ public class HET_Export {
 		HET_WriterOBJ.saveMeshWithFaceColor(mesh, path, name);
 	}
 
+	public static void saveToOBJWithFaceColor(final HE_MeshCollection mesh, final String path, final String name) {
+		HET_WriterOBJ.saveMeshWithFaceColor(mesh, path, name);
+	}
+
 	/**
 	 *
 	 *
@@ -112,6 +124,10 @@ public class HET_Export {
 	 */
 	public static void saveToOBJWithVertexColor(final Collection<? extends HE_Mesh> mesh, final String path,
 			final String name) {
+		HET_WriterOBJ.saveMeshWithVertexColor(mesh, path, name);
+	}
+
+	public static void saveToOBJWithVertexColor(final HE_MeshCollection mesh, final String path, final String name) {
 		HET_WriterOBJ.saveMeshWithVertexColor(mesh, path, name);
 	}
 
@@ -127,11 +143,11 @@ public class HET_Export {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param mesh 
-	 * @param path 
-	 * @param name 
+	 *
+	 * @param mesh
+	 * @param path
+	 * @param name
 	 */
 	public static void saveToOBJNN(final HE_Mesh[] mesh, final String path, final String name) {
 		HET_WriterOBJ.saveMeshNN(mesh, path, name);
@@ -180,8 +196,8 @@ public class HET_Export {
 	 */
 	public static void saveToSTLWithFaceColor(final HE_Mesh mesh, final String path, final String name,
 			final int colormodel) {
-		final HET_WriterSTL stl = new HET_WriterSTL((colormodel == 1) ? HET_WriterSTL.MATERIALISE
-				: (colormodel == 0) ? HET_WriterSTL.DEFAULT : HET_WriterSTL.NONE, HET_WriterSTL.DEFAULT_BUFFER);
+		final HET_WriterSTL stl = new HET_WriterSTL(colormodel == 1 ? HET_WriterSTL.MATERIALISE
+				: colormodel == 0 ? HET_WriterSTL.DEFAULT : HET_WriterSTL.NONE, HET_WriterSTL.DEFAULT_BUFFER);
 		stl.beginSave(path, name, mesh.getNumberOfFaces());
 		saveToSTLWithFaceColor(mesh, stl);
 		stl.endSave();
@@ -305,7 +321,7 @@ public class HET_Export {
 				fid = faceKeys.get(he.getFace().key());
 
 			}
-			hem.halfedge(he,vid, henextid, hepairid, fid);
+			hem.halfedge(he, vid, henextid, hepairid, fid);
 		}
 		fItr = mesh.fItr();
 		HE_Face f;
@@ -317,7 +333,7 @@ public class HET_Export {
 				heid = halfedgeKeys.get(f.getHalfedge().key());
 
 			}
-			hem.face(f,heid);
+			hem.face(f, heid);
 		}
 		hem.endSave();
 	}
@@ -402,7 +418,7 @@ public class HET_Export {
 				fid = faceKeys.get(he.getFace().key());
 
 			}
-			hem.halfedge(he,vid, henextid, hepairid, fid);
+			hem.halfedge(he, vid, henextid, hepairid, fid);
 		}
 		fItr = mesh.fItr();
 		HE_Face f;
@@ -414,7 +430,7 @@ public class HET_Export {
 				heid = halfedgeKeys.get(f.getHalfedge().key());
 
 			}
-			hem.face(f,heid);
+			hem.face(f, heid);
 		}
 		hem.endSave();
 	}

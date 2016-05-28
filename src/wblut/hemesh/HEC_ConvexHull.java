@@ -178,7 +178,7 @@ public class HEC_ConvexHull extends HEC_Creator {
 		final int[][] faceIndices = hull.getFaces();
 		final int[] originalindices = hull.getVertexPointIndices();
 		final HEC_FromFacelist ffl = new HEC_FromFacelist().setVertices(hull.getVertices()).setFaces(faceIndices)
-				.setDuplicate(false).setCheckNormals(false);
+				.setDuplicate(false).setCheckNormals(false).setCleanUnused(false);
 		final HE_Mesh result = ffl.createBase();
 		vertexToPointIndex = new FastMap<Long, Integer>();
 		final Iterator<HE_Vertex> vItr = result.vItr();

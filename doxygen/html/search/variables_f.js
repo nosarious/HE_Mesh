@@ -9,7 +9,7 @@ var searchData=
   ['offsets',['offsets',['../classwblut_1_1geom_1_1_w_b___frame_strut.html#a10647b3f49cf064c7df948dcea9ffe33',1,'wblut::geom::WB_FrameStrut']]],
   ['on',['ON',['../enumwblut_1_1geom_1_1_w_b___classification.html#a30d78619e6afd4d232f7cc1ffd2138dd',1,'wblut.geom.WB_Classification.ON()'],['../classwblut_1_1hemesh_1_1_h_e_c___from_voronoi_cells.html#afbde2beb77af92428671b32832f77b3b',1,'wblut.hemesh.HEC_FromVoronoiCells.on()']]],
   ['one',['ONE',['../classwblut_1_1math_1_1_w_b___double_double.html#a447d42dce38e045b2bb86afb4117902d',1,'wblut::math::WB_DoubleDouble']]],
-  ['optimal',['optimal',['../classwblut_1_1hemesh_1_1_h_e_t___texture.html#a1614b49fefe6cfa32fa3f517dea09076',1,'wblut::hemesh::HET_Texture']]],
+  ['optimal',['OPTIMAL',['../classwblut_1_1core_1_1_w_b___color.html#ac7624fa74d21494499d5ceb7f4059096',1,'wblut::core::WB_Color']]],
   ['orienterrorbound',['orientErrorBound',['../classwblut_1_1geom_1_1_w_b___predicates.html#a1e7dbaaf265eeac7c48e96c08e5ebe3a',1,'wblut::geom::WB_Predicates']]],
   ['orienterrorbound2d',['orientErrorBound2D',['../classwblut_1_1geom_1_1_w_b___predicates.html#a2d2f99a1046d18ca2998be4e99a4a8ef',1,'wblut::geom::WB_Predicates']]],
   ['origfaces',['origFaces',['../classwblut_1_1hemesh_1_1_h_e_m___multi_slice.html#ae6707d9f6c8c8c48535f5783295a2343',1,'wblut::hemesh::HEM_MultiSlice']]],

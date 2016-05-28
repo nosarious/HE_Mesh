@@ -851,7 +851,7 @@ public class HE_Selection extends HE_MeshStructure {
 	 *
 	 * @return
 	 */
-	public static HE_Selection selecBoundaryFaces(final HE_Mesh mesh) {
+	public static HE_Selection selectBoundaryFaces(final HE_Mesh mesh) {
 		final HE_Selection _selection = new HE_Selection(mesh);
 		final Iterator<HE_Halfedge> heItr = mesh.heItr();
 		HE_Halfedge he;

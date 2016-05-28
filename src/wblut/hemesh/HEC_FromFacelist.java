@@ -42,6 +42,7 @@ public class HEC_FromFacelist extends HEC_Creator {
 	private boolean normalcheck;
 
 	private boolean manifoldcheck;
+	private boolean cleanunused;
 
 	/**
 	 * Instantiates a new HEC_Facelist.
@@ -52,6 +53,7 @@ public class HEC_FromFacelist extends HEC_Creator {
 		override = true;
 		duplicate = true;
 		normalcheck = false;
+		cleanunused = true;
 	}
 
 	/**
@@ -307,6 +309,11 @@ public class HEC_FromFacelist extends HEC_Creator {
 		return this;
 	}
 
+	public HEC_FromFacelist setCleanUnused(final boolean b) {
+		cleanunused = b;
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -491,7 +498,9 @@ public class HEC_FromFacelist extends HEC_Creator {
 				}
 			}
 			mesh.pairHalfedges();
-			mesh.cleanUnusedElementsByFace();
+			if (cleanunused) {
+				mesh.cleanUnusedElementsByFace();
+			}
 			mesh.capHalfedges();
 			if (manifoldcheck) {
 				HET_Fixer.fixNonManifoldVertices(mesh);

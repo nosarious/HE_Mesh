@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -25,7 +25,7 @@ public class WB_RandomBox implements WB_RandomPoint {
 	private WB_Vector offset;
 
 	/**
-	 * 
+	 *
 	 */
 	public WB_RandomBox() {
 		randomGen = new WB_MTRandom();
@@ -34,9 +34,9 @@ public class WB_RandomBox implements WB_RandomPoint {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param seed 
+	 *
+	 * @param seed
 	 */
 	public WB_RandomBox(final long seed) {
 		randomGen = new WB_MTRandom(seed);
@@ -44,7 +44,9 @@ public class WB_RandomBox implements WB_RandomPoint {
 		offset = new WB_Vector();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#setSeed(long)
 	 */
 	@Override
@@ -54,21 +56,31 @@ public class WB_RandomBox implements WB_RandomPoint {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param X 
-	 * @param Y 
-	 * @param Z 
-	 * @return 
+	 *
+	 * @param X
+	 * @param Y
+	 * @param Z
+	 * @return
 	 */
-	public WB_RandomBox setSize(double X, double Y, double Z) {
+	public WB_RandomBox setSize(final double X, final double Y, final double Z) {
 		this.X = X;
 		this.Y = Y;
 		this.Z = Z;
 		return this;
 	}
 
-	/* (non-Javadoc)
+	public WB_RandomBox set(final WB_AABB AABB) {
+		this.X = AABB.getWidth();
+		this.Y = AABB.getHeight();
+		this.Z = AABB.getDepth();
+		this.offset.set(AABB.getCenterX(), AABB.getCenterY(), AABB.getCenterZ());
+		return this;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#nextPoint()
 	 */
 	@Override
@@ -77,7 +89,9 @@ public class WB_RandomBox implements WB_RandomPoint {
 				Z * randomGen.nextCenteredDouble()).addSelf(offset);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#nextVector()
 	 */
 	@Override
@@ -86,7 +100,9 @@ public class WB_RandomBox implements WB_RandomPoint {
 				Z * randomGen.nextCenteredDouble()).addSelf(offset);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#reset()
 	 */
 	@Override
@@ -94,29 +110,35 @@ public class WB_RandomBox implements WB_RandomPoint {
 		randomGen.reset();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#setOffset(wblut.geom.WB_Coord)
 	 */
 	@Override
-	public WB_RandomPoint setOffset(WB_Coord offset) {
+	public WB_RandomPoint setOffset(final WB_Coord offset) {
 		this.offset.set(offset);
 		return this;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#setOffset(double, double)
 	 */
 	@Override
-	public WB_RandomPoint setOffset(double x, double y) {
+	public WB_RandomPoint setOffset(final double x, final double y) {
 		this.offset.set(x, y, 0);
 		return this;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#setOffset(double, double, double)
 	 */
 	@Override
-	public WB_RandomPoint setOffset(double x, double y, double z) {
+	public WB_RandomPoint setOffset(final double x, final double y, final double z) {
 		this.offset.set(x, y, z);
 		return this;
 	}

@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['l',['L',['../classwblut_1_1hemesh_1_1_h_e_c___box.html#a202067903732d92b5e9e12007a0b5e21',1,'wblut.hemesh.HEC_Box.L()'],['../classwblut_1_1hemesh_1_1_h_e_c___cube.html#af6919ef6494b374a35db363c736bc2fe',1,'wblut.hemesh.HEC_Cube.L()']]],
-  ['label',['label',['../classwblut_1_1hemesh_1_1_h_e___mesh.html#a3d4de9eeaff90ef94d70782d591f1822',1,'wblut::hemesh::HE_Mesh']]],
+  ['l',['L',['../classwblut_1_1hemesh_1_1_h_e_c___box.html#a202067903732d92b5e9e12007a0b5e21',1,'wblut.hemesh.HEC_Box.L()'],['../classwblut_1_1hemesh_1_1_h_e_c___chamfer_box.html#a338a2eac01d7f4cc524f6a70a82b3f72',1,'wblut.hemesh.HEC_ChamferBox.L()'],['../classwblut_1_1hemesh_1_1_h_e_c___cube.html#af6919ef6494b374a35db363c736bc2fe',1,'wblut.hemesh.HEC_Cube.L()']]],
   ['labels',['labels',['../classwblut_1_1hemesh_1_1_h_e_m___multi_slice.html#a4316aeaaaa5303161190a4b9c9d55a71',1,'wblut::hemesh::HEM_MultiSlice']]],
   ['lambda',['lambda',['../classwblut_1_1hemesh_1_1_h_e_m___mean_curvature_smooth.html#a8790107b847a18cfd3629fe1d437431f',1,'wblut.hemesh.HEM_MeanCurvatureSmooth.lambda()'],['../classwblut_1_1hemesh_1_1_h_e_m___smooth.html#a2001150dfa217eb5ebf1cb6f79b6e11f',1,'wblut.hemesh.HEM_Smooth.lambda()'],['../classwblut_1_1hemesh_1_1_h_e_m___tangential_smooth.html#a47c53d2c3c2f886ffa1c3070c7a6eeb5',1,'wblut.hemesh.HEM_TangentialSmooth.lambda()'],['../classwblut_1_1hemesh_1_1_h_e_m___taubin_smooth.html#abb70ffa8d95223e9787a4f509ac8f551',1,'wblut.hemesh.HEM_TaubinSmooth.lambda()']]],
   ['lastsource',['lastSource',['../classwblut_1_1geom_1_1_w_b___mesh_graph.html#a15d400e3011038dc86dcfc9c09bfb0ae',1,'wblut::geom::WB_MeshGraph']]],
@@ -11,7 +10,8 @@ var searchData=
   ['limitangle',['limitAngle',['../classwblut_1_1hemesh_1_1_h_e_m___diagrid.html#a7fa9927e819f2f7beb973669360bdd84',1,'wblut::hemesh::HEM_Diagrid']]],
   ['limitpoints',['limitPoints',['../classwblut_1_1hemesh_1_1_h_e_c___voronoi_cell.html#a43d7440d105f6a9029955928114639f6',1,'wblut::hemesh::HEC_VoronoiCell']]],
   ['line',['LINE',['../enumwblut_1_1geom_1_1_w_b___geometry_type.html#aedcc7a8258758a31bc61a8cef0069c2d',1,'wblut::geom::WB_GeometryType']]],
-  ['linear',['linear',['../classwblut_1_1hemesh_1_1_h_e_m___sphere_inversion.html#ab5bc0716f3b5537716f18fbe346accda',1,'wblut::hemesh::HEM_SphereInversion']]],
+  ['linear',['linear',['../classwblut_1_1hemesh_1_1_h_e_m___sphere_inversion.html#ab5bc0716f3b5537716f18fbe346accda',1,'wblut.hemesh.HEM_SphereInversion.linear()'],['../classwblut_1_1math_1_1_w_b___ease.html#a06cdd1875535bab715d46a380e781bfa',1,'wblut.math.WB_Ease.linear()']]],
+  ['lingray',['LINGRAY',['../classwblut_1_1core_1_1_w_b___color.html#a33c1ef02ff4886d3bf1c621c87f6fa7c',1,'wblut::core::WB_Color']]],
   ['lo',['lo',['../classwblut_1_1math_1_1_w_b___double_double.html#aaeb3f22caf82c75519f1c9156a146036',1,'wblut::math::WB_DoubleDouble']]],
   ['lower_5fmask',['LOWER_MASK',['../classwblut_1_1math_1_1_w_b___m_t_random.html#a44a59789edb3917515231dea38998873',1,'wblut::math::WB_MTRandom']]]
 ];

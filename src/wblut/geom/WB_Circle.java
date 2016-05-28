@@ -3,31 +3,27 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 
 package wblut.geom;
 
+import java.util.Collection;
+
 import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
 
-
 public class WB_Circle implements WB_Geometry {
-
 
 	private WB_Point center;
 
-
 	private WB_Vector normal;
-
 
 	private double radius;
 
-
 	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
-
 
 	/**
 	 *
@@ -37,7 +33,6 @@ public class WB_Circle implements WB_Geometry {
 		normal = geometryfactory.createVector(0, 0, 1);
 		radius = 1;
 	}
-
 
 	/**
 	 *
@@ -50,7 +45,6 @@ public class WB_Circle implements WB_Geometry {
 		this.radius = WB_Math.fastAbs(radius);
 		normal = geometryfactory.createVector(0, 0, 1);
 	}
-
 
 	/**
 	 *
@@ -65,7 +59,6 @@ public class WB_Circle implements WB_Geometry {
 		this.normal = geometryfactory.createNormalizedVector(normal);
 	}
 
-
 	/**
 	 *
 	 *
@@ -79,7 +72,6 @@ public class WB_Circle implements WB_Geometry {
 		normal = geometryfactory.createVector(0, 0, 1);
 	}
 
-
 	/**
 	 *
 	 *
@@ -88,7 +80,6 @@ public class WB_Circle implements WB_Geometry {
 	public double getRadius() {
 		return radius;
 	}
-
 
 	/**
 	 *
@@ -99,7 +90,6 @@ public class WB_Circle implements WB_Geometry {
 		return center;
 	}
 
-
 	/**
 	 *
 	 *
@@ -109,8 +99,9 @@ public class WB_Circle implements WB_Geometry {
 		return normal;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -125,15 +116,15 @@ public class WB_Circle implements WB_Geometry {
 				&& normal.equals(((WB_Circle) o).getNormal());
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		return (31 * ((31 * center.hashCode()) + hashCode(radius))) + normal.hashCode();
+		return 31 * (31 * center.hashCode() + hashCode(radius)) + normal.hashCode();
 	}
-
 
 	/**
 	 *
@@ -143,18 +134,18 @@ public class WB_Circle implements WB_Geometry {
 	 */
 	private int hashCode(final double v) {
 		final long tmp = Double.doubleToLongBits(v);
-		return (int) (tmp ^ (tmp >>> 32));
+		return (int) (tmp ^ tmp >>> 32);
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.geom.WB_Geometry#getType()
 	 */
 	@Override
 	public WB_GeometryType getType() {
 		return WB_GeometryType.CIRCLE;
 	}
-
 
 	/**
 	 *
@@ -168,8 +159,9 @@ public class WB_Circle implements WB_Geometry {
 				|| WB_Epsilon.isZero(d - WB_Math.fastAbs(C.getRadius() + radius));
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
 	 */
 	@Override
@@ -180,7 +172,6 @@ public class WB_Circle implements WB_Geometry {
 		return geometryfactory.createCircleWithRadius(p, geometryfactory.createVector(normal).applyAsNormalSelf(T),
 				newradius);
 	}
-
 
 	/**
 	 *
@@ -198,7 +189,6 @@ public class WB_Circle implements WB_Geometry {
 		return this;
 	}
 
-
 	/**
 	 *
 	 *
@@ -211,7 +201,6 @@ public class WB_Circle implements WB_Geometry {
 
 	}
 
-
 	/**
 	 *
 	 *
@@ -221,7 +210,6 @@ public class WB_Circle implements WB_Geometry {
 	public void setCenter(final double x, final double y) {
 		center.set(x, y);
 	}
-
 
 	/**
 	 *
@@ -234,7 +222,6 @@ public class WB_Circle implements WB_Geometry {
 		center.set(x, y, z);
 	}
 
-
 	/**
 	 *
 	 *
@@ -243,7 +230,6 @@ public class WB_Circle implements WB_Geometry {
 	public void setCenter(final WB_Coord c) {
 		center.set(c);
 	}
-
 
 	/**
 	 *
@@ -256,7 +242,6 @@ public class WB_Circle implements WB_Geometry {
 		normal.set(x, y, z);
 	}
 
-
 	/**
 	 *
 	 *
@@ -265,7 +250,6 @@ public class WB_Circle implements WB_Geometry {
 	public void setNormal(final WB_Coord c) {
 		normal.set(c);
 	}
-
 
 	/**
 	 *
@@ -276,7 +260,6 @@ public class WB_Circle implements WB_Geometry {
 		this.radius = radius;
 	}
 
-
 	/**
 	 *
 	 *
@@ -284,6 +267,110 @@ public class WB_Circle implements WB_Geometry {
 	 */
 	public void setDiameter(final double diameter) {
 		this.radius = diameter * 0.5;
+	}
+
+	/**
+	 * Grow circle to include point.
+	 *
+	 * @param p
+	 *            point to include
+	 */
+	public void growCircleByPoint(final WB_Coord p) {
+		final WB_Vector d = WB_Point.subToVector2D(p, center);
+		final double dist2 = d.getSqLength2D();
+		if (dist2 > radius * radius) {
+			final double dist = Math.sqrt(dist2);
+			final double newRadius = (radius + dist) * 0.5;
+			final double k = (newRadius - radius) / dist;
+			radius = newRadius;
+			center.addSelf(k * d.xd(), k * d.yd());
+		}
+	}
+
+	/**
+	 * Project point to circle
+	 *
+	 * @param v
+	 *            the v
+	 * @return point projected to circle
+	 */
+	public WB_Point projectToCircle(final WB_Coord v) {
+		final WB_Point vc = new WB_Point(v).sub(center);
+		final double er = vc.normalizeSelf();
+		if (WB_Epsilon.isZero(er)) {
+			return null;
+		}
+		return center.addMul(radius, vc);
+	}
+
+	/**
+	 *
+	 *
+	 * @param points
+	 * @return
+	 */
+	public static WB_Circle getBoundingCircle(final WB_Coord[] points) {
+		WB_Point center = new WB_Point(points[0]);
+		double radius = WB_Epsilon.EPSILON;
+		double radius2 = radius * radius;
+		double dist, dist2, alpha, ialpha2;
+
+		for (int i = 0; i < 3; i++) {
+			for (WB_Coord point : points) {
+				dist2 = WB_Point.getSqDistance2D(point, center);
+				if (dist2 > radius2) {
+					dist = Math.sqrt(dist2);
+					if (i < 2) {
+						alpha = dist / radius;
+						ialpha2 = 1.0 / (alpha * alpha);
+						radius = 0.5 * (alpha + 1 / alpha) * radius;
+						center = geometryfactory.createMidpoint(center.mulSelf(1.0 + ialpha2),
+								WB_Point.mul(point, 1.0 - ialpha2));
+					} else {
+						radius = (radius + dist) * 0.5;
+						center.mulAddMulSelf(radius / dist, (dist - radius) / dist, point);
+					}
+					radius2 = radius * radius;
+				}
+			}
+		}
+
+		return new WB_Circle(center, radius);
+	}
+
+	/**
+	 *
+	 *
+	 * @param points
+	 * @return
+	 */
+	public static WB_Circle getBoundingCircle(final Collection<? extends WB_Coord> points) {
+		WB_Point center = new WB_Point(points.iterator().next());
+		double radius = WB_Epsilon.EPSILON;
+		double radius2 = radius * radius;
+		double dist, dist2, alpha, ialpha2;
+
+		for (int i = 0; i < 3; i++) {
+			for (WB_Coord point : points) {
+				dist2 = WB_Point.getSqDistance2D(point, center);
+				if (dist2 > radius2) {
+					dist = Math.sqrt(dist2);
+					if (i < 2) {
+						alpha = dist / radius;
+						ialpha2 = 1.0 / (alpha * alpha);
+						radius = 0.5 * (alpha + 1 / alpha) * radius;
+						center = geometryfactory.createMidpoint(center.mulSelf(1.0 + ialpha2),
+								WB_Point.mul(point, 1.0 - ialpha2));
+					} else {
+						radius = (radius + dist) * 0.5;
+						center.mulAddMulSelf(radius / dist, (dist - radius) / dist, point);
+					}
+					radius2 = radius * radius;
+				}
+			}
+		}
+
+		return new WB_Circle(center, radius);
 	}
 
 }

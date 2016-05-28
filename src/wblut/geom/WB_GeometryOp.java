@@ -2663,6 +2663,33 @@ public class WB_GeometryOp {
 		return result;
 	}
 
+	public static ArrayList<WB_Point> getIntersection2D(final WB_Ray R, final WB_Circle C) {
+		final ArrayList<WB_Point> result = new ArrayList<WB_Point>();
+		final double b = 2 * (R.getDirection().xd() * (R.getOrigin().xd() - C.getCenter().xd())
+				+ R.getDirection().yd() * (R.getOrigin().yd() - C.getCenter().yd()));
+		final double c = WB_GeometryOp.getSqLength3D(C.getCenter()) + WB_Vector.getSqLength3D(R.getOrigin())
+				- 2 * (C.getCenter().xd() * R.getOrigin().xd() + C.getCenter().yd() * R.getOrigin().yd())
+				- C.getRadius() * C.getRadius();
+		double disc = b * b - 4 * c;
+		if (disc < -WB_Epsilon.EPSILON) {
+			return result;
+		}
+		if (WB_Epsilon.isZero(disc)) {
+			if (-0.5 * b >= 0) {
+				result.add(R.getPointOnLine(-0.5 * b));
+			}
+			return result;
+		}
+		disc = Math.sqrt(disc);
+		if (-b + disc >= 0) {
+			result.add(R.getPointOnLine(0.5 * (-b + disc)));
+		}
+		if (-b - disc >= 0) {
+			result.add(R.getPointOnLine(0.5 * (-b - disc)));
+		}
+		return result;
+	}
+
 	/**
 	 *
 	 *
@@ -5702,5 +5729,95 @@ public class WB_GeometryOp {
 
 	public static boolean isOrthogonalNorm2D(final WB_Coord v0, final WB_Coord v1, final double epsilon) {
 		return Math.abs(dot2D(v0.xd(), v0.yd(), v1.xd(), v1.yd())) < epsilon;
+	}
+
+	// POINT-POLYGON
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param poly
+	 * @return
+	 */
+	public static boolean contains2D(final WB_Coord p, final WB_Polygon poly) {
+		return WB_Epsilon.isZeroSq(WB_Point.getSqDistance2D(p, getClosestPoint2D(p, poly)));
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param tris
+	 * @return
+	 */
+	public static boolean contains2D(final WB_Coord p, final ArrayList<? extends WB_Triangle> tris) {
+		return WB_Epsilon.isZeroSq(WB_Point.getSqDistance2D(p, getClosestPoint2D(p, tris)));
+	}
+
+	/**
+	 * Check the intersection of two intervals [u0,u1] and [v0,v1]. The result
+	 * is an array of double, the first value gives the number of values needed
+	 * to define the intersection interval. If the intervals do not
+	 * intersect,the array contains no additional values. If the intervals
+	 * intersect in a single value, the array contains this value. Otherwise the
+	 * endvalues of the intersection interval are given The function sorts the
+	 * passed intervals if necessary.
+	 *
+	 * For example
+	 *
+	 * [0,2] and [3,4]: result [0] [0,2] and [2,4]: result [1,2] [0,2] and
+	 * [1,4]: result [2,1,2]
+	 *
+	 * @param u0
+	 * @param u1
+	 * @param v0
+	 * @param v1
+	 * @return
+	 */
+	public double[] getIntervalIntersection(final double u0, final double u1, final double v0, final double v1) {
+
+		double lu0, lu1;
+		if (u1 < u0) {
+			lu0 = u1;
+			lu1 = u0;
+		} else {
+			lu0 = u0;
+			lu1 = u1;
+		}
+		double lv0, lv1;
+		if (v1 < v0) {
+			lv0 = v1;
+			lv1 = v0;
+		} else {
+			lv0 = v0;
+			lv1 = v1;
+		}
+
+		if (lu1 < lv0 || lu0 > lv1) {
+			return new double[] { 0 };
+		}
+
+		if (lu1 > lv0) {
+			if (lu0 < lv1) {
+				double w0, w1;
+				if (lu0 < lv0) {
+					w0 = lv0;
+				} else {
+					w0 = lu0;
+				}
+				if (lu1 > lv1) {
+					w1 = lv1;
+				} else {
+					w1 = lu1;
+				}
+				return new double[] { 2, w0, w1 };
+			} else {
+				return new double[] { 1, lu0 };
+			}
+		} else {
+			return new double[] { 1, lu1 };
+		}
+
 	}
 }

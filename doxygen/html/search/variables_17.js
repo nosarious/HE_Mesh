@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['w',['W',['../classwblut_1_1geom_1_1_w_b___geom_grid.html#a13adf26f6051d9e3b5c1fed474d01167',1,'wblut.geom.WB_GeomGrid.W()'],['../classwblut_1_1hemesh_1_1_h_e_c___box.html#a2d4a03d609bba0f348fc8c120ec86fb4',1,'wblut.hemesh.HEC_Box.W()'],['../classwblut_1_1hemesh_1_1_h_e_c___cube.html#a1708f115b0a02efd5fc50d513062825a',1,'wblut.hemesh.HEC_Cube.W()']]],
+  ['w',['W',['../classwblut_1_1geom_1_1_w_b___geom_grid.html#a13adf26f6051d9e3b5c1fed474d01167',1,'wblut.geom.WB_GeomGrid.W()'],['../classwblut_1_1hemesh_1_1_h_e_c___box.html#a2d4a03d609bba0f348fc8c120ec86fb4',1,'wblut.hemesh.HEC_Box.W()'],['../classwblut_1_1hemesh_1_1_h_e_c___chamfer_box.html#af2b37bca3efe3b0b3ea29c55f16849de',1,'wblut.hemesh.HEC_ChamferBox.W()'],['../classwblut_1_1hemesh_1_1_h_e_c___cube.html#a1708f115b0a02efd5fc50d513062825a',1,'wblut.hemesh.HEC_Cube.W()']]],
   ['walls',['walls',['../classwblut_1_1hemesh_1_1_h_e_m___extrude.html#a57e81530f9c05b7663477f3befa33f6f',1,'wblut.hemesh.HEM_Extrude.walls()'],['../classwblut_1_1hemesh_1_1_h_e_m___smooth_inset.html#a07a1f1fbcc58859a923721c152a0cb53',1,'wblut.hemesh.HEM_SmoothInset.walls()']]],
   ['wcenter',['wcenter',['../classwblut_1_1hemesh_1_1_h_e_c___shrink_wrap.html#a216f478d1d8efa57ac34a00b8d866919',1,'wblut::hemesh::HEC_ShrinkWrap']]],
   ['weight',['weight',['../classwblut_1_1geom_1_1_w_b___mesh_graph_1_1_w_b___graph_edge.html#aced27c9bd4dcf61c453d509a1c493c92',1,'wblut::geom::WB_MeshGraph::WB_GraphEdge']]],

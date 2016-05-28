@@ -144,18 +144,20 @@ public class WB_Render3D extends WB_Render2D {
 		final Iterator<HE_Face> fItr = mesh.fItr();
 		while (fItr.hasNext()) {
 			f = fItr.next();
-			home.beginShape();
-			he = f.getHalfedge();
-			p0 = he.getPrevInFace().getHalfedgeCenter();
-			vertex(p0);
-			do {
-				p1 = he.getVertex();
-				p2 = he.getVertex();
-				p3 = he.getHalfedgeCenter();
-				home.bezierVertex(p1.xf(), p1.yf(), p1.zf(), p2.xf(), p2.yf(), p2.zf(), p3.xf(), p3.yf(), p3.zf());
-				he = he.getNextInFace();
-			} while (he != f.getHalfedge());
-			home.endShape();
+			if (f.isVisible()) {
+				home.beginShape();
+				he = f.getHalfedge();
+				p0 = he.getPrevInFace().getHalfedgeCenter();
+				vertex(p0);
+				do {
+					p1 = he.getVertex();
+					p2 = he.getVertex();
+					p3 = he.getHalfedgeCenter();
+					home.bezierVertex(p1.xf(), p1.yf(), p1.zf(), p2.xf(), p2.yf(), p2.zf(), p3.xf(), p3.yf(), p3.zf());
+					he = he.getNextInFace();
+				} while (he != f.getHalfedge());
+				home.endShape();
+			}
 		}
 	}
 
@@ -169,11 +171,13 @@ public class WB_Render3D extends WB_Render2D {
 		final Iterator<HE_Halfedge> heItr = mesh.heItr();
 		while (heItr.hasNext()) {
 			he = heItr.next();
-			if (he.getFace() == null) {
-				if (he.getPair() != null) {
-					line(he.getVertex(), he.getPair().getVertex());
-				} else if (he.getNextInFace() != null) {
-					line(he.getVertex(), he.getNextInFace().getVertex());
+			if (he.isVisible()) {
+				if (he.getFace() == null) {
+					if (he.getPair() != null) {
+						line(he.getVertex(), he.getPair().getVertex());
+					} else if (he.getNextInFace() != null) {
+						line(he.getVertex(), he.getNextInFace().getVertex());
+					}
 				}
 			}
 		}
@@ -185,17 +189,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param mesh
 	 */
 	public void drawBoundaryHalfedges(final HE_MeshStructure mesh) {
-		HE_Halfedge he;
-		final Iterator<HE_Halfedge> heItr = mesh.heItr();
-		home.pushStyle();
-		while (heItr.hasNext()) {
-			he = heItr.next();
-			if (he.getPair().getFace() == null) {
-				home.stroke(255, 0, 0);
-				line(he.getVertex(), he.getNextInFace().getVertex());
-			}
-		}
-		home.popStyle();
+		drawBoundaryEdges(mesh);
 	}
 
 	/**
@@ -298,7 +292,9 @@ public class WB_Render3D extends WB_Render2D {
 	 *            edge
 	 */
 	public void drawEdge(final HE_Halfedge e) {
-		line(e.getStartVertex(), e.getEndVertex());
+		if (e.isVisible()) {
+			line(e.getStartVertex(), e.getEndVertex());
+		}
 	}
 
 	/**
@@ -309,7 +305,7 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 	public void drawEdge(final long key, final HE_Mesh mesh) {
 		final HE_Halfedge e = mesh.getHalfedgeWithKey(key);
-		if (e != null) {
+		if (e != null && e.isVisible()) {
 			drawEdge(e);
 		}
 	}
@@ -335,7 +331,9 @@ public class WB_Render3D extends WB_Render2D {
 	public void drawEdges(final HE_Face f) {
 		HE_Halfedge e = f.getHalfedge();
 		do {
-			line(e.getVertex(), e.getEndVertex());
+			if (e.isVisible()) {
+				line(e.getVertex(), e.getEndVertex());
+			}
 			e = e.getNextInFace();
 		} while (e != f.getHalfedge());
 	}
@@ -351,7 +349,9 @@ public class WB_Render3D extends WB_Render2D {
 		HE_Halfedge e;
 		while (eItr.hasNext()) {
 			e = eItr.next();
-			line(e.getVertex(), e.getEndVertex());
+			if (e.isVisible()) {
+				line(e.getVertex(), e.getEndVertex());
+			}
 		}
 	}
 
@@ -369,8 +369,10 @@ public class WB_Render3D extends WB_Render2D {
 			f = fItr.next();
 			e = f.getHalfedge();
 			do {
-				if (e.isEdge() || e.isInnerBoundary() || !selection.contains(e.getPair().getFace())) {
-					line(e.getVertex(), e.getEndVertex());
+				if (e.isVisible()) {
+					if (e.isEdge() || e.isInnerBoundary() || !selection.contains(e.getPair().getFace())) {
+						line(e.getVertex(), e.getEndVertex());
+					}
 				}
 				e = e.getNextInFace();
 			} while (e != f.getHalfedge());
@@ -388,8 +390,10 @@ public class WB_Render3D extends WB_Render2D {
 		HE_Halfedge e;
 		while (eItr.hasNext()) {
 			e = eItr.next();
-			if (e.getInternalLabel() == label) {
-				line(e.getVertex(), e.getEndVertex());
+			if (e.isVisible()) {
+				if (e.getInternalLabel() == label) {
+					line(e.getVertex(), e.getEndVertex());
+				}
 			}
 		}
 	}
@@ -407,8 +411,10 @@ public class WB_Render3D extends WB_Render2D {
 		HE_Halfedge e;
 		while (eItr.hasNext()) {
 			e = eItr.next();
-			if (e.getLabel() == label) {
-				line(e.getVertex(), e.getEndVertex());
+			if (e.isVisible()) {
+				if (e.getLabel() == label) {
+					line(e.getVertex(), e.getEndVertex());
+				}
 			}
 		}
 	}
@@ -429,7 +435,9 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param smooth
 	 */
 	public void drawFace(final HE_Face f, final boolean smooth) {
-
+		if (!f.isVisible()) {
+			return;
+		}
 		final int fo = f.getFaceOrder();
 
 		final List<HE_Vertex> vertices = f.getFaceVertices();
@@ -519,6 +527,9 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param smooth
 	 */
 	public void drawFace(final HE_Face f, final PImage texture, final boolean smooth) {
+		if (!f.isVisible()) {
+			return;
+		}
 		final int fo = f.getFaceOrder();
 		final List<HE_Vertex> vertices = f.getFaceVertices();
 		if (fo < 3 || vertices.size() < 3) {
@@ -609,6 +620,9 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param smooth
 	 */
 	public void drawFace(final HE_Face f, final PImage[] textures, final boolean smooth) {
+		if (!f.isVisible()) {
+			return;
+		}
 		final int fo = f.getFaceOrder();
 		final int fti = f.getTextureId();
 		final List<HE_Vertex> vertices = f.getFaceVertices();
@@ -780,6 +794,9 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param smooth
 	 */
 	public void drawFaceFC(final HE_Face f, final boolean smooth) {
+		if (!f.isVisible()) {
+			return;
+		}
 		if (f.getFaceOrder() > 2) {
 			home.pushStyle();
 			home.fill(f.getColor());
@@ -836,6 +853,9 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param smooth
 	 */
 	public void drawFaceHC(final HE_Face f, final boolean smooth) {
+		if (!f.isVisible()) {
+			return;
+		}
 		if (f.getFaceOrder() > 2) {
 			final int[] tris = f.getTriangles();
 			final List<HE_Vertex> vertices = f.getFaceVertices();
@@ -930,6 +950,9 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param d
 	 */
 	public void drawFaceOffset(final HE_Face f, final double d) {
+		if (!f.isVisible()) {
+			return;
+		}
 		final int fo = f.getFaceOrder();
 		final List<HE_Vertex> vertices = f.getFaceVertices();
 		if (fo < 3 || vertices.size() < 3) {
@@ -1291,6 +1314,9 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param smooth
 	 */
 	public void drawFaceVC(final HE_Face f, final boolean smooth) {
+		if (!f.isVisible()) {
+			return;
+		}
 		if (f.getFaceOrder() > 2) {
 			final int[] tris = f.getTriangles();
 			final List<HE_Vertex> vertices = f.getFaceVertices();
@@ -1373,8 +1399,10 @@ public class WB_Render3D extends WB_Render2D {
 		HE_Halfedge he;
 		while (heItr.hasNext()) {
 			he = heItr.next();
-			if (he.getInternalLabel() == label) {
-				line(he.getVertex(), he.getEndVertex());
+			if (he.isVisible()) {
+				if (he.getInternalLabel() == label) {
+					line(he.getVertex(), he.getEndVertex());
+				}
 			}
 		}
 	}
@@ -1384,8 +1412,10 @@ public class WB_Render3D extends WB_Render2D {
 		HE_Halfedge he;
 		while (heItr.hasNext()) {
 			he = heItr.next();
-			if (he.getLabel() == label) {
-				line(he.getVertex(), he.getEndVertex().mulAddMul(0.8, 0.2, he.getVertex()));
+			if (he.isVisible()) {
+				if (he.getLabel() == label) {
+					line(he.getVertex(), he.getEndVertex().mulAddMul(0.8, 0.2, he.getVertex()));
+				}
 			}
 		}
 	}
@@ -1398,6 +1428,9 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param s
 	 */
 	public void drawHalfedge(final HE_Halfedge he, final double d, final double s) {
+		if (!he.isVisible()) {
+			return;
+		}
 		final WB_Point c = new WB_Point(he.getHalfedgeCenter());
 		c.addMulSelf(d, he.getHalfedgeNormal());
 		home.stroke(255, 0, 0);
@@ -1424,6 +1457,9 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param f
 	 */
 	public void drawHalfedge(final HE_Halfedge he, final double d, final double s, final double f) {
+		if (!he.isVisible()) {
+			return;
+		}
 		final WB_Point c = geometryfactory.createInterpolatedPoint(he.getVertex(), he.getEndVertex(), f);
 		c.addMulSelf(d, he.getHalfedgeNormal());
 		line(he.getVertex(), c);
@@ -1492,35 +1528,37 @@ public class WB_Render3D extends WB_Render2D {
 		home.pushStyle();
 		while (heItr.hasNext()) {
 			he = heItr.next();
-			if (he.getFace() != null) {
-				c = new WB_Point(he.getHalfedgeCenter());
-				c.addMulSelf(d, he.getHalfedgeNormal());
-				home.stroke(255, 0, 0);
-				line(he.getVertex(), c);
-				if (he.getHalfedgeType() == WB_Classification.CONVEX) {
-					home.stroke(0, 255, 0);
-					home.fill(0, 255, 0);
-				} else if (he.getHalfedgeType() == WB_Classification.CONCAVE) {
+			if (he.isVisible()) {
+				if (he.getFace() != null) {
+					c = new WB_Point(he.getHalfedgeCenter());
+					c.addMulSelf(d, he.getHalfedgeNormal());
 					home.stroke(255, 0, 0);
-					home.fill(255, 0, 0);
+					line(he.getVertex(), c);
+					if (he.getHalfedgeType() == WB_Classification.CONVEX) {
+						home.stroke(0, 255, 0);
+						home.fill(0, 255, 0);
+					} else if (he.getHalfedgeType() == WB_Classification.CONCAVE) {
+						home.stroke(255, 0, 0);
+						home.fill(255, 0, 0);
+					} else {
+						home.stroke(0, 0, 255);
+						home.fill(0, 0, 255);
+					}
+					home.pushMatrix();
+					translate(c);
+					home.box((float) d);
+					home.popMatrix();
 				} else {
-					home.stroke(0, 0, 255);
-					home.fill(0, 0, 255);
+					c = new WB_Point(he.getHalfedgeCenter());
+					c.addMulSelf(-d, he.getPair().getHalfedgeNormal());
+					home.stroke(255, 0, 0);
+					line(he.getVertex(), c);
+					home.stroke(0, 255, 255);
+					home.pushMatrix();
+					translate(c);
+					home.box((float) d);
+					home.popMatrix();
 				}
-				home.pushMatrix();
-				translate(c);
-				home.box((float) d);
-				home.popMatrix();
-			} else {
-				c = new WB_Point(he.getHalfedgeCenter());
-				c.addMulSelf(-d, he.getPair().getHalfedgeNormal());
-				home.stroke(255, 0, 0);
-				line(he.getVertex(), c);
-				home.stroke(0, 255, 255);
-				home.pushMatrix();
-				translate(c);
-				home.box((float) d);
-				home.popMatrix();
 			}
 		}
 		home.popStyle();
@@ -1540,35 +1578,37 @@ public class WB_Render3D extends WB_Render2D {
 		home.pushStyle();
 		while (heItr.hasNext()) {
 			he = heItr.next();
-			if (he.getFace() != null) {
-				c = geometryfactory.createInterpolatedPoint(he.getVertex(), he.getEndVertex(), f);
-				c.addMulSelf(d, he.getHalfedgeNormal());
-				home.stroke(255, 0, 0);
-				line(he.getVertex(), c);
-				if (he.getHalfedgeType() == WB_Classification.CONVEX) {
-					home.stroke(0, 255, 0);
-					home.fill(0, 255, 0);
-				} else if (he.getHalfedgeType() == WB_Classification.CONCAVE) {
+			if (he.isVisible()) {
+				if (he.getFace() != null) {
+					c = geometryfactory.createInterpolatedPoint(he.getVertex(), he.getEndVertex(), f);
+					c.addMulSelf(d, he.getHalfedgeNormal());
 					home.stroke(255, 0, 0);
-					home.fill(255, 0, 0);
+					line(he.getVertex(), c);
+					if (he.getHalfedgeType() == WB_Classification.CONVEX) {
+						home.stroke(0, 255, 0);
+						home.fill(0, 255, 0);
+					} else if (he.getHalfedgeType() == WB_Classification.CONCAVE) {
+						home.stroke(255, 0, 0);
+						home.fill(255, 0, 0);
+					} else {
+						home.stroke(0, 0, 255);
+						home.fill(0, 0, 255);
+					}
+					home.pushMatrix();
+					translate(c);
+					home.box((float) d);
+					home.popMatrix();
 				} else {
-					home.stroke(0, 0, 255);
-					home.fill(0, 0, 255);
+					c = geometryfactory.createInterpolatedPoint(he.getVertex(), he.getEndVertex(), f);
+					c.addMulSelf(-d, he.getPair().getHalfedgeNormal());
+					home.stroke(255, 0, 0);
+					line(he.getVertex(), c);
+					home.stroke(0, 255, 255);
+					home.pushMatrix();
+					translate(c);
+					home.box((float) d);
+					home.popMatrix();
 				}
-				home.pushMatrix();
-				translate(c);
-				home.box((float) d);
-				home.popMatrix();
-			} else {
-				c = geometryfactory.createInterpolatedPoint(he.getVertex(), he.getEndVertex(), f);
-				c.addMulSelf(-d, he.getPair().getHalfedgeNormal());
-				home.stroke(255, 0, 0);
-				line(he.getVertex(), c);
-				home.stroke(0, 255, 255);
-				home.pushMatrix();
-				translate(c);
-				home.box((float) d);
-				home.popMatrix();
 			}
 		}
 		home.popStyle();
@@ -1582,6 +1622,9 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param s
 	 */
 	public void drawHalfedgeSimple(final HE_Halfedge he, final double d, final double s) {
+		if (!he.isVisible()) {
+			return;
+		}
 		final WB_Point c = new WB_Point(he.getHalfedgeCenter());
 		c.addMulSelf(d, he.getHalfedgeNormal());
 		line(he.getVertex(), c);
@@ -3730,7 +3773,7 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 	public void drawVertex(final Long key, final HE_MeshStructure mesh, final double d) {
 		final HE_Vertex v = mesh.getVertexWithKey(key);
-		if (v != null) {
+		if (v != null && v.isVisible()) {
 			home.pushMatrix();
 			translate(v);
 			home.box((float) d);
@@ -3740,7 +3783,7 @@ public class WB_Render3D extends WB_Render2D {
 
 	public void drawVertex(final HE_Vertex v, final double d) {
 
-		if (v != null) {
+		if (v != null && v.isVisible()) {
 			home.pushMatrix();
 			translate(v);
 			home.box((float) d);
@@ -3796,15 +3839,35 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param mesh
 	 * @param d
 	 */
+	public void drawVertices(final HE_MeshStructure mesh) {
+		HE_Vertex v;
+		final Iterator<HE_Vertex> vItr = mesh.vItr();
+		while (vItr.hasNext()) {
+			v = vItr.next();
+			if (v.isVisible()) {
+				home.point(v.xf(), v.yf(), v.zf());
+
+			}
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param d
+	 */
 	public void drawVertices(final HE_MeshStructure mesh, final double d) {
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			home.pushMatrix();
-			translate(v);
-			home.box((float) d);
-			home.popMatrix();
+			if (v.isVisible()) {
+				home.pushMatrix();
+				translate(v);
+				home.box((float) d);
+				home.popMatrix();
+			}
 		}
 	}
 
@@ -3816,7 +3879,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param texture
 	 * @return
 	 */
-	private int getColorFromPImage(final double u, final double v, final PImage texture) {
+	public static int getColorFromPImage(final double u, final double v, final PImage texture) {
 		return texture.get(Math.max(0, Math.min((int) (u * texture.width), texture.width - 1)),
 				Math.max(0, Math.min((int) (v * texture.height), texture.height - 1)));
 	}
@@ -4698,12 +4761,12 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param label
 	 * @param mesh
 	 */
-	public void drawVerticesWithTemporaryLabel(final int label, final HE_MeshStructure mesh, final double d) {
+	public void drawVerticesWithInternalLabel(final int label, final HE_MeshStructure mesh, final double d) {
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
 		HE_Vertex v;
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			if (v.getInternalLabel() == label) {
+			if (v.isVisible() && v.getInternalLabel() == label) {
 				drawVertex(v, d);
 			}
 		}
@@ -4722,7 +4785,7 @@ public class WB_Render3D extends WB_Render2D {
 		HE_Vertex v;
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			if (v.getLabel() == label) {
+			if (v.isVisible() && v.getLabel() == label) {
 				drawVertex(v, d);
 			}
 		}

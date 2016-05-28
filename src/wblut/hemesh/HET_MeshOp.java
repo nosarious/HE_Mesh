@@ -2044,6 +2044,29 @@ public class HET_MeshOp {
 		return p;
 	}
 
+	public static boolean contains(final HE_Mesh mesh, final WB_Coord p) {
+
+		return contains(new WB_AABBTree(mesh, 1), p);
+	}
+
+	public static boolean contains(final WB_AABBTree tree, final WB_Coord p) {
+		final List<HE_FaceIntersection> ints = new FastTable<HE_FaceIntersection>();
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final WB_Vector dir = new WB_Vector(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5);
+		final WB_Ray R = new WB_Ray(p, dir);
+		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(R, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		for (final HE_Face face : candidates) {
+			final HE_FaceIntersection sect = getIntersection(face, R);
+			if (sect != null) {
+				ints.add(sect);
+			}
+		}
+		return ints.size() % 2 == 1;
+	}
+
 	/**
 	 *
 	 *
