@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -25,7 +25,6 @@ public class HE_PathHalfedge extends HE_MeshElement {
 	 *
 	 */
 	private HE_PathHalfedge _prev;
-
 
 	/**
 	 *
@@ -151,17 +150,10 @@ public class HE_PathHalfedge extends HE_MeshElement {
 		_prev = he;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.Point3D#toString()
-	 */
 	@Override
 	public String toString() {
-		return "HE_LoopHalfedge key: " + key() + ".";
+		return "HE_PathHalfedge key: " + key() + ".";
 	}
-
-
 
 	/*
 	 * (non-Javadoc)

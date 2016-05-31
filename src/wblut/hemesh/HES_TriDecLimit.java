@@ -147,7 +147,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 			if (valid) {
 				vertices = v.getNeighborVertices();
 				// vertices.addAll(v.getNextNeighborVertices());
-				if (_mesh.collapseHalfedge(v.getHalfedge())) {
+				if (HET_MeshOp.collapseHalfedge(_mesh, v.getHalfedge())) {
 					lastcost = vertexCost.get(v.key());
 					if (lastcost <= limit) {
 						vertexCost.remove(v.key());
@@ -197,7 +197,7 @@ public class HES_TriDecLimit extends HES_Simplifier {
 			if (valid) {
 				vertices = v.getNeighborVertices();
 				// vertices.addAll(v.getNextNeighborVertices());
-				if (_mesh.collapseHalfedge(v.getHalfedge())) {
+				if (HET_MeshOp.collapseHalfedge(_mesh, v.getHalfedge())) {
 					lastcost = vertexCost.get(v.key());
 					if (lastcost <= limit) {
 						vertexCost.remove(v.key());

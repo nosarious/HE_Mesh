@@ -11,7 +11,6 @@ var searchData=
   ['he_5ffaceintersection_2ejava',['HE_FaceIntersection.java',['../_h_e___face_intersection_8java.html',1,'']]],
   ['he_5ffaceiterator_2ejava',['HE_FaceIterator.java',['../_h_e___face_iterator_8java.html',1,'']]],
   ['he_5ffacevertexcirculator_2ejava',['HE_FaceVertexCirculator.java',['../_h_e___face_vertex_circulator_8java.html',1,'']]],
-  ['he_5fgeometryop_2ejava',['HE_GeometryOp.java',['../_h_e___geometry_op_8java.html',1,'']]],
   ['he_5fhalfedge_2ejava',['HE_Halfedge.java',['../_h_e___halfedge_8java.html',1,'']]],
   ['he_5fhalfedgeiterator_2ejava',['HE_HalfedgeIterator.java',['../_h_e___halfedge_iterator_8java.html',1,'']]],
   ['he_5fmachine_2ejava',['HE_Machine.java',['../_h_e___machine_8java.html',1,'']]],

@@ -3,34 +3,34 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
 /**
- * 
+ *
  */
 public class HEM_CenterSplit extends HEM_Modifier {
 
 	/**
-	 * 
+	 *
 	 */
 	private double d;
 
 	/**
-	 * 
+	 *
 	 */
 	private double c;
 
 	/**
-	 * 
+	 *
 	 */
 	private HE_Selection selectionOut;
 
 	/**
-	 * 
+	 *
 	 */
 	public HEM_CenterSplit() {
 		super();
@@ -39,7 +39,7 @@ public class HEM_CenterSplit extends HEM_Modifier {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param d
 	 * @return
@@ -50,7 +50,7 @@ public class HEM_CenterSplit extends HEM_Modifier {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param c
 	 * @return
@@ -62,7 +62,7 @@ public class HEM_CenterSplit extends HEM_Modifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
@@ -77,21 +77,21 @@ public class HEM_CenterSplit extends HEM_Modifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
 		tracker.setStatus(this, "Starting HEC_CenterSplit.", +1);
 		final HEM_Extrude ext = new HEM_Extrude().setChamfer(c).setDistance(d);
-		selection.parent.modifySelected(ext, selection);
+		selection.modify(ext);
 		selectionOut = ext.extruded;
 		tracker.setStatus(this, "Exiting HEC_CenterSplit.", -1);
 		return selection.parent;
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */

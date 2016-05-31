@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -23,7 +23,7 @@ public class HES_PlanarMidEdge extends HES_Subdividor {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
-		mesh.splitEdges();
+		HET_MeshOp.splitEdges(mesh);
 		final ArrayList<HE_Face> newFaces = new ArrayList<HE_Face>();
 		HE_Face face;
 		final Iterator<HE_Face> fItr = mesh.fItr();
@@ -37,24 +37,24 @@ public class HES_PlanarMidEdge extends HES_Subdividor {
 			do {
 				final HE_Face newFace = new HE_Face();
 				newFaces.add(newFace);
-				mesh.setHalfedge(newFace,origHE1);
+				mesh.setHalfedge(newFace, origHE1);
 				final HE_Halfedge origHE2 = origHE1.getNextInFace();
 				final HE_Halfedge origHE3 = origHE2.getNextInFace();
 				final HE_Halfedge newHE = new HE_Halfedge();
 				final HE_Halfedge newHEp = new HE_Halfedge();
 
 				faceHalfedges.add(newHEp);
-				mesh.setNext(origHE2,newHE);
-				mesh.setNext(newHE,origHE1);
-				mesh.setVertex(newHE,origHE3.getVertex());
-				mesh.setFace(newHE,newFace);
-				mesh.setFace(origHE1,newFace);
-				mesh.setFace(origHE2,newFace);
-				mesh.setVertex(newHEp,origHE1.getVertex());
-				mesh.setPair(newHE,newHEp);
+				mesh.setNext(origHE2, newHE);
+				mesh.setNext(newHE, origHE1);
+				mesh.setVertex(newHE, origHE3.getVertex());
+				mesh.setFace(newHE, newFace);
+				mesh.setFace(origHE1, newFace);
+				mesh.setFace(origHE2, newFace);
+				mesh.setVertex(newHEp, origHE1.getVertex());
+				mesh.setPair(newHE, newHEp);
 
-				mesh.setFace(newHEp,centerFace);
-				mesh.setHalfedge(centerFace,newHEp);
+				mesh.setFace(newHEp, centerFace);
+				mesh.setHalfedge(centerFace, newHEp);
 				mesh.add(newHE);
 				mesh.add(newHEp);
 				origHE1 = origHE3;
@@ -75,7 +75,7 @@ public class HES_PlanarMidEdge extends HES_Subdividor {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
-		selection.parent.splitEdges(selection);
+		HET_MeshOp.splitEdges(selection);
 		final ArrayList<HE_Face> newFaces = new ArrayList<HE_Face>();
 		HE_Face face;
 		final Iterator<HE_Face> fItr = selection.fItr();
@@ -89,25 +89,25 @@ public class HES_PlanarMidEdge extends HES_Subdividor {
 			do {
 				final HE_Face newFace = new HE_Face();
 				newFaces.add(newFace);
-				selection.parent.setHalfedge(newFace,origHE1);
+				selection.parent.setHalfedge(newFace, origHE1);
 				final HE_Halfedge origHE2 = origHE1.getNextInFace();
 				final HE_Halfedge origHE3 = origHE2.getNextInFace();
 				final HE_Halfedge newHE = new HE_Halfedge();
 				final HE_Halfedge newHEp = new HE_Halfedge();
 
 				faceHalfedges.add(newHEp);
-				selection.parent.setNext(origHE2,newHE);
-				selection.parent.setNext(newHE,origHE1);
+				selection.parent.setNext(origHE2, newHE);
+				selection.parent.setNext(newHE, origHE1);
 
-				selection.parent.setVertex(newHE,origHE3.getVertex());
-				selection.parent.setFace(newHE,newFace);
-				selection.parent.setFace(origHE1,newFace);
-				selection.parent.setFace(origHE2,newFace);
-				selection.parent.setVertex(newHEp,origHE1.getVertex());
-				selection.parent.setPair(newHE,newHEp);
+				selection.parent.setVertex(newHE, origHE3.getVertex());
+				selection.parent.setFace(newHE, newFace);
+				selection.parent.setFace(origHE1, newFace);
+				selection.parent.setFace(origHE2, newFace);
+				selection.parent.setVertex(newHEp, origHE1.getVertex());
+				selection.parent.setPair(newHE, newHEp);
 
-				selection.parent.setFace(newHEp,centerFace);
-				selection.parent.setHalfedge(centerFace,newHEp);
+				selection.parent.setFace(newHEp, centerFace);
+				selection.parent.setHalfedge(centerFace, newHEp);
 				selection.parent.add(newHE);
 				selection.parent.add(newHEp);
 				origHE1 = origHE3;

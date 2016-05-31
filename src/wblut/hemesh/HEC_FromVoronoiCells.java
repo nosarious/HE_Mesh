@@ -210,7 +210,7 @@ public class HEC_FromVoronoiCells extends HEC_Creator {
 			result.capHalfedges();
 		} else {
 			result.uncapBoundaryHalfedges();
-			result.capHoles();
+			result.modify(new HEM_CapHoles());
 			result.capHalfedges();
 		}
 		return result;

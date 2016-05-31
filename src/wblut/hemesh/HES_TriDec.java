@@ -115,7 +115,7 @@ public class HES_TriDec extends HES_Simplifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HES_Simplifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
@@ -154,7 +154,7 @@ public class HES_TriDec extends HES_Simplifier {
 				vertices = v.getNeighborVertices();
 				// vertices.addAll(v.getNextNeighborVertices());
 
-				if (_mesh.collapseHalfedge(v.getHalfedge())) {
+				if (HET_MeshOp.collapseHalfedge(_mesh, v.getHalfedge())) {
 					// System.out.println(vertexCost.get(v.key()));
 
 					vertexCost.remove(v.key());
@@ -172,7 +172,7 @@ public class HES_TriDec extends HES_Simplifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HES_Simplifier#apply(wblut.hemesh.HE_Selection)
 	 */
 	@Override
@@ -213,7 +213,7 @@ public class HES_TriDec extends HES_Simplifier {
 			if (valid) {
 				vertices = v.getNeighborVertices();
 				// vertices.addAll(v.getNextNeighborVertices());
-				if (_mesh.collapseHalfedge(v.getHalfedge())) {
+				if (HET_MeshOp.collapseHalfedge(_mesh, v.getHalfedge())) {
 					vertexCost.remove(v.key());
 					selection.remove(v);
 					counter++;
@@ -607,7 +607,7 @@ public class HES_TriDec extends HES_Simplifier {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#toString()
 		 */
 		@Override

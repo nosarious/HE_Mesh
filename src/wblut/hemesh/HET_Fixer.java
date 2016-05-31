@@ -145,7 +145,7 @@ public class HET_Fixer {
 			}
 		}
 		for (int i = 0; i < edgesToRemove.size(); i++) {
-			mesh.collapseEdge(edgesToRemove.get(i));
+			HET_MeshOp.collapseEdge(mesh, edgesToRemove.get(i));
 		}
 	}
 
@@ -166,7 +166,7 @@ public class HET_Fixer {
 			}
 		}
 		for (int i = 0; i < edgesToRemove.size(); i++) {
-			mesh.collapseEdge(edgesToRemove.get(i));
+			HET_MeshOp.collapseEdge(mesh, edgesToRemove.get(i));
 		}
 	}
 
@@ -322,7 +322,7 @@ public class HET_Fixer {
 	 *
 	 */
 	public static void deleteDegenerateTriangles(final HE_Mesh mesh) {
-		final List<HE_Face> faces = mesh.getFacesAsList();
+		final List<HE_Face> faces = mesh.getFaces();
 		HE_Halfedge he;
 		for (final HE_Face face : faces) {
 			if (!mesh.contains(face)) {
@@ -342,7 +342,7 @@ public class HET_Fixer {
 					} while (he != face.getHalfedge());
 					if (degeneratehe != null) {
 						// System.out.println("Zero length change!");
-						mesh.collapseHalfedge(he);
+						HET_MeshOp.collapseHalfedge(mesh, he);
 						continue;
 					}
 					he = face.getHalfedge();
@@ -371,7 +371,7 @@ public class HET_Fixer {
 	 * Fix loops.
 	 */
 	public static void fixLoops(final HE_Mesh mesh) {
-		for (final HE_Halfedge he : mesh.getHalfedgesAsList()) {
+		for (final HE_Halfedge he : mesh.getHalfedges()) {
 			if (he.getPrevInFace() == null) {
 				HE_Halfedge hen = he.getNextInFace();
 				while (hen.getNextInFace() != he) {

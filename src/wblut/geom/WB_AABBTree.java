@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 
 package wblut.geom;
@@ -18,18 +18,13 @@ import wblut.hemesh.HE_Face;
 import wblut.hemesh.HE_Mesh;
 import wblut.hemesh.HE_Selection;
 
-
 public class WB_AABBTree {
-
 
 	private WB_AABBNode root;
 
-
 	private final int maxLevel;
 
-
 	private final int maxNumberOfFaces;
-
 
 	public static final WB_ProgressTracker tracker = WB_ProgressTracker.instance();
 
@@ -40,12 +35,10 @@ public class WB_AABBTree {
 	 * @param mnof
 	 */
 	public WB_AABBTree(final HE_Mesh mesh, final int mnof) {
-		maxLevel = 2 * (int) Math.ceil(Math.log(mesh.getNumberOfFaces())
-				/ Math.log(3.0));
+		maxLevel = 2 * (int) Math.ceil(Math.log(mesh.getNumberOfFaces()) / Math.log(3.0));
 		maxNumberOfFaces = Math.max(1, mnof);
 		buildTree(mesh);
 	}
-
 
 	/**
 	 *
@@ -53,16 +46,15 @@ public class WB_AABBTree {
 	 * @param mesh
 	 */
 	private void buildTree(final HE_Mesh mesh) {
-		tracker.setStatus(this, "Starting WB_AABBTree construction. Max. number of faces per node: "+
-				maxNumberOfFaces , +1);
+		tracker.setStatus(this, "Starting WB_AABBTree construction. Max. number of faces per node: " + maxNumberOfFaces,
+				+1);
 
 		root = new WB_AABBNode();
 		final HE_Selection faces = new HE_Selection(mesh);
-		faces.addFaces(mesh.getFacesAsList());
+		faces.addFaces(mesh.getFaces());
 		buildNode(root, faces, mesh, 0);
 		tracker.setStatus(this, "Exiting WB_AABBTree construction.", -1);
 	}
-
 
 	/**
 	 *
@@ -72,34 +64,30 @@ public class WB_AABBTree {
 	 * @param mesh
 	 * @param level
 	 */
-	private void buildNode(final WB_AABBNode node, final HE_Selection faces,
-			final HE_Mesh mesh, final int level) {
-		tracker.setStatus(this, "Splitting WB_AABBNode level "+level+" with " + faces.getNumberOfFaces() +" faces.", 0);
+	private void buildNode(final WB_AABBNode node, final HE_Selection faces, final HE_Mesh mesh, final int level) {
+		tracker.setStatus(this,
+				"Splitting WB_AABBNode level " + level + " with " + faces.getNumberOfFaces() + " faces.", 0);
 		node.level = level;
 		faces.collectVertices();
 		node.aabb = faces.getAABB();
-		if ((level == maxLevel)
-				|| (faces.getNumberOfFaces() <= maxNumberOfFaces)) {
-			node.faces.addAll(faces.getFacesAsList());
+		if (level == maxLevel || faces.getNumberOfFaces() <= maxNumberOfFaces) {
+			node.faces.addAll(faces.getFaces());
 			node.isLeaf = true;
 		} else {
 			final HE_Selection pos = new HE_Selection(mesh);
 			final HE_Selection neg = new HE_Selection(mesh);
 			final HE_Selection mid = new HE_Selection(mesh);
 			final WB_Vector dir = new WB_Vector();
-			if ((level % 3) == 0) {
+			if (level % 3 == 0) {
 				dir.set(0, 0, 1);
-			} else if ((level % 3) == 1) {
+			} else if (level % 3 == 1) {
 				dir.set(0, 1, 0);
 			} else {
 				dir.set(1, 0, 0);
 			}
-			node.separator = new WB_Plane(new WB_Point(node.aabb.getCenter()),
-					dir);
-			for (final HE_Face face : faces.getFacesAsList()) {
-				final WB_Classification cptp = WB_GeometryOp
-						.classifyPolygonToPlane3D(face.toPolygon(),
-								node.separator);
+			node.separator = new WB_Plane(new WB_Point(node.aabb.getCenter()), dir);
+			for (final HE_Face face : faces.getFaces()) {
+				final WB_Classification cptp = WB_GeometryOp.classifyPolygonToPlane3D(face.toPolygon(), node.separator);
 				if (cptp == WB_Classification.CROSSING) {
 					mid.add(face);
 				} else if (cptp == WB_Classification.BACK) {
@@ -127,7 +115,6 @@ public class WB_AABBTree {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -137,33 +124,23 @@ public class WB_AABBTree {
 		return root;
 	}
 
-
 	public class WB_AABBNode {
-
 
 		protected int level;
 
-
 		protected WB_AABB aabb;
-
 
 		protected WB_AABBNode positive;
 
-
 		protected WB_AABBNode negative;
-
 
 		protected WB_AABBNode mid;
 
-
 		protected WB_Plane separator;
-
 
 		protected List<HE_Face> faces;
 
-
 		protected boolean isLeaf;
-
 
 		/**
 		 *
@@ -172,7 +149,6 @@ public class WB_AABBTree {
 			level = -1;
 			faces = new FastTable<HE_Face>();
 		}
-
 
 		/**
 		 *
@@ -183,7 +159,6 @@ public class WB_AABBTree {
 			return aabb;
 		}
 
-
 		/**
 		 *
 		 *
@@ -192,7 +167,6 @@ public class WB_AABBTree {
 		public WB_Plane getSeparator() {
 			return separator;
 		}
-
 
 		/**
 		 *
@@ -203,7 +177,6 @@ public class WB_AABBTree {
 			return level;
 		}
 
-
 		/**
 		 *
 		 *
@@ -212,7 +185,6 @@ public class WB_AABBTree {
 		public boolean isLeaf() {
 			return isLeaf;
 		}
-
 
 		/**
 		 *
@@ -223,7 +195,6 @@ public class WB_AABBTree {
 			return faces;
 		}
 
-
 		/**
 		 *
 		 *
@@ -233,7 +204,6 @@ public class WB_AABBTree {
 			return positive;
 		}
 
-
 		/**
 		 *
 		 *
@@ -242,7 +212,6 @@ public class WB_AABBTree {
 		public WB_AABBNode getNegChild() {
 			return negative;
 		}
-
 
 		/**
 		 *

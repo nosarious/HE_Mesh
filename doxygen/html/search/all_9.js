@@ -90,6 +90,7 @@ var searchData=
   ['isequalrel',['isEqualRel',['../classwblut_1_1math_1_1_w_b___epsilon.html#ab796b6babe093b94da1dfa953b7b94ab',1,'wblut::math::WB_Epsilon']]],
   ['isinfinite',['isInfinite',['../classwblut_1_1geom_1_1_w_b___point_homogeneous.html#a4f1df94839a7636324353de59427e4b2',1,'wblut::geom::WB_PointHomogeneous']]],
   ['isinnerboundary',['isInnerBoundary',['../classwblut_1_1hemesh_1_1_h_e___halfedge.html#a301426189b059372fc3c3b9c33f8c4b6',1,'wblut::hemesh::HE_Halfedge']]],
+  ['isinside',['isInside',['../classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#af0f317970eef92bb7f2b26ff8bbf1a62',1,'wblut.hemesh.HET_MeshOp.isInside(final HE_Mesh mesh, final WB_Coord p)'],['../classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a9ae69eb36193f74eddd70064d1ae8f01',1,'wblut.hemesh.HET_MeshOp.isInside(final WB_AABBTree tree, final WB_Coord p)']]],
   ['isleaf',['isLeaf',['../classwblut_1_1geom_1_1_w_b___a_a_b_b_tree_1_1_w_b___a_a_b_b_node.html#a48b17d794e1b9b01486664c331b4a865',1,'wblut.geom.WB_AABBTree.WB_AABBNode.isLeaf()'],['../classwblut_1_1geom_1_1_w_b___a_a_b_b_tree_1_1_w_b___a_a_b_b_node.html#adfb19988fed88d20996d5727bfa35516',1,'wblut.geom.WB_AABBTree.WB_AABBNode.isLeaf()']]],
   ['isloop',['isLoop',['../classwblut_1_1hemesh_1_1_h_e___path.html#a2a78ee827cbda0ee04d8c970237d50d3',1,'wblut::hemesh::HE_Path']]],
   ['isnan',['isNaN',['../classwblut_1_1math_1_1_w_b___double_double.html#a46677f17d0736619937c62267b0ed0aa',1,'wblut::math::WB_DoubleDouble']]],

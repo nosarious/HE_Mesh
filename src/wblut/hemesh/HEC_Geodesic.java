@@ -142,7 +142,7 @@ public class HEC_Geodesic extends HEC_Creator {
 	protected HE_Mesh createBase() {
 		final WB_Geodesic geo = new WB_Geodesic(1.0, b, c, type);
 		final HE_Mesh mesh = new HE_Mesh(new HEC_FromMesh(geo));
-		mesh.scale(rx, ry, rz);
+		mesh.scaleSelf(rx, ry, rz);
 		return mesh;
 	}
 }

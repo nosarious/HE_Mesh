@@ -11,7 +11,6 @@ var searchData=
   ['he_5ffaceintersection',['HE_FaceIntersection',['../classwblut_1_1hemesh_1_1_h_e___face_intersection.html',1,'wblut::hemesh']]],
   ['he_5ffaceiterator',['HE_FaceIterator',['../classwblut_1_1hemesh_1_1_h_e___face_iterator.html',1,'wblut::hemesh']]],
   ['he_5ffacevertexcirculator',['HE_FaceVertexCirculator',['../classwblut_1_1hemesh_1_1_h_e___face_vertex_circulator.html',1,'wblut::hemesh']]],
-  ['he_5fgeometryop',['HE_GeometryOp',['../classwblut_1_1hemesh_1_1_h_e___geometry_op.html',1,'wblut::hemesh']]],
   ['he_5fhalfedge',['HE_Halfedge',['../classwblut_1_1hemesh_1_1_h_e___halfedge.html',1,'wblut::hemesh']]],
   ['he_5fhalfedgeiterator',['HE_HalfedgeIterator',['../classwblut_1_1hemesh_1_1_h_e___halfedge_iterator.html',1,'wblut::hemesh']]],
   ['he_5fmachine',['HE_Machine',['../classwblut_1_1hemesh_1_1_h_e___machine.html',1,'wblut::hemesh']]],

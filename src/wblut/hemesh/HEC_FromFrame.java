@@ -176,8 +176,8 @@ public class HEC_FromFrame extends HEC_Creator {
 		 * @param o
 		 * @param r
 		 */
-		StrutNodeConnection(final WB_FrameNode node, final WB_FrameStrut strut,
-				final double mo, final double o, final double r) {
+		StrutNodeConnection(final WB_FrameNode node, final WB_FrameStrut strut, final double mo, final double o,
+				final double r) {
 			maxoffset = mo;
 			offset = o;
 			radius = r;
@@ -414,32 +414,26 @@ public class HEC_FromFrame extends HEC_Creator {
 		int i = 0;
 		for (final WB_FrameNode node : frame.getNodes()) {
 			if (nodeTypes[i] == NodeType.ENDPOINT) {
-				double r = strutRadius
-						.evaluate(node.xd(), node.yd(), node.zd());
+				double r = strutRadius.evaluate(node.xd(), node.yd(), node.zd());
 				if (useNodeValues) {
 					r *= node.getValue();
 				}
 				createNodeStrutConnection(node, 0, 0.0, 0.0, r);
 			} else if (nodeTypes[i] == NodeType.STRAIGHT) {
-				double r = strutRadius
-						.evaluate(node.xd(), node.yd(), node.zd());
+				double r = strutRadius.evaluate(node.xd(), node.yd(), node.zd());
 				if (useNodeValues) {
 					r *= node.getValue();
 				}
-				double o = strutRadius
-						.evaluate(node.xd(), node.yd(), node.zd());
+				double o = strutRadius.evaluate(node.xd(), node.yd(), node.zd());
 				if (useNodeValues) {
 					o *= node.getValue();
 				}
 				createNodeStrutConnection(node, 0, o, o, r);
 				createNodeStrutConnection(node, 1, o, o, r);
-			} else if ((nodeTypes[i] == NodeType.TURN)
-					|| (nodeTypes[i] == NodeType.BEND)) {
+			} else if (nodeTypes[i] == NodeType.TURN || nodeTypes[i] == NodeType.BEND) {
 				final double minSpan = node.findSmallestSpan();
-				double r = strutRadius
-						.evaluate(node.xd(), node.yd(), node.zd());
-				double o = (fidget * r)
-						/ Math.min(1.0, Math.tan(0.5 * minSpan));
+				double r = strutRadius.evaluate(node.xd(), node.yd(), node.zd());
+				double o = fidget * r / Math.min(1.0, Math.tan(0.5 * minSpan));
 				if (useNodeValues) {
 					r *= node.getValue();
 				}
@@ -450,10 +444,8 @@ public class HEC_FromFrame extends HEC_Creator {
 				createNodeStrutConnection(node, 1, o, o, r);
 			} else if (nodeTypes[i] == NodeType.STAR) {
 				final double minSpan = node.findSmallestSpan();
-				double r = strutRadius
-						.evaluate(node.xd(), node.yd(), node.zd());
-				double mo = (fidget * r)
-						/ Math.min(1.0, Math.tan(0.5 * minSpan));
+				double r = strutRadius.evaluate(node.xd(), node.yd(), node.zd());
+				double mo = fidget * r / Math.min(1.0, Math.tan(0.5 * minSpan));
 				if (useNodeValues) {
 					r *= node.getValue();
 				}
@@ -461,27 +453,18 @@ public class HEC_FromFrame extends HEC_Creator {
 					mo *= node.getValue();
 				}
 				for (int j = 0; j < node.getOrder(); j++) {
-					final double minLocSpan = node
-							.findSmallestSpanAroundStrut(j);
-					double o = (fidget * r)
-							/ Math.min(1.0, Math.tan(0.5 * minLocSpan));
+					final double minLocSpan = node.findSmallestSpanAroundStrut(j);
+					double o = fidget * r / Math.min(1.0, Math.tan(0.5 * minLocSpan));
 					if (useNodeValues) {
 						o *= node.getValue();
 					}
-					double mso = maximumStrutOffset.evaluate(node.xd(),
-							node.yd(), node.zd());
+					double mso = maximumStrutOffset.evaluate(node.xd(), node.yd(), node.zd());
 					if (useNodeValues) {
 						mso *= node.getValue();
 					}
 					if (o > mso) {
-						createNodeStrutConnection(
-								node,
-								j,
-								mo,
-								mso,
-								(mso / fidget)
-								* Math.min(1.0,
-										Math.tan(0.5 * minLocSpan)));
+						createNodeStrutConnection(node, j, mo, mso,
+								mso / fidget * Math.min(1.0, Math.tan(0.5 * minLocSpan)));
 					} else {
 						createNodeStrutConnection(node, j, mo, o, r);
 					}
@@ -491,10 +474,9 @@ public class HEC_FromFrame extends HEC_Creator {
 		}
 		if (!taper) {
 			for (i = 0; i < frame.getNumberOfStruts(); i++) {
-				final double r = Math.min(strutNodeConnections[2 * i].radius,
-						strutNodeConnections[(2 * i) + 1].radius);
+				final double r = Math.min(strutNodeConnections[2 * i].radius, strutNodeConnections[2 * i + 1].radius);
 				strutNodeConnections[2 * i].radius = r;
-				strutNodeConnections[(2 * i) + 1].radius = r;
+				strutNodeConnections[2 * i + 1].radius = r;
 			}
 		}
 	}
@@ -508,23 +490,21 @@ public class HEC_FromFrame extends HEC_Creator {
 	 * @param off
 	 * @param rad
 	 */
-	private void createNodeStrutConnection(final WB_FrameNode node,
-			final int i, final double maxoff, final double off, final double rad) {
+	private void createNodeStrutConnection(final WB_FrameNode node, final int i, final double maxoff, final double off,
+			final double rad) {
 		final WB_FrameStrut strut = node.getStrut(i);
 		final int id = getStrutIndex(node, strut);
-		strutNodeConnections[id] = new StrutNodeConnection(node, strut, maxoff,
-				off, rad);
+		strutNodeConnections[id] = new StrutNodeConnection(node, strut, maxoff, off, rad);
 	}
 
 	/**
 	 *
 	 */
 	private void createVertices() {
-		final double da = (2 * Math.PI) / strutFacets;
-		for (int id = 0; id < (frame.getNumberOfStruts() * 2); id++) {
+		final double da = 2 * Math.PI / strutFacets;
+		for (int id = 0; id < frame.getNumberOfStruts() * 2; id++) {
 			final double sr = strutNodeConnections[id].radius;
-			final double sgn = (strutNodeConnections[id].node == strutNodeConnections[id].strut
-					.start()) ? 1 : -1;
+			final double sgn = strutNodeConnections[id].node == strutNodeConnections[id].strut.start() ? 1 : -1;
 			final double so = strutNodeConnections[id].maxoffset;
 			final WB_Vector v = strutNodeConnections[id].strut.toVector();
 			v.normalizeSelf();
@@ -534,14 +514,11 @@ public class HEC_FromFrame extends HEC_Creator {
 			final WB_Vector u = P.getU();
 			for (int j = 0; j < strutFacets; j++) {
 				final WB_Point p = new WB_Point(strutNodeConnections[id].node);
-				final double af = angleFactor.evaluate(
-						strutNodeConnections[id].node.xd(),
-						strutNodeConnections[id].node.yd(),
-						strutNodeConnections[id].node.zd());
+				final double af = angleFactor.evaluate(strutNodeConnections[id].node.xd(),
+						strutNodeConnections[id].node.yd(), strutNodeConnections[id].node.zd());
 				p.addMulSelf(so, v);
 				final WB_Vector localu = u.mul(sr);
-				localu.rotateAboutAxisSelf((j + af) * da, new WB_Point(),
-						P.getNormal());
+				localu.rotateAboutAxisSelf((j + af) * da, new WB_Point(), P.getNormal());
 				p.addSelf(localu);
 				final HE_Vertex vrtx = new HE_Vertex(p);
 				vrtx.setInternalLabel(strutNodeConnections[id].node.getIndex());
@@ -562,7 +539,7 @@ public class HEC_FromFrame extends HEC_Creator {
 		if (node == strut.start()) {
 			return 2 * strut.getIndex();
 		} else {
-			return (2 * strut.getIndex()) + 1;
+			return 2 * strut.getIndex() + 1;
 		}
 	}
 
@@ -577,56 +554,49 @@ public class HEC_FromFrame extends HEC_Creator {
 			 * " of " + frame.getNumberOfStruts() + ".");
 			 */
 			final int offsets = i * 2;
-			final int offsete = (i * 2) + 1;
+			final int offsete = i * 2 + 1;
 			int ns = (int) Math.round(strut.getLength() / maximumStrutLength);
 			ns = Math.max(ns, 1);
 			final ArrayList<HE_Halfedge> hes = new ArrayList<HE_Halfedge>();
 			final HE_Vertex[][] extraVertices = new HE_Vertex[strutFacets][ns - 1];
 			for (int j = 0; j < strutFacets; j++) {
-				for (int k = 0; k < (ns - 1); k++) {
+				for (int k = 0; k < ns - 1; k++) {
 					extraVertices[j][k] = new HE_Vertex(
-							gf.createInterpolatedPoint(
-									strutNodeConnections[offsets].vertices
-									.get(j),
-									strutNodeConnections[offsete].vertices
-									.get(j), (k + 1) / (double) ns));
+							gf.createInterpolatedPoint(strutNodeConnections[offsets].vertices.get(j),
+									strutNodeConnections[offsete].vertices.get(j), (k + 1) / (double) ns));
 					mesh.add(extraVertices[j][k]);
 				}
 			}
 			for (int j = 0; j < strutFacets; j++) {
 				final int jp = (j + 1) % strutFacets;
-				final HE_Vertex s0 = strutNodeConnections[offsets].vertices
-						.get(j);
-				final HE_Vertex s1 = strutNodeConnections[offsets].vertices
-						.get(jp);
-				final HE_Vertex e2 = strutNodeConnections[offsete].vertices
-						.get(jp);
-				final HE_Vertex e3 = strutNodeConnections[offsete].vertices
-						.get(j);
+				final HE_Vertex s0 = strutNodeConnections[offsets].vertices.get(j);
+				final HE_Vertex s1 = strutNodeConnections[offsets].vertices.get(jp);
+				final HE_Vertex e2 = strutNodeConnections[offsete].vertices.get(jp);
+				final HE_Vertex e3 = strutNodeConnections[offsete].vertices.get(j);
 				for (int k = 0; k < ns; k++) {
 					final HE_Face f = new HE_Face();
 					final HE_Halfedge he0 = new HE_Halfedge();
 					final HE_Halfedge he1 = new HE_Halfedge();
 					final HE_Halfedge he2 = new HE_Halfedge();
 					final HE_Halfedge he3 = new HE_Halfedge();
-					mesh.setVertex(he0,(k == 0) ? s0 : extraVertices[j][k - 1]);
-					mesh.setVertex(he1,(k == 0) ? s1 : extraVertices[jp][k - 1]);
-					mesh.setVertex(he2,(k == (ns - 1)) ? e2 : extraVertices[jp][k]);
-					mesh.setVertex(he3,(k == (ns - 1)) ? e3 : extraVertices[j][k]);
-					mesh.setNext(he0,he1);
-					mesh.setNext(he1,he2);
-					mesh.setNext(he2,he3);
-					mesh.setNext(he3,he0);
-					mesh.setFace(he0,f);
-					mesh.setHalfedge(f,he0);
+					mesh.setVertex(he0, k == 0 ? s0 : extraVertices[j][k - 1]);
+					mesh.setVertex(he1, k == 0 ? s1 : extraVertices[jp][k - 1]);
+					mesh.setVertex(he2, k == ns - 1 ? e2 : extraVertices[jp][k]);
+					mesh.setVertex(he3, k == ns - 1 ? e3 : extraVertices[j][k]);
+					mesh.setNext(he0, he1);
+					mesh.setNext(he1, he2);
+					mesh.setNext(he2, he3);
+					mesh.setNext(he3, he0);
+					mesh.setFace(he0, f);
+					mesh.setHalfedge(f, he0);
 					f.setInternalLabel(1);
-					mesh.setFace(he1,f);
-					mesh.setFace(he2,f);
-					mesh.setFace(he3,f);
-					mesh.setHalfedge(he0.getVertex(),he0);
-					mesh.setHalfedge(he1.getVertex(),he1);
-					mesh.setHalfedge(he2.getVertex(),he2);
-					mesh.setHalfedge(he3.getVertex(),he3);
+					mesh.setFace(he1, f);
+					mesh.setFace(he2, f);
+					mesh.setFace(he3, f);
+					mesh.setHalfedge(he0.getVertex(), he0);
+					mesh.setHalfedge(he1.getVertex(), he1);
+					mesh.setHalfedge(he2.getVertex(), he2);
+					mesh.setHalfedge(he3.getVertex(), he3);
 					mesh.add(f);
 					mesh.add(he0);
 					mesh.add(he1);
@@ -634,7 +604,7 @@ public class HEC_FromFrame extends HEC_Creator {
 					mesh.add(he3);
 					hes.add(he1);
 					hes.add(he3);
-					if ((k < (ns - 1)) && (k > 0)) {
+					if (k < ns - 1 && k > 0) {
 						hes.add(he0);
 						hes.add(he2);
 					}
@@ -663,63 +633,53 @@ public class HEC_FromFrame extends HEC_Creator {
 					if (node == struts.get(0).start()) {
 						offset = struts.get(0).getIndex() * 2;
 					} else {
-						offset = (struts.get(0).getIndex() * 2) + 1;
+						offset = struts.get(0).getIndex() * 2 + 1;
 					}
-					final ArrayList<HE_Halfedge> hes = new ArrayList<HE_Halfedge>(
-							strutFacets);
+					final ArrayList<HE_Halfedge> hes = new ArrayList<HE_Halfedge>(strutFacets);
 					final HE_Face f = new HE_Face();
 					mesh.add(f);
 					for (int k = 0; k < strutFacets; k++) {
 						final HE_Halfedge he = new HE_Halfedge();
-						mesh.setVertex(he,strutNodeConnections[offset].vertices
-								.get(k));
-						mesh.setFace(he,f);
+						mesh.setVertex(he, strutNodeConnections[offset].vertices.get(k));
+						mesh.setFace(he, f);
 						hes.add(he);
 						mesh.add(he);
 					}
-					mesh.setHalfedge(f,hes.get(0));
+					mesh.setHalfedge(f, hes.get(0));
 					f.setInternalLabel(3);
 					if (node == struts.get(0).start()) {
 						for (int k = 0, j = strutFacets - 1; k < strutFacets; j = k, k++) {
-							mesh.setNext(hes.get(k),hes.get(j));
+							mesh.setNext(hes.get(k), hes.get(j));
 						}
 					} else {
 						for (int k = 0, j = strutFacets - 1; k < strutFacets; j = k, k++) {
-							mesh.setNext(hes.get(j),hes.get(k));
+							mesh.setNext(hes.get(j), hes.get(k));
 						}
 					}
 				}
 			} else {
-				if ((nodeTypes[i] != NodeType.ISOLATED) || createIsolatedNodes) {
-					double br = strutRadius.evaluate(node.xd(), node.yd(),
-							node.zd());
+				if (nodeTypes[i] != NodeType.ISOLATED || createIsolatedNodes) {
+					double br = strutRadius.evaluate(node.xd(), node.yd(), node.zd());
 					for (int j = 0; j < struts.size(); j++) {
 						int offset;
 						if (node == struts.get(j).start()) {
 							offset = struts.get(j).getIndex() * 2;
 						} else {
-							offset = (struts.get(j).getIndex() * 2) + 1;
+							offset = struts.get(j).getIndex() * 2 + 1;
 						}
 						for (int k = 0; k < strutFacets; k++) {
-							hullPoints
-							.add(strutNodeConnections[offset].vertices
-									.get(k));
-							br = Math.min(br,
-									strutNodeConnections[offset].radius);
+							hullPoints.add(strutNodeConnections[offset].vertices.get(k));
+							br = Math.min(br, strutNodeConnections[offset].radius);
 						}
 					}
 					br *= fillfactor;
 					final int n = hullPoints.size();
-					if ((nodeTypes[i] != NodeType.STRAIGHT)
-							&& (nodeTypes[i] != NodeType.BEND)
-							&& (!suppressBalljoint)) {
-						final HE_Mesh ball = new HE_Mesh(new HEC_Sphere()
-								.setRadius(br).setUFacets(strutFacets)
+					if (nodeTypes[i] != NodeType.STRAIGHT && nodeTypes[i] != NodeType.BEND && !suppressBalljoint) {
+						final HE_Mesh ball = new HE_Mesh(new HEC_Sphere().setRadius(br).setUFacets(strutFacets)
 								.setVFacets(strutFacets).setCenter(node));
-						hullPoints.addAll(ball.getVerticesAsList());
+						hullPoints.addAll(ball.getVertices());
 					}
-					final HEC_ConvexHull ch = new HEC_ConvexHull()
-							.setPointsFromVertices(hullPoints);
+					final HEC_ConvexHull ch = new HEC_ConvexHull().setPointsFromVertices(hullPoints);
 					try {
 						final HE_Mesh tmp = new HE_Mesh(ch);
 						final Map<Long, Integer> vertexToPointIndex = ch.vertexToPointIndex;
@@ -731,15 +691,12 @@ public class HEC_FromFrame extends HEC_Creator {
 							f = tmpfItr.next();
 							f.setInternalLabel(2);
 							tmphe = f.getHalfedge();
-							int initid = vertexToPointIndex.get(tmphe
-									.getVertex().key());
-							boolean endface = (initid < n);
+							int initid = vertexToPointIndex.get(tmphe.getVertex().key());
+							boolean endface = initid < n;
 							initid = initid / strutFacets;
 							do {
-								final int id = vertexToPointIndex.get(tmphe
-										.getVertex().key());
-								endface = ((id / strutFacets) == initid)
-										&& (id < n);
+								final int id = vertexToPointIndex.get(tmphe.getVertex().key());
+								endface = id / strutFacets == initid && id < n;
 								if (!endface) {
 									break;
 								}
@@ -759,14 +716,12 @@ public class HEC_FromFrame extends HEC_Creator {
 							if (node == struts.get(j).start()) {
 								offset = struts.get(j).getIndex() * 2;
 							} else {
-								offset = (struts.get(j).getIndex() * 2) + 1;
+								offset = struts.get(j).getIndex() * 2 + 1;
 							}
 							final WB_Vector v = strutNodeConnections[offset].dir;
-							v.mulSelf(strutNodeConnections[offset].offset
-									- strutNodeConnections[offset].maxoffset);
+							v.mulSelf(strutNodeConnections[offset].offset - strutNodeConnections[offset].maxoffset);
 							for (int k = 0; k < strutFacets; k++) {
-								strutNodeConnections[offset].vertices.get(k)
-								.addSelf(v);
+								strutNodeConnections[offset].vertices.get(k).addSelf(v);
 							}
 						}
 						final Iterator<HE_Halfedge> tmpheItr = tmp.heItr();
@@ -775,9 +730,9 @@ public class HEC_FromFrame extends HEC_Creator {
 							tmphe = tmpheItr.next();
 							tmpv = tmphe.getVertex();
 							final int j = vertexToPointIndex.get(tmpv.key());
-							mesh.setVertex(tmphe,hullPoints.get(j));
+							mesh.setVertex(tmphe, hullPoints.get(j));
 							if (j >= n) {
-								mesh.setHalfedge(hullPoints.get(j),tmphe);
+								mesh.setHalfedge(hullPoints.get(j), tmphe);
 							}
 						}
 						tmp.cleanUnusedElementsByFace();

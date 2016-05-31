@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -217,7 +217,7 @@ public class HEM_Lattice extends HEM_Modifier {
 			}
 			counter.increment();
 		}
-		innerMesh.flipFaces();
+		HET_MeshOp.flipFaces(innerMesh);
 		final int nf = mesh.getNumberOfFaces();
 		final HE_Face[] origFaces = mesh.getFacesAsArray();
 		mesh.addVertices(innerMesh.getVerticesAsArray());
@@ -268,23 +268,23 @@ public class HEM_Lattice extends HEM_Modifier {
 					heio = new HE_Halfedge();
 					heoi = new HE_Halfedge();
 					fNew = new HE_Face();
-					mesh.setVertex(heoi,heon.getVertex());
-					mesh.setVertex(heio,hein.getVertex());
-					mesh.setNext(heoc,heoi);
+					mesh.setVertex(heoi, heon.getVertex());
+					mesh.setVertex(heio, hein.getVertex());
+					mesh.setNext(heoc, heoi);
 
-					mesh.setFace(heoc,fNew);
+					mesh.setFace(heoc, fNew);
 					if (cic == cin) {
-						mesh.setNext(heoi,heio);
-						mesh.setFace(heoi,fNew);
+						mesh.setNext(heoi, heio);
+						mesh.setFace(heoi, fNew);
 					} else {
-						mesh.setNext(heoi,heic);
-						mesh.setFace(heoi,fNew);
-						mesh.setNext(heic,heio);
-						mesh.setFace(heic,fNew);
+						mesh.setNext(heoi, heic);
+						mesh.setFace(heoi, fNew);
+						mesh.setNext(heic, heio);
+						mesh.setFace(heic, fNew);
 					}
-					mesh.setNext(heio,heoc);
-					mesh.setFace(heio,fNew);
-					mesh.setHalfedge(fNew,heoc);
+					mesh.setNext(heio, heoc);
+					mesh.setFace(heio, fNew);
+					mesh.setHalfedge(fNew, heoc);
 					mesh.add(heio);
 					mesh.add(heoi);
 					mesh.add(fNew);
@@ -306,24 +306,24 @@ public class HEM_Lattice extends HEM_Modifier {
 			heoi = new HE_Halfedge();
 			mesh.add(heio);
 			mesh.add(heoi);
-			mesh.setVertex(heio,he1.getPair().getVertex());
-			mesh.setVertex(heoi,he2.getPair().getVertex());
-			mesh.setNext(he1,heio);
-			mesh.setNext(heio,he2);
-			mesh.setNext(he2,heoi);
-			mesh.setNext(heoi,he1);
+			mesh.setVertex(heio, he1.getPair().getVertex());
+			mesh.setVertex(heoi, he2.getPair().getVertex());
+			mesh.setNext(he1, heio);
+			mesh.setNext(heio, he2);
+			mesh.setNext(he2, heoi);
+			mesh.setNext(heoi, he1);
 			fNew = new HE_Face();
 			mesh.add(fNew);
-			mesh.setHalfedge(fNew,he1);
-			mesh.setFace(he1,fNew);
-			mesh.setFace(he2,fNew);
-			mesh.setFace(heio,fNew);
-			mesh.setFace(heoi,fNew);
+			mesh.setHalfedge(fNew, he1);
+			mesh.setFace(he1, fNew);
+			mesh.setFace(he2, fNew);
+			mesh.setFace(heio, fNew);
+			mesh.setFace(heoi, fNew);
 			counter.increment();
 		}
 		mesh.pairHalfedges();
 		if (d < 0) {
-			mesh.flipFaces();
+			HET_MeshOp.flipFaces(mesh);
 		}
 		tracker.setStatus(this, "Exiting HEM_Lattice.", -1);
 		return mesh;
@@ -348,7 +348,7 @@ public class HEM_Lattice extends HEM_Modifier {
 		}
 		final HEM_Extrude extm = new HEM_Extrude().setDistance(0).setRelative(false).setChamfer(sew).setFuse(fuse)
 				.setHardEdgeChamfer(hew).setFuseAngle(fuseAngle).setThresholdAngle(thresholdAngle);
-		selection.parent.modifySelected(extm, selection);
+		selection.modify(extm);
 		tracker.setStatus(this, "Creating inner mesh.", 0);
 		final HE_Mesh innerMesh = selection.parent.get();
 		tracker.setStatus(this, "Shrinking inner mesh.", 0);
@@ -384,7 +384,7 @@ public class HEM_Lattice extends HEM_Modifier {
 			}
 			counter.increment();
 		}
-		innerMesh.flipFaces();
+		HET_MeshOp.flipFaces(innerMesh);
 		final int nf = selection.parent.getNumberOfFaces();
 		final HE_Face[] origFaces = selection.parent.getFacesAsArray();
 		selection.parent.addVertices(innerMesh.getVerticesAsArray());
@@ -434,22 +434,22 @@ public class HEM_Lattice extends HEM_Modifier {
 					heio = new HE_Halfedge();
 					heoi = new HE_Halfedge();
 					fNew = new HE_Face();
-					selection.parent.setVertex(heoi,heon.getVertex());
-					selection.parent.setVertex(heio,hein.getVertex());
-					selection.parent.setNext(heoc,heoi);
-					selection.parent.setFace(heoc,fNew);
+					selection.parent.setVertex(heoi, heon.getVertex());
+					selection.parent.setVertex(heio, hein.getVertex());
+					selection.parent.setNext(heoc, heoi);
+					selection.parent.setFace(heoc, fNew);
 					if (cic == cin) {
-						selection.parent.setNext(heoi,heio);
-						selection.parent.setFace(heoi,fNew);
+						selection.parent.setNext(heoi, heio);
+						selection.parent.setFace(heoi, fNew);
 					} else {
-						selection.parent.setNext(heoi,heic);
-						selection.parent.setFace(heoi,fNew);
-						selection.parent.setNext(heic,heio);
-						selection.parent.setFace(heic,fNew);
+						selection.parent.setNext(heoi, heic);
+						selection.parent.setFace(heoi, fNew);
+						selection.parent.setNext(heic, heio);
+						selection.parent.setFace(heic, fNew);
 					}
-					selection.parent.setNext(heio,heoc);
-					selection.parent.setFace(heio,fNew);
-					selection.parent.setHalfedge(fNew,heoc);
+					selection.parent.setNext(heio, heoc);
+					selection.parent.setFace(heio, fNew);
+					selection.parent.setHalfedge(fNew, heoc);
 					selection.parent.add(heio);
 					selection.parent.add(heoi);
 					selection.parent.add(fNew);
@@ -471,24 +471,24 @@ public class HEM_Lattice extends HEM_Modifier {
 			heoi = new HE_Halfedge();
 			selection.parent.add(heio);
 			selection.parent.add(heoi);
-			selection.parent.setVertex(heio,he1.getPair().getVertex());
-			selection.parent.setVertex(heoi,he2.getPair().getVertex());
-			selection.parent.setNext(he1,heio);
-			selection.parent.setNext(heio,he2);
-			selection.parent.setNext(he2,heoi);
-			selection.parent.setNext(heoi,he1);
+			selection.parent.setVertex(heio, he1.getPair().getVertex());
+			selection.parent.setVertex(heoi, he2.getPair().getVertex());
+			selection.parent.setNext(he1, heio);
+			selection.parent.setNext(heio, he2);
+			selection.parent.setNext(he2, heoi);
+			selection.parent.setNext(heoi, he1);
 			fNew = new HE_Face();
 			selection.parent.add(fNew);
-			selection.parent.setHalfedge(fNew,he1);
-			selection.parent.setFace(he1,fNew);
-			selection.parent.setFace(he2,fNew);
-			selection.parent.setFace(heio,fNew);
-			selection.parent.setFace(heoi,fNew);
+			selection.parent.setHalfedge(fNew, he1);
+			selection.parent.setFace(he1, fNew);
+			selection.parent.setFace(he2, fNew);
+			selection.parent.setFace(heio, fNew);
+			selection.parent.setFace(heoi, fNew);
 			counter.increment();
 		}
 		selection.parent.pairHalfedges();
 		if (d < 0) {
-			selection.parent.flipFaces();
+			HET_MeshOp.flipFaces(selection.parent);
 		}
 		tracker.setStatus(this, "Exiting HEM_Lattice.", -1);
 		return selection.parent;

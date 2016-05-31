@@ -43,7 +43,7 @@ public class HEM_Transform extends HEM_Modifier {
 		}
 		final HE_VertexIterator vItr = mesh.vItr();
 		while (vItr.hasNext()) {
-			T.applySelfAsPoint(vItr.next());
+			T.applyAsPointSelf(vItr.next());
 		}
 
 		return mesh;
@@ -59,7 +59,7 @@ public class HEM_Transform extends HEM_Modifier {
 		}
 		final HE_VertexIterator vItr = selection.vItr();
 		while (vItr.hasNext()) {
-			T.applySelfAsPoint(vItr.next());
+			T.applyAsPointSelf(vItr.next());
 		}
 
 		return selection.parent;

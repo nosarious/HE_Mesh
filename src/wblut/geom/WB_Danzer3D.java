@@ -15,24 +15,19 @@ import java.util.List;
 
 import javolution.util.FastTable;
 
-
-public class WB_Danzer3D{
-
+public class WB_Danzer3D {
 
 	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
 
-
 	public static enum Type {
-		A, B, C,K
+		A, B, C, K
 	}
-
 
 	static class DanzerTile {
 
-		public int p1, p2, p3,p4;
+		public int p1, p2, p3, p4;
 		public Type type;
 		public int generation;
-
 
 		/**
 		 *
@@ -42,28 +37,23 @@ public class WB_Danzer3D{
 		 */
 		public DanzerTile(final Type t, final int g) {
 			type = t;
-			p1 = p2 = p3=p4=-1;
+			p1 = p2 = p3 = p4 = -1;
 			generation = g;
 
 		}
 	}
 
-
-	final static double tau=0.5+(0.5*Math.sqrt(5));
-	final static double tau2=tau*tau;
-	final static double tau3=tau2*tau;
-	final static double itau=1.0/tau;
+	final static double tau = 0.5 + 0.5 * Math.sqrt(5);
+	final static double tau2 = tau * tau;
+	final static double tau3 = tau2 * tau;
+	final static double itau = 1.0 / tau;
 	protected double scale;
-
 
 	protected Type type;
 
-
 	protected List<WB_Point> points;
 
-
 	protected List<DanzerTile> tiles;
-
 
 	/**
 	 *
@@ -75,15 +65,12 @@ public class WB_Danzer3D{
 		this(sc, t, new WB_Point());
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param sc
 	 * @param t
-	 * @param angle
 	 * @param offset
-	 * @param context
 	 */
 	public WB_Danzer3D(final double sc, final Type t, final WB_Coord offset) {
 		points = new FastTable<WB_Point>();
@@ -94,24 +81,24 @@ public class WB_Danzer3D{
 		points.add(new WB_Point(offset));
 		switch (type) {
 		case A:
-			points.add(new WB_Point(tau3,0,tau2).mulSelf(sc).addSelf(offset));
-			points.add(new WB_Point(tau2,tau2,tau2).mulSelf(sc).addSelf(offset));
-			points.add(new WB_Point(tau2,1.0,0).mulSelf(sc).addSelf(offset));
+			points.add(new WB_Point(tau3, 0, tau2).mulSelf(sc).addSelf(offset));
+			points.add(new WB_Point(tau2, tau2, tau2).mulSelf(sc).addSelf(offset));
+			points.add(new WB_Point(tau2, 1.0, 0).mulSelf(sc).addSelf(offset));
 			break;
 		case B:
-			points.add(new WB_Point(tau3,0,tau2).mulSelf(sc).addSelf(offset));
-			points.add(new WB_Point(tau2,tau2,tau2).mulSelf(sc).addSelf(offset));
-			points.add(new WB_Point(tau2,tau,1.0).mulSelf(sc).addSelf(offset));
+			points.add(new WB_Point(tau3, 0, tau2).mulSelf(sc).addSelf(offset));
+			points.add(new WB_Point(tau2, tau2, tau2).mulSelf(sc).addSelf(offset));
+			points.add(new WB_Point(tau2, tau, 1.0).mulSelf(sc).addSelf(offset));
 			break;
 		case C:
-			points.add(new WB_Point(-tau,0,1.0).mulSelf(sc).addSelf(offset));
-			points.add(new WB_Point(tau2,tau2,tau2).mulSelf(sc).addSelf(offset));
-			points.add(new WB_Point(0,tau2,1.0).mulSelf(sc).addSelf(offset));
+			points.add(new WB_Point(-tau, 0, 1.0).mulSelf(sc).addSelf(offset));
+			points.add(new WB_Point(tau2, tau2, tau2).mulSelf(sc).addSelf(offset));
+			points.add(new WB_Point(0, tau2, 1.0).mulSelf(sc).addSelf(offset));
 			break;
 		case K:
-			points.add(new WB_Point(-1,tau,0).mulSelf(sc).addSelf(offset));
-			points.add(new WB_Point(tau,tau,tau).mulSelf(sc).addSelf(offset));
-			points.add(new WB_Point(-1,itau,tau).mulSelf(0.5*sc).addSelf(offset));
+			points.add(new WB_Point(-1, tau, 0).mulSelf(sc).addSelf(offset));
+			points.add(new WB_Point(tau, tau, tau).mulSelf(sc).addSelf(offset));
+			points.add(new WB_Point(-1, itau, tau).mulSelf(0.5 * sc).addSelf(offset));
 			break;
 		default:
 		}
@@ -121,7 +108,6 @@ public class WB_Danzer3D{
 		T.p4 = 3;
 		tiles.add(T);
 	}
-
 
 	/**
 	 *
@@ -134,7 +120,6 @@ public class WB_Danzer3D{
 		tiles = newTiles;
 	}
 
-
 	/**
 	 *
 	 *
@@ -145,7 +130,6 @@ public class WB_Danzer3D{
 			inflate();
 		}
 	}
-
 
 	/**
 	 *
@@ -177,7 +161,6 @@ public class WB_Danzer3D{
 		return newTiles;
 	}
 
-
 	/**
 	 *
 	 *
@@ -187,7 +170,6 @@ public class WB_Danzer3D{
 	public DanzerTile tile(final int i) {
 		return tiles.get(i);
 	}
-
 
 	/**
 	 *
@@ -205,7 +187,6 @@ public class WB_Danzer3D{
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -219,7 +200,6 @@ public class WB_Danzer3D{
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -230,14 +210,12 @@ public class WB_Danzer3D{
 		tiles.remove(i);
 	}
 
-
 	/**
 	 *
 	 */
 	public void inflateOldest() {
 		inflateOldest(0);
 	}
-
 
 	/**
 	 *
@@ -248,14 +226,13 @@ public class WB_Danzer3D{
 		final int age = oldest();
 		Collections.shuffle(tiles);
 		for (final DanzerTile T : tiles) {
-			if (T.generation <= (age + r)) {
+			if (T.generation <= age + r) {
 				tiles.addAll(inflateTileInt(T));
 				tiles.remove(T);
 				return;
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -266,7 +243,6 @@ public class WB_Danzer3D{
 		tiles.remove(i);
 	}
 
-
 	/**
 	 *
 	 *
@@ -275,7 +251,6 @@ public class WB_Danzer3D{
 	public int size() {
 		return tiles.size();
 	}
-
 
 	/**
 	 *
@@ -286,7 +261,6 @@ public class WB_Danzer3D{
 		return points.size();
 	}
 
-
 	/**
 	 *
 	 *
@@ -295,7 +269,6 @@ public class WB_Danzer3D{
 	public List<WB_Point> points() {
 		return points;
 	}
-
 
 	/**
 	 *
@@ -306,7 +279,8 @@ public class WB_Danzer3D{
 		final List<WB_Tetrahedron> faces = new FastTable<WB_Tetrahedron>();
 		clean();
 		for (final DanzerTile T : tiles) {
-			faces.add(geometryfactory.createTetrahedron(points.get(T.p1), points.get(T.p2), points.get(T.p3),points.get(T.p4)));
+			faces.add(geometryfactory.createTetrahedron(points.get(T.p1), points.get(T.p2), points.get(T.p3),
+					points.get(T.p4)));
 		}
 		return faces;
 	}
@@ -328,7 +302,6 @@ public class WB_Danzer3D{
 		}
 		return indices;
 	}
-
 
 	/**
 	 *

@@ -149,8 +149,6 @@ public class HEC_DataCylinder extends HEC_Creator {
 		return this;
 	}
 
-
-
 	/**
 	 * Sets data from double.
 	 *
@@ -167,7 +165,6 @@ public class HEC_DataCylinder extends HEC_Creator {
 		_facets = data.length;
 		return this;
 	}
-
 
 	/**
 	 * Sets data from float.
@@ -273,8 +270,7 @@ public class HEC_DataCylinder extends HEC_Creator {
 	 *            reduce facets
 	 * @return this
 	 */
-	public HEC_DataCylinder setProto(final int reduceSteps,
-			final int reduceFacets) {
+	public HEC_DataCylinder setProto(final int reduceSteps, final int reduceFacets) {
 		this.reduceSteps = reduceSteps;
 		this.reduceFacets = reduceFacets;
 		return this;
@@ -297,15 +293,13 @@ public class HEC_DataCylinder extends HEC_Creator {
 		final int facets = _facets / reduceFacets;
 		final double[][] vertices = new double[(steps + 1) * facets][3];
 		final double invs = 1.0 / steps;
-		for (int i = 0; i < (steps + 1); i++) {
-			final double R = Ri + (Math.pow(i * invs, taper) * (Ro - Ri));
+		for (int i = 0; i < steps + 1; i++) {
+			final double R = Ri + Math.pow(i * invs, taper) * (Ro - Ri);
 			final double Hj = i * H * invs;
 			for (int j = 0; j < facets; j++) {
-				vertices[j + (i * facets)][0] = R
-						* Math.cos(((2 * Math.PI) / facets) * j);
-				vertices[j + (i * facets)][2] = R
-						* Math.sin(((2 * Math.PI) / facets) * j);
-				vertices[j + (i * facets)][1] = Hj;
+				vertices[j + i * facets][0] = R * Math.cos(2 * Math.PI / facets * j);
+				vertices[j + i * facets][2] = R * Math.sin(2 * Math.PI / facets * j);
+				vertices[j + i * facets][1] = Hj;
 			}
 		}
 		int nfaces = steps * facets;
@@ -331,15 +325,14 @@ public class HEC_DataCylinder extends HEC_Creator {
 				faces[bc][j] = j;
 			}
 			if (topcap) {
-				faces[tc][facets - 1 - j] = (steps * facets) + j;
+				faces[tc][facets - 1 - j] = steps * facets + j;
 			}
 			for (int i = 0; i < steps; i++) {
-				faces[j + (i * facets)] = new int[4];
-				faces[j + (i * facets)][0] = j + (i * facets);
-				faces[j + (i * facets)][1] = j + (i * facets) + facets;
-				faces[j + (i * facets)][2] = ((j + 1) % facets) + facets
-						+ (i * facets);
-				faces[j + (i * facets)][3] = ((j + 1) % facets) + (i * facets);
+				faces[j + i * facets] = new int[4];
+				faces[j + i * facets][0] = j + i * facets;
+				faces[j + i * facets][1] = j + i * facets + facets;
+				faces[j + i * facets][2] = (j + 1) % facets + facets + i * facets;
+				faces[j + i * facets][3] = (j + 1) % facets + i * facets;
 			}
 		}
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
@@ -371,9 +364,8 @@ public class HEC_DataCylinder extends HEC_Creator {
 					sel.add(currentFace);
 				}
 			}
-			final HEM_Extrude ef = new HEM_Extrude().setChamfer(chamfer)
-					.setDistances(heights);
-			mesh.modifySelected(ef, sel);
+			final HEM_Extrude ef = new HEM_Extrude().setChamfer(chamfer).setDistances(heights);
+			sel.modify(ef);
 		}
 		return mesh;
 	}

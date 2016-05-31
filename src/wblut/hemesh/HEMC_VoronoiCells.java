@@ -3,15 +3,17 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import javolution.util.FastTable;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Voronoi;
@@ -24,7 +26,7 @@ import wblut.geom.WB_Voronoi;
  */
 public class HEMC_VoronoiCells extends HEMC_MultiCreator {
 	/** Points. */
-	private WB_Coord[] points;
+	private List<WB_Coord> points;
 	/** Number of points. */
 	private int numberOfPoints;
 	/** Container. */
@@ -66,14 +68,12 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
 	 */
 	public HEMC_VoronoiCells setMesh(final HE_Mesh mesh, final boolean addCenter) {
 		if (addCenter) {
-			points = new WB_Coord[mesh.getNumberOfVertices() + 1];
-			final WB_Coord[] tmp = mesh.getVerticesAsPoint();
-			for (int i = 0; i < mesh.getNumberOfVertices(); i++) {
-				points[i] = tmp[i];
-			}
-			points[mesh.getNumberOfVertices()] = mesh.getCenter();
+			points = new FastTable<WB_Coord>();
+			points.addAll(mesh.getVertices());
+			points.add(mesh.getCenter());
 		} else {
-			points = mesh.getVerticesAsPoint();
+			points = new FastTable<WB_Coord>();
+			points.addAll(mesh.getVertices());
 		}
 		container = mesh;
 		return this;
@@ -86,8 +86,11 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
 	 *            array of vertex positions
 	 * @return self
 	 */
-	public HEMC_VoronoiCells setPoints(final WB_Point[] points) {
-		this.points = points;
+	public HEMC_VoronoiCells setPoints(final WB_Coord[] points) {
+		this.points = new FastTable<WB_Coord>();
+		for (WB_Coord p : points) {
+			this.points.add(p);
+		}
 		return this;
 	}
 
@@ -99,13 +102,8 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
 	 * @return self
 	 */
 	public HEMC_VoronoiCells setPoints(final Collection<WB_Point> points) {
-		final int n = points.size();
-		this.points = new WB_Point[n];
-		int i = 0;
-		for (final WB_Point point : points) {
-			this.points[i] = point;
-			i++;
-		}
+		this.points = new FastTable<WB_Coord>();
+		this.points.addAll(points);
 		return this;
 	}
 
@@ -118,9 +116,9 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
 	 */
 	public HEMC_VoronoiCells setPoints(final double[][] points) {
 		final int n = points.length;
-		this.points = new WB_Point[n];
+		this.points = new FastTable<WB_Coord>();
 		for (int i = 0; i < n; i++) {
-			this.points[i] = new WB_Point(points[i][0], points[i][1], points[i][2]);
+			this.points.add(new WB_Point(points[i][0], points[i][1], points[i][2]));
 		}
 		return this;
 	}
@@ -134,9 +132,9 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
 	 */
 	public HEMC_VoronoiCells setPoints(final float[][] points) {
 		final int n = points.length;
-		this.points = new WB_Point[n];
+		this.points = new FastTable<WB_Coord>();
 		for (int i = 0; i < n; i++) {
-			this.points[i] = new WB_Point(points[i][0], points[i][1], points[i][2]);
+			this.points.add(new WB_Point(points[i][0], points[i][1], points[i][2]));
 		}
 		return this;
 	}
@@ -226,7 +224,7 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_MultiCreator#create()
 	 */
 	@Override
@@ -244,17 +242,16 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
 			return result;
 		}
 		if (numberOfPoints == 0) {
-			numberOfPoints = points.length;
+			numberOfPoints = points.size();
 		}
 		final ArrayList<HE_Selection> linnersel = new ArrayList<HE_Selection>();
 		final ArrayList<HE_Selection> loutersel = new ArrayList<HE_Selection>();
 		final HEC_VoronoiCell cvc = new HEC_VoronoiCell();
-		if (bruteForce || (numberOfPoints < 10)) {
+		if (bruteForce || numberOfPoints < 10) {
 			cvc.setPoints(points).setN(numberOfPoints).setContainer(container).setSurface(surface).setOffset(offset)
 					.setSimpleCap(simpleCap);
 			for (int i = 0; i < numberOfPoints; i++) {
-				tracker.setStatus(this, "Creating cell " + i + " (" + numberOfPoints + " slices).",
-						0);
+				tracker.setStatus(this, "Creating cell " + i + " (" + numberOfPoints + " slices).", 0);
 				cvc.setCellIndex(i);
 				final HE_Mesh mesh = cvc.createBase();
 				linnersel.add(cvc.inner);
@@ -266,10 +263,10 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
 			cvc.setPoints(points).setN(numberOfPoints).setContainer(container).setSurface(surface).setOffset(offset)
 					.setSimpleCap(simpleCap).setLimitPoints(true);
 			for (int i = 0; i < numberOfPoints; i++) {
-				tracker.setStatus(this,
-						"Creating cell " + i + " (" + voronoiIndices[i].length + " slices).", 0);
+				tracker.setStatus(this, "Creating cell " + i + " (" + voronoiIndices[i].length + " slices).", 0);
 				cvc.setCellIndex(i);
 				cvc.setPointsToUse(voronoiIndices[i]);
+
 				final HE_Mesh mesh = cvc.createBase();
 				linnersel.add(cvc.inner);
 				loutersel.add(cvc.outer);
@@ -296,5 +293,30 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
 		tracker.setStatus(this, "Exiting HEMC_VoronoiCells.", -1);
 
 		return result;
+	}
+
+	public static void main(final String[] args) {
+		HEC_Torus creator = new HEC_Torus(80, 200, 16, 64);
+		HE_Mesh container = new HE_Mesh(creator);
+		creator = new HEC_Torus(40, 200, 16, 64);
+		HE_Mesh inner = new HE_Mesh(creator);
+		HET_MeshOp.flipFaces(inner);
+		container.add(inner);
+
+		int numpoints = 50;
+		double[][] points = new double[numpoints][3];
+		for (int i = 0; i < numpoints; i++) {
+			points[i][0] = Math.random() * 200;
+			points[i][1] = Math.random() * 200;
+			points[i][2] = Math.random() * 200;
+		}
+
+		HEMC_VoronoiCells multiCreator = new HEMC_VoronoiCells();
+		multiCreator.setPoints(points);
+		multiCreator.setN(numpoints);
+		multiCreator.setContainer(container);
+		multiCreator.setOffset(0);
+		multiCreator.setSimpleCap(false);
+		multiCreator.create();
 	}
 }

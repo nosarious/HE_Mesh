@@ -196,7 +196,7 @@ public class HEM_SliceEdges extends HEM_Modifier {
 			} else if (u > 1.0 - WB_Epsilon.EPSILON) {
 				split.add(ce.getEndVertex());
 			} else {
-				HE_Vertex vi = mesh.splitEdge(ce, u).vItr().next();
+				HE_Vertex vi = HET_MeshOp.splitEdge(mesh, ce, u).vItr().next();
 				vi.setInternalLabel(ON);
 				split.add(vi);
 			}
@@ -318,7 +318,7 @@ public class HEM_SliceEdges extends HEM_Modifier {
 				} else if (u > 1.0 - WB_Epsilon.EPSILON) {
 					split.add(ce.getEndVertex());
 				} else {
-					HE_Vertex vi = lsel.parent.splitEdge(ce, u).vItr().next();
+					HE_Vertex vi = HET_MeshOp.splitEdge(lsel.parent, ce, u).vItr().next();
 					vi.setInternalLabel(ON);
 					split.add(vi);
 				}

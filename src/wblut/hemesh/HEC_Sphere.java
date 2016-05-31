@@ -160,7 +160,7 @@ public class HEC_Sphere extends HEC_Creator {
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
 		fl.setVertices(vertices).setFaces(faces).setUVW(uvws);
 		HE_Mesh mesh = fl.createBase();
-		mesh.scale(rx, ry, rz);
+		mesh.scaleSelf(rx, ry, rz);
 		return mesh;
 	}
 

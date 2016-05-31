@@ -11,7 +11,6 @@ package wblut.hemesh;
 
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_HasColor;
 import wblut.geom.WB_HashCode;
@@ -39,7 +38,6 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor, Comparab
 
 	private int hecolor;
 	private HE_TextureCoordinate uvw;
-	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
 
 	/**
 	 * Instantiates a new HE_Halfedge.

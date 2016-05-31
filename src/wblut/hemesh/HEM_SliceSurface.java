@@ -213,7 +213,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			} else if (u > 1.0 - WB_Epsilon.EPSILON) {
 				split.add(ce.getEndVertex());
 			} else {
-				HE_Vertex vi = mesh.splitEdge(ce, u).vItr().next();
+				HE_Vertex vi = HET_MeshOp.splitEdge(mesh, ce, u).vItr().next();
 				vi.setInternalLabel(ON);
 				split.add(vi);
 			}
@@ -362,7 +362,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 				} else if (u > 1.0 - WB_Epsilon.EPSILON) {
 					split.add(ce.getEndVertex());
 				} else {
-					HE_Vertex vi = lsel.parent.splitEdge(ce, u).vItr().next();
+					HE_Vertex vi = HET_MeshOp.splitEdge(lsel.parent, ce, u).vItr().next();
 					vi.setInternalLabel(ON);
 					split.add(vi);
 				}
@@ -401,7 +401,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			return;
 		}
 		final List<HE_Halfedge> edges = new FastTable<HE_Halfedge>();
-		for (final HE_Halfedge he : cutEdges.getEdgesAsList()) {
+		for (final HE_Halfedge he : cutEdges.getEdges()) {
 			final HE_Face f = he.getFace();
 			if (f != null) {
 				if (WB_GeometryOp.classifyPointToPlane3D(f.getFaceCenter(), P) == WB_Classification.FRONT) {

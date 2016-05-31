@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 
 package wblut.geom;
@@ -20,7 +20,6 @@ import wblut.hemesh.HEC_Geodesic;
 import wblut.hemesh.HE_Mesh;
 import wblut.math.WB_Math;
 
-
 public class WB_Frame {
 
 	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
@@ -28,7 +27,6 @@ public class WB_Frame {
 	protected FastTable<WB_FrameStrut> struts;
 
 	protected FastTable<WB_FrameNode> nodes;
-
 
 	/**
 	 *
@@ -38,15 +36,13 @@ public class WB_Frame {
 		nodes = new FastTable<WB_FrameNode>();
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param points
 	 * @param connections
 	 */
-	public WB_Frame(final WB_Coord[] points,
-			final WB_IndexedSegment[] connections) {
+	public WB_Frame(final WB_Coord[] points, final WB_IndexedSegment[] connections) {
 		struts = new FastTable<WB_FrameStrut>();
 		nodes = new FastTable<WB_FrameNode>();
 		for (final WB_Coord point : points) {
@@ -57,15 +53,13 @@ public class WB_Frame {
 		}
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param points
 	 * @param connections
 	 */
-	public WB_Frame(final WB_Coord[] points,
-			final Collection<WB_IndexedSegment> connections) {
+	public WB_Frame(final WB_Coord[] points, final Collection<WB_IndexedSegment> connections) {
 		struts = new FastTable<WB_FrameStrut>();
 		nodes = new FastTable<WB_FrameNode>();
 		for (final WB_Coord point : points) {
@@ -76,15 +70,13 @@ public class WB_Frame {
 		}
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param points
 	 * @param connections
 	 */
-	public void add(final WB_Coord[] points,
-			final Collection<WB_IndexedSegment> connections) {
+	public void add(final WB_Coord[] points, final Collection<WB_IndexedSegment> connections) {
 		if (struts == null) {
 			struts = new FastTable<WB_FrameStrut>();
 		}
@@ -99,7 +91,6 @@ public class WB_Frame {
 			addStrut(connection.i1() + nodeoffset, connection.i2() + nodeoffset);
 		}
 	}
-
 
 	/**
 	 *
@@ -122,15 +113,13 @@ public class WB_Frame {
 		}
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param points
 	 * @param connections
 	 */
-	public WB_Frame(final Collection<? extends WB_Coord> points,
-			final Collection<WB_IndexedSegment> connections) {
+	public WB_Frame(final Collection<? extends WB_Coord> points, final Collection<WB_IndexedSegment> connections) {
 		struts = new FastTable<WB_FrameStrut>();
 		nodes = new FastTable<WB_FrameNode>();
 		for (final WB_Coord point : points) {
@@ -140,7 +129,6 @@ public class WB_Frame {
 			addStrut(connection.i1(), connection.i2());
 		}
 	}
-
 
 	/**
 	 *
@@ -159,15 +147,13 @@ public class WB_Frame {
 		}
 	}
 
-
 	/**
 	 *
 	 *
 	 * @param points
 	 * @param connections
 	 */
-	public WB_Frame(final Collection<? extends WB_Coord> points,
-			final int[][] connections) {
+	public WB_Frame(final Collection<? extends WB_Coord> points, final int[][] connections) {
 		struts = new FastTable<WB_FrameStrut>();
 		nodes = new FastTable<WB_FrameNode>();
 		for (final WB_Coord point : points) {
@@ -177,7 +163,6 @@ public class WB_Frame {
 			addStrut(connection[0], connection[1]);
 		}
 	}
-
 
 	/**
 	 *
@@ -196,7 +181,6 @@ public class WB_Frame {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -213,7 +197,6 @@ public class WB_Frame {
 			addStrut(connection[0], connection[1]);
 		}
 	}
-
 
 	/**
 	 *
@@ -232,7 +215,6 @@ public class WB_Frame {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -245,7 +227,6 @@ public class WB_Frame {
 			addNode(point.xd(), point.yd(), point.zd(), 1);
 		}
 	}
-
 
 	/**
 	 *
@@ -260,7 +241,6 @@ public class WB_Frame {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -273,7 +253,6 @@ public class WB_Frame {
 			addNode(point[0], point[1], point[2], 1);
 		}
 	}
-
 
 	/**
 	 *
@@ -288,7 +267,6 @@ public class WB_Frame {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -302,7 +280,6 @@ public class WB_Frame {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -312,13 +289,11 @@ public class WB_Frame {
 	 * @param v
 	 * @return
 	 */
-	public int addNode(final double x, final double y, final double z,
-			final double v) {
+	public int addNode(final double x, final double y, final double z, final double v) {
 		final int n = nodes.size();
 		nodes.add(new WB_FrameNode(new WB_Point(x, y, z), n, v));
 		return n;
 	}
-
 
 	/**
 	 *
@@ -333,7 +308,6 @@ public class WB_Frame {
 		return n;
 	}
 
-
 	/**
 	 *
 	 *
@@ -345,7 +319,6 @@ public class WB_Frame {
 		}
 		nodes.remove(node);
 	}
-
 
 	/**
 	 *
@@ -363,7 +336,6 @@ public class WB_Frame {
 		return n;
 	}
 
-
 	/**
 	 *
 	 *
@@ -373,14 +345,11 @@ public class WB_Frame {
 	 */
 	public boolean addStrut(final int i, final int j) {
 		if (i == j) {
-			throw new IllegalArgumentException(
-					"Strut can't connect a node to itself: " + i + " " + j
-					+ ".");
+			throw new IllegalArgumentException("Strut can't connect a node to itself: " + i + " " + j + ".");
 		}
 		final int nn = nodes.size();
-		if ((i < 0) || (j < 0) || (i >= nn) || (j >= nn)) {
-			throw new IllegalArgumentException(
-					"Strut indices outside node range.");
+		if (i < 0 || j < 0 || i >= nn || j >= nn) {
+			throw new IllegalArgumentException("Strut indices outside node range.");
 		}
 		final int n = struts.size();
 		WB_FrameStrut strut;
@@ -399,7 +368,6 @@ public class WB_Frame {
 		return true;
 	}
 
-
 	/**
 	 *
 	 *
@@ -411,7 +379,6 @@ public class WB_Frame {
 		struts.remove(strut);
 	}
 
-
 	/**
 	 *
 	 *
@@ -422,7 +389,6 @@ public class WB_Frame {
 		result.addAll(struts);
 		return result;
 	}
-
 
 	/**
 	 *
@@ -437,7 +403,6 @@ public class WB_Frame {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -449,12 +414,10 @@ public class WB_Frame {
 		ipoints = apoints.toArray(ipoints);
 		final ArrayList<WB_IndexedSegment> result = new ArrayList<WB_IndexedSegment>();
 		for (final WB_FrameStrut strut : struts) {
-			result.add(new WB_IndexedSegment(strut.getStartIndex(), strut
-					.getEndIndex(), ipoints));
+			result.add(new WB_IndexedSegment(strut.getStartIndex(), strut.getEndIndex(), ipoints));
 		}
 		return result;
 	}
-
 
 	/**
 	 *
@@ -464,7 +427,6 @@ public class WB_Frame {
 	public int getNumberOfStruts() {
 		return struts.size();
 	}
-
 
 	/**
 	 *
@@ -477,7 +439,6 @@ public class WB_Frame {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -488,7 +449,6 @@ public class WB_Frame {
 		result.addAll(nodes);
 		return result;
 	}
-
 
 	/**
 	 *
@@ -503,7 +463,6 @@ public class WB_Frame {
 		return apoints.toArray(ipoints);
 	}
 
-
 	/**
 	 *
 	 *
@@ -513,7 +472,6 @@ public class WB_Frame {
 		return nodes.size();
 	}
 
-
 	/**
 	 *
 	 *
@@ -521,12 +479,11 @@ public class WB_Frame {
 	 * @return
 	 */
 	public WB_FrameNode getNode(final int i) {
-		if ((i < 0) || (i >= nodes.size())) {
+		if (i < 0 || i >= nodes.size()) {
 			throw new IllegalArgumentException("Index outside of node range.");
 		}
 		return nodes.get(i);
 	}
-
 
 	/**
 	 *
@@ -535,12 +492,11 @@ public class WB_Frame {
 	 * @return
 	 */
 	public WB_FrameStrut getStrut(final int i) {
-		if ((i < 0) || (i >= struts.size())) {
+		if (i < 0 || i >= struts.size()) {
 			throw new IllegalArgumentException("Index outside of strut range.");
 		}
 		return struts.get(i);
 	}
-
 
 	/**
 	 *
@@ -557,7 +513,6 @@ public class WB_Frame {
 		}
 		return d;
 	}
-
 
 	/**
 	 *
@@ -577,7 +532,6 @@ public class WB_Frame {
 		}
 		return q;
 	}
-
 
 	/**
 	 *
@@ -600,7 +554,6 @@ public class WB_Frame {
 		return q;
 	}
 
-
 	/**
 	 *
 	 *
@@ -609,18 +562,15 @@ public class WB_Frame {
 	 * @param z
 	 * @return
 	 */
-	public double getDistanceToFrame(final double x, final double y,
-			final double z) {
+	public double getDistanceToFrame(final double x, final double y, final double z) {
 		double d = Double.POSITIVE_INFINITY;
 		for (int i = 0; i < struts.size(); i++) {
 			final WB_FrameStrut strut = struts.get(i);
 			final WB_Segment S = new WB_Segment(strut.start(), strut.end());
-			d = Math.min(d,
-					WB_GeometryOp.getDistance3D(new WB_Point(x, y, z), S));
+			d = Math.min(d, WB_GeometryOp.getDistance3D(new WB_Point(x, y, z), S));
 		}
 		return d;
 	}
-
 
 	/**
 	 *
@@ -630,15 +580,13 @@ public class WB_Frame {
 	 * @param z
 	 * @return
 	 */
-	public WB_Coord getClosestPointOnFrame(final double x, final double y,
-			final double z) {
+	public WB_Coord getClosestPointOnFrame(final double x, final double y, final double z) {
 		double mind = Double.POSITIVE_INFINITY;
 		WB_Coord q = new WB_Point(x, y, z);
 		for (int i = 0; i < struts.size(); i++) {
 			final WB_FrameStrut strut = struts.get(i);
 			final WB_Segment S = new WB_Segment(strut.start(), strut.end());
-			final double d = WB_GeometryOp.getDistance3D(new WB_Point(x, y, z),
-					S);
+			final double d = WB_GeometryOp.getDistance3D(new WB_Point(x, y, z), S);
 			if (d < mind) {
 				mind = d;
 				q = WB_GeometryOp.getClosestPoint3D(S, new WB_Point(x, y, z));
@@ -646,7 +594,6 @@ public class WB_Frame {
 		}
 		return q;
 	}
-
 
 	/**
 	 *
@@ -674,7 +621,6 @@ public class WB_Frame {
 		}
 		return this;
 	}
-
 
 	/**
 	 *
@@ -707,7 +653,6 @@ public class WB_Frame {
 		return this;
 	}
 
-
 	/**
 	 *
 	 *
@@ -723,10 +668,8 @@ public class WB_Frame {
 			if (strut.getLength() > threshold) {
 				final WB_Point start = strut.start();
 				final WB_Point end = strut.end();
-				final WB_Point mid = gf
-						.createInterpolatedPoint(start, end, 0.5);
-				result.addNode(mid, 0.5 * (strut.start().getValue() + strut
-						.end().getValue()));
+				final WB_Point mid = gf.createInterpolatedPoint(start, end, 0.5);
+				result.addNode(mid, 0.5 * (strut.start().getValue() + strut.end().getValue()));
 			}
 		}
 		final int n = getNumberOfNodes();
@@ -747,7 +690,6 @@ public class WB_Frame {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -759,8 +701,8 @@ public class WB_Frame {
 	 * @param dr
 	 * @return
 	 */
-	public List<WB_Point> toPointCloud(final int n, final double r,
-			final double d, final int l, final double rr, final double dr) {
+	public List<WB_Point> toPointCloud(final int n, final double r, final double d, final int l, final double rr,
+			final double dr) {
 		final List<WB_Point> points = new FastTable<WB_Point>();
 		double sl, dsl;
 		int divs;
@@ -768,9 +710,9 @@ public class WB_Frame {
 		WB_Vector u, localu, v;
 		WB_Point p;
 		final WB_RandomOnSphere rnd = new WB_RandomOnSphere();
-		final double da = (2.0 * Math.PI) / n;
+		final double da = 2.0 * Math.PI / n;
 		for (final WB_FrameStrut strut : struts) {
-			sl = strut.getLength() - (2 * rr);
+			sl = strut.getLength() - 2 * rr;
 			if (sl > 0) {
 				divs = (int) WB_Math.max(1, Math.round(sl / d));
 				dsl = sl / divs;
@@ -783,8 +725,7 @@ public class WB_Frame {
 					for (int j = 0; j < n; j++) {
 						p = strut.start().addMul(i, v);
 						localu = u.get();
-						localu.rotateAboutAxisSelf(j * da, new WB_Point(),
-								P.getNormal());
+						localu.rotateAboutAxisSelf(j * da, new WB_Point(), P.getNormal());
 						p.addSelf(localu);
 						p.addSelf(rnd.nextVector().mulSelf(dr));
 						points.add(p);
@@ -793,11 +734,9 @@ public class WB_Frame {
 			}
 		}
 		for (final WB_FrameNode node : nodes) {
-			final HE_Mesh ball = new HE_Mesh(new HEC_Geodesic().setRadius(rr)
-					.setB(l).setC(0).setCenter(node));
-			for (final WB_Coord q : ball.getVerticesAsPoint()) {
-				points.add(new WB_Point(q)
-						.addSelf(rnd.nextVector().mulSelf(dr)));
+			final HE_Mesh ball = new HE_Mesh(new HEC_Geodesic().setRadius(rr).setB(l).setC(0).setCenter(node));
+			for (final WB_Coord q : ball.getVerticesAsCoord()) {
+				points.add(new WB_Point(q).addSelf(rnd.nextVector().mulSelf(dr)));
 			}
 		}
 		return points;

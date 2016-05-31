@@ -35,7 +35,8 @@ public class HEM_Diagrid extends HEM_Modifier {
 	/**
 	 * Set the lower limit dihedral angle.
 	 *
-	 * @param a            : limit angle in radius, edges with dihedral angle lower than
+	 * @param a
+	 *            : limit angle in radius, edges with dihedral angle lower than
 	 *            this angle are not removed. Default value is PI/2
 	 * @return
 	 */
@@ -44,39 +45,42 @@ public class HEM_Diagrid extends HEM_Modifier {
 		return this;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HEM_Modifier#apply(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
 		final HE_Selection sel = HE_Selection.selectAllEdges(mesh);
-		mesh.splitFacesTri();
+		HET_MeshOp.splitFacesTri(mesh);
 		final HE_EdgeIterator eitr = sel.eItr();
 		HE_Halfedge e;
 		while (eitr.hasNext()) {
 			e = eitr.next();
-			if (!e.isInnerBoundary() && (e.getEdgeDihedralAngle() > (limitAngle))) {
+			if (!e.isInnerBoundary() && e.getEdgeDihedralAngle() > limitAngle) {
 				mesh.deleteEdge(e);
 			}
 		}
 		return mesh;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HEM_Modifier#apply(wblut.hemesh.HE_Selection)
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
 		selection.collectEdgesByFace();
-		selection.parent.splitFacesTri(selection);
+		HET_MeshOp.splitFacesTri(selection);
 		final HE_RAS<HE_Halfedge> border = new HE_RASTrove<HE_Halfedge>();
 		border.addAll(selection.getOuterEdges());
 		final HE_EdgeIterator eitr = selection.eItr();
 		HE_Halfedge e;
 		while (eitr.hasNext()) {
 			e = eitr.next();
-			if (!border.contains(e)
-					&& (e.getEdgeDihedralAngle() > (limitAngle))) {
+			if (!border.contains(e) && e.getEdgeDihedralAngle() > limitAngle) {
 				selection.parent.deleteEdge(e);
 			}
 		}

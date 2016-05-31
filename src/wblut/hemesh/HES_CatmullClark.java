@@ -44,7 +44,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 	private WB_ScalarParameter blendFactor;
 
 	/**
-
+	
 	 */
 	public HES_CatmullClark() {
 		super();
@@ -131,7 +131,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 			avgFC.put(v.key(), afc);
 			counter.increment();
 		}
-		mesh.splitFacesQuad();
+		HET_MeshOp.splitFacesQuad(mesh);
 		final FastMap<Long, WB_Coord> newPositions = new FastMap<Long, WB_Coord>();
 		final HE_Selection all = HE_Selection.selectAllFaces(mesh);
 		final List<HE_Vertex> boundary = all.getOuterVertices();
@@ -250,7 +250,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 			afc.divSelf(c);
 			avgFC.put(v.key(), afc);
 		}
-		selection.parent.splitFacesQuad(selection);
+		HET_MeshOp.splitFacesQuad(selection);
 		final FastMap<Long, WB_Coord> newPositions = new FastMap<Long, WB_Coord>();
 		selection.collectVertices();
 		final List<HE_Vertex> boundary = selection.getBoundaryVertices();

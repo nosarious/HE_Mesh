@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -66,10 +66,10 @@ public class HEC_Dual extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param b 
-	 * @return 
+	 *
+	 * @param b
+	 * @return
 	 */
 	public HEC_Dual resetCenter(final boolean b) {
 		setCenter = b;
@@ -77,10 +77,10 @@ public class HEC_Dual extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param b 
-	 * @return 
+	 *
+	 * @param b
+	 * @return
 	 */
 	public HEC_Dual setKeepBoundary(final boolean b) {
 		keepBoundary = b;
@@ -88,10 +88,10 @@ public class HEC_Dual extends HEC_Creator {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param b 
-	 * @return 
+	 *
+	 * @param b
+	 * @return
 	 */
 	public HEC_Dual setFixNonPlanarFaces(final boolean b) {
 		fixNonPlanarFaces = b;
@@ -106,7 +106,7 @@ public class HEC_Dual extends HEC_Creator {
 	@Override
 	public HE_Mesh createBase() {
 		final HE_Mesh result = new HE_Mesh();
-		if ((source == null) || (source.getNumberOfFaces()<3)) {
+		if (source == null || source.getNumberOfFaces() < 3) {
 			return result;
 		}
 		final HashMap<Long, Long> faceVertexCorrelation = new HashMap<Long, Long>();
@@ -119,7 +119,7 @@ public class HEC_Dual extends HEC_Creator {
 			result.add(cv);
 		}
 		HE_Halfedge he;
-		if(keepBoundary){
+		if (keepBoundary) {
 			final Iterator<HE_Halfedge> heItr = source.heItr();
 
 			while (heItr.hasNext()) {
@@ -150,16 +150,16 @@ public class HEC_Dual extends HEC_Creator {
 				do {
 					final HE_Halfedge hen = new HE_Halfedge();
 					faceHalfedges.add(hen);
-					result.setFace(hen,nf);
+					result.setFace(hen, nf);
 					final Long key = faceVertexCorrelation.get(he.getFace().key());
-					result.setVertex(hen,result.getVertexWithKey(key));
+					result.setVertex(hen, result.getVertexWithKey(key));
 					p.addSelf(hen.getVertex());
 					n++;
 					if (hen.getVertex().getHalfedge() == null) {
-						result.setHalfedge(hen.getVertex(),hen);
+						result.setHalfedge(hen.getVertex(), hen);
 					}
 					if (nf.getHalfedge() == null) {
-						result.setHalfedge(nf,hen);
+						result.setHalfedge(nf, hen);
 					}
 
 					he = he.getNextInVertex();
@@ -170,7 +170,7 @@ public class HEC_Dual extends HEC_Creator {
 				result.addHalfedges(faceHalfedges);
 				result.add(nf);
 
-			} else if(keepBoundary){
+			} else if (keepBoundary) {
 				he = v.getHalfedge();
 				while (!he.isOuterBoundary()) {
 					he = he.getNextInVertex();
@@ -184,29 +184,29 @@ public class HEC_Dual extends HEC_Creator {
 
 				HE_Halfedge hen = new HE_Halfedge();
 				faceHalfedges.add(hen);
-				result.setFace(hen,nf);
+				result.setFace(hen, nf);
 				Long key = faceVertexCorrelation.get(v.key());
-				result.setVertex(hen,result.getVertexWithKey(key));
+				result.setVertex(hen, result.getVertexWithKey(key));
 				p.addSelf(hen.getVertex());
 				n++;
 
 				hen = new HE_Halfedge();
 				faceHalfedges.add(hen);
-				result.setFace(hen,nf);
+				result.setFace(hen, nf);
 				key = faceVertexCorrelation.get(he.key());
-				result.setVertex(hen,result.getVertexWithKey(key));
+				result.setVertex(hen, result.getVertexWithKey(key));
 				p.addSelf(hen.getVertex());
 				n++;
-				result.setHalfedge(hen.getVertex(),hen);
-				result.setHalfedge(nf,hen);
+				result.setHalfedge(hen.getVertex(), hen);
+				result.setHalfedge(nf, hen);
 				he = he.getNextInVertex();
 				do {
 					hen = new HE_Halfedge();
 					faceHalfedges.add(hen);
-					result.setFace(hen,nf);
-					key = (he.isOuterBoundary()) ? faceVertexCorrelation.get(he.key())
+					result.setFace(hen, nf);
+					key = he.isOuterBoundary() ? faceVertexCorrelation.get(he.key())
 							: faceVertexCorrelation.get(he.getFace().key());
-					result.setVertex(hen,result.getVertexWithKey(key));
+					result.setVertex(hen, result.getVertexWithKey(key));
 					p.addSelf(hen.getVertex());
 					n++;
 					he = he.getNextInVertex();
@@ -215,9 +215,9 @@ public class HEC_Dual extends HEC_Creator {
 				he = he.getPrevInVertex();
 				hen = new HE_Halfedge();
 				faceHalfedges.add(hen);
-				result.setFace(hen,nf);
+				result.setFace(hen, nf);
 				key = faceVertexCorrelation.get(he.getPair().key());
-				result.setVertex(hen,result.getVertexWithKey(key));
+				result.setVertex(hen, result.getVertexWithKey(key));
 				p.addSelf(hen.getVertex());
 				n++;
 
@@ -234,9 +234,9 @@ public class HEC_Dual extends HEC_Creator {
 		result.pairHalfedges();
 		result.capHalfedges();
 		if (setCenter) {
-			result.moveTo(source.getCenter());
+			result.moveToSelf(source.getCenter());
 		}
-		result.flipFaces();
+		HET_MeshOp.flipFaces(result);
 		final List<HE_Face> faces = result.getFaces();
 		final int fs = faces.size();
 		for (int i = 0; i < fs; i++) {

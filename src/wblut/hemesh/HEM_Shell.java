@@ -61,7 +61,7 @@ public class HEM_Shell extends HEM_Modifier {
 
 		final HEM_VertexExpand expm = new HEM_VertexExpand().setDistance(-d);
 		innerMesh.modify(expm);
-		innerMesh.flipFaces();
+		HET_MeshOp.flipFaces(innerMesh);
 		mesh.add(innerMesh);
 		HE_Halfedge he1, he2, heio, heoi;
 		HE_Face fNew;
@@ -96,7 +96,7 @@ public class HEM_Shell extends HEM_Modifier {
 		mesh.pairHalfedges();
 		mesh.capHalfedges();
 		if (d < 0) {
-			mesh.flipFaces();
+			HET_MeshOp.flipFaces(mesh);
 		}
 		return mesh;
 	}

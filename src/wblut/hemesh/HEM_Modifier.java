@@ -9,7 +9,6 @@
  */
 package wblut.hemesh;
 
-
 /**
  * @author Frederik Vanhoutte (W:Blut)
  *

@@ -1891,7 +1891,6 @@ public class WB_Render3D extends WB_Render2D {
 	 *
 	 *
 	 * @param points
-	 * @param d
 	 */
 
 	public void drawPoint(final WB_Coord[] points) {
@@ -3837,7 +3836,6 @@ public class WB_Render3D extends WB_Render2D {
 	 *
 	 *
 	 * @param mesh
-	 * @param d
 	 */
 	public void drawVertices(final HE_MeshStructure mesh) {
 		HE_Vertex v;

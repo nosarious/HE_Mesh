@@ -224,30 +224,30 @@ public class HEMC_WeairePhelan extends HEMC_MultiCreator {
 	private HE_Mesh[] singleCell(final WB_Vector offset) {
 		final HE_Mesh[] cells = new HE_Mesh[8];
 		cells[0] = tetrakaidecahedron.get();
-		cells[0].move(0, 0, -.5);
+		cells[0].moveSelf(0, 0, -.5);
 		cells[1] = tetrakaidecahedron.get();
 		cells[1].rotateAboutAxisSelf(0.5 * Math.PI, 0, 0, 0, 0, 0, 1);
-		cells[1].move(0, 0, 0.5);
+		cells[1].moveSelf(0, 0, 0.5);
 		cells[2] = tetrakaidecahedron.get();
 		cells[2].rotateAboutAxisSelf(-0.5 * Math.PI, 0, 0, 0, 0, 1, 0);
-		cells[2].move(-.5, 1, 1);
+		cells[2].moveSelf(-.5, 1, 1);
 		cells[3] = tetrakaidecahedron.get();
 		cells[3].rotateAboutAxisSelf(0.5 * Math.PI, 0, 0, 0, 0, 1, 0);
-		cells[3].move(.5, 1, 1);
+		cells[3].moveSelf(.5, 1, 1);
 		cells[4] = tetrakaidecahedron.get();
 		cells[4].rotateAboutAxisSelf(0.5 * Math.PI, 0, 0, 0, 1, 0, 0);
-		cells[4].move(1, .5, 0);
+		cells[4].moveSelf(1, .5, 0);
 		cells[5] = tetrakaidecahedron.get();
 		cells[5].rotateAboutAxisSelf(-0.5 * Math.PI, 0, 0, 0, 1, 0, 0);
-		cells[5].move(1, -.5, 0);
+		cells[5].moveSelf(1, -.5, 0);
 		cells[6] = dodecahedron.get();
-		cells[6].move(1, 0, 1);
+		cells[6].moveSelf(1, 0, 1);
 		cells[7] = dodecahedron.get();
 		cells[7].rotateAboutAxisSelf(-0.5 * Math.PI, 0, 0, 0, 0, 1, 0);
-		cells[7].move(0, 1, 0);
+		cells[7].moveSelf(0, 1, 0);
 		for (int i = 0; i < 8; i++) {
-			cells[i].scale(0.5 * scU, 0.5 * scV, 0.5 * scW, new WB_Point(0, 0, 0));
-			cells[i].move(offset);
+			cells[i].scaleSelf(0.5 * scU, 0.5 * scV, 0.5 * scW, new WB_Point(0, 0, 0));
+			cells[i].moveSelf(offset);
 			cells[i].setColor(colors[i]);
 		}
 		return cells;

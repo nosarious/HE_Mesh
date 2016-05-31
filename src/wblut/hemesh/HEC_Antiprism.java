@@ -39,8 +39,6 @@ public class HEC_Antiprism extends HEC_Creator {
 		radius = 100;
 	}
 
-
-
 	/**
 	 * Sets the facets.
 	 *
@@ -98,13 +96,13 @@ public class HEC_Antiprism extends HEC_Creator {
 	 */
 	@Override
 	protected HE_Mesh createBase() {
-		if ((facets < 3) || (WB_Epsilon.isZero(radius))) {
+		if (facets < 3 || WB_Epsilon.isZero(radius)) {
 			return null;
 		}
 		final WB_Point[] ppoints = new WB_Point[facets];
 		for (int i = 0; i < facets; i++) {
-			final double x = radius * Math.cos(((Math.PI * 2.0) / facets) * i);
-			final double y = radius * Math.sin(((Math.PI * 2.0) / facets) * i);
+			final double x = radius * Math.cos(Math.PI * 2.0 / facets * i);
+			final double y = radius * Math.sin(Math.PI * 2.0 / facets * i);
 			ppoints[i] = new WB_Point(x, y, 0.0);
 		}
 		final WB_Polygon polygon = gf.createSimplePolygon(ppoints);
@@ -117,9 +115,8 @@ public class HEC_Antiprism extends HEC_Creator {
 		}
 		if (!surf) {
 			for (int i = 0; i < n; i++) {
-				points[n + i] = new WB_Point(points[i]).addMulSelf(thickness,
-						norm).rotateAboutAxis2PSelf(Math.PI / facets, 0, 0,
-								0, 0, 0, 1);
+				points[n + i] = new WB_Point(points[i]).addMulSelf(thickness, norm)
+						.rotateAboutAxis2PSelf(Math.PI / facets, 0, 0, 0, 0, 0, 1);
 			}
 		}
 		int[][] faces;
@@ -129,24 +126,24 @@ public class HEC_Antiprism extends HEC_Creator {
 				faces[0][i] = i;
 			}
 		} else {
-			faces = new int[(2 * n) + 2][];
+			faces = new int[2 * n + 2][];
 			faces[2 * n] = new int[n];
-			faces[(2 * n) + 1] = new int[n];
+			faces[2 * n + 1] = new int[n];
 			for (int i = 0; i < n; i++) {
 				faces[2 * n][i] = i;
-				faces[(2 * n) + 1][i] = (2 * n) - 1 - i;
+				faces[2 * n + 1][i] = 2 * n - 1 - i;
 				faces[2 * i] = new int[3];
 				faces[2 * i][0] = i;
 				faces[2 * i][1] = n + i;
 				faces[2 * i][2] = (i + 1) % n;
-				faces[(2 * i) + 1] = new int[3];
-				faces[(2 * i) + 1][0] = i + n;
-				faces[(2 * i) + 1][2] = (i + 1) % n;
-				faces[(2 * i) + 1][1] = n + ((i + 1) % n);
+				faces[2 * i + 1] = new int[3];
+				faces[2 * i + 1][0] = i + n;
+				faces[2 * i + 1][2] = (i + 1) % n;
+				faces[2 * i + 1][1] = n + (i + 1) % n;
 			}
 		}
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
 		fl.setVertices(points).setFaces(faces).setDuplicate(false);
-		return fl.createBase().flipFaces();
+		return HET_MeshOp.flipFaces(fl.createBase());
 	}
 }

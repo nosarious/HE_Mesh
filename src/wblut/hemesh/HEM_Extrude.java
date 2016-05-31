@@ -273,7 +273,7 @@ public class HEM_Extrude extends HEM_Modifier {
 		}
 		HE_Face f;
 		HE_Halfedge he;
-		final List<HE_Face> faces = mesh.getFacesAsList();
+		final List<HE_Face> faces = mesh.getFaces();
 		_faceNormals = mesh.getKeyedFaceNormals();
 		_faceCenters = mesh.getKeyedFaceCenters();
 		final int nf = faces.size();
@@ -291,15 +291,16 @@ public class HEM_Extrude extends HEM_Modifier {
 			counter.increment();
 		}
 		if (chamfer == 0) {
-			return applyStraight(mesh, mesh.getFacesAsList());
+			return applyStraight(mesh, mesh.getFaces());
 		}
-		final List<HE_Face> facelist = mesh.getFacesAsList();
+		final List<HE_Face> facelist = mesh.getFaces();
 		if (relative == true && chamfer == 1) {
 			return applyPeaked(mesh, facelist);
 		}
 		failedFaces = new FastTable<HE_Face>();
 		failedHeights = new FastTable<Double>();
 		applyFlat(mesh, faces, flat && fuse);
+
 		if (heights != null) {
 			for (int i = 0; i < failedHeights.size(); i++) {
 				heights[facelist.indexOf(failedFaces.get(i))] = failedHeights.get(i);
@@ -310,6 +311,7 @@ public class HEM_Extrude extends HEM_Modifier {
 		}
 		WB_Coord n;
 		if (!flat) {
+
 			if (heights != null) {
 				if (heights.length == faces.size()) {
 					for (int i = 0; i < faces.size(); i++) {
@@ -328,14 +330,16 @@ public class HEM_Extrude extends HEM_Modifier {
 							"Length of heights array does not correspond to number of extruded faces.");
 				}
 			} else {
-				for (int i = 0; i < faces.size(); i++) {
+
+				for (int i = 0; i < nf; i++) {
 					f = faces.get(i);
+
 					if (!failedFaces.contains(f)) {
 						n = _faceNormals.get(f.key());
 						he = f.getHalfedge();
 						do {
 							final HE_Vertex v = he.getVertex();
-							he.getVertex().addMulSelf(d.evaluate(v.xd(), v.yd(), v.zd()), n);
+							v.addMulSelf(d.evaluate(v.xd(), v.yd(), v.zd()), n);
 							he = he.getNextInFace();
 						} while (he != f.getHalfedge());
 					}
@@ -369,7 +373,7 @@ public class HEM_Extrude extends HEM_Modifier {
 		}
 		HE_Face f;
 		HE_Halfedge he;
-		final List<HE_Face> selFaces = selection.getFacesAsList();
+		final List<HE_Face> selFaces = selection.getFaces();
 		_faceNormals = selection.parent.getKeyedFaceNormals();
 		_faceCenters = selection.parent.getKeyedFaceCenters();
 		final int nf = selFaces.size();
@@ -830,7 +834,7 @@ public class HEM_Extrude extends HEM_Modifier {
 		final HE_Selection sel = new HE_Selection(mesh);
 		sel.addFaces(faces);
 		sel.collectEdgesByFace();
-		final List<HE_Halfedge> originalEdges = sel.getEdgesAsList();
+		final List<HE_Halfedge> originalEdges = sel.getEdges();
 		final int nf = faces.size();
 		WB_ProgressCounter counter = new WB_ProgressCounter(nf, 10);
 
@@ -857,6 +861,7 @@ public class HEM_Extrude extends HEM_Modifier {
 					failedHeights.add(d.evaluate(fc.xd(), fc.yd(), fc.zd()));
 				}
 			}
+
 			counter.increment();
 		}
 		if (fuse) {
@@ -1032,9 +1037,16 @@ public class HEM_Extrude extends HEM_Modifier {
 				}
 			}
 			for (int i = 0; i < edgesToRemove.size(); i++) {
-				mesh.collapseEdge(edgesToRemove.get(i));
+				HET_MeshOp.collapseEdge(mesh, edgesToRemove.get(i));
 			}
 		}
+
 		return isPossible;
+	}
+
+	public static void main(final String[] args) {
+		HE_Mesh container = new HE_Mesh(new HEC_Geodesic().setB(2).setC(0).setRadius(250));
+		container.modify(new HEM_Extrude().setDistance(100).setChamfer(0.5));
+		container.validate();
 	}
 }

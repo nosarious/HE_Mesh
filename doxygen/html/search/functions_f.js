@@ -2,8 +2,8 @@ var searchData=
 [
   ['ohash',['ohash',['../classwblut_1_1hemesh_1_1_h_e_c___from_facelist.html#ad9fa9220d687835835583668ac894541',1,'wblut.hemesh.HEC_FromFacelist.ohash()'],['../classwblut_1_1hemesh_1_1_h_e_c___from_mesh.html#ab8dbcd067aef2d540efcd0e25c661c2c',1,'wblut.hemesh.HEC_FromMesh.ohash()']]],
   ['oldest',['oldest',['../classwblut_1_1geom_1_1_w_b___danzer.html#a8d9dd5dbb9172aaaeb218b81d1bf3a84',1,'wblut.geom.WB_Danzer.oldest()'],['../classwblut_1_1geom_1_1_w_b___danzer3_d.html#afbc17c1e98ecc1043dba746124d90293',1,'wblut.geom.WB_Danzer3D.oldest()']]],
-  ['orderhalfedges',['orderHalfedges',['../classwblut_1_1hemesh_1_1_h_e___mesh.html#a8a4b6db5a98b682ee1f16dc009eb79c5',1,'wblut::hemesh::HE_Mesh']]],
-  ['orderhalfedgesreverse',['orderHalfedgesReverse',['../classwblut_1_1hemesh_1_1_h_e___mesh.html#a3eabfe1116fafa8590df3406be20cbbb',1,'wblut::hemesh::HE_Mesh']]],
+  ['orderhalfedges',['orderHalfedges',['../classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a2e1b6a0ae23b3bcfc2c1b195389c7733',1,'wblut::hemesh::HE_MeshStructure']]],
+  ['orderhalfedgesreverse',['orderHalfedgesReverse',['../classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a90ad584551b1f527e591d057b653fba4',1,'wblut::hemesh::HE_MeshStructure']]],
   ['orient',['orient',['../classwblut_1_1geom_1_1_w_b___predicates.html#a36790a6595252ff2b55610968c041bb9',1,'wblut::geom::WB_Predicates']]],
   ['orient2d',['orient2D',['../classwblut_1_1geom_1_1_w_b___predicates.html#a8fdf04010a0b4d167921f6af325b1e3c',1,'wblut::geom::WB_Predicates']]],
   ['orientdd2d',['orientDD2D',['../classwblut_1_1geom_1_1_w_b___predicates.html#ae7b6f6797709acbf20531da3ec863e0f',1,'wblut::geom::WB_Predicates']]],

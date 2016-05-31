@@ -138,7 +138,7 @@ public class HEC_Johnson extends HEC_Creator {
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
 		fl.setVertices(vertices).setFaces(faces);
 		final HE_Mesh result = fl.create();
-		result.scale(R);
+		result.scaleSelf(R);
 		return result;
 	}
 

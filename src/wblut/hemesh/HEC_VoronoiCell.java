@@ -10,6 +10,7 @@
 package wblut.hemesh;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_Plane;
@@ -65,6 +66,15 @@ public class HEC_VoronoiCell extends HEC_Creator {
 	 */
 	public HEC_VoronoiCell setPoints(final WB_Coord[] points) {
 		this.points = points;
+		return this;
+	}
+
+	public HEC_VoronoiCell setPoints(final Collection<? extends WB_Coord> points) {
+		this.points = new WB_Coord[points.size()];
+		int i = 0;
+		for (WB_Coord p : points) {
+			this.points[i++] = p;
+		}
 		return this;
 	}
 

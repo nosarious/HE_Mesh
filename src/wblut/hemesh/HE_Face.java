@@ -22,7 +22,6 @@ import javolution.util.FastTable;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_HasColor;
 import wblut.geom.WB_Map2D;
@@ -45,11 +44,6 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	private HE_Halfedge _halfedge;
 	private int facecolor;
 	private int textureId;
-
-	/**
-	 *
-	 */
-	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
 
 	/**
 	 * Instantiates a new HE_Face.
@@ -465,7 +459,7 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	/**
 	 *
 	 *
-	 * @param he
+	 * @param f
 	 * @return
 	 */
 	@Override
@@ -730,8 +724,8 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	 */
 	public void checkValidity() {
 		final Coordinate[] coords = new Coordinate[getFaceOrder() + 1];
-		final WB_Point point = geometryfactory.createPoint();
-		final WB_Map2D context = geometryfactory.createEmbeddedPlane(getPlane());
+		final WB_Point point = gf.createPoint();
+		final WB_Map2D context = gf.createEmbeddedPlane(getPlane());
 		HE_Halfedge he = _halfedge;
 		int i = 0;
 		do {

@@ -12,7 +12,6 @@ var searchData=
   ['limit',['limit',['../classwblut_1_1core_1_1_w_b___progress_counter.html#abbda8b82e2dc6dfc33ea5b16d177f764',1,'wblut.core.WB_ProgressCounter.limit()'],['../classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit.html#a5060a346035eb5613d826d421bbd61f9',1,'wblut.hemesh.HES_TriDecLimit.limit()']]],
   ['limitangle',['limitAngle',['../classwblut_1_1hemesh_1_1_h_e_m___diagrid.html#a7fa9927e819f2f7beb973669360bdd84',1,'wblut::hemesh::HEM_Diagrid']]],
   ['limitpoints',['limitPoints',['../classwblut_1_1hemesh_1_1_h_e_c___voronoi_cell.html#a43d7440d105f6a9029955928114639f6',1,'wblut::hemesh::HEC_VoronoiCell']]],
-  ['limits',['limits',['../classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a7dd85b2c687313df31251154e49e65ce',1,'wblut::hemesh::HE_MeshStructure']]],
   ['line',['line',['../classwblut_1_1processing_1_1_w_b___render3_d.html#a3af49d55e5f9206eb886cf45dec45510',1,'wblut.processing.WB_Render3D.line()'],['../enumwblut_1_1geom_1_1_w_b___geometry_type.html#aedcc7a8258758a31bc61a8cef0069c2d',1,'wblut.geom.WB_GeometryType.LINE()']]],
   ['line2d',['line2D',['../classwblut_1_1processing_1_1_w_b___render2_d.html#aeaffa99630ebcba48d84fb92f90f12bc',1,'wblut::processing::WB_Render2D']]],
   ['linear',['Linear',['../classwblut_1_1math_1_1_w_b___ease_1_1_linear.html',1,'wblut::math::WB_Ease']]],

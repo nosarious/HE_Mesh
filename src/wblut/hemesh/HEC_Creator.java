@@ -238,7 +238,7 @@ public abstract class HEC_Creator extends HE_Machine {
 
 		WB_Coord ctr = base.getCenter();
 		if (!override) {
-			base.scale(scale);
+			base.scaleSelf(scale);
 			if (zangle != 0) {
 				base.rotateAboutAxis2PSelf(zangle, ctr.xd(), ctr.yd(), ctr.zd(), ctr.xd(), ctr.yd(), ctr.zd() + 1);
 			}
@@ -247,9 +247,9 @@ public abstract class HEC_Creator extends HE_Machine {
 				base.rotateAboutAxis2PSelf(-Math.acos(WB_Math.clamp(zaxis.dot(Z), -1, 1)), ctr.xd(), ctr.yd(), ctr.zd(),
 						ctr.xd() + tmp.xd(), ctr.yd() + tmp.yd(), ctr.zd() + tmp.zd());
 			} else if (zaxis.dot(Z) < -1 + WB_Epsilon.EPSILON) {
-				base.scale(1, 1, -1);
+				base.scaleSelf(1, 1, -1);
 			}
-			base.moveTo(center);
+			base.moveToSelf(center);
 		}
 		float cx, cy, cz;
 		HE_Vertex v;

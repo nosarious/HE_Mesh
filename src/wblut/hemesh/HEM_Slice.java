@@ -190,11 +190,15 @@ public class HEM_Slice extends HEM_Modifier {
 		if (capHoles) {
 			tracker.setStatus(this, "Capping holes.", 0);
 			if (simpleCap) {
-				cap.addFaces(mesh.capHoles());
+				HEM_CapHoles ch = new HEM_CapHoles();
+				mesh.modify(ch);
+				cap.addFaces(ch.caps);
 			} else {
 				final List<HE_Path> cutpaths = ss.getPaths();
 				if (cutpaths.size() == 1) {
-					cap.addFaces(mesh.capHoles());
+					HEM_CapHoles ch = new HEM_CapHoles();
+					mesh.modify(ch);
+					cap.addFaces(ch.caps);
 
 				} else {
 					tracker.setStatus(this, "Triangulating cut paths.", 0);

@@ -3,14 +3,15 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
 import java.util.Iterator;
 
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Vector;
 
@@ -60,8 +61,8 @@ public class HEM_SphereInversion extends HEM_Modifier {
 	 * @param c
 	 * @return
 	 */
-	public HEM_SphereInversion setCenter(final WB_Point c) {
-		center = c;
+	public HEM_SphereInversion setCenter(final WB_Coord c) {
+		center = new WB_Point(c);
 		return this;
 	}
 
@@ -73,8 +74,7 @@ public class HEM_SphereInversion extends HEM_Modifier {
 	 * @param z
 	 * @return
 	 */
-	public HEM_SphereInversion setCenter(final double x, final double y,
-			final double z) {
+	public HEM_SphereInversion setCenter(final double x, final double y, final double z) {
 		center = new WB_Point(x, y, z);
 		return this;
 	}
@@ -142,8 +142,7 @@ public class HEM_SphereInversion extends HEM_Modifier {
 				v.addSelf(d);
 			} else {
 				d = v.subToVector3D(center);
-				ri = d.getLength3D();
-				d.normalizeSelf();
+				ri = d.normalizeSelf();
 				rf = r2 * Math.max(icutoff, 1.0 / ri);
 				v.set(center);
 				v.addMulSelf(rf, d);

@@ -20,7 +20,7 @@ var searchData=
   ['vertexembedded2d',['vertexEmbedded2D',['../classwblut_1_1processing_1_1_w_b___render3_d.html#ae769dce4048ccb7ec234648d15c88fa6',1,'wblut::processing::WB_Render3D']]],
   ['vertexmapped',['vertexMapped',['../classwblut_1_1processing_1_1_w_b___render3_d.html#a6d6abacf10837bc5aa722df9a458e060',1,'wblut::processing::WB_Render3D']]],
   ['vertexunmapped',['vertexUnmapped',['../classwblut_1_1processing_1_1_w_b___render3_d.html#addc8e826d4ba10fbcb5e05a68fb8cd2b',1,'wblut::processing::WB_Render3D']]],
-  ['vertices',['vertices',['../classwblut_1_1hemesh_1_1_h_e_t___writer_simple_mesh.html#a73127fea54b40d6ea76d9ae9299d4fa5',1,'wblut::hemesh::HET_WriterSimpleMesh']]],
+  ['vertices',['vertices',['../classwblut_1_1hemesh_1_1_h_e_t___writer_simple_mesh.html#a73127fea54b40d6ea76d9ae9299d4fa5',1,'wblut.hemesh.HET_WriterSimpleMesh.vertices(final WB_Coord[] v)'],['../classwblut_1_1hemesh_1_1_h_e_t___writer_simple_mesh.html#a61b60d3bbd8568abbadba2114f9755cf',1,'wblut.hemesh.HET_WriterSimpleMesh.vertices(final List&lt;?extends WB_Coord &gt; v)']]],
   ['vertleq',['vertLeq',['../classwblut_1_1geom_1_1_w_b___g_l_u.html#a6b80841137c5086216c834f6ab1f0b32',1,'wblut::geom::WB_GLU']]],
   ['vf',['vf',['../classwblut_1_1hemesh_1_1_h_e___texture_coordinate.html#afc9ffab3ebc2a5e22fc501a614d21946',1,'wblut::hemesh::HE_TextureCoordinate']]],
   ['vfcrc',['vfCrc',['../classwblut_1_1hemesh_1_1_h_e___vertex.html#a04ea265977e7f34152cb82ebbe88f95c',1,'wblut::hemesh::HE_Vertex']]],

@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -33,7 +33,7 @@ public class HE_RASTrove<E extends HE_Element> extends HE_RAS<E> {
 	/**
 	 *
 	 */
-	List<E> objects;
+	FastTable<E> objects;
 
 	/**
 	 *
@@ -69,7 +69,9 @@ public class HE_RASTrove<E extends HE_Element> extends HE_RAS<E> {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HE_RAS#add(wblut.hemesh.HE_Element)
 	 */
 	@Override
@@ -106,7 +108,9 @@ public class HE_RASTrove<E extends HE_Element> extends HE_RAS<E> {
 		return res;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HE_RAS#remove(wblut.hemesh.HE_Element)
 	 */
 	@Override
@@ -123,7 +127,9 @@ public class HE_RASTrove<E extends HE_Element> extends HE_RAS<E> {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HE_RAS#get(int)
 	 */
 	@Override
@@ -131,7 +137,9 @@ public class HE_RASTrove<E extends HE_Element> extends HE_RAS<E> {
 		return objects.get(i);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HE_RAS#getByIndex(int)
 	 */
 	@Override
@@ -139,7 +147,9 @@ public class HE_RASTrove<E extends HE_Element> extends HE_RAS<E> {
 		return objects.get(i);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HE_RAS#getByKey(java.lang.Long)
 	 */
 	@Override
@@ -151,18 +161,23 @@ public class HE_RASTrove<E extends HE_Element> extends HE_RAS<E> {
 		return objects.get(i);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HE_RAS#getIndex(wblut.hemesh.HE_Element)
 	 */
 	/**
 	 * @deprecated Use {@link #indexOf(E)} instead
 	 */
+	@Deprecated
 	@Override
 	public int getIndex(final E object) {
 		return indexOf(object);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HE_RAS#getIndex(wblut.hemesh.HE_Element)
 	 */
 	@Override
@@ -170,7 +185,9 @@ public class HE_RASTrove<E extends HE_Element> extends HE_RAS<E> {
 		return indices.get(object._key);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HE_RAS#pollRandom(java.util.Random)
 	 */
 	@Override
@@ -182,7 +199,9 @@ public class HE_RASTrove<E extends HE_Element> extends HE_RAS<E> {
 		return removeAt(id);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HE_RAS#size()
 	 */
 	@Override
@@ -190,7 +209,9 @@ public class HE_RASTrove<E extends HE_Element> extends HE_RAS<E> {
 		return objects.size();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HE_RAS#contains(wblut.hemesh.HE_Element)
 	 */
 	@Override
@@ -201,7 +222,9 @@ public class HE_RASTrove<E extends HE_Element> extends HE_RAS<E> {
 		return indices.containsKey(object._key);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HE_RAS#containsKey(java.lang.Long)
 	 */
 	@Override
@@ -209,7 +232,9 @@ public class HE_RASTrove<E extends HE_Element> extends HE_RAS<E> {
 		return indices.containsKey(key);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HE_RAS#iterator()
 	 */
 	@Override
@@ -217,11 +242,13 @@ public class HE_RASTrove<E extends HE_Element> extends HE_RAS<E> {
 		return objects.iterator();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.hemesh.HE_RAS#getObjects()
 	 */
 	@Override
 	public List<E> getObjects() {
-		return objects;
+		return objects.unmodifiable();
 	}
 }

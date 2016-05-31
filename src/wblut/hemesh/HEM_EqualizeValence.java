@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -33,7 +33,8 @@ public class HEM_EqualizeValence extends HEM_Modifier {
 	/**
 	 * Set threshold angle.
 	 *
-	 * @param a            threshold angle in radians
+	 * @param a
+	 *            threshold angle in radians
 	 * @return self
 	 */
 	public HEM_EqualizeValence setThreshold(final double a) {
@@ -50,39 +51,30 @@ public class HEM_EqualizeValence extends HEM_Modifier {
 	public HE_Mesh apply(final HE_Mesh mesh) {
 		mesh.triangulate();
 		HE_Vertex a, b, c, d;
-		int devpre=0, devpost=0;
+		int devpre = 0, devpost = 0;
 		for (int r = 0; r < 2; r++) {
 
-
-			List<HE_Halfedge> edges=mesh.getEdges();
+			List<HE_Halfedge> edges = mesh.getEdges();
 			Collections.shuffle(edges);
-			for(HE_Halfedge e:edges){
-				if (!e.isInnerBoundary() && (e.getEdgeDihedralAngle() > threshold)) {
+			for (HE_Halfedge e : edges) {
+				if (!e.isInnerBoundary() && e.getEdgeDihedralAngle() > threshold) {
 
 					a = e.getVertex();
 					b = e.getPair().getVertex();
 					c = e.getNextInFace().getEndVertex();
 					d = e.getPair().getNextInFace().getEndVertex();
-					devpre = Math.abs(((a.isBoundary()) ? 4 : 6)
-							- a.getVertexOrder());
-					devpre += Math.abs(((b.isBoundary()) ? 4 : 6)
-							- b.getVertexOrder());
-					devpre += Math.abs(((c.isBoundary()) ? 4 : 6)
-							- c.getVertexOrder());
-					devpre += Math.abs(((d.isBoundary()) ? 4 : 6)
-							- d.getVertexOrder());
-					if (mesh.flipEdge(e)) {
+					devpre = Math.abs((a.isBoundary() ? 4 : 6) - a.getVertexOrder());
+					devpre += Math.abs((b.isBoundary() ? 4 : 6) - b.getVertexOrder());
+					devpre += Math.abs((c.isBoundary() ? 4 : 6) - c.getVertexOrder());
+					devpre += Math.abs((d.isBoundary() ? 4 : 6) - d.getVertexOrder());
+					if (HET_MeshOp.flipEdge(mesh, e)) {
 
-						devpost = Math.abs(((a.isBoundary()) ? 4 : 6)
-								- a.getVertexOrder());
-						devpost += Math.abs(((b.isBoundary()) ? 4 : 6)
-								- b.getVertexOrder());
-						devpost += Math.abs(((b.isBoundary()) ? 4 : 6)
-								- c.getVertexOrder());
-						devpost += Math.abs(((b.isBoundary()) ? 4 : 6)
-								- d.getVertexOrder());
+						devpost = Math.abs((a.isBoundary() ? 4 : 6) - a.getVertexOrder());
+						devpost += Math.abs((b.isBoundary() ? 4 : 6) - b.getVertexOrder());
+						devpost += Math.abs((b.isBoundary() ? 4 : 6) - c.getVertexOrder());
+						devpost += Math.abs((b.isBoundary() ? 4 : 6) - d.getVertexOrder());
 						if (devpre <= devpost) {
-							mesh.flipEdge(e);
+							HET_MeshOp.flipEdge(mesh, e);
 						}
 					}
 				}
@@ -114,25 +106,17 @@ public class HEM_EqualizeValence extends HEM_Modifier {
 					b = e.getPair().getVertex();
 					c = e.getNextInFace().getEndVertex();
 					d = e.getPair().getNextInFace().getEndVertex();
-					devpre = Math.abs(((a.isBoundary()) ? 4 : 6)
-							- a.getVertexOrder());
-					devpre += Math.abs(((b.isBoundary()) ? 4 : 6)
-							- b.getVertexOrder());
-					devpre += Math.abs(((c.isBoundary()) ? 4 : 6)
-							- c.getVertexOrder());
-					devpre += Math.abs(((d.isBoundary()) ? 4 : 6)
-							- d.getVertexOrder());
-					if (selection.parent.flipEdge(e)) {
-						devpost = Math.abs(((a.isBoundary()) ? 4 : 6)
-								- a.getVertexOrder());
-						devpost += Math.abs(((b.isBoundary()) ? 4 : 6)
-								- b.getVertexOrder());
-						devpost += Math.abs(((b.isBoundary()) ? 4 : 6)
-								- c.getVertexOrder());
-						devpost += Math.abs(((b.isBoundary()) ? 4 : 6)
-								- d.getVertexOrder());
+					devpre = Math.abs((a.isBoundary() ? 4 : 6) - a.getVertexOrder());
+					devpre += Math.abs((b.isBoundary() ? 4 : 6) - b.getVertexOrder());
+					devpre += Math.abs((c.isBoundary() ? 4 : 6) - c.getVertexOrder());
+					devpre += Math.abs((d.isBoundary() ? 4 : 6) - d.getVertexOrder());
+					if (HET_MeshOp.flipEdge(selection.parent, e)) {
+						devpost = Math.abs((a.isBoundary() ? 4 : 6) - a.getVertexOrder());
+						devpost += Math.abs((b.isBoundary() ? 4 : 6) - b.getVertexOrder());
+						devpost += Math.abs((b.isBoundary() ? 4 : 6) - c.getVertexOrder());
+						devpost += Math.abs((b.isBoundary() ? 4 : 6) - d.getVertexOrder());
 						if (devpre <= devpost) {
-							selection.parent.flipEdge(e);
+							HET_MeshOp.flipEdge(selection.parent, e);
 						}
 					}
 				}

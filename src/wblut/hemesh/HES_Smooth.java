@@ -88,7 +88,7 @@ public class HES_Smooth extends HES_Subdividor {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
-		mesh.splitFacesQuad();
+		HET_MeshOp.splitFacesQuad(mesh);
 		final WB_Coord[] newPositions = new WB_Coord[mesh.getNumberOfVertices()];
 		final HE_Selection all = HE_Selection.selectAllFaces(mesh);
 		final List<HE_Vertex> boundary = all.getOuterVertices();
@@ -106,8 +106,7 @@ public class HES_Smooth extends HES_Subdividor {
 			double c = origWeight;
 			for (int i = 0; i < neighbors.size(); i++) {
 				n = neighbors.get(i);
-				p.addSelf(neigWeight * n.xd(), neigWeight * n.yd(), neigWeight
-						* n.zd());
+				p.addSelf(neigWeight * n.xd(), neigWeight * n.yd(), neigWeight * n.zd());
 				c += neigWeight;
 			}
 			newPositions[id] = p.scaleSelf(1.0 / c);
@@ -127,13 +126,12 @@ public class HES_Smooth extends HES_Subdividor {
 				for (int i = 0; i < neighbors.size(); i++) {
 					n = neighbors.get(i);
 					if (boundary.contains(n)) {
-						p.addSelf(neigWeight * n.xd(), neigWeight * n.yd(),
-								neigWeight * n.zd());
+						p.addSelf(neigWeight * n.xd(), neigWeight * n.yd(), neigWeight * n.zd());
 						c += neigWeight;
 						nc++;
 					}
 				}
-				newPositions[id] = (nc > 1) ? p.scaleSelf(1.0 / c) : v;
+				newPositions[id] = nc > 1 ? p.scaleSelf(1.0 / c) : v;
 			}
 			id++;
 		}
@@ -160,7 +158,7 @@ public class HES_Smooth extends HES_Subdividor {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
-		selection.parent.splitFacesQuad(selection);
+		HET_MeshOp.splitFacesQuad(selection);
 		final List<WB_Coord> newPositions = new ArrayList<WB_Coord>();
 		final List<HE_Vertex> boundary = selection.getBoundaryVertices();
 		final List<HE_Vertex> inner = selection.getInnerVertices();
@@ -186,8 +184,7 @@ public class HES_Smooth extends HES_Subdividor {
 			double c = origWeight;
 			for (int i = 0; i < neighbors.size(); i++) {
 				n = neighbors.get(i);
-				p.addSelf(neigWeight * n.xd(), neigWeight * n.yd(), neigWeight
-						* n.zd());
+				p.addSelf(neigWeight * n.xd(), neigWeight * n.yd(), neigWeight * n.zd());
 				c += neigWeight;
 			}
 			newPositions.add(p.scaleSelf(1.0 / c));
@@ -207,22 +204,19 @@ public class HES_Smooth extends HES_Subdividor {
 				for (int i = 0; i < neighbors.size(); i++) {
 					n = neighbors.get(i);
 					if (boundary.contains(n)) {
-						p.addSelf(neigWeight * n.xd(), neigWeight * n.yd(),
-								neigWeight * n.zd());
+						p.addSelf(neigWeight * n.xd(), neigWeight * n.yd(), neigWeight * n.zd());
 						c += neigWeight;
 						nc++;
 					}
 				}
-				newPositions
-				.add((nc > 1) ? p.scaleSelf(1.0 / c) : v);
+				newPositions.add(nc > 1 ? p.scaleSelf(1.0 / c) : v);
 			}
 			id++;
 		}
 		vItr = outer.iterator();
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			if ((keepEdges)
-					|| (v.getVertexType() != WB_Classification.FLAT)) {
+			if (keepEdges || v.getVertexType() != WB_Classification.FLAT) {
 				newPositions.add(v);
 			} else {
 				final WB_Point p = new WB_Point(v);
@@ -242,15 +236,13 @@ public class HES_Smooth extends HES_Subdividor {
 							}
 						}
 						if (!singleFaceGap) {
-							p.addSelf(neigWeight * n.xd(), neigWeight * n.yd(),
-									neigWeight * n.zd());
+							p.addSelf(neigWeight * n.xd(), neigWeight * n.yd(), neigWeight * n.zd());
 							c += neigWeight;
 							nc++;
 						}
 					}
 				}
-				newPositions
-				.add((nc > 1) ? p.scaleSelf(1.0 / c) : v);
+				newPositions.add(nc > 1 ? p.scaleSelf(1.0 / c) : v);
 			}
 			id++;
 		}

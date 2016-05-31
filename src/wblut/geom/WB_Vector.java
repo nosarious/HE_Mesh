@@ -1735,7 +1735,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 			final double p2x, final double p2y, final double p2z) {
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutAxis(angle, new WB_Vector(p1x, p1y, p1z), new WB_Vector(p2x - p1x, p2y - p1y, p2z - p1z));
-		raa.applySelfAsVector(this);
+		raa.applyAsVectorSelf(this);
 		return this;
 	}
 
@@ -1767,7 +1767,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	public WB_Vector rotateAboutAxis2PSelf(final double angle, final WB_Coord p1, final WB_Coord p2) {
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutAxis(angle, p1, new WB_Vector(p1, p2));
-		raa.applySelfAsVector(this);
+		raa.applyAsVectorSelf(this);
 		return this;
 	}
 
@@ -1781,7 +1781,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	public WB_Vector rotateAboutAxisSelf(final double angle, final WB_Coord p, final WB_Coord a) {
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutAxis(angle, p, a);
-		raa.applySelfAsVector(this);
+		raa.applyAsVectorSelf(this);
 		return this;
 	}
 
@@ -1797,7 +1797,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 			final double ax, final double ay, final double az) {
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutAxis(angle, new WB_Vector(px, py, pz), new WB_Vector(ax, ay, az));
-		raa.applySelfAsVector(this);
+		raa.applyAsVectorSelf(this);
 		return this;
 	}
 
@@ -1831,7 +1831,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		final WB_Vector result = new WB_Vector(this);
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutAxis(angle, new WB_Vector(p1x, p1y, p1z), new WB_Vector(p2x - p1x, p2y - p1y, p2z - p1z));
-		raa.applySelfAsVector(result);
+		raa.applyAsVectorSelf(result);
 		return result;
 	}
 
@@ -1862,7 +1862,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		final WB_Vector result = new WB_Vector(this);
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutAxis(angle, p1, new WB_Vector(p1, p2));
-		raa.applySelfAsVector(result);
+		raa.applyAsVectorSelf(result);
 		return result;
 	}
 
@@ -1879,7 +1879,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		final WB_Vector result = new WB_Vector(this);
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutAxis(angle, new WB_Vector(px, py, pz), new WB_Vector(ax, ay, az));
-		raa.applySelfAsVector(result);
+		raa.applyAsVectorSelf(result);
 		return result;
 	}
 
@@ -1894,7 +1894,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		final WB_Vector result = new WB_Vector(this);
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutAxis(angle, p, a);
-		raa.applySelfAsVector(result);
+		raa.applyAsVectorSelf(result);
 		return result;
 	}
 
@@ -1910,7 +1910,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		final WB_Vector result = new WB_Vector(this);
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutOrigin(angle, new WB_Vector(x, y, z));
-		raa.applySelfAsVector(result);
+		raa.applyAsVectorSelf(result);
 		return result;
 	}
 
@@ -1925,7 +1925,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 		final WB_Vector result = new WB_Vector(this);
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutOrigin(angle, a);
-		raa.applySelfAsVector(result);
+		raa.applyAsVectorSelf(result);
 		return result;
 	}
 
@@ -1941,7 +1941,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutOrigin(angle, new WB_Vector(x, y, z));
-		raa.applySelfAsVector(this);
+		raa.applyAsVectorSelf(this);
 		return this;
 	}
 
@@ -1956,7 +1956,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 
 		final WB_Transform raa = new WB_Transform();
 		raa.addRotateAboutOrigin(angle, a);
-		raa.applySelfAsVector(this);
+		raa.applyAsVectorSelf(this);
 		return this;
 	}
 

@@ -519,7 +519,7 @@ public class HEC_FromFacelist extends HEC_Creator {
 				}
 				final WB_Coord leftn = left.getFaceNormal();
 				if (leftn.xd() > 0) {
-					mesh.flipFaces();
+					HET_MeshOp.flipFaces(mesh);
 				}
 			}
 		}

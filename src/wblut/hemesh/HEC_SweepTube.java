@@ -231,7 +231,7 @@ public class HEC_SweepTube extends HEC_Creator {
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
 		fl.setVertices(vertices).setFaces(faces);
 		HE_Mesh base = fl.createBase();
-		base.scale(scale);
+		base.scaleSelf(scale);
 		return base;
 	}
 }

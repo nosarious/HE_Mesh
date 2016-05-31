@@ -73,7 +73,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 		final HE_Selection orig = HE_Selection.selectAllFaces(mesh);
 		orig.collectVertices();
 		orig.collectEdgesByFace();
-		selectionOut.addVertices(mesh.splitEdges().getVerticesAsArray());
+		selectionOut.addVertices(HET_MeshOp.splitEdges(mesh).getVerticesAsArray());
 		final HE_Face[] faces = mesh.getFacesAsArray();
 		HE_Vertex vi = new HE_Vertex();
 		counter = new WB_ProgressCounter(n, 10);
@@ -123,30 +123,30 @@ public class HEM_QuadSplit extends HEM_Modifier {
 					mesh.add(fc);
 				}
 				he0[c] = he;
-				mesh.setFace(he,fc);
-				mesh.setHalfedge(fc,he);
+				mesh.setFace(he, fc);
+				mesh.setHalfedge(fc, he);
 				he1[c] = he.getNextInFace();
 				he2[c] = new HE_Halfedge();
 				he3[c] = new HE_Halfedge();
 
-				mesh.setVertex(he2[c],he.getNextInFace().getNextInFace().getVertex());
+				mesh.setVertex(he2[c], he.getNextInFace().getNextInFace().getVertex());
 				if (he2[c].getVertex().hasHalfedgeUVW(f)) {
 					he2[c].setUVW(he2[c].getVertex().getHalfedgeUVW(f));
 				}
-				mesh.setVertex(he3[c],vi);
-				mesh.setNext(he2[c],he3[c]);
-				mesh.setNext(he3[c],he);
-				mesh.setFace(he1[c],fc);
-				mesh.setFace(he2[c],fc);
-				mesh.setFace(he3[c],fc);
+				mesh.setVertex(he3[c], vi);
+				mesh.setNext(he2[c], he3[c]);
+				mesh.setNext(he3[c], he);
+				mesh.setFace(he1[c], fc);
+				mesh.setFace(he2[c], fc);
+				mesh.setFace(he3[c], fc);
 				mesh.add(he2[c]);
 				mesh.add(he3[c]);
 				c++;
 				he = he.getNextInFace().getNextInFace();
 			} while (he != startHE);
-			mesh.setHalfedge(vi,he3[0]);
+			mesh.setHalfedge(vi, he3[0]);
 			for (int j = 0; j < c; j++) {
-				mesh.setNext(he1[j],he2[j]);
+				mesh.setNext(he1[j], he2[j]);
 			}
 			counter.increment();
 		}
@@ -184,7 +184,7 @@ public class HEM_QuadSplit extends HEM_Modifier {
 		orig.addFaces(sel.getFacesAsArray());
 		orig.collectVertices();
 		orig.collectEdgesByFace();
-		selectionOut.addVertices(sel.parent.splitEdges(orig).getVerticesAsArray());
+		selectionOut.addVertices(HET_MeshOp.splitEdges(orig).getVertices());
 		final HE_Face[] faces = sel.getFacesAsArray();
 		counter = new WB_ProgressCounter(n, 10);
 		tracker.setStatus(this, "Splitting faces into quads.", counter);
@@ -234,31 +234,31 @@ public class HEM_QuadSplit extends HEM_Modifier {
 					sel.add(f);
 				}
 				he0[c] = he;
-				sel.parent.setFace(he,f);
-				sel.parent.setHalfedge(f,he);
+				sel.parent.setFace(he, f);
+				sel.parent.setHalfedge(f, he);
 				he1[c] = he.getNextInFace();
 				he2[c] = new HE_Halfedge();
 				he3[c] = new HE_Halfedge();
 
-				sel.parent.setVertex(he2[c],he.getNextInFace().getNextInFace().getVertex());
+				sel.parent.setVertex(he2[c], he.getNextInFace().getNextInFace().getVertex());
 				if (he2[c].getVertex().hasHalfedgeUVW(face)) {
 					he2[c].setUVW(he2[c].getVertex().getHalfedgeUVW(face));
 				}
-				sel.parent.setVertex(he3[c],vi);
-				sel.parent.setNext(he2[c],he3[c]);
-				sel.parent.setNext(he3[c],he);
+				sel.parent.setVertex(he3[c], vi);
+				sel.parent.setNext(he2[c], he3[c]);
+				sel.parent.setNext(he3[c], he);
 
-				sel.parent.setFace(he1[c],f);
-				sel.parent.setFace(he2[c],f);
-				sel.parent.setFace(he3[c],f);
+				sel.parent.setFace(he1[c], f);
+				sel.parent.setFace(he2[c], f);
+				sel.parent.setFace(he3[c], f);
 				sel.parent.add(he2[c]);
 				sel.parent.add(he3[c]);
 				c++;
 				he = he.getNextInFace().getNextInFace();
 			} while (he != startHE);
-			sel.parent.setHalfedge(vi,he3[0]);
+			sel.parent.setHalfedge(vi, he3[0]);
 			for (int j = 0; j < c; j++) {
-				sel.parent.setNext(he1[j],he2[j]);
+				sel.parent.setNext(he1[j], he2[j]);
 
 			}
 			counter.increment();

@@ -109,7 +109,7 @@ public class HEC_Archimedes extends HEC_Creator {
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
 		fl.setVertices(verts).setFaces(facs);
 		final HE_Mesh result = fl.create();
-		result.scale(R);
+		result.scaleSelf(R);
 		return result;
 	}
 

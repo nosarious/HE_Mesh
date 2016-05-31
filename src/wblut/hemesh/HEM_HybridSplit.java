@@ -3,43 +3,43 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
 /**
- * 
+ *
  */
 public class HEM_HybridSplit extends HEM_Modifier {
-    
-    /**
-     * 
-     */
-    public HEM_HybridSplit() {
-	super();
-    }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
-     */
-    @Override
-    public HE_Mesh apply(final HE_Mesh mesh) {
-	mesh.splitFacesHybrid();
-	return mesh;
-    }
+	/**
+	 *
+	 */
+	public HEM_HybridSplit() {
+		super();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
-     */
-    @Override
-    public HE_Mesh apply(final HE_Selection selection) {
-	selection.parent.splitFacesHybrid(selection);
-	return selection.parent;
-    }
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
+	 */
+	@Override
+	public HE_Mesh apply(final HE_Mesh mesh) {
+		HET_MeshOp.splitFacesHybrid(mesh);
+		return mesh;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see wblut.hemesh.HE_Modifier#apply(wblut.hemesh.HE_Mesh)
+	 */
+	@Override
+	public HE_Mesh apply(final HE_Selection selection) {
+		HET_MeshOp.splitFacesHybrid(selection);
+		return selection.parent;
+	}
 }

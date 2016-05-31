@@ -44,6 +44,56 @@ public class HE_Selection extends HE_MeshStructure {
 	}
 
 	/**
+	 * Modify the mesh.
+	 *
+	 * @param modifier
+	 *            HE_Modifier to apply
+	 * @return self
+	 */
+	public HE_Mesh modify(final HEM_Modifier modifier) {
+		return modifier.apply(this);
+	}
+
+	/**
+	 * Subdivide the mesh.
+	 *
+	 * @param subdividor
+	 *            HE_Subdividor to apply
+	 * @return self
+	 */
+	public HE_Mesh subdivide(final HES_Subdividor subdividor) {
+		return subdividor.apply(this);
+	}
+
+	/**
+	 * Subdivide the mesh a number of times.
+	 *
+	 * @param subdividor
+	 *            HE_Subdividor to apply
+	 * @param rep
+	 *            subdivision iterations. WARNING: higher values will lead to
+	 *            unmanageable number of faces.
+	 * @return self
+	 */
+	public HE_Mesh subdivide(final HES_Subdividor subdividor, final int rep) {
+		for (int i = 0; i < rep - 1; i++) {
+			subdivide(subdividor);
+		}
+		return subdivide(subdividor);
+	}
+
+	/**
+	 * Simplify.
+	 *
+	 * @param simplifier
+	 *            the simplifier
+	 * @return the h e_ mesh
+	 */
+	public HE_Mesh simplify(final HES_Simplifier simplifier) {
+		return simplifier.apply(this);
+	}
+
+	/**
 	 * Get outer edges.
 	 *
 	 * @return outer edges as FastTable<HE_Edge>
@@ -965,7 +1015,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	public static HE_Selection selectFacesWithNormal(final HE_Mesh mesh, final WB_Coord n, final double ta) {
 		HE_Selection sel = new HE_Selection(mesh);
-		final WB_Vector nn = geometryfactory.createNormalizedVector(n);
+		final WB_Vector nn = gf.createNormalizedVector(n);
 		final double cta = Math.cos(ta);
 		HE_FaceIterator fItr = sel.parent.fItr();
 		HE_Face f;

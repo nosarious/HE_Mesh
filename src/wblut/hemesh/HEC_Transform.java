@@ -54,7 +54,7 @@ public class HEC_Transform extends HEC_Creator {
 		}
 		final HE_VertexIterator vItr =result.vItr();
 		while (vItr.hasNext()) {
-			T.applySelfAsPoint(vItr.next());
+			T.applyAsPointSelf(vItr.next());
 		}
 
 		return result;

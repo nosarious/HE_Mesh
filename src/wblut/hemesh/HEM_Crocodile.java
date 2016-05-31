@@ -79,7 +79,7 @@ public class HEM_Crocodile extends HEM_Modifier {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
-		final HE_Selection selection =HE_Selection.selectAllVertices(mesh);
+		final HE_Selection selection = HE_Selection.selectAllVertices(mesh);
 		return apply(selection);
 	}
 
@@ -95,7 +95,7 @@ public class HEM_Crocodile extends HEM_Modifier {
 		selection.collectVertices();
 		tracker.setStatus(this, "Starting HEM_Crocodile.", +1);
 		final Map<Long, WB_Coord> umbrellapoints = new FastMap<Long, WB_Coord>();
-		HE_VertexIterator vitr  = selection.vItr();
+		HE_VertexIterator vitr = selection.vItr();
 		HE_Vertex v;
 		if (chamfer == 0) {
 			tracker.setStatus(this, "Chamfer is 0, nothing to do. Exiting HEM_Crocodile.", -1);
@@ -104,11 +104,10 @@ public class HEM_Crocodile extends HEM_Modifier {
 		if (chamfer < 0) {
 			chamfer *= -1;
 		}
-		if ((chamfer > 0.5) && (chamfer < 1.0)) {
+		if (chamfer > 0.5 && chamfer < 1.0) {
 			chamfer = 1.0 - chamfer;
-		} else if ((chamfer < 0) || (chamfer > 1)) {
-			tracker.setStatus(this,
-					"Chamfer is outside range (0-0.5), nothing to do. Exiting HEM_Crocodile.", -1);
+		} else if (chamfer < 0 || chamfer > 1) {
+			tracker.setStatus(this, "Chamfer is outside range (0-0.5), nothing to do. Exiting HEM_Crocodile.", -1);
 			return selection.parent;
 		}
 		if (chamfer == 0.5) {
@@ -127,7 +126,7 @@ public class HEM_Crocodile extends HEM_Modifier {
 
 			tracker.setStatus(this, "Splitting edges.", counter);
 			for (final long e : umbrellapoints.keySet()) {
-				selection.parent.splitEdge(e, umbrellapoints.get(e));
+				HET_MeshOp.splitEdge(selection.parent, selection.parent.getEdgeWithKey(e), umbrellapoints.get(e));
 				counter.increment();
 			}
 		} else {
@@ -147,7 +146,7 @@ public class HEM_Crocodile extends HEM_Modifier {
 
 			tracker.setStatus(this, "Splitting edges.", counter);
 			for (final long he : umbrellapoints.keySet()) {
-				selection.parent.splitEdge(selection.parent.getHalfedgeWithKey(he), umbrellapoints.get(he));
+				HET_MeshOp.splitEdge(selection.parent, selection.parent.getHalfedgeWithKey(he), umbrellapoints.get(he));
 				counter.increment();
 			}
 		}
@@ -162,8 +161,8 @@ public class HEM_Crocodile extends HEM_Modifier {
 			while (vhoc.hasNext()) {
 				he = vhoc.next();
 				if (he.getFace() != null) {
-					spikes.union(selection.parent.splitFace(he.getFace(), he.getEndVertex(),
-							he.getPrevInVertex().getEndVertex()));
+					spikes.union(HET_MeshOp.splitFace(selection.parent, he.getFace(),
+							he.getEndVertex(), he.getPrevInVertex().getEndVertex()));
 				}
 			}
 			counter.increment();

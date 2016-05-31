@@ -12,6 +12,7 @@ package wblut.hemesh;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import gnu.trove.map.TLongIntMap;
 import gnu.trove.map.hash.TLongIntHashMap;
@@ -233,7 +234,7 @@ public class HET_Export {
 	public static void saveToSimpleMesh(final HE_Mesh mesh, final String path, final String name) {
 		final HET_WriterSimpleMesh hem = new HET_WriterSimpleMesh();
 		hem.beginSave(path, name);
-		final WB_Coord[] points = mesh.getVerticesAsPoint();
+		final List<WB_Coord> points = mesh.getVerticesAsCoord();
 		hem.intValue(mesh.getNumberOfVertices());
 		hem.vertices(points);
 		final int[][] faces = mesh.getFacesAsInt();
