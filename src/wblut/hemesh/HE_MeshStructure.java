@@ -25,6 +25,7 @@ import javolution.util.FastTable;
 import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_Coord;
+import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Polygon;
 import wblut.geom.WB_Segment;
@@ -599,7 +600,7 @@ public class HE_MeshStructure extends HE_MeshElement {
 	 */
 	public final WB_Sphere getBoundingSphere() {
 
-		return WB_Sphere.getBoundingSphere(vertices);
+		return WB_GeometryOp.getBoundingSphere(vertices);
 	}
 
 	/**
@@ -2516,6 +2517,14 @@ public class HE_MeshStructure extends HE_MeshElement {
 		final HE_HalfedgeIterator heitr = heItr();
 		while (heitr.hasNext()) {
 			heitr.next().clearVisited();
+		}
+	}
+
+	public void updateFaces() {
+		HE_FaceIterator fItr = fItr();
+		while (fItr.hasNext()) {
+			fItr.next().update();
+
 		}
 	}
 

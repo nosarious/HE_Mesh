@@ -10,12 +10,10 @@
 
 package wblut.geom;
 
-import java.util.Collection;
-
 import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
 
-public class WB_Circle implements WB_Geometry {
+public class WB_Circle {
 
 	private WB_Point center;
 
@@ -137,16 +135,6 @@ public class WB_Circle implements WB_Geometry {
 		return (int) (tmp ^ tmp >>> 32);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_Geometry#getType()
-	 */
-	@Override
-	public WB_GeometryType getType() {
-		return WB_GeometryType.CIRCLE;
-	}
-
 	/**
 	 *
 	 *
@@ -164,7 +152,7 @@ public class WB_Circle implements WB_Geometry {
 	 *
 	 * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
 	 */
-	@Override
+
 	public WB_Circle apply(final WB_Transform T) {
 		WB_Point p = geometryfactory.createPoint(center).applyAsPointSelf(T);
 		WB_Point q = geometryfactory.createPoint(center).addSelf(radius, 0, 0).applyAsPointSelf(T);
@@ -301,76 +289,6 @@ public class WB_Circle implements WB_Geometry {
 			return null;
 		}
 		return center.addMul(radius, vc);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @return
-	 */
-	public static WB_Circle getBoundingCircle(final WB_Coord[] points) {
-		WB_Point center = new WB_Point(points[0]);
-		double radius = WB_Epsilon.EPSILON;
-		double radius2 = radius * radius;
-		double dist, dist2, alpha, ialpha2;
-
-		for (int i = 0; i < 3; i++) {
-			for (WB_Coord point : points) {
-				dist2 = WB_Point.getSqDistance2D(point, center);
-				if (dist2 > radius2) {
-					dist = Math.sqrt(dist2);
-					if (i < 2) {
-						alpha = dist / radius;
-						ialpha2 = 1.0 / (alpha * alpha);
-						radius = 0.5 * (alpha + 1 / alpha) * radius;
-						center = geometryfactory.createMidpoint(center.mulSelf(1.0 + ialpha2),
-								WB_Point.mul(point, 1.0 - ialpha2));
-					} else {
-						radius = (radius + dist) * 0.5;
-						center.mulAddMulSelf(radius / dist, (dist - radius) / dist, point);
-					}
-					radius2 = radius * radius;
-				}
-			}
-		}
-
-		return new WB_Circle(center, radius);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @return
-	 */
-	public static WB_Circle getBoundingCircle(final Collection<? extends WB_Coord> points) {
-		WB_Point center = new WB_Point(points.iterator().next());
-		double radius = WB_Epsilon.EPSILON;
-		double radius2 = radius * radius;
-		double dist, dist2, alpha, ialpha2;
-
-		for (int i = 0; i < 3; i++) {
-			for (WB_Coord point : points) {
-				dist2 = WB_Point.getSqDistance2D(point, center);
-				if (dist2 > radius2) {
-					dist = Math.sqrt(dist2);
-					if (i < 2) {
-						alpha = dist / radius;
-						ialpha2 = 1.0 / (alpha * alpha);
-						radius = 0.5 * (alpha + 1 / alpha) * radius;
-						center = geometryfactory.createMidpoint(center.mulSelf(1.0 + ialpha2),
-								WB_Point.mul(point, 1.0 - ialpha2));
-					} else {
-						radius = (radius + dist) * 0.5;
-						center.mulAddMulSelf(radius / dist, (dist - radius) / dist, point);
-					}
-					radius2 = radius * radius;
-				}
-			}
-		}
-
-		return new WB_Circle(center, radius);
 	}
 
 }

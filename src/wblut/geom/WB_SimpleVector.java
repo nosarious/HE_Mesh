@@ -448,4 +448,5 @@ public class WB_SimpleVector implements WB_MutableCoord {
 	public int hashCode() {
 		return WB_HashCode.calculateHashCode(xd(), yd(), zd(), wd());
 	}
+
 }

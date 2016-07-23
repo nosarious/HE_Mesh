@@ -2484,10 +2484,10 @@ public class WB_GeometryOp {
 			return null;
 		}
 		if (ir2D.dimension == 0) {
-			if (L.classifyPointToLine2D(S.getOrigin()) == WB_Classification.FRONT) {
+			if (WB_GeometryOp.classifyPointToLine2D(S.getOrigin(), L) == WB_Classification.FRONT) {
 				result[0] = new WB_Segment(S.getOrigin(), (WB_Point) ir2D.object);
 				result[1] = new WB_Segment((WB_Point) ir2D.object, S.getEndpoint());
-			} else if (L.classifyPointToLine2D(S.getOrigin()) == WB_Classification.BACK) {
+			} else if (WB_GeometryOp.classifyPointToLine2D(S.getOrigin(), L) == WB_Classification.BACK) {
 				result[1] = new WB_Segment(S.getOrigin(), (WB_Point) ir2D.object);
 				result[0] = new WB_Segment((WB_Point) ir2D.object, S.getEndpoint());
 			}
@@ -2550,13 +2550,13 @@ public class WB_GeometryOp {
 		final int numVerts = poly.numberOfShellPoints;
 		if (numVerts > 0) {
 			WB_Coord a = poly.getPoint(numVerts - 1);
-			WB_Classification aSide = L.classifyPointToLine2D(a);
+			WB_Classification aSide = WB_GeometryOp.classifyPointToLine2D(a, L);
 			WB_Coord b;
 			WB_Classification bSide;
 			for (int n = 0; n < numVerts; n++) {
 				WB_IntersectionResult i = new WB_IntersectionResult();
 				b = poly.getPoint(n);
-				bSide = L.classifyPointToLine2D(b);
+				bSide = WB_GeometryOp.classifyPointToLine2D(b, L);
 				if (bSide == WB_Classification.FRONT) {
 					if (aSide == WB_Classification.BACK) {
 						i = getClosestPoint2D(L, new WB_Segment(a, b));
@@ -5775,7 +5775,7 @@ public class WB_GeometryOp {
 	 * @param v1
 	 * @return
 	 */
-	public double[] getIntervalIntersection(final double u0, final double u1, final double v0, final double v1) {
+	public static double[] getIntervalIntersection(final double u0, final double u1, final double v0, final double v1) {
 
 		double lu0, lu1;
 		if (u1 < u0) {
@@ -5819,5 +5819,755 @@ public class WB_GeometryOp {
 			return new double[] { 1, lu1 };
 		}
 
+	}
+
+	public static boolean GLUvertEq(final WB_Coord u, final WB_Coord v) {
+		return u.xd() == v.xd() && u.yd() == v.yd();
+	}
+
+	public static boolean GLUvertLeq(final WB_Coord u, final WB_Coord v) {
+		return u.xd() < v.xd() || u.xd() == v.xd() && u.yd() < v.yd();
+	}
+
+	public static boolean GLUtransLeq(final WB_Coord u, final WB_Coord v) {
+		return u.yd() < v.yd() || u.yd() == v.yd() && u.xd() < v.xd();
+	}
+
+	public static boolean GLUedgeGoesLeft(final WB_Segment e) {
+		return GLUvertLeq(e.getEndpoint(), e.getOrigin());
+	}
+
+	public static boolean GLUedgeGoesRight(final WB_Segment e) {
+		return GLUvertLeq(e.getOrigin(), e.getEndpoint());
+	}
+
+	public static double GLUedgeEval(final WB_Coord u, final WB_Coord v, final WB_Coord w) {
+		/*
+		 * Given three vertices u,v,w such that VertLeq(u,v) && VertLeq(v,w),
+		 * evaluates the t-coord of the edge uw at the s-coord of the vertex v.
+		 * Returns v.yd() - (uw)(v->s), ie. the signed distance from uw to v. If
+		 * uw is vertical (and thus passes thru v), the result is zero.
+		 *
+		 * The calculation is extremely accurate and stable, even when v is very
+		 * close to u or w. In particular if we set v.yd() = 0 and let r be the
+		 * negated result (this evaluates (uw)(v->s)), then r is guaranteed to
+		 * satisfy MIN(u.yd(),w.yd()) <= r <= MAX(u.yd(),w.yd()).
+		 */
+		double gapL, gapR;
+		assert GLUvertLeq(u, v) && GLUvertLeq(v, w);
+		gapL = v.xd() - u.xd();
+		gapR = w.xd() - v.xd();
+		if (gapL + gapR > 0) {
+			if (gapL < gapR) {
+				return v.yd() - u.yd() + (u.yd() - w.yd()) * (gapL / (gapL + gapR));
+			} else {
+				return v.yd() - w.yd() + (w.yd() - u.yd()) * (gapR / (gapL + gapR));
+			}
+		}
+		/* vertical line */
+		return 0;
+	}
+
+	public static double GLUedgeSign(final WB_Coord u, final WB_Coord v, final WB_Coord w) {
+		/*
+		 * Returns a number whose sign matches EdgeEval(u,v,w) but which is
+		 * cheaper to evaluate. Returns > 0, == 0 , or < 0 as v is above, on, or
+		 * below the edge uw.
+		 */
+		double gapL, gapR;
+		assert GLUvertLeq(u, v) && GLUvertLeq(v, w);
+		gapL = v.xd() - u.xd();
+		gapR = w.xd() - v.xd();
+		if (gapL + gapR > 0) {
+			return (v.yd() - w.yd()) * gapL + (v.yd() - u.yd()) * gapR;
+		}
+		/* vertical line */
+		return 0;
+	}
+
+	public static double GLUtransEval(final WB_Coord u, final WB_Coord v, final WB_Coord w) {
+		double gapL, gapR;
+		assert GLUtransLeq(u, v) && GLUtransLeq(v, w);
+		gapL = v.yd() - u.yd();
+		gapR = w.yd() - v.yd();
+		if (gapL + gapR > 0) {
+			if (gapL < gapR) {
+				return v.xd() - u.xd() + (u.xd() - w.xd()) * (gapL / (gapL + gapR));
+			} else {
+				return v.xd() - w.xd() + (w.xd() - u.xd()) * (gapR / (gapL + gapR));
+			}
+		}
+		/* vertical line */
+		return 0;
+	}
+
+	public static double GLUtransSign(final WB_Coord u, final WB_Coord v, final WB_Coord w) {
+		double gapL, gapR;
+		assert GLUtransLeq(u, v) && GLUtransLeq(v, w);
+		gapL = v.yd() - u.yd();
+		gapR = w.yd() - v.yd();
+		if (gapL + gapR > 0) {
+			return (v.xd() - w.xd()) * gapL + (v.xd() - u.xd()) * gapR;
+		}
+		/* vertical line */
+		return 0;
+	}
+
+	public static boolean GLUvertCCW(final WB_Coord u, final WB_Coord v, final WB_Coord w) {
+		/*
+		 * For almost-degenerate situations, the results are not reliable.
+		 * Unless the floating-point arithmetic can be performed without
+		 * rounding errors, *any* implementation will give incorrect results on
+		 * some degenerate inputs, so the client must have some way to handle
+		 * this situation.
+		 */
+		return u.xd() * (v.yd() - w.yd()) + v.xd() * (w.yd() - u.yd()) + w.xd() * (u.yd() - v.yd()) >= 0;
+	}
+
+	/*
+	 * Given parameters a,x,b,y returns the value (b*x+a*y)/(a+b), or (x+y)/2 if
+	 * a==b==0. It requires that a,b >= 0, and enforces this in the rare case
+	 * that one argument is slightly negative. The implementation is extremely
+	 * stable numerically. In particular it guarantees that the result r
+	 * satisfies MIN(x,y) <= r <= MAX(x,y), and the results are very accurate
+	 * even when a and b differ greatly in magnitude.
+	 */
+	public static double GLUrealInterpolate(double a, final double x, double b, final double y) {
+		a = a < 0 ? 0 : a;
+		b = b < 0 ? 0 : b;
+		return a <= b ? b == 0 ? (x + y) / 2 : x + (y - x) * (a / (a + b)) : y + (x - y) * (b / (a + b));
+	}
+
+	public static double GLUinterpolate(final double a, final double x, final double b, final double y) {
+		return GLUrealInterpolate(a, x, b, y);
+	}
+
+	public static WB_Coord GLUedgeIntersect(WB_Coord o1, WB_Coord d1, WB_Coord o2, WB_Coord d2)
+	/*
+	 * Given edges (o1,d1) and (o2,d2), compute their point of intersection. The
+	 * computed point is guaranteed to lie in the intersection of the bounding
+	 * rectangles defined by each edge.
+	 */
+	{
+		double z1, z2;
+
+		/*
+		 * This is certainly not the most efficient way to find the intersection
+		 * of two line segments, but it is very numerically stable.
+		 *
+		 * Strategy: find the two middle vertices in the VertLeq ordering, and
+		 * interpolate the intersection s-value from these. Then repeat using
+		 * the TransLeq ordering to find the intersection t-value.
+		 */
+
+		if (!GLUvertLeq(o1, d1)) {
+			WB_Coord t = o1;
+			o1 = d1;
+			d1 = t;
+		}
+		if (!GLUvertLeq(o2, d2)) {
+			WB_Coord t = o2;
+			o2 = d2;
+			d2 = t;
+		}
+		if (!GLUvertLeq(o1, o2)) {
+			WB_Coord t = o1;
+			o1 = o2;
+			o2 = t;
+			t = d1;
+			d1 = d2;
+			d2 = t;
+		}
+		WB_Point v = new WB_Point();
+		if (!GLUvertLeq(o2, d1)) {
+			/* Technically, no intersection -- do our best */
+			v.setX((o2.xd() + d1.xd()) / 2);
+		} else if (GLUvertLeq(d1, d2)) {
+			/* Interpolate between o2 and d1 */
+			z1 = GLUedgeEval(o1, o2, d1);
+			z2 = GLUedgeEval(o2, d1, d2);
+			if (z1 + z2 < 0) {
+				z1 = -z1;
+				z2 = -z2;
+			}
+			v.setX(GLUinterpolate(z1, o2.xd(), z2, d1.xd()));
+		} else {
+			/* Interpolate between o2 and d2 */
+			z1 = GLUedgeSign(o1, o2, d1);
+			z2 = -GLUedgeSign(o1, d2, d1);
+			if (z1 + z2 < 0) {
+				z1 = -z1;
+				z2 = -z2;
+			}
+			v.setX(GLUinterpolate(z1, o2.xd(), z2, d2.yd()));
+		}
+
+		/* Now repeat the process for t */
+		if (!GLUtransLeq(o1, d1)) {
+			WB_Coord t = o1;
+			o1 = d1;
+			d1 = t;
+		}
+		if (!GLUtransLeq(o2, d2)) {
+			WB_Coord t = o2;
+			o2 = d2;
+			d2 = t;
+		}
+		if (!GLUtransLeq(o1, o2)) {
+			WB_Coord t = o1;
+			o1 = o2;
+			o2 = t;
+			t = d1;
+			d1 = d2;
+			d2 = t;
+		}
+
+		if (!GLUtransLeq(o2, d1)) {
+			/* Technically, no intersection -- do our best */
+			v.setY((o2.yd() + d1.yd()) / 2);
+		} else if (GLUtransLeq(d1, d2)) {
+			/* Interpolate between o2 and d1 */
+			z1 = GLUtransEval(o1, o2, d1);
+			z2 = GLUtransEval(o2, d1, d2);
+			if (z1 + z2 < 0) {
+				z1 = -z1;
+				z2 = -z2;
+			}
+			v.setY(GLUinterpolate(z1, o2.yd(), z2, d1.yd()));
+		} else {
+			/* Interpolate between o2 and d2 */
+			z1 = GLUtransSign(o1, o2, d1);
+			z2 = -GLUtransSign(o1, d2, d1);
+			if (z1 + z2 < 0) {
+				z1 = -z1;
+				z2 = -z2;
+			}
+			v.setY(GLUinterpolate(z1, o2.yd(), z2, d2.yd()));
+		}
+		return v;
+	}
+
+	static double ABS(final double v) {
+		return v < 0 ? -v : v;
+
+	}
+
+	public static int GLUlongAxis(final WB_Coord v) {
+		int i = 0;
+		if (ABS(v.yd()) > ABS(v.xd())) {
+			i = 1;
+		}
+		if (ABS(v.zd()) > ABS(v.getd(i))) {
+			i = 2;
+		}
+		return i;
+	}
+
+	public static int GLUlongAxis(final double[] v) {
+		int i = 0;
+		if (ABS(v[1]) > ABS(v[0])) {
+			i = 1;
+		}
+		if (ABS(v[2]) > ABS(v[i])) {
+			i = 2;
+		}
+		return i;
+	}
+
+	public static WB_Coord GLUcomputeNormal(final List<? extends WB_Coord> vertices) {
+		WB_Coord v1, v2;
+		double c, tLen2, maxLen2;
+		double[] maxVal, minVal, d1, d2, norm, tNorm;
+		WB_Coord[] maxVert, minVert;
+
+		int i;
+		maxVal = new double[3];
+		maxVal[0] = maxVal[1] = maxVal[2] = Double.NEGATIVE_INFINITY;
+		minVal = new double[3];
+		minVal[0] = minVal[1] = minVal[2] = Double.POSITIVE_INFINITY;
+		maxVert = new WB_Coord[3];
+		minVert = new WB_Coord[3];
+		for (WB_Coord v : vertices) {
+			for (i = 0; i < 3; ++i) {
+				c = v.getd(i);
+				if (c < minVal[i]) {
+					minVal[i] = c;
+					minVert[i] = v;
+				}
+				if (c > maxVal[i]) {
+					maxVal[i] = c;
+					maxVert[i] = v;
+				}
+			}
+		}
+
+		/*
+		 * Find two vertices separated by at least 1/sqrt(3) of the maximum
+		 * distance between any two vertices
+		 */
+		i = 0;
+		if (maxVal[1] - minVal[1] > maxVal[0] - minVal[0]) {
+			i = 1;
+		}
+		if (maxVal[2] - minVal[2] > maxVal[i] - minVal[i]) {
+			i = 2;
+		}
+		if (minVal[i] >= maxVal[i]) {
+			/* All vertices are the same -- normal doesn't matter */
+			return new WB_Vector(0, 0, 1);
+		}
+
+		/*
+		 * Look for a third vertex which forms the triangle with maximum area
+		 * (Length of normal == twice the triangle area)
+		 */
+		maxLen2 = 0;
+		v1 = minVert[i];
+		v2 = maxVert[i];
+		d1 = new double[3];
+		d2 = new double[3];
+		tNorm = new double[3];
+		norm = new double[3];
+		d1[0] = v1.xd() - v2.xd();
+		d1[1] = v1.yd() - v2.yd();
+		d1[2] = v1.zd() - v2.zd();
+		for (WB_Coord v : vertices) {
+			d2[0] = v.xd() - v2.xd();
+			d2[1] = v.yd() - v2.yd();
+			d2[2] = v.zd() - v2.zd();
+			tNorm[0] = d1[1] * d2[2] - d1[2] * d2[1];
+			tNorm[1] = d1[2] * d2[0] - d1[0] * d2[2];
+			tNorm[2] = d1[0] * d2[1] - d1[1] * d2[0];
+			tLen2 = tNorm[0] * tNorm[0] + tNorm[1] * tNorm[1] + tNorm[2] * tNorm[2];
+			if (tLen2 > maxLen2) {
+				maxLen2 = tLen2;
+
+				norm[0] = tNorm[0];
+				norm[1] = tNorm[1];
+				norm[2] = tNorm[2];
+			}
+		}
+
+		if (maxLen2 <= 0) {
+			norm[0] = norm[1] = norm[2] = 0;
+			norm[GLUlongAxis(d1)] = 1;
+		}
+
+		return new WB_Vector(norm);
+	}
+
+	/**
+	 *
+	 *
+	 * @param points
+	 * @return
+	 */
+	public static WB_Circle getBoundingCircle(final WB_Coord[] points) {
+		WB_Point center = new WB_Point(points[0]);
+		double radius = WB_Epsilon.EPSILON;
+		double radius2 = radius * radius;
+		double dist, dist2, alpha, ialpha2;
+
+		for (int i = 0; i < 3; i++) {
+			for (WB_Coord point : points) {
+				dist2 = WB_Point.getSqDistance2D(point, center);
+				if (dist2 > radius2) {
+					dist = Math.sqrt(dist2);
+					if (i < 2) {
+						alpha = dist / radius;
+						ialpha2 = 1.0 / (alpha * alpha);
+						radius = 0.5 * (alpha + 1 / alpha) * radius;
+						center = gf.createMidpoint(center.mulSelf(1.0 + ialpha2), WB_Point.mul(point, 1.0 - ialpha2));
+					} else {
+						radius = (radius + dist) * 0.5;
+						center.mulAddMulSelf(radius / dist, (dist - radius) / dist, point);
+					}
+					radius2 = radius * radius;
+				}
+			}
+		}
+
+		return new WB_Circle(center, radius);
+	}
+
+	/**
+	 *
+	 *
+	 * @param points
+	 * @return
+	 */
+	public static WB_Circle getBoundingCircle(final Collection<? extends WB_Coord> points) {
+		WB_Point center = new WB_Point(points.iterator().next());
+		double radius = WB_Epsilon.EPSILON;
+		double radius2 = radius * radius;
+		double dist, dist2, alpha, ialpha2;
+
+		for (int i = 0; i < 3; i++) {
+			for (WB_Coord point : points) {
+				dist2 = WB_Point.getSqDistance2D(point, center);
+				if (dist2 > radius2) {
+					dist = Math.sqrt(dist2);
+					if (i < 2) {
+						alpha = dist / radius;
+						ialpha2 = 1.0 / (alpha * alpha);
+						radius = 0.5 * (alpha + 1 / alpha) * radius;
+						center = gf.createMidpoint(center.mulSelf(1.0 + ialpha2), WB_Point.mul(point, 1.0 - ialpha2));
+					} else {
+						radius = (radius + dist) * 0.5;
+						center.mulAddMulSelf(radius / dist, (dist - radius) / dist, point);
+					}
+					radius2 = radius * radius;
+				}
+			}
+		}
+
+		return new WB_Circle(center, radius);
+	}
+
+	/**
+	 *
+	 *
+	 * @param C
+	 * @param p
+	 * @return
+	 */
+	public static WB_Line getLineTangentToCircleAtPoint(final WB_Circle C, final WB_Coord p) {
+		final WB_Vector v = new WB_Vector(C.getCenter(), p);
+		return new WB_Line(p, new WB_Point(-v.yd(), v.xd()));
+	}
+
+	/**
+	 *
+	 *
+	 * @param C
+	 * @param p
+	 * @return
+	 */
+	public static ArrayList<WB_Line> getLinesTangentToCircleThroughPoint(final WB_Circle C, final WB_Coord p) {
+		final ArrayList<WB_Line> result = new ArrayList<WB_Line>(2);
+		final double dcp = WB_GeometryOp.getDistance2D(C.getCenter(), p);
+		if (WB_Epsilon.isZero(dcp - C.getRadius())) {
+			final WB_Vector u = new WB_Vector(C.getCenter(), p);
+			result.add(new WB_Line(p, new WB_Point(-u.yd(), u.xd())));
+		} else if (dcp < C.getRadius()) {
+			return result;
+		} else {
+			final WB_Vector u = new WB_Vector(C.getCenter(), p);
+			final double ux2 = u.xd() * u.xd();
+			final double ux4 = ux2 * ux2;
+			final double uy2 = u.yd() * u.yd();
+			final double r2 = C.getRadius() * C.getRadius();
+			final double r4 = r2 * r2;
+			final double num = r2 * uy2;
+			final double denom = ux2 + uy2;
+			final double rad = Math.sqrt(-r4 * ux2 + r2 * ux4 + r2 * ux2 * uy2);
+			result.add(new WB_Line(p,
+					new WB_Point(-(r2 * u.yd() + rad) / denom, (r2 - (num + u.yd() * rad) / denom) / u.xd())));
+			result.add(new WB_Line(p,
+					new WB_Point(-(r2 * u.yd() - rad) / denom, (r2 - (num - u.yd() * rad) / denom) / u.xd())));
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 *
+	 * @param C0
+	 * @param C1
+	 * @return
+	 */
+	public static ArrayList<WB_Line> getLinesTangentTo2Circles(final WB_Circle C0, final WB_Circle C1) {
+		final ArrayList<WB_Line> result = new ArrayList<WB_Line>(4);
+		final WB_Point w = WB_Point.sub(C1.getCenter(), C0.getCenter());
+		final double wlensqr = w.getSqLength3D();
+		final double rsum = C0.getRadius() + C1.getRadius();
+		if (wlensqr <= rsum * rsum + WB_Epsilon.SQEPSILON) {
+			return result;
+		}
+		final double rdiff = C1.getRadius() - C0.getRadius();
+		if (!WB_Epsilon.isZero(rdiff)) {
+			final double r0sqr = C0.getRadius() * C0.getRadius();
+			final double r1sqr = C1.getRadius() * C1.getRadius();
+			final double c0 = -r0sqr;
+			final double c1 = 2 * r0sqr;
+			final double c2 = C1.getRadius() * C1.getRadius() - r0sqr;
+			final double invc2 = 1.0 / c2;
+			final double discr = Math.sqrt(WB_Math.fastAbs(c1 * c1 - 4 * c0 * c2));
+			double s, oms, a;
+			s = -0.5 * (c1 + discr) * invc2;
+			if (s >= 0.5) {
+				a = Math.sqrt(WB_Math.fastAbs(wlensqr - r0sqr / (s * s)));
+			} else {
+				oms = 1.0 - s;
+				a = Math.sqrt(WB_Math.fastAbs(wlensqr - r1sqr / (oms * oms)));
+			}
+			WB_Point[] dir = getDirections(w, a);
+			WB_Point org = new WB_Point(C0.getCenter().xd() + s * w.xd(), C0.getCenter().yd() + s * w.yd());
+			result.add(new WB_Line(org, dir[0]));
+			result.add(new WB_Line(org, dir[1]));
+			s = -0.5 * (c1 - discr) * invc2;
+			if (s >= 0.5) {
+				a = Math.sqrt(WB_Math.fastAbs(wlensqr - r0sqr / (s * s)));
+			} else {
+				oms = 1.0 - s;
+				a = Math.sqrt(WB_Math.fastAbs(wlensqr - r1sqr / (oms * oms)));
+			}
+			dir = getDirections(w, a);
+			org = new WB_Point(C0.getCenter().xd() + s * w.xd(), C0.getCenter().yd() + s * w.yd());
+			result.add(new WB_Line(org, dir[0]));
+			result.add(new WB_Line(org, dir[1]));
+		} else {
+			final WB_Point mid = WB_Point.add(C0.getCenter(), C1.getCenter()).mulSelf(0.5);
+			final double a = Math.sqrt(WB_Math.fastAbs(wlensqr - 4 * C0.getRadius() * C0.getRadius()));
+			final WB_Point[] dir = getDirections(w, a);
+			result.add(new WB_Line(mid, dir[0]));
+			result.add(new WB_Line(mid, dir[1]));
+			final double invwlen = 1.0 / Math.sqrt(wlensqr);
+			w.mulSelf(invwlen);
+			result.add(new WB_Line(new WB_Point(mid.xd() + C0.getRadius() * w.yd(), mid.yd() - C0.getRadius() * w.xd()),
+					w));
+			result.add(new WB_Line(new WB_Point(mid.xd() - C0.getRadius() * w.yd(), mid.yd() + C0.getRadius() * w.xd()),
+					w));
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 *
+	 * @param w
+	 * @param a
+	 * @return
+	 */
+	private static WB_Point[] getDirections(final WB_Coord w, final double a) {
+		final WB_Point[] dir = new WB_Point[2];
+		final double asqr = a * a;
+		final double wxsqr = w.xd() * w.xd();
+		final double wysqr = w.yd() * w.yd();
+		final double c2 = wxsqr + wysqr;
+		final double invc2 = 1.0 / c2;
+		double c0, c1, discr, invwx;
+		final double invwy;
+		if (WB_Math.fastAbs(w.xd()) >= WB_Math.fastAbs(w.yd())) {
+			c0 = asqr - wxsqr;
+			c1 = -2 * a * w.yd();
+			discr = Math.sqrt(WB_Math.fastAbs(c1 * c1 - 4 * c0 * c2));
+			invwx = 1.0 / w.xd();
+			final double dir0y = -0.5 * (c1 + discr) * invc2;
+			dir[0] = new WB_Point((a - w.yd() * dir0y) * invwx, dir0y);
+			final double dir1y = -0.5 * (c1 - discr) * invc2;
+			dir[1] = new WB_Point((a - w.yd() * dir1y) * invwx, dir1y);
+		} else {
+			c0 = asqr - wysqr;
+			c1 = -2 * a * w.xd();
+			discr = Math.sqrt(WB_Math.fastAbs(c1 * c1 - 4 * c0 * c2));
+			invwy = 1.0 / w.yd();
+			final double dir0x = -0.5 * (c1 + discr) * invc2;
+			dir[0] = new WB_Point(dir0x, (a - w.xd() * dir0x) * invwy);
+			final double dir1x = -0.5 * (c1 - discr) * invc2;
+			dir[1] = new WB_Point(dir1x, (a - w.xd() * dir1x) * invwy);
+		}
+		return dir;
+	}
+
+	/**
+	 *
+	 *
+	 * @param L
+	 * @param p
+	 * @return
+	 */
+	public static WB_Line getPerpendicularLineThroughPoint(final WB_Line L, final WB_Coord p) {
+		return new WB_Line(p, new WB_Point(-L.getDirection().yd(), L.getDirection().xd()));
+	}
+
+	/**
+	 *
+	 *
+	 * @param L
+	 * @param p
+	 * @return
+	 */
+	public static WB_Line getParallelLineThroughPoint(final WB_Line L, final WB_Coord p) {
+		return new WB_Line(p, L.getDirection());
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	public static WB_Line getBisector(final WB_Coord p, final WB_Coord q) {
+		return new WB_Line(gf.createInterpolatedPoint(p, q, 0.5), new WB_Point(p.yd() - q.yd(), q.xd() - p.xd()));
+	}
+
+	/**
+	 *
+	 *
+	 * @param L
+	 * @param d
+	 * @return
+	 */
+	public static WB_Line[] getParallelLines(final WB_Line L, final double d) {
+		final WB_Line[] result = new WB_Line[2];
+		result[0] = new WB_Line(new WB_Point(L.getOrigin().xd() - d * L.getDirection().yd(),
+				L.getOrigin().yd() + d * L.getDirection().xd()), L.getDirection());
+		result[1] = new WB_Line(new WB_Point(L.getOrigin().xd() + d * L.getDirection().yd(),
+				L.getOrigin().yd() - d * L.getDirection().xd()), L.getDirection());
+		return result;
+	}
+
+	/**
+	 *
+	 *
+	 * @param L
+	 * @param C
+	 * @return
+	 */
+	public static WB_Line[] getPerpendicularLinesTangentToCircle(final WB_Line L, final WB_Circle C) {
+		final WB_Line[] result = new WB_Line[2];
+		result[0] = new WB_Line(
+				new WB_Point(C.getCenter().xd() + C.getRadius() * L.getDirection().xd(),
+						C.getCenter().yd() + C.getRadius() * L.getDirection().yd()),
+				new WB_Point(-L.getDirection().yd(), L.getDirection().xd()));
+		result[1] = new WB_Line(
+				new WB_Point(C.getCenter().xd() - C.getRadius() * L.getDirection().xd(),
+						C.getCenter().yd() - C.getRadius() * L.getDirection().yd()),
+				new WB_Point(-L.getDirection().yd(), L.getDirection().xd()));
+		return result;
+	}
+
+	/**
+	 *
+	 *
+	 * @param points
+	 * @return
+	 */
+	public static WB_Sphere getBoundingSphere(final WB_Coord[] points) {
+		WB_Point center = new WB_Point(points[0]);
+		double radius = WB_Epsilon.EPSILON;
+		double radius2 = radius * radius;
+		double dist, dist2, alpha, ialpha2;
+
+		for (int i = 0; i < 3; i++) {
+			for (WB_Coord point : points) {
+				dist2 = WB_Point.getSqDistance3D(point, center);
+				if (dist2 > radius2) {
+					dist = Math.sqrt(dist2);
+					if (i < 2) {
+						alpha = dist / radius;
+						ialpha2 = 1.0 / (alpha * alpha);
+						radius = 0.5 * (alpha + 1 / alpha) * radius;
+						center = gf.createMidpoint(center.mulSelf(1.0 + ialpha2), WB_Point.mul(point, 1.0 - ialpha2));
+					} else {
+						radius = (radius + dist) * 0.5;
+						center.mulAddMulSelf(radius / dist, (dist - radius) / dist, point);
+					}
+					radius2 = radius * radius;
+				}
+			}
+		}
+
+		return new WB_Sphere(center, radius);
+	}
+
+	/**
+	 *
+	 *
+	 * @param points
+	 * @return
+	 */
+	public static WB_Sphere getBoundingSphere(final Collection<? extends WB_Coord> points) {
+		WB_Point center = new WB_Point(points.iterator().next());
+		double radius = WB_Epsilon.EPSILON;
+		double radius2 = radius * radius;
+		double dist, dist2, alpha, ialpha2;
+
+		for (int i = 0; i < 3; i++) {
+			for (WB_Coord point : points) {
+				dist2 = WB_Point.getSqDistance3D(point, center);
+				if (dist2 > radius2) {
+					dist = Math.sqrt(dist2);
+					if (i < 2) {
+						alpha = dist / radius;
+						ialpha2 = 1.0 / (alpha * alpha);
+						radius = 0.5 * (alpha + 1 / alpha) * radius;
+						center = gf.createMidpoint(center.mulSelf(1.0 + ialpha2), WB_Point.mul(point, 1.0 - ialpha2));
+					} else {
+						radius = (radius + dist) * 0.5;
+						center.mulAddMulSelf(radius / dist, (dist - radius) / dist, point);
+					}
+					radius2 = radius * radius;
+				}
+			}
+		}
+
+		return new WB_Sphere(center, radius);
+	}
+
+	/**
+	 *
+	 * @param o
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	public static boolean isCollinear(final WB_Coord o, final WB_Coord p, final WB_Coord q) {
+		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(p, q))) {
+			return true;
+		}
+		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(o, q))) {
+			return true;
+		}
+		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(o, p))) {
+			return true;
+		}
+		return WB_Epsilon.isZeroSq(WB_Vector.sub(o, p).crossSelf(WB_Vector.sub(o, q)).getSqLength3D());
+	}
+
+	/**
+	 *
+	 * @param o
+	 * @param p
+	 * @return
+	 */
+	public static boolean isParallelX(final WB_Coord o, final WB_Coord p) {
+		final double pm2 = p.xd() * p.xd() + p.yd() * p.yd() + p.zd() * p.zd();
+		return WB_Vector.cross(o, p).getSqLength3D() / (pm2 * WB_Vector.getSqLength3D(o)) < WB_Epsilon.SQEPSILON;
+	}
+
+	/**
+	 *
+	 * @param o
+	 * @param p
+	 * @param t
+	 * @return
+	 */
+	public static boolean isParallelX(final WB_Coord o, final WB_Coord p, final double t) {
+		final double pm2 = p.xd() * p.xd() + p.yd() * p.yd() + p.zd() * p.zd();
+		return WB_Vector.cross(o, p).getSqLength3D() / (pm2 * WB_Vector.getSqLength3D(o)) < t + WB_Epsilon.SQEPSILON;
+	}
+
+	/**
+	 *
+	 * @param o
+	 * @param p
+	 * @return
+	 */
+	public static boolean isParallelNormX(final WB_Coord o, final WB_Coord p) {
+		return WB_Vector.cross(o, p).getLength3D() < WB_Epsilon.EPSILON;
+	}
+
+	/**
+	 *
+	 * @param o
+	 * @param p
+	 * @param t
+	 * @return
+	 */
+	public static boolean isParallelNormX(final WB_Coord o, final WB_Coord p, final double t) {
+		return WB_Vector.cross(o, p).getLength3D() < t + WB_Epsilon.EPSILON;
 	}
 }

@@ -18,7 +18,7 @@ import wblut.math.WB_Epsilon;
 /**
  *
  */
-public class WB_PolyLine implements WB_Geometry {
+public class WB_PolyLine {
 
 	/**
 	 *
@@ -57,7 +57,7 @@ public class WB_PolyLine implements WB_Geometry {
 	 * @return
 	 */
 	public WB_Point getPoint(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 1))) {
+		if (i < 0 || i > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter " + i + " must between 0 and " + (numberOfPoints - 1) + ".");
 		}
 		return points.get(i);
@@ -71,7 +71,7 @@ public class WB_PolyLine implements WB_Geometry {
 	 * @return
 	 */
 	public double getd(final int i, final int j) {
-		if ((i < 0) || (i > (numberOfPoints - 1))) {
+		if (i < 0 || i > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter " + i + " must between 0 and " + (numberOfPoints - 1) + ".");
 		}
 		return points.get(i).getd(j);
@@ -85,7 +85,7 @@ public class WB_PolyLine implements WB_Geometry {
 	 * @return
 	 */
 	public float getf(final int i, final int j) {
-		if ((i < 0) || (i > (numberOfPoints - 1))) {
+		if (i < 0 || i > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter " + i + " must between 0 and " + (numberOfPoints - 1) + ".");
 		}
 		return points.get(i).getf(j);
@@ -98,7 +98,7 @@ public class WB_PolyLine implements WB_Geometry {
 	 * @return
 	 */
 	public WB_Point getPointOnLine(final double t) {
-		if ((t < 0) || (t > incLengths[numberOfPoints - 1])) {
+		if (t < 0 || t > incLengths[numberOfPoints - 1]) {
 			throw new IllegalArgumentException(
 					"Parameter must between 0 and length of polyline" + incLengths[numberOfPoints - 1] + " .");
 		}
@@ -120,7 +120,7 @@ public class WB_PolyLine implements WB_Geometry {
 	 * @return
 	 */
 	public WB_Point getParametricPointOnLine(final double t) {
-		if ((t < 0) || (t > (numberOfPoints - 1))) {
+		if (t < 0 || t > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 1) + ".");
 		}
 		final double ft = t - (int) t;
@@ -137,7 +137,7 @@ public class WB_PolyLine implements WB_Geometry {
 	 * @return
 	 */
 	public WB_Vector getDirection(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 2))) {
+		if (i < 0 || i > numberOfPoints - 2) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 2) + ".");
 		}
 		return directions.get(i);
@@ -150,7 +150,7 @@ public class WB_PolyLine implements WB_Geometry {
 	 * @return
 	 */
 	public WB_Vector getNormal(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 2))) {
+		if (i < 0 || i > numberOfPoints - 2) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 2) + ".");
 		}
 		WB_Vector normal = geometryfactory.createVector(0, 0, 1);
@@ -170,7 +170,7 @@ public class WB_PolyLine implements WB_Geometry {
 	 * @return
 	 */
 	public double a(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 2))) {
+		if (i < 0 || i > numberOfPoints - 2) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 2) + ".");
 		}
 		return -directions.get(i).getd(1);
@@ -183,7 +183,7 @@ public class WB_PolyLine implements WB_Geometry {
 	 * @return
 	 */
 	public double b(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 2))) {
+		if (i < 0 || i > numberOfPoints - 2) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 2) + ".");
 		}
 		return directions.get(i).getd(0);
@@ -196,11 +196,10 @@ public class WB_PolyLine implements WB_Geometry {
 	 * @return
 	 */
 	public double c(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 2))) {
+		if (i < 0 || i > numberOfPoints - 2) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 2) + ".");
 		}
-		return (points.get(i).getd(0) * directions.get(i).getd(1))
-				- (points.get(i).getd(1) * directions.get(i).getd(0));
+		return points.get(i).getd(0) * directions.get(i).getd(1) - points.get(i).getd(1) * directions.get(i).getd(0);
 	}
 
 	/**
@@ -219,7 +218,7 @@ public class WB_PolyLine implements WB_Geometry {
 	 * @return
 	 */
 	public WB_Segment getSegment(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 2))) {
+		if (i < 0 || i > numberOfPoints - 2) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 2) + ".");
 		}
 		return geometryfactory.createSegment(getPoint(i), getPoint(i + 1));
@@ -232,7 +231,7 @@ public class WB_PolyLine implements WB_Geometry {
 	 * @return
 	 */
 	public double getLength(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 2))) {
+		if (i < 0 || i > numberOfPoints - 2) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 2) + ".");
 		}
 		return incLengths[i + 1] - incLengths[i];
@@ -280,10 +279,10 @@ public class WB_PolyLine implements WB_Geometry {
 	private void getDirections() {
 		directions = new FastTable<WB_Vector>();
 		incLengths = new double[points.size() - 1];
-		for (int i = 0; i < (points.size() - 1); i++) {
+		for (int i = 0; i < points.size() - 1; i++) {
 			final WB_Vector v = new WB_Vector(points.get(i), points.get(i + 1));
 
-			incLengths[i] = (i == 0) ? v.getLength3D() : incLengths[i - 1] + v.getLength3D();
+			incLengths[i] = i == 0 ? v.getLength3D() : incLengths[i - 1] + v.getLength3D();
 			v.normalizeSelf();
 			directions.add(v);
 		}
@@ -325,7 +324,7 @@ public class WB_PolyLine implements WB_Geometry {
 		if (hashcode == -1) {
 			hashcode = points.get(0).hashCode();
 			for (int i = 1; i < points.size(); i++) {
-				hashcode = (31 * hashcode) + points.get(i).hashCode();
+				hashcode = 31 * hashcode + points.get(i).hashCode();
 			}
 		}
 		return hashcode;
@@ -334,19 +333,9 @@ public class WB_PolyLine implements WB_Geometry {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see wblut.geom.WB_Geometry#getType()
-	 */
-	@Override
-	public WB_GeometryType getType() {
-		return WB_GeometryType.POLYLINE;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
 	 * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
 	 */
-	@Override
+
 	public WB_PolyLine apply(final WB_Transform T) {
 		FastTable<WB_Point> tpoints = new FastTable<WB_Point>();
 		for (WB_Point p : points) {

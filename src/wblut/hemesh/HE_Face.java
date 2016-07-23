@@ -23,7 +23,6 @@ import wblut.geom.WB_AABB;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryOp;
-import wblut.geom.WB_HasColor;
 import wblut.geom.WB_Map2D;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
@@ -39,18 +38,22 @@ import wblut.math.WB_Epsilon;
  * @author Frederik Vanhoutte (W:Blut)
  *
  */
-public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<HE_Face> {
+public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 	/** Halfedge associated with this face. */
 	private HE_Halfedge _halfedge;
-	private int facecolor;
 	private int textureId;
+	int[] triangles;
+	WB_Coord normal;
+	WB_Point center;
 
 	/**
 	 * Instantiates a new HE_Face.
 	 */
 	public HE_Face() {
 		super();
-		facecolor = -1;
+		triangles = null;
+		normal = null;
+		center = null;
 	}
 
 	/**
@@ -113,19 +116,22 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	 * @return
 	 */
 	public WB_Coord getFaceCenter() {
+		if (center != null) {
+			return center;
+		}
 		if (_halfedge == null) {
 			return null;
 		}
 		HE_Halfedge he = _halfedge;
-		final WB_Point _center = new WB_Point();
+		center = new WB_Point();
 		int c = 0;
 		do {
-			_center.addSelf(he.getVertex());
+			center.addSelf(he.getVertex());
 			c++;
 			he = he.getNextInFace();
 		} while (he != _halfedge);
-		_center.divSelf(c);
-		return new WB_Point(_center);
+		center.divSelf(c);
+		return center;
 	}
 
 	/**
@@ -135,19 +141,22 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	 * @return
 	 */
 	public WB_Coord getFaceCenter(final double d) {
+		if (center != null) {
+			return center.addMul(d, getFaceNormal());
+		}
 		if (_halfedge == null) {
 			return null;
 		}
 		HE_Halfedge he = _halfedge;
-		final WB_Point _center = new WB_Point();
+		center = new WB_Point();
 		int c = 0;
 		do {
-			_center.addSelf(he.getVertex());
+			center.addSelf(he.getVertex());
 			c++;
 			he = he.getNextInFace();
 		} while (he != _halfedge);
-		_center.divSelf(c).addMulSelf(d, getFaceNormal());
-		return _center;
+		center.divSelf(c);
+		return center.addMul(d, getFaceNormal());
 	}
 
 	/**
@@ -156,7 +165,10 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	 * @return
 	 */
 	public WB_Coord getFaceNormal() {
-		return HET_MeshOp.getFaceNormal(this);
+		if (normal == null) {
+			normal = HET_MeshOp.getFaceNormal(this);
+		}
+		return normal;
 	}
 
 	/**
@@ -421,18 +433,6 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	 *
 	 * @param d
 	 * @return
-	 * @deprecated Use {@link #getPlane(double)} instead
-	 */
-	@Deprecated
-	public WB_Plane toPlane(final double d) {
-		return getPlane(d);
-	}
-
-	/**
-	 *
-	 *
-	 * @param d
-	 * @return
 	 */
 	public WB_Plane getPlane(final double d) {
 		final WB_Coord fn = getFaceNormal();
@@ -494,7 +494,9 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	 * @return
 	 */
 	public int[] getTriangles(final boolean optimize) {
-		int[] triangles;
+		if (triangles != null) {
+			return triangles;
+		}
 		final int fo = getFaceOrder();
 		if (fo < 3) {
 			return new int[] { 0, 0, 0 };
@@ -636,26 +638,6 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 		return s;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_HasColor#getColor()
-	 */
-	@Override
-	public int getColor() {
-		return facecolor;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_HasColor#setColor(int)
-	 */
-	@Override
-	public void setColor(final int color) {
-		facecolor = color;
-	}
-
 	/**
 	 *
 	 *
@@ -705,7 +687,6 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	 */
 	public void copyProperties(final HE_Face el) {
 		super.copyProperties(el);
-		facecolor = el.getColor();
 		textureId = el.textureId;
 	}
 
@@ -769,5 +750,12 @@ public class HE_Face extends HE_MeshElement implements WB_HasColor, Comparable<H
 	 */
 	public void setTextureId(final int i) {
 		textureId = i;
+	}
+
+	public void update() {
+		triangles = null;
+		normal = null;
+		center = null;
+
 	}
 }

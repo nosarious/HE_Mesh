@@ -12,7 +12,6 @@ package wblut.hemesh;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryOp;
-import wblut.geom.WB_HasColor;
 import wblut.geom.WB_HashCode;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
@@ -24,7 +23,7 @@ import wblut.math.WB_Math;
  * @author Frederik Vanhoutte (W:Blut)
  *
  */
-public class HE_Halfedge extends HE_MeshElement implements WB_HasColor, Comparable<HE_Halfedge> {
+public class HE_Halfedge extends HE_MeshElement implements Comparable<HE_Halfedge> {
 	/** Start vertex of halfedge. */
 	private HE_Vertex _vertex;
 	/** Halfedge pair. */
@@ -36,7 +35,6 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor, Comparab
 	/** Associated face. */
 	private HE_Face _face;
 
-	private int hecolor;
 	private HE_TextureCoordinate uvw;
 
 	/**
@@ -44,7 +42,6 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor, Comparab
 	 */
 	public HE_Halfedge() {
 		super();
-		hecolor = -1;
 		uvw = null;
 		_vertex = null;
 		_pair = null;
@@ -204,9 +201,9 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor, Comparab
 		if (_vertex == null) {
 			return null;
 		}
-		WB_Vector v = _vertex.subToVector3D(getPrevInFace()._vertex);
+		WB_Vector v = WB_Vector.subToVector3D(_vertex, getPrevInFace()._vertex);
 		v.normalizeSelf();
-		final WB_Vector vn = getNextInFace()._vertex.subToVector3D(_vertex);
+		final WB_Vector vn = WB_Vector.subToVector3D(getNextInFace()._vertex, _vertex);
 		vn.normalizeSelf();
 		v = v.cross(vn);
 		final WB_Coord n;
@@ -232,7 +229,7 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor, Comparab
 	 */
 	public WB_Coord getHalfedgeTangent() {
 		if (_pair != null && _vertex != null && _pair.getVertex() != null) {
-			final WB_Vector v = _pair.getVertex().subToVector3D(_vertex);
+			final WB_Vector v = WB_Vector.subToVector3D(_pair.getVertex(), _vertex);
 			v.normalizeSelf();
 			return v;
 		}
@@ -480,26 +477,6 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor, Comparab
 				+ getVertex().key() + ". Is this an edge: " + isEdge() + ".";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_HasColor#getColor()
-	 */
-	@Override
-	public int getColor() {
-		return hecolor;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_HasColor#setColor(int)
-	 */
-	@Override
-	public void setColor(final int color) {
-		hecolor = color;
-	}
-
 	/**
 	 *
 	 *
@@ -507,6 +484,15 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor, Comparab
 	 */
 	public double getLength() {
 		return WB_GeometryOp.getDistance3D(getVertex(), getEndVertex());
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public double getSqLength() {
+		return WB_GeometryOp.getSqDistance3D(getVertex(), getEndVertex());
 	}
 
 	/**
@@ -641,7 +627,6 @@ public class HE_Halfedge extends HE_MeshElement implements WB_HasColor, Comparab
 	 */
 	public void copyProperties(final HE_Halfedge el) {
 		super.copyProperties(el);
-		hecolor = el.getColor();
 		if (el.getUVW() == null) {
 			uvw = null;
 		} else {

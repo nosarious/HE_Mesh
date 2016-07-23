@@ -44,7 +44,7 @@ class WB_GeodesicII {
 
 		private final int v, hv;
 
-		private WB_FacelistMesh mesh;
+		private WB_Mesh mesh;
 
 		private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
 
@@ -104,7 +104,7 @@ class WB_GeodesicII {
 		 *
 		 * @return
 		 */
-		public WB_FacelistMesh getMesh() {
+		public WB_Mesh getMesh() {
 			createMesh();
 			return mesh;
 		}

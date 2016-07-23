@@ -14,8 +14,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import wblut.geom.WB_Frame;
-import wblut.geom.WB_FrameNode;
-import wblut.geom.WB_FrameStrut;
+import wblut.geom.WB_Frame.WB_FrameNode;
+import wblut.geom.WB_Frame.WB_FrameStrut;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;

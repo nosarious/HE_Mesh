@@ -14,7 +14,7 @@ var searchData=
   ['depth',['depth',['../classwblut_1_1core_1_1_w_b___progress_tracker.html#a7b373c181d81a889f2bbaac046531bb8',1,'wblut::core::WB_ProgressTracker']]],
   ['diff',['DIFF',['../enumwblut_1_1geom_1_1_w_b___classification.html#a3d681be97fdf934eef366b9ad2c1d1f4',1,'wblut::geom::WB_Classification']]],
   ['diffexcl',['DIFFEXCL',['../enumwblut_1_1geom_1_1_w_b___classification.html#ae941b9fdc514fe807e9ca106b0552d55',1,'wblut::geom::WB_Classification']]],
-  ['dihedral',['dihedral',['../classwblut_1_1geom_1_1_w_b___geodesic_math_1_1_w_b___great_circle_intersection.html#acd32a3b305dd2b0fc8b99b283f94c938',1,'wblut::geom::WB_GeodesicMath::WB_GreatCircleIntersection']]],
+  ['dihedral',['dihedral',['../classwblut_1_1geom_1_1_w_b___geodesic_i_1_1_w_b___great_circle_intersection.html#aff4d0a4c20e84993596c21d34b13e737',1,'wblut::geom::WB_GeodesicI::WB_GreatCircleIntersection']]],
   ['dimension',['dimension',['../classwblut_1_1geom_1_1_w_b___intersection_result.html#a19e0771ca8eecf86b825642bfbd864df',1,'wblut::geom::WB_IntersectionResult']]],
   ['dir',['dir',['../classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ac3460515933e7e20b63987ff9dc5c0ea',1,'wblut::hemesh::HEC_VoronoiSphere']]],
   ['direction',['direction',['../classwblut_1_1geom_1_1_w_b___linear.html#a652c4d0550cf8c7c78458d019935e835',1,'wblut::geom::WB_Linear']]],

@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -15,12 +15,12 @@ import javolution.util.FastTable;
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
 public class WB_Ring extends WB_PolyLine {
 
 	/**
-	 * 
+	 *
 	 */
 	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
 
@@ -32,7 +32,7 @@ public class WB_Ring extends WB_PolyLine {
 	 */
 	@Override
 	public WB_Vector getDirection(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 1))) {
+		if (i < 0 || i > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 1) + ".");
 		}
 		return directions.get(i);
@@ -46,7 +46,7 @@ public class WB_Ring extends WB_PolyLine {
 	 */
 	@Override
 	public WB_Vector getNormal(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 1))) {
+		if (i < 0 || i > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 1) + ".");
 		}
 		WB_Vector n = geometryfactory.createVector(0, 0, 1);
@@ -67,7 +67,7 @@ public class WB_Ring extends WB_PolyLine {
 	 */
 	@Override
 	public double a(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 1))) {
+		if (i < 0 || i > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 1) + ".");
 		}
 		return -directions.get(i).yd();
@@ -81,7 +81,7 @@ public class WB_Ring extends WB_PolyLine {
 	 */
 	@Override
 	public double b(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 1))) {
+		if (i < 0 || i > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 1) + ".");
 		}
 		return directions.get(i).xd();
@@ -95,33 +95,33 @@ public class WB_Ring extends WB_PolyLine {
 	 */
 	@Override
 	public double c(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 1))) {
+		if (i < 0 || i > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 1) + ".");
 		}
-		return (points.get(i).xd() * directions.get(i).yd()) - (points.get(i).yd() * directions.get(i).xd());
+		return points.get(i).xd() * directions.get(i).yd() - points.get(i).yd() * directions.get(i).xd();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_PolyLine#getLength(int)
 	 */
 	@Override
 	public double getLength(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 1))) {
+		if (i < 0 || i > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 1) + ".");
 		}
-		return incLengths[i] - ((i == 0) ? 0 : incLengths[i - 1]);
+		return incLengths[i] - (i == 0 ? 0 : incLengths[i - 1]);
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	protected WB_Ring() {
 	};
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 */
@@ -131,7 +131,7 @@ public class WB_Ring extends WB_PolyLine {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 */
@@ -141,7 +141,7 @@ public class WB_Ring extends WB_PolyLine {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void getDirections() {
 		directions = new FastTable<WB_Vector>();
@@ -149,7 +149,7 @@ public class WB_Ring extends WB_PolyLine {
 		for (int i = 0; i < numberOfPoints; i++) {
 			final int in = (i + 1) % numberOfPoints;
 			final WB_Vector v = new WB_Vector(points.get(i), points.get(in));
-			incLengths[i] = (i == 0) ? v.getLength3D() : incLengths[i - 1] + v.getLength3D();
+			incLengths[i] = i == 0 ? v.getLength3D() : incLengths[i - 1] + v.getLength3D();
 			v.normalizeSelf();
 			directions.add(v);
 		}
@@ -158,7 +158,7 @@ public class WB_Ring extends WB_PolyLine {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_PolyLine#equals(java.lang.Object)
 	 */
 	@Override
@@ -181,18 +181,8 @@ public class WB_Ring extends WB_PolyLine {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.geom.WB_PolyLine#getType()
-	 */
-	@Override
-	public WB_GeometryType getType() {
-		return WB_GeometryType.RING;
-	}
-
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -219,12 +209,12 @@ public class WB_Ring extends WB_PolyLine {
 			if (iPrev < 0) {
 				iPrev = nPts;
 			}
-		} while (getPoint(iPrev).equals(hiPt) && (iPrev != hiIndex));
+		} while (getPoint(iPrev).equals(hiPt) && iPrev != hiIndex);
 		// find distinct point after highest point
 		int iNext = hiIndex;
 		do {
 			iNext = (iNext + 1) % nPts;
-		} while (getPoint(iNext).equals(hiPt) && (iNext != hiIndex));
+		} while (getPoint(iNext).equals(hiPt) && iNext != hiIndex);
 		final WB_Point prev = getPoint(iPrev);
 		final WB_Point next = getPoint(iNext);
 		/**
@@ -251,17 +241,17 @@ public class WB_Ring extends WB_PolyLine {
 		boolean isCCW = false;
 		if (disc == 0) {
 			// poly is CCW if prev x is right of next x
-			isCCW = (prev.xd() > next.xd());
+			isCCW = prev.xd() > next.xd();
 		} else {
 			// if area is positive, points are ordered CCW
-			isCCW = (disc > 0);
+			isCCW = disc > 0;
 		}
 		return isCCW;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_PolyLine#apply(wblut.geom.WB_Transform)
 	 */
 	@Override
@@ -276,12 +266,12 @@ public class WB_Ring extends WB_PolyLine {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_PolyLine#getPoint(int)
 	 */
 	@Override
 	public WB_Point getPoint(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 1))) {
+		if (i < 0 || i > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter " + i + " must between 0 and " + (numberOfPoints - 1) + ".");
 		}
 		return points.get(i);
@@ -289,12 +279,12 @@ public class WB_Ring extends WB_PolyLine {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_PolyLine#getd(int, int)
 	 */
 	@Override
 	public double getd(final int i, final int j) {
-		if ((i < 0) || (i > (numberOfPoints - 1))) {
+		if (i < 0 || i > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter " + i + " must between 0 and " + (numberOfPoints - 1) + ".");
 		}
 		return points.get(i).getd(j);
@@ -302,12 +292,12 @@ public class WB_Ring extends WB_PolyLine {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_PolyLine#getf(int, int)
 	 */
 	@Override
 	public float getf(final int i, final int j) {
-		if ((i < 0) || (i > (numberOfPoints - 1))) {
+		if (i < 0 || i > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter " + i + " must between 0 and " + (numberOfPoints - 1) + ".");
 		}
 		return points.get(i).getf(j);
@@ -315,12 +305,12 @@ public class WB_Ring extends WB_PolyLine {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_PolyLine#getPointOnLine(double)
 	 */
 	@Override
 	public WB_Point getPointOnLine(final double t) {
-		if ((t < 0) || (t > incLengths[numberOfPoints - 1])) {
+		if (t < 0 || t > incLengths[numberOfPoints - 1]) {
 			throw new IllegalArgumentException(
 					"Parameter must between 0 and length of polyline" + incLengths[numberOfPoints - 1] + " .");
 		}
@@ -337,12 +327,12 @@ public class WB_Ring extends WB_PolyLine {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_PolyLine#getParametricPointOnLine(double)
 	 */
 	@Override
 	public WB_Point getParametricPointOnLine(final double t) {
-		if ((t < 0) || (t > (numberOfPoints - 1))) {
+		if (t < 0 || t > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 1) + ".");
 		}
 		final double ft = t - (int) t;
@@ -354,7 +344,7 @@ public class WB_Ring extends WB_PolyLine {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_PolyLine#getNumberOfPoints()
 	 */
 	@Override
@@ -364,12 +354,12 @@ public class WB_Ring extends WB_PolyLine {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_PolyLine#getSegment(int)
 	 */
 	@Override
 	public WB_Segment getSegment(final int i) {
-		if ((i < 0) || (i > (numberOfPoints - 1))) {
+		if (i < 0 || i > numberOfPoints - 1) {
 			throw new IllegalArgumentException("Parameter must between 0 and " + (numberOfPoints - 1) + ".");
 		}
 		return geometryfactory.createSegment(getPoint(i), getPoint((i + 1) % numberOfPoints));

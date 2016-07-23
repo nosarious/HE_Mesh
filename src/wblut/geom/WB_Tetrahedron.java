@@ -3,16 +3,16 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
 /**
  *
  */
-public class WB_Tetrahedron implements WB_Simplex {
+public class WB_Tetrahedron {
 
 	/**
 	 *
@@ -53,8 +53,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 	 * @param p3
 	 * @param p4
 	 */
-	public WB_Tetrahedron(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3,
-			final WB_Coord p4) {
+	public WB_Tetrahedron(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3, final WB_Coord p4) {
 		this.p1 = geometryfactory.createPoint(p1);
 		this.p2 = geometryfactory.createPoint(p2);
 		this.p3 = geometryfactory.createPoint(p3);
@@ -100,19 +99,9 @@ public class WB_Tetrahedron implements WB_Simplex {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see wblut.geom.WB_Geometry#getType()
-	 */
-	@Override
-	public WB_GeometryType getType() {
-		return WB_GeometryType.TETRAHEDRON;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
 	 * @see wblut.geom.WB_Simplex#getPoint(int)
 	 */
-	@Override
+
 	public WB_Coord getPoint(final int i) {
 		if (i == 0) {
 			return p1;
@@ -131,7 +120,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 	 *
 	 * @see wblut.geom.WB_Simplex#getCenter()
 	 */
-	@Override
+
 	public WB_Point getCenter() {
 		return geometryfactory.createMidpoint(p1, p2, p3, p3);
 	}
@@ -209,8 +198,7 @@ public class WB_Tetrahedron implements WB_Simplex {
 		final double sixV = Math.abs(a.dot(bXc));
 		c.crossSelf(a);
 		a.crossSelf(b);
-		final double denom = bXc.getLength3D() + c.getLength3D() + a.getLength3D()
-		+ (bXc.addMulSelf(2, a).getLength3D());
+		final double denom = bXc.getLength3D() + c.getLength3D() + a.getLength3D() + bXc.addMulSelf(2, a).getLength3D();
 		return sixV / denom;
 	}
 
@@ -266,21 +254,15 @@ public class WB_Tetrahedron implements WB_Simplex {
 	 * @return
 	 */
 	public boolean isAcute() {
-		return (geometryfactory.getCosDihedralAngle(p1, p2, p3, p4) > 0.0)
-				&& (geometryfactory.getCosDihedralAngle(p1, p2, p4, p3) > 0.0)
-				&& (geometryfactory.getCosDihedralAngle(p1, p3, p4, p2) > 0.0)
-				&& (geometryfactory.getCosDihedralAngle(p3, p1, p2, p4) > 0.0)
-				&& (geometryfactory.getCosDihedralAngle(p2, p1, p3, p4) > 0.0)
-				&& (geometryfactory.getCosDihedralAngle(p2, p1, p4, p3) > 0.0);
+		return geometryfactory.getCosDihedralAngle(p1, p2, p3, p4) > 0.0
+				&& geometryfactory.getCosDihedralAngle(p1, p2, p4, p3) > 0.0
+				&& geometryfactory.getCosDihedralAngle(p1, p3, p4, p2) > 0.0
+				&& geometryfactory.getCosDihedralAngle(p3, p1, p2, p4) > 0.0
+				&& geometryfactory.getCosDihedralAngle(p2, p1, p3, p4) > 0.0
+				&& geometryfactory.getCosDihedralAngle(p2, p1, p4, p3) > 0.0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
-	 */
-	@Override
-	public WB_Geometry apply(final WB_Transform T) {
+	public WB_Tetrahedron apply(final WB_Transform T) {
 		return geometryfactory.createTetrahedron(p1.applyAsPoint(T), p2.applyAsPoint(T), p3.applyAsPoint(T),
 				p4.applyAsPoint(T));
 	}

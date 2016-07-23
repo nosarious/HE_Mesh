@@ -174,7 +174,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>TETRAHEDRON
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geodesic.html#a07acb0b1b9fa470ad5e49927e151debc">wblut.geom.WB_Geodesic</a>
-, <a class="el" href="enumwblut_1_1geom_1_1_w_b___geometry_type.html#a7c0a2cedaefd28803cb6ba45b3f80b3e">wblut.geom.WB_GeometryType</a>
 , <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___geodesic.html#a2f59b7e070565051f0b46412277f726e">wblut.hemesh.HEC_Geodesic</a>
 </li>
 <li>tetrakaidecahedron
@@ -205,15 +204,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>tiles
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___danzer.html#acc3bcea0dcc663418a264767afd3f355">wblut.geom.WB_Danzer</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___danzer3_d.html#abfb14196480151e46635a44dd48799a1">wblut.geom.WB_Danzer3D</a>
 </li>
 <li>toModelview
 : <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a83505ecccfe92d7defc5fee126b5f1ae">wblut.hemesh.HEC_Creator</a>
 </li>
 <li>topcap
-: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___cylinder.html#aa3dc95fffe70df7dcce751f816b06d1b">wblut.hemesh.HEC_Cylinder</a>
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___capsule.html#af6ce499f08d0b4ee7518fe7154297c03">wblut.hemesh.HEC_Capsule</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___cylinder.html#aa3dc95fffe70df7dcce751f816b06d1b">wblut.hemesh.HEC_Cylinder</a>
 , <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___data_cylinder.html#a67737d88d29a50b3d277f62e17e3eb04">wblut.hemesh.HEC_DataCylinder</a>
 , <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___sweep_tube.html#ab3f456b55e1ed6da24262abafd4cf42b">wblut.hemesh.HEC_SweepTube</a>
+</li>
+<li>topcapfacets
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___capsule.html#a6c52ef4c9166f82dc1042447cfb32842">wblut.hemesh.HEC_Capsule</a>
 </li>
 <li>torusfacets
 : <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___torus.html#a96ea4689fffd86cc90360e168e8468c6">wblut.hemesh.HEC_Torus</a>
@@ -240,9 +242,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>tree
 : <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___shrink_wrap.html#a42080c1302b83f81ffa0be0eeac2800e">wblut.hemesh.HEC_ShrinkWrap</a>
 </li>
-<li>TRIANGLE
-: <a class="el" href="enumwblut_1_1geom_1_1_w_b___geometry_type.html#a19215e424ffb8b0a82a3a103b2a5b0e4">wblut.geom.WB_GeometryType</a>
-</li>
 <li>triangles
 : <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___triangulate.html#a9f7d100d38aa24f660df9068cfb1a3a1">wblut.hemesh.HEM_Triangulate</a>
 , <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___triangulate_m_t.html#ad337cb66e8bfca1c2e38a4b7c2ca242a">wblut.hemesh.HEM_TriangulateMT</a>
@@ -268,7 +267,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>type
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___danzer.html#a9e89da867a71fcd4cabe9ef90706032d">wblut.geom.WB_Danzer</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___danzer3_d.html#a63cc6e90ebdbb4a996265a0154aab01c">wblut.geom.WB_Danzer3D</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___geodesic.html#ab43638c97b59a0288f4c9a3d0f94a3d5">wblut.geom.WB_Geodesic</a>
 , <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___archimedes.html#ad4c1b9e59e3f36df3e5398c142380b52">wblut.hemesh.HEC_Archimedes</a>
 , <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___catalan.html#a33eda7095e38d8c9e79e4a978277e762">wblut.hemesh.HEC_Catalan</a>
@@ -281,7 +279,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 1 2016 00:03:08 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 23 2016 12:41:20 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

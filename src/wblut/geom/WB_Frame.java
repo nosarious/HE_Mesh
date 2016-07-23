@@ -18,6 +18,7 @@ import java.util.List;
 import javolution.util.FastTable;
 import wblut.hemesh.HEC_Geodesic;
 import wblut.hemesh.HE_Mesh;
+import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
 
 public class WB_Frame {
@@ -741,4 +742,497 @@ public class WB_Frame {
 		}
 		return points;
 	}
+
+	public class WB_FrameNode extends WB_Point {
+
+		private final FastTable<WB_FrameStrut> struts;
+
+		protected final int index;
+
+		protected double value;
+
+		/**
+		 *
+		 *
+		 * @param pos
+		 * @param id
+		 * @param v
+		 */
+		public WB_FrameNode(final WB_Coord pos, final int id, final double v) {
+			super(pos);
+			index = id;
+			struts = new FastTable<WB_FrameStrut>();
+			value = v == 0 ? 10 * WB_Epsilon.EPSILON : v;
+		}
+
+		/**
+		 *
+		 *
+		 * @param strut
+		 * @return
+		 */
+		public boolean addStrut(final WB_FrameStrut strut) {
+			if (strut.start() != this && strut.end() != this) {
+				return false;
+			}
+			for (int i = 0; i < struts.size(); i++) {
+				if (struts.get(i).start() == strut.start() && struts.get(i).end() == strut.end()) {
+					return false;
+				}
+			}
+			struts.add(strut);
+			return true;
+		}
+
+		/**
+		 *
+		 *
+		 * @param strut
+		 * @return
+		 */
+		public boolean removeStrut(final WB_FrameStrut strut) {
+			if (strut.start() != this && strut.end() != this) {
+				return false;
+			}
+			struts.remove(strut);
+			return true;
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public ArrayList<WB_FrameStrut> getStruts() {
+			final ArrayList<WB_FrameStrut> result = new ArrayList<WB_FrameStrut>();
+			result.addAll(struts);
+			return result;
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public ArrayList<WB_FrameNode> getNeighbors() {
+			final ArrayList<WB_FrameNode> result = new ArrayList<WB_FrameNode>();
+			for (int i = 0; i < struts.size(); i++) {
+				if (struts.get(i).start() == this) {
+					result.add(struts.get(i).end());
+				} else {
+					result.add(struts.get(i).start());
+				}
+			}
+			return result;
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public int getIndex() {
+			return index;
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public double findSmallestSpan() {
+			double minAngle = Double.MAX_VALUE;
+			for (int i = 0; i < getOrder(); i++) {
+				minAngle = Math.min(minAngle, findSmallestSpanAroundStrut(i));
+			}
+			return minAngle;
+		}
+
+		/**
+		 *
+		 *
+		 * @param strut
+		 * @return
+		 */
+		public double findSmallestSpanAroundStrut(final WB_FrameStrut strut) {
+			return findSmallestSpanAroundStrut(struts.indexOf(strut));
+		}
+
+		/**
+		 *
+		 *
+		 * @param i
+		 * @return
+		 */
+		public double findSmallestSpanAroundStrut(final int i) {
+			final int n = struts.size();
+			if (i < 0 || i >= n) {
+				throw new IllegalArgumentException("Index beyond strut range.");
+			}
+			final ArrayList<WB_FrameNode> nnodes = getNeighbors();
+			if (n == 1) {
+				return 2 * Math.PI;
+			} else if (n == 2) {
+				final WB_Vector u = nnodes.get(0).subToVector3D(this);
+				final WB_Vector w = nnodes.get(1).subToVector3D(this);
+				u.normalizeSelf();
+				w.normalizeSelf();
+				final double udw = WB_Math.clamp(u.dot(w), -1, 1);
+				if (udw < WB_Epsilon.EPSILON - 1) {
+					return Math.PI;
+				} else {
+					return Math.acos(udw);
+				}
+			} else {
+				double minAngle = Double.MAX_VALUE;
+				final WB_Vector u = nnodes.get(i).subToVector3D(this);
+				u.normalizeSelf();
+				for (int j = 0; j < n; j++) {
+					if (i != j) {
+						final WB_Vector w = nnodes.get(j).subToVector3D(this);
+						w.normalizeSelf();
+						final double a = Math.acos(u.dot(w));
+						minAngle = WB_Math.min(minAngle, a);
+					}
+				}
+				return minAngle;
+			}
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public double findShortestStrut() {
+			double minLength = Double.MAX_VALUE;
+			for (int i = 0; i < struts.size(); i++) {
+				minLength = Math.min(minLength, struts.get(i).getSqLength());
+			}
+			return Math.sqrt(minLength);
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public int getOrder() {
+			return struts.size();
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public double getValue() {
+			return value;
+		}
+
+		/**
+		 *
+		 *
+		 * @param v
+		 */
+		public void setValue(final double v) {
+			value = v == 0 ? 10 * WB_Epsilon.EPSILON : v;
+		}
+
+		/**
+		 *
+		 *
+		 * @param index
+		 * @return
+		 */
+		public WB_FrameStrut getStrut(final int index) {
+			if (index < 0 || index >= struts.size()) {
+				throw new IllegalArgumentException("Index outside of strut range.");
+			}
+			return struts.get(index);
+		}
+
+		/**
+		 *
+		 *
+		 * @param index
+		 */
+		public void removeStrut(final int index) {
+			if (index < 0 || index >= struts.size()) {
+				throw new IllegalArgumentException("Index outside of strut range.");
+			}
+			struts.remove(index);
+		}
+
+		/**
+		 *
+		 *
+		 * @param index
+		 * @return
+		 */
+		public WB_FrameNode getNeighbor(final int index) {
+			if (index < 0 || index >= struts.size()) {
+				throw new IllegalArgumentException("Index outside of strut range.");
+			}
+			if (struts.get(index).start() == this) {
+				return struts.get(index).end();
+			}
+			return struts.get(index).start();
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public WB_Point toPoint() {
+			return new WB_Point(xd(), yd(), zd());
+		}
+	}
+
+	public class WB_FrameStrut {
+
+		private final WB_FrameNode start;
+
+		private final WB_FrameNode end;
+
+		private final int index;
+
+		private double radiuss;
+
+		private double radiuse;
+
+		private double offsets;
+
+		private double offsete;
+
+		/**
+		 *
+		 *
+		 * @param s
+		 * @param e
+		 * @param id
+		 */
+		public WB_FrameStrut(final WB_FrameNode s, final WB_FrameNode e, final int id) {
+			start = s;
+			end = e;
+			index = id;
+		}
+
+		/**
+		 *
+		 *
+		 * @param s
+		 * @param e
+		 * @param id
+		 * @param r
+		 */
+		public WB_FrameStrut(final WB_FrameNode s, final WB_FrameNode e, final int id, final double r) {
+			start = s;
+			end = e;
+			index = id;
+			radiuss = radiuse = r;
+		}
+
+		/**
+		 *
+		 *
+		 * @param s
+		 * @param e
+		 * @param id
+		 * @param rs
+		 * @param re
+		 */
+		public WB_FrameStrut(final WB_FrameNode s, final WB_FrameNode e, final int id, final double rs,
+				final double re) {
+			start = s;
+			end = e;
+			index = id;
+			radiuss = rs;
+			radiuse = re;
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public WB_FrameNode start() {
+			return start;
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public WB_FrameNode end() {
+			return end;
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public int getStartIndex() {
+			return start.getIndex();
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public int getEndIndex() {
+			return end.getIndex();
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public int getIndex() {
+			return index;
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public WB_Vector toVector() {
+			return end().subToVector3D(start());
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public WB_Vector toNormVector() {
+			final WB_Vector v = end().subToVector3D(start());
+			v.normalizeSelf();
+			return v;
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public double getSqLength() {
+			return WB_GeometryOp.getSqDistance3D(end(), start());
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public double getLength() {
+			return WB_GeometryOp.getDistance3D(end(), start());
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public double getRadiusStart() {
+			return radiuss;
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public double getRadiusEnd() {
+			return radiuse;
+		}
+
+		/**
+		 *
+		 *
+		 * @param r
+		 */
+		public void setRadiusStart(final double r) {
+			radiuss = r;
+		}
+
+		/**
+		 *
+		 *
+		 * @param r
+		 */
+		public void setRadiusEnd(final double r) {
+			radiuse = r;
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public double getOffsetStart() {
+			return offsets;
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public double getOffsetEnd() {
+			return offsete;
+		}
+
+		/**
+		 *
+		 *
+		 * @param o
+		 */
+		public void setOffsetStart(final double o) {
+			offsets = o;
+		}
+
+		/**
+		 *
+		 *
+		 * @param o
+		 */
+		public void setOffsetEnd(final double o) {
+			offsete = o;
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public WB_Point getCenter() {
+			return end().add(start()).mulSelf(0.5);
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public WB_Segment toSegment() {
+			return new WB_Segment(start, end);
+		}
+
+		/**
+		 *
+		 *
+		 * @return
+		 */
+		public WB_Plane toPlane() {
+			return new WB_Plane(start().toPoint(), toVector());
+		}
+	}
+
 }

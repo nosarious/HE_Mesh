@@ -33,7 +33,7 @@ public class WB_VoronoiCell3D {
 	/**
 	 *
 	 */
-	WB_FacelistMesh cell;
+	WB_Mesh cell;
 
 	/**
 	 *
@@ -94,7 +94,7 @@ public class WB_VoronoiCell3D {
 	 * @param generator
 	 * @param index
 	 */
-	public WB_VoronoiCell3D(final WB_FacelistMesh cell, final WB_Point generator, final int index) {
+	public WB_VoronoiCell3D(final WB_Mesh cell, final WB_Point generator, final int index) {
 		this.generator = generator;
 		this.index = index;
 		this.cell = cell;
@@ -143,7 +143,7 @@ public class WB_VoronoiCell3D {
 	 * @param convexMesh
 	 * @param d
 	 */
-	public void constrain(final WB_FacelistMesh convexMesh, final double d) {
+	public void constrain(final WB_Mesh convexMesh, final double d) {
 		constrain(convexMesh.getPlanes(d));
 	}
 
@@ -152,7 +152,7 @@ public class WB_VoronoiCell3D {
 	 *
 	 * @param convexMesh
 	 */
-	public void constrain(final WB_FacelistMesh convexMesh) {
+	public void constrain(final WB_Mesh convexMesh) {
 		constrain(convexMesh.getPlanes(0));
 	}
 
@@ -264,7 +264,7 @@ public class WB_VoronoiCell3D {
 	 *
 	 * @return
 	 */
-	public WB_FacelistMesh getMesh() {
+	public WB_Mesh getMesh() {
 		return cell;
 	}
 

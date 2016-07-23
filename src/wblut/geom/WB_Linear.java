@@ -3,22 +3,20 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 
 package wblut.geom;
 
 import wblut.math.WB_Epsilon;
 
-
 public abstract class WB_Linear {
 
 	protected WB_Point origin;
 
 	protected WB_Vector direction;
-
 
 	/**
 	 *
@@ -27,7 +25,6 @@ public abstract class WB_Linear {
 		origin = new WB_Point();
 		direction = new WB_Vector(1, 0, 0);
 	}
-
 
 	/**
 	 *
@@ -42,7 +39,6 @@ public abstract class WB_Linear {
 		direction = dn;
 	}
 
-
 	/**
 	 *
 	 *
@@ -55,7 +51,6 @@ public abstract class WB_Linear {
 		dn.normalizeSelf();
 		direction = dn;
 	}
-
 
 	/**
 	 *
@@ -70,7 +65,6 @@ public abstract class WB_Linear {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -81,7 +75,6 @@ public abstract class WB_Linear {
 		p.set(new WB_Vector(direction).mulSelf(t).addSelf(origin));
 	}
 
-
 	/**
 	 *
 	 *
@@ -90,7 +83,6 @@ public abstract class WB_Linear {
 	public WB_Coord getOrigin() {
 		return origin;
 	}
-
 
 	/**
 	 *
@@ -101,9 +93,8 @@ public abstract class WB_Linear {
 		return direction;
 	}
 
-
 	/**
-	 *
+	 * Get vector perpendicular to the line
 	 *
 	 * @return
 	 */
@@ -117,33 +108,33 @@ public abstract class WB_Linear {
 		return n;
 	}
 
-
 	/**
+	 * a.x+b.y+c=0
 	 *
-	 *
-	 * @return
+	 * @return a for a 2D line
 	 */
+
 	public double a() {
 		return -direction.yd();
 	}
 
-
 	/**
+	 * a.x+b.y+c=0
 	 *
-	 *
-	 * @return
+	 * @return b for a 2D line
 	 */
+
 	public double b() {
 		return direction.xd();
 	}
 
-
 	/**
+	 * a.x+b.y+c=0
 	 *
-	 *
-	 * @return
+	 * @return c for a 2D line
 	 */
+
 	public double c() {
-		return (origin.xd() * direction.yd()) - (origin.yd() * direction.xd());
+		return origin.xd() * direction.yd() - origin.yd() * direction.xd();
 	}
 }

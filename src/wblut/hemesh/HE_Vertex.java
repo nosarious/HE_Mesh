@@ -17,7 +17,6 @@ import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_CoordinateSystem;
 import wblut.geom.WB_GeometryOp;
-import wblut.geom.WB_HasColor;
 import wblut.geom.WB_HashCode;
 import wblut.geom.WB_MutableCoord;
 import wblut.geom.WB_MutableCoordinateFull;
@@ -34,13 +33,12 @@ import wblut.math.WB_Math;
  * @author Frederik Vanhoutte (W:Blut)
  *
  */
-public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_MutableCoordinateFull {
+public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFull {
 	double vx, vy, vz;
 
 	/** Halfedge associated with this vertex. */
 	private HE_Halfedge _halfedge;
 
-	private int vertexcolor;
 	private HE_TextureCoordinate uvw = null;
 
 	/**
@@ -49,7 +47,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	public HE_Vertex() {
 		super();
 		vx = vy = vz = 0;
-		vertexcolor = -1;
 		uvw = null;
 
 	}
@@ -69,7 +66,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 		vx = x;
 		vy = y;
 		vz = z;
-		vertexcolor = -1;
 		uvw = null;
 	}
 
@@ -84,7 +80,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 		vx = v.xd();
 		vy = v.yd();
 		vz = v.zd();
-		vertexcolor = -1;
 		uvw = null;
 	}
 
@@ -138,7 +133,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 *
 	 * @return
 	 */
-	public HE_Vertex get() {
+	public HE_Vertex copy() {
 		final HE_Vertex copy = new HE_Vertex(vx, vy, vz);
 		copy.copyProperties(this);
 		return copy;
@@ -673,52 +668,13 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 		vz = z;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_HasColor#getColor()
-	 */
-	@Override
-	public int getColor() {
-		return vertexcolor;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_HasColor#setColor(int)
-	 */
-	@Override
-	public void setColor(final int color) {
-		vertexcolor = color;
-	}
-
 	/**
 	 *
 	 *
 	 * @return
 	 */
-	public WB_CoordinateSystem getCS() {
-		WB_Coord vn = getVertexNormal();
-
-		final WB_Vector normal = vn == null ? null : new WB_Vector(getVertexNormal());
-		if (normal == null) {
-			return null;
-		}
-		WB_Vector t2 = new WB_Vector();
-		if (Math.abs(normal.xd()) < Math.abs(normal.yd())) {
-			t2.setX(1.0);
-		} else {
-			t2.setY(1.0);
-		}
-		final WB_Vector t1 = normal.cross(t2);
-		final double n = t1.getLength3D();
-		if (n < WB_Epsilon.EPSILON) {
-			return null;
-		}
-		t1.mulSelf(1.0 / n);
-		t2 = normal.cross(t1);
-		return gf.createCSFromOXYZ(this, t1, t2, normal);
+	public WB_CoordinateSystem getVertexCS() {
+		return HET_MeshOp.getVertexCS(this);
 	}
 
 	// Common area-weighted mean normal
@@ -728,7 +684,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 * @return
 	 */
 	public WB_Coord getVertexNormal() {
-
 		return HET_MeshOp.getVertexNormal(this);
 	}
 
@@ -811,7 +766,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 */
 	public void copyProperties(final HE_Vertex el) {
 		super.copyProperties(el);
-		vertexcolor = el.getColor();
+
 		if (el.getVertexUVW() == null) {
 			uvw = null;
 		} else {
@@ -836,16 +791,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 * @return
 	 */
 	public double getUmbrellaAngle() {
-		double result = 0;
-		HE_Halfedge he = _halfedge;
-		if (he == null) {
-			return 0;
-		}
-		do {
-			result += he.getAngle();
-			he = he.getNextInVertex();
-		} while (he != _halfedge);
-		return result;
+		return HET_MeshOp.getUmbrellaAngle(this);
 	}
 
 	/**
@@ -1243,19 +1189,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 		return this;
 	}
 
-	/**
-	 *
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
-	 */
-	public HE_Vertex addSelf(final double x, final double y, final double z) {
-		set(xd() + x, yd() + y, zd() + z);
-		return this;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 *
@@ -1420,15 +1353,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 		return applyAsPointSelf(T);
 	}
 
-	/**
-	 *
-	 *
-	 * @return
-	 */
-	public double[] coords() {
-		return new double[] { xd(), yd(), zd() };
-	}
-
 	/*
 	 * (non-Javadoc)
 	 *
@@ -1554,17 +1478,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 		return WB_GeometryOp.angleBetween(xd(), yd(), zd(), p.xd(), p.yd(), p.zd());
 	}
 
-	/**
-	 *
-	 *
-	 * @param q
-	 * @param p
-	 * @return
-	 */
-	public double getAngle(final WB_Coord q, final WB_Coord p) {
-		return WB_GeometryOp.angleBetween(q.xd(), q.yd(), q.zd(), p.xd(), p.yd(), p.zd());
-	}
-
 	/*
 	 * (non-Javadoc)
 	 *
@@ -1574,17 +1487,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	@Override
 	public double getAngleNorm(final WB_Coord p) {
 		return WB_GeometryOp.angleBetweenNorm(xd(), yd(), zd(), p.xd(), p.yd(), p.zd());
-	}
-
-	/**
-	 *
-	 *
-	 * @param q
-	 * @param p
-	 * @return
-	 */
-	public double getAngleNorm(final WB_Coord q, final WB_Coord p) {
-		return WB_GeometryOp.angleBetweenNorm(q.xd(), q.yd(), q.zd(), p.xd(), p.yd(), p.zd());
 	}
 
 	/*
@@ -1719,77 +1621,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 		return WB_HashCode.calculateHashCode(xd(), yd(), zd());
 	}
 
-	/**
-	 *
-	 */
-	public void invert() {
-		mulSelf(-1);
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @param q
-	 * @return
-	 */
-	public boolean isCollinear(final WB_Coord p, final WB_Coord q) {
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(p, q))) {
-			return true;
-		}
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(this, q))) {
-			return true;
-		}
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(this, p))) {
-			return true;
-		}
-		return WB_Epsilon.isZeroSq(sub(p).cross(sub(q)).getSqLength3D());
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @return
-	 */
-	public boolean isParallel(final WB_Coord p) {
-		final double pm2 = p.xd() * p.xd() + p.yd() * p.yd() + p.zd() * p.zd();
-		return cross(p).getSqLength3D() / (pm2 * getSqLength3D()) < WB_Epsilon.SQEPSILON;
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @param t
-	 * @return
-	 */
-	public boolean isParallel(final WB_Coord p, final double t) {
-		final double pm2 = p.xd() * p.xd() + p.yd() * p.yd() + p.zd() * p.zd();
-		return cross(p).getSqLength3D() / (pm2 * getSqLength3D()) < t + WB_Epsilon.SQEPSILON;
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @return
-	 */
-	public boolean isParallelNorm(final WB_Coord p) {
-		return cross(p).getLength3D() < WB_Epsilon.EPSILON;
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @param t
-	 * @return
-	 */
-	public boolean isParallelNorm(final WB_Coord p, final double t) {
-		return cross(p).getLength3D() < t + WB_Epsilon.EPSILON;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 *
@@ -1916,24 +1747,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 * @see wblut.geom.WB_CoordinateTransform#rotateAbout2PointAxis(double,
 	 * double, double, double, double, double, double)
 	 */
-	/**
-	 * @deprecated Use
-	 *             {@link #rotateAboutAxis2P(double,double,double,double,double,double,double)}
-	 *             instead
-	 */
-	@Deprecated
-	@Override
-	public WB_Point rotateAbout2PointAxis(final double angle, final double p1x, final double p1y, final double p1z,
-			final double p2x, final double p2y, final double p2z) {
-		return rotateAboutAxis2P(angle, p1x, p1y, p1z, p2x, p2y, p2z);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_CoordinateTransform#rotateAbout2PointAxis(double,
-	 * double, double, double, double, double, double)
-	 */
 	@Override
 	public WB_Point rotateAboutAxis2P(final double angle, final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z) {
@@ -1942,22 +1755,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 		raa.addRotateAboutAxis(angle, new WB_Vector(p1x, p1y, p1z), new WB_Vector(p2x - p1x, p2y - p1y, p2z - p1z));
 		raa.applyAsPointSelf(result);
 		return result;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_CoordinateTransform#rotateAbout2PointAxis(double,
-	 * wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
-	 */
-	/**
-	 * @deprecated Use {@link #rotateAboutAxis2P(double,WB_Coord,WB_Coord)}
-	 *             instead
-	 */
-	@Deprecated
-	@Override
-	public WB_Point rotateAbout2PointAxis(final double angle, final WB_Coord p1, final WB_Coord p2) {
-		return rotateAboutAxis2P(angle, p1, p2);
 	}
 
 	/*
@@ -1982,25 +1779,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 	 * wblut.geom.WB_MutableCoordinateTransform#rotateAbout2PointAxisSelf(double
 	 * , double, double, double, double, double, double)
 	 */
-	/**
-	 * @deprecated Use
-	 *             {@link #rotateAboutAxis2PSelf(double,double,double,double,double,double,double)}
-	 *             instead
-	 */
-	@Deprecated
-	@Override
-	public HE_Vertex rotateAbout2PointAxisSelf(final double angle, final double p1x, final double p1y, final double p1z,
-			final double p2x, final double p2y, final double p2z) {
-		return rotateAboutAxis2PSelf(angle, p1x, p1y, p1z, p2x, p2y, p2z);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * wblut.geom.WB_MutableCoordinateTransform#rotateAbout2PointAxisSelf(double
-	 * , double, double, double, double, double, double)
-	 */
 	@Override
 	public HE_Vertex rotateAboutAxis2PSelf(final double angle, final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z) {
@@ -2008,23 +1786,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 		raa.addRotateAboutAxis(angle, new WB_Vector(p1x, p1y, p1z), new WB_Vector(p2x - p1x, p2y - p1y, p2z - p1z));
 		raa.applyAsPointSelf(this);
 		return this;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * wblut.geom.WB_MutableCoordinateTransform#rotateAbout2PointAxisSelf(double
-	 * , wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
-	 */
-	/**
-	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,WB_Coord,WB_Coord)}
-	 *             instead
-	 */
-	@Deprecated
-	@Override
-	public HE_Vertex rotateAbout2PointAxisSelf(final double angle, final WB_Coord p1, final WB_Coord p2) {
-		return rotateAboutAxis2PSelf(angle, p1, p2);
 	}
 
 	/*
@@ -2244,25 +2005,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 		return this;
 	}
 
-	/**
-	 *
-	 *
-	 * @param otherXYZ
-	 * @return
-	 */
-	public boolean smallerThan(final WB_Coord otherXYZ) {
-		int _tmp = WB_Epsilon.compareAbs(xd(), otherXYZ.xd());
-		if (_tmp != 0) {
-			return _tmp < 0;
-		}
-		_tmp = WB_Epsilon.compareAbs(yd(), otherXYZ.yd());
-		if (_tmp != 0) {
-			return _tmp < 0;
-		}
-		_tmp = WB_Epsilon.compareAbs(zd(), otherXYZ.zd());
-		return _tmp < 0;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 *
@@ -2338,17 +2080,6 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 		return new WB_M33(WB_GeometryOp.tensor3D(xd(), yd(), zd(), v.xd(), v.yd(), v.zd()));
 	}
 
-	/**
-	 *
-	 *
-	 * @param u
-	 * @param v
-	 * @return
-	 */
-	public WB_M33 tensor(final WB_Coord u, final WB_Coord v) {
-		return new WB_M33(WB_GeometryOp.tensor3D(u.xd(), u.yd(), u.zd(), v.xd(), v.yd(), v.zd()));
-	}
-
 	/*
 	 * (non-Javadoc)
 	 *
@@ -2363,48 +2094,18 @@ public class HE_Vertex extends HE_MeshElement implements WB_HasColor, WB_Mutable
 		return this;
 	}
 
-	/**
-	 *
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
-	 */
-	public WB_Vector subToVector3D(final double x, final double y, final double z) {
-		return new WB_Vector(this.xd() - x, this.yd() - y, this.zd() - z);
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @return
-	 */
-	public WB_Vector subToVector3D(final WB_Coord p) {
-		return new WB_Vector(xd() - p.xd(), yd() - p.yd(), zd() - p.zd());
-	}
-
-	/**
-	 *
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
-	 */
-	public WB_Vector subToVector2D(final double x, final double y, final double z) {
-		return new WB_Vector(this.xd() - x, this.yd() - y, 0);
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @return
-	 */
-	public WB_Vector subToVector2D(final WB_Coord p) {
-		return new WB_Vector(xd() - p.xd(), yd() - p.yd(), 0);
+	public boolean isNeighbor(final HE_Vertex v) {
+		if (getHalfedge() == null) {
+			return false;
+		}
+		HE_Halfedge he = getHalfedge();
+		do {
+			if (he.getEndVertex() == v) {
+				return true;
+			}
+			he = he.getNextInVertex();
+		} while (he != getHalfedge());
+		return false;
 	}
 
 }

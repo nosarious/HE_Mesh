@@ -40,11 +40,10 @@ public class HEC_Antiprism extends HEC_Creator {
 	}
 
 	/**
-	 * Sets the facets.
 	 *
 	 * @param n
-	 *
-	 * @return
+	 * @param r
+	 * @param d
 	 */
 	public HEC_Antiprism(final int n, final double r, final double d) {
 		this();

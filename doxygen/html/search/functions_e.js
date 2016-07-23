@@ -28,7 +28,7 @@ var searchData=
   ['normcolor',['normColor',['../classwblut_1_1core_1_1_w_b___color.html#a000a87c1b9e57f95392ce1aec5f91ea7',1,'wblut::core::WB_Color']]],
   ['numberoffaces',['numberOfFaces',['../classwblut_1_1geom_1_1_w_b___a_a_b_b.html#a23db9e989463a9baece42351e4295e42',1,'wblut::geom::WB_AABB']]],
   ['numberofmeshes',['numberOfMeshes',['../classwblut_1_1hemesh_1_1_h_e_m_c___multi_creator.html#a68fb968c3058deeeb4fab7a6ae45f651',1,'wblut::hemesh::HEMC_MultiCreator']]],
-  ['numberofpoints',['numberOfPoints',['../classwblut_1_1geom_1_1_w_b___a_a_b_b.html#a3b8d1c3f87f3567b20ec77af8318df7f',1,'wblut.geom.WB_AABB.numberOfPoints()'],['../classwblut_1_1geom_1_1_w_b___danzer.html#a6710d5cf8c17c228e0e43700f93d41e9',1,'wblut.geom.WB_Danzer.numberOfPoints()'],['../classwblut_1_1geom_1_1_w_b___danzer3_d.html#ae7325a28cc093e97cdc6ae2c72e88562',1,'wblut.geom.WB_Danzer3D.numberOfPoints()']]],
+  ['numberofpoints',['numberOfPoints',['../classwblut_1_1geom_1_1_w_b___a_a_b_b.html#a3b8d1c3f87f3567b20ec77af8318df7f',1,'wblut.geom.WB_AABB.numberOfPoints()'],['../classwblut_1_1geom_1_1_w_b___danzer.html#a6710d5cf8c17c228e0e43700f93d41e9',1,'wblut.geom.WB_Danzer.numberOfPoints()']]],
   ['numberofsegments',['numberOfSegments',['../classwblut_1_1geom_1_1_w_b___a_a_b_b.html#a4504a6c15c6ff69804b8dfe4809a6689',1,'wblut::geom::WB_AABB']]],
   ['numberoftriangles',['numberOfTriangles',['../classwblut_1_1geom_1_1_w_b___a_a_b_b.html#a6af3b276188faead99d3a2b4e09fdf99',1,'wblut::geom::WB_AABB']]]
 ];

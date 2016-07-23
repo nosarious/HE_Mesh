@@ -679,24 +679,6 @@ public class WB_Point extends WB_Vector {
 	 * @see wblut.geom.WB_CoordinateTransform#rotateAbout2PointAxis(double,
 	 * double, double, double, double, double, double)
 	 */
-	/**
-	 * @deprecated Use
-	 *             {@link #rotateAboutAxis2P(double,double,double,double,double,double,double)}
-	 *             instead
-	 */
-	@Deprecated
-	@Override
-	public WB_Point rotateAbout2PointAxis(final double angle, final double p1x, final double p1y, final double p1z,
-			final double p2x, final double p2y, final double p2z) {
-		return rotateAboutAxis2P(angle, p1x, p1y, p1z, p2x, p2y, p2z);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_CoordinateTransform#rotateAbout2PointAxis(double,
-	 * double, double, double, double, double, double)
-	 */
 	@Override
 	public WB_Point rotateAboutAxis2P(final double angle, final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z) {
@@ -705,22 +687,6 @@ public class WB_Point extends WB_Vector {
 		raa.addRotateAboutAxis(angle, new WB_Vector(p1x, p1y, p1z), new WB_Vector(p2x - p1x, p2y - p1y, p2z - p1z));
 		raa.applyAsPointSelf(result);
 		return result;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_CoordinateTransform#rotateAbout2PointAxis(double,
-	 * wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
-	 */
-	/**
-	 * @deprecated Use {@link #rotateAboutAxis2P(double,WB_Coord,WB_Coord)}
-	 *             instead
-	 */
-	@Deprecated
-	@Override
-	public WB_Point rotateAbout2PointAxis(final double angle, final WB_Coord p1, final WB_Coord p2) {
-		return rotateAboutAxis2P(angle, p1, p2);
 	}
 
 	/*
@@ -745,25 +711,6 @@ public class WB_Point extends WB_Vector {
 	 * wblut.geom.WB_MutableCoordinateTransform#rotateAbout2PointAxisSelf(double
 	 * , double, double, double, double, double, double)
 	 */
-	/**
-	 * @deprecated Use
-	 *             {@link #rotateAboutAxis2PSelf(double,double,double,double,double,double,double)}
-	 *             instead
-	 */
-	@Deprecated
-	@Override
-	public WB_Point rotateAbout2PointAxisSelf(final double angle, final double p1x, final double p1y, final double p1z,
-			final double p2x, final double p2y, final double p2z) {
-		return rotateAboutAxis2PSelf(angle, p1x, p1y, p1z, p2x, p2y, p2z);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * wblut.geom.WB_MutableCoordinateTransform#rotateAbout2PointAxisSelf(double
-	 * , double, double, double, double, double, double)
-	 */
 	@Override
 	public WB_Point rotateAboutAxis2PSelf(final double angle, final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z) {
@@ -771,23 +718,6 @@ public class WB_Point extends WB_Vector {
 		raa.addRotateAboutAxis(angle, new WB_Vector(p1x, p1y, p1z), new WB_Vector(p2x - p1x, p2y - p1y, p2z - p1z));
 		raa.applyAsPointSelf(this);
 		return this;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * wblut.geom.WB_MutableCoordinateTransform#rotateAbout2PointAxisSelf(double
-	 * , wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
-	 */
-	/**
-	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,WB_Coord,WB_Coord)}
-	 *             instead
-	 */
-	@Deprecated
-	@Override
-	public WB_Point rotateAbout2PointAxisSelf(final double angle, final WB_Coord p1, final WB_Coord p2) {
-		return rotateAboutAxis2PSelf(angle, p1, p2);
 	}
 
 	/*

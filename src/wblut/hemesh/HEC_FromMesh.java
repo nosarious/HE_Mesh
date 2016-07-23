@@ -64,7 +64,7 @@ public class HEC_FromMesh extends HEC_Creator {
 	 */
 	public HEC_FromMesh(final WB_MeshCreator source) {
 		super();
-		this.source = source.getMesh();
+		this.source = source.create();
 		duplicate = true;
 		normalcheck = false;
 		override = true;

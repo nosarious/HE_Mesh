@@ -40,7 +40,7 @@ class WB_GeodesicIII {
 
 		private final int type;
 
-		private WB_FacelistMesh mesh;
+		private WB_Mesh mesh;
 
 		private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
 
@@ -107,7 +107,7 @@ class WB_GeodesicIII {
 		 *
 		 * @return
 		 */
-		public WB_FacelistMesh getMesh() {
+		public WB_Mesh getMesh() {
 			createMesh();
 			return mesh;
 		}

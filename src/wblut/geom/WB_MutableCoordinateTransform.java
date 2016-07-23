@@ -56,41 +56,10 @@ public interface WB_MutableCoordinateTransform extends WB_CoordinateTransform {
 	 * @param p2y
 	 * @param p2z
 	 * @return
-	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,double,double,double,double,double,double)} instead
-	 */
-	@Deprecated
-	public WB_Coord rotateAbout2PointAxisSelf(final double angle,
-			final double p1x, final double p1y, final double p1z,
-			final double p2x, final double p2y, final double p2z);
-
-	/**
-	 *
-	 *
-	 * @param angle
-	 * @param p1x
-	 * @param p1y
-	 * @param p1z
-	 * @param p2x
-	 * @param p2y
-	 * @param p2z
-	 * @return
 	 */
 	public WB_Coord rotateAboutAxis2PSelf(final double angle,
 			final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z);
-
-	/**
-	 *
-	 *
-	 * @param angle
-	 * @param p1
-	 * @param p2
-	 * @return
-	 * @deprecated Use {@link #rotateAboutAxis2PSelf(double,WB_Coord,WB_Coord)} instead
-	 */
-	@Deprecated
-	public WB_Coord rotateAbout2PointAxisSelf(final double angle,
-			final WB_Coord p1, final WB_Coord p2);
 
 	/**
 	 *

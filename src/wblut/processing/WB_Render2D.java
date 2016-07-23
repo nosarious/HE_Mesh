@@ -30,12 +30,10 @@ import wblut.geom.WB_Triangulation2D;
 /**
  *
  */
-public class WB_Render2D extends WB_Processing{
+public class WB_Render2D extends WB_Processing {
 	/**
 	 *
 	 */
-
-
 
 	protected WB_Render2D() {
 		super();
@@ -98,37 +96,12 @@ public class WB_Render2D extends WB_Processing{
 	 *
 	 *
 	 * @param points
-	 * @deprecated Use {@link #drawPoint2D(Collection<? extends WB_Coord>)}
-	 *             instead
-	 */
-
-	@Deprecated
-	public void drawPoints2D(final Collection<? extends WB_Coord> points) {
-		drawPoint2D(points);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
 	 */
 
 	public void drawPoint2D(final Collection<? extends WB_Coord> points) {
 		for (final WB_Coord p : points) {
 			drawPoint2D(p);
 		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @deprecated Use {@link #drawPoint2D(WB_Coord[])} instead
-	 */
-
-	@Deprecated
-	public void drawPoints2D(final WB_Coord[] points) {
-		drawPoint2D(points);
 	}
 
 	/**
@@ -148,39 +121,12 @@ public class WB_Render2D extends WB_Processing{
 	 *
 	 * @param points
 	 * @param r
-	 * @deprecated Use {@link #drawPoint2D(Collection<? extends
-	 *             WB_Coord>,double)} instead
-	 */
-
-	@Deprecated
-	public void drawPoints2D(final Collection<? extends WB_Coord> points, final double r) {
-		drawPoint2D(points, r);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param r
 	 */
 
 	public void drawPoint2D(final Collection<? extends WB_Coord> points, final double r) {
 		for (final WB_Coord p : points) {
 			drawPoint2D(p, r);
 		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param r
-	 * @deprecated Use {@link #drawPoint2D(WB_Coord[],double)} instead
-	 */
-
-	@Deprecated
-	public void drawPoints2D(final WB_Coord[] points, final double r) {
-		drawPoint2D(points, r);
 	}
 
 	/**
@@ -219,10 +165,10 @@ public class WB_Render2D extends WB_Processing{
 	 */
 
 	public void drawLine2D(final WB_Line L, final double d) {
-		home.line((float) (L.getOrigin().xd() - (d * L.getDirection().xd())),
-				(float) (L.getOrigin().yd() - (d * L.getDirection().yd())),
-				(float) (L.getOrigin().xd() + (d * L.getDirection().xd())),
-				(float) (L.getOrigin().yd() + (d * L.getDirection().yd())));
+		home.line((float) (L.getOrigin().xd() - d * L.getDirection().xd()),
+				(float) (L.getOrigin().yd() - d * L.getDirection().yd()),
+				(float) (L.getOrigin().xd() + d * L.getDirection().xd()),
+				(float) (L.getOrigin().yd() + d * L.getDirection().yd()));
 	}
 
 	/**
@@ -233,9 +179,9 @@ public class WB_Render2D extends WB_Processing{
 	 */
 
 	public void drawRay2D(final WB_Ray R, final double d) {
-		home.line((float) (R.getOrigin().xd()), (float) (R.getOrigin().yd()),
-				(float) (R.getOrigin().xd() + (d * R.getDirection().xd())),
-				(float) (R.getOrigin().yd() + (d * R.getDirection().yd())));
+		home.line((float) R.getOrigin().xd(), (float) R.getOrigin().yd(),
+				(float) (R.getOrigin().xd() + d * R.getDirection().xd()),
+				(float) (R.getOrigin().yd() + d * R.getDirection().yd()));
 	}
 
 	/**
@@ -246,7 +192,7 @@ public class WB_Render2D extends WB_Processing{
 	 */
 
 	public void drawSegment2D(final WB_Coord p, final WB_Coord q) {
-		home.line((float) (p.xd()), (float) (p.yd()), (float) (q.xd()), (float) (q.yd()));
+		home.line((float) p.xd(), (float) p.yd(), (float) q.xd(), (float) q.yd());
 	}
 
 	/**
@@ -256,9 +202,9 @@ public class WB_Render2D extends WB_Processing{
 	 */
 
 	public void drawPolyLine2D(final WB_PolyLine P) {
-		for (int i = 0; i < (P.getNumberOfPoints() - 1); i++) {
-			home.line((float) (P.getPoint(i).xd()), (float) (P.getPoint(i).yd()), (float) (P.getPoint(i + 1).xd()),
-					(float) (P.getPoint(i + 1).yd()));
+		for (int i = 0; i < P.getNumberOfPoints() - 1; i++) {
+			home.line((float) P.getPoint(i).xd(), (float) P.getPoint(i).yd(), (float) P.getPoint(i + 1).xd(),
+					(float) P.getPoint(i + 1).yd());
 		}
 	}
 
@@ -270,8 +216,8 @@ public class WB_Render2D extends WB_Processing{
 
 	public void drawRing2D(final WB_Ring P) {
 		for (int i = 0, j = P.getNumberOfPoints() - 1; i < P.getNumberOfPoints(); j = i++) {
-			home.line((float) (P.getPoint(j).xd()), (float) (P.getPoint(j).yd()), (float) (P.getPoint(i).xd()),
-					(float) (P.getPoint(i).yd()));
+			home.line((float) P.getPoint(j).xd(), (float) P.getPoint(j).yd(), (float) P.getPoint(i).xd(),
+					(float) P.getPoint(i).yd());
 		}
 	}
 

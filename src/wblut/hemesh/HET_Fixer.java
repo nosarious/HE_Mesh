@@ -35,10 +35,9 @@ public class HET_Fixer {
 	public static final WB_ProgressTracker tracker = WB_ProgressTracker.instance();
 
 	/**
-	 * Remove a face if it has only two vertices and stitch the mesh together.
 	 *
+	 * @param mesh
 	 * @param f
-	 *            face to check
 	 */
 	public static void deleteTwoEdgeFace(final HE_Mesh mesh, final HE_Face f) {
 		if (mesh.contains(f)) {
@@ -84,7 +83,7 @@ public class HET_Fixer {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param v
 	 */
 	public static void deleteTwoEdgeVertex(final HE_Mesh mesh, final HE_Vertex v) {
@@ -151,7 +150,7 @@ public class HET_Fixer {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param d
 	 */
 	public static void collapseDegenerateEdges(final HE_Mesh mesh, final double d) {

@@ -128,6 +128,7 @@ public class HET_Texture {
 	 * @param mesh
 	 * @param minrange
 	 * @param maxrange
+	 * @param palette
 	 */
 	public static void setVertexColorFromVertexUmbrella(final HE_Mesh mesh, final double minrange,
 			final double maxrange, final int[] palette) {
@@ -149,6 +150,7 @@ public class HET_Texture {
 	 * @param mesh
 	 * @param minrange
 	 * @param maxrange
+	 * @param palette
 	 */
 	public static void setVertexColorFromVertexCurvature(final HE_Mesh mesh, final double minrange,
 			final double maxrange, final int[] palette) {

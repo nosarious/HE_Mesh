@@ -19,8 +19,9 @@ public abstract class HE_MeshElement extends HE_Element {
 
 	protected volatile boolean visited;
 	protected final static WB_GeometryFactory gf = WB_GeometryFactory.instance();
-	protected static final WB_ProgressTracker tracker = WB_ProgressTracker.instance();
+	protected final static WB_ProgressTracker tracker = WB_ProgressTracker.instance();
 	protected boolean visible;
+	protected int color;
 
 	/**
 	 *
@@ -29,6 +30,7 @@ public abstract class HE_MeshElement extends HE_Element {
 		super();
 		visited = false;
 		visible = true;
+		color = -1;
 	}
 
 	/**
@@ -43,6 +45,13 @@ public abstract class HE_MeshElement extends HE_Element {
 	 */
 	public void setVisited() {
 		visited = true;
+	}
+
+	/**
+	 *
+	 */
+	public void setVisited(final boolean b) {
+		visited = b;
 	}
 
 	/**
@@ -106,6 +115,15 @@ public abstract class HE_MeshElement extends HE_Element {
 		super.copyProperties(el);
 		visited = el.visited;
 		visible = el.visible;
+		color = el.color;
+	}
+
+	public int getColor() {
+		return color;
+	}
+
+	public void setColor(final int color) {
+		this.color = color;
 	}
 
 	/*

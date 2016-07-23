@@ -162,7 +162,7 @@ public class HEC_ShrinkWrap extends HEC_Creator {
 				for (final HE_Vertex n : v.getNeighborVertices()) {
 					if (!undecided.contains(n)) {
 						lost = false;
-						dist += WB_GeometryOp.getDistance3D(wcenter, n);
+						dist += WB_Point.getDistance3D(wcenter, n);
 						decNeighbors++;
 					}
 				}
@@ -170,7 +170,7 @@ public class HEC_ShrinkWrap extends HEC_Creator {
 					newundecided.add(v);
 				} else {
 					dist /= decNeighbors;
-					final WB_Vector dv = v.subToVector3D(wcenter);
+					final WB_Vector dv = WB_Vector.subToVector3D(v, wcenter);
 					dv.normalizeSelf();
 					v.set(wcenter.addMul(dist, dv));
 				}

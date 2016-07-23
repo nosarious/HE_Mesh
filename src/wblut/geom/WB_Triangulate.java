@@ -82,19 +82,6 @@ public class WB_Triangulate {
 	 * @param points
 	 * @param closest
 	 * @return
-	 * @deprecated Use {@link #triangulate3D(WB_Coord[],double)} instead
-	 */
-	@Deprecated
-	public static WB_Triangulation3D getTriangulation3D(final WB_Coord[] points, final double closest) {
-		return triangulate3D(points, closest);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param closest
-	 * @return
 	 */
 	public static WB_Triangulation3D triangulate3D(final WB_Coord[] points, final double closest) {
 		final WB_Triangulation3D result = new WB_Triangulation3D(WB_Delaunay.getTriangulation3D(points, closest).Tri);
@@ -107,36 +94,10 @@ public class WB_Triangulate {
 	 * @param points
 	 * @param closest
 	 * @return
-	 * @deprecated Use {@link #triangulate3D(List<? extends WB_Coord>,double)}
-	 *             instead
-	 */
-	@Deprecated
-	public static WB_Triangulation3D getTriangulation3D(final List<? extends WB_Coord> points, final double closest) {
-		return triangulate3D(points, closest);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param closest
-	 * @return
 	 */
 	public static WB_Triangulation3D triangulate3D(final Collection<? extends WB_Coord> points, final double closest) {
 		final WB_Triangulation3D result = new WB_Triangulation3D(WB_Delaunay.getTriangulation3D(points, closest).Tri);
 		return result;
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @return
-	 * @deprecated Use {@link #triangulate3D(WB_Coord[])} instead
-	 */
-	@Deprecated
-	public static WB_Triangulation3D getTriangulation3D(final WB_Coord[] points) {
-		return triangulate3D(points);
 	}
 
 	/**
@@ -252,18 +213,6 @@ public class WB_Triangulate {
 	 *
 	 * @param points
 	 * @return
-	 * @deprecated Use {@link #triangulate3D(List<? extends WB_Coord>)} instead
-	 */
-	@Deprecated
-	public static WB_Triangulation3D getTriangulation3D(final List<? extends WB_Coord> points) {
-		return triangulate3D(points);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @return
 	 */
 	public static WB_Triangulation3D triangulate3D(final Collection<? extends WB_Coord> points) {
 		final int n = points.size();
@@ -369,18 +318,6 @@ public class WB_Triangulate {
 	 *
 	 * @param points
 	 * @return
-	 * @deprecated Use {@link #triangulate2D(WB_Coord[])} instead
-	 */
-	@Deprecated
-	public static WB_Triangulation2D getTriangulation2D(final WB_Coord[] points) {
-		return triangulate2D(points);
-	}
-
-	/**
-	 * Planar Delaunay triangulation.
-	 *
-	 * @param points
-	 * @return
 	 */
 	public static WB_Triangulation2D triangulate2D(final WB_Coord[] points) {
 		final int n = points.length;
@@ -390,18 +327,6 @@ public class WB_Triangulate {
 		}
 		final WB_Triangulation2D result = getTriangles2D(coords);
 		return result;
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @return
-	 * @deprecated Use {@link #triangulate2D(List<? extends WB_Coord>)} instead
-	 */
-	@Deprecated
-	public static WB_Triangulation2D getTriangulation2D(final List<? extends WB_Coord> points) {
-		return triangulate2D(points);
 	}
 
 	/**
@@ -428,19 +353,6 @@ public class WB_Triangulate {
 	 * @param points
 	 * @param context
 	 * @return
-	 * @deprecated Use {@link #triangulate2D(WB_Coord[],WB_Map2D)} instead
-	 */
-	@Deprecated
-	public static WB_Triangulation2D getTriangulation2D(final WB_Coord[] points, final WB_Map2D context) {
-		return triangulate2D(points, context);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param context
-	 * @return
 	 */
 	public static WB_Triangulation2D triangulate2D(final WB_Coord[] points, final WB_Map2D context) {
 		final int n = points.length;
@@ -452,20 +364,6 @@ public class WB_Triangulate {
 		}
 		final WB_Triangulation2D result = getTriangles2D(coords);
 		return result;
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param context
-	 * @return
-	 * @deprecated Use {@link #triangulate2D(List<? extends WB_Coord>,WB_Map)}
-	 *             instead
-	 */
-	@Deprecated
-	public static WB_Triangulation2D getTriangulation2D(final List<? extends WB_Coord> points, final WB_Map2D context) {
-		return triangulate2D(points, context);
 	}
 
 	/**
@@ -1248,20 +1146,6 @@ public class WB_Triangulate {
 	 * @param polygon
 	 * @param optimize
 	 * @return
-	 * @deprecated Use {@link #triangulatePolygon2D(WB_Polygon,boolean)} instead
-	 */
-	@Deprecated
-
-	public WB_Triangulation2D getPolygonTriangulation2D(final WB_Polygon polygon, final boolean optimize) {
-		return triangulatePolygon2D(polygon, optimize);
-	}
-
-	/**
-	 *
-	 *
-	 * @param polygon
-	 * @param optimize
-	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	public WB_Triangulation2D triangulatePolygon2D(final WB_Polygon polygon, final boolean optimize) {
@@ -1304,24 +1188,6 @@ public class WB_Triangulate {
 			edges[i] = intmap[edges[i]];
 		}
 		return new WB_Triangulation2D(triangles, edges);
-	}
-
-	/**
-	 *
-	 *
-	 * @param outerPolygon
-	 * @param innerPolygons
-	 * @param optimize
-	 * @param context
-	 * @return
-	 * @deprecated Use {@link #triangulatePolygon2D(List<? extends
-	 *             WB_Coord>,List<? extends WB_Coord>[],boolean,WB_Map2D)}
-	 *             instead
-	 */
-	@Deprecated
-	public WB_Triangulation2DWithPoints getPolygonTriangulation2D(final List<? extends WB_Coord> outerPolygon,
-			final List<? extends WB_Coord>[] innerPolygons, final boolean optimize, final WB_Map2D context) {
-		return triangulatePolygon2D(outerPolygon, innerPolygons, optimize, context);
 	}
 
 	/**
@@ -1379,24 +1245,6 @@ public class WB_Triangulate {
 	 * @param optimize
 	 * @param context
 	 * @return
-	 * @deprecated Use
-	 *             {@link #triangulatePolygon2D(int[],WB_Coord[],boolean,WB_Map2D)}
-	 *             instead
-	 */
-	@Deprecated
-	public WB_Triangulation2DWithPoints getPolygonTriangulation2D(final int[] polygon, final WB_Coord[] points,
-			final boolean optimize, final WB_Map2D context) {
-		return triangulatePolygon2D(polygon, points, optimize, context);
-	}
-
-	/**
-	 *
-	 *
-	 * @param polygon
-	 * @param points
-	 * @param optimize
-	 * @param context
-	 * @return
 	 */
 	public WB_Triangulation2DWithPoints triangulatePolygon2D(final int[] polygon, final WB_Coord[] points,
 			final boolean optimize, final WB_Map2D context) {
@@ -1422,23 +1270,6 @@ public class WB_Triangulate {
 			Points.add(point);
 		}
 		return new WB_Triangulation2DWithPoints(ears, E, Points);
-	}
-
-	/**
-	 *
-	 *
-	 * @param polygon
-	 * @param points
-	 * @param optimize
-	 * @param context
-	 * @return
-	 * @deprecated Use {@link #triangulatePolygon2D(int[],List<? extends
-	 *             WB_Coord>,boolean,WB_Map2D)} instead
-	 */
-	@Deprecated
-	public WB_Triangulation2D getPolygonTriangulation2D(final int[] polygon, final List<? extends WB_Coord> points,
-			final boolean optimize, final WB_Map2D context) {
-		return triangulatePolygon2D(polygon, points, optimize, context);
 	}
 
 	/**
@@ -1994,40 +1825,10 @@ public class WB_Triangulate {
 	 * @param points
 	 * @param closest
 	 * @return
-	 * @deprecated Use {@link #triangulate4D(List<? extends WB_Coord>,double)}
-	 *             instead
-	 */
-	@Deprecated
-	public static WB_Triangulation4D getTriangulation4D(final List<? extends WB_Coord> points, final double closest) {
-		return triangulate4D(points, closest);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param closest
-	 * @return
 	 */
 	public static WB_Triangulation4D triangulate4D(final List<? extends WB_Coord> points, final double closest) {
 		return new WB_Triangulation4D(WB_Delaunay.getTriangulation4D(points, closest).Tri);
 
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param closest
-	 * @param epsilon
-	 * @return
-	 * @deprecated Use {@link #triangulate4D(List<? extends
-	 *             WB_Coord>,double,double)} instead
-	 */
-	@Deprecated
-	public static WB_Triangulation4D getTriangulation4D(final List<? extends WB_Coord> points, final double closest,
-			final double epsilon) {
-		return triangulate4D(points, closest, epsilon);
 	}
 
 	/**
@@ -2049,37 +1850,9 @@ public class WB_Triangulate {
 	 * @param points
 	 * @param closest
 	 * @return
-	 * @deprecated Use {@link #triangulate4D(WB_Coord[],double)} instead
-	 */
-	@Deprecated
-	public static WB_Triangulation4D getTriangulation4D(final WB_Coord[] points, final double closest) {
-		return triangulate4D(points, closest);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param closest
-	 * @return
 	 */
 	public static WB_Triangulation4D triangulate4D(final WB_Coord[] points, final double closest) {
 		return new WB_Triangulation4D(WB_Delaunay.getTriangulation4D(points, closest).Tri);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param closest
-	 * @param epsilon
-	 * @return
-	 * @deprecated Use {@link #triangulate4D(WB_Coord[],double,double)} instead
-	 */
-	@Deprecated
-	public static WB_Triangulation4D getTriangulation4D(final WB_Coord[] points, final double closest,
-			final double epsilon) {
-		return triangulate4D(points, closest, epsilon);
 	}
 
 	/**
@@ -2121,8 +1894,8 @@ public class WB_Triangulate {
 
 	/**
 	 *
-	 *
 	 * @param points
+	 * @param jitter
 	 * @return
 	 */
 	public static WB_AlphaTriangulation3D alphaTriangulate3D(final WB_Coord[] points, final double jitter) {
@@ -2140,8 +1913,8 @@ public class WB_Triangulate {
 
 	/**
 	 *
-	 *
 	 * @param points
+	 * @param jitter
 	 * @return
 	 */
 	public static WB_AlphaTriangulation3D alphaTriangulate3D(final Collection<? extends WB_Coord> points,

@@ -354,7 +354,7 @@ public class HEC_IsoSurface extends HEC_Creator {
 
 	private boolean MT;
 
-	private int xmin,xmax,ymin,ymax,zmin,zmax;
+	private int xmin, xmax, ymin, ymax, zmin, zmax;
 
 	/**
 	 *
@@ -363,12 +363,12 @@ public class HEC_IsoSurface extends HEC_Creator {
 		super();
 		override = true;
 		boundary = Double.NaN;
-		zmin=Integer.MIN_VALUE;
-		zmax=Integer.MAX_VALUE;
-		xmin=Integer.MIN_VALUE;
-		xmax=Integer.MAX_VALUE;
-		ymin=Integer.MIN_VALUE;
-		ymax=Integer.MAX_VALUE;
+		zmin = Integer.MIN_VALUE;
+		zmax = Integer.MAX_VALUE;
+		xmin = Integer.MIN_VALUE;
+		xmax = Integer.MAX_VALUE;
+		ymin = Integer.MIN_VALUE;
+		ymax = Integer.MAX_VALUE;
 	}
 
 	/**
@@ -406,45 +406,43 @@ public class HEC_IsoSurface extends HEC_Creator {
 	}
 
 	public HEC_IsoSurface setZRange(final int zmin, final int zmax) {
-		this.zmin = Math.min(Math.max(-1, zmin),Math.max(-1, zmax));
-		this.zmax=Math.max(Math.max(-1, zmin),Math.max(-1, zmax));
+		this.zmin = Math.min(Math.max(-1, zmin), Math.max(-1, zmax));
+		this.zmax = Math.max(Math.max(-1, zmin), Math.max(-1, zmax));
 
 		return this;
 	}
 
 	public HEC_IsoSurface setXRange(final int xmin, final int xmax) {
-		this.xmin = Math.min(Math.max(-1, xmin),Math.max(-1, xmax));
-		this.xmax=Math.max(Math.max(-1, xmin),Math.max(-1, xmax));
+		this.xmin = Math.min(Math.max(-1, xmin), Math.max(-1, xmax));
+		this.xmax = Math.max(Math.max(-1, xmin), Math.max(-1, xmax));
 
 		return this;
 	}
 
 	public HEC_IsoSurface setYRange(final int ymin, final int ymax) {
-		this.ymin = Math.min(Math.max(-1, ymin),Math.max(-1, ymax));
-		this.ymax=Math.max(Math.max(-1, ymin),Math.max(-1, ymax));
+		this.ymin = Math.min(Math.max(-1, ymin), Math.max(-1, ymax));
+		this.ymax = Math.max(Math.max(-1, ymin), Math.max(-1, ymax));
 
 		return this;
 	}
 
-
 	public HEC_IsoSurface clearZRange() {
-		zmin=Integer.MIN_VALUE;
-		zmax=Integer.MAX_VALUE;
+		zmin = Integer.MIN_VALUE;
+		zmax = Integer.MAX_VALUE;
 		return this;
 	}
 
 	public HEC_IsoSurface clearXRange() {
-		xmin=Integer.MIN_VALUE;
-		xmax=Integer.MAX_VALUE;
+		xmin = Integer.MIN_VALUE;
+		xmax = Integer.MAX_VALUE;
 		return this;
 	}
 
 	public HEC_IsoSurface clearYRange() {
-		ymin=Integer.MIN_VALUE;
-		ymax=Integer.MAX_VALUE;
+		ymin = Integer.MIN_VALUE;
+		ymax = Integer.MAX_VALUE;
 		return this;
 	}
-
 
 	/**
 	 * Values at grid points.
@@ -536,8 +534,8 @@ public class HEC_IsoSurface extends HEC_Creator {
 		return this;
 	}
 
-	public HEC_IsoSurface setMT(final boolean b){
-		MT=b;
+	public HEC_IsoSurface setMT(final boolean b) {
+		MT = b;
 		return this;
 
 	}
@@ -550,7 +548,7 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 * @return
 	 */
 	private int index(final int i, final int j) {
-		return i + 1 + ((resx + 2) * (j + 1));
+		return i + 1 + (resx + 2) * (j + 1);
 	}
 
 	/**
@@ -569,8 +567,8 @@ public class HEC_IsoSurface extends HEC_Creator {
 			// always be between o and resx,rey,resz
 			return values[i][j][k];
 		}
-		if ((i < 0) || (j < 0) || (k < 0) || (i > resx) || (j > resy) || (k > resz)) {
-			return (invert) ? -boundary : boundary;
+		if (i < 0 || j < 0 || k < 0 || i > resx || j > resy || k > resz) {
+			return invert ? -boundary : boundary;
 		}
 		return values[i][j][k];
 	}
@@ -587,18 +585,18 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 * @return edge vertex
 	 */
 	private HE_Vertex xedge(final int i, final int j, final int k) {
-		HE_Vertex xedge = xedges[k+1].get(index(i, j));
+		HE_Vertex xedge = xedges[k + 1].get(index(i, j));
 		if (xedge != null) {
 			return xedge;
 		}
 
 		final WB_Point p0 = new WB_Point(i * dx, j * dy, k * dz);
-		final WB_Point p1 = new WB_Point((i * dx) + dx, j * dy, k * dz);
+		final WB_Point p1 = new WB_Point(i * dx + dx, j * dy, k * dz);
 		final double val0 = value(i, j, k);
 		final double val1 = value(i + 1, j, k);
 		xedge = new HE_Vertex(interp(isolevel, p0, p1, val0, val1));
 		xedge.addSelf(offset);
-		xedges[k+1].put(index(i, j), xedge);
+		xedges[k + 1].put(index(i, j), xedge);
 		return xedge;
 	}
 
@@ -614,17 +612,17 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 * @return edge vertex
 	 */
 	private HE_Vertex yedge(final int i, final int j, final int k) {
-		HE_Vertex yedge = yedges[k+1].get(index(i, j));
+		HE_Vertex yedge = yedges[k + 1].get(index(i, j));
 		if (yedge != null) {
 			return yedge;
 		}
 		final WB_Point p0 = new WB_Point(i * dx, j * dy, k * dz);
-		final WB_Point p1 = new WB_Point(i * dx, (j * dy) + dy, k * dz);
+		final WB_Point p1 = new WB_Point(i * dx, j * dy + dy, k * dz);
 		final double val0 = value(i, j, k);
 		final double val1 = value(i, j + 1, k);
 		yedge = new HE_Vertex(interp(isolevel, p0, p1, val0, val1));
 		yedge.addSelf(offset);
-		yedges[k+1].put(index(i, j), yedge);
+		yedges[k + 1].put(index(i, j), yedge);
 		return yedge;
 	}
 
@@ -640,41 +638,40 @@ public class HEC_IsoSurface extends HEC_Creator {
 	 * @return edge vertex
 	 */
 	private HE_Vertex zedge(final int i, final int j, final int k) {
-		HE_Vertex zedge = zedges[k+1].get(index(i, j));
+		HE_Vertex zedge = zedges[k + 1].get(index(i, j));
 		if (zedge != null) {
 			return zedge;
 		}
 		final WB_Point p0 = new WB_Point(i * dx, j * dy, k * dz);
-		final WB_Point p1 = new WB_Point(i * dx, j * dy, (k * dz) + dz);
+		final WB_Point p1 = new WB_Point(i * dx, j * dy, k * dz + dz);
 		final double val0 = value(i, j, k);
 		final double val1 = value(i, j, k + 1);
 		zedge = new HE_Vertex(interp(isolevel, p0, p1, val0, val1));
 		zedge.addSelf(offset);
-		zedges[k+1].put(index(i, j), zedge);
+		zedges[k + 1].put(index(i, j), zedge);
 		return zedge;
 	}
-
 
 	private HE_Vertex interp(final double isolevel, final WB_Point p1, final WB_Point p2, final double valp1,
 			final double valp2) {
 		double mu;
 		if (WB_Epsilon.isEqualAbs(isolevel, valp1)) {
-			return (new HE_Vertex(p1));
+			return new HE_Vertex(p1);
 		}
 		if (WB_Epsilon.isEqualAbs(isolevel, valp2)) {
-			return (new HE_Vertex(p2));
+			return new HE_Vertex(p2);
 		}
 		if (WB_Epsilon.isEqualAbs(valp1, valp2)) {
-			return (new HE_Vertex(p1));
+			return new HE_Vertex(p1);
 		}
 		mu = (isolevel - valp1) / (valp2 - valp1);
-		return new HE_Vertex(p1.xd() + (mu * (p2.xd() - p1.xd())), p1.yd() + (mu * (p2.yd() - p1.yd())),
-				p1.zd() + (mu * (p2.zd() - p1.zd())));
+		return new HE_Vertex(p1.xd() + mu * (p2.xd() - p1.xd()), p1.yd() + mu * (p2.yd() - p1.yd()),
+				p1.zd() + mu * (p2.zd() - p1.zd()));
 	}
 
 	private int classifyCell(final int i, final int j, final int k) {
 		if (Double.isNaN(boundary)) {
-			if ((i < 0) || (j < 0) || (k < 0) || (i >= resx) || (j >= resy) || (k >= resz)) {
+			if (i < 0 || j < 0 || k < 0 || i >= resx || j >= resy || k >= resz) {
 				return -1;
 			}
 		}
@@ -733,24 +730,23 @@ public class HEC_IsoSurface extends HEC_Creator {
 		return cubeindex;
 	}
 
-
 	private void polygoniseST() {
 		mesh = new HE_Mesh();
 		HE_Vertex[] vertlist = new HE_Vertex[12];
 
 		if (Double.isNaN(boundary)) {
-			for (int i =Math.max(xmin, 0); i < Math.min(xmax,resx); i++) {
-				for (int j = Math.max(ymin, 0); j < Math.min(ymax,resy); j++) {
-					for (int k = Math.max(zmin, 0); k < Math.min(zmax,resz); k++) {
-						getPolygons(i, j, k, classifyCell(i, j, k),mesh,vertlist);
+			for (int i = Math.max(xmin, 0); i < Math.min(xmax, resx); i++) {
+				for (int j = Math.max(ymin, 0); j < Math.min(ymax, resy); j++) {
+					for (int k = Math.max(zmin, 0); k < Math.min(zmax, resz); k++) {
+						getPolygons(i, j, k, classifyCell(i, j, k), mesh, vertlist);
 					}
 				}
 			}
 		} else {
-			for (int i =  Math.max(xmin, -1); i < Math.min(xmax,resx+1); i++) {
-				for (int j =  Math.max(ymin, -1); j < Math.min(ymax,resy+1); j++) {
-					for (int k =  Math.max(zmin, -1); k < Math.min(zmax,resz+1); k++) {
-						getPolygons(i, j, k, classifyCell(i, j, k),mesh,vertlist);
+			for (int i = Math.max(xmin, -1); i < Math.min(xmax, resx + 1); i++) {
+				for (int j = Math.max(ymin, -1); j < Math.min(ymax, resy + 1); j++) {
+					for (int k = Math.max(zmin, -1); k < Math.min(zmax, resz + 1); k++) {
+						getPolygons(i, j, k, classifyCell(i, j, k), mesh, vertlist);
 					}
 				}
 			}
@@ -758,25 +754,25 @@ public class HEC_IsoSurface extends HEC_Creator {
 	}
 
 	private void polygoniseMT() {
-		mesh=new HE_Mesh();
+		mesh = new HE_Mesh();
 		try {
-			int threadCount = 2*Runtime.getRuntime().availableProcessors();
-			final ExecutorService executor = Executors.newFixedThreadPool(threadCount/2);
-			List<HE_Mesh> meshes=new ArrayList<HE_Mesh>(threadCount);
-			List<Future<HE_Mesh>>  list=new ArrayList<Future<HE_Mesh>>();
+			int threadCount = 2 * Runtime.getRuntime().availableProcessors();
+			final ExecutorService executor = Executors.newFixedThreadPool(threadCount / 2);
+			List<HE_Mesh> meshes = new ArrayList<HE_Mesh>(threadCount);
+			List<Future<HE_Mesh>> list = new ArrayList<Future<HE_Mesh>>();
 			Callable<HE_Mesh> runner;
 
 			int i = 0;
-			for (i = 0; i < threadCount ; i+=2) {
+			for (i = 0; i < threadCount; i += 2) {
 				runner = new PolyRunner(i, threadCount);
 				list.add(executor.submit(runner));
 			}
 			for (Future<HE_Mesh> future : list) {
 				meshes.add(future.get());
 			}
-			list=new ArrayList<Future<HE_Mesh>>();
-			for (i = 1; i < threadCount ; i+=2) {
-				runner = new PolyRunner( i, threadCount);
+			list = new ArrayList<Future<HE_Mesh>>();
+			for (i = 1; i < threadCount; i += 2) {
+				runner = new PolyRunner(i, threadCount);
 				list.add(executor.submit(runner));
 			}
 			for (Future<HE_Mesh> future : list) {
@@ -784,32 +780,28 @@ public class HEC_IsoSurface extends HEC_Creator {
 			}
 
 			executor.shutdown();
-			for(HE_Mesh m:meshes) {
+			for (HE_Mesh m : meshes) {
 				mesh.add(m);
 			}
-		}catch(final InterruptedException ex) {
+		} catch (final InterruptedException ex) {
 			ex.printStackTrace();
-		} catch(final ExecutionException ex) {
+		} catch (final ExecutionException ex) {
 			ex.printStackTrace();
 		}
-
 
 	}
 
 	/**
-	 * Gets the polygons.
 	 *
 	 * @param i
-	 *            the i
 	 * @param j
-	 *            the j
 	 * @param k
-	 *            the k
 	 * @param cubeindex
-	 *            the cubeindex
-	 * @return the polygons
+	 * @param mesh
+	 * @param vertlist
 	 */
-	private void getPolygons(final int i, final int j, final int k, final int cubeindex,final HE_Mesh mesh,final HE_Vertex[] vertlist) {
+	private void getPolygons(final int i, final int j, final int k, final int cubeindex, final HE_Mesh mesh,
+			final HE_Vertex[] vertlist) {
 		if (edgeTable[cubeindex] > 0) {
 			/* Find the vertices where the surface intersects the cube */
 			if ((edgeTable[cubeindex] & 1) == 1) {
@@ -854,19 +846,19 @@ public class HEC_IsoSurface extends HEC_Creator {
 				final HE_Halfedge he1 = new HE_Halfedge();
 				final HE_Halfedge he2 = new HE_Halfedge();
 				final HE_Halfedge he3 = new HE_Halfedge();
-				mesh.setNext(he1,he2);
-				mesh.setNext(he2,he3);
-				mesh.setNext(he3,he1);
-				mesh.setFace(he1,f);
-				mesh.setFace(he2,f);
-				mesh.setFace(he3,f);
-				mesh.setVertex(he1,vertlist[triTable[cubeindex][t]]);
-				mesh.setHalfedge(he1.getVertex(),he1);
-				mesh.setVertex(he2,vertlist[triTable[cubeindex][t + 1]]);
-				mesh.setHalfedge(he2.getVertex(),he2);
-				mesh.setVertex(he3,vertlist[triTable[cubeindex][t + 2]]);
-				mesh.setHalfedge(he3.getVertex(),he3);
-				mesh.setHalfedge(f,he1);
+				mesh.setNext(he1, he2);
+				mesh.setNext(he2, he3);
+				mesh.setNext(he3, he1);
+				mesh.setFace(he1, f);
+				mesh.setFace(he2, f);
+				mesh.setFace(he3, f);
+				mesh.setVertex(he1, vertlist[triTable[cubeindex][t]]);
+				mesh.setHalfedge(he1.getVertex(), he1);
+				mesh.setVertex(he2, vertlist[triTable[cubeindex][t + 1]]);
+				mesh.setHalfedge(he2.getVertex(), he2);
+				mesh.setVertex(he3, vertlist[triTable[cubeindex][t + 2]]);
+				mesh.setHalfedge(he3.getVertex(), he3);
+				mesh.setHalfedge(f, he1);
 				mesh.add(f);
 				mesh.add(he1);
 				mesh.add(he2);
@@ -884,22 +876,22 @@ public class HEC_IsoSurface extends HEC_Creator {
 	@Override
 	protected HE_Mesh createBase() {
 
-		offset = new WB_Point(cx - (0.5 * resx * dx), cy - (0.5 * resy * dy), cz - (0.5 * resz * dz));
-		int n=resz+3;
+		offset = new WB_Point(cx - 0.5 * resx * dx, cy - 0.5 * resy * dy, cz - 0.5 * resz * dz);
+		int n = resz + 3;
 		xedges = new TIntObjectHashMap[n];
 		yedges = new TIntObjectHashMap[n];
 		zedges = new TIntObjectHashMap[n];
-		for(int i=0;i<n;i++){
+		for (int i = 0; i < n; i++) {
 			xedges[i] = new TIntObjectHashMap<HE_Vertex>(1024, 0.5f, -1);
 			yedges[i] = new TIntObjectHashMap<HE_Vertex>(1024, 0.5f, -1);
 			zedges[i] = new TIntObjectHashMap<HE_Vertex>(1024, 0.5f, -1);
 		}
-		if(MT){
+		if (MT) {
 			polygoniseMT();
-		}else{
+		} else {
 			polygoniseST();
 		}
-		for(int i=0;i<n;i++){
+		for (int i = 0; i < n; i++) {
 			mesh.addVertices(xedges[i].valueCollection());
 			mesh.addVertices(yedges[i].valueCollection());
 			mesh.addVertices(zedges[i].valueCollection());
@@ -909,7 +901,7 @@ public class HEC_IsoSurface extends HEC_Creator {
 		return mesh;
 	}
 
-	class PolyRunner implements Callable<HE_Mesh>{
+	class PolyRunner implements Callable<HE_Mesh> {
 		int start;
 
 		int step;
@@ -921,33 +913,34 @@ public class HEC_IsoSurface extends HEC_Creator {
 		 * @param id
 		 * @param faces
 		 */
-		PolyRunner(final int s,final int step) {
+		PolyRunner(final int s, final int step) {
 			start = s;
 
-			this.step=step;
+			this.step = step;
 		}
 
-
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.util.concurrent.Callable#call()
 		 */
 		@Override
 		public HE_Mesh call() {
-			HE_Mesh mesh=new HE_Mesh();
+			HE_Mesh mesh = new HE_Mesh();
 			HE_Vertex[] vertlist = new HE_Vertex[12];
 			if (Double.isNaN(boundary)) {
-				for (int i =Math.max(xmin, 0); i < Math.min(xmax,resx); i++) {
-					for (int j = Math.max(ymin, 0); j < Math.min(ymax,resy); j++) {
-						for (int k = start+Math.max(zmin, 0); k < Math.min(zmax,resz); k+=step) {
-							getPolygons(i, j, k, classifyCell(i, j, k),mesh,vertlist);
+				for (int i = Math.max(xmin, 0); i < Math.min(xmax, resx); i++) {
+					for (int j = Math.max(ymin, 0); j < Math.min(ymax, resy); j++) {
+						for (int k = start + Math.max(zmin, 0); k < Math.min(zmax, resz); k += step) {
+							getPolygons(i, j, k, classifyCell(i, j, k), mesh, vertlist);
 						}
 					}
 				}
 			} else {
-				for (int i =  Math.max(xmin, -1); i < Math.min(xmax,resx+1); i++) {
-					for (int j =  Math.max(ymin, -1); j < Math.min(ymax,resy+1); j++) {
-						for (int k = start+ Math.max(zmin, -1); k < Math.min(zmax,resz+1); k+=step) {
-							getPolygons(i, j, k, classifyCell(i, j, k),mesh,vertlist);
+				for (int i = Math.max(xmin, -1); i < Math.min(xmax, resx + 1); i++) {
+					for (int j = Math.max(ymin, -1); j < Math.min(ymax, resy + 1); j++) {
+						for (int k = start + Math.max(zmin, -1); k < Math.min(zmax, resz + 1); k += step) {
+							getPolygons(i, j, k, classifyCell(i, j, k), mesh, vertlist);
 						}
 					}
 				}

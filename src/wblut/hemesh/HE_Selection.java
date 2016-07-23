@@ -51,6 +51,7 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return self
 	 */
 	public HE_Mesh modify(final HEM_Modifier modifier) {
+		updateFaces();
 		return modifier.apply(this);
 	}
 
@@ -62,6 +63,8 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return self
 	 */
 	public HE_Mesh subdivide(final HES_Subdividor subdividor) {
+
+		updateFaces();
 		return subdividor.apply(this);
 	}
 
@@ -77,7 +80,7 @@ public class HE_Selection extends HE_MeshStructure {
 	 */
 	public HE_Mesh subdivide(final HES_Subdividor subdividor, final int rep) {
 		for (int i = 0; i < rep - 1; i++) {
-			subdivide(subdividor);
+			subdividor.apply(this);
 		}
 		return subdivide(subdividor);
 	}
@@ -90,6 +93,7 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return the h e_ mesh
 	 */
 	public HE_Mesh simplify(final HES_Simplifier simplifier) {
+		updateFaces();
 		return simplifier.apply(this);
 	}
 
@@ -854,7 +858,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param r
 	 * @return
 	 */
@@ -875,7 +879,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param r
 	 * @param seed
 	 * @return
@@ -917,6 +921,7 @@ public class HE_Selection extends HE_MeshStructure {
 	/**
 	 * Select all faces with given label.
 	 *
+	 * @param mesh
 	 * @param label
 	 *
 	 * @return
@@ -937,6 +942,7 @@ public class HE_Selection extends HE_MeshStructure {
 	/**
 	 * Select all faces except with given label.
 	 *
+	 * @param mesh
 	 * @param label
 	 *
 	 * @return
@@ -956,7 +962,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param label
 	 * @return
 	 */
@@ -975,7 +981,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param label
 	 * @return
 	 */
@@ -994,7 +1000,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param v
 	 * @return
 	 */
@@ -1030,7 +1036,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param P
 	 * @return
 	 */
@@ -1049,7 +1055,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param P
 	 * @return
 	 */
@@ -1068,7 +1074,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param P
 	 * @return
 	 */
@@ -1087,7 +1093,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @return
 	 */
 	public static HE_Selection selectAllEdges(final HE_Mesh mesh) {
@@ -1098,7 +1104,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param r
 	 * @return
 	 */
@@ -1119,7 +1125,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param r
 	 * @param seed
 	 * @return
@@ -1143,6 +1149,7 @@ public class HE_Selection extends HE_MeshStructure {
 	/**
 	 * Select all edges on boundary.
 	 *
+	 * @param mesh
 	 * @return
 	 */
 	public static HE_Selection selectBoundaryEdges(final HE_Mesh mesh) {
@@ -1160,7 +1167,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param P
 	 * @return
 	 */
@@ -1179,7 +1186,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param P
 	 * @return
 	 */
@@ -1198,7 +1205,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param P
 	 * @return
 	 */
@@ -1379,7 +1386,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param r
 	 * @return
 	 */
@@ -1400,7 +1407,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param r
 	 * @param seed
 	 * @return
@@ -1493,7 +1500,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param P
 	 * @return
 	 */
@@ -1512,7 +1519,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param P
 	 * @return
 	 */
@@ -1531,7 +1538,7 @@ public class HE_Selection extends HE_MeshStructure {
 
 	/**
 	 *
-	 *
+	 * @param mesh
 	 * @param P
 	 * @return
 	 */

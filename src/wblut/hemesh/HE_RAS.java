@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -41,7 +41,9 @@ public abstract class HE_RAS<E extends HE_Element> extends AbstractSet<E> {
 	public HE_RAS(final Collection<E> items) {
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractCollection#add(java.lang.Object)
 	 */
 	@Override
@@ -92,15 +94,6 @@ public abstract class HE_RAS<E extends HE_Element> extends AbstractSet<E> {
 	 *
 	 * @param object
 	 * @return
-	 * @deprecated Use {@link #indexOf(E)} instead
-	 */
-	public abstract int getIndex(final E object);
-
-	/**
-	 *
-	 *
-	 * @param object
-	 * @return
 	 */
 	public abstract int indexOf(final E object);
 
@@ -112,7 +105,9 @@ public abstract class HE_RAS<E extends HE_Element> extends AbstractSet<E> {
 	 */
 	public abstract E pollRandom(final Random rnd);
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractCollection#size()
 	 */
 	@Override
@@ -134,7 +129,9 @@ public abstract class HE_RAS<E extends HE_Element> extends AbstractSet<E> {
 	 */
 	public abstract boolean containsKey(final Long key);
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractCollection#iterator()
 	 */
 	@Override

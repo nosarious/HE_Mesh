@@ -962,11 +962,10 @@ public class WB_Transform {
 
 	/**
 	 *
-	 *
 	 * @param x
 	 * @param y
 	 * @param z
-	 * @param result
+	 * @return
 	 */
 	public WB_Point applyInvAsPoint(final double x, final double y, final double z) {
 		_xt = invT.m11 * x + invT.m12 * y + invT.m13 * z + invT.m14;
@@ -979,9 +978,8 @@ public class WB_Transform {
 
 	/**
 	 *
-	 *
 	 * @param p
-	 * @param result
+	 * @return
 	 */
 	public WB_Point applyInvAsPoint(final WB_Coord p) {
 		_xt = invT.m11 * p.xd() + invT.m12 * p.yd() + invT.m13 * p.zd() + invT.m14;
@@ -998,7 +996,6 @@ public class WB_Transform {
 	 * @param x
 	 * @param y
 	 * @param z
-	 * @param result
 	 */
 	public WB_Vector applyInvAsVector(final double x, final double y, final double z) {
 		_xt = invT.m11 * x + invT.m12 * y + invT.m13 * z;
@@ -1011,7 +1008,6 @@ public class WB_Transform {
 	 *
 	 *
 	 * @param p
-	 * @param result
 	 */
 	public WB_Vector applyInvAsVector(final WB_Coord p) {
 		_xt = invT.m11 * p.xd() + invT.m12 * p.yd() + invT.m13 * p.zd();
@@ -1036,7 +1032,6 @@ public class WB_Transform {
 	 *
 	 *
 	 * @param p
-	 * @param result
 	 */
 	public void applyInvAsPointSelf(final WB_MutableCoord p) {
 		_xt = invT.m11 * p.xd() + invT.m12 * p.yd() + invT.m13 * p.zd() + invT.m14;
@@ -1049,9 +1044,7 @@ public class WB_Transform {
 
 	/**
 	 *
-	 *
-	 * @param p
-	 * @param result
+	 * @param v
 	 */
 	public void applyInvAsVectorSelf(final WB_MutableCoord v) {
 		_xt = invT.m11 * v.xd() + invT.m12 * v.yd() + invT.m13 * v.zd();

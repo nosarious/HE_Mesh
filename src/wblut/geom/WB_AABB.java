@@ -1183,18 +1183,6 @@ public class WB_AABB {
 	 * @param aabb
 	 * @return
 	 */
-	@Deprecated
-	public WB_AABB union(final WB_AABB aabb) {
-		return getUnion(aabb);
-	}
-
-
-	/**
-	 *
-	 *
-	 * @param aabb
-	 * @return
-	 */
 	public WB_AABB getUnion(final WB_AABB aabb) {
 		final double[] newmin = new double[3];
 		final double[] newmax = new double[3];
@@ -1203,18 +1191,6 @@ public class WB_AABB {
 			newmax[i] = Math.max(_max[i], aabb._max[i]);
 		}
 		return new WB_AABB(newmin, newmax);
-	}
-
-
-	/**
-	 *
-	 *
-	 * @param other
-	 * @return
-	 */
-	@Deprecated
-	public WB_AABB intersection(final WB_AABB other) {
-		return getIntersection(other);
 	}
 
 

@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -17,7 +17,7 @@ import wblut.math.WB_Math;
 /**
  *
  */
-public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
+public class WB_Segment extends WB_Linear implements WB_Curve {
 	/**
 	 *
 	 */
@@ -26,6 +26,7 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
 	 *
 	 */
 	protected WB_Point endpoint;
+	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
 
 	/**
 	 *
@@ -110,12 +111,6 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
 		return endpoint;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.geom.WB_Simplex#getCenter()
-	 */
-	@Override
 	public WB_Point getCenter() {
 		return new WB_Point(endpoint).addSelf(origin).mulSelf(0.5);
 	}
@@ -159,46 +154,14 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
 		set(endpoint, origin);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.geom.WB_Simplex#getPoint(int)
-	 */
-	@Override
-	public WB_Coord getPoint(final int i) {
-		if (i == 0) {
-			return origin;
-		}
-		if (i == 1) {
-			return endpoint;
-		}
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.geom.WB_Geometry#getType()
-	 */
-	@Override
-	public WB_GeometryType getType() {
-		return WB_GeometryType.SEGMENT;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
-	 */
-	@Override
-	public WB_Geometry apply(final WB_Transform T) {
+	public WB_Segment apply(final WB_Transform T) {
 		return geometryfactory.createSegment(new WB_Point(origin).applyAsPoint(T),
 				new WB_Point(endpoint).applyAsPoint(T));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Curve#curvePoint(double)
 	 */
 	@Override
@@ -211,7 +174,7 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Curve#loweru()
 	 */
 	@Override
@@ -221,7 +184,7 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Curve#upperu()
 	 */
 	@Override
@@ -229,20 +192,24 @@ public class WB_Segment extends WB_Linear implements WB_Simplex, WB_Curve {
 		return 1;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.geom.WB_Curve#curveDirection(double)
 	 */
 	@Override
-	public WB_Vector curveDirection(double u) {
+	public WB_Vector curveDirection(final double u) {
 
 		return new WB_Vector(direction);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.geom.WB_Curve#curveDerivative(double)
 	 */
 	@Override
-	public WB_Vector curveDerivative(double u) {
+	public WB_Vector curveDerivative(final double u) {
 		return new WB_Vector(direction);
 	}
 }

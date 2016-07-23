@@ -17,12 +17,9 @@ import gnu.trove.map.hash.TLongIntHashMap;
 import javolution.util.FastTable;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_FacelistMesh;
 import wblut.geom.WB_Frame;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
-import wblut.geom.WB_GeometryType;
-import wblut.geom.WB_HasColor;
 import wblut.geom.WB_KDTree;
 import wblut.geom.WB_KDTree.WB_KDEntry;
 import wblut.geom.WB_Mesh;
@@ -39,12 +36,7 @@ import wblut.geom.WB_Vector;
  * @author Frederik Vanhoutte (W:Blut)
  *
  */
-public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
-
-	/**
-	 *
-	 */
-	private int meshcolor;
+public class HE_Mesh extends HE_MeshStructure {
 
 	/**
 	 * Instantiates a new HE_Mesh.
@@ -80,7 +72,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @param mesh
 	 */
 	public HE_Mesh(final WB_MeshCreator mesh) {
-		this(new HEC_FromMesh(mesh.getMesh()));
+		this(new HEC_FromMesh(mesh.create()));
 	}
 
 	/**
@@ -136,6 +128,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh modify(final HEM_Modifier modifier) {
+
+		updateFaces();
 		return modifier.apply(this);
 	}
 
@@ -147,6 +141,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh subdivide(final HES_Subdividor subdividor) {
+
+		updateFaces();
 		return subdividor.apply(this);
 	}
 
@@ -161,8 +157,10 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh subdivide(final HES_Subdividor subdividor, final int rep) {
+
+		updateFaces();
 		for (int i = 0; i < rep; i++) {
-			subdivide(subdividor);
+			subdividor.apply(this);
 		}
 		return this;
 	}
@@ -191,6 +189,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return the h e_ mesh
 	 */
 	public HE_Mesh simplify(final HES_Simplifier simplifier) {
+
+		updateFaces();
 		return simplifier.apply(this);
 	}
 
@@ -213,7 +213,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 *
 	 * @return
 	 */
-	public WB_FacelistMesh toFacelistMesh() {
+	public WB_Mesh toFacelistMesh() {
 		return WB_GeometryFactory.instance().createMesh(getVerticesAsCoord(), getFacesAsInt());
 	}
 
@@ -235,13 +235,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		return frame;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
-	 */
-	@Override
 	public HE_Mesh apply(final WB_Transform T) {
+
 		return new HEC_Transform(this, T).create();
 	}
 
@@ -251,6 +246,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return
 	 */
 	public HE_Mesh applySelf(final WB_Transform T) {
+
+		updateFaces();
 		return modify(new HEM_Transform(T));
 	}
 
@@ -263,6 +260,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh transformSelf(final WB_Transform T) {
+
+		updateFaces();
 		return modify(new HEM_Transform(T));
 	}
 
@@ -290,6 +289,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh moveSelf(final double x, final double y, final double z) {
+
+		updateFaces();
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
 			vItr.next().addSelf(x, y, z);
@@ -325,6 +326,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh moveSelf(final WB_Coord v) {
+
+		updateFaces();
 		return moveSelf(v.xd(), v.yd(), v.zd());
 	}
 
@@ -352,6 +355,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	public HE_Mesh moveToSelf(final double x, final double y, final double z) {
 
+		updateFaces();
 		WB_Point center = getCenter();
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
@@ -389,6 +393,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh moveToSelf(final WB_Coord v) {
+
+		updateFaces();
 		return moveToSelf(v.xd(), v.yd(), v.zd());
 	}
 
@@ -424,6 +430,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	public HE_Mesh rotateAboutAxis2PSelf(final double angle, final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z) {
+
+		updateFaces();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -481,6 +489,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	public HE_Mesh rotateAboutAxis2PSelf(final double angle, final WB_Coord p1, final WB_Coord p2) {
 
+		updateFaces();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -530,6 +539,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	public HE_Mesh rotateAboutAxisSelf(final double angle, final WB_Coord p, final WB_Coord a) {
 
+		updateFaces();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -582,6 +592,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	public HE_Mesh rotateAboutAxisSelf(final double angle, final double px, final double py, final double pz,
 			final double ax, final double ay, final double az) {
 
+		updateFaces();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -631,6 +642,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	public HE_Mesh rotateAboutOriginSelf(final double angle, final WB_Coord a) {
 
+		updateFaces();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -676,6 +688,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	public HE_Mesh rotateAboutOriginSelf(final double angle, final double ax, final double ay, final double az) {
 
+		updateFaces();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -721,6 +734,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 */
 	public HE_Mesh rotateAboutCenterSelf(final double angle, final WB_Coord a) {
 
+		updateFaces();
 		return rotateAboutAxisSelf(angle, getCenter(), a);
 	}
 
@@ -748,6 +762,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return
 	 */
 	public HE_Mesh rotateAboutCenterSelf(final double angle, final double ax, final double ay, final double az) {
+
+		updateFaces();
 		return rotateAboutAxisSelf(angle, getCenter(), new WB_Vector(ax, ay, az));
 	}
 
@@ -780,6 +796,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	public HE_Mesh scaleSelf(final double scaleFactorx, final double scaleFactory, final double scaleFactorz,
 			final WB_Coord c) {
 
+		updateFaces();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
@@ -828,6 +845,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh scaleSelf(final double scaleFactor, final WB_Coord c) {
+
+		updateFaces();
 		return scaleSelf(scaleFactor, scaleFactor, scaleFactor, c);
 	}
 
@@ -856,6 +875,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh scaleSelf(final double scaleFactorx, final double scaleFactory, final double scaleFactorz) {
+
+		updateFaces();
 		WB_Point center = getCenter();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
@@ -901,6 +922,8 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 * @return self
 	 */
 	public HE_Mesh scaleSelf(final double scaleFactor) {
+
+		updateFaces();
 		return scaleSelf(scaleFactor, scaleFactor, scaleFactor);
 	}
 
@@ -949,7 +972,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 	 *
 	 * @return the center
 	 */
-	@Override
+
 	public WB_Point getCenter() {
 		final WB_Point c = new WB_Point(0, 0, 0);
 		final Iterator<HE_Vertex> vItr = vItr();
@@ -1474,26 +1497,6 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 		modify(new HEM_Clean());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_HasColor#getColor()
-	 */
-	@Override
-	public int getColor() {
-		return meshcolor;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_HasColor#setColor(int)
-	 */
-	@Override
-	public void setColor(final int color) {
-		meshcolor = color;
-	}
-
 	/**
 	 * Set vertex positions to values in a 2D array. If length of array is not
 	 * the same as number of vertices, nothing happens.
@@ -1514,6 +1517,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v.set(values[i][0], values[i][1], values[i][2]);
 			i++;
 		}
+		updateFaces();
 	}
 
 	/**
@@ -1535,6 +1539,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v.set(values[i], values[i + 1], values[i + 2]);
 			i += 3;
 		}
+		updateFaces();
 	}
 
 	/**
@@ -1556,6 +1561,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v.set(values[i]);
 			i++;
 		}
+		updateFaces();
 	}
 
 	/**
@@ -1577,6 +1583,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v.set(values.get(i));
 			i++;
 		}
+		updateFaces();
 	}
 
 	/**
@@ -1599,6 +1606,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v.set(values[i][0], values[i][1], values[i][2]);
 			i++;
 		}
+		updateFaces();
 	}
 
 	/**
@@ -1620,6 +1628,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v.set(values[i], values[i + 1], values[i + 2]);
 			i += 3;
 		}
+		updateFaces();
 	}
 
 	/**
@@ -1642,6 +1651,7 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v.set(values[i][0], values[i][1], values[i][2]);
 			i++;
 		}
+		updateFaces();
 	}
 
 	/**
@@ -1663,66 +1673,25 @@ public class HE_Mesh extends HE_MeshStructure implements WB_HasColor, WB_Mesh {
 			v.set(values[i], values[i + 1], values[i + 2]);
 			i += 3;
 		}
+		updateFaces();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_Geometry#getType()
-	 */
-	@Override
-	public WB_GeometryType getType() {
-		return WB_GeometryType.MESH;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_Mesh#getFaceNormal(int)
-	 */
-	@Override
 	public WB_Coord getFaceNormal(final int id) {
 		return getFaceWithIndex(id).getFaceNormal();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_Mesh#getFaceCenter(int)
-	 */
-	@Override
 	public WB_Coord getFaceCenter(final int id) {
 		return getFaceWithIndex(id).getFaceCenter();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_Mesh#getVertexNormal(int)
-	 */
-	@Override
 	public WB_Coord getVertexNormal(final int i) {
 		return getVertexWithIndex(i).getVertexNormal();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_Mesh#getVertex(int)
-	 */
-	@Override
 	public WB_Coord getVertex(final int i) {
 		return getVertexWithIndex(i);
 	}
 
-	/*
-	 * Get the vertices as a List<WB_Coord>
-	 *
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_Mesh#getPoints()
-	 */
-	@Override
 	public List<WB_Coord> getPoints() {
 		final List<WB_Coord> result = new FastTable<WB_Coord>();
 		result.addAll(vertices.getObjects());

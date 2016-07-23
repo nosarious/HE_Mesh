@@ -3,33 +3,31 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
-
-import java.util.Collection;
 
 import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
 
 /**
- * 
+ *
  */
-public class WB_Sphere implements WB_Geometry {
+public class WB_Sphere {
 	/** Center. */
 	WB_Point center;
 	/** Radius. */
 	double radius;
 
 	/**
-	 * 
+	 *
 	 */
 	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
 
 	/**
-	 * 
+	 *
 	 */
 	public WB_Sphere() {
 		this.center = geometryfactory.createPoint();
@@ -49,7 +47,7 @@ public class WB_Sphere implements WB_Geometry {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -60,47 +58,30 @@ public class WB_Sphere implements WB_Geometry {
 		if (!(o instanceof WB_Sphere)) {
 			return false;
 		}
-		return (WB_Epsilon.isEqualAbs(radius, ((WB_Sphere) o).getRadius()))
-				&& (center.equals(((WB_Sphere) o).getCenter()));
+		return WB_Epsilon.isEqualAbs(radius, ((WB_Sphere) o).getRadius()) && center.equals(((WB_Sphere) o).getCenter());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		return (31 * center.hashCode()) + hashCode(radius);
+		return 31 * center.hashCode() + hashCode(radius);
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param v
 	 * @return
 	 */
 	private int hashCode(final double v) {
 		final long tmp = Double.doubleToLongBits(v);
-		return (int) (tmp ^ (tmp >>> 32));
+		return (int) (tmp ^ tmp >>> 32);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.geom.WB_Geometry#getType()
-	 */
-	@Override
-	public WB_GeometryType getType() {
-		return WB_GeometryType.SPHERE;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.geom.WB_Geometry#apply(wblut.geom.WB_Transform)
-	 */
-	@Override
 	public WB_Sphere apply(final WB_Transform T) {
 		return geometryfactory.createSphereWithRadius(center.applyAsPoint(T), radius);
 	}
@@ -161,7 +142,7 @@ public class WB_Sphere implements WB_Geometry {
 	public void growSpherebyPoint(final WB_Coord p) {
 		final WB_Vector d = WB_Point.subToVector3D(p, center);
 		final double dist2 = d.getSqLength3D();
-		if (dist2 > (radius * radius)) {
+		if (dist2 > radius * radius) {
 			final double dist = Math.sqrt(dist2);
 			final double newRadius = (radius + dist) * 0.5;
 			final double k = (newRadius - radius) / dist;
@@ -184,75 +165,5 @@ public class WB_Sphere implements WB_Geometry {
 			return null;
 		}
 		return center.addMul(radius, vc);
-	}
-
-	/**
-	 * 
-	 *
-	 * @param points 
-	 * @return 
-	 */
-	public static WB_Sphere getBoundingSphere(WB_Coord[] points) {
-		WB_Point center = new WB_Point(points[0]);
-		double radius = WB_Epsilon.EPSILON;
-		double radius2 = radius * radius;
-		double dist, dist2, alpha, ialpha2;
-
-		for (int i = 0; i < 3; i++) {
-			for (WB_Coord point : points) {
-				dist2 = WB_Point.getSqDistance3D(point, center);
-				if (dist2 > radius2) {
-					dist = Math.sqrt(dist2);
-					if (i < 2) {
-						alpha = dist / radius;
-						ialpha2 = 1.0 / (alpha * alpha);
-						radius = 0.5 * (alpha + 1 / alpha) * radius;
-						center = geometryfactory.createMidpoint(center.mulSelf(1.0 + ialpha2),
-								WB_Point.mul(point, 1.0 - ialpha2));
-					} else {
-						radius = (radius + dist) * 0.5;
-						center.mulAddMulSelf(radius / dist, (dist - radius) / dist, point);
-					}
-					radius2 = radius * radius;
-				}
-			}
-		}
-
-		return new WB_Sphere(center, radius);
-	}
-
-	/**
-	 * 
-	 *
-	 * @param points 
-	 * @return 
-	 */
-	public static WB_Sphere getBoundingSphere(Collection<? extends WB_Coord> points) {
-		WB_Point center = new WB_Point(points.iterator().next());
-		double radius = WB_Epsilon.EPSILON;
-		double radius2 = radius * radius;
-		double dist, dist2, alpha, ialpha2;
-
-		for (int i = 0; i < 3; i++) {
-			for (WB_Coord point : points) {
-				dist2 = WB_Point.getSqDistance3D(point, center);
-				if (dist2 > radius2) {
-					dist = Math.sqrt(dist2);
-					if (i < 2) {
-						alpha = dist / radius;
-						ialpha2 = 1.0 / (alpha * alpha);
-						radius = 0.5 * (alpha + 1 / alpha) * radius;
-						center = geometryfactory.createMidpoint(center.mulSelf(1.0 + ialpha2),
-								WB_Point.mul(point, 1.0 - ialpha2));
-					} else {
-						radius = (radius + dist) * 0.5;
-						center.mulAddMulSelf(radius / dist, (dist - radius) / dist, point);
-					}
-					radius2 = radius * radius;
-				}
-			}
-		}
-
-		return new WB_Sphere(center, radius);
 	}
 }

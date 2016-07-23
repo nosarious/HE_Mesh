@@ -10,19 +10,17 @@
 
 package wblut.core;
 
-
 public class WB_Version {
 
 	public static final WB_Version CURRENT_VERSION = new WB_Version();
 
-	public static final int MAJOR = 3;
+	public static final int MAJOR = 4;
 
 	public static final int MINOR = 0;
 
-	public static final int PATCH = 3;
+	public static final int PATCH = 0;
 
-	private static final String releaseInfo = "Ursa Major";
-
+	private static final String releaseInfo = "Victor";
 
 	/**
 	 *
@@ -33,13 +31,11 @@ public class WB_Version {
 		System.out.println(CURRENT_VERSION);
 	}
 
-
 	/**
 	 *
 	 */
 	private WB_Version() {
 	}
-
 
 	/**
 	 *
@@ -50,7 +46,6 @@ public class WB_Version {
 		return MAJOR;
 	}
 
-
 	/**
 	 *
 	 *
@@ -59,7 +54,6 @@ public class WB_Version {
 	public static int getMinor() {
 		return MINOR;
 	}
-
 
 	/**
 	 *
@@ -70,19 +64,19 @@ public class WB_Version {
 		return PATCH;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		final String ver = "W:Blut HE_Mesh " + MAJOR + "." + MINOR + "." + PATCH;
-		if ((releaseInfo != null) && (releaseInfo.length() > 0)) {
+		if (releaseInfo != null && releaseInfo.length() > 0) {
 			return ver + " " + releaseInfo;
 		}
 		return ver;
 	}
-
 
 	/**
 	 *

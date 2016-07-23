@@ -73,7 +73,7 @@ public class HE_RASJavolution<E extends HE_Element> extends HE_RAS<E> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_RAS#add(wblut.hemesh.HE_Element)
 	 */
 	@Override
@@ -113,7 +113,7 @@ public class HE_RASJavolution<E extends HE_Element> extends HE_RAS<E> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_RAS#remove(wblut.hemesh.HE_Element)
 	 */
 	@Override
@@ -134,7 +134,7 @@ public class HE_RASJavolution<E extends HE_Element> extends HE_RAS<E> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_RAS#get(int)
 	 */
 	@Override
@@ -144,7 +144,7 @@ public class HE_RASJavolution<E extends HE_Element> extends HE_RAS<E> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_RAS#getByIndex(int)
 	 */
 	@Override
@@ -154,7 +154,7 @@ public class HE_RASJavolution<E extends HE_Element> extends HE_RAS<E> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_RAS#getByKey(java.lang.Long)
 	 */
 	@Override
@@ -170,21 +170,7 @@ public class HE_RASJavolution<E extends HE_Element> extends HE_RAS<E> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see wblut.hemesh.HE_RAS#getIndex(wblut.hemesh.HE_Element)
-	 */
-	/**
-	 * @deprecated Use {@link #indexOf(E)} instead
-	 */
-	@Deprecated
-	@Override
-	public int getIndex(final E object) {
-		return indexOf(object);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_RAS#getIndex(wblut.hemesh.HE_Element)
 	 */
 	@Override
@@ -194,7 +180,7 @@ public class HE_RASJavolution<E extends HE_Element> extends HE_RAS<E> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_RAS#pollRandom(java.util.Random)
 	 */
 	@Override
@@ -208,7 +194,7 @@ public class HE_RASJavolution<E extends HE_Element> extends HE_RAS<E> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_RAS#size()
 	 */
 	@Override
@@ -218,7 +204,7 @@ public class HE_RASJavolution<E extends HE_Element> extends HE_RAS<E> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_RAS#contains(wblut.hemesh.HE_Element)
 	 */
 	@Override
@@ -231,7 +217,7 @@ public class HE_RASJavolution<E extends HE_Element> extends HE_RAS<E> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_RAS#containsKey(java.lang.Long)
 	 */
 	@Override
@@ -241,7 +227,7 @@ public class HE_RASJavolution<E extends HE_Element> extends HE_RAS<E> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_RAS#iterator()
 	 */
 	@Override
@@ -251,7 +237,7 @@ public class HE_RASJavolution<E extends HE_Element> extends HE_RAS<E> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_RAS#getObjects()
 	 */
 	@Override

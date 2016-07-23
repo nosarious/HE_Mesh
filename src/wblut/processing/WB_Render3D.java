@@ -29,10 +29,9 @@ import wblut.geom.WB_Circle;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_Curve;
-import wblut.geom.WB_FacelistMesh;
 import wblut.geom.WB_Frame;
-import wblut.geom.WB_FrameNode;
-import wblut.geom.WB_FrameStrut;
+import wblut.geom.WB_Frame.WB_FrameNode;
+import wblut.geom.WB_Frame.WB_FrameStrut;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_Line;
@@ -274,18 +273,6 @@ public class WB_Render3D extends WB_Render2D {
 	}
 
 	/**
-	 *
-	 *
-	 * @param curves
-	 * @param steps
-	 * @deprecated Use {@link #drawCurve(Collection<WB_Curve>,int)} instead
-	 */
-	@Deprecated
-	public void drawCurves(final Collection<WB_Curve> curves, final int steps) {
-		drawCurve(curves, steps);
-	}
-
-	/**
 	 * Draw one edge.
 	 *
 	 * @param e
@@ -428,6 +415,10 @@ public class WB_Render3D extends WB_Render2D {
 		drawFace(f, false);
 	}
 
+	private void drawFaceInt(final HE_Face f) {
+		drawFaceInt(f, false);
+	}
+
 	/**
 	 *
 	 *
@@ -509,6 +500,78 @@ public class WB_Render3D extends WB_Render2D {
 		}
 	}
 
+	private void drawFaceInt(final HE_Face f, final boolean smooth) {
+		if (!f.isVisible()) {
+			return;
+		}
+		final int fo = f.getFaceOrder();
+
+		final List<HE_Vertex> vertices = f.getFaceVertices();
+
+		if (fo < 3 || vertices.size() < 3) {
+		} else if (fo == 3) {
+			final int[] tri = new int[] { 0, 1, 2 };
+			HE_Vertex v0, v1, v2;
+			WB_Coord n0, n1, n2;
+			if (smooth) {
+
+				v0 = vertices.get(tri[0]);
+				n0 = v0.getVertexNormal();
+				v1 = vertices.get(tri[1]);
+				n1 = v1.getVertexNormal();
+				v2 = vertices.get(tri[2]);
+				n2 = v2.getVertexNormal();
+				normal(n0);
+				vertex(v0);
+				normal(n1);
+				vertex(v1);
+				normal(n2);
+				vertex(v2);
+
+			} else {
+
+				v0 = vertices.get(tri[0]);
+				v1 = vertices.get(tri[1]);
+				v2 = vertices.get(tri[2]);
+				vertex(v0);
+				vertex(v1);
+				vertex(v2);
+
+			}
+		} else {
+			final int[] tris = f.getTriangles();
+			HE_Vertex v0, v1, v2;
+			WB_Coord n0, n1, n2;
+			if (smooth) {
+				for (int i = 0; i < tris.length; i += 3) {
+
+					v0 = vertices.get(tris[i]);
+					n0 = v0.getVertexNormal();
+					v1 = vertices.get(tris[i + 1]);
+					n1 = v1.getVertexNormal();
+					v2 = vertices.get(tris[i + 2]);
+					n2 = v2.getVertexNormal();
+					normal(n0);
+					vertex(v0);
+					normal(n1);
+					vertex(v1);
+					normal(n2);
+					vertex(v2);
+
+				}
+			} else {
+				for (int i = 0; i < tris.length; i += 3) {
+					v0 = vertices.get(tris[i]);
+					v1 = vertices.get(tris[i + 1]);
+					v2 = vertices.get(tris[i + 2]);
+					vertex(v0);
+					vertex(v1);
+					vertex(v2);
+				}
+			}
+		}
+	}
+
 	/**
 	 *
 	 *
@@ -517,6 +580,10 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 	public void drawFace(final HE_Face f, final PImage texture) {
 		drawFace(f, texture, false);
+	}
+
+	private void drawFaceInt(final HE_Face f, final PImage texture) {
+		drawFaceInt(f, texture, false);
 	}
 
 	/**
@@ -597,6 +664,82 @@ public class WB_Render3D extends WB_Render2D {
 					home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1.getUVW(f).vf());
 					home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2.getUVW(f).vf());
 					home.endShape();
+				}
+			}
+		}
+	}
+
+	private void drawFaceInt(final HE_Face f, final PImage texture, final boolean smooth) {
+		if (!f.isVisible()) {
+			return;
+		}
+		final int fo = f.getFaceOrder();
+		final List<HE_Vertex> vertices = f.getFaceVertices();
+		if (fo < 3 || vertices.size() < 3) {
+		} else if (fo == 3) {
+			final int[] tri = new int[] { 0, 1, 2 };
+			HE_Vertex v0, v1, v2;
+			WB_Coord n0, n1, n2;
+			if (smooth) {
+
+				home.texture(texture);
+				v0 = vertices.get(tri[0]);
+				n0 = v0.getVertexNormal();
+				v1 = vertices.get(tri[1]);
+				n1 = v1.getVertexNormal();
+				v2 = vertices.get(tri[2]);
+				n2 = v2.getVertexNormal();
+				normal(n0);
+				home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0.getUVW(f).vf());
+				normal(n1);
+				home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1.getUVW(f).vf());
+				normal(n2);
+				home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2.getUVW(f).vf());
+
+			} else {
+
+				home.texture(texture);
+				v0 = vertices.get(tri[0]);
+				v1 = vertices.get(tri[1]);
+				v2 = vertices.get(tri[2]);
+				home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0.getUVW(f).vf());
+				home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1.getUVW(f).vf());
+				home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2.getUVW(f).vf());
+
+			}
+		} else {
+			final int[] tris = f.getTriangles();
+			HE_Vertex v0, v1, v2;
+			WB_Coord n0, n1, n2;
+			if (smooth) {
+				for (int i = 0; i < tris.length; i += 3) {
+
+					home.texture(texture);
+					v0 = vertices.get(tris[i]);
+					n0 = v0.getVertexNormal();
+					v1 = vertices.get(tris[i + 1]);
+					n1 = v1.getVertexNormal();
+					v2 = vertices.get(tris[i + 2]);
+					n2 = v2.getVertexNormal();
+					normal(n0);
+					home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0.getUVW(f).vf());
+					normal(n1);
+					home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1.getUVW(f).vf());
+					normal(n2);
+					home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2.getUVW(f).vf());
+
+				}
+			} else {
+				for (int i = 0; i < tris.length; i += 3) {
+
+					home.texture(texture);
+					v0 = vertices.get(tris[i]);
+					v1 = vertices.get(tris[i + 1]);
+					v2 = vertices.get(tris[i + 2]);
+					home.vertex(v0.xf(), v0.yf(), v0.zf(), v0.getUVW(f).uf(), v0.getUVW(f).vf());
+					home.vertex(v1.xf(), v1.yf(), v1.zf(), v1.getUVW(f).uf(), v1.getUVW(f).vf());
+					home.vertex(v2.xf(), v2.yf(), v2.zf(), v2.getUVW(f).uf(), v2.getUVW(f).vf());
+
 				}
 			}
 		}
@@ -787,6 +930,10 @@ public class WB_Render3D extends WB_Render2D {
 		drawFaceFC(f, false);
 	}
 
+	private void drawFaceFCInt(final HE_Face f) {
+		drawFaceFCInt(f, false);
+	}
+
 	/**
 	 *
 	 *
@@ -837,6 +984,50 @@ public class WB_Render3D extends WB_Render2D {
 		}
 	}
 
+	private void drawFaceFCInt(final HE_Face f, final boolean smooth) {
+		if (!f.isVisible()) {
+			return;
+		}
+		if (f.getFaceOrder() > 2) {
+			home.pushStyle();
+			home.fill(f.getColor());
+			final int[] tris = f.getTriangles();
+			final List<HE_Vertex> vertices = f.getFaceVertices();
+			HE_Vertex v0, v1, v2;
+			WB_Coord n0, n1, n2;
+			if (smooth) {
+				for (int i = 0; i < tris.length; i += 3) {
+
+					v0 = vertices.get(tris[i]);
+					n0 = v0.getVertexNormal();
+					v1 = vertices.get(tris[i + 1]);
+					n1 = v1.getVertexNormal();
+					v2 = vertices.get(tris[i + 2]);
+					n2 = v2.getVertexNormal();
+					normal(n0);
+					vertex(v0);
+					normal(n1);
+					vertex(v1);
+					normal(n2);
+					vertex(v2);
+
+				}
+			} else {
+				for (int i = 0; i < tris.length; i += 3) {
+
+					v0 = vertices.get(tris[i]);
+					v1 = vertices.get(tris[i + 1]);
+					v2 = vertices.get(tris[i + 2]);
+					vertex(v0);
+					vertex(v1);
+					vertex(v2);
+
+				}
+			}
+			home.popStyle();
+		}
+	}
+
 	/**
 	 *
 	 *
@@ -844,6 +1035,10 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 	public void drawFaceHC(final HE_Face f) {
 		drawFaceHC(f, false);
+	}
+
+	private void drawFaceHCInt(final HE_Face f) {
+		drawFaceHCInt(f, false);
 	}
 
 	/**
@@ -900,6 +1095,54 @@ public class WB_Render3D extends WB_Render2D {
 		}
 	}
 
+	private void drawFaceHCInt(final HE_Face f, final boolean smooth) {
+		if (!f.isVisible()) {
+			return;
+		}
+		if (f.getFaceOrder() > 2) {
+			final int[] tris = f.getTriangles();
+			final List<HE_Vertex> vertices = f.getFaceVertices();
+			final List<HE_Halfedge> halfedges = f.getFaceHalfedges();
+			HE_Vertex v0, v1, v2;
+			WB_Coord n0, n1, n2;
+			if (smooth) {
+				for (int i = 0; i < tris.length; i += 3) {
+
+					v0 = vertices.get(tris[i]);
+					n0 = v0.getVertexNormal();
+					v1 = vertices.get(tris[i + 1]);
+					n1 = v1.getVertexNormal();
+					v2 = vertices.get(tris[i + 2]);
+					n2 = v2.getVertexNormal();
+					home.fill(halfedges.get(tris[i]).getColor());
+					normal(n0);
+					vertex(v0);
+					home.fill(halfedges.get(tris[i + 1]).getColor());
+					normal(n1);
+					vertex(v1);
+					home.fill(halfedges.get(tris[i + 2]).getColor());
+					normal(n2);
+					vertex(v2);
+
+				}
+			} else {
+				for (int i = 0; i < tris.length; i += 3) {
+
+					v0 = vertices.get(tris[i]);
+					v1 = vertices.get(tris[i + 1]);
+					v2 = vertices.get(tris[i + 2]);
+					home.fill(halfedges.get(tris[i]).getColor());
+					vertex(v0);
+					home.fill(halfedges.get(tris[i + 1]).getColor());
+					vertex(v1);
+					home.fill(halfedges.get(tris[i + 2]).getColor());
+					vertex(v2);
+
+				}
+			}
+		}
+	}
+
 	/**
 	 *
 	 *
@@ -910,18 +1153,6 @@ public class WB_Render3D extends WB_Render2D {
 		final WB_Coord p1 = f.getFaceCenter();
 		final WB_Point p2 = WB_Point.mul(f.getFaceNormal(), d).addSelf(p1);
 		line(p1, p2);
-	}
-
-	/**
-	 *
-	 *
-	 * @param d
-	 * @param mesh
-	 * @deprecated Use {@link #drawFaceNormals(HE_MeshStructure,double)} instead
-	 */
-	@Deprecated
-	public void drawFaceNormals(final double d, final HE_MeshStructure mesh) {
-		drawFaceNormals(mesh, d);
 	}
 
 	/**
@@ -990,97 +1221,10 @@ public class WB_Render3D extends WB_Render2D {
 	/**
 	 *
 	 *
-	 * @param meshes
-	 */
-	public void drawFaces(final Collection<? extends HE_MeshStructure> meshes) {
-		final Iterator<? extends HE_MeshStructure> mItr = meshes.iterator();
-		while (mItr.hasNext()) {
-			drawFaces(mItr.next());
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param meshes
-	 */
-	public void drawFaces(final HE_MeshCollection meshes) {
-		final HE_MeshIterator mItr = meshes.mItr();
-		while (mItr.hasNext()) {
-			drawFaces(mItr.next());
-		}
-	}
-
-	/**
-	 * Draw mesh faces. Typically used with noStroke();
-	 *
-	 * @param mesh
-	 *            the mesh
-	 */
-	public void drawFaces(final HE_MeshStructure mesh) {
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		while (fItr.hasNext()) {
-			drawFace(fItr.next());
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @param texture
-	 */
-	public void drawFaces(final HE_MeshStructure mesh, final PImage texture) {
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		while (fItr.hasNext()) {
-			drawFace(fItr.next(), texture);
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @param textures
-	 */
-	public void drawFaces(final HE_MeshStructure mesh, final PImage[] textures) {
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		while (fItr.hasNext()) {
-			drawFace(fItr.next(), textures);
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 */
-	public void drawFacesFC(final HE_MeshStructure mesh) {
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		while (fItr.hasNext()) {
-			drawFaceFC(fItr.next());
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 */
-	public void drawFacesHC(final HE_MeshStructure mesh) {
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		while (fItr.hasNext()) {
-			drawFaceHC(fItr.next());
-		}
-	}
-
-	/**
-	 *
-	 *
 	 * @param f
 	 */
 	public void drawFaceSmooth(final HE_Face f) {
-		new ArrayList<HE_Vertex>();
+
 		drawFace(f, true);
 	}
 
@@ -1093,7 +1237,7 @@ public class WB_Render3D extends WB_Render2D {
 	 *            the mesh
 	 */
 	public void drawFaceSmooth(final Long key, final HE_MeshStructure mesh) {
-		new ArrayList<HE_Vertex>();
+
 		final HE_Face f = mesh.getFaceWithKey(key);
 		if (f != null) {
 			drawFace(f, true);
@@ -1106,7 +1250,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param f
 	 */
 	public void drawFaceSmoothFC(final HE_Face f) {
-		new ArrayList<HE_Vertex>();
+
 		drawFaceFC(f, true);
 	}
 
@@ -1117,7 +1261,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param mesh
 	 */
 	public void drawFaceSmoothFC(final Long key, final HE_MeshStructure mesh) {
-		new ArrayList<HE_Vertex>();
+
 		final HE_Face f = mesh.getFaceWithKey(key);
 		if (f != null) {
 			drawFaceFC(f, true);
@@ -1130,7 +1274,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param f
 	 */
 	public void drawFaceSmoothHC(final HE_Face f) {
-		new ArrayList<HE_Vertex>();
+
 		drawFaceHC(f, true);
 	}
 
@@ -1141,7 +1285,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param mesh
 	 */
 	public void drawFaceSmoothHC(final Long key, final HE_MeshStructure mesh) {
-		new ArrayList<HE_Vertex>();
+
 		final HE_Face f = mesh.getFaceWithKey(key);
 		if (f != null) {
 			drawFaceHC(f, true);
@@ -1154,7 +1298,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param f
 	 */
 	public void drawFaceSmoothVC(final HE_Face f) {
-		new ArrayList<HE_Vertex>();
+
 		drawFaceVC(f, true);
 	}
 
@@ -1165,136 +1309,10 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param mesh
 	 */
 	public void drawFaceSmoothVC(final Long key, final HE_MeshStructure mesh) {
-		new ArrayList<HE_Vertex>();
+
 		final HE_Face f = mesh.getFaceWithKey(key);
 		if (f != null) {
 			drawFaceVC(f, true);
-		}
-	}
-
-	/**
-	 * Draw mesh faces using vertex normals. Typically used with noStroke().
-	 *
-	 * @param mesh
-	 *            the mesh
-	 */
-	public void drawFacesSmooth(final HE_MeshStructure mesh) {
-		new ArrayList<HE_Vertex>();
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		while (fItr.hasNext()) {
-			drawFace(fItr.next(), true);
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @param texture
-	 */
-	public void drawFacesSmooth(final HE_MeshStructure mesh, final PImage texture) {
-		new ArrayList<HE_Vertex>();
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		while (fItr.hasNext()) {
-			drawFace(fItr.next(), texture, true);
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @param textures
-	 */
-	public void drawFacesSmooth(final HE_MeshStructure mesh, final PImage[] textures) {
-		new ArrayList<HE_Vertex>();
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		while (fItr.hasNext()) {
-			drawFace(fItr.next(), textures, true);
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 */
-	public void drawFacesSmoothFC(final HE_MeshStructure mesh) {
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		while (fItr.hasNext()) {
-			drawFaceFC(fItr.next(), true);
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 */
-	public void drawFacesSmoothHC(final HE_MeshStructure mesh) {
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		while (fItr.hasNext()) {
-			drawFaceHC(fItr.next(), true);
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 */
-	public void drawFacesSmoothVC(final HE_MeshStructure mesh) {
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		while (fItr.hasNext()) {
-			drawFaceVC(fItr.next(), true);
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 */
-	public void drawFacesVC(final HE_MeshStructure mesh) {
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		while (fItr.hasNext()) {
-			drawFaceVC(fItr.next());
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param label
-	 * @param mesh
-	 */
-	public void drawFacesWithInternalLabel(final int label, final HE_MeshStructure mesh) {
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		HE_Face f;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			if (f.getInternalLabel() == label) {
-				drawFace(f);
-			}
-		}
-	}
-
-	/**
-	 * Draw mesh faces matching label. Typically used with noStroke();
-	 *
-	 * @param label
-	 *            the label
-	 * @param mesh
-	 *            the mesh
-	 */
-	public void drawFacesWithLabel(final int label, final HE_MeshStructure mesh) {
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		HE_Face f;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			if (f.getLabel() == label) {
-				drawFace(f);
-			}
 		}
 	}
 
@@ -1305,6 +1323,10 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 	public void drawFaceVC(final HE_Face f) {
 		drawFaceVC(f, false);
+	}
+
+	private void drawFaceVCInt(final HE_Face f) {
+		drawFaceVCInt(f, false);
 	}
 
 	/**
@@ -1358,6 +1380,294 @@ public class WB_Render3D extends WB_Render2D {
 				}
 			}
 		}
+	}
+
+	private void drawFaceVCInt(final HE_Face f, final boolean smooth) {
+		if (!f.isVisible()) {
+			return;
+		}
+		if (f.getFaceOrder() > 2) {
+			final int[] tris = f.getTriangles();
+			final List<HE_Vertex> vertices = f.getFaceVertices();
+			HE_Vertex v0, v1, v2;
+			WB_Coord n0, n1, n2;
+			if (smooth) {
+				for (int i = 0; i < tris.length; i += 3) {
+
+					v0 = vertices.get(tris[i]);
+					n0 = v0.getVertexNormal();
+					v1 = vertices.get(tris[i + 1]);
+					n1 = v1.getVertexNormal();
+					v2 = vertices.get(tris[i + 2]);
+					n2 = v2.getVertexNormal();
+					home.fill(v0.getColor());
+					normal(n0);
+					vertex(v0);
+					home.fill(v1.getColor());
+					normal(n1);
+					vertex(v1);
+					home.fill(v2.getColor());
+					normal(n2);
+					vertex(v2);
+
+				}
+			} else {
+				for (int i = 0; i < tris.length; i += 3) {
+
+					v0 = vertices.get(tris[i]);
+					v1 = vertices.get(tris[i + 1]);
+					v2 = vertices.get(tris[i + 2]);
+					home.fill(v0.getColor());
+					vertex(v0);
+					home.fill(v1.getColor());
+					vertex(v1);
+					home.fill(v2.getColor());
+					vertex(v2);
+
+				}
+			}
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param meshes
+	 */
+	public void drawFaces(final Collection<? extends HE_MeshStructure> meshes) {
+		final Iterator<? extends HE_MeshStructure> mItr = meshes.iterator();
+		while (mItr.hasNext()) {
+			drawFaces(mItr.next());
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param meshes
+	 */
+	public void drawFaces(final HE_MeshCollection meshes) {
+		final HE_MeshIterator mItr = meshes.mItr();
+
+		while (mItr.hasNext()) {
+			drawFaces(mItr.next());
+		}
+	}
+
+	/**
+	 * Draw mesh faces. Typically used with noStroke();
+	 *
+	 * @param mesh
+	 *            the mesh
+	 */
+	public void drawFaces(final HE_MeshStructure mesh) {
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		home.beginShape(PConstants.TRIANGLES);
+		while (fItr.hasNext()) {
+			drawFaceInt(fItr.next());
+		}
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param texture
+	 */
+	public void drawFaces(final HE_MeshStructure mesh, final PImage texture) {
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		home.beginShape(PConstants.TRIANGLES);
+		while (fItr.hasNext()) {
+			drawFaceInt(fItr.next(), texture);
+		}
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param textures
+	 */
+	public void drawFaces(final HE_MeshStructure mesh, final PImage[] textures) {
+		final Iterator<HE_Face> fItr = mesh.fItr();
+
+		while (fItr.hasNext()) {
+			drawFace(fItr.next(), textures);
+		}
+
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 */
+	public void drawFacesFC(final HE_MeshStructure mesh) {
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		home.beginShape(PConstants.TRIANGLES);
+		while (fItr.hasNext()) {
+			drawFaceFCInt(fItr.next());
+		}
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 */
+	public void drawFacesHC(final HE_MeshStructure mesh) {
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		home.beginShape(PConstants.TRIANGLES);
+		while (fItr.hasNext()) {
+			drawFaceHCInt(fItr.next());
+		}
+		home.endShape();
+	}
+
+	/**
+	 * Draw mesh faces using vertex normals. Typically used with noStroke().
+	 *
+	 * @param mesh
+	 *            the mesh
+	 */
+	public void drawFacesSmooth(final HE_MeshStructure mesh) {
+
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		home.beginShape(PConstants.TRIANGLES);
+		while (fItr.hasNext()) {
+			drawFaceInt(fItr.next(), true);
+		}
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param texture
+	 */
+	public void drawFacesSmooth(final HE_MeshStructure mesh, final PImage texture) {
+
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		home.beginShape(PConstants.TRIANGLES);
+		while (fItr.hasNext()) {
+			drawFaceInt(fItr.next(), texture, true);
+		}
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param textures
+	 */
+	public void drawFacesSmooth(final HE_MeshStructure mesh, final PImage[] textures) {
+
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		while (fItr.hasNext()) {
+			drawFace(fItr.next(), textures, true);
+		}
+
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 */
+	public void drawFacesSmoothFC(final HE_MeshStructure mesh) {
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		home.beginShape(PConstants.TRIANGLES);
+		while (fItr.hasNext()) {
+			drawFaceFCInt(fItr.next(), true);
+		}
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 */
+	public void drawFacesSmoothHC(final HE_MeshStructure mesh) {
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		home.beginShape(PConstants.TRIANGLES);
+		while (fItr.hasNext()) {
+			drawFaceHCInt(fItr.next(), true);
+		}
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 */
+	public void drawFacesSmoothVC(final HE_MeshStructure mesh) {
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		home.beginShape(PConstants.TRIANGLES);
+		while (fItr.hasNext()) {
+			drawFaceVCInt(fItr.next(), true);
+		}
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 */
+	public void drawFacesVC(final HE_MeshStructure mesh) {
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		home.beginShape(PConstants.TRIANGLES);
+		while (fItr.hasNext()) {
+			drawFaceVCInt(fItr.next());
+		}
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param label
+	 * @param mesh
+	 */
+	public void drawFacesWithInternalLabel(final int label, final HE_MeshStructure mesh) {
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		home.beginShape(PConstants.TRIANGLES);
+		HE_Face f;
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			if (f.getInternalLabel() == label) {
+				drawFaceInt(f);
+			}
+		}
+		home.endShape();
+	}
+
+	/**
+	 * Draw mesh faces matching label. Typically used with noStroke();
+	 *
+	 * @param label
+	 *            the label
+	 * @param mesh
+	 *            the mesh
+	 */
+	public void drawFacesWithLabel(final int label, final HE_MeshStructure mesh) {
+		final Iterator<HE_Face> fItr = mesh.fItr();
+		home.beginShape(PConstants.TRIANGLES);
+		HE_Face f;
+		while (fItr.hasNext()) {
+			f = fItr.next();
+			if (f.getLabel() == label) {
+				drawFaceInt(f);
+			}
+		}
+		home.endShape();
 	}
 
 	/**
@@ -1487,32 +1797,6 @@ public class WB_Render3D extends WB_Render2D {
 	public void drawHalfedge(final Long key, final double d, final double s, final HE_MeshStructure mesh) {
 		final HE_Halfedge he = mesh.getHalfedgeWithKey(key);
 		drawHalfedge(he, d, s);
-	}
-
-	/**
-	 *
-	 *
-	 * @param d
-	 * @param f
-	 * @param mesh
-	 * @deprecated Use {@link #drawHalfedges(HE_MeshStructure,double,double)}
-	 *             instead
-	 */
-	@Deprecated
-	public void drawHalfedges(final double d, final double f, final HE_MeshStructure mesh) {
-		drawHalfedges(mesh, d, f);
-	}
-
-	/**
-	 *
-	 *
-	 * @param d
-	 * @param mesh
-	 * @deprecated Use {@link #drawHalfedges(HE_MeshStructure,double)} instead
-	 */
-	@Deprecated
-	public void drawHalfedges(final double d, final HE_MeshStructure mesh) {
-		drawHalfedges(mesh, d);
 	}
 
 	/**
@@ -2083,33 +2367,6 @@ public class WB_Render3D extends WB_Render2D {
 		for (final WB_Coord p : points) {
 			drawPointMapped(p, map);
 		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param d
-	 * @deprecated Use {@link #drawPoint(Collection<? extends WB_Coord>,double)}
-	 *             instead
-	 */
-
-	@Deprecated
-	public void drawPoints(final Collection<? extends WB_Coord> points, final double d) {
-		drawPoint(points, d);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param d
-	 * @deprecated Use {@link #drawPoint(WB_Coord[],double)} instead
-	 */
-
-	@Deprecated
-	public void drawPoints(final WB_Coord[] points, final double d) {
-		drawPoint(points, d);
 	}
 
 	/**
@@ -3754,19 +4011,6 @@ public class WB_Render3D extends WB_Render2D {
 	 *
 	 *
 	 * @param key
-	 * @param d
-	 * @param mesh
-	 * @deprecated Use {@link #drawVertex(Long,HE_MeshStructure,double)} instead
-	 */
-	@Deprecated
-	public void drawVertex(final Long key, final double d, final HE_MeshStructure mesh) {
-		drawVertex(key, mesh, d);
-	}
-
-	/**
-	 *
-	 *
-	 * @param key
 	 * @param mesh
 	 * @param d
 	 */
@@ -3793,19 +4037,6 @@ public class WB_Render3D extends WB_Render2D {
 	/**
 	 *
 	 *
-	 * @param d
-	 * @param mesh
-	 * @deprecated Use {@link #drawVertexNormals(HE_MeshStructure,double)}
-	 *             instead
-	 */
-	@Deprecated
-	public void drawVertexNormals(final double d, final HE_MeshStructure mesh) {
-		drawVertexNormals(mesh, d);
-	}
-
-	/**
-	 *
-	 *
 	 * @param mesh
 	 * @param d
 	 */
@@ -3818,18 +4049,6 @@ public class WB_Render3D extends WB_Render2D {
 			vn = v.getVertexNormal();
 			drawVector(v, vn, d);
 		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param d
-	 * @param mesh
-	 * @deprecated Use {@link #drawVertices(HE_MeshStructure,double)} instead
-	 */
-	@Deprecated
-	public void drawVertices(final double d, final HE_MeshStructure mesh) {
-		drawVertices(mesh, d);
 	}
 
 	/**
@@ -4279,8 +4498,8 @@ public class WB_Render3D extends WB_Render2D {
 
 	/**
 	 *
-	 *
 	 * @param mesh
+	 * @param img
 	 * @return
 	 */
 	public PShape toFacetedPShape(final HE_Mesh mesh, final PImage img) {
@@ -4382,10 +4601,10 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param mesh
 	 * @return
 	 */
-	public PShape toFacetedPShape(final WB_FacelistMesh mesh) {
+	public PShape toFacetedPShape(final WB_Mesh mesh) {
 		final PShape retained = home.createShape();
 		retained.beginShape(PConstants.TRIANGLES);
-		final WB_FacelistMesh lmesh = geometryfactory.createTriMesh(mesh);
+		final WB_Mesh lmesh = geometryfactory.createTriMesh(mesh);
 		final List<WB_Coord> seq = lmesh.getPoints();
 		WB_Coord p = seq.get(0);
 		for (int i = 0; i < lmesh.getNumberOfFaces(); i++) {
@@ -4551,10 +4770,10 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param mesh
 	 * @return
 	 */
-	public PShape toSmoothPShape(final WB_FacelistMesh mesh) {
+	public PShape toSmoothPShape(final WB_Mesh mesh) {
 		final PShape retained = home.createShape();
 		retained.beginShape(PConstants.TRIANGLES);
-		final WB_FacelistMesh lmesh = geometryfactory.createTriMesh(mesh);
+		final WB_Mesh lmesh = geometryfactory.createTriMesh(mesh);
 		final WB_Vector v = geometryfactory.createVector();
 		final List<WB_Coord> seq = lmesh.getPoints();
 		WB_Coord p = seq.get(0);
@@ -4755,9 +4974,9 @@ public class WB_Render3D extends WB_Render2D {
 
 	/**
 	 *
-	 *
 	 * @param label
 	 * @param mesh
+	 * @param d
 	 */
 	public void drawVerticesWithInternalLabel(final int label, final HE_MeshStructure mesh, final double d) {
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
@@ -4771,12 +4990,10 @@ public class WB_Render3D extends WB_Render2D {
 	}
 
 	/**
-	 * Draw mesh faces matching label. Typically used with noStroke();
 	 *
 	 * @param label
-	 *            the label
 	 * @param mesh
-	 *            the mesh
+	 * @param d
 	 */
 	public void drawVerticesWithLabel(final int label, final HE_MeshStructure mesh, final double d) {
 		final Iterator<HE_Vertex> vItr = mesh.vItr();
@@ -4824,7 +5041,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param mesh
 	 * @return
 	 */
-	public PShape toFacettedPShape(final WB_FacelistMesh mesh) {
+	public PShape toFacettedPShape(final WB_Mesh mesh) {
 		return toFacetedPShape(mesh);
 	}
 

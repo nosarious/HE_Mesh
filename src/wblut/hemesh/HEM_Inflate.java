@@ -131,7 +131,7 @@ public class HEM_Inflate extends HEM_Modifier {
 				neighbors = tree.getRange(v, radius);
 				for (int i = 0; i < neighbors.length; i++) {
 					if (neighbors[i].coord != v) {
-						final WB_Vector tmp = neighbors[i].coord.subToVector3D(v);
+						final WB_Vector tmp = WB_Vector.subToVector3D(neighbors[i].coord, v);
 						tmp.normalizeSelf();
 						dv.addSelf(tmp);
 					}
@@ -188,7 +188,7 @@ public class HEM_Inflate extends HEM_Modifier {
 				neighbors = tree.getRange(v, radius);
 				for (int i = 0; i < neighbors.length; i++) {
 					if (neighbors[i].coord != v) {
-						final WB_Vector tmp = neighbors[i].coord.subToVector3D(v);
+						final WB_Vector tmp = WB_Vector.subToVector3D(neighbors[i].coord, v);
 						tmp.normalizeSelf();
 						dv.addSelf(tmp);
 					}

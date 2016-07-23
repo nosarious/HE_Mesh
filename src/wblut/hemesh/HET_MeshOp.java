@@ -339,7 +339,6 @@ public class HET_MeshOp {
 	 *
 	 * @param selection
 	 *            edges to split.
-	 * @param mesh
 	 * @return selection of new vertices and new edges
 	 */
 	public static HE_Selection splitEdges(final HE_Selection selection) {
@@ -361,7 +360,6 @@ public class HET_MeshOp {
 	 *            edges to split.
 	 * @param offset
 	 *            the offset
-	 * @param mesh
 	 * @return selection of new vertices and new edges
 	 */
 	public static HE_Selection splitEdges(final HE_Selection selection, final double offset) {
@@ -565,7 +563,6 @@ public class HET_MeshOp {
 	 *
 	 *
 	 * @param faces
-	 * @param mesh
 	 * @return
 	 */
 	public static HE_Selection splitFacesCenter(final HE_Selection faces) {
@@ -579,7 +576,6 @@ public class HET_MeshOp {
 	 *
 	 * @param faces
 	 * @param d
-	 * @param mesh
 	 * @return
 	 */
 	public static HE_Selection splitFacesCenter(final HE_Selection faces, final double d) {
@@ -594,7 +590,6 @@ public class HET_MeshOp {
 	 * @param faces
 	 * @param d
 	 * @param c
-	 * @param mesh
 	 * @return
 	 */
 	public static HE_Selection splitFacesCenter(final HE_Selection faces, final double d, final double c) {
@@ -646,7 +641,6 @@ public class HET_MeshOp {
 	 *
 	 *
 	 * @param faces
-	 * @param mesh
 	 * @return
 	 */
 	public static HE_Selection splitFacesCenterHole(final HE_Selection faces) {
@@ -660,7 +654,6 @@ public class HET_MeshOp {
 	 *
 	 * @param faces
 	 * @param d
-	 * @param mesh
 	 * @return
 	 */
 	public static HE_Selection splitFacesCenterHole(final HE_Selection faces, final double d) {
@@ -675,7 +668,6 @@ public class HET_MeshOp {
 	 * @param faces
 	 * @param d
 	 * @param c
-	 * @param mesh
 	 * @return
 	 */
 	public static HE_Selection splitFacesCenterHole(final HE_Selection faces, final double d, final double c) {
@@ -846,7 +838,6 @@ public class HET_MeshOp {
 	 *
 	 * @param sel
 	 *            the sel
-	 * @param mesh
 	 * @return selection of new faces and new vertices
 	 */
 	public static HE_Selection splitFacesHybrid(final HE_Selection sel) {
@@ -1089,7 +1080,6 @@ public class HET_MeshOp {
 	 *
 	 * @param selection
 	 *            selection to split
-	 * @param mesh
 	 * @return selection of new faces and new vertices
 	 */
 	public static HE_Selection splitFacesMidEdge(final HE_Selection selection) {
@@ -1254,7 +1244,6 @@ public class HET_MeshOp {
 	 *
 	 *
 	 * @param selection
-	 * @param mesh
 	 * @return
 	 */
 	public static HE_Selection splitFacesMidEdgeHole(final HE_Selection selection) {
@@ -2778,6 +2767,24 @@ public class HET_MeshOp {
 	}
 
 	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static double getUmbrellaAngle(final HE_Vertex v) {
+		double result = 0;
+		HE_Halfedge he = v.getHalfedge();
+		if (he == null) {
+			return 0;
+		}
+		do {
+			result += he.getAngle();
+			he = he.getNextInVertex();
+		} while (he != v.getHalfedge());
+		return result;
+	}
+
+	/**
 	 * Returns the discrete Gaussian curvature and the mean normal. These
 	 * discrete operators are described in "Discrete Differential-Geometry
 	 * Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun,
@@ -2787,7 +2794,8 @@ public class HET_MeshOp {
 	 * sphere, the Gaussian curvature is very accurate, but not the mean
 	 * curvature. Guoliang Xu suggests improvements in his papers
 	 * http://lsec.cc.ac.cn/~xuguo/xuguo3.htm
-	 *
+	 * 
+	 * @param vertex
 	 * @param meanCurvatureVector
 	 * @return
 	 */
@@ -2977,7 +2985,7 @@ public class HET_MeshOp {
 
 	/**
 	 *
-	 *
+	 * @param v
 	 * @param normal
 	 * @param t1
 	 * @param t2
@@ -3189,7 +3197,8 @@ public class HET_MeshOp {
 
 	/**
 	 * Collapse halfedge if its vertex doesn't belong to the boundary
-	 *
+	 * 
+	 * @param mesh
 	 * @param he
 	 *            he
 	 *
@@ -3235,7 +3244,8 @@ public class HET_MeshOp {
 	/**
 	 * Collapse edge. End vertices are averaged. Degenerate faces are removed.
 	 * This function can result in non-manifold meshes.
-	 *
+	 * 
+	 * @param mesh
 	 * @param e
 	 *            edge to collapse
 	 * @return true, if successful
@@ -3282,7 +3292,8 @@ public class HET_MeshOp {
 
 	/**
 	 * Collapse edge to its midpoint or to point on boundary
-	 *
+	 * 
+	 * @param mesh
 	 * @param e
 	 * @param strict
 	 *            if true then an edge with two vertices on the boundary is

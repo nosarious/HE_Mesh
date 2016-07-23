@@ -9,7 +9,6 @@ var searchData=
   ['limit',['limit',['../classwblut_1_1core_1_1_w_b___progress_counter.html#abbda8b82e2dc6dfc33ea5b16d177f764',1,'wblut.core.WB_ProgressCounter.limit()'],['../classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit.html#a5060a346035eb5613d826d421bbd61f9',1,'wblut.hemesh.HES_TriDecLimit.limit()']]],
   ['limitangle',['limitAngle',['../classwblut_1_1hemesh_1_1_h_e_m___diagrid.html#a7fa9927e819f2f7beb973669360bdd84',1,'wblut::hemesh::HEM_Diagrid']]],
   ['limitpoints',['limitPoints',['../classwblut_1_1hemesh_1_1_h_e_c___voronoi_cell.html#a43d7440d105f6a9029955928114639f6',1,'wblut::hemesh::HEC_VoronoiCell']]],
-  ['line',['LINE',['../enumwblut_1_1geom_1_1_w_b___geometry_type.html#aedcc7a8258758a31bc61a8cef0069c2d',1,'wblut::geom::WB_GeometryType']]],
   ['linear',['linear',['../classwblut_1_1hemesh_1_1_h_e_m___sphere_inversion.html#ab5bc0716f3b5537716f18fbe346accda',1,'wblut.hemesh.HEM_SphereInversion.linear()'],['../classwblut_1_1math_1_1_w_b___ease.html#a06cdd1875535bab715d46a380e781bfa',1,'wblut.math.WB_Ease.linear()']]],
   ['lingray',['LINGRAY',['../classwblut_1_1core_1_1_w_b___color.html#a33c1ef02ff4886d3bf1c621c87f6fa7c',1,'wblut::core::WB_Color']]],
   ['lo',['lo',['../classwblut_1_1math_1_1_w_b___double_double.html#aaeb3f22caf82c75519f1c9156a146036',1,'wblut::math::WB_DoubleDouble']]],

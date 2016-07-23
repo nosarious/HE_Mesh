@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['quad',['Quad',['../classwblut_1_1math_1_1_w_b___ease_1_1_quad.html',1,'wblut::math::WB_Ease']]],
-  ['quart',['Quart',['../classwblut_1_1math_1_1_w_b___ease_1_1_quart.html',1,'wblut::math::WB_Ease']]],
-  ['queryresult',['QueryResult',['../classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_query_result.html',1,'wblut::geom::WB_KDTree']]],
-  ['quint',['Quint',['../classwblut_1_1math_1_1_w_b___ease_1_1_quint.html',1,'wblut::math::WB_Ease']]]
+  ['scene3ds',['Scene3ds',['../classwblut_1_1hemesh_1_1_h_e_c___from3ds_file_1_1_scene3ds.html',1,'wblut::hemesh::HEC_From3dsFile']]],
+  ['stlcolormodel',['STLColorModel',['../interfacewblut_1_1hemesh_1_1_h_e_t___writer_s_t_l_1_1_s_t_l_color_model.html',1,'wblut::hemesh::HET_WriterSTL']]]
 ];

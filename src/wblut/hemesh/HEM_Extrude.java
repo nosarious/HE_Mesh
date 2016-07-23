@@ -913,7 +913,7 @@ public class HEM_Extrude extends HEM_Modifier {
 			faceHalfedges.add(he);
 			faceHalfedgeNormals.add(_halfedgeNormals.get(he.key()));
 			faceEdgeCenters.add(he.getHalfedgeCenter());
-			extFaceVertices.add(he.getVertex().get());
+			extFaceVertices.add(he.getVertex().copy());
 			he = he.getNextInFace();
 		} while (he != f.getHalfedge());
 		boolean isPossible = true;

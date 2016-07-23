@@ -34,8 +34,9 @@ public class WB_Triangulation3D {
 
 	/**
 	 *
-	 *
 	 * @param tetra
+	 * @param triangles
+	 * @param edges
 	 */
 	public WB_Triangulation3D(final int[] tetra, final int[] triangles, final int[] edges) {
 		_tetrahedra = tetra;

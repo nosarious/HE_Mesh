@@ -47,7 +47,7 @@ public class WB_Ease {
 
 	private static final double pmn = 1.70158; // Penner’s Magic Number.
 
-	public interface Ease {
+	public static interface Ease {
 		public double easeIn(double t, double... parameters);
 
 		public double easeOut(double t, double... parameters);
@@ -61,21 +61,21 @@ public class WB_Ease {
 		public double easeInOut(double t);
 	}
 
-	public static Ease linear = new Linear();
-	public static Ease quad = new Quad();
-	public static Ease cubic = new Cubic();
-	public static Ease quart = new Quart();
-	public static Ease quint = new Quint();
-	public static Ease sine = new Sine();
-	public static Ease expo = new Expo();
-	public static Ease circ = new Circ();
-	public static Ease back = new Back();
-	public static Ease bounce = new Bounce();
-	public static Ease elastic = new Elastic();
+	public static Ease linear = new EaseLinear();
+	public static Ease quad = new EaseQuad();
+	public static Ease cubic = new EaseCubic();
+	public static Ease quart = new EaseQuart();
+	public static Ease quint = new EaseQuint();
+	public static Ease sine = new EaseSine();
+	public static Ease expo = new EaseExpo();
+	public static Ease circ = new EaseCirc();
+	public static Ease back = new EaseBack();
+	public static Ease bounce = new EaseBounce();
+	public static Ease elastic = new EaseElastic();
 
 	// simple linear tweening - no easing, no acceleration
 
-	public static class Linear implements Ease {
+	public static class EaseLinear implements Ease {
 		@Override
 		public double easeIn(final double t, final double... params) {
 			return params[1] * t / params[2] + params[20];
@@ -107,7 +107,7 @@ public class WB_Ease {
 		};
 	}
 
-	public static class Quad implements Ease {
+	public static class EaseQuad implements Ease {
 		@Override
 		public double easeIn(double t, final double... params) {
 			t /= params[2];
@@ -157,7 +157,7 @@ public class WB_Ease {
 
 	}
 
-	public static class Cubic implements Ease {
+	public static class EaseCubic implements Ease {
 		@Override
 		public double easeIn(double t, final double... params) {
 			t /= params[2];
@@ -169,7 +169,7 @@ public class WB_Ease {
 			return t * t * t;
 		};
 
-		// cubic easing out - decelerating to zero velocity
+		// cubic easing3 out - decelerating to zero velocity
 
 		@Override
 		public double easeOut(double t, final double... params) {
@@ -207,7 +207,7 @@ public class WB_Ease {
 		};
 	}
 
-	public static class Quart implements Ease {
+	public static class EaseQuart implements Ease {
 
 		@Override
 		public double easeIn(double t, final double... params) {
@@ -254,7 +254,7 @@ public class WB_Ease {
 		};
 	}
 
-	public static class Quint implements Ease {
+	public static class EaseQuint implements Ease {
 
 		@Override
 		public double easeIn(double t, final double... params) {
@@ -301,7 +301,7 @@ public class WB_Ease {
 		};
 	}
 
-	public static class Sine implements Ease {
+	public static class EaseSine implements Ease {
 
 		@Override
 		public double easeIn(final double t, final double... params) {
@@ -334,7 +334,7 @@ public class WB_Ease {
 		};
 	}
 
-	public static class Expo implements Ease {
+	public static class EaseExpo implements Ease {
 
 		@Override
 		public double easeIn(final double t, final double... params) {
@@ -377,7 +377,7 @@ public class WB_Ease {
 		};
 	}
 
-	public static class Circ implements Ease {
+	public static class EaseCirc implements Ease {
 
 		@Override
 		public double easeIn(double t, final double... params) {
@@ -424,14 +424,14 @@ public class WB_Ease {
 		};
 	}
 
-	public static class Back implements Ease {
+	public static class EaseBack implements Ease {
 		double s;
 
-		public Back() {
+		public EaseBack() {
 			s = pmn;
 		}
 
-		public Back(final double s) {
+		public EaseBack(final double s) {
 			this.s = s;
 		}
 
@@ -482,7 +482,7 @@ public class WB_Ease {
 
 	}
 
-	public static class Bounce implements Ease {
+	public static class EaseBounce implements Ease {
 
 		@Override
 		public double easeIn(final double t, final double... params) {
@@ -543,18 +543,18 @@ public class WB_Ease {
 		}
 	}
 
-	public static class Elastic implements Ease {
+	public static class EaseElastic implements Ease {
 
 		double a;
 		double p;
 
-		public Elastic() {
+		public EaseElastic() {
 			p = 0.3;
 			a = 1.0;
 
 		}
 
-		public Elastic(final double a, final double p) {
+		public EaseElastic(final double a, final double p) {
 			this.p = p;
 			this.a = a;
 		}

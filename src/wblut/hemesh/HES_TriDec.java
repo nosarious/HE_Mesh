@@ -407,9 +407,9 @@ public class HES_TriDec extends HES_Simplifier {
 			while (boundary.getFace() != null && boundary.getPair().getFace() != null) {
 				boundary = boundary.getNextInVertex();
 			}
-			v1 = he.getEndVertex().subToVector3D(he.getVertex());
+			v1 = WB_Vector.subToVector3D(he.getEndVertex(), he.getVertex());
 			v1.normalizeSelf();
-			v2 = boundary.getEndVertex().subToVector3D(boundary.getVertex());
+			v2 = WB_Vector.subToVector3D(boundary.getEndVertex(), boundary.getVertex());
 			v2.normalizeSelf();
 			cost += he.getEdge().getLength() * (1.0 - v1.dot(v2)) * _lambda;
 		} else {

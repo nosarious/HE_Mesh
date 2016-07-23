@@ -28,7 +28,7 @@ public abstract class HE_Element {
 		_labels = mergeLabels(-1, -1);
 	}
 
-	private long mergeLabels(final int internal, final int external) {
+	private static long mergeLabels(final int internal, final int external) {
 		return (long) internal << 32 | external & 0xffffffffL;
 
 	}

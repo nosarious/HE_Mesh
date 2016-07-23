@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['ringnode',['RingNode',['../classwblut_1_1hemesh_1_1_h_e_t___planar_path_triangulator_1_1_ring_node.html',1,'wblut::hemesh::HET_PlanarPathTriangulator']]],
-  ['ringnode',['RingNode',['../classwblut_1_1geom_1_1_w_b___shape_reader_1_1_ring_node.html',1,'wblut::geom::WB_ShapeReader']]],
-  ['ringtree',['RingTree',['../classwblut_1_1geom_1_1_w_b___shape_reader_1_1_ring_tree.html',1,'wblut::geom::WB_ShapeReader']]],
-  ['ringtree',['RingTree',['../classwblut_1_1hemesh_1_1_h_e_t___planar_path_triangulator_1_1_ring_tree.html',1,'wblut::hemesh::HET_PlanarPathTriangulator']]]
+  ['triangleintersection',['TriangleIntersection',['../classwblut_1_1geom_1_1_w_b___geometry_op_1_1_triangle_intersection.html',1,'wblut::geom::WB_GeometryOp']]],
+  ['triple',['Triple',['../classwblut_1_1geom_1_1_w_b___alpha_triangulation3_d_1_1_triple.html',1,'wblut::geom::WB_AlphaTriangulation3D']]],
+  ['type',['Type',['../enumwblut_1_1geom_1_1_w_b___danzer_1_1_type.html',1,'wblut::geom::WB_Danzer']]]
 ];
