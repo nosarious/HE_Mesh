@@ -25,7 +25,7 @@ public class WB_BezierSurface implements WB_Surface {
 	/**
 	 * 
 	 */
-	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	private static WB_GeometryFactory gf = new WB_GeometryFactory();
 
 	/**
 	 * 

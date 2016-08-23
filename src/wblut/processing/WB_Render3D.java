@@ -18,9 +18,7 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PMatrix3D;
-import processing.core.PShape;
 import processing.opengl.PGraphicsOpenGL;
-import wblut.core.WB_ProgressCounter;
 import wblut.core.WB_ProgressTracker;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_AABBTree;
@@ -34,14 +32,18 @@ import wblut.geom.WB_Frame.WB_FrameNode;
 import wblut.geom.WB_Frame.WB_FrameStrut;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_Hexagon;
 import wblut.geom.WB_Line;
 import wblut.geom.WB_Map;
 import wblut.geom.WB_Map2D;
 import wblut.geom.WB_Mesh;
+import wblut.geom.WB_Octagon;
+import wblut.geom.WB_Pentagon;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_PolyLine;
 import wblut.geom.WB_Polygon;
+import wblut.geom.WB_Quad;
 import wblut.geom.WB_Ray;
 import wblut.geom.WB_Ring;
 import wblut.geom.WB_Segment;
@@ -51,9 +53,7 @@ import wblut.geom.WB_Triangle;
 import wblut.geom.WB_Triangulation2D;
 import wblut.geom.WB_Triangulation3D;
 import wblut.geom.WB_Vector;
-import wblut.hemesh.HEC_ChamferBox;
 import wblut.hemesh.HET_MeshOp;
-import wblut.hemesh.HE_EdgeIterator;
 import wblut.hemesh.HE_Face;
 import wblut.hemesh.HE_FaceEdgeCirculator;
 import wblut.hemesh.HE_FaceHalfedgeInnerCirculator;
@@ -80,7 +80,7 @@ public class WB_Render3D extends WB_Render2D {
 	/**
 	 *
 	 */
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	public static final WB_ProgressTracker tracker = WB_ProgressTracker.instance();
 
@@ -3263,9 +3263,9 @@ public class WB_Render3D extends WB_Render2D {
 
 	public void drawTriangle(final WB_Triangle triangle) {
 		home.beginShape();
-		home.vertex(triangle.p1().xf(), triangle.p1().yf(), triangle.p1().zf());
-		home.vertex(triangle.p2().xf(), triangle.p2().yf(), triangle.p2().zf());
-		home.vertex(triangle.p3().xf(), triangle.p3().yf(), triangle.p3().zf());
+		vertex(triangle.p1());
+		vertex(triangle.p2());
+		vertex(triangle.p3());
 		home.endShape(PConstants.CLOSE);
 	}
 
@@ -4471,433 +4471,6 @@ public class WB_Render3D extends WB_Render2D {
 	/**
 	 *
 	 *
-	 * @param mesh
-	 * @return
-	 */
-	public PShape toFacetedPShape(final HE_Mesh mesh) {
-		final PShape retained = home.createShape();
-		retained.beginShape(PConstants.TRIANGLES);
-		final HE_Mesh lmesh = mesh.get();
-		lmesh.triangulate();
-		final Iterator<HE_Face> fItr = lmesh.fItr();
-		HE_Face f;
-		HE_Vertex v;
-		HE_Halfedge he;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			he = f.getHalfedge();
-			do {
-				v = he.getVertex();
-				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
-				he = he.getNextInFace();
-			} while (he != f.getHalfedge());
-		}
-		retained.endShape();
-		return retained;
-	}
-
-	/**
-	 *
-	 * @param mesh
-	 * @param img
-	 * @return
-	 */
-	public PShape toFacetedPShape(final HE_Mesh mesh, final PImage img) {
-		final PShape retained = home.createShape();
-		retained.beginShape(PConstants.TRIANGLES);
-		retained.texture(img);
-		final HE_Mesh lmesh = mesh.get();
-		lmesh.triangulate();
-		final Iterator<HE_Face> fItr = lmesh.fItr();
-		HE_Face f;
-		HE_Vertex v;
-		HE_Halfedge he;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			he = f.getHalfedge();
-			do {
-				v = he.getVertex();
-				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
-				he = he.getNextInFace();
-			} while (he != f.getHalfedge());
-		}
-		retained.endShape();
-		return retained;
-	}
-
-	public PShape toFacetedPShape(final HE_Mesh mesh, final PImage[] img) {
-		final PShape retained = home.createShape();
-		retained.beginShape(PConstants.TRIANGLES);
-
-		final HE_Mesh lmesh = mesh.get();
-		lmesh.triangulate();
-		final Iterator<HE_Face> fItr = lmesh.fItr();
-		HE_Face f;
-		HE_Vertex v;
-		HE_Halfedge he;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			retained.texture(img[f.getTextureId()]);
-			he = f.getHalfedge();
-			do {
-				v = he.getVertex();
-				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
-				he = he.getNextInFace();
-			} while (he != f.getHalfedge());
-		}
-		retained.endShape();
-		return retained;
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @param offset
-	 * @return
-	 */
-	public PShape toFacetedPShape(final HE_MeshStructure mesh, final double offset) {
-		tracker.setStatus(this, "Creating PShape.", 1);
-		final PShape retained = home.createShape();
-		retained.beginShape(PConstants.TRIANGLES);
-		WB_ProgressCounter counter = new WB_ProgressCounter(mesh.getNumberOfFaces(), 10);
-		tracker.setStatus(this, "Writing faces.", counter);
-		final Iterator<HE_Face> fItr = mesh.fItr();
-		HE_Face f;
-		List<HE_Vertex> vertices;
-		HE_Vertex v;
-		WB_Coord fn;
-		final float df = (float) offset;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			vertices = f.getFaceVertices();
-			if (vertices.size() > 2) {
-				final int[] tris = f.getTriangles();
-				for (int i = 0; i < tris.length; i += 3) {
-					v = vertices.get(tris[i]);
-					fn = v.getVertexNormal();
-					retained.vertex(v.xf() + df * fn.xf(), v.yf() + df * fn.yf(), v.zf() + df * fn.zf(),
-							v.getUVW(f).xf(), v.getUVW(f).yf());
-					v = vertices.get(tris[i + 1]);
-					fn = v.getVertexNormal();
-					retained.vertex(v.xf() + df * fn.xf(), v.yf() + df * fn.yf(), v.zf() + df * fn.zf(),
-							v.getUVW(f).xf(), v.getUVW(f).yf());
-					v = vertices.get(tris[i + 2]);
-					fn = v.getVertexNormal();
-					retained.vertex(v.xf() + df * fn.xf(), v.yf() + df * fn.yf(), v.zf() + df * fn.zf(),
-							v.getUVW(f).xf(), v.getUVW(f).yf());
-				}
-			}
-			counter.increment();
-		}
-		retained.endShape();
-		tracker.setStatus(this, "Pshape created.", -1);
-		return retained;
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @return
-	 */
-	public PShape toFacetedPShape(final WB_Mesh mesh) {
-		final PShape retained = home.createShape();
-		retained.beginShape(PConstants.TRIANGLES);
-		final WB_Mesh lmesh = geometryfactory.createTriMesh(mesh);
-		final List<WB_Coord> seq = lmesh.getPoints();
-		WB_Coord p = seq.get(0);
-		for (int i = 0; i < lmesh.getNumberOfFaces(); i++) {
-			int id = lmesh.getFace(i)[0];
-			p = seq.get(id);
-			retained.vertex(p.xf(), p.yf(), p.zf());
-			id = lmesh.getFace(i)[1];
-			p = seq.get(id);
-			retained.vertex(p.xf(), p.yf(), p.zf());
-			id = lmesh.getFace(i)[2];
-			p = seq.get(id);
-			;
-			retained.vertex(p.xf(), p.yf(), p.zf());
-		}
-		retained.endShape();
-		return retained;
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @return
-	 */
-	public PShape toFacetedPShapeWithFaceColor(final HE_Mesh mesh) {
-		final PShape retained = home.createShape();
-		retained.beginShape(PConstants.TRIANGLES);
-		final HE_Mesh lmesh = mesh.get();
-		lmesh.triangulate();
-		final Iterator<HE_Face> fItr = lmesh.fItr();
-		HE_Face f;
-		HE_Vertex v;
-		HE_Halfedge he;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			he = f.getHalfedge();
-			retained.fill(f.getColor());
-			do {
-				v = he.getVertex();
-				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
-				he = he.getNextInFace();
-			} while (he != f.getHalfedge());
-		}
-		retained.endShape();
-		return retained;
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @return
-	 */
-	public PShape toFacetedPShapeWithVertexColor(final HE_Mesh mesh) {
-		final PShape retained = home.createShape();
-		retained.beginShape(PConstants.TRIANGLES);
-		final HE_Mesh lmesh = mesh.get();
-		lmesh.triangulate();
-		final Iterator<HE_Face> fItr = lmesh.fItr();
-		HE_Face f;
-		HE_Vertex v;
-		HE_Halfedge he;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			he = f.getHalfedge();
-			do {
-				v = he.getVertex();
-				retained.fill(v.getColor());
-				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
-				he = he.getNextInFace();
-			} while (he != f.getHalfedge());
-		}
-		retained.endShape();
-		return retained;
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @return
-	 */
-	public PShape toSmoothPShape(final HE_Mesh mesh) {
-		final PShape retained = home.createShape();
-		retained.beginShape(PConstants.TRIANGLES);
-		final HE_Mesh lmesh = mesh.get();
-		lmesh.triangulate();
-		WB_Coord n = new WB_Vector();
-		final Iterator<HE_Face> fItr = lmesh.fItr();
-		HE_Face f;
-		HE_Vertex v;
-		HE_Halfedge he;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			he = f.getHalfedge();
-			do {
-				v = he.getVertex();
-				n = v.getVertexNormal();
-				retained.normal(n.xf(), n.yf(), n.zf());
-				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
-				he = he.getNextInFace();
-			} while (he != f.getHalfedge());
-		}
-		retained.endShape();
-		return retained;
-	}
-
-	public PShape toSmoothPShape(final HE_Mesh mesh, final PImage img) {
-		final PShape retained = home.createShape();
-		retained.beginShape(PConstants.TRIANGLES);
-		retained.texture(img);
-		final HE_Mesh lmesh = mesh.get();
-		lmesh.triangulate();
-		WB_Coord n = new WB_Vector();
-		final Iterator<HE_Face> fItr = lmesh.fItr();
-		HE_Face f;
-		HE_Vertex v;
-		HE_Halfedge he;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			he = f.getHalfedge();
-			do {
-				v = he.getVertex();
-				n = v.getVertexNormal();
-				retained.normal(n.xf(), n.yf(), n.zf());
-				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
-				he = he.getNextInFace();
-			} while (he != f.getHalfedge());
-		}
-		retained.endShape();
-		return retained;
-	}
-
-	public PShape toSmoothPShape(final HE_Mesh mesh, final PImage[] img) {
-		final PShape retained = home.createShape();
-		retained.beginShape(PConstants.TRIANGLES);
-		final HE_Mesh lmesh = mesh.get();
-		lmesh.triangulate();
-		WB_Coord n = new WB_Vector();
-		final Iterator<HE_Face> fItr = lmesh.fItr();
-		HE_Face f;
-		HE_Vertex v;
-		HE_Halfedge he;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			retained.texture(img[f.getTextureId()]);
-			he = f.getHalfedge();
-			do {
-				v = he.getVertex();
-				n = v.getVertexNormal();
-				retained.normal(n.xf(), n.yf(), n.zf());
-				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
-				he = he.getNextInFace();
-			} while (he != f.getHalfedge());
-		}
-		retained.endShape();
-		return retained;
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @return
-	 */
-	public PShape toSmoothPShape(final WB_Mesh mesh) {
-		final PShape retained = home.createShape();
-		retained.beginShape(PConstants.TRIANGLES);
-		final WB_Mesh lmesh = geometryfactory.createTriMesh(mesh);
-		final WB_Vector v = geometryfactory.createVector();
-		final List<WB_Coord> seq = lmesh.getPoints();
-		WB_Coord p = seq.get(0);
-		for (int i = 0; i < lmesh.getNumberOfFaces(); i++) {
-			int id = lmesh.getFace(i)[0];
-			v.set(lmesh.getVertexNormal(id));
-			retained.normal(v.xf(), v.yf(), v.zf());
-			p = seq.get(id);
-			retained.vertex(p.xf(), p.yf(), p.zf());
-			id = lmesh.getFace(i)[1];
-			v.set(lmesh.getVertexNormal(id));
-			retained.normal(v.xf(), v.yf(), v.zf());
-			p = seq.get(id);
-			retained.vertex(p.xf(), p.yf(), p.zf());
-			id = lmesh.getFace(i)[2];
-			v.set(lmesh.getVertexNormal(id));
-			retained.normal(v.xf(), v.yf(), v.zf());
-			p = seq.get(id);
-			retained.vertex(p.xf(), p.yf(), p.zf());
-		}
-		retained.endShape();
-		return retained;
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @return
-	 */
-	public PShape toSmoothPShapeWithFaceColor(final HE_Mesh mesh) {
-		final PShape retained = home.createShape();
-		retained.beginShape(PConstants.TRIANGLES);
-		final HE_Mesh lmesh = mesh.get();
-		lmesh.triangulate();
-		WB_Coord n = new WB_Vector();
-		final Iterator<HE_Face> fItr = lmesh.fItr();
-		HE_Face f;
-		HE_Vertex v;
-		HE_Halfedge he;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			retained.fill(f.getColor());
-			he = f.getHalfedge();
-			do {
-				v = he.getVertex();
-				n = v.getVertexNormal();
-				retained.normal(n.xf(), n.yf(), n.zf());
-				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
-				he = he.getNextInFace();
-			} while (he != f.getHalfedge());
-		}
-		retained.endShape();
-		return retained;
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @return
-	 */
-	public PShape toSmoothPShapeWithVertexColor(final HE_Mesh mesh) {
-		final PShape retained = home.createShape();
-		retained.beginShape(PConstants.TRIANGLES);
-		final HE_Mesh lmesh = mesh.get();
-		lmesh.triangulate();
-		WB_Coord n = new WB_Vector();
-		final Iterator<HE_Face> fItr = lmesh.fItr();
-		HE_Face f;
-		HE_Vertex v;
-		HE_Halfedge he;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			he = f.getHalfedge();
-			do {
-				v = he.getVertex();
-				retained.fill(v.getColor());
-				n = v.getVertexNormal();
-				retained.normal(n.xf(), n.yf(), n.zf());
-				retained.vertex(v.xf(), v.yf(), v.zf(), v.getUVW(f).xf(), v.getUVW(f).yf());
-				he = he.getNextInFace();
-			} while (he != f.getHalfedge());
-		}
-		retained.endShape();
-		return retained;
-	}
-
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @return
-	 */
-	public PShape toWireframePShape(final HE_MeshStructure mesh) {
-		// tracker.setDefaultStatus(this,"Creating
-		// PShape.");
-		final PShape retained = home.createShape();
-		if (mesh instanceof HE_Selection) {
-			((HE_Selection) mesh).collectEdgesByFace();
-		}
-		// tracker.setDefaultStatus(this,"Writing Edges.",
-		// mesh.getNumberOfEdges());
-		final HE_EdgeIterator eItr = mesh.eItr();
-		HE_Halfedge e;
-		HE_Vertex v;
-		retained.beginShape(PConstants.LINES);
-		while (eItr.hasNext()) {
-			e = eItr.next();
-			v = e.getVertex();
-			retained.vertex(v.xf(), v.yf(), v.zf());
-			v = e.getEndVertex();
-			retained.vertex(v.xf(), v.yf(), v.zf());
-			// tracker.incrementCounter();
-		}
-		retained.endShape();
-		// tracker.setDefaultStatus(this,"Pshape
-		// created.");
-		return retained;
-	}
-
-	/**
-	 *
-	 *
 	 * @param p
 	 */
 	public void translate(final WB_Coord p) {
@@ -5006,70 +4579,75 @@ public class WB_Render3D extends WB_Render2D {
 		}
 	}
 
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @return
-	 */
-	public PShape toFacettedPShape(final HE_Mesh mesh) {
-		return toFacetedPShape(mesh);
+	public void drawQuad(final WB_Quad quad) {
+		home.beginShape();
+		vertex(quad.p1);
+		vertex(quad.p2);
+		vertex(quad.p3);
+		vertex(quad.p4);
+		home.endShape(PConstants.CLOSE);
 	}
 
-	public PShape toFacettedPShape(final HE_Mesh mesh, final PImage img) {
-		return toFacetedPShape(mesh, img);
+	public void drawQuad(final Collection<? extends WB_Quad> quads) {
+		final Iterator<? extends WB_Quad> qItr = quads.iterator();
+		while (qItr.hasNext()) {
+			drawQuad(qItr.next());
+		}
 	}
 
-	public PShape toFacettedPShape(final HE_Mesh mesh, final PImage[] img) {
-		return toFacetedPShape(mesh, img);
+	public void drawPentagon(final WB_Pentagon pentagon) {
+		home.beginShape();
+		vertex(pentagon.p1);
+		vertex(pentagon.p2);
+		vertex(pentagon.p3);
+		vertex(pentagon.p4);
+		vertex(pentagon.p5);
+		home.endShape(PConstants.CLOSE);
 	}
 
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @param offset
-	 * @return
-	 */
-	public PShape toFacettedPShape(final HE_MeshStructure mesh, final double offset) {
-		return toFacetedPShape(mesh, offset);
+	public void drawPentagon(final Collection<? extends WB_Pentagon> pentagons) {
+		final Iterator<? extends WB_Pentagon> pItr = pentagons.iterator();
+		while (pItr.hasNext()) {
+			drawPentagon(pItr.next());
+		}
 	}
 
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @return
-	 */
-	public PShape toFacettedPShape(final WB_Mesh mesh) {
-		return toFacetedPShape(mesh);
+	public void drawHexagon(final WB_Hexagon hexagon) {
+		home.beginShape();
+		vertex(hexagon.p1);
+		vertex(hexagon.p2);
+		vertex(hexagon.p3);
+		vertex(hexagon.p4);
+		vertex(hexagon.p5);
+		vertex(hexagon.p6);
+		home.endShape(PConstants.CLOSE);
 	}
 
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @return
-	 */
-	public PShape toFacettedPShapeWithFaceColor(final HE_Mesh mesh) {
-		return toFacetedPShapeWithFaceColor(mesh);
+	public void drawHexagon(final Collection<? extends WB_Hexagon> hexagons) {
+		final Iterator<? extends WB_Hexagon> hItr = hexagons.iterator();
+		while (hItr.hasNext()) {
+			drawHexagon(hItr.next());
+		}
 	}
 
-	/**
-	 *
-	 *
-	 * @param mesh
-	 * @return
-	 */
-	public PShape toFacettedPShapeWithVertexColor(final HE_Mesh mesh) {
-		return toFacetedPShapeWithVertexColor(mesh);
+	public void drawOctagon(final WB_Octagon octagon) {
+		home.beginShape();
+		vertex(octagon.p1);
+		vertex(octagon.p2);
+		vertex(octagon.p3);
+		vertex(octagon.p4);
+		vertex(octagon.p5);
+		vertex(octagon.p6);
+		vertex(octagon.p7);
+		vertex(octagon.p8);
+		home.endShape(PConstants.CLOSE);
 	}
 
-	public static void main(final String[] args) {
-		HEC_ChamferBox creator = new HEC_ChamferBox();
-		creator.setWidth(400).setHeight(60).setDepth(200);
-		creator.setWidthSegments(14).setHeightSegments(3).setDepthSegments(20);
-		new HE_Mesh(creator);
+	public void drawOctagon(final Collection<? extends WB_Octagon> octagons) {
+		final Iterator<? extends WB_Octagon> oItr = octagons.iterator();
+		while (oItr.hasNext()) {
+			drawOctagon(oItr.next());
+		}
 	}
 
 }

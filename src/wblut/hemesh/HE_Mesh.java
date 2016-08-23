@@ -18,7 +18,6 @@ import javolution.util.FastTable;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_Frame;
-import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_KDTree;
 import wblut.geom.WB_KDTree.WB_KDEntry;
@@ -90,6 +89,15 @@ public class HE_Mesh extends HE_MeshStructure {
 	 *
 	 * @return copy as new HE_Mesh
 	 */
+	public HE_Mesh copy() {
+		return new HE_Mesh(new HEC_Copy(this));
+	}
+
+	/**
+	 * Deep copy of mesh.
+	 *
+	 * @return copy as new HE_Mesh
+	 */
 	public HE_Mesh get() {
 		return new HE_Mesh(new HEC_Copy(this));
 	}
@@ -101,7 +109,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 *            HE_Mesh to be duplicated
 	 */
 	public void set(final HE_Mesh target) {
-		final HE_Mesh result = target.get();
+		final HE_Mesh result = target.copy();
 		replaceVertices(result);
 		replaceFaces(result);
 		replaceHalfedges(result);
@@ -214,7 +222,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * @return
 	 */
 	public WB_Mesh toFacelistMesh() {
-		return WB_GeometryFactory.instance().createMesh(getVerticesAsCoord(), getFacesAsInt());
+		return gf.createMesh(getVerticesAsCoord(), getFacesAsInt());
 	}
 
 	/**
@@ -274,7 +282,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * @return copy
 	 */
 	public HE_Mesh transform(final WB_Transform T) {
-		return get().modify(new HEM_Transform(T));
+		return copy().modify(new HEM_Transform(T));
 	}
 
 	/**
@@ -310,7 +318,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * @return copy
 	 */
 	public HE_Mesh move(final double x, final double y, final double z) {
-		HE_Mesh result = get();
+		HE_Mesh result = copy();
 		final Iterator<HE_Vertex> vItr = result.vItr();
 		while (vItr.hasNext()) {
 			vItr.next().addSelf(x, y, z);
@@ -376,7 +384,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * @return copy
 	 */
 	public HE_Mesh moveTo(final double x, final double y, final double z) {
-		HE_Mesh result = get();
+		HE_Mesh result = copy();
 		WB_Point center = result.getCenter();
 		final Iterator<HE_Vertex> vItr = result.vItr();
 		while (vItr.hasNext()) {
@@ -464,7 +472,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh rotateAboutAxis2P(final double angle, final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z) {
-		HE_Mesh result = get();
+		HE_Mesh result = copy();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = result.vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -513,7 +521,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * @return copy
 	 */
 	public HE_Mesh rotateAboutAxis2P(final double angle, final WB_Coord p1, final WB_Coord p2) {
-		HE_Mesh result = get();
+		HE_Mesh result = copy();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = result.vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -564,7 +572,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * @return copy
 	 */
 	public HE_Mesh rotateAboutAxis(final double angle, final WB_Coord p, final WB_Coord a) {
-		HE_Mesh result = get();
+		HE_Mesh result = copy();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = result.vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -619,7 +627,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh rotateAboutAxis(final double angle, final double px, final double py, final double pz,
 			final double ax, final double ay, final double az) {
-		HE_Mesh result = get();
+		HE_Mesh result = copy();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = result.vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -664,7 +672,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * @return copy
 	 */
 	public HE_Mesh rotateAboutOrigin(final double angle, final WB_Coord a) {
-		HE_Mesh result = get();
+		HE_Mesh result = copy();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = result.vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -711,7 +719,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * @return copy
 	 */
 	public HE_Mesh rotateAboutOrigin(final double angle, final double ax, final double ay, final double az) {
-		HE_Mesh result = get();
+		HE_Mesh result = copy();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = result.vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -823,7 +831,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh scale(final double scaleFactorx, final double scaleFactory, final double scaleFactorz,
 			final WB_Coord c) {
-		HE_Mesh result = get();
+		HE_Mesh result = copy();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = result.vItr();
 		while (vItr.hasNext()) {
@@ -901,7 +909,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * @return copy
 	 */
 	public HE_Mesh scale(final double scaleFactorx, final double scaleFactory, final double scaleFactorz) {
-		HE_Mesh result = get();
+		HE_Mesh result = copy();
 		WB_Point center = result.getCenter();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = result.vItr();
@@ -1094,14 +1102,14 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public List<WB_Triangle> getTriangles() {
 		final List<WB_Triangle> result = new FastTable<WB_Triangle>();
-		final HE_Mesh trimesh = this.get();
+		final HE_Mesh trimesh = this.copy();
 		trimesh.triangulate();
 		final Iterator<HE_Face> fItr = trimesh.fItr();
 		HE_Face f;
 		while (fItr.hasNext()) {
 			f = fItr.next();
-			result.add(WB_GeometryFactory.instance().createTriangle(f.getHalfedge().getVertex(),
-					f.getHalfedge().getNextInFace().getVertex(), f.getHalfedge().getPrevInFace().getVertex()));
+			result.add(gf.createTriangle(f.getHalfedge().getVertex(), f.getHalfedge().getNextInFace().getVertex(),
+					f.getHalfedge().getPrevInFace().getVertex()));
 		}
 		return result;
 	}
@@ -1145,59 +1153,6 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Selection triangulateConcaveFace(final HE_Face face) {
 		return HET_MeshOp.triangulateConcaveFace(this, face);
-	}
-
-	/**
-	 * Expand vertex to new edge.
-	 *
-	 * @param v
-	 *            vertex to expand
-	 * @param f1
-	 *            first face
-	 * @param f2
-	 *            second face
-	 * @param vn
-	 *            position of new vertex
-	 */
-	public void expandVertexToEdge(final HE_Vertex v, final HE_Face f1, final HE_Face f2, final WB_Coord vn) {
-		if (f1 == f2) {
-			return;
-		}
-		HE_Halfedge he = v.getHalfedge();
-		HE_Halfedge he1 = new HE_Halfedge();
-		HE_Halfedge he2 = new HE_Halfedge();
-		do {
-			if (he.getFace() == f1) {
-				he1 = he;
-			}
-			if (he.getFace() == f2) {
-				he2 = he;
-			}
-			he = he.getNextInVertex();
-		} while (he != v.getHalfedge());
-		final HE_Vertex vNew = new HE_Vertex(vn);
-		setHalfedge(vNew, he1);
-		add(vNew);
-		he = he1;
-		do {
-			setVertex(he, vNew);
-			he = he.getNextInVertex();
-		} while (he != he2);
-		final HE_Halfedge he1p = he1.getPrevInFace();
-		final HE_Halfedge he2p = he2.getPrevInFace();
-		final HE_Halfedge he1new = new HE_Halfedge();
-		final HE_Halfedge he2new = new HE_Halfedge();
-		setVertex(he1new, v);
-		setVertex(he2new, vNew);
-		setNext(he1p, he1new);
-		setNext(he1new, he1);
-		setNext(he2p, he2new);
-		setNext(he2new, he2);
-		setPair(he1new, he2new);
-		setFace(he1new, f1);
-		setFace(he2new, f2);
-		add(he1new);
-		add(he2new);
 	}
 
 	/**

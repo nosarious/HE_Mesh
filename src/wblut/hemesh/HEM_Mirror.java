@@ -189,7 +189,7 @@ public class HEM_Mirror extends HEM_Modifier {
 		mesh.cleanUnusedElementsByFace();
 		mesh.capHalfedges();
 
-		final HE_Mesh mirrormesh = mesh.get();
+		final HE_Mesh mirrormesh = mesh.copy();
 		counter = new WB_ProgressCounter(mesh.getNumberOfVertices(), 10);
 		tracker.setStatus(this, "Mirroring vertices.", counter);
 		final List<HE_Vertex> vertices = mirrormesh.getVertices();

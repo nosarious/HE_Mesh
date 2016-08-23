@@ -42,7 +42,7 @@ class WB_GeodesicIII {
 
 		private WB_Mesh mesh;
 
-		private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+		private static WB_GeometryFactory gf = new WB_GeometryFactory();
 
 		public List<WB_Point> points;
 

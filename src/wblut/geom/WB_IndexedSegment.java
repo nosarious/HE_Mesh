@@ -15,7 +15,7 @@ public class WB_IndexedSegment extends WB_Segment {
 	private int i1;
 
 	private int i2;
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	// private final WB_Coordinate[] points;
 

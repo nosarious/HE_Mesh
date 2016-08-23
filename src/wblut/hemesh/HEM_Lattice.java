@@ -28,7 +28,7 @@ public class HEM_Lattice extends HEM_Modifier {
 	/**
 	 *
 	 */
-	private static final WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	private static final WB_GeometryFactory gf = new WB_GeometryFactory();
 	/**
 	 *
 	 */
@@ -185,7 +185,7 @@ public class HEM_Lattice extends HEM_Modifier {
 				.setHardEdgeChamfer(hew).setFuseAngle(fuseAngle).setThresholdAngle(thresholdAngle);
 		mesh.modify(extm);
 		tracker.setStatus(this, "Creating inner mesh.", 0);
-		final HE_Mesh innerMesh = mesh.get();
+		final HE_Mesh innerMesh = mesh.copy();
 		tracker.setStatus(this, "Shrinking inner mesh.", 0);
 		final HEM_VertexExpand expm = new HEM_VertexExpand().setDistance(-d);
 		innerMesh.modify(expm);
@@ -202,7 +202,7 @@ public class HEM_Lattice extends HEM_Modifier {
 			faceCorrelation.put(f1.key(), f2.key());
 			counter.increment();
 		}
-		counter = new WB_ProgressCounter(mesh.getNumberOfVertices(), 10);
+		counter = new WB_ProgressCounter(mesh.getNumberOfHalfedges(), 10);
 		tracker.setStatus(this, "Creating boundary halfedge correlations.", counter);
 		final HashMap<Long, Long> heCorrelation = new HashMap<Long, Long>();
 		final Iterator<HE_Halfedge> heItr1 = mesh.heItr();
@@ -350,7 +350,7 @@ public class HEM_Lattice extends HEM_Modifier {
 				.setHardEdgeChamfer(hew).setFuseAngle(fuseAngle).setThresholdAngle(thresholdAngle);
 		selection.modify(extm);
 		tracker.setStatus(this, "Creating inner mesh.", 0);
-		final HE_Mesh innerMesh = selection.parent.get();
+		final HE_Mesh innerMesh = selection.parent.copy();
 		tracker.setStatus(this, "Shrinking inner mesh.", 0);
 		final HEM_VertexExpand expm = new HEM_VertexExpand().setDistance(-d);
 		innerMesh.modify(expm);

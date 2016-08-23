@@ -127,7 +127,7 @@ public class HEC_ShrinkWrap extends HEC_Creator {
 		}
 		final double radius = WB_GeometryOp.getDistance3D(center, aabb.getMax()) + WB_Epsilon.EPSILON;
 		final HE_Mesh sphere = new HE_Mesh(new HEC_Geodesic().setB(level).setC(0).setRadius(radius).setCenter(wcenter));
-		result = sphere.get();
+		result = sphere.copy();
 		final Iterator<HE_Vertex> vItr = sphere.vItr();
 		final Iterator<HE_Vertex> vmodItr = result.vItr();
 		HE_Vertex v, vmod;

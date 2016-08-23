@@ -95,7 +95,7 @@ public class HEMC_SplitMesh extends HEMC_MultiCreator {
 			_numberOfMeshes = 0;
 			return result;
 		}
-		result.add(mesh.get());
+		result.add(mesh.copy());
 		if (P == null) {
 			_numberOfMeshes = 1;
 			return result;
@@ -105,7 +105,7 @@ public class HEMC_SplitMesh extends HEMC_MultiCreator {
 		sm.apply(result.getMesh(0));
 		P.flipNormal();
 		sm.setPlane(P).setReverse(false).setCap(cap).setOffset(offset);
-		result.add(mesh.get());
+		result.add(mesh.copy());
 		sm.apply(result.getMesh(1));
 		_numberOfMeshes = 2;
 		return result;

@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -18,16 +18,16 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 	private double u, v, w;
 
 	/**
-	 * 
+	 *
 	 */
 	public HE_TextureCoordinate() {
 		u = v = w = 0.0;
 	}
 
 	/**
-	 * 
 	 *
-	 * @param uvw 
+	 *
+	 * @param uvw
 	 */
 	public HE_TextureCoordinate(final WB_Coord uvw) {
 		u = uvw.xd();
@@ -36,11 +36,11 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param f 
-	 * @param uvw1 
-	 * @param uvw2 
+	 *
+	 * @param f
+	 * @param uvw1
+	 * @param uvw2
 	 */
 	public HE_TextureCoordinate(final double f, final HE_TextureCoordinate uvw1, final HE_TextureCoordinate uvw2) {
 		final double omf = 1.0 - f;
@@ -50,10 +50,10 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param u 
-	 * @param v 
+	 *
+	 * @param u
+	 * @param v
 	 */
 	public HE_TextureCoordinate(final double u, final double v) {
 		this.u = u;
@@ -62,11 +62,11 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param u 
-	 * @param v 
-	 * @param w 
+	 *
+	 * @param u
+	 * @param v
+	 * @param w
 	 */
 	public HE_TextureCoordinate(final double u, final double v, final double w) {
 		this.u = u;
@@ -75,31 +75,33 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void clear() {
 		u = v = w = 0;
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public double ud() {
 		return u;
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public double vd() {
 		return v;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_Coord#wd()
 	 */
 	@Override
@@ -108,24 +110,26 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public float uf() {
 		return (float) u;
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public float vf() {
 		return (float) v;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_Coord#wf()
 	 */
 	@Override
@@ -134,11 +138,11 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param u 
-	 * @param v 
-	 * @param w 
+	 *
+	 * @param u
+	 * @param v
+	 * @param w
 	 */
 	public void setUVW(final double u, final double v, final double w) {
 		this.u = u;
@@ -147,9 +151,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param u 
+	 *
+	 * @param u
 	 */
 	public void setUVW(final WB_Coord u) {
 		this.u = u.xd();
@@ -157,7 +161,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		this.w = u.zd();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -165,7 +171,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		return "Texture Coordinate: [u=" + ud() + ", v=" + vd() + ", w=" + wd() + "]";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_Coord#xd()
 	 */
 	@Override
@@ -173,7 +181,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		return u;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_Coord#yd()
 	 */
 	@Override
@@ -181,7 +191,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		return v;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_Coord#zd()
 	 */
 	@Override
@@ -189,7 +201,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		return w;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_Coord#getd(int)
 	 */
 	@Override
@@ -206,7 +220,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		return Double.NaN;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_Coord#xf()
 	 */
 	@Override
@@ -214,7 +230,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		return (float) u;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_Coord#yf()
 	 */
 	@Override
@@ -222,7 +240,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		return (float) v;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_Coord#zf()
 	 */
 	@Override
@@ -230,7 +250,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		return (float) w;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_Coord#getf(int)
 	 */
 	@Override
@@ -247,7 +269,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		return Float.NaN;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_MutableCoord#setX(double)
 	 */
 	@Override
@@ -255,7 +279,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		u = x;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_MutableCoord#setY(double)
 	 */
 	@Override
@@ -263,7 +289,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		v = y;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_MutableCoord#setZ(double)
 	 */
 	@Override
@@ -271,7 +299,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		w = z;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_MutableCoord#setW(double)
 	 */
 	@Override
@@ -279,7 +309,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		throw new UnsupportedOperationException("4D coordinates not available for texture coordinates.");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_MutableCoord#setCoord(int, double)
 	 */
 	@Override
@@ -295,7 +327,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_MutableCoord#set(wblut.geom.WB_Coord)
 	 */
 	@Override
@@ -303,7 +337,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		set(p.xd(), p.yd(), p.zd());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_MutableCoord#set(double, double)
 	 */
 	@Override
@@ -312,7 +348,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		v = y;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_MutableCoord#set(double, double, double)
 	 */
 	@Override
@@ -322,7 +360,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		w = z;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_MutableCoord#set(double, double, double, double)
 	 */
 	@Override
@@ -332,11 +372,12 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param p 
-	 * @return 
+	 *
+	 * @param p
+	 * @return
 	 */
+	@Override
 	public int compareTo(final WB_Coord p) {
 		int cmp = Double.compare(xd(), p.xd());
 		if (cmp != 0) {
@@ -353,7 +394,9 @@ public class HE_TextureCoordinate implements WB_MutableCoord {
 		return Double.compare(wd(), p.wd());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

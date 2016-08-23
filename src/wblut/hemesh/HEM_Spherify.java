@@ -32,7 +32,7 @@ public class HEM_Spherify extends HEM_Modifier {
     /**
      * 
      */
-    private final WB_GeometryFactory gf = WB_GeometryFactory.instance();
+    private final WB_GeometryFactory gf = new WB_GeometryFactory();
 
     /**
      * 

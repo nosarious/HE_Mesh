@@ -35,7 +35,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 	/**
 	 *
 	 */
-	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	private static WB_GeometryFactory gf = new WB_GeometryFactory();
 	/** Keep edges?. */
 	private boolean keepEdges;
 	/** Keep boundary?. */
@@ -44,7 +44,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 	private WB_ScalarParameter blendFactor;
 
 	/**
-	
+
 	 */
 	public HES_CatmullClark() {
 		super();
@@ -343,7 +343,7 @@ public class HES_CatmullClark extends HES_Subdividor {
 						P = f.getPlane();
 						boolean unique = true;
 						for (int j = 0; j < planes.size(); j++) {
-							if (WB_Plane.isEqual(planes.get(j), P)) {
+							if (WB_GeometryOp.isEqual(planes.get(j), P)) {
 								unique = false;
 								break;
 							}

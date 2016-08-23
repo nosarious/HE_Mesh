@@ -48,7 +48,7 @@ public class HEC_Transform extends HEC_Creator {
 		if(source==null) {
 			return result;
 		}
-		result=source.get();
+		result=source.copy();
 		if(T==null) {
 			return result;
 		}

@@ -16,7 +16,7 @@ import java.util.List;
  *
  */
 public class WB_TriGrid {
-	static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	static WB_GeometryFactory gf = new WB_GeometryFactory();
 	/**
 	 *
 	 */
@@ -211,7 +211,7 @@ public class WB_TriGrid {
 		for (int i = 0; i < faces.length; i++) {
 			final int[] face = faces[i];
 			triangles.add(
-					gf.createSimplePolygon(vertices[face[0]].get(), vertices[face[1]].get(), vertices[face[2]].get()));
+					gf.createSimplePolygon(vertices[face[0]].copy(), vertices[face[1]].copy(), vertices[face[2]].copy()));
 		}
 		return triangles;
 	}

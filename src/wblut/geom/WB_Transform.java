@@ -24,7 +24,7 @@ public class WB_Transform {
 	/**
 	 *
 	 */
-	static WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/** Transform matrix. */
 	private WB_M44 T;

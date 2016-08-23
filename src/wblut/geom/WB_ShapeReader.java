@@ -68,28 +68,28 @@ import com.vividsolutions.jts.geom.Polygon;
 class WB_ShapeReader {
 
 	/**
-	 * 
+	 *
 	 */
 	private static AffineTransform INVERT_Y = AffineTransform.getScaleInstance(1, -1);
 
 	/**
-	 * 
+	 *
 	 */
 	private static GeometryFactory JTSgf = new GeometryFactory();
 
 	/**
-	 * 
+	 *
 	 */
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/**
-	 * 
+	 *
 	 */
 	public WB_ShapeReader() {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param shp
 	 * @param flatness
@@ -101,7 +101,7 @@ class WB_ShapeReader {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param pathIt
 	 * @return
@@ -118,7 +118,7 @@ class WB_ShapeReader {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param pathIt
 	 * @return
@@ -136,7 +136,7 @@ class WB_ShapeReader {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param pathIt
 	 * @return
@@ -183,38 +183,38 @@ class WB_ShapeReader {
 	// hierarchical tree that orders rings from the outside in. All input has to
 	// be well-ordered: CW for shell, CCW for hole.
 	/**
-	 * 
+	 *
 	 */
 	private static class RingNode {
 
 		/**
-		 * 
+		 *
 		 */
 		@SuppressWarnings("unused")
 		RingNode parent;
 
 		/**
-		 * 
+		 *
 		 */
 		List<RingNode> children;
 
 		/**
-		 * 
+		 *
 		 */
 		LinearRing ring;
 
 		/**
-		 * 
+		 *
 		 */
 		Polygon poly;// redundant, but useful for within/contains checks
 
 		/**
-		 * 
+		 *
 		 */
 		boolean hole;
 
 		/**
-		 * 
+		 *
 		 */
 		RingNode() {
 			parent = null;
@@ -224,7 +224,7 @@ class WB_ShapeReader {
 		}
 
 		/**
-		 * 
+		 *
 		 *
 		 * @param parent
 		 * @param ring
@@ -240,24 +240,24 @@ class WB_ShapeReader {
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	private static class RingTree {
+	private class RingTree {
 
 		/**
-		 * 
+		 *
 		 */
 		RingNode root;
 
 		/**
-		 * 
+		 *
 		 */
 		RingTree() {
 			root = new RingNode();
 		}
 
 		/**
-		 * 
+		 *
 		 *
 		 * @param ring
 		 */
@@ -292,7 +292,7 @@ class WB_ShapeReader {
 		}
 
 		/**
-		 * 
+		 *
 		 *
 		 * @return
 		 */
@@ -328,7 +328,7 @@ class WB_ShapeReader {
 		}
 
 		/**
-		 * 
+		 *
 		 *
 		 * @param parent
 		 * @param shellNodes

@@ -21,7 +21,7 @@ public class WB_Circle {
 
 	private double radius;
 
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/**
 	 *
@@ -112,39 +112,6 @@ public class WB_Circle {
 		}
 		return WB_Epsilon.isEqualAbs(radius, ((WB_Circle) o).getRadius()) && center.equals(((WB_Circle) o).getCenter())
 				&& normal.equals(((WB_Circle) o).getNormal());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		return 31 * (31 * center.hashCode() + hashCode(radius)) + normal.hashCode();
-	}
-
-	/**
-	 *
-	 *
-	 * @param v
-	 * @return
-	 */
-	private int hashCode(final double v) {
-		final long tmp = Double.doubleToLongBits(v);
-		return (int) (tmp ^ tmp >>> 32);
-	}
-
-	/**
-	 *
-	 *
-	 * @param C
-	 * @return
-	 */
-	public boolean isTangent2D(final WB_Circle C) {
-		final double d = center.getDistance3D(C.getCenter());
-		return WB_Epsilon.isZero(d - WB_Math.fastAbs(C.getRadius() - radius))
-				|| WB_Epsilon.isZero(d - WB_Math.fastAbs(C.getRadius() + radius));
 	}
 
 	/*
@@ -257,38 +224,25 @@ public class WB_Circle {
 		this.radius = diameter * 0.5;
 	}
 
-	/**
-	 * Grow circle to include point.
+	/*
+	 * (non-Javadoc)
 	 *
-	 * @param p
-	 *            point to include
+	 * @see java.lang.Object#hashCode()
 	 */
-	public void growCircleByPoint(final WB_Coord p) {
-		final WB_Vector d = WB_Point.subToVector2D(p, center);
-		final double dist2 = d.getSqLength2D();
-		if (dist2 > radius * radius) {
-			final double dist = Math.sqrt(dist2);
-			final double newRadius = (radius + dist) * 0.5;
-			final double k = (newRadius - radius) / dist;
-			radius = newRadius;
-			center.addSelf(k * d.xd(), k * d.yd());
-		}
+	@Override
+	public int hashCode() {
+		return 31 * (31 * center.hashCode() + hashCode(radius)) + normal.hashCode();
 	}
 
 	/**
-	 * Project point to circle
+	 *
 	 *
 	 * @param v
-	 *            the v
-	 * @return point projected to circle
+	 * @return
 	 */
-	public WB_Point projectToCircle(final WB_Coord v) {
-		final WB_Point vc = new WB_Point(v).sub(center);
-		final double er = vc.normalizeSelf();
-		if (WB_Epsilon.isZero(er)) {
-			return null;
-		}
-		return center.addMul(radius, vc);
+	private int hashCode(final double v) {
+		final long tmp = Double.doubleToLongBits(v);
+		return (int) (tmp ^ tmp >>> 32);
 	}
 
 }

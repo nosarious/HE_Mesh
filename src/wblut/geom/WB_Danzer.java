@@ -15,30 +15,21 @@ import java.util.List;
 
 import javolution.util.FastTable;
 
-
 public class WB_Danzer {
 
-
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
-
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	public static enum Type {
 		A, B, C
 	}
 
-
 	static class DanzerTile {
-
 
 		public int p1, p2, p3;
 
-
 		public Type type;
 
-
 		public int generation;
-
-
 
 		/**
 		 *
@@ -48,78 +39,55 @@ public class WB_Danzer {
 		 */
 		public DanzerTile(final Type t, final int g) {
 			type = t;
-			p1 = p2 = p3=-1;
+			p1 = p2 = p3 = -1;
 			generation = g;
 
 		}
 	}
 
-
 	final static double theta = Math.PI / 7.0;
-
 
 	final static double psi = Math.PI / 3.5;
 
-
-	final static double beta = (3.0 * Math.PI) / 7.0;
-
+	final static double beta = 3.0 * Math.PI / 7.0;
 
 	final static double phi = Math.PI / 1.75;
 
-
 	final static double sintheta = Math.sin(theta);
-
 
 	final static double sinhtheta = Math.sin(0.5 * theta);
 
-
 	final static double sinpsi = Math.sin(psi);
-
 
 	final static double sinbeta = Math.sin(beta);
 
-
 	final static double sinhbeta = Math.sin(0.5 * beta);
-
 
 	final static double sinphi = Math.sin(phi);
 
-
 	final static double costheta = Math.cos(theta);
-
 
 	final static double coshtheta = Math.cos(0.5 * theta);
 
-
 	final static double cospsi = Math.cos(psi);
-
 
 	final static double cosbeta = Math.cos(beta);
 
-
 	final static double coshbeta = Math.cos(0.5 * beta);
-
 
 	final static double cosphi = Math.cos(phi);
 
-
 	final double gamma = sintheta / (sintheta + sinpsi);
-
 
 	protected double scale;
 
-
 	protected double a, b, c, r1, r2, r3;
-
 
 	protected Type type;
 
-
 	protected List<WB_Point> points;
 
-
 	protected List<DanzerTile> tiles;
-
 
 	/**
 	 *
@@ -128,7 +96,7 @@ public class WB_Danzer {
 	 * @param t
 	 */
 	public WB_Danzer(final double sc, final Type t) {
-		this(sc, t, 0.0, new WB_Point(), geometryfactory.createEmbeddedPlane());
+		this(sc, t, 0.0, new WB_Point(), new WB_PlanarMap());
 	}
 
 	/**
@@ -139,7 +107,7 @@ public class WB_Danzer {
 	 * @param offset
 	 */
 	public WB_Danzer(final double sc, final Type t, final WB_Coord offset) {
-		this(sc, t, 0.0, offset, geometryfactory.createEmbeddedPlane());
+		this(sc, t, 0.0, offset, new WB_PlanarMap());
 	}
 
 	/**
@@ -150,7 +118,7 @@ public class WB_Danzer {
 	 * @param angle
 	 */
 	public WB_Danzer(final double sc, final Type t, final double angle) {
-		this(sc, t, angle, new WB_Point(), geometryfactory.createEmbeddedPlane());
+		this(sc, t, angle, new WB_Point(), new WB_PlanarMap());
 	}
 
 	/**
@@ -162,9 +130,8 @@ public class WB_Danzer {
 	 * @param offset
 	 */
 	public WB_Danzer(final double sc, final Type t, final double angle, final WB_Coord offset) {
-		this(sc, t, angle, offset, geometryfactory.createEmbeddedPlane());
+		this(sc, t, angle, offset, new WB_PlanarMap());
 	}
-
 
 	/**
 	 *
@@ -188,9 +155,9 @@ public class WB_Danzer {
 	 */
 	public WB_Danzer(final double sc, final Type t, final double angle, final WB_Coord offset, final WB_Map2D context) {
 		c = sc;
-		b = (c / sinbeta) * sintheta;
-		a = (c / sinbeta) * sinpsi;
-		r1 = c / (a + (2 * c));
+		b = c / sinbeta * sintheta;
+		a = c / sinbeta * sinpsi;
+		r1 = c / (a + 2 * c);
 		r2 = c / (a + b + c);
 		r3 = b / (a + b + c);
 		points = new FastTable<WB_Point>();
@@ -221,24 +188,24 @@ public class WB_Danzer {
 			break;
 		case C:
 			p = geometryfactory.createPoint();
-			context.unmapPoint2D((-0.5 * a * coshbeta) + offset.xd(), +offset.yd(), p);
+			context.unmapPoint2D(-0.5 * a * coshbeta + offset.xd(), +offset.yd(), p);
 			points.add(p);
 			p = geometryfactory.createPoint();
-			context.unmapPoint2D((0.5 * a * coshbeta) + offset.xd(), (-a * cospsi) + offset.yd(), p);
+			context.unmapPoint2D(0.5 * a * coshbeta + offset.xd(), -a * cospsi + offset.yd(), p);
 			points.add(p);
 			p = geometryfactory.createPoint();
-			context.unmapPoint2D((0.5 * a * coshbeta) + offset.xd(), (a * cospsi) + offset.yd(), p);
+			context.unmapPoint2D(0.5 * a * coshbeta + offset.xd(), a * cospsi + offset.yd(), p);
 			points.add(p);
 			break;
 		case B:
 			p = geometryfactory.createPoint();
-			context.unmapPoint2D(offset.xd(), (0.5 * sinbeta * c) + offset.yd(), p);
+			context.unmapPoint2D(offset.xd(), 0.5 * sinbeta * c + offset.yd(), p);
 			points.add(p);
 			p = geometryfactory.createPoint();
-			context.unmapPoint2D((-a * sinhtheta) + offset.xd(), (-a * coshtheta) + (0.5 * sinbeta * c) + offset.yd(), p);
+			context.unmapPoint2D(-a * sinhtheta + offset.xd(), -a * coshtheta + 0.5 * sinbeta * c + offset.yd(), p);
 			points.add(p);
 			p = geometryfactory.createPoint();
-			context.unmapPoint2D((0.5 * b) + offset.xd(), (-0.5 * sinbeta * c) + offset.yd(), p);
+			context.unmapPoint2D(0.5 * b + offset.xd(), -0.5 * sinbeta * c + offset.yd(), p);
 			points.add(p);
 			break;
 		default:
@@ -248,7 +215,6 @@ public class WB_Danzer {
 		T.p3 = 2;
 		tiles.add(T);
 	}
-
 
 	/**
 	 *
@@ -261,7 +227,6 @@ public class WB_Danzer {
 		tiles = newTiles;
 	}
 
-
 	/**
 	 *
 	 *
@@ -272,7 +237,6 @@ public class WB_Danzer {
 			inflate();
 		}
 	}
-
 
 	/**
 	 *
@@ -445,7 +409,6 @@ public class WB_Danzer {
 		return newTiles;
 	}
 
-
 	/**
 	 *
 	 *
@@ -455,7 +418,6 @@ public class WB_Danzer {
 	public DanzerTile tile(final int i) {
 		return tiles.get(i);
 	}
-
 
 	/**
 	 *
@@ -473,7 +435,6 @@ public class WB_Danzer {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -487,7 +448,6 @@ public class WB_Danzer {
 		return result;
 	}
 
-
 	/**
 	 *
 	 *
@@ -498,14 +458,12 @@ public class WB_Danzer {
 		tiles.remove(i);
 	}
 
-
 	/**
 	 *
 	 */
 	public void inflateOldest() {
 		inflateOldest(0);
 	}
-
 
 	/**
 	 *
@@ -516,14 +474,13 @@ public class WB_Danzer {
 		final int age = oldest();
 		Collections.shuffle(tiles);
 		for (final DanzerTile T : tiles) {
-			if (T.generation <= (age + r)) {
+			if (T.generation <= age + r) {
 				tiles.addAll(inflateTileInt(T));
 				tiles.remove(T);
 				return;
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -534,7 +491,6 @@ public class WB_Danzer {
 		tiles.remove(i);
 	}
 
-
 	/**
 	 *
 	 *
@@ -543,7 +499,6 @@ public class WB_Danzer {
 	public int size() {
 		return tiles.size();
 	}
-
 
 	/**
 	 *
@@ -554,7 +509,6 @@ public class WB_Danzer {
 		return points.size();
 	}
 
-
 	/**
 	 *
 	 *
@@ -563,7 +517,6 @@ public class WB_Danzer {
 	public List<WB_Point> points() {
 		return points;
 	}
-
 
 	/**
 	 *
@@ -595,7 +548,6 @@ public class WB_Danzer {
 		}
 		return indices;
 	}
-
 
 	/**
 	 *

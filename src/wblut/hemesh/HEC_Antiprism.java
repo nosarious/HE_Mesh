@@ -27,7 +27,7 @@ public class HEC_Antiprism extends HEC_Creator {
 	/**
 	 *
 	 */
-	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	private static WB_GeometryFactory gf = new WB_GeometryFactory();
 	private int facets;
 	private double thickness;
 	private double radius;

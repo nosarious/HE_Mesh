@@ -76,7 +76,7 @@ public class WB_PointHomogeneous extends WB_Point4D {
      * @see wblut.geom.WB_Point4D#get()
      */
     @Override
-    public WB_PointHomogeneous get() {
+    public WB_PointHomogeneous copy() {
 	return new WB_PointHomogeneous(this);
     }
 

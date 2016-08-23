@@ -24,7 +24,7 @@ public class WB_Bezier implements WB_Curve {
 	/**
 	 *
 	 */
-	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	private static WB_GeometryFactory gf = new WB_GeometryFactory();
 	/**
 	 *
 	 */

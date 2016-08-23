@@ -24,7 +24,7 @@ public class HEM_Crocodile extends HEM_Modifier {
 	/**
 	 *
 	 */
-	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	private static WB_GeometryFactory gf = new WB_GeometryFactory();
 	/**
 	 *
 	 */

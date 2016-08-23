@@ -46,7 +46,7 @@ class WB_GeodesicII {
 
 		private WB_Mesh mesh;
 
-		private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+		private static WB_GeometryFactory gf = new WB_GeometryFactory();
 
 		private final double radius;
 

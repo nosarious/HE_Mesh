@@ -341,7 +341,7 @@ public class WB_CoordinateSystem {
 	 * @return
 	 */
 	public WB_Vector getX() {
-		return _X.get();
+		return _X.copy();
 	}
 
 
@@ -351,7 +351,7 @@ public class WB_CoordinateSystem {
 	 * @return
 	 */
 	public WB_Vector getY() {
-		return _Y.get();
+		return _Y.copy();
 	}
 
 
@@ -361,7 +361,7 @@ public class WB_CoordinateSystem {
 	 * @return
 	 */
 	public WB_Vector getZ() {
-		return _Z.get();
+		return _Z.copy();
 	}
 
 
@@ -371,7 +371,7 @@ public class WB_CoordinateSystem {
 	 * @return
 	 */
 	public WB_Point getOrigin() {
-		return _origin.get();
+		return _origin.copy();
 	}
 
 
@@ -667,7 +667,7 @@ public class WB_CoordinateSystem {
 	 * @return
 	 */
 	public WB_CoordinateSystem rotate(final double a, final WB_Vector v) {
-		final WB_Vector lv = v.get();
+		final WB_Vector lv = v.copy();
 		lv.normalizeSelf();
 		_X.rotateAboutAxisSelf(a, _origin, lv);
 		_Y.rotateAboutAxisSelf(a, _origin, lv);

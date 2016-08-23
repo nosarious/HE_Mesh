@@ -48,7 +48,7 @@ public class HEC_Machine extends HEC_Creator {
 		if(source==null) {
 			return result;
 		}
-		result=source.get();
+		result=source.copy();
 		if(machine==null) {
 			return result;
 		}

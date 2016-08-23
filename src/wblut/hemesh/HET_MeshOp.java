@@ -38,7 +38,7 @@ import wblut.math.WB_M33;
 import wblut.math.WB_Math;
 
 public class HET_MeshOp {
-	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	private static WB_GeometryFactory gf = new WB_GeometryFactory();
 	public static final WB_ProgressTracker tracker = WB_ProgressTracker.instance();
 
 	/**
@@ -1715,9 +1715,9 @@ public class HET_MeshOp {
 	 * @return
 	 */
 	public static HE_Mesh flipFaces(final HE_Mesh mesh) {
-		tracker.setStatus("HET_MeshOp", "Flipping faces.", +1);
+		tracker.setStatusByString("HET_MeshOp", "Flipping faces.", +1);
 		WB_ProgressCounter counter = new WB_ProgressCounter(mesh.getNumberOfEdges(), 10);
-		tracker.setStatus("HET_MeshOp", "Reversing edges.", counter);
+		tracker.setStatusByString("HET_MeshOp", "Reversing edges.", counter);
 		HE_Halfedge he1;
 		HE_Halfedge he2;
 		HE_Vertex tmp;
@@ -1730,7 +1730,7 @@ public class HET_MeshOp {
 		int i = 0;
 		HE_HalfedgeIterator heItr = mesh.heItr();
 		counter = new WB_ProgressCounter(2 * mesh.getNumberOfHalfedges(), 10);
-		tracker.setStatus(mesh, "Reordering halfedges.", counter);
+		tracker.setStatusByString("HET_MeshOp", "Reordering halfedges.", counter);
 		while (heItr.hasNext()) {
 			he = heItr.next();
 			prevHe[i] = he.getPrevInFace();
@@ -1752,7 +1752,7 @@ public class HET_MeshOp {
 			counter.increment();
 		}
 		counter = new WB_ProgressCounter(2 * mesh.getNumberOfEdges(), 10);
-		tracker.setStatus(mesh, "Flipping edges.", counter);
+		tracker.setStatusByString("HET_MeshOp", "Flipping edges.", counter);
 
 		final HE_EdgeIterator eItr = mesh.eItr();
 		while (eItr.hasNext()) {
@@ -1770,7 +1770,7 @@ public class HET_MeshOp {
 			counter.increment();
 		}
 
-		tracker.setStatus("HET_MeshOp", "Faces flipped.", -1);
+		tracker.setStatusByString("HET_MeshOp", "Faces flipped.", -1);
 		return mesh;
 	}
 
@@ -1838,10 +1838,10 @@ public class HET_MeshOp {
 		final WB_Coord b = WB_GeometryOp.projectOnPlane(he.getNextInFace().getVertex(), P);
 		final WB_Coord c = WB_GeometryOp.projectOnPlane(he.getNextInFace().getNextInFace().getVertex(), P);
 		final WB_Coord d = WB_GeometryOp.projectOnPlane(he.getPair().getNextInFace().getNextInFace().getVertex(), P);
-		double Ai = WB_Triangle.getArea(a, b, c);
-		Ai += WB_Triangle.getArea(a, d, b);
-		double Af = WB_Triangle.getArea(a, d, c);
-		Af += WB_Triangle.getArea(c, d, b);
+		double Ai = WB_GeometryOp.getArea(a, b, c);
+		Ai += WB_GeometryOp.getArea(a, d, b);
+		double Af = WB_GeometryOp.getArea(a, d, c);
+		Af += WB_GeometryOp.getArea(c, d, b);
 		final double ratio = Ai / Af;
 		if (ratio > 1.000001 || ratio < 0.99999) {
 			return false;
@@ -1887,10 +1887,10 @@ public class HET_MeshOp {
 	public static HE_MeshStructure cleanUnusedElementsByFace(final HE_MeshStructure mesh) {
 		final HE_RAS<HE_Vertex> cleanedVertices = new HE_RASTrove<HE_Vertex>();
 		final HE_RAS<HE_Halfedge> cleanedHalfedges = new HE_RASTrove<HE_Halfedge>();
-		tracker.setStatus("HET_MeshOp", "Cleaning unused elements.", +1);
+		tracker.setStatusByString("HET_MeshOp", "Cleaning unused elements.", +1);
 		HE_Halfedge he;
 		WB_ProgressCounter counter = new WB_ProgressCounter(mesh.getNumberOfFaces(), 10);
-		tracker.setStatus("HET_MeshOp", "Processing faces.", counter);
+		tracker.setStatusByString("HET_MeshOp", "Processing faces.", counter);
 		HE_Face f;
 		final Iterator<HE_Face> fItr = mesh.fItr();
 		while (fItr.hasNext()) {
@@ -1909,7 +1909,7 @@ public class HET_MeshOp {
 			counter.increment();
 		}
 		counter = new WB_ProgressCounter(cleanedHalfedges.size(), 10);
-		tracker.setStatus("HET_MeshOp", "Processing halfedges.", counter);
+		tracker.setStatusByString("HET_MeshOp", "Processing halfedges.", counter);
 		final int n = cleanedHalfedges.size();
 		for (int i = 0; i < n; i++) {
 			he = cleanedHalfedges.get(i);
@@ -1921,7 +1921,7 @@ public class HET_MeshOp {
 		}
 		mesh.replaceVertices(cleanedVertices.getObjects());
 		mesh.replaceHalfedges(cleanedHalfedges.getObjects());
-		tracker.setStatus("HET_MeshOp", "Done cleaning unused elements.", -1);
+		tracker.setStatusByString("HET_MeshOp", "Done cleaning unused elements.", -1);
 		return mesh;
 	}
 
@@ -2794,7 +2794,7 @@ public class HET_MeshOp {
 	 * sphere, the Gaussian curvature is very accurate, but not the mean
 	 * curvature. Guoliang Xu suggests improvements in his papers
 	 * http://lsec.cc.ac.cn/~xuguo/xuguo3.htm
-	 * 
+	 *
 	 * @param vertex
 	 * @param meanCurvatureVector
 	 * @return
@@ -3197,7 +3197,7 @@ public class HET_MeshOp {
 
 	/**
 	 * Collapse halfedge if its vertex doesn't belong to the boundary
-	 * 
+	 *
 	 * @param mesh
 	 * @param he
 	 *            he
@@ -3244,7 +3244,7 @@ public class HET_MeshOp {
 	/**
 	 * Collapse edge. End vertices are averaged. Degenerate faces are removed.
 	 * This function can result in non-manifold meshes.
-	 * 
+	 *
 	 * @param mesh
 	 * @param e
 	 *            edge to collapse
@@ -3292,7 +3292,7 @@ public class HET_MeshOp {
 
 	/**
 	 * Collapse edge to its midpoint or to point on boundary
-	 * 
+	 *
 	 * @param mesh
 	 * @param e
 	 * @param strict
@@ -3392,6 +3392,61 @@ public class HET_MeshOp {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Expand vertex to new edge.
+	 *
+	 * @param mesh
+	 * @param v
+	 *            vertex to expand
+	 * @param f1
+	 *            first face
+	 * @param f2
+	 *            second face
+	 * @param vn
+	 *            position of new vertex
+	 */
+	public static void expandVertexToEdge(final HE_Mesh mesh, final HE_Vertex v, final HE_Face f1, final HE_Face f2,
+			final WB_Coord vn) {
+		if (f1 == f2) {
+			return;
+		}
+		HE_Halfedge he = v.getHalfedge();
+		HE_Halfedge he1 = new HE_Halfedge();
+		HE_Halfedge he2 = new HE_Halfedge();
+		do {
+			if (he.getFace() == f1) {
+				he1 = he;
+			}
+			if (he.getFace() == f2) {
+				he2 = he;
+			}
+			he = he.getNextInVertex();
+		} while (he != v.getHalfedge());
+		final HE_Vertex vNew = new HE_Vertex(vn);
+		mesh.setHalfedge(vNew, he1);
+		mesh.add(vNew);
+		he = he1;
+		do {
+			mesh.setVertex(he, vNew);
+			he = he.getNextInVertex();
+		} while (he != he2);
+		final HE_Halfedge he1p = he1.getPrevInFace();
+		final HE_Halfedge he2p = he2.getPrevInFace();
+		final HE_Halfedge he1new = new HE_Halfedge();
+		final HE_Halfedge he2new = new HE_Halfedge();
+		mesh.setVertex(he1new, v);
+		mesh.setVertex(he2new, vNew);
+		mesh.setNext(he1p, he1new);
+		mesh.setNext(he1new, he1);
+		mesh.setNext(he2p, he2new);
+		mesh.setNext(he2new, he2);
+		mesh.setPair(he1new, he2new);
+		mesh.setFace(he1new, f1);
+		mesh.setFace(he2new, f2);
+		mesh.add(he1new);
+		mesh.add(he2new);
 	}
 
 }

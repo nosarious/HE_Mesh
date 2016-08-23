@@ -13,7 +13,7 @@ List<WB_Circle> circles;
 
 void setup() {
   size(800, 800);
-  factory=WB_GeometryFactory.instance();
+  factory=new WB_GeometryFactory();
   render=new WB_Render2D(this);
 }
 

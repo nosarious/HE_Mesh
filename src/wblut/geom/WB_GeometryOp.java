@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import javolution.util.FastTable;
 import wblut.geom.WB_AABBTree.WB_AABBNode;
 import wblut.math.WB_Ease;
 import wblut.math.WB_Epsilon;
@@ -22,7 +23,7 @@ import wblut.math.WB_Math;
 
 public class WB_GeometryOp {
 
-	private static final WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	private static final WB_GeometryFactory gf = new WB_GeometryFactory();
 
 	/**
 	 *
@@ -252,9 +253,9 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static WB_IntersectionResult getIntersection3D(final WB_Plane P1, final WB_Plane P2, final WB_Plane P3) {
-		final WB_Vector N1 = P1.getNormal().get();
-		final WB_Vector N2 = P2.getNormal().get();
-		final WB_Vector N3 = P3.getNormal().get();
+		final WB_Vector N1 = P1.getNormal().copy();
+		final WB_Vector N2 = P2.getNormal().copy();
+		final WB_Vector N3 = P3.getNormal().copy();
 		final double denom = N1.dot(N2.cross(N3));
 		if (WB_Epsilon.isZero(denom)) {
 			return NOINTERSECTION();
@@ -2418,10 +2419,10 @@ public class WB_GeometryOp {
 	 * @return
 	 */
 	public static WB_IntersectionResult getIntersection2D(final WB_Segment S1, final WB_Segment S2) {
-		final double a1 = WB_Triangle.twiceSignedTriArea2D(S1.getOrigin(), S1.getEndpoint(), S2.getEndpoint());
-		final double a2 = WB_Triangle.twiceSignedTriArea2D(S1.getOrigin(), S1.getEndpoint(), S2.getOrigin());
+		final double a1 = WB_GeometryOp.twiceSignedTriArea2D(S1.getOrigin(), S1.getEndpoint(), S2.getEndpoint());
+		final double a2 = WB_GeometryOp.twiceSignedTriArea2D(S1.getOrigin(), S1.getEndpoint(), S2.getOrigin());
 		if (!WB_Epsilon.isZero(a1) && !WB_Epsilon.isZero(a2) && a1 * a2 < 0) {
-			final double a3 = WB_Triangle.twiceSignedTriArea2D(S2.getOrigin(), S2.getEndpoint(), S1.getOrigin());
+			final double a3 = WB_GeometryOp.twiceSignedTriArea2D(S2.getOrigin(), S2.getEndpoint(), S1.getOrigin());
 			final double a4 = a3 + a2 - a1;
 			if (a3 * a4 < 0) {
 				final double t1 = a3 / (a3 - a4);
@@ -2447,10 +2448,10 @@ public class WB_GeometryOp {
 	 * @param i
 	 */
 	public static void getIntersection2DInto(final WB_Segment S1, final WB_Segment S2, final WB_IntersectionResult i) {
-		final double a1 = WB_Triangle.twiceSignedTriArea2D(S1.getOrigin(), S1.getEndpoint(), S2.getEndpoint());
-		final double a2 = WB_Triangle.twiceSignedTriArea2D(S1.getOrigin(), S1.getEndpoint(), S2.getOrigin());
+		final double a1 = WB_GeometryOp.twiceSignedTriArea2D(S1.getOrigin(), S1.getEndpoint(), S2.getEndpoint());
+		final double a2 = WB_GeometryOp.twiceSignedTriArea2D(S1.getOrigin(), S1.getEndpoint(), S2.getOrigin());
 		if (!WB_Epsilon.isZero(a1) && !WB_Epsilon.isZero(a2) && a1 * a2 < 0) {
-			final double a3 = WB_Triangle.twiceSignedTriArea2D(S2.getOrigin(), S2.getEndpoint(), S1.getOrigin());
+			final double a3 = WB_GeometryOp.twiceSignedTriArea2D(S2.getOrigin(), S2.getEndpoint(), S1.getOrigin());
 			final double a4 = a3 + a2 - a1;
 			if (a3 * a4 < 0) {
 				final double t1 = a3 / (a3 - a4);
@@ -3040,13 +3041,13 @@ public class WB_GeometryOp {
 		final double d1 = ab.dot(ap);
 		final double d2 = ac.dot(ap);
 		if (d1 <= 0 && d2 <= 0) {
-			return T.p1.get();
+			return T.p1.copy();
 		}
 		final WB_Vector bp = new WB_Vector(T.p2, p);
 		final double d3 = ab.dot(bp);
 		final double d4 = ac.dot(bp);
 		if (d3 >= 0 && d4 <= d3) {
-			return T.p2.get();
+			return T.p2.copy();
 		}
 		final double vc = d1 * d4 - d3 * d2;
 		if (vc <= 0 && d1 >= 0 && d3 <= 0) {
@@ -3057,7 +3058,7 @@ public class WB_GeometryOp {
 		final double d5 = ab.dot(cp);
 		final double d6 = ac.dot(cp);
 		if (d6 >= 0 && d5 <= d6) {
-			return T.p3.get();
+			return T.p3.copy();
 		}
 		final double vb = d5 * d2 - d1 * d6;
 		if (vb <= 0 && d2 >= 0 && d6 <= 0) {
@@ -3141,13 +3142,13 @@ public class WB_GeometryOp {
 		final double d1 = ab.dot(ap);
 		final double d2 = ac.dot(ap);
 		if (d1 <= 0 && d2 <= 0) {
-			return T.p1.get();
+			return T.p1.copy();
 		}
 		final WB_Vector bp = new WB_Vector(T.p2, p);
 		final double d3 = ab.dot(bp);
 		final double d4 = ac.dot(bp);
 		if (d3 >= 0 && d4 <= d3) {
-			return T.p2.get();
+			return T.p2.copy();
 		}
 		final double vc = d1 * d4 - d3 * d2;
 		if (vc <= 0 && d1 >= 0 && d3 <= 0) {
@@ -3158,7 +3159,7 @@ public class WB_GeometryOp {
 		final double d5 = ab.dot(cp);
 		final double d6 = ac.dot(cp);
 		if (d6 >= 0 && d5 <= d6) {
-			return T.p3.get();
+			return T.p3.copy();
 		}
 		final double vb = d5 * d2 - d1 * d6;
 		if (vb <= 0 && d2 >= 0 && d6 <= 0) {
@@ -3176,13 +3177,13 @@ public class WB_GeometryOp {
 		final double u = 1 - v - w;
 		T.p3.sub(T.p2);
 		if (WB_Epsilon.isZero(u - 1)) {
-			return T.p1.get();
+			return T.p1.copy();
 		}
 		if (WB_Epsilon.isZero(v - 1)) {
-			return T.p2.get();
+			return T.p2.copy();
 		}
 		if (WB_Epsilon.isZero(w - 1)) {
-			return T.p3.get();
+			return T.p3.copy();
 		}
 		final WB_Point A = getClosestPointToSegment2D(p, T.p2, T.p3);
 		final double dA2 = getSqDistance2D(p, A);
@@ -6531,6 +6532,26 @@ public class WB_GeometryOp {
 	 *
 	 * @param o
 	 * @param p
+	 * @param q
+	 * @return
+	 */
+	public static boolean isCollinear2D(final WB_Coord o, final WB_Coord p, final WB_Coord q) {
+		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(p, q))) {
+			return true;
+		}
+		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(o, q))) {
+			return true;
+		}
+		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(o, p))) {
+			return true;
+		}
+		return WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine2D(o, p, q));
+	}
+
+	/**
+	 *
+	 * @param o
+	 * @param p
 	 * @return
 	 */
 	public static boolean isParallelX(final WB_Coord o, final WB_Coord p) {
@@ -6570,4 +6591,681 @@ public class WB_GeometryOp {
 	public static boolean isParallelNormX(final WB_Coord o, final WB_Coord p, final double t) {
 		return WB_Vector.cross(o, p).getLength3D() < t + WB_Epsilon.EPSILON;
 	}
+
+	/**
+	 * Gets the area.
+	 *
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @return the area
+	 */
+	public static double getArea(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3) {
+		return WB_Math.fastAbs(getSignedArea(p1, p2, p3));
+	}
+
+	/**
+	 *
+	 *
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @return
+	 */
+	public static double getSignedArea(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3) {
+		final WB_Plane P = new WB_Plane(p1, p2, p3);
+		if (P.getNormal().getSqLength3D() < WB_Epsilon.SQEPSILON) {
+			return 0.0;
+		}
+		final WB_Vector n = P.getNormal();
+		final double x = WB_Math.fastAbs(n.xd());
+		final double y = WB_Math.fastAbs(n.yd());
+		final double z = WB_Math.fastAbs(n.zd());
+		double area = 0;
+		int coord = 3;
+		if (x >= y && x >= z) {
+			coord = 1;
+		} else if (y >= x && y >= z) {
+			coord = 2;
+		}
+		switch (coord) {
+		case 1:
+			area = p1.yd() * (p2.zd() - p3.zd()) + p2.yd() * (p3.zd() - p1.zd()) + p3.yd() * (p1.zd() - p2.zd());
+			break;
+		case 2:
+			area = p1.xd() * (p2.zd() - p3.zd()) + p2.xd() * (p3.zd() - p1.zd()) + p3.xd() * (p1.zd() - p2.zd());
+			break;
+		case 3:
+			area = p1.xd() * (p2.yd() - p3.yd()) + p2.xd() * (p3.yd() - p1.yd()) + p3.xd() * (p1.yd() - p2.yd());
+			break;
+		}
+		switch (coord) {
+		case 1:
+			area *= 0.5 / x;
+			break;
+		case 2:
+			area *= 0.5 / y;
+			break;
+		case 3:
+			area *= 0.5 / z;
+		}
+		return area;
+	}
+
+	/**
+	 * Check if points p1 and p2 lie on same side of line A-B.
+	 *
+	 * @param p1
+	 *            the p1
+	 * @param p2
+	 *            the p2
+	 * @param A
+	 *            the a
+	 * @param B
+	 *            the b
+	 * @return true, false
+	 */
+	public static boolean sameSide2D(final WB_Coord p1, final WB_Coord p2, final WB_Coord A, final WB_Coord B) {
+		final WB_Point t1 = new WB_Point(B).subSelf(A);
+		final WB_Point t2 = new WB_Point(p1).subSelf(A);
+		final WB_Point t3 = new WB_Point(p2).subSelf(A);
+		final double ct2 = t1.xd() * t2.yd() - t1.yd() * t2.xd();
+		final double ct3 = t1.xd() * t3.yd() - t1.yd() * t3.xd();
+		if (ct2 * ct3 >= WB_Epsilon.EPSILON) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Check if point p lies in triangle A-B-C.
+	 *
+	 * @param p
+	 *            the p
+	 * @param A
+	 *            the a
+	 * @param B
+	 *            the b
+	 * @param C
+	 *            the c
+	 * @return true, false
+	 */
+	public static boolean pointInTriangle2D(final WB_Coord p, final WB_Coord A, final WB_Coord B, final WB_Coord C) {
+		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine2D(A, B, C))) {
+			return false;
+		}
+		if (sameSide2D(p, A, B, C) && sameSide2D(p, B, A, C) && sameSide2D(p, C, A, B)) {
+			return true;
+		}
+		return false;
+	}
+
+	/*
+	 * public static boolean pointInTriangle2D(final WB_XY p, final WB_XY A,
+	 * final WB_XY B, final WB_XY C) { final WB_XY e0 = B.subAndCopy(A); final
+	 * WB_XY n0 = new WB_XY(e0.y, -e0.x); final double sign = e0.y * (C.x - A.x)
+	 * - e0.x * (C.y - A.y); if (sign * n0.dot(p.subAndCopy(A)) <
+	 * WB_Epsilon.EPSILON) { return false; } final WB_XY e1 = C.subAndCopy(B);
+	 * final WB_XY n1 = new WB_XY(e1.y, -e1.x); if (sign *
+	 * n1.dot(p.subAndCopy(B)) < WB_Epsilon.EPSILON) { return false; } final
+	 * WB_XY e2 = A.subAndCopy(C); final WB_XY n2 = new WB_XY(e2.y, -e2.x); if
+	 * (sign * n2.dot(p.subAndCopy(C)) < WB_Epsilon.EPSILON) { return false; }
+	 * return true; }
+	 */
+	/**
+	 * Point in triangle2 d.
+	 *
+	 * @param p
+	 *            the p
+	 * @param T
+	 *            the t
+	 * @return true, if successful
+	 */
+	public static boolean pointInTriangle2D(final WB_Coord p, final WB_Triangle T) {
+		return pointInTriangle2D(p, T.p1, T.p2, T.p3);
+	}
+
+	/**
+	 * Check if point p lies in triangle A-B-C using barycentric coordinates.
+	 *
+	 * @param p
+	 *            the p
+	 * @param A
+	 *            the a
+	 * @param B
+	 *            the b
+	 * @param C
+	 *            the c
+	 * @return true, false
+	 */
+	public static boolean pointInTriangleBary2D(final WB_Coord p, final WB_Coord A, final WB_Coord B,
+			final WB_Coord C) {
+		if (p == A) {
+			return false;
+		}
+		if (p == B) {
+			return false;
+		}
+		if (p == C) {
+			return false;
+		}
+		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine2D(A, B, C))) {
+			return false;
+		}
+		// Compute vectors
+		final WB_Point v0 = new WB_Point(C).subSelf(A);
+		final WB_Point v1 = new WB_Point(B).subSelf(A);
+		final WB_Point v2 = new WB_Point(p).subSelf(A);
+		// Compute dot products
+		final double dot00 = v0.dot2D(v0);
+		final double dot01 = v0.dot2D(v1);
+		final double dot02 = v0.dot2D(v2);
+		final double dot11 = v1.dot2D(v1);
+		final double dot12 = v1.dot2D(v2);
+		// Compute barycentric coordinates
+		final double invDenom = 1.0 / (dot00 * dot11 - dot01 * dot01);
+		final double u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+		final double v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+		// Check if point is in triangle
+		return u > WB_Epsilon.EPSILON && v > WB_Epsilon.EPSILON && u + v < 1 - WB_Epsilon.EPSILON;
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param A
+	 * @param B
+	 * @param C
+	 * @return
+	 */
+	public static boolean pointInTriangleBary3D(final WB_Coord p, final WB_Coord A, final WB_Coord B,
+			final WB_Coord C) {
+		if (p == A) {
+			return false;
+		}
+		if (p == B) {
+			return false;
+		}
+		if (p == C) {
+			return false;
+		}
+		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine2D(A, B, C))) {
+			return false;
+		}
+		// Compute vectors
+		final WB_Vector v0 = new WB_Vector(C).subSelf(A);
+		final WB_Vector v1 = new WB_Vector(B).subSelf(A);
+		final WB_Vector v2 = new WB_Vector(p).subSelf(A);
+		// Compute dot products
+		final double dot00 = v0.dot(v0);
+		final double dot01 = v0.dot(v1);
+		final double dot02 = v0.dot(v2);
+		final double dot11 = v1.dot(v1);
+		final double dot12 = v1.dot(v2);
+		// Compute barycentric coordinates
+		final double invDenom = 1.0 / (dot00 * dot11 - dot01 * dot01);
+		final double u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+		final double v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+		// Check if point is in triangle
+		return u > WB_Epsilon.EPSILON && v > WB_Epsilon.EPSILON && u + v < 1 - WB_Epsilon.EPSILON;
+	}
+
+	/**
+	 * Point in triangle bary2 d.
+	 *
+	 * @param p
+	 *            the p
+	 * @param T
+	 *            the t
+	 * @return true, if successful
+	 */
+	public static boolean pointInTriangleBary2D(final WB_Coord p, final WB_Triangle T) {
+		return pointInTriangleBary2D(p, T.p1, T.p2, T.p3);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param T
+	 * @return
+	 */
+	public static boolean pointInTriangleBary3D(final WB_Coord p, final WB_Triangle T) {
+		return pointInTriangleBary3D(p, T.p1, T.p2, T.p3);
+	}
+
+	/**
+	 * Twice signed tri area2 d.
+	 *
+	 * @param p1
+	 *            the p1
+	 * @param p2
+	 *            the p2
+	 * @param p3
+	 *            the p3
+	 * @return the double
+	 */
+	public static double twiceSignedTriArea2D(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3) {
+		return (p1.xd() - p3.xd()) * (p2.yd() - p3.yd()) - (p1.yd() - p3.yd()) * (p2.xd() - p3.xd());
+	}
+
+	/**
+	 * Twice signed tri area2 d.
+	 *
+	 * @param x1
+	 *            the x1
+	 * @param y1
+	 *            the y1
+	 * @param x2
+	 *            the x2
+	 * @param y2
+	 *            the y2
+	 * @param x3
+	 *            the x3
+	 * @param y3
+	 *            the y3
+	 * @return the double
+	 */
+	public static double twiceSignedTriArea2D(final double x1, final double y1, final double x2, final double y2,
+			final double x3, final double y3) {
+		return (x1 - x2) * (y2 - y3) - (x2 - x3) * (y1 - y2);
+	}
+
+	public static double getSignedArea2D(final List<? extends WB_Coord> coords, final int start, final int end) {
+		double sum = 0;
+		for (int i = start, j = end - 1; i < end; j = i, i++) {
+			sum += (coords.get(j).xd() - coords.get(i).xd()) * (coords.get(i).yd() + coords.get(j).yd());
+		}
+		return sum;
+	}
+
+	public static double getSignedArea2D(final WB_Coord[] coords, final int start, final int end) {
+		double sum = 0;
+		for (int i = start, j = end - 1; i < end; j = i, i++) {
+			sum += (coords[j].xd() - coords[i].xd()) * (coords[i].yd() + coords[j].yd());
+		}
+		return sum;
+	}
+
+	/**
+	 * Project point to circle
+	 *
+	 * @param v
+	 *            the v
+	 * @return point projected to circle
+	 */
+	public static WB_Coord projectToCircle(final WB_Circle C, final WB_Coord v) {
+		final WB_Point vc = new WB_Point(v).sub(C.getCenter());
+		final double er = vc.normalizeSelf();
+		if (WB_Epsilon.isZero(er)) {
+			return null;
+		}
+		return WB_Point.addMul(C.getCenter(), C.getRadius(), vc);
+	}
+
+	/**
+	 *
+	 *
+	 * @param C
+	 * @return
+	 */
+	public static boolean isTangent2D(final WB_Circle C1, final WB_Circle C2) {
+		final double d = WB_Point.getDistance3D(C1.getCenter(), C2.getCenter());
+		return WB_Epsilon.isZero(d - WB_Math.fastAbs(C2.getRadius() - C1.getRadius()))
+				|| WB_Epsilon.isZero(d - WB_Math.fastAbs(C2.getRadius() + C1.getRadius()));
+	}
+
+	public static WB_Circle growCircleByPoint2D(final WB_Circle C, final WB_Coord p) {
+		final WB_Vector d = WB_Point.subToVector2D(p, C.getCenter());
+		final double dist2 = d.getSqLength2D();
+		double radius = C.getRadius();
+		WB_Coord center = C.getCenter();
+		if (dist2 > radius * radius) {
+			final double dist = Math.sqrt(dist2);
+			final double newRadius = (radius + dist) * 0.5;
+			final double k = (newRadius - radius) / dist;
+			radius = newRadius;
+			return new WB_Circle(center.xd() + k * d.xd(), center.yd() + k * d.yd(), newRadius);
+		}
+		return new WB_Circle(center, radius);
+	}
+
+	/**
+	 * Are the planes equal?.
+	 *
+	 * @param P
+	 *            the p
+	 * @param Q
+	 *            the q
+	 * @return true/false
+	 */
+	public static boolean isEqual(final WB_Plane P, final WB_Plane Q) {
+		if (!WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(P.getOrigin(), Q))) {
+			return false;
+		}
+		if (!WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(Q.getOrigin(), P))) {
+			return false;
+		}
+		if (!P.getNormal().isParallelNorm(Q.getNormal())) {
+			return false;
+		}
+		return true;
+	}
+
+	// TODO all functions below only support simple polygons
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param P
+	 * @return
+	 */
+	public static WB_Polygon[] splitPolygon(final WB_Polygon poly, final WB_Plane P) {
+		if (!poly.isSimple()) {
+			throw new UnsupportedOperationException("Only simple polygons are supported at this time!");
+		}
+		final List<WB_Coord> frontVerts = new FastTable<WB_Coord>();
+		final List<WB_Coord> backVerts = new FastTable<WB_Coord>();
+		final int numVerts = poly.numberOfShellPoints;
+		if (numVerts > 0) {
+			WB_Coord a = poly.points.get(numVerts - 1);
+			WB_Classification aSide = WB_GeometryOp.classifyPointToPlane3D(a, P);
+			WB_Coord b;
+			WB_Classification bSide;
+			for (int n = 0; n < numVerts; n++) {
+				final WB_IntersectionResult i;
+				b = poly.points.get(n);
+				bSide = WB_GeometryOp.classifyPointToPlane3D(b, P);
+				if (bSide == WB_Classification.FRONT) {
+					if (aSide == WB_Classification.BACK) {
+						i = WB_GeometryOp.getIntersection3D(b, a, P);
+						frontVerts.add((WB_Point) i.object);
+						backVerts.add((WB_Point) i.object);
+					}
+					frontVerts.add(b);
+				} else if (bSide == WB_Classification.BACK) {
+					if (aSide == WB_Classification.FRONT) {
+						i = WB_GeometryOp.getIntersection3D(a, b, P);
+						frontVerts.add((WB_Point) i.object);
+						backVerts.add((WB_Point) i.object);
+					} else if (aSide == WB_Classification.ON) {
+						backVerts.add(a);
+					}
+					backVerts.add(b);
+				} else {
+					frontVerts.add(b);
+					if (aSide == WB_Classification.BACK) {
+						backVerts.add(b);
+					}
+				}
+				a = b;
+				aSide = bSide;
+			}
+		}
+		final WB_Polygon[] result = new WB_Polygon[2];
+		result[0] = new WB_Polygon(frontVerts);
+		result[1] = new WB_Polygon(backVerts);
+		return result;
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @return
+	 */
+	public static WB_Polygon trimConvexPolygon(WB_Polygon poly, final double d) {
+		final WB_Polygon cpoly = new WB_Polygon(poly.points);
+		final int n = cpoly.numberOfShellPoints; // get number of vertices
+		final WB_Plane P = cpoly.getPlane(); // get plane of poly
+		WB_Coord p1, p2;
+		WB_Point origin;
+		WB_Vector v, normal;
+		for (int i = 0, j = n - 1; i < n; j = i, i++) {
+			p1 = cpoly.getPoint(i);// startpoint of edge
+			p2 = cpoly.getPoint(j);// endpoint of edge
+			// vector along edge
+			v = gf.createNormalizedVectorFromTo(p1, p2);
+			// edge normal is perpendicular to edge and plane normal
+			normal = v.cross(P.getNormal());
+			// center of edge
+			origin = new WB_Point(p1).addSelf(p2).mulSelf(0.5);
+			// offset cutting plane origin by the desired distance d
+			origin.addMulSelf(d, normal);
+			final WB_Polygon[] split = splitPolygon(poly, new WB_Plane(origin, normal));
+			poly = split[0];
+		}
+		return poly;
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @return
+	 */
+	public static WB_Polygon trimConvexPolygon(WB_Polygon poly, final double[] d) {
+		final WB_Polygon cpoly = new WB_Polygon(poly.points);
+		final int n = cpoly.numberOfShellPoints; // get number of vertices
+		final WB_Plane P = cpoly.getPlane(); // get plane of poly
+		WB_Coord p1, p2;
+		WB_Point origin;
+		WB_Vector v, normal;
+		for (int i = 0, j = n - 1; i < n; j = i, i++) {
+			p1 = cpoly.getPoint(i);// startpoint of edge
+			p2 = cpoly.getPoint(j);// endpoint of edge
+			// vector along edge
+			v = gf.createNormalizedVectorFromTo(p1, p2);
+			// edge normal is perpendicular to edge and plane normal
+			normal = v.cross(P.getNormal());
+			// center of edge
+			origin = new WB_Point(p1).addSelf(p2).mulSelf(0.5);
+			// offset cutting plane origin by the desired distance d
+			origin.addMulSelf(d[j], normal);
+			final WB_Polygon[] split = splitPolygon(poly, new WB_Plane(origin, normal));
+			poly = split[0];
+		}
+		return poly;
+	}
+
+	/**
+	 * Get dihedral angle defined by three vectors.
+	 *
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @param p4
+	 * @return dihedral angle
+	 */
+	public static double getDihedralAngle(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3, final WB_Coord p4) {
+		return getDihedralAngle(gf.createVectorFromTo(p2, p1), gf.createVectorFromTo(p3, p2),
+				gf.createVectorFromTo(p4, p3));
+	}
+
+	/**
+	 * Get dihedral angle defined by three vectors.
+	 *
+	 * @param v1
+	 *            WB_Coordinate
+	 * @param v2
+	 *            WB_Coordinate
+	 * @param v3
+	 *            WB_Coordinate
+	 * @return dihedral angle
+	 */
+	public static double getDihedralAngle(final WB_Coord v1, final WB_Coord v2, final WB_Coord v3) {
+		final WB_Vector b2xb3 = gf.createVector(v2).crossSelf(v3);
+		final WB_Vector b1xb2 = gf.createVector(v1).crossSelf(v2);
+		final double x = b1xb2.dot(b2xb3);
+		final double y = b1xb2.crossSelf(b2xb3).dot(gf.createNormalizedVector(v2));
+		return Math.atan2(y, x);
+	}
+
+	/**
+	 * Get cosine of dihedral angle defined by three vectors.
+	 *
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @param p4
+	 * @return cosine of dihedral angle
+	 */
+	public static double getCosDihedralAngle(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3,
+			final WB_Coord p4) {
+		return getCosDihedralAngle(gf.createVectorFromTo(p2, p1), gf.createVectorFromTo(p3, p2),
+				gf.createVectorFromTo(p4, p3));
+	}
+
+	/**
+	 * Get cosine of dihedral angle defined by three vectors.
+	 *
+	 * @param u
+	 *            WB_Coordinate
+	 * @param v
+	 *            WB_Coordinate
+	 * @param w
+	 *            WB_Coordinate
+	 * @return cosine of dihedral angle
+	 */
+	public static double getCosDihedralAngle(final WB_Coord u, final WB_Coord v, final WB_Coord w) {
+		final WB_Vector uv = gf.createVector(u).crossSelf(gf.createVector(u).addSelf(v));
+		final WB_Vector vw = gf.createVector(v).crossSelf(gf.createVector(v).addSelf(w));
+		return uv.dot(vw) / (uv.getLength3D() * vw.getLength3D());
+	}
+
+	/**
+	 *
+	 *
+	 * @param a
+	 * @param b
+	 * @param p
+	 * @return
+	 */
+	public static boolean isLeftStrict2D(final WB_Coord a, final WB_Coord b, final WB_Coord p) {
+		return WB_Predicates.orient2D(p, a, b) > 0;
+	}
+
+	/**
+	 *
+	 *
+	 * @param a
+	 * @param b
+	 * @param p
+	 * @return
+	 */
+	public static boolean isLeft2D(final WB_Coord a, final WB_Coord b, final WB_Coord p) {
+		return WB_Predicates.orient2D(p, a, b) >= 0;
+	}
+
+	/**
+	 *
+	 *
+	 * @param a
+	 * @param b
+	 * @param p
+	 * @return
+	 */
+	public static boolean isRightStrict2D(final WB_Coord a, final WB_Coord b, final WB_Coord p) {
+		return WB_Predicates.orient2D(p, a, b) < 0;
+	}
+
+	/**
+	 *
+	 *
+	 * @param a
+	 * @param b
+	 * @param p
+	 * @return
+	 */
+	public static boolean isRight2D(final WB_Coord a, final WB_Coord b, final WB_Coord p) {
+		return WB_Predicates.orient2D(p, a, b) <= 0;
+	}
+
+	/**
+	 *
+	 *
+	 * @param p0
+	 * @param p
+	 * @param p1
+	 * @return
+	 */
+	public static boolean isReflex2D(final WB_Point p0, final WB_Point p, final WB_Point p1) {
+		return isRightStrict2D(p1, p0, p);
+	}
+
+	/**
+	 *
+	 *
+	 * @param ap1
+	 * @param ap2
+	 * @param bp1
+	 * @param bp2
+	 * @return
+	 */
+	public static WB_Point getSegmentIntersection2D(final WB_Coord ap1, final WB_Coord ap2, final WB_Coord bp1,
+			final WB_Coord bp2) {
+		WB_Coord A = WB_Point.sub(ap2, ap1);
+		WB_Coord B = WB_Point.sub(bp2, bp1);
+		double BxA = cross2D(B, A);
+		if (Math.abs(BxA) <= WB_Epsilon.EPSILON) {
+			return null;
+		}
+
+		double ambxA = cross2D(WB_Point.sub(ap1, bp1), A);
+		if (Math.abs(ambxA) <= WB_Epsilon.EPSILON) {
+			return null;
+		}
+
+		double tb = ambxA / BxA;
+		if (tb < 0.0 || tb > 1.0) {
+			return null;
+		}
+
+		WB_Point ip = WB_Point.mul(B, tb).addSelf(bp1);
+		double ta = WB_Point.sub(ip, ap1).dot(A) / WB_Point.dot(A, A);
+		if (ta < 0.0 || ta > 1.0) {
+			return null;
+		}
+		return ip;
+	}
+
+	/**
+	 *
+	 *
+	 * @param a1
+	 * @param a2
+	 * @param b1
+	 * @param b2
+	 * @param p
+	 * @return
+	 */
+	public static boolean getLineIntersectionInto2D(final WB_Point a1, final WB_Point a2, final WB_Point b1,
+			final WB_Point b2, final WB_Point p) {
+		WB_Point s1 = a1.sub(a2);
+		WB_Point s2 = b1.sub(b2);
+		double det = WB_GeometryOp.cross2D(s1, s2);
+		if (Math.abs(det) <= WB_Epsilon.EPSILON) {
+			return false;
+		} else {
+			det = 1.0 / det;
+			double t2 = det * (WB_GeometryOp.cross2D(a1, s1) - WB_GeometryOp.cross2D(b1, s1));
+			p.set(b1.xd() * (1.0 - t2) + b2.xd() * t2, b1.yd() * (1.0 - t2) + b2.yd() * t2);
+			return true;
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param v1
+	 * @param v2
+	 * @return
+	 */
+	public static double cross2D(final WB_Coord v1, final WB_Coord v2) {
+		return v1.xd() * v2.yd() - v1.yd() * v2.xd();
+	}
+
 }

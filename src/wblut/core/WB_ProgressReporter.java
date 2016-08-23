@@ -10,24 +10,23 @@
 
 package wblut.core;
 
-
 public class WB_ProgressReporter extends Thread {
-
 
 	WB_ProgressTracker tracker;
 	String status;
 
-
 	/**
 	 *
 	 */
-	public WB_ProgressReporter() {
+	public WB_ProgressReporter(final int depth) {
 		super();
 		tracker = WB_ProgressTracker.instance();
+		tracker.setDepth(depth);
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Thread#start()
 	 */
 	@Override
@@ -36,8 +35,9 @@ public class WB_ProgressReporter extends Thread {
 		System.out.println("Starting WB_ProgressTracker");
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Thread#run()
 	 */
 	@Override

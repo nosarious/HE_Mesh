@@ -64,7 +64,7 @@ public class WB_TriangleMesh extends WB_Mesh {
 	/**
 	 *
 	 */
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/**
 	 *

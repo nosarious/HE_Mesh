@@ -40,7 +40,7 @@ public class HEM_Extrude extends HEM_Modifier {
 	/**
 	 *
 	 */
-	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	private static WB_GeometryFactory gf = new WB_GeometryFactory();
 	/** Extrusion distance. */
 	private WB_ScalarParameter d;
 	/** Threshold angle for hard edges. */

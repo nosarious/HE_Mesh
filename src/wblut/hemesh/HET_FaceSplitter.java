@@ -27,105 +27,92 @@ import wblut.math.WB_Epsilon;
 /**
  * @author FVH
  *
- * Port of David Geier's algorithm
- * https://geidav.wordpress.com/2015/03/21/splitting-an-arbitrary-polygon-by-a-line/
+ *         Port of David Geier's algorithm
+ *         https://geidav.wordpress.com/2015/03/21/splitting-an-arbitrary-
+ *         polygon-by-a-line/
  *
  */
 class HET_FaceSplitter {
 	List<PolyEdge> splitPoly;
 	List<PolyEdge> edgesOnLine;
 
+	private WB_GeometryFactory gf = new WB_GeometryFactory();
 
-	HET_FaceSplitter(){
+	HET_FaceSplitter() {
 
 	}
 
-
-	//Divide a face whose edges have been split before by a plane
-	List<HE_Vertex[]> splitFace(final HE_Face f, final WB_Plane P){
-		List<HE_Vertex[]> subfaces=new ArrayList<HE_Vertex[]>();
-		WB_Plane Q=f.getPlane();
-		WB_IntersectionResult intersection=WB_GeometryOp.getIntersection3D(P, Q);
-		if(!intersection.intersection) {
+	// Divide a face whose edges have been split before by a plane
+	List<HE_Vertex[]> splitFace(final HE_Face f, final WB_Plane P) {
+		List<HE_Vertex[]> subfaces = new ArrayList<HE_Vertex[]>();
+		WB_Plane Q = f.getPlane();
+		WB_IntersectionResult intersection = WB_GeometryOp.getIntersection3D(P, Q);
+		if (!intersection.intersection) {
 
 			return null;
-		}else{
+		} else {
 
-			List<HE_Vertex> coords=f.getFaceVertices();
-			processEdges(coords,P);
-			sortEdges((WB_Line)intersection.object);
+			List<HE_Vertex> coords = f.getFaceVertices();
+			processEdges(coords, P);
+			sortEdges((WB_Line) intersection.object);
 			splitPolygon();
 			subfaces.addAll(collectPolygons());
 		}
 		return subfaces;
 	}
 
+	void processEdges(final List<HE_Vertex> coords, final WB_Plane P) {
+		splitPoly = new FastTable<PolyEdge>();
+		edgesOnLine = new FastTable<PolyEdge>();
+		for (int i = 0; i < coords.size(); i++) {
 
-	void processEdges(final List<HE_Vertex> coords, final WB_Plane P)
-	{
-		splitPoly=new FastTable<PolyEdge>();
-		edgesOnLine=new FastTable<PolyEdge>();
-		for (int i=0; i<coords.size(); i++)
-		{
-
-			WB_Classification edgeStartSide =WB_GeometryOp.classifyPointToPlane3D(coords.get(i),P);
+			WB_Classification edgeStartSide = WB_GeometryOp.classifyPointToPlane3D(coords.get(i), P);
 			splitPoly.add(new PolyEdge(coords.get(i), edgeStartSide));
-			if (WB_GeometryOp.classifyPointToPlane3D(coords.get(i),P)==ON)
-			{
-				edgesOnLine.add(splitPoly.get(splitPoly.size()-1));
+			if (WB_GeometryOp.classifyPointToPlane3D(coords.get(i), P) == ON) {
+				edgesOnLine.add(splitPoly.get(splitPoly.size() - 1));
 			}
-			//all split are dealt with before calling HET_FaceSplitter
+			// all split are dealt with before calling HET_FaceSplitter
 		}
 
-
-		for (int i=0,j=splitPoly.size()-1;i<splitPoly.size();j=i,i++)
-		{
-			splitPoly.get(j).next=splitPoly.get(i);
-			splitPoly.get(i).prev=splitPoly.get(j);
+		for (int i = 0, j = splitPoly.size() - 1; i < splitPoly.size(); j = i, i++) {
+			splitPoly.get(j).next = splitPoly.get(i);
+			splitPoly.get(i).prev = splitPoly.get(j);
 
 		}
 
 	}
 
-
-	void sortEdges(final WB_Line L)
-	{
+	void sortEdges(final WB_Line L) {
 		Collections.sort(edgesOnLine, new EdgeOnLineComparator(L));
-		for (int i=1; i<edgesOnLine.size(); i++) {
-			edgesOnLine.get(i).distOnLine=WB_Point.getDistance3D(edgesOnLine.get(i).pos,edgesOnLine.get(0).pos);
-		};
+		for (int i = 1; i < edgesOnLine.size(); i++) {
+			edgesOnLine.get(i).distOnLine = WB_Point.getDistance3D(edgesOnLine.get(i).pos, edgesOnLine.get(0).pos);
+		}
+		;
 	}
 
-	void splitPolygon()
-	{
-		if(edgesOnLine.size()==2){
+	void splitPolygon() {
+		if (edgesOnLine.size() == 2) {
 			createBridge(edgesOnLine.get(0), edgesOnLine.get(1));
 			verifyCycles();
-		}else{
+		} else {
 
 			PolyEdge reUseSrc = null;
 
-
-
-
-			for (int i=0; i<edgesOnLine.size(); i++)
-			{
+			for (int i = 0; i < edgesOnLine.size(); i++) {
 				// find source
 				PolyEdge srcEdge = reUseSrc;
 				reUseSrc = null;
 
-				for (; (srcEdge==null) && (i<edgesOnLine.size()); i++)
-				{
+				for (; srcEdge == null && i < edgesOnLine.size(); i++) {
 					PolyEdge curEdge = edgesOnLine.get(i);
 					WB_Classification curSide = curEdge.side;
 					WB_Classification prevSide = curEdge.prev.side;
 					WB_Classification nextSide = curEdge.next.side;
-					assert(curSide == ON);
+					assert curSide == ON;
 
-					if (((prevSide == FRONT) && (nextSide == BACK)) ||
-							((prevSide == FRONT) && (nextSide == ON) && (curEdge.next.distOnLine < curEdge.distOnLine)) ||
-							((prevSide == ON) && (nextSide == BACK) && (curEdge.prev.distOnLine < curEdge.distOnLine)))
-					{
+					if (prevSide == FRONT && nextSide == BACK
+							|| prevSide == FRONT && nextSide == ON && curEdge.next.distOnLine < curEdge.distOnLine
+							|| prevSide == ON && nextSide == BACK && curEdge.prev.distOnLine < curEdge.distOnLine) {
 						srcEdge = curEdge;
 						srcEdge.isSource = true;
 					}
@@ -134,20 +121,16 @@ class HET_FaceSplitter {
 				// find destination
 				PolyEdge dstEdge = null;
 
-				for (; (dstEdge==null) && (i<edgesOnLine.size()); )
-				{
+				for (; dstEdge == null && i < edgesOnLine.size();) {
 					PolyEdge curEdge = edgesOnLine.get(i);
-					WB_Classification  curSide = curEdge.side;
+					WB_Classification curSide = curEdge.side;
 					WB_Classification prevSide = curEdge.prev.side;
 					WB_Classification nextSide = curEdge.next.side;
-					assert(curSide == ON);
+					assert curSide == ON;
 
-					if (((prevSide == BACK) && (nextSide == FRONT))  ||
-							((prevSide == ON) && (nextSide == FRONT))     ||
-							((prevSide == BACK) && (nextSide == ON))    ||
-							((prevSide == BACK) && (nextSide == BACK)) ||
-							((prevSide == FRONT) && (nextSide == FRONT)))
-					{
+					if (prevSide == BACK && nextSide == FRONT || prevSide == ON && nextSide == FRONT
+							|| prevSide == BACK && nextSide == ON || prevSide == BACK && nextSide == BACK
+							|| prevSide == FRONT && nextSide == FRONT) {
 						dstEdge = curEdge;
 						dstEdge.isDestination = true;
 					} else {
@@ -155,22 +138,17 @@ class HET_FaceSplitter {
 					}
 				}
 
-
 				// bridge source and destination
-				if ((srcEdge!=null) && (dstEdge!=null))
-				{
+				if (srcEdge != null && dstEdge != null) {
 					createBridge(srcEdge, dstEdge);
 					verifyCycles();
 
 					// is it a configuration in which a vertex
 					// needs to be reused as source vertex?
-					if (srcEdge.prev.prev.side == FRONT)
-					{
+					if (srcEdge.prev.prev.side == FRONT) {
 						reUseSrc = srcEdge.prev;
 						reUseSrc.isSource = true;
-					}
-					else if (dstEdge.next.side == BACK)
-					{
+					} else if (dstEdge.next.side == BACK) {
 						reUseSrc = dstEdge;
 						reUseSrc.isSource = true;
 					}
@@ -179,11 +157,9 @@ class HET_FaceSplitter {
 		}
 	}
 
-
-	void createBridge(final PolyEdge srcEdge, final PolyEdge dstEdge)
-	{
-		PolyEdge srcToDst=new PolyEdge(srcEdge.pos,srcEdge.side);
-		PolyEdge dstToSrc=new PolyEdge(dstEdge.pos,dstEdge.side);
+	void createBridge(final PolyEdge srcEdge, final PolyEdge dstEdge) {
+		PolyEdge srcToDst = new PolyEdge(srcEdge.pos, srcEdge.side);
+		PolyEdge dstToSrc = new PolyEdge(dstEdge.pos, dstEdge.side);
 
 		splitPoly.add(srcToDst);
 		splitPoly.add(dstToSrc);
@@ -192,50 +168,41 @@ class HET_FaceSplitter {
 		srcToDst.prev = srcEdge.prev;
 		dstToSrc.next = srcEdge;
 		dstToSrc.prev = dstEdge.prev;
-		srcEdge.prev.next =  srcToDst;
-		srcEdge.prev=dstToSrc;
-		dstEdge.prev.next= dstToSrc;
+		srcEdge.prev.next = srcToDst;
+		srcEdge.prev = dstToSrc;
+		dstEdge.prev.next = dstToSrc;
 		dstEdge.prev = srcToDst;
 	}
 
-
-	void verifyCycles()
-	{
-		for (PolyEdge edge : splitPoly)
-		{
-			PolyEdge  curEdge = edge;
+	void verifyCycles() {
+		for (PolyEdge edge : splitPoly) {
+			PolyEdge curEdge = edge;
 			int count = 0;
-			do
-			{
-				assert(count < splitPoly.size());
-				curEdge= curEdge.next;
+			do {
+				assert count < splitPoly.size();
+				curEdge = curEdge.next;
 				count++;
-			}
-			while (curEdge != edge);
+			} while (curEdge != edge);
 		}
 	}
 
-	List<HE_Vertex[]> collectPolygons()
-	{
-		List<HE_Vertex[]> resPolys=new ArrayList<HE_Vertex[]>();
+	List<HE_Vertex[]> collectPolygons() {
+		List<HE_Vertex[]> resPolys = new ArrayList<HE_Vertex[]>();
 
-		for (PolyEdge e : splitPoly)
-		{
-			if (!e.visited)
-			{
-				List<PolyEdge> edges=new FastTable<PolyEdge>();
+		for (PolyEdge e : splitPoly) {
+			if (!e.visited) {
+				List<PolyEdge> edges = new FastTable<PolyEdge>();
 				PolyEdge curEdge = e;
-				do				{
+				do {
 					curEdge.visited = true;
 					edges.add(curEdge);
 					curEdge = curEdge.next;
-				}
-				while (curEdge != e);
+				} while (curEdge != e);
 
-				if(edges.size()>2){
-					HE_Vertex[] poly=new HE_Vertex[edges.size()];
-					for(int i=0;i<edges.size();i++){
-						poly[i]=edges.get(i).pos;
+				if (edges.size() > 2) {
+					HE_Vertex[] poly = new HE_Vertex[edges.size()];
+					for (int i = 0; i < edges.size(); i++) {
+						poly[i] = edges.get(i).pos;
 					}
 
 					resPolys.add(poly);
@@ -246,56 +213,53 @@ class HET_FaceSplitter {
 		return resPolys;
 	}
 
+	static class PolyEdge {
+		HE_Vertex pos; // start position on edge
 
-	static class PolyEdge{
-		HE_Vertex pos;   // start position on edge
-
-		WB_Classification  side;  // start position's side of split line
-		PolyEdge next;       // next polygon in linked list
-		PolyEdge prev;       // previous polygon in linked list
+		WB_Classification side; // start position's side of split line
+		PolyEdge next; // next polygon in linked list
+		PolyEdge prev; // previous polygon in linked list
 		double distOnLine; // distance relative to first point on split line
-		boolean isSource;  // for visualization
-		boolean isDestination;  // for visualization
-		boolean visited;    // for collecting split polygons
+		boolean isSource; // for visualization
+		boolean isDestination; // for visualization
+		boolean visited; // for collecting split polygons
 
+		PolyEdge(final HE_Vertex pos, final WB_Classification side) {
+			this.pos = pos;
 
-		PolyEdge(final HE_Vertex  pos, final WB_Classification  side){
-			this.pos=pos;
-
-			this.side=side;
-			next=null;
-			prev=null;
-			isSource=false;
-			isDestination=false;
-			visited=false;
-			distOnLine=0;
+			this.side = side;
+			next = null;
+			prev = null;
+			isSource = false;
+			isDestination = false;
+			visited = false;
+			distOnLine = 0;
 
 		}
 
 	}
-
 
 	static class EdgeOnLineComparator implements Comparator<PolyEdge> {
 		WB_Line L;
 
-		EdgeOnLineComparator(final WB_Line L){
-			this.L=L;
+		EdgeOnLineComparator(final WB_Line L) {
+			this.L = L;
 		}
 
 		@Override
 		public int compare(final PolyEdge e0, final PolyEdge e1) {
-			double d=WB_GeometryOp.pointAlongLine(e0.pos, L)-WB_GeometryOp.pointAlongLine(e1.pos, L);
-			return (WB_Epsilon.isZero(d))?0:((d>0)?1:-1);
+			double d = WB_GeometryOp.pointAlongLine(e0.pos, L) - WB_GeometryOp.pointAlongLine(e1.pos, L);
+			return WB_Epsilon.isZero(d) ? 0 : d > 0 ? 1 : -1;
 		}
 	}
 
-	static WB_Polygon polygonFromArray(final double[][] points){
-		List<WB_Coord> coords=new FastTable<WB_Coord>();
-		for(double[] p:points){
-			if(p.length==2){
-				coords.add(new WB_Point(p[0],p[1]));
-			}else if(p.length==3){
-				coords.add(new WB_Point(p[0],p[1],p[2]));
+	WB_Polygon polygonFromArray(final double[][] points) {
+		List<WB_Coord> coords = new FastTable<WB_Coord>();
+		for (double[] p : points) {
+			if (p.length == 2) {
+				coords.add(new WB_Point(p[0], p[1]));
+			} else if (p.length == 3) {
+				coords.add(new WB_Point(p[0], p[1], p[2]));
 			}
 
 		}
@@ -303,22 +267,19 @@ class HET_FaceSplitter {
 
 	}
 
-	static WB_Plane planeFromArray(final double[][] points){
-		WB_Point p0=new WB_Point(points[0]);
-		WB_Point p1=new WB_Point(points[1]);
-		WB_Point p2=p0.add(0,0,100);
-		return new WB_Plane(p0,p1,p2);
+	WB_Plane planeFromArray(final double[][] points) {
+		WB_Point p0 = new WB_Point(points[0]);
+		WB_Point p1 = new WB_Point(points[1]);
+		WB_Point p2 = p0.add(0, 0, 100);
+		return new WB_Plane(p0, p1, p2);
 
 	}
 
-	static WB_Line lineFromArray(final double[][] points){
-		WB_Point p0=new WB_Point(points[0]);
-		WB_Point p1=new WB_Point(points[1]);
-		return WB_GeometryFactory.instance().createLineThroughPoints(p0, p1) ;
+	WB_Line lineFromArray(final double[][] points) {
+		WB_Point p0 = new WB_Point(points[0]);
+		WB_Point p1 = new WB_Point(points[1]);
+		return gf.createLineThroughPoints(p0, p1);
 
 	}
-
-
-
 
 }

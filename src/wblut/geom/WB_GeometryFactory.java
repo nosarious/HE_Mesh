@@ -135,7 +135,7 @@ public class WB_GeometryFactory {
 	/**
 	 *
 	 */
-	protected WB_GeometryFactory() {
+	public WB_GeometryFactory() {
 		origin = createPoint(0, 0, 0);
 		X = createVector(1, 0, 0);
 		Y = createVector(0, 1, 0);
@@ -149,15 +149,6 @@ public class WB_GeometryFactory {
 	 *
 	 */
 	private static final WB_GeometryFactory factory = new WB_GeometryFactory();
-
-	/**
-	 *
-	 *
-	 * @return
-	 */
-	public static WB_GeometryFactory instance() {
-		return factory;
-	}
 
 	/**
 	 *
@@ -602,6 +593,10 @@ public class WB_GeometryFactory {
 	 */
 	public WB_Point createPoint(final double _x, final double _y, final double _z) {
 		return new WB_Point(_x, _y, _z);
+	}
+
+	public WB_Coord createCoord(final double _x, final double _y, final double _z, final double _w) {
+		return new WB_SimpleCoordinate(_x, _y, _z, _w);
 	}
 
 	/**
@@ -1231,6 +1226,16 @@ public class WB_GeometryFactory {
 	 */
 	public WB_Point createCentroid(final WB_Triangle tri) {
 		return createPointFromTrilinearCoordinates(tri.b() * tri.c(), tri.c() * tri.a(), tri.a() * tri.b(), tri);
+	}
+
+	public WB_Point createCentroid(final WB_Coord... points) {
+		WB_Point c = new WB_Point();
+		for (int i = 0; i < points.length; i++) {
+			c.addSelf(points[i]);
+
+		}
+		c.divSelf(points.length);
+		return c;
 	}
 
 	/**
@@ -2592,7 +2597,7 @@ public class WB_GeometryFactory {
 	 * @return
 	 */
 	public WB_Polygon createSimplePolygon(final WB_Polygon poly) {
-		return new WB_Triangulate().makeSimplePolygon(poly);
+		return new WB_TriangulatePolygon().makeSimplePolygon(poly);
 	}
 
 	/**
@@ -2603,6 +2608,27 @@ public class WB_GeometryFactory {
 	 */
 	public WB_Polygon createSimplePolygon(final Collection<? extends WB_Coord> points) {
 		return new WB_Polygon(points);
+	}
+
+	public WB_Polygon createSimplePolygon(final WB_Triangle triangle) {
+		return new WB_Polygon(triangle.p1, triangle.p2, triangle.p3);
+	}
+
+	public WB_Polygon createSimplePolygon(final WB_Quad quad) {
+		return new WB_Polygon(quad.p1, quad.p2, quad.p3, quad.p4);
+	}
+
+	public WB_Polygon createSimplePolygon(final WB_Pentagon pentagon) {
+		return new WB_Polygon(pentagon.p1, pentagon.p2, pentagon.p3, pentagon.p4, pentagon.p5);
+	}
+
+	public WB_Polygon createSimplePolygon(final WB_Hexagon hexagon) {
+		return new WB_Polygon(hexagon.p1, hexagon.p2, hexagon.p3, hexagon.p4, hexagon.p5, hexagon.p6);
+	}
+
+	public WB_Polygon createSimplePolygon(final WB_Octagon octagon) {
+		return new WB_Polygon(octagon.p1, octagon.p2, octagon.p3, octagon.p4, octagon.p5, octagon.p6, octagon.p7,
+				octagon.p8);
 	}
 
 	/**
@@ -2746,9 +2772,9 @@ public class WB_GeometryFactory {
 	 * @param poly
 	 * @return
 	 */
-	public List<WB_Polygon> createConvexPolygonDecomposition(final WB_Polygon poly) {
+	public List<WB_Polygon> createConvexPolygonDecomposition2D(final WB_Polygon poly) {
 
-		return WB_PolygonDecomposer.convexDecomposePolygon(poly);
+		return WB_PolygonDecomposer.decomposePolygon2D(poly);
 
 	}
 
@@ -2885,6 +2911,42 @@ public class WB_GeometryFactory {
 		final MultiPolygon collPoly = JTSgf.createMultiPolygon(allPoly);
 		final Geometry outer = BufferOp.bufferOp(collPoly, d * 0.5);
 		final Geometry inner = BufferOp.bufferOp(collPoly, -d * 0.5);
+		final Geometry result = outer.difference(inner);
+		return createPolygonsFromJTSGeometry(result);
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @return
+	 */
+	public List<WB_Polygon> createRibbonPolygons(final WB_Polygon poly, final double o, final double i) {
+		final Polygon JTSpoly = toJTSPolygon(poly);
+		final Geometry outer = BufferOp.bufferOp(JTSpoly, o);
+		final Geometry inner = BufferOp.bufferOp(JTSpoly, -i);
+		final Geometry result = outer.difference(inner);
+		return createPolygonsFromJTSGeometry(result);
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @return
+	 */
+	public List<WB_Polygon> createRibbonPolygons(final Collection<? extends WB_Polygon> poly, final double o,
+			final double i) {
+		final Polygon[] allPoly = new Polygon[poly.size()];
+		int j = 0;
+		for (final WB_Polygon pol : poly) {
+			allPoly[j++] = toJTSPolygon(pol);
+		}
+		final MultiPolygon collPoly = JTSgf.createMultiPolygon(allPoly);
+		final Geometry outer = BufferOp.bufferOp(collPoly, o);
+		final Geometry inner = BufferOp.bufferOp(collPoly, -i);
 		final Geometry result = outer.difference(inner);
 		return createPolygonsFromJTSGeometry(result);
 	}
@@ -4176,7 +4238,7 @@ public class WB_GeometryFactory {
 		}
 		final WB_Classification C1toC2 = WB_GeometryOp.classifyCircleToCircle2D(C1, C2);
 		// C1 tangent to C2
-		if (C1.isTangent2D(C2)) {
+		if (WB_GeometryOp.isTangent2D(C1, C2)) {
 			final WB_Point q = createIntersectionPoints(C1, C2).get(0);
 			result.addAll(createCirclePPC(p, q, C1));
 			// C1 inside C2, transform to outside case
@@ -4288,7 +4350,7 @@ public class WB_GeometryFactory {
 						final List<WB_Circle> filter = new ArrayList<WB_Circle>();
 						for (int i = 0; i < result.size(); i++) {
 							final WB_Circle C = result.get(i);
-							if (C.isTangent2D(C1) && C.isTangent2D(C2)
+							if (WB_GeometryOp.isTangent2D(C, C1) && WB_GeometryOp.isTangent2D(C, C2)
 									&& WB_GeometryOp.classifyPointToCircle2D(p, C) == WB_Classification.ON) {
 								filter.add(C);
 							}
@@ -4699,7 +4761,7 @@ public class WB_GeometryFactory {
 		for (final WB_Circle circle : tmp) {
 			final WB_Circle newC = createCircleWithRadius(circle.getCenter(),
 					WB_GeometryOp.distanceToLine2D(circle.getCenter(), L));
-			if (newC.isTangent2D(C1) && newC.isTangent2D(C2)) {
+			if (WB_GeometryOp.isTangent2D(newC, C1) && WB_GeometryOp.isTangent2D(newC, C2)) {
 				result.add(newC);
 			}
 		}
@@ -4830,7 +4892,8 @@ public class WB_GeometryFactory {
 		for (int i = 0; i < result.size(); i++) {
 			C = result.get(i);
 			if (!C.equals(C1) && !C.equals(C2) && !C.equals(C3)) {
-				if (C.isTangent2D(C1) && C.isTangent2D(C2) && C.isTangent2D(C3)) {
+				if (WB_GeometryOp.isTangent2D(C, C1) && WB_GeometryOp.isTangent2D(C, C2)
+						&& WB_GeometryOp.isTangent2D(C, C3)) {
 					filter.add(result.get(i));
 				}
 			}
@@ -8921,68 +8984,6 @@ public class WB_GeometryFactory {
 	}
 
 	/**
-	 * Get dihedral angle defined by three vectors.
-	 *
-	 * @param p1
-	 * @param p2
-	 * @param p3
-	 * @param p4
-	 * @return dihedral angle
-	 */
-	public double getDihedralAngle(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3, final WB_Coord p4) {
-		return getDihedralAngle(createVectorFromTo(p2, p1), createVectorFromTo(p3, p2), createVectorFromTo(p4, p3));
-	}
-
-	/**
-	 * Get dihedral angle defined by three vectors.
-	 *
-	 * @param v1
-	 *            WB_Coordinate
-	 * @param v2
-	 *            WB_Coordinate
-	 * @param v3
-	 *            WB_Coordinate
-	 * @return dihedral angle
-	 */
-	public double getDihedralAngle(final WB_Coord v1, final WB_Coord v2, final WB_Coord v3) {
-		final WB_Vector b2xb3 = createVector(v2).crossSelf(v3);
-		final WB_Vector b1xb2 = createVector(v1).crossSelf(v2);
-		final double x = b1xb2.dot(b2xb3);
-		final double y = b1xb2.crossSelf(b2xb3).dot(createNormalizedVector(v2));
-		return Math.atan2(y, x);
-	}
-
-	/**
-	 * Get cosine of dihedral angle defined by three vectors.
-	 *
-	 * @param p1
-	 * @param p2
-	 * @param p3
-	 * @param p4
-	 * @return cosine of dihedral angle
-	 */
-	public double getCosDihedralAngle(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3, final WB_Coord p4) {
-		return getCosDihedralAngle(createVectorFromTo(p2, p1), createVectorFromTo(p3, p2), createVectorFromTo(p4, p3));
-	}
-
-	/**
-	 * Get cosine of dihedral angle defined by three vectors.
-	 *
-	 * @param u
-	 *            WB_Coordinate
-	 * @param v
-	 *            WB_Coordinate
-	 * @param w
-	 *            WB_Coordinate
-	 * @return cosine of dihedral angle
-	 */
-	public double getCosDihedralAngle(final WB_Coord u, final WB_Coord v, final WB_Coord w) {
-		final WB_Vector uv = createVector(u).crossSelf(createVector(u).addSelf(v));
-		final WB_Vector vw = createVector(v).crossSelf(createVector(v).addSelf(w));
-		return uv.dot(vw) / (uv.getLength3D() * vw.getLength3D());
-	}
-
-	/**
 	 *
 	 *
 	 * @param a
@@ -8991,15 +8992,8 @@ public class WB_GeometryFactory {
 	 * @return
 	 */
 	public WB_Point getIntersection(final WB_Coord a, final WB_Coord b, final WB_Plane P) {
-		final WB_Vector ab = createVectorFromTo(a, b);
-		final WB_Vector N = P.getNormal();
-		double t = (P.d() - N.dot(a)) / N.dot(ab);
-		if (t >= -WB_Epsilon.EPSILON && t <= 1.0 + WB_Epsilon.EPSILON) {
-			t = WB_Epsilon.clampEpsilon(t, 0, 1);
-			return createPoint(a.xd() + t * (b.xd() - a.xd()), a.yd() + t * (b.yd() - a.yd()),
-					a.zd() + t * (b.zd() - a.zd()));
-		}
-		return null;
+		Object o = WB_GeometryOp.getIntersection3D(a, b, P).object;
+		return o == null ? null : (WB_Point) o;
 	}
 
 	/**

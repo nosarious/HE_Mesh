@@ -242,7 +242,7 @@ public class HEC_VoronoiCell extends HEC_Creator {
 		if (cellIndex < 0 || cellIndex >= numberOfPoints) {
 			return container;
 		}
-		final HE_Mesh result = container.get();
+		final HE_Mesh result = container.copy();
 		final ArrayList<WB_Plane> cutPlanes = new ArrayList<WB_Plane>();
 		int id = 0;
 		final WB_Point O = new WB_Point();

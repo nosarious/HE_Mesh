@@ -78,7 +78,7 @@ public class WB_Mesh {
 
 	boolean DCurvaturesUpdated;
 
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/**
 	 *
@@ -394,7 +394,7 @@ public class WB_Mesh {
 			if (face.length == 3) {
 				addTriangle(face);
 			} else {
-				triangles = new WB_Triangulate()
+				triangles = new WB_TriangulatePolygon()
 						.triangulatePolygon2D(face, vertices, true, geometryfactory.createEmbeddedPlane(getPlane(id)))
 						.getTriangles();
 				for (int i = 0; i < triangles.length; i += 3) {
@@ -498,7 +498,7 @@ public class WB_Mesh {
 				if (face.length == 3) {
 					tris.add(face);
 				} else {
-					triangles = new WB_Triangulate().triangulatePolygon2D(face, vertices, true,
+					triangles = new WB_TriangulatePolygon().triangulatePolygon2D(face, vertices, true,
 							geometryfactory.createEmbeddedPlane(getPlane(i))).getTriangles();
 
 					for (int j = 0; j < triangles.length; j += 3) {

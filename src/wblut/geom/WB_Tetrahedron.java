@@ -43,7 +43,7 @@ public class WB_Tetrahedron {
 	/**
 	 *
 	 */
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/**
 	 *
@@ -254,12 +254,12 @@ public class WB_Tetrahedron {
 	 * @return
 	 */
 	public boolean isAcute() {
-		return geometryfactory.getCosDihedralAngle(p1, p2, p3, p4) > 0.0
-				&& geometryfactory.getCosDihedralAngle(p1, p2, p4, p3) > 0.0
-				&& geometryfactory.getCosDihedralAngle(p1, p3, p4, p2) > 0.0
-				&& geometryfactory.getCosDihedralAngle(p3, p1, p2, p4) > 0.0
-				&& geometryfactory.getCosDihedralAngle(p2, p1, p3, p4) > 0.0
-				&& geometryfactory.getCosDihedralAngle(p2, p1, p4, p3) > 0.0;
+		return WB_GeometryOp.getCosDihedralAngle(p1, p2, p3, p4) > 0.0
+				&& WB_GeometryOp.getCosDihedralAngle(p1, p2, p4, p3) > 0.0
+				&& WB_GeometryOp.getCosDihedralAngle(p1, p3, p4, p2) > 0.0
+				&& WB_GeometryOp.getCosDihedralAngle(p3, p1, p2, p4) > 0.0
+				&& WB_GeometryOp.getCosDihedralAngle(p2, p1, p3, p4) > 0.0
+				&& WB_GeometryOp.getCosDihedralAngle(p2, p1, p4, p3) > 0.0;
 	}
 
 	public WB_Tetrahedron apply(final WB_Transform T) {

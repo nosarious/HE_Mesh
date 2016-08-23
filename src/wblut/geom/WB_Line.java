@@ -75,6 +75,20 @@ public class WB_Line extends WB_Linear implements WB_Curve {
 		super(new WB_Point(ox, oy, oz), new WB_Vector(dx, dy, dz));
 	}
 
+	/**
+	 *
+	 *
+	 * @param ox
+	 * @param oy
+	 * @param oz
+	 * @param dx
+	 * @param dy
+	 * @param dz
+	 */
+	public WB_Line(final double ox, final double oy, final double dx, final double dy) {
+		super(new WB_Point(ox, oy), new WB_Vector(dx, dy));
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *

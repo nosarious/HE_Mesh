@@ -33,7 +33,7 @@ public class HE_DynamicMesh extends HE_Mesh {
      */
     public HE_DynamicMesh(final HE_Mesh baseMesh) {
 	this.set(baseMesh);
-	bkp = get();
+	bkp = copy();
 	modifierStack = new ArrayList<HE_Machine>();
     }
 
@@ -91,7 +91,7 @@ public class HE_DynamicMesh extends HE_Mesh {
      */
     public HE_DynamicMesh setBaseMesh(final HE_Mesh baseMesh) {
 	set(baseMesh);
-	bkp = get();
+	bkp = copy();
 	applyStack();
 	return this;
     }

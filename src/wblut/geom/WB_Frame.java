@@ -23,7 +23,7 @@ import wblut.math.WB_Math;
 
 public class WB_Frame {
 
-	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	private static WB_GeometryFactory gf = new WB_GeometryFactory();
 
 	protected FastTable<WB_FrameStrut> struts;
 
@@ -719,13 +719,13 @@ public class WB_Frame {
 				dsl = sl / divs;
 				P = strut.toPlane();
 				u = P.getU().mul(r);
-				v = strut.toNormVector().get();
+				v = strut.toNormVector().copy();
 				strut.start().addMul(rr, v);
 				v.mulSelf(dsl);
 				for (int i = 0; i <= divs; i++) {
 					for (int j = 0; j < n; j++) {
 						p = strut.start().addMul(i, v);
-						localu = u.get();
+						localu = u.copy();
 						localu.rotateAboutAxisSelf(j * da, new WB_Point(), P.getNormal());
 						p.addSelf(localu);
 						p.addSelf(rnd.nextVector().mulSelf(dr));

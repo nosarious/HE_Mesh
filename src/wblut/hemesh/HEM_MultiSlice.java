@@ -127,7 +127,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 	 * @return self
 	 */
 	public HEM_MultiSlice setCenter(final WB_Point c) {
-		center = c.get();
+		center = c.copy();
 		return this;
 	}
 
@@ -217,7 +217,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 			unique = true;
 			for (int j = 0; j < i; j++) {
 				Pj = planes.get(j);
-				if (WB_Plane.isEqual(Pi, Pj)) {
+				if (WB_GeometryOp.isEqual(Pi, Pj)) {
 					unique = false;
 					break;
 				}

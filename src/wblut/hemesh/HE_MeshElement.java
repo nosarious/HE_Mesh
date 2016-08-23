@@ -18,7 +18,7 @@ import wblut.geom.WB_GeometryFactory;
 public abstract class HE_MeshElement extends HE_Element {
 
 	protected volatile boolean visited;
-	protected final static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	protected final static WB_GeometryFactory gf = new WB_GeometryFactory();
 	protected final static WB_ProgressTracker tracker = WB_ProgressTracker.instance();
 	protected boolean visible;
 	protected int color;

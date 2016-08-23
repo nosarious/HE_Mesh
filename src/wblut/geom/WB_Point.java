@@ -514,7 +514,7 @@ public class WB_Point extends WB_Vector {
 	 * @see wblut.geom.WB_Vector#get()
 	 */
 	@Override
-	public WB_Point get() {
+	public WB_Point copy() {
 		return new WB_Point(xd(), yd(), zd());
 	}
 
@@ -1062,77 +1062,6 @@ public class WB_Point extends WB_Vector {
 	/**
 	 *
 	 *
-	 * @param o
-	 * @param p
-	 * @param q
-	 * @return
-	 */
-	public static boolean isCollinear(final WB_Coord o, final WB_Coord p, final WB_Coord q) {
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(p, q))) {
-			return true;
-		}
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(o, q))) {
-			return true;
-		}
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(o, p))) {
-			return true;
-		}
-		return WB_Epsilon.isZeroSq(cross(sub(o, p), sub(o, q)).getSqLength3D());
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @param q
-	 * @return
-	 */
-	public static boolean isParallel(final WB_Coord p, final WB_Coord q) {
-		final double pm2 = p.xd() * p.xd() + p.yd() * p.yd() + p.zd() * p.zd();
-		final double qm2 = q.xd() * q.xd() + q.yd() * q.yd() + q.zd() * q.zd();
-		return cross(p, q).getSqLength3D() / (pm2 * qm2) < WB_Epsilon.SQEPSILON;
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @param q
-	 * @param t
-	 * @return
-	 */
-	public static boolean isParallel(final WB_Coord p, final WB_Coord q, final double t) {
-		final double pm2 = p.xd() * p.xd() + p.yd() * p.yd() + p.zd() * p.zd();
-		final double qm2 = q.xd() * q.xd() + q.yd() * q.yd() + q.zd() * q.zd();
-		return cross(p, q).getSqLength3D() / (pm2 * qm2) < t + WB_Epsilon.SQEPSILON;
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @param q
-	 * @return
-	 */
-	public static boolean isParallelNorm(final WB_Coord p, final WB_Coord q) {
-		return cross(p, q).getLength3D() < WB_Epsilon.EPSILON;
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @param q
-	 * @param t
-	 * @return
-	 */
-	public static boolean isParallelNorm(final WB_Coord p, final WB_Coord q, final double t) {
-		return cross(p, q).getLength3D() < t + WB_Epsilon.EPSILON;
-	}
-
-	/**
-	 *
-	 *
 	 * @param p
 	 * @param f
 	 * @return
@@ -1224,6 +1153,422 @@ public class WB_Point extends WB_Vector {
 			final WB_Ease.Ease ease) {
 		return new WB_Point(
 				WB_GeometryOp.interpolateEaseInOut(v.xd(), v.yd(), v.zd(), w.xd(), w.yd(), w.zd(), f, ease));
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	@Override
+	public boolean isCollinear(final WB_Coord p, final WB_Coord q) {
+		return WB_GeometryOp.isCollinear(this, p, q);
+	}
+
+	/**
+	 *
+	 *
+	 * @param o
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	public static boolean isCollinear(final WB_Coord o, final WB_Coord p, final WB_Coord q) {
+		return WB_GeometryOp.isCollinear(o, p, q);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	@Override
+	public boolean isCollinear2D(final WB_Coord p, final WB_Coord q) {
+		return WB_GeometryOp.isCollinear2D(this, p, q);
+	}
+
+	/**
+	 *
+	 *
+	 * @param o
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	public static boolean isCollinear2D(final WB_Coord o, final WB_Coord p, final WB_Coord q) {
+		return WB_GeometryOp.isCollinear2D(o, p, q);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @return
+	 */
+	@Override
+	public boolean isParallel(final WB_Coord p) {
+		return WB_GeometryOp.isParallel(this, p);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	public static boolean isParallel(final WB_Coord p, final WB_Coord q) {
+		return WB_GeometryOp.isParallel(p, q);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param t
+	 * @return
+	 */
+	@Override
+	public boolean isParallel(final WB_Coord p, final double t) {
+		return WB_GeometryOp.isParallel(this, p, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @param t
+	 * @return
+	 */
+	public static boolean isParallel(final WB_Coord p, final WB_Coord q, final double t) {
+		return WB_GeometryOp.isParallel(p, q, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @return
+	 */
+	@Override
+	public boolean isParallelNorm(final WB_Coord p) {
+		return WB_GeometryOp.isParallelNorm(this, p);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	public static boolean isParallelNorm(final WB_Coord p, final WB_Coord q) {
+		return WB_GeometryOp.isParallelNorm(p, q);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param t
+	 * @return
+	 */
+	@Override
+	public boolean isParallelNorm(final WB_Coord p, final double t) {
+		return WB_GeometryOp.isParallelNorm(this, p, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @param t
+	 * @return
+	 */
+	public static boolean isParallelNorm(final WB_Coord p, final WB_Coord q, final double t) {
+		return WB_GeometryOp.isParallelNorm(p, q, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @return
+	 */
+	@Override
+	public boolean isParallel2D(final WB_Coord p) {
+		return WB_GeometryOp.isParallel2D(this, p);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	public static boolean isParallel2D(final WB_Coord p, final WB_Coord q) {
+		return WB_GeometryOp.isParallel2D(p, q);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param t
+	 * @return
+	 */
+	@Override
+	public boolean isParallel2D(final WB_Coord p, final double t) {
+		return WB_GeometryOp.isParallel2D(this, p, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @param t
+	 * @return
+	 */
+	public static boolean isParallel2D(final WB_Coord p, final WB_Coord q, final double t) {
+		return WB_GeometryOp.isParallel2D(p, q, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @return
+	 */
+	@Override
+	public boolean isParallelNorm2D(final WB_Coord p) {
+		return WB_GeometryOp.isParallelNorm2D(this, p);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	public static boolean isParallelNorm2D(final WB_Coord p, final WB_Coord q) {
+		return WB_GeometryOp.isParallelNorm2D(p, q);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param t
+	 * @return
+	 */
+	@Override
+	public boolean isParallelNorm2D(final WB_Coord p, final double t) {
+		return WB_GeometryOp.isParallelNorm2D(this, p, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @param t
+	 * @return
+	 */
+	public static boolean isParallelNorm2D(final WB_Coord p, final WB_Coord q, final double t) {
+		return WB_GeometryOp.isParallelNorm2D(p, q, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @return
+	 */
+	@Override
+	public boolean isOrthogonal(final WB_Coord p) {
+		return WB_GeometryOp.isOrthogonal(this, p);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	public static boolean isOrthogonal(final WB_Coord p, final WB_Coord q) {
+		return WB_GeometryOp.isOrthogonal(p, q);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param t
+	 * @return
+	 */
+	@Override
+	public boolean isOrthogonal(final WB_Coord p, final double t) {
+		return WB_GeometryOp.isOrthogonal(this, p, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @param t
+	 * @return
+	 */
+	public static boolean isOrthogonal(final WB_Coord p, final WB_Coord q, final double t) {
+		return WB_GeometryOp.isOrthogonal(p, q, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @return
+	 */
+	@Override
+	public boolean isOrthogonalNorm(final WB_Coord p) {
+		return WB_GeometryOp.isOrthogonalNorm(this, p);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	public static boolean isOrthogonalNorm(final WB_Coord p, final WB_Coord q) {
+		return WB_GeometryOp.isOrthogonalNorm(p, q);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param t
+	 * @return
+	 */
+	@Override
+	public boolean isOrthogonalNorm(final WB_Coord p, final double t) {
+		return WB_GeometryOp.isOrthogonalNorm(this, p, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @param t
+	 * @return
+	 */
+	public static boolean isOrthogonalNorm(final WB_Coord p, final WB_Coord q, final double t) {
+		return WB_GeometryOp.isOrthogonalNorm(p, q, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @return
+	 */
+	@Override
+	public boolean isOrthogonal2D(final WB_Coord p) {
+		return WB_GeometryOp.isOrthogonal2D(this, p);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	public static boolean isOrthogonal2D(final WB_Coord p, final WB_Coord q) {
+		return WB_GeometryOp.isOrthogonal2D(p, q);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param t
+	 * @return
+	 */
+	@Override
+	public boolean isOrthogonal2D(final WB_Coord p, final double t) {
+		return WB_GeometryOp.isOrthogonal2D(this, p, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @param t
+	 * @return
+	 */
+	public static boolean isOrthogonal2D(final WB_Coord p, final WB_Coord q, final double t) {
+		return WB_GeometryOp.isOrthogonal2D(p, q, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @return
+	 */
+	@Override
+	public boolean isOrthogonalNorm2D(final WB_Coord p) {
+		return WB_GeometryOp.isOrthogonalNorm2D(this, p);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @return
+	 */
+	public static boolean isOrthogonalNorm2D(final WB_Coord p, final WB_Coord q) {
+		return WB_GeometryOp.isOrthogonalNorm2D(p, q);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param t
+	 * @return
+	 */
+	@Override
+	public boolean isOrthogonalNorm2D(final WB_Coord p, final double t) {
+		return WB_GeometryOp.isOrthogonalNorm2D(this, p, t);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @param t
+	 * @return
+	 */
+	public static boolean isOrthogonalNorm2D(final WB_Coord p, final WB_Coord q, final double t) {
+		return WB_GeometryOp.isOrthogonalNorm2D(p, q, t);
 	}
 
 }

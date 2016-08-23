@@ -4,7 +4,7 @@ import wblut.geom.*;
 import wblut.math.*;
 import java.util.List;
 
-WB_GeometryFactory gf=WB_GeometryFactory.instance();
+WB_GeometryFactory gf=new WB_GeometryFactory();
 WB_Render2D render;
 WB_Triangulation2DWithPoints confTri;
 List<WB_Coord> points;

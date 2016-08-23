@@ -234,6 +234,20 @@ public class WB_Render2D extends WB_Processing {
 		}
 	}
 
+	public void drawPolygon2D(final WB_Polygon[] P) {
+		for (WB_Polygon poly : P) {
+			drawPolygon2D(poly);
+		}
+
+	}
+
+	public void drawPolygon2D(final Collection<? extends WB_Polygon> P) {
+		for (WB_Polygon poly : P) {
+			drawPolygon2D(poly);
+		}
+
+	}
+
 	/**
 	 *
 	 *
@@ -250,6 +264,20 @@ public class WB_Render2D extends WB_Processing {
 			}
 			home.endShape(PConstants.CLOSE);
 		}
+	}
+
+	public void drawPolygonEdges2D(final WB_Polygon[] P) {
+		for (WB_Polygon poly : P) {
+			drawPolygon2D(poly);
+		}
+
+	}
+
+	public void drawPolygonEdges2D(final Collection<? extends WB_Polygon> P) {
+		for (WB_Polygon poly : P) {
+			drawPolygon2D(poly);
+		}
+
 	}
 
 	/**

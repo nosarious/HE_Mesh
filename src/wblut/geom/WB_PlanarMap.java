@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -65,7 +65,7 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	/**
 	 *
 	 */
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/**
 	 *
@@ -84,8 +84,8 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 		super();
 		this.mode = mode;
 		this.offset = offset;
-		if ((mode < 0) || (mode > 5)) {
-			throw (new IndexOutOfBoundsException());
+		if (mode < 0 || mode > 5) {
+			throw new IndexOutOfBoundsException();
 		}
 		if (mode == X) {
 			set(geometryfactory.createPoint(offset, 0, 0), geometryfactory.Y(), geometryfactory.Z(),
@@ -130,7 +130,7 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	 * @param P
 	 */
 	public WB_PlanarMap(final WB_Plane P) {
-		super(P.getOrigin(), P.getU(), P.getV(), P.getW(), geometryfactory.WORLD());
+		super(P.getOrigin(), P.getU(), P.getV(), P.getW(), new WB_CoordinateSystem());
 		mode = PLANE;
 		T2D3D = getTransformToWorld();
 	}
@@ -142,14 +142,14 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	 * @param offset
 	 */
 	public WB_PlanarMap(final WB_Plane P, final double offset) {
-		super(P.getOrigin().addMul(offset, P.getNormal()), P.getU(), P.getV(), P.getW(), geometryfactory.WORLD());
+		super(P.getOrigin().addMul(offset, P.getNormal()), P.getU(), P.getV(), P.getW(), new WB_CoordinateSystem());
 		mode = PLANE;
 		T2D3D = getTransformToWorld();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Context2D#pointTo2D(wblut.geom.WB_Coordinate,
 	 * wblut.geom.WB_MutableCoordinate)
 	 */
@@ -181,7 +181,7 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Context2D#pointTo2D(double, double, double,
 	 * wblut.geom.WB_MutableCoordinate)
 	 */
@@ -213,7 +213,7 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Context2D#pointTo3D(wblut.geom.WB_Coordinate,
 	 * wblut.geom.WB_MutableCoordinate)
 	 */
@@ -245,7 +245,7 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Context2D#pointTo3D(double, double, double,
 	 * wblut.geom.WB_MutableCoordinate)
 	 */
@@ -277,7 +277,7 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Context2D#pointTo3D(double, double,
 	 * wblut.geom.WB_MutableCoordinate)
 	 */
@@ -307,8 +307,11 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see wblut.geom.WB_Map2D#unmapPoint2D(wblut.geom.WB_Coord, wblut.geom.WB_MutableCoord)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see wblut.geom.WB_Map2D#unmapPoint2D(wblut.geom.WB_Coord,
+	 * wblut.geom.WB_MutableCoord)
 	 */
 	@Override
 	public void unmapPoint2D(final WB_Coord p, final WB_MutableCoord result) {
@@ -338,7 +341,7 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Context2D#vectorTo2D(wblut.geom.WB_Coordinate,
 	 * wblut.geom.WB_MutableCoordinate)
 	 */
@@ -370,7 +373,7 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Context2D#vectorTo2D(double, double, double,
 	 * wblut.geom.WB_MutableCoordinate)
 	 */
@@ -402,7 +405,7 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Context2D#vectorTo3D(wblut.geom.WB_Coordinate,
 	 * wblut.geom.WB_MutableCoordinate)
 	 */
@@ -434,7 +437,7 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Context2D#vectorTo3D(double, double, double,
 	 * wblut.geom.WB_MutableCoordinate)
 	 */
@@ -466,7 +469,7 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Context2D#vectorTo3D(double, double,
 	 * wblut.geom.WB_MutableCoordinate)
 	 */
@@ -496,8 +499,11 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see wblut.geom.WB_Map2D#unmapVector2D(wblut.geom.WB_Coord, wblut.geom.WB_MutableCoord)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see wblut.geom.WB_Map2D#unmapVector2D(wblut.geom.WB_Coord,
+	 * wblut.geom.WB_MutableCoord)
 	 */
 	@Override
 	public void unmapVector2D(final WB_Coord v, final WB_MutableCoord result) {

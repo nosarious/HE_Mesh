@@ -26,7 +26,7 @@ public class WB_Segment extends WB_Linear implements WB_Curve {
 	 *
 	 */
 	protected WB_Point endpoint;
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/**
 	 *

@@ -237,7 +237,7 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
 			return result;
 		}
 		if (points == null) {
-			result.add(container.get());
+			result.add(container.copy());
 			_numberOfMeshes = 1;
 			return result;
 		}

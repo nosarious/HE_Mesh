@@ -852,7 +852,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 *
 	 * @return
 	 */
-	public WB_Vector get() {
+	public WB_Vector copy() {
 		return new WB_Vector(xd(), yd(), zd());
 	}
 
@@ -1122,16 +1122,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isCollinear(final WB_Coord p, final WB_Coord q) {
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(p, q))) {
-			return true;
-		}
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(this, q))) {
-			return true;
-		}
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(this, p))) {
-			return true;
-		}
-		return WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine3D(this, p, q));
+		return WB_GeometryOp.isCollinear(this, p, q);
 	}
 
 	/**
@@ -1143,16 +1134,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isCollinear(final WB_Coord o, final WB_Coord p, final WB_Coord q) {
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(p, q))) {
-			return true;
-		}
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(o, q))) {
-			return true;
-		}
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint3D(o, p))) {
-			return true;
-		}
-		return WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine3D(o, p, q));
+		return WB_GeometryOp.isCollinear(o, p, q);
 	}
 
 	/**
@@ -1163,16 +1145,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isCollinear2D(final WB_Coord p, final WB_Coord q) {
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(p, q))) {
-			return true;
-		}
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(this, q))) {
-			return true;
-		}
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(this, p))) {
-			return true;
-		}
-		return WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine2D(this, p, q));
+		return WB_GeometryOp.isCollinear2D(this, p, q);
 	}
 
 	/**
@@ -1184,16 +1157,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isCollinear2D(final WB_Coord o, final WB_Coord p, final WB_Coord q) {
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(p, q))) {
-			return true;
-		}
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(o, q))) {
-			return true;
-		}
-		if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToPoint2D(o, p))) {
-			return true;
-		}
-		return WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistanceToLine2D(o, p, q));
+		return WB_GeometryOp.isCollinear2D(o, p, q);
 	}
 
 	/**
@@ -1335,7 +1299,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isParallelNorm2D(final WB_Coord p) {
-		return WB_GeometryOp.isParallelNorm(this, p);
+		return WB_GeometryOp.isParallelNorm2D(this, p);
 	}
 
 	/**
@@ -1346,7 +1310,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isParallelNorm2D(final WB_Coord p, final WB_Coord q) {
-		return WB_GeometryOp.isParallelNorm(p, q);
+		return WB_GeometryOp.isParallelNorm2D(p, q);
 	}
 
 	/**
@@ -1357,7 +1321,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isParallelNorm2D(final WB_Coord p, final double t) {
-		return WB_GeometryOp.isParallelNorm(this, p, t);
+		return WB_GeometryOp.isParallelNorm2D(this, p, t);
 	}
 
 	/**
@@ -1369,7 +1333,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isParallelNorm2D(final WB_Coord p, final WB_Coord q, final double t) {
-		return WB_GeometryOp.isParallelNorm(p, q, t);
+		return WB_GeometryOp.isParallelNorm2D(p, q, t);
 	}
 
 	/**
@@ -1511,7 +1475,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isOrthogonalNorm2D(final WB_Coord p) {
-		return WB_GeometryOp.isOrthogonalNorm(this, p);
+		return WB_GeometryOp.isOrthogonalNorm2D(this, p);
 	}
 
 	/**
@@ -1522,7 +1486,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isOrthogonalNorm2D(final WB_Coord p, final WB_Coord q) {
-		return WB_GeometryOp.isOrthogonalNorm(p, q);
+		return WB_GeometryOp.isOrthogonalNorm2D(p, q);
 	}
 
 	/**
@@ -1533,7 +1497,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public boolean isOrthogonalNorm2D(final WB_Coord p, final double t) {
-		return WB_GeometryOp.isOrthogonalNorm(this, p, t);
+		return WB_GeometryOp.isOrthogonalNorm2D(this, p, t);
 	}
 
 	/**
@@ -1545,7 +1509,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static boolean isOrthogonalNorm2D(final WB_Coord p, final WB_Coord q, final double t) {
-		return WB_GeometryOp.isOrthogonalNorm(p, q, t);
+		return WB_GeometryOp.isOrthogonalNorm2D(p, q, t);
 	}
 
 	/*

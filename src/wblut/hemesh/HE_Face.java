@@ -28,7 +28,7 @@ import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Polygon;
 import wblut.geom.WB_Triangle;
-import wblut.geom.WB_Triangulate;
+import wblut.geom.WB_TriangulatePolygon;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
 
@@ -204,7 +204,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 	 * @return
 	 */
 	public List<HE_Vertex> getUniqueFaceVertices() {
-		final List<HE_Vertex> fv = new FastTable<HE_Vertex>();
+		final FastTable<HE_Vertex> fv = new FastTable<HE_Vertex>();
 		if (_halfedge == null) {
 			return fv;
 		}
@@ -215,11 +215,11 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 			}
 			he = he.getNextInFace();
 		} while (he != _halfedge);
-		return fv;
+		return fv.unmodifiable();
 	}
 
 	public List<HE_Vertex> getFaceVertices() {
-		final List<HE_Vertex> fv = new FastTable<HE_Vertex>();
+		final FastTable<HE_Vertex> fv = new FastTable<HE_Vertex>();
 		if (_halfedge == null) {
 			return fv;
 		}
@@ -230,7 +230,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 
 			he = he.getNextInFace();
 		} while (he != _halfedge);
-		return fv;
+		return fv.unmodifiable();
 	}
 
 	/**
@@ -239,7 +239,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 	 * @return
 	 */
 	public List<HE_TextureCoordinate> getFaceUVWs() {
-		final List<HE_TextureCoordinate> fv = new FastTable<HE_TextureCoordinate>();
+		final FastTable<HE_TextureCoordinate> fv = new FastTable<HE_TextureCoordinate>();
 		if (_halfedge == null) {
 			return fv;
 		}
@@ -250,7 +250,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 			}
 			he = he.getNextInFace();
 		} while (he != _halfedge);
-		return fv;
+		return fv.unmodifiable();
 	}
 
 	/**
@@ -277,7 +277,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 	 * @return
 	 */
 	public List<HE_Halfedge> getFaceHalfedges() {
-		final List<HE_Halfedge> fhe = new FastTable<HE_Halfedge>();
+		final FastTable<HE_Halfedge> fhe = new FastTable<HE_Halfedge>();
 		if (_halfedge == null) {
 			return fhe;
 		}
@@ -288,7 +288,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 			}
 			he = he.getNextInFace();
 		} while (he != _halfedge);
-		return fhe;
+		return fhe.unmodifiable();
 	}
 
 	/**
@@ -297,7 +297,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 	 * @return
 	 */
 	public List<HE_Halfedge> getFaceHalfedgesTwoSided() {
-		final List<HE_Halfedge> fhe = new FastTable<HE_Halfedge>();
+		final FastTable<HE_Halfedge> fhe = new FastTable<HE_Halfedge>();
 		if (_halfedge == null) {
 			return fhe;
 		}
@@ -313,7 +313,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 			}
 			he = he.getNextInFace();
 		} while (he != _halfedge);
-		return fhe;
+		return fhe.unmodifiable();
 	}
 
 	/**
@@ -322,7 +322,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 	 * @return
 	 */
 	public List<HE_Halfedge> getFaceEdges() {
-		final List<HE_Halfedge> fe = new FastTable<HE_Halfedge>();
+		final FastTable<HE_Halfedge> fe = new FastTable<HE_Halfedge>();
 		if (_halfedge == null) {
 			return fe;
 		}
@@ -339,7 +339,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 			}
 			he = he.getNextInFace();
 		} while (he != _halfedge);
-		return fe;
+		return fe.unmodifiable();
 	}
 
 	/**
@@ -518,9 +518,9 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 				he = he.getNextInFace();
 				i++;
 			} while (he != _halfedge);
-			return WB_Triangulate.triangulateQuad(points[0], points[1], points[2], points[3]);
+			return WB_TriangulatePolygon.triangulateQuad(points[0], points[1], points[2], points[3]);
 		} else {
-			triangles = new WB_Triangulate().triangulatePolygon2D(this.toPolygon(), optimize).getTriangles();
+			triangles = new WB_TriangulatePolygon().triangulatePolygon2D(this.toPolygon(), optimize).getTriangles();
 		}
 
 		return triangles;
@@ -579,6 +579,26 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 	 *
 	 * @return
 	 */
+	public WB_Polygon toOrthoPolygon() {
+		final int n = getFaceOrder();
+		if (n == 0) {
+			return null;
+		}
+		final WB_Point[] points = new WB_Point[n];
+		int i = 0;
+		HE_Halfedge he = _halfedge;
+		do {
+			points[i++] = new WB_Point(he.getVertex().xd(), he.getVertex().yd(), he.getVertex().zd());
+			he = he.getNextInFace();
+		} while (he != _halfedge);
+		return gf.createSimplePolygon(points);
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
 	public WB_Polygon toPlanarPolygon() {
 		final int n = getFaceOrder();
 		if (n == 0) {
@@ -602,7 +622,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 	 * @return
 	 */
 	public List<HE_Face> getNeighborFaces() {
-		final List<HE_Face> ff = new FastTable<HE_Face>();
+		final FastTable<HE_Face> ff = new FastTable<HE_Face>();
 		if (getHalfedge() == null) {
 			return ff;
 		}
@@ -618,7 +638,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 			}
 			he = he.getNextInFace();
 		} while (he != getHalfedge());
-		return ff;
+		return ff.unmodifiable();
 	}
 
 	/*

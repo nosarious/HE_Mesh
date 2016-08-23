@@ -18,7 +18,7 @@ import wblut.math.WB_Math;
 public class WB_Plane {
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 * @deprecated Use {@link #Z()} instead
@@ -29,7 +29,7 @@ public class WB_Plane {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -38,7 +38,7 @@ public class WB_Plane {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 * @deprecated Use {@link #Y()} instead
@@ -49,7 +49,7 @@ public class WB_Plane {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -58,7 +58,7 @@ public class WB_Plane {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 * @deprecated Use {@link #X()} instead
@@ -69,7 +69,7 @@ public class WB_Plane {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -83,12 +83,12 @@ public class WB_Plane {
 	private WB_Point origin;
 
 	/**
-	 * 
+	 *
 	 */
 	private WB_Vector u, v;
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param p1
 	 * @param p2
@@ -104,7 +104,7 @@ public class WB_Plane {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param ox
 	 * @param oy
@@ -122,7 +122,7 @@ public class WB_Plane {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param o
 	 * @param n
@@ -135,7 +135,7 @@ public class WB_Plane {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param o
 	 * @param n
@@ -148,7 +148,7 @@ public class WB_Plane {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param n
 	 * @param d
@@ -173,7 +173,7 @@ public class WB_Plane {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -182,16 +182,16 @@ public class WB_Plane {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
 	public WB_Vector getNormal() {
-		return n.get();
+		return n.copy();
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -200,16 +200,16 @@ public class WB_Plane {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
 	public WB_Point getOrigin() {
-		return origin.get();
+		return origin.copy();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void flipNormal() {
 		n.mulSelf(-1);
@@ -218,34 +218,12 @@ public class WB_Plane {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return "Plane o: [" + origin + "] n: [" + n + "] d: [" + d() + "]";
-	}
-
-	/**
-	 * Are the planes equal?.
-	 *
-	 * @param P
-	 *            the p
-	 * @param Q
-	 *            the q
-	 * @return true/false
-	 */
-	public static boolean isEqual(final WB_Plane P, final WB_Plane Q) {
-		if (!WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(P.getOrigin(), Q))) {
-			return false;
-		}
-		if (!WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(Q.getOrigin(), P))) {
-			return false;
-		}
-		if (!P.getNormal().isParallelNorm(Q.getNormal())) {
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -268,7 +246,7 @@ public class WB_Plane {
 	 * Local point.
 	 *
 	 * @param p
-	 * 
+	 *
 	 * @return
 	 */
 	public WB_Point localPoint(final WB_Coord p) {
@@ -283,7 +261,7 @@ public class WB_Plane {
 	 * Local point.
 	 *
 	 * @param p
-	 * 
+	 *
 	 * @return
 	 */
 	public WB_Point localPoint2D(final WB_Coord p) {
@@ -297,7 +275,7 @@ public class WB_Plane {
 	 * Extract point.
 	 *
 	 * @param p
-	 * 
+	 *
 	 * @return
 	 */
 	public WB_Point extractPoint(final WB_Coord p) {
@@ -310,9 +288,9 @@ public class WB_Plane {
 	 * Extract point.
 	 *
 	 * @param x
-	 * 
+	 *
 	 * @param y
-	 * 
+	 *
 	 * @return
 	 */
 	public WB_Point extractPoint(final double x, final double y) {
@@ -325,7 +303,7 @@ public class WB_Plane {
 	 * Extract point.
 	 *
 	 * @param p
-	 * 
+	 *
 	 * @return
 	 */
 	public WB_Point extractPoint2D(final WB_Coord p) {
@@ -339,11 +317,11 @@ public class WB_Plane {
 	 * Extract point.
 	 *
 	 * @param x
-	 * 
+	 *
 	 * @param y
-	 * 
+	 *
 	 * @param z
-	 * 
+	 *
 	 * @return
 	 */
 	public WB_Point extractPoint(final double x, final double y, final double z) {
@@ -356,7 +334,7 @@ public class WB_Plane {
 	 * Mirror point.
 	 *
 	 * @param p
-	 * 
+	 *
 	 * @return
 	 */
 	public WB_Point mirrorPoint(final WB_Coord p) {
@@ -373,7 +351,7 @@ public class WB_Plane {
 	 * @return the u
 	 */
 	public WB_Vector getU() {
-		return u.get();
+		return u.copy();
 	}
 
 	// Return copy of v coordinate axis in world coordinates
@@ -383,7 +361,7 @@ public class WB_Plane {
 	 * @return the v
 	 */
 	public WB_Vector getV() {
-		return v.get();
+		return v.copy();
 	}
 
 	// Return copy of w coordinate axis in world coordinates

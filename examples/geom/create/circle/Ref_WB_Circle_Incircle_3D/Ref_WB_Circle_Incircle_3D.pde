@@ -14,7 +14,7 @@ void setup() {
   size(800,800, P3D);  
   smooth(8);
   render=new WB_Render3D(this);
-  gf=WB_GeometryFactory.instance();
+  gf=new WB_GeometryFactory();
 
   mesh=new HE_Mesh(new HEC_Beethoven());
   mesh.scaleSelf(8);

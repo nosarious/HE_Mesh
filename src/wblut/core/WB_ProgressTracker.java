@@ -3,16 +3,15 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 
 package wblut.core;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
 
 public class WB_ProgressTracker {
 
@@ -21,19 +20,16 @@ public class WB_ProgressTracker {
 	private static int indent = 3;
 	protected volatile int maxdepth;
 
-
 	/**
 	 *
 	 */
 	protected WB_ProgressTracker() {
 		statuses = new ConcurrentLinkedQueue<Status>();
 		depth = 0;
-		maxdepth=3;
+		maxdepth = 2;
 	}
 
-
 	private static final WB_ProgressTracker tracker = new WB_ProgressTracker();
-
 
 	/**
 	 *
@@ -54,7 +50,6 @@ public class WB_ProgressTracker {
 
 	}
 
-
 	/**
 	 *
 	 *
@@ -68,7 +63,6 @@ public class WB_ProgressTracker {
 
 	}
 
-
 	/**
 	 *
 	 *
@@ -80,7 +74,7 @@ public class WB_ProgressTracker {
 		if (inc < 0) {
 			depth = Math.max(0, depth + inc);
 		}
-		if(depth<=maxdepth){
+		if (depth <= maxdepth) {
 			statuses.add(new Status(caller.getClass().getSimpleName(), status, depth));
 		}
 		if (inc > 0) {
@@ -88,6 +82,24 @@ public class WB_ProgressTracker {
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @param caller
+	 * @param status
+	 * @param inc
+	 */
+	public void setStatusByString(final String caller, final String status, final int inc) {
+		if (inc < 0) {
+			depth = Math.max(0, depth + inc);
+		}
+		if (depth <= maxdepth) {
+			statuses.add(new Status(caller, status, depth));
+		}
+		if (inc > 0) {
+			depth = Math.max(0, depth + inc);
+		}
+	}
 
 	/**
 	 *
@@ -101,7 +113,7 @@ public class WB_ProgressTracker {
 		if (counter.getLimit() > 0) {
 			counter.caller = caller.getClass().getSimpleName();
 			counter.text = status;
-			if(depth<=maxdepth){
+			if (depth <= maxdepth) {
 				statuses.add(new Status(caller.getClass().getSimpleName(), status, counter, depth));
 			}
 		}
@@ -114,9 +126,9 @@ public class WB_ProgressTracker {
 	 * @param status
 	 * @param counter
 	 */
-	protected void setStatusByString(final String caller, final String status, final WB_ProgressCounter counter) {
+	public void setStatusByString(final String caller, final String status, final WB_ProgressCounter counter) {
 		if (counter.getLimit() > 0) {
-			if(depth<=maxdepth){
+			if (depth <= maxdepth) {
 				statuses.add(new Status(caller, status, counter, depth));
 			}
 		}
@@ -152,14 +164,13 @@ public class WB_ProgressTracker {
 			this.caller = caller;
 			this.text = text;
 			StringBuffer outputBuffer = new StringBuffer(depth);
-			for (int i = 0; i < (depth * indent); i++) {
+			for (int i = 0; i < depth * indent; i++) {
 				outputBuffer.append(" ");
 			}
 			this.depth = outputBuffer.toString();
 
-			this.counter = (counter.getLimit() > 0) ? " (" + counter.getCount() + " of " + counter.getLimit() + ")"
-					: "";
-			level=depth;
+			this.counter = counter.getLimit() > 0 ? " (" + counter.getCount() + " of " + counter.getLimit() + ")" : "";
+			level = depth;
 		}
 
 		/**
@@ -173,7 +184,7 @@ public class WB_ProgressTracker {
 			this.caller = caller;
 			this.text = text;
 			StringBuffer outputBuffer = new StringBuffer(depth);
-			for (int i = 0; i < (depth * indent); i++) {
+			for (int i = 0; i < depth * indent; i++) {
 				outputBuffer.append(" ");
 			}
 			this.depth = outputBuffer.toString();
@@ -201,4 +212,8 @@ public class WB_ProgressTracker {
 
 	}
 
+	public void setDepth(final int depth) {
+		maxdepth = depth;
+
+	}
 }

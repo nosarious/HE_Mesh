@@ -12,7 +12,7 @@ package wblut.hemesh;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
-import processing.core.PGraphics;
+import processing.opengl.PGraphicsOpenGL;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Quad;
 import wblut.geom.WB_Triangle;
@@ -22,11 +22,10 @@ import wblut.geom.WB_Triangle;
  *
  * @author Frederik Vanhoutte, W:Blut
  */
-public class HET_MeshBuffer extends PGraphics {
+public class HET_MeshBuffer extends PGraphicsOpenGL {
 	/** Calling applet. */
 	protected PApplet home;
-	protected ArrayList<HE_Mesh> meshes;
-	private ArrayList<HE_Mesh> tempMeshes;
+	protected HE_MeshCollection meshes;
 	private ArrayList<WB_Triangle> triangles;
 	private ArrayList<WB_Quad> quads;
 	private WB_Point p1, p2, p3, p4;
@@ -34,10 +33,10 @@ public class HET_MeshBuffer extends PGraphics {
 	private int shapectr;
 
 	/**
-	 * 
+	 *
 	 */
 	public HET_MeshBuffer() {
-		meshes = new ArrayList<HE_Mesh>();
+		meshes = new HE_MeshCollection();
 	}
 
 	/*
@@ -94,17 +93,11 @@ public class HET_MeshBuffer extends PGraphics {
 				m.add(new HE_Mesh(fq));
 			}
 		}
-		if (tempMeshes != null) {
-			if (tempMeshes.size() > 0) {
-				for (int i = 0; i < tempMeshes.size(); i++) {
-					m.add(tempMeshes.get(i));
-				}
-			}
-		}
+
 		if (m.getNumberOfVertices() > 0) {
 			meshes.add(m);
 		}
-		tempMeshes = new ArrayList<HE_Mesh>();
+
 		triangles = new ArrayList<WB_Triangle>();
 		quads = new ArrayList<WB_Quad>();
 		vertexCount = 0;

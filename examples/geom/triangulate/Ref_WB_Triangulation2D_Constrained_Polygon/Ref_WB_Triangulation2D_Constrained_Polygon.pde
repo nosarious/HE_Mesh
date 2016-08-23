@@ -9,7 +9,7 @@ import wblut.math.*;
 
 
 
-WB_GeometryFactory gf=WB_GeometryFactory.instance();
+WB_GeometryFactory gf=new WB_GeometryFactory();
 WB_Render2D render;
 ArrayList<WB_Point> shell;
 ArrayList<WB_Point>[] holes;

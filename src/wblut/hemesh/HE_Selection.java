@@ -1021,7 +1021,8 @@ public class HE_Selection extends HE_MeshStructure {
 
 	public static HE_Selection selectFacesWithNormal(final HE_Mesh mesh, final WB_Coord n, final double ta) {
 		HE_Selection sel = new HE_Selection(mesh);
-		final WB_Vector nn = gf.createNormalizedVector(n);
+		final WB_Vector nn = new WB_Vector(n);
+		nn.normalizeSelf();
 		final double cta = Math.cos(ta);
 		HE_FaceIterator fItr = sel.parent.fItr();
 		HE_Face f;

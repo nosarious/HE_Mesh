@@ -30,7 +30,7 @@ public class HEC_FromFrame extends HEC_Creator {
 	/**
 	 *
 	 */
-	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	private static WB_GeometryFactory gf = new WB_GeometryFactory();
 	/**
 	 *
 	 */
@@ -509,7 +509,7 @@ public class HEC_FromFrame extends HEC_Creator {
 			final WB_Vector v = strutNodeConnections[id].strut.toVector();
 			v.normalizeSelf();
 			v.mulSelf(sgn);
-			strutNodeConnections[id].dir = v.get();
+			strutNodeConnections[id].dir = v.copy();
 			final WB_Plane P = strutNodeConnections[id].strut.toPlane();
 			final WB_Vector u = P.getU();
 			for (int j = 0; j < strutFacets; j++) {

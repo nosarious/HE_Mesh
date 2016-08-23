@@ -30,7 +30,7 @@ public class HEC_Prism extends HEC_Creator {
 	/**
 	 *
 	 */
-	private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+	private static WB_GeometryFactory gf = new WB_GeometryFactory();
 	/** The facets. */
 	private int facets;
 	/** The thickness. */

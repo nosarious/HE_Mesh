@@ -25,6 +25,7 @@ import javolution.util.FastTable;
 import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_Coord;
+import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Polygon;
@@ -43,7 +44,7 @@ import wblut.geom.WB_Sphere;
  *
  */
 public class HE_MeshStructure extends HE_MeshElement {
-
+	protected WB_GeometryFactory gf = new WB_GeometryFactory();
 	protected HE_RAS<HE_Vertex> vertices;
 	protected HE_RAS<HE_Halfedge> halfedges;
 	protected HE_RAS<HE_Halfedge> edges;
@@ -60,6 +61,7 @@ public class HE_MeshStructure extends HE_MeshElement {
 		edges = new HE_RASTrove<HE_Halfedge>();
 		unpairedHalfedges = new HE_RASTrove<HE_Halfedge>();
 		faces = new HE_RASTrove<HE_Face>();
+
 	}
 
 	/**
@@ -407,6 +409,7 @@ public class HE_MeshStructure extends HE_MeshElement {
 	 *            face to remove
 	 */
 	public final void remove(final HE_Face f) {
+
 		faces.remove(f);
 	}
 

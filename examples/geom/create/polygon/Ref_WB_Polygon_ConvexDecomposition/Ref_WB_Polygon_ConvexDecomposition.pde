@@ -6,7 +6,7 @@ import wblut.geom.*;
 import wblut.math.*;
 import java.util.List;
 
-WB_GeometryFactory gf=WB_GeometryFactory.instance();
+WB_GeometryFactory gf=new WB_GeometryFactory();
 WB_Render2D render;
 ArrayList<WB_Point> shell;
 WB_Polygon polygon;

@@ -12,7 +12,7 @@ float radius;
 
 void setup() {
   size(800, 800);
-  gf=WB_GeometryFactory.instance();
+  gf=new WB_GeometryFactory();
   render=new WB_Render2D(this);
   radius=200;
   C= gf.createCircleWithRadius(random(0, 400),random(0, 400),100);

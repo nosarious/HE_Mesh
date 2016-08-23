@@ -47,7 +47,7 @@ class HET_PlanarPathTriangulator {
 	/**
 	 *
 	 */
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private static WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/**
 	 *
