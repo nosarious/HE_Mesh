@@ -905,12 +905,12 @@ public class WB_Triangulate {
 		final GeometryCollection tris = (GeometryCollection) qesd.getTriangles(new GeometryFactory());
 		final Coordinate[] newcoords = tris.getCoordinates();
 		final List<WB_Coord> uniquePoints = new FastTable<WB_Coord>();
-		final WB_KDTree<WB_Point, Integer> tree = new WB_KDTree<WB_Point, Integer>();
+		final WB_KDTreeInteger<WB_Point> tree = new WB_KDTreeInteger<WB_Point>();
 		int currentSize = 0;
 		for (final Coordinate newcoord : newcoords) {
 			final WB_Point p = geometryfactory.createPoint(newcoord.x, newcoord.y, 0);
 			final Integer index = tree.add(p, currentSize);
-			if (index == null) {
+			if (index == -1) {
 				currentSize++;
 				uniquePoints.add(p);
 			}
@@ -1143,5 +1143,66 @@ public class WB_Triangulate {
 	 */
 	private static long getIndex(final int i, final int j, final int f) {
 		return i > j ? j + i * f : i + j * f;
+	}
+
+	/**
+	 *
+	 *
+	 * @param points
+	 * @return
+	 */
+	public static WB_AlphaTriangulation2D alphaTriangulate2D(final Collection<? extends WB_Coord> points) {
+
+		final WB_Triangulation2D tri = WB_Triangulate.triangulate2D(points);
+		return new WB_AlphaTriangulation2D(tri.getTriangles(), points);
+	}
+
+	/**
+	 *
+	 * @param points
+	 * @param jitter
+	 * @return
+	 */
+	public static WB_AlphaTriangulation2D alphaTriangulate2D(final Collection<? extends WB_Coord> points,
+			final double jitter) {
+		FastTable<WB_Point> jigPoints = new FastTable<WB_Point>();
+		WB_RandomOnSphere ros = new WB_RandomOnSphere();
+		for (WB_Coord p : points) {
+			jigPoints.add(WB_Point.addMul(p, jitter, ros.nextVector()));
+
+		}
+		final WB_Triangulation2D tri = WB_Triangulate.triangulate2D(jigPoints);
+		return new WB_AlphaTriangulation2D(tri.getTriangles(), points);
+	}
+
+	/**
+	 *
+	 *
+	 * @param points
+	 * @return
+	 */
+	public static WB_AlphaTriangulation2D alphaTriangulate2D(final WB_Coord[] points) {
+
+		final WB_Triangulation2D tri = WB_Triangulate.triangulate2D(points);
+		return new WB_AlphaTriangulation2D(tri.getTriangles(), points);
+	}
+
+	/**
+	 *
+	 * @param points
+	 * @param jitter
+	 * @return
+	 */
+	public static WB_AlphaTriangulation2D alphaTriangulate2D(final WB_Coord[] points, final double jitter) {
+		WB_Coord[] jigPoints = Arrays.copyOf(points, points.length);
+		WB_RandomOnSphere ros = new WB_RandomOnSphere();
+		int i = 0;
+		for (WB_Coord p : points) {
+			jigPoints[i++] = WB_Point.addMul(p, jitter, ros.nextVector());
+
+		}
+
+		final WB_Triangulation2D tri = WB_Triangulate.triangulate2D(jigPoints);
+		return new WB_AlphaTriangulation2D(tri.getTriangles(), points);
 	}
 }

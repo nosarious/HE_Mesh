@@ -32,7 +32,7 @@ void draw() {
   noFill();
   stroke(0);
   strokeWeight(2);
-  render.drawPoints(points, 1); 
+  render.drawPoint(points, 1); 
   stroke(255,0,0);
   render.drawPolygonEdges(boundary);
   stroke(0);

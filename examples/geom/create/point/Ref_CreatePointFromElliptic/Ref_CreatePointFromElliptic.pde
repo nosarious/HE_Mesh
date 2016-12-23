@@ -21,7 +21,7 @@ void draw() {
   translate(width/2, height/2);
   float a=200;//pole
   float sigma;// >=0
-  float tau;// -1 - 1;
+  float tau;// (-1,1);
 
   WB_Point p;
   tau=(frameCount-1)*0.004;

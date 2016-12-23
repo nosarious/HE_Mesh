@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -49,10 +49,6 @@ public class WB_OrthoProject implements WB_Map2D {
 	 *
 	 */
 	public static final int Zrev = 5;
-	/**
-	 *
-	 */
-	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/**
 	 *
@@ -68,8 +64,8 @@ public class WB_OrthoProject implements WB_Map2D {
 	 */
 	public WB_OrthoProject(final int mode) {
 		super();
-		if ((mode < 0) || (mode > 2)) {
-			throw (new IndexOutOfBoundsException());
+		if (mode < 0 || mode > 2) {
+			throw new IndexOutOfBoundsException();
 		}
 		this.mode = mode;
 	}
@@ -84,9 +80,9 @@ public class WB_OrthoProject implements WB_Map2D {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param P 
+	 *
+	 * @param P
 	 */
 	public WB_OrthoProject(final WB_Plane P) {
 		set(P.getNormal());
@@ -99,9 +95,9 @@ public class WB_OrthoProject implements WB_Map2D {
 	 */
 	public void set(final WB_Coord c) {
 		if (Math.abs(c.xd()) > Math.abs(c.yd())) {
-			mode = (Math.abs(c.xd()) > Math.abs(c.zd())) ? X : Z;
+			mode = Math.abs(c.xd()) > Math.abs(c.zd()) ? X : Z;
 		} else {
-			mode = (Math.abs(c.yd()) > Math.abs(c.zd())) ? Y : Z;
+			mode = Math.abs(c.yd()) > Math.abs(c.zd()) ? Y : Z;
 		}
 	}
 
@@ -255,8 +251,11 @@ public class WB_OrthoProject implements WB_Map2D {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see wblut.geom.WB_Map2D#unmapPoint2D(wblut.geom.WB_Coord, wblut.geom.WB_MutableCoord)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see wblut.geom.WB_Map2D#unmapPoint2D(wblut.geom.WB_Coord,
+	 * wblut.geom.WB_MutableCoord)
 	 */
 	@Override
 	public void unmapPoint2D(final WB_Coord p, final WB_MutableCoord result) {
@@ -432,8 +431,11 @@ public class WB_OrthoProject implements WB_Map2D {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see wblut.geom.WB_Map2D#unmapVector2D(wblut.geom.WB_Coord, wblut.geom.WB_MutableCoord)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see wblut.geom.WB_Map2D#unmapVector2D(wblut.geom.WB_Coord,
+	 * wblut.geom.WB_MutableCoord)
 	 */
 	@Override
 	public void unmapVector2D(final WB_Coord v, final WB_MutableCoord result) {

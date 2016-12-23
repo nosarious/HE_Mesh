@@ -19,7 +19,7 @@ public class WB_Sphere {
 	/** Center. */
 	WB_Point center;
 	/** Radius. */
-	double radius;
+	double radius, r2;
 
 	/**
 	 *
@@ -31,7 +31,8 @@ public class WB_Sphere {
 	 */
 	public WB_Sphere() {
 		this.center = geometryfactory.createPoint();
-		this.radius = WB_Math.fastAbs(0);
+		this.radius = 0;
+		r2 = radius * radius;
 	}
 
 	/**
@@ -43,6 +44,7 @@ public class WB_Sphere {
 	public WB_Sphere(final WB_Coord center, final double radius) {
 		this.center = geometryfactory.createPoint(center);
 		this.radius = WB_Math.fastAbs(radius);
+		r2 = radius * radius;
 	}
 
 	/*
@@ -100,7 +102,7 @@ public class WB_Sphere {
 	 *
 	 * @return the center
 	 */
-	public WB_Point getCenter() {
+	public WB_Coord getCenter() {
 		return center;
 	}
 
@@ -131,6 +133,7 @@ public class WB_Sphere {
 	 */
 	public void setRadius(final double r) {
 		this.radius = r;
+		r2 = this.radius * this.radius;
 	}
 
 	/**
@@ -158,12 +161,17 @@ public class WB_Sphere {
 	 *            the v
 	 * @return point projected to sphere
 	 */
-	public WB_Point projectToSphere(final WB_Coord v) {
+	public WB_Coord projectToSphere(final WB_Coord v) {
 		final WB_Point vc = new WB_Point(v).sub(center);
 		final double er = vc.normalizeSelf();
 		if (WB_Epsilon.isZero(er)) {
 			return null;
 		}
 		return center.addMul(radius, vc);
+	}
+
+	public boolean contains(final WB_Coord p) {
+		return center.getSqDistance3D(p) <= r2;
+
 	}
 }

@@ -19,7 +19,7 @@ void setup() {
     shell.add(gf.createPointFromPolar(100*(i%2+random(1, 3)), TWO_PI/40.0*i));
   } 
   polygon=gf.createSimplePolygon(shell);
-  polys=gf.createConvexPolygonDecomposition(polygon);
+  polys=gf.createConvexPolygonDecomposition2D(polygon);
   trimmedPolys= new ArrayList<WB_Polygon>();
   for (WB_Polygon poly : polys){
    trimmedPolys.add(poly.trimConvexPolygon(5));

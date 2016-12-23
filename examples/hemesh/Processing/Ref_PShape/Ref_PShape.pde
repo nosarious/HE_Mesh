@@ -17,8 +17,8 @@ void setup() {
   textureMode(NORMAL);
   create();
   img=loadImage("sky.png");//texture.jpg");
-  shape1=render.toSmoothPShape(meshes.getMesh(0),img);
-  shape2=render.toSmoothPShape(meshes.getMesh(1),img); 
+  shape1=WB_PShape.toSmoothPShape(meshes.getMesh(0),img,this);
+  shape2=WB_PShape.toSmoothPShape(meshes.getMesh(1),img,this); 
 }
 
 void create() {

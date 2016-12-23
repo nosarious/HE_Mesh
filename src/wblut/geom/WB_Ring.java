@@ -226,9 +226,8 @@ public class WB_Ring extends WB_PolyLine {
 		if (prev.equals(hiPt) || next.equals(hiPt) || prev.equals(next)) {
 			return false;
 		}
-		final WB_Predicates pred = new WB_Predicates();
 		// System.out.println(prev + " " + hiPt + " " + next);
-		final int disc = (int) Math.signum(pred.orientTri(prev, hiPt, next));
+		final int disc = (int) Math.signum(WB_Predicates.orient2D(prev, hiPt, next));
 		/**
 		 * If disc is exactly 0, lines are collinear. There are two possible
 		 * cases: (1) the lines lie along the x axis in opposite directions (2)

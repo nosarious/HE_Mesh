@@ -17,7 +17,7 @@ import wblut.math.WB_Math;
 /**
  *
  */
-public class WB_Segment extends WB_Linear implements WB_Curve {
+public class WB_Segment extends WB_Line {
 	/**
 	 *
 	 */
@@ -35,6 +35,33 @@ public class WB_Segment extends WB_Linear implements WB_Curve {
 		super();
 		endpoint = new WB_Point();
 		length = 0;
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static WB_Segment X() {
+		return new WB_Segment(0, 0, 0, 1, 0, 0);
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static WB_Segment Y() {
+		return new WB_Segment(0, 0, 0, 0, 1, 0);
+	}
+
+	/**
+	 *
+	 *
+	 * @return
+	 */
+	public static WB_Segment Z() {
+		return new WB_Segment(0, 0, 0, 0, 0, 1);
 	}
 
 	/**
@@ -85,7 +112,8 @@ public class WB_Segment extends WB_Linear implements WB_Curve {
 	 * @param t
 	 * @return
 	 */
-	public WB_Point getParametricPointOnSegment(final double t) {
+	@Override
+	public WB_Point getParametricPoint(final double t) {
 		final WB_Point result = new WB_Point(direction);
 		result.scaleSelf(WB_Math.clamp(t, 0, 1) * length);
 		result.addSelf(origin);
@@ -98,7 +126,8 @@ public class WB_Segment extends WB_Linear implements WB_Curve {
 	 * @param t
 	 * @param result
 	 */
-	public void getParametricPointOnSegmentInto(final double t, final WB_MutableCoord result) {
+	@Override
+	public void getParametricPointInto(final double t, final WB_MutableCoord result) {
 		result.set(new WB_Vector(direction).mulSelf(WB_Math.clamp(t, 0, 1) * length).addSelf(origin));
 	}
 
@@ -169,7 +198,7 @@ public class WB_Segment extends WB_Linear implements WB_Curve {
 		if (u < 0 || u > 1) {
 			return null;
 		}
-		return this.getParametricPointOnSegment(u);
+		return this.getParametricPoint(u);
 	}
 
 	/*
@@ -212,4 +241,31 @@ public class WB_Segment extends WB_Linear implements WB_Curve {
 	public WB_Vector curveDerivative(final double u) {
 		return new WB_Vector(direction);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(final Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof WB_Segment)) {
+			return false;
+		}
+		return origin.equals(((WB_Segment) o).getOrigin()) && endpoint.equals(((WB_Segment) o).getEndpoint());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return 31 * origin.hashCode() + endpoint.hashCode();
+	}
+
 }

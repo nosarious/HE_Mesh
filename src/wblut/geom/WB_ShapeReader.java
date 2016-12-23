@@ -316,11 +316,11 @@ class WB_ShapeReader {
 				}
 				final Geometry result = JTSgf.createPolygon(node.ring, holes);
 				if (result.getGeometryType().equals("Polygon")) {
-					polygons.add(geometryfactory.createPolygonFromJTSPolygon((Polygon) result));
+					polygons.add(geometryfactory.createPolygonFromJTSPolygon2D((Polygon) result));
 				} else if (result.getGeometryType().equals("MultiPolygon")) {
 					for (int j = 0; j < result.getNumGeometries(); j++) {
 						final Geometry ggeo = result.getGeometryN(j);
-						polygons.add(geometryfactory.createPolygonFromJTSPolygon((Polygon) ggeo));
+						polygons.add(geometryfactory.createPolygonFromJTSPolygon2D((Polygon) ggeo));
 					}
 				}
 			}

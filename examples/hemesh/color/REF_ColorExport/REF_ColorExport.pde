@@ -29,9 +29,9 @@ mesh.modify(new HEM_ChamferEdges().setDistance(50));
     vitr.next().setColor(color((int)random(4.0)*10, 255, 255));
   }
   colorMode(RGB);
-  HET_Export.saveToWRLWithFaceColor(mesh, sketchPath("meshes1"),"testfc");
-  HET_Export.saveToWRLWithVertexColor(mesh, sketchPath("meshes2"),"testvc");
-  HET_Export.saveToWRL(mesh, sketchPath("meshes3"),"test");
+ HET_Export.saveToWRLWithFaceColor(mesh, sketchPath("meshes1"),"testfc");
+ HET_Export.saveToWRLWithVertexColor(mesh, sketchPath("meshes2"),"testvc");
+ HET_Export.saveToWRL(mesh, sketchPath("meshes3"),"test");
   HET_Export.saveToPLY(mesh, sketchPath("meshes4"),"test");
   HET_Export.saveToSTL(mesh, sketchPath("meshes5"),"test");
   HET_Export.saveToOBJ(mesh, sketchPath("meshes6"),"test");

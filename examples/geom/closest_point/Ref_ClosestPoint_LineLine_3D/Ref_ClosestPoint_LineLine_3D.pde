@@ -30,8 +30,8 @@ void draw() {
   rotateY(mouseX*1.0/width*TWO_PI-PI);
   stroke(0);
   
-  render.drawLine(L1, 2000);
-  render.drawLine(L2, 2000);
+  render.drawLine(L1, 4000);
+  render.drawLine(L2, 4000);
    stroke(255,0,0);
   if (i.dimension==1) {
     WB_Coord i1=((WB_Segment)i.object).getOrigin();

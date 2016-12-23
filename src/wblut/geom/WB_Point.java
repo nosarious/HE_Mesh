@@ -150,33 +150,17 @@ public class WB_Point extends WB_Vector {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see wblut.geom.WB_Vector#addSelf(double, double, double)
-	 */
-	@Override
-	public WB_Point addSelf(final double x, final double y, final double z) {
-		set(xd() + x, yd() + y, zd() + z);
-		return this;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_Vector#addSelf(double, double, double)
-	 */
-	@Override
-	public WB_Point addSelf(final double... x) {
-		set(xd() + x[0], yd() + x[1], zd() + x[2]);
-		return this;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
 	 * @see wblut.geom.WB_Vector#addSelf(wblut.geom.WB_Coordinate)
 	 */
 	@Override
 	public WB_Point addSelf(final WB_Coord p) {
 		set(xd() + p.xd(), yd() + p.yd(), zd() + p.zd());
+		return this;
+	}
+
+	@Override
+	public WB_Point addSelf(final double x, final double y, final double z) {
+		set(xd() + x, yd() + y, zd() + z);
 		return this;
 	}
 
@@ -311,17 +295,6 @@ public class WB_Point extends WB_Vector {
 	@Override
 	public WB_Point scale(final double fx, final double fy, final double fz) {
 		return new WB_Point(xd() * fx, yd() * fy, zd() * fz);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_Vector#subSelf(double, double, double)
-	 */
-	@Override
-	public WB_Point subSelf(final double... x) {
-		set(xd() - x[0], yd() - x[1], zd() - x[2]);
-		return this;
 	}
 
 	/*
@@ -1557,6 +1530,43 @@ public class WB_Point extends WB_Vector {
 	@Override
 	public boolean isOrthogonalNorm2D(final WB_Coord p, final double t) {
 		return WB_GeometryOp.isOrthogonalNorm2D(this, p, t);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see wblut.geom.WB_MutableCoordinateMath#addSelf(double, double, double)
+	 */
+	@Override
+	public WB_Point addSelf(final double... x) {
+		if (x.length == 3) {
+			set(xd() + x[0], yd() + x[1], zd() + x[2]);
+			return this;
+		} else if (x.length == 2) {
+			set(xd() + x[0], yd() + x[1], zd());
+			return this;
+
+		}
+
+		throw new IllegalArgumentException("Array should be length 2 or 3.");
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see wblut.geom.WB_MutableCoordinateMath#subSelf(double, double, double)
+	 */
+	@Override
+	public WB_Vector subSelf(final double... x) {
+		if (x.length == 3) {
+			set(xd() - x[0], yd() - x[1], zd() - x[2]);
+			return this;
+		} else if (x.length == 2) {
+			set(xd() - x[0], yd() - x[1], zd());
+			return this;
+		}
+		throw new IllegalArgumentException("Array should be length 2 or 3.");
 	}
 
 	/**

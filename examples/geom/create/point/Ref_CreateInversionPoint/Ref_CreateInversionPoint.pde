@@ -32,11 +32,11 @@ void draw() {
 
     p=gf.createPoint(x, (i-100)*20);
     render.drawPoint2D(p);
-    p=gf.createInversionPoint(p, C);
+    p=gf.createInversionPoint2D(p, C);
     if (p!=null)render.drawPoint2D(p);
     p=gf.createPoint(-x, (i-100)*20);
     render.drawPoint2D(p);
-    p=gf.createInversionPoint(p, C);
+    p=gf.createInversionPoint2D(p, C);
     if (p!=null)render.drawPoint2D(p);
   }
 }

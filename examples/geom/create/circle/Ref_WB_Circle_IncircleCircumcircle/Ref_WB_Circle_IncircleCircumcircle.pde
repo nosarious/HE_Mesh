@@ -21,7 +21,7 @@ void setup() {
 void create() {
   T=gf.createTriangle(generator.nextPoint(), generator.nextPoint(), generator.nextPoint());
   incircle=gf.createIncircle(T);
-  circumcircle=gf.createCircumcircle(T);
+  circumcircle=gf.createCircumcircle2D(T);
 }
 
 void draw() {

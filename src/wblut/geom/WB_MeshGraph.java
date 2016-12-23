@@ -270,6 +270,26 @@ public class WB_MeshGraph {
 		return frame;
 	}
 
+	public WB_Frame getFrame(final int i, final int maxnodes, final double offset) {
+		final WB_Frame frame = new WB_Frame();
+		computePathsToVertex(i);
+		for (final WB_GraphVertex v : vertices) {
+			frame.addNode(v.x, v.y, v.z, 0);
+		}
+		for (final WB_GraphVertex v : vertices) {
+			final int[] path = getShortestPathBetweenVertices(i, v.index);
+			final int nodes = Math.min(maxnodes, path.length);
+			for (int j = 0; j < nodes - 1; j++) {
+				frame.nodes.get(path[j]).value = Math.max(frame.nodes.get(path[j]).value,
+						1.0 - j * 1.0 / nodes + offset);
+				frame.addStrut(path[j], path[j + 1]);
+			}
+			frame.nodes.get(path[nodes - 1]).value = Math.max(frame.nodes.get(path[nodes - 1]).value,
+					1.0 / nodes + offset);
+		}
+		return frame;
+	}
+
 	/**
 	 *
 	 *

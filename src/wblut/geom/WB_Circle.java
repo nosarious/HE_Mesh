@@ -19,7 +19,7 @@ public class WB_Circle {
 
 	private WB_Vector normal;
 
-	private double radius;
+	private double radius, r2;
 
 	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
@@ -30,6 +30,7 @@ public class WB_Circle {
 		center = geometryfactory.createPoint();
 		normal = geometryfactory.createVector(0, 0, 1);
 		radius = 1;
+		r2 = 1;
 	}
 
 	/**
@@ -41,6 +42,7 @@ public class WB_Circle {
 	public WB_Circle(final WB_Coord center, final double radius) {
 		this.center = geometryfactory.createPoint(center);
 		this.radius = WB_Math.fastAbs(radius);
+		r2 = this.radius * this.radius;
 		normal = geometryfactory.createVector(0, 0, 1);
 	}
 
@@ -54,6 +56,7 @@ public class WB_Circle {
 	public WB_Circle(final WB_Coord center, final WB_Coord normal, final double radius) {
 		this.center = geometryfactory.createPoint(center);
 		this.radius = WB_Math.fastAbs(radius);
+		r2 = this.radius * this.radius;
 		this.normal = geometryfactory.createNormalizedVector(normal);
 	}
 
@@ -97,22 +100,7 @@ public class WB_Circle {
 		return normal;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(final Object o) {
-		if (o == this) {
-			return true;
-		}
-		if (!(o instanceof WB_Circle)) {
-			return false;
-		}
-		return WB_Epsilon.isEqualAbs(radius, ((WB_Circle) o).getRadius()) && center.equals(((WB_Circle) o).getCenter())
-				&& normal.equals(((WB_Circle) o).getNormal());
-	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -213,6 +201,7 @@ public class WB_Circle {
 	 */
 	public void setRadius(final double radius) {
 		this.radius = radius;
+		r2 = this.radius * this.radius;
 	}
 
 	/**
@@ -222,6 +211,23 @@ public class WB_Circle {
 	 */
 	public void setDiameter(final double diameter) {
 		this.radius = diameter * 0.5;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(final Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof WB_Circle)) {
+			return false;
+		}
+		return WB_Epsilon.isEqualAbs(radius, ((WB_Circle) o).getRadius()) && center.equals(((WB_Circle) o).getCenter())
+				&& normal.equals(((WB_Circle) o).getNormal());
 	}
 
 	/*
@@ -243,6 +249,11 @@ public class WB_Circle {
 	private int hashCode(final double v) {
 		final long tmp = Double.doubleToLongBits(v);
 		return (int) (tmp ^ tmp >>> 32);
+	}
+
+	public boolean contains(final WB_Coord p) {
+		return center.getSqDistance2D(p) <= r2;
+
 	}
 
 }

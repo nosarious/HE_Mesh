@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 
 package wblut.geom;
@@ -16,16 +16,13 @@ import java.util.List;
 
 import wblut.math.WB_Epsilon;
 
-
 public class WB_AABB {
 
 	protected double[] _min;
 
 	protected double[] _max;
 
-
 	int _id;
-
 
 	/**
 	 *
@@ -38,14 +35,12 @@ public class WB_AABB {
 		expandToInclude(p);
 	}
 
-
 	/**
 	 *
 	 */
 	public WB_AABB() {
 		init();
 	}
-
 
 	/**
 	 *
@@ -80,7 +75,6 @@ public class WB_AABB {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -113,7 +107,6 @@ public class WB_AABB {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -122,7 +115,7 @@ public class WB_AABB {
 	 */
 	public WB_AABB(final double[] min, final double[] max) {
 		init();
-		if ((min.length == 3) && (max.length == 3)) {
+		if (min.length == 3 && max.length == 3) {
 			for (int i = 0; i < 3; i++) {
 				if (min[i] < max[i]) {
 					_min[i] = min[i];
@@ -132,7 +125,7 @@ public class WB_AABB {
 					_max[i] = min[i];
 				}
 			}
-		} else if ((min.length == 2) && (max.length == 2)) {
+		} else if (min.length == 2 && max.length == 2) {
 			for (int i = 0; i < 2; i++) {
 				if (min[i] < max[i]) {
 					_min[i] = min[i];
@@ -147,7 +140,6 @@ public class WB_AABB {
 			throw new IllegalArgumentException();
 		}
 	}
-
 
 	/**
 	 *
@@ -157,7 +149,7 @@ public class WB_AABB {
 	 */
 	public WB_AABB(final float[] min, final float[] max) {
 		init();
-		if ((min.length == 3) && (max.length == 3)) {
+		if (min.length == 3 && max.length == 3) {
 			for (int i = 0; i < 3; i++) {
 				if (min[i] < max[i]) {
 					_min[i] = min[i];
@@ -167,7 +159,7 @@ public class WB_AABB {
 					_max[i] = min[i];
 				}
 			}
-		} else if ((min.length == 2) && (max.length == 2)) {
+		} else if (min.length == 2 && max.length == 2) {
 			for (int i = 0; i < 2; i++) {
 				if (min[i] < max[i]) {
 					_min[i] = min[i];
@@ -182,7 +174,6 @@ public class WB_AABB {
 			throw new IllegalArgumentException();
 		}
 	}
-
 
 	/**
 	 *
@@ -192,7 +183,7 @@ public class WB_AABB {
 	 */
 	public WB_AABB(final int[] min, final int[] max) {
 		init();
-		if ((min.length == 3) && (max.length == 3)) {
+		if (min.length == 3 && max.length == 3) {
 			for (int i = 0; i < 3; i++) {
 				if (min[i] < max[i]) {
 					_min[i] = min[i];
@@ -202,7 +193,7 @@ public class WB_AABB {
 					_max[i] = min[i];
 				}
 			}
-		} else if ((min.length == 2) && (max.length == 2)) {
+		} else if (min.length == 2 && max.length == 2) {
 			for (int i = 0; i < 2; i++) {
 				if (min[i] < max[i]) {
 					_min[i] = min[i];
@@ -217,7 +208,6 @@ public class WB_AABB {
 			throw new IllegalArgumentException();
 		}
 	}
-
 
 	/**
 	 *
@@ -238,7 +228,6 @@ public class WB_AABB {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -252,7 +241,6 @@ public class WB_AABB {
 		expandToInclude(minx, miny, 0);
 		expandToInclude(maxx, maxy, 0);
 	}
-
 
 	/**
 	 *
@@ -270,7 +258,6 @@ public class WB_AABB {
 		expandToInclude(minx, miny, minz);
 		expandToInclude(maxx, maxy, maxz);
 	}
-
 
 	/**
 	 *
@@ -296,7 +283,6 @@ public class WB_AABB {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -320,7 +306,6 @@ public class WB_AABB {
 			throw new IllegalArgumentException();
 		}
 	}
-
 
 	/**
 	 *
@@ -346,7 +331,6 @@ public class WB_AABB {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -360,7 +344,6 @@ public class WB_AABB {
 		return _max[i] - _min[i];
 	}
 
-
 	/**
 	 *
 	 *
@@ -371,7 +354,6 @@ public class WB_AABB {
 		return _min[i];
 	}
 
-
 	/**
 	 *
 	 *
@@ -381,7 +363,6 @@ public class WB_AABB {
 	public double getMax(final int i) {
 		return _max[i];
 	}
-
 
 	/**
 	 *
@@ -404,7 +385,6 @@ public class WB_AABB {
 		return ord;
 	}
 
-
 	/**
 	 *
 	 *
@@ -426,7 +406,6 @@ public class WB_AABB {
 		return ord;
 	}
 
-
 	/**
 	 *
 	 *
@@ -444,7 +423,6 @@ public class WB_AABB {
 	public void add(final WB_Coord p) {
 		expandToInclude(p.xd(), p.yd(), p.zd());
 	}
-
 
 	/**
 	 *
@@ -465,7 +443,6 @@ public class WB_AABB {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -484,7 +461,6 @@ public class WB_AABB {
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -517,7 +493,6 @@ public class WB_AABB {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -540,7 +515,6 @@ public class WB_AABB {
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -579,7 +553,6 @@ public class WB_AABB {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -599,7 +572,6 @@ public class WB_AABB {
 		expandToInclude(other);
 	}
 
-
 	/**
 	 *
 	 *
@@ -614,7 +586,6 @@ public class WB_AABB {
 			_max[i] += d[i];
 		}
 	}
-
 
 	/**
 	 *
@@ -637,7 +608,6 @@ public class WB_AABB {
 		return true;
 	}
 
-
 	/**
 	 *
 	 *
@@ -647,7 +617,6 @@ public class WB_AABB {
 	public boolean intersects(final WB_Coord p) {
 		return intersects(p.xd(), p.yd(), p.zd());
 	}
-
 
 	/**
 	 *
@@ -669,7 +638,6 @@ public class WB_AABB {
 		}
 		return true;
 	}
-
 
 	/**
 	 *
@@ -704,6 +672,38 @@ public class WB_AABB {
 		return true;
 	}
 
+	public boolean intersects(final WB_Sphere sphere) {
+		WB_Coord c = sphere.getCenter();
+		double r = sphere.getRadius();
+		double s, d = 0;
+		// find the square of the distance
+		// from the sphere to the box
+		if (c.xd() < _min[0]) {
+			s = c.xd() - _min[0];
+			d = s * s;
+		} else if (c.xd() > _max[0]) {
+			s = c.xd() - _max[0];
+			d += s * s;
+		}
+
+		if (c.yd() < _min[1]) {
+			s = c.yd() - _min[1];
+			d += s * s;
+		} else if (c.yd() > _max[1]) {
+			s = c.yd() - _max[1];
+			d += s * s;
+		}
+
+		if (c.zd() < _min[2]) {
+			s = c.zd() - _min[2];
+			d += s * s;
+		} else if (c.zd() > _max[2]) {
+			s = c.zd() - _max[2];
+			d += s * s;
+		}
+
+		return d <= r * r;
+	}
 
 	/**
 	 *
@@ -715,7 +715,6 @@ public class WB_AABB {
 		return covers(other);
 	}
 
-
 	/**
 	 *
 	 *
@@ -726,7 +725,6 @@ public class WB_AABB {
 		return covers(p);
 	}
 
-
 	/**
 	 *
 	 *
@@ -736,7 +734,6 @@ public class WB_AABB {
 	public boolean contains(final double[] x) {
 		return covers(x);
 	}
-
 
 	/**
 	 *
@@ -758,7 +755,6 @@ public class WB_AABB {
 		}
 		return true;
 	}
-
 
 	/**
 	 *
@@ -793,7 +789,6 @@ public class WB_AABB {
 		return true;
 	}
 
-
 	/**
 	 *
 	 *
@@ -803,7 +798,6 @@ public class WB_AABB {
 	public boolean covers(final WB_Coord p) {
 		return covers(p.xd(), p.yd(), p.zd());
 	}
-
 
 	/**
 	 *
@@ -825,7 +819,6 @@ public class WB_AABB {
 		}
 		return true;
 	}
-
 
 	/**
 	 *
@@ -850,7 +843,6 @@ public class WB_AABB {
 		return Math.sqrt(sqr);
 	}
 
-
 	/**
 	 *
 	 *
@@ -874,7 +866,6 @@ public class WB_AABB {
 		return sqr;
 	}
 
-
 	/**
 	 *
 	 *
@@ -894,7 +885,6 @@ public class WB_AABB {
 		return Math.sqrt(sqr);
 	}
 
-
 	/**
 	 *
 	 *
@@ -913,7 +903,6 @@ public class WB_AABB {
 		}
 		return sqr;
 	}
-
 
 	/**
 	 *
@@ -936,21 +925,21 @@ public class WB_AABB {
 		return true;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		String string = "WB_AABB [";
 		int i = 0;
-		for (i = 0; i < (3 - 1); i++) {
+		for (i = 0; i < 3 - 1; i++) {
 			string += _min[i] + ":" + _max[i] + ", ";
 		}
 		string += _min[i] + ":" + _max[i] + "]";
 		return string;
 	}
-
 
 	/**
 	 *
@@ -964,7 +953,6 @@ public class WB_AABB {
 		return 8;
 	}
 
-
 	/**
 	 *
 	 *
@@ -976,7 +964,6 @@ public class WB_AABB {
 		}
 		return 12;
 	}
-
 
 	/**
 	 *
@@ -990,7 +977,6 @@ public class WB_AABB {
 		return 12;
 	}
 
-
 	/**
 	 *
 	 *
@@ -1003,13 +989,12 @@ public class WB_AABB {
 		return 6;
 	}
 
-
 	/**
 	 *
 	 *
 	 * @return
 	 */
-	public List<double[]> getCoords() {
+	private List<double[]> getCoords() {
 		if (isNull()) {
 			return null;
 		}
@@ -1020,7 +1005,7 @@ public class WB_AABB {
 			values = new double[3];
 			int disc = 1;
 			for (int j = 0; j < 3; j++) {
-				if (((i / disc) % 2) == 0) {
+				if (i / disc % 2 == 0) {
 					values[j] = _min[j];
 				} else {
 					values[j] = _max[j];
@@ -1032,13 +1017,12 @@ public class WB_AABB {
 		return points;
 	}
 
-
 	/**
 	 *
 	 *
 	 * @return
 	 */
-	public WB_Point[] getPoints() {
+	public WB_Point[] getCorners() {
 		if (isNull()) {
 			return null;
 		}
@@ -1049,7 +1033,7 @@ public class WB_AABB {
 			values = new double[3];
 			int disc = 1;
 			for (int j = 0; j < 3; j++) {
-				if (((i / disc) % 2) == 0) {
+				if (i / disc % 2 == 0) {
 					values[j] = _min[j];
 				} else {
 					values[j] = _max[j];
@@ -1060,28 +1044,6 @@ public class WB_AABB {
 		}
 		return points;
 	}
-
-
-	/**
-	 *
-	 *
-	 * @param i
-	 * @return
-	 */
-	public double[] getCoord(final int i) {
-		final double[] values = new double[3];
-		int disc = 1;
-		for (int j = 0; j < 3; j++) {
-			if (((i / disc) % 2) == 0) {
-				values[j] = _min[j];
-			} else {
-				values[j] = _max[j];
-			}
-			disc *= 2;
-		}
-		return (values);
-	}
-
 
 	/**
 	 *
@@ -1111,8 +1073,6 @@ public class WB_AABB {
 		return segments;
 	}
 
-
-
 	/**
 	 *
 	 *
@@ -1121,7 +1081,6 @@ public class WB_AABB {
 	public int getId() {
 		return _id;
 	}
-
 
 	/**
 	 *
@@ -1132,16 +1091,14 @@ public class WB_AABB {
 		_id = id;
 	}
 
-
 	/**
 	 *
 	 *
 	 * @return
 	 */
 	public boolean isDegenerate() {
-		return ((getTrueDim() < 3) && (getTrueDim() > -1));
+		return getTrueDim() < 3 && getTrueDim() > -1;
 	}
-
 
 	/**
 	 *
@@ -1152,7 +1109,6 @@ public class WB_AABB {
 		System.arraycopy(src._min, 0, _min, 0, 3);
 		System.arraycopy(src._max, 0, _max, 0, 3);
 	}
-
 
 	/**
 	 *
@@ -1166,7 +1122,6 @@ public class WB_AABB {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -1175,7 +1130,6 @@ public class WB_AABB {
 	public WB_AABB get() {
 		return new WB_AABB(_min, _max);
 	}
-
 
 	/**
 	 *
@@ -1192,7 +1146,6 @@ public class WB_AABB {
 		}
 		return new WB_AABB(newmin, newmax);
 	}
-
 
 	/**
 	 *
@@ -1213,7 +1166,6 @@ public class WB_AABB {
 		return new WB_AABB(newmin, newmax);
 	}
 
-
 	/**
 	 *
 	 *
@@ -1223,16 +1175,15 @@ public class WB_AABB {
 	 * @return
 	 */
 	public static boolean intersects(final WB_Coord p1, final WB_Coord p2, final WB_Coord q) {
-		if (((q.xd() >= (p1.xd() < p2.xd() ? p1.xd() : p2.xd())) && (q.xd() <= (p1.xd() > p2.xd() ? p1.xd() : p2.xd())))
-				&& ((q.yd() >= (p1.yd() < p2.yd() ? p1.yd() : p2.yd()))
-						&& (q.yd() <= (p1.yd() > p2.yd() ? p1.yd() : p2.yd())))
-				&& ((q.zd() >= (p1.zd() < p2.zd() ? p1.zd() : p2.zd()))
-						&& (q.zd() <= (p1.zd() > p2.zd() ? p1.yd() : p2.zd())))) {
+		if (q.xd() >= (p1.xd() < p2.xd() ? p1.xd() : p2.xd()) && q.xd() <= (p1.xd() > p2.xd() ? p1.xd() : p2.xd())
+				&& q.yd() >= (p1.yd() < p2.yd() ? p1.yd() : p2.yd())
+				&& q.yd() <= (p1.yd() > p2.yd() ? p1.yd() : p2.yd())
+				&& q.zd() >= (p1.zd() < p2.zd() ? p1.zd() : p2.zd())
+				&& q.zd() <= (p1.zd() > p2.zd() ? p1.yd() : p2.zd())) {
 			return true;
 		}
 		return false;
 	}
-
 
 	/**
 	 *
@@ -1277,7 +1228,6 @@ public class WB_AABB {
 		return true;
 	}
 
-
 	/**
 	 *
 	 *
@@ -1291,7 +1241,6 @@ public class WB_AABB {
 		return new WB_Point(center);
 	}
 
-
 	/**
 	 *
 	 *
@@ -1300,7 +1249,6 @@ public class WB_AABB {
 	public double getWidth() {
 		return getSize(0);
 	}
-
 
 	/**
 	 *
@@ -1311,7 +1259,6 @@ public class WB_AABB {
 		return getSize(1);
 	}
 
-
 	/**
 	 *
 	 *
@@ -1320,7 +1267,6 @@ public class WB_AABB {
 	public double getDepth() {
 		return getSize(2);
 	}
-
 
 	/**
 	 *
@@ -1331,7 +1277,6 @@ public class WB_AABB {
 		return _min[0];
 	}
 
-
 	/**
 	 *
 	 *
@@ -1340,7 +1285,6 @@ public class WB_AABB {
 	public double getCenterX() {
 		return 0.5 * (_min[0] + _max[0]);
 	}
-
 
 	/**
 	 *
@@ -1351,7 +1295,6 @@ public class WB_AABB {
 		return 0.5 * (_min[1] + _max[1]);
 	}
 
-
 	/**
 	 *
 	 *
@@ -1360,7 +1303,6 @@ public class WB_AABB {
 	public double getCenterZ() {
 		return 0.5 * (_min[2] + _max[2]);
 	}
-
 
 	/**
 	 *
@@ -1371,7 +1313,6 @@ public class WB_AABB {
 		return _max[0];
 	}
 
-
 	/**
 	 *
 	 *
@@ -1380,7 +1321,6 @@ public class WB_AABB {
 	public double getMinY() {
 		return _min[1];
 	}
-
 
 	/**
 	 *
@@ -1391,7 +1331,6 @@ public class WB_AABB {
 		return _max[1];
 	}
 
-
 	/**
 	 *
 	 *
@@ -1400,7 +1339,6 @@ public class WB_AABB {
 	public double getMinZ() {
 		return _min[2];
 	}
-
 
 	/**
 	 *
@@ -1411,7 +1349,6 @@ public class WB_AABB {
 		return _max[2];
 	}
 
-
 	/**
 	 *
 	 *
@@ -1420,7 +1357,6 @@ public class WB_AABB {
 	public double getArea() {
 		return getWidth() * getHeight() * getDepth();
 	}
-
 
 	/**
 	 *
@@ -1435,11 +1371,10 @@ public class WB_AABB {
 		final double h = getHeight();
 		final double d = getDepth();
 		if (w < h) {
-			return (w < d) ? w : d;
+			return w < d ? w : d;
 		}
-		return (h < d) ? h : d;
+		return h < d ? h : d;
 	}
-
 
 	/**
 	 *
@@ -1454,11 +1389,10 @@ public class WB_AABB {
 		final double h = getHeight();
 		final double d = getDepth();
 		if (w > h) {
-			return (w > d) ? w : d;
+			return w > d ? w : d;
 		}
-		return (h > d) ? h : d;
+		return h > d ? h : d;
 	}
-
 
 	/**
 	 *
@@ -1478,7 +1412,6 @@ public class WB_AABB {
 		_min[2] += z;
 		_max[2] += z;
 	}
-
 
 	/**
 	 *
@@ -1514,7 +1447,6 @@ public class WB_AABB {
 		return tris;
 	}
 
-
 	/**
 	 *
 	 *
@@ -1531,7 +1463,6 @@ public class WB_AABB {
 		return faces;
 	}
 
-
 	/**
 	 *
 	 *
@@ -1540,7 +1471,6 @@ public class WB_AABB {
 	public WB_Point getMin() {
 		return new WB_Point(_min);
 	}
-
 
 	/**
 	 *
@@ -1551,7 +1481,6 @@ public class WB_AABB {
 		return new WB_Point(_max);
 	}
 
-
 	/**
 	 *
 	 *
@@ -1560,7 +1489,6 @@ public class WB_AABB {
 	public int getDim() {
 		return 3;
 	}
-
 
 	/**
 	 *
@@ -1573,13 +1501,12 @@ public class WB_AABB {
 		}
 		int dim = 0;
 		for (int i = 0; i < 3; i++) {
-			if ((_max[i] - _min[i]) >= WB_Epsilon.EPSILON) {
+			if (_max[i] - _min[i] >= WB_Epsilon.EPSILON) {
 				dim++;
 			}
 		}
 		return dim;
 	}
-
 
 	/**
 	 *
@@ -1589,25 +1516,25 @@ public class WB_AABB {
 	public void pad(final double factor) {
 		final WB_Point c = getCenter();
 		for (int i = 0; i < 3; i++) {
-			_min[i] = c.getd(i) + ((factor + 1.0) * (_min[i] - c.getd(i)));
-			_max[i] = c.getd(i) + ((factor + 1.0) * (_max[i] - c.getd(i)));
+			_min[i] = c.getd(i) + (factor + 1.0) * (_min[i] - c.getd(i));
+			_max[i] = c.getd(i) + (factor + 1.0) * (_max[i] - c.getd(i));
 		}
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		int result = 17;
 		for (int i = 0; i < 3; i++) {
-			result = (37 * result) + hashCode(_min[i]);
-			result = (37 * result) + hashCode(_max[i]);
+			result = 37 * result + hashCode(_min[i]);
+			result = 37 * result + hashCode(_max[i]);
 		}
 		return result;
 	}
-
 
 	/**
 	 *
@@ -1617,9 +1544,8 @@ public class WB_AABB {
 	 */
 	private int hashCode(final double v) {
 		final long tmp = Double.doubleToLongBits(v);
-		return (int) (tmp ^ (tmp >>> 32));
+		return (int) (tmp ^ tmp >>> 32);
 	}
-
 
 	/**
 	 *
@@ -1631,7 +1557,6 @@ public class WB_AABB {
 		}
 	}
 
-
 	/**
 	 *
 	 *
@@ -1640,7 +1565,6 @@ public class WB_AABB {
 	public boolean isNull() {
 		return _max[0] < _min[0];
 	}
-
 
 	/**
 	 *

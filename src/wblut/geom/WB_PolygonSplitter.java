@@ -58,6 +58,37 @@ public class WB_PolygonSplitter {
 		return polys;
 	}
 
+	public static List<WB_Polygon> splitPolygon2D(final WB_Polygon polygon, final WB_Line L) {
+		List<WB_Polygon> polys = new ArrayList<WB_Polygon>();
+		WB_Polygon spolygon = gf.createSimplePolygon(polygon);
+		List<WB_Point> coords = spolygon.getPoints();
+		splitEdges(coords, L);
+		sortEdges(L);
+		splitPolygon();
+		polys.addAll(collectPolygons());
+
+		return polys;
+	}
+
+	// Split a convex or concave polygon without holes with a given plane
+	public static List<WB_Polygon> splitPolygon3D(final WB_Polygon polygon, final WB_Plane P) {
+		WB_Polygon spolygon = gf.createSimplePolygon(polygon);
+		List<WB_Polygon> polys = new ArrayList<WB_Polygon>();
+		WB_Plane Q = spolygon.getPlane();
+		WB_IntersectionResult intersection = WB_GeometryOp.getIntersection3D(P, Q);
+		if (!intersection.intersection) {
+			polys.add(spolygon);
+		} else {
+
+			List<WB_Point> coords = spolygon.getPoints();
+			splitEdges(coords, P);
+			sortEdges((WB_Line) intersection.object);
+			splitPolygon();
+			polys.addAll(collectPolygons());
+		}
+		return polys;
+	}
+
 	static void splitEdges(final List<? extends WB_Coord> coords, final WB_Plane P) {
 		splitPoly = new FastTable<PolyEdge>();
 		edgesOnLine = new FastTable<PolyEdge>();
@@ -266,7 +297,7 @@ public class WB_PolygonSplitter {
 
 		@Override
 		public int compare(final PolyEdge e0, final PolyEdge e1) {
-			double d = WB_GeometryOp.pointAlongLine(e0.pos, L) - WB_GeometryOp.pointAlongLine(e1.pos, L);
+			double d = WB_GeometryOp.getParameterOfPointOnLine3D(e0.pos, L) - WB_GeometryOp.getParameterOfPointOnLine3D(e1.pos, L);
 			return WB_Epsilon.isZero(d) ? 0 : d > 0 ? 1 : -1;
 		}
 	}

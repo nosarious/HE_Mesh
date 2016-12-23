@@ -224,6 +224,10 @@ public class WB_PolyLine {
 		return geometryfactory.createSegment(getPoint(i), getPoint(i + 1));
 	}
 
+	public int getNumberSegments() {
+		return points.size() - 1;
+	}
+
 	/**
 	 *
 	 *
@@ -248,7 +252,7 @@ public class WB_PolyLine {
 	 *
 	 * @param points
 	 */
-	protected WB_PolyLine(final Collection<? extends WB_Coord> points) {
+	public WB_PolyLine(final Collection<? extends WB_Coord> points) {
 		numberOfPoints = points.size();
 		this.points = new FastTable<WB_Point>();
 		for (WB_Coord p : points) {
@@ -263,7 +267,7 @@ public class WB_PolyLine {
 	 *
 	 * @param points
 	 */
-	protected WB_PolyLine(final WB_Coord[] points) {
+	public WB_PolyLine(final WB_Coord... points) {
 		numberOfPoints = points.length;
 		this.points = new FastTable<WB_Point>();
 		for (WB_Coord p : points) {

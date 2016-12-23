@@ -13,42 +13,45 @@ import java.util.List;
 
 import javolution.util.FastTable;
 
+/**
+ * Mark Bayazit's algorithm for concave polygon decomposition
+ * https://mpen.ca/406/bayazit
+ *
+ *
+ */
 public class WB_PolygonDecomposer {
-	static WB_GeometryFactory gf = new WB_GeometryFactory();
+	private static WB_GeometryFactory gf = new WB_GeometryFactory();
 
 	/**
+	 * Decompose the given polygon into a reasonably small number of convex
+	 * polygons. Additional points can be introduced by the algorithm. There is
+	 * no guarantee that the number of polygons is optimal.
 	 *
-	 *
-	 * @param poly
-	 * @return
+	 * @param polygon
+	 *            input polygon
+	 * @return List<WB_Polygon>
 	 */
-	public static List<WB_Polygon> decomposePolygon2D(WB_Polygon poly) {
-		if (!poly.isSimple()) {
-			poly = gf.createSimplePolygon(poly);
+	public static List<WB_Polygon> decomposePolygon2D(WB_Polygon polygon) {
+		if (!polygon.isSimple()) {
+			polygon = gf.createSimplePolygon(polygon);
 		}
 		List<WB_Polygon> polys = new FastTable<WB_Polygon>();
-		if (poly == null) {
+		if (polygon == null) {
 			return polys;
 		}
-		int size = poly.getNumberOfShellPoints();
+		int size = polygon.getNumberOfShellPoints();
 		if (size < 4) {
-			polys.add(poly);
+			polys.add(polygon);
 			return polys;
 		}
-		decomposePolygon(poly.getPoints(), polys);
+		decomposePolygon(polygon.getPoints(), polys);
 		return polys;
 	}
 
-	/**
-	 *
-	 *
-	 * @param polygon
-	 * @param polygons
-	 */
-	private static void decomposePolygon(final List<WB_Point> polygon, final List<WB_Polygon> polygons) {
-		int size = polygon.size();
-		WB_Point upperIntersection = new WB_Point();
-		WB_Point lowerIntersection = new WB_Point();
+	private static void decomposePolygon(final List<WB_Point> pointlist, final List<WB_Polygon> accumulator) {
+		int n = pointlist.size();
+		WB_Point upperIntersection = gf.createPoint();
+		WB_Point lowerIntersection = gf.createPoint();
 		double upperDistance = Double.MAX_VALUE;
 		double lowerDistance = Double.MAX_VALUE;
 		double closestDistance = Double.MAX_VALUE;
@@ -59,74 +62,78 @@ public class WB_PolygonDecomposer {
 		List<WB_Point> lower = new FastTable<WB_Point>();
 		List<WB_Point> upper = new FastTable<WB_Point>();
 
-		for (int i = 0; i < size; i++) {
-			WB_Point p = polygon.get(i);
-			WB_Point p0 = polygon.get(i - 1 < 0 ? size - 1 : i - 1);
-			WB_Point p1 = polygon.get(i + 1 == size ? 0 : i + 1);
-			if (WB_GeometryOp.isReflex2D(p0, p, p1)) {
-				for (int j = 0; j < size; j++) {
-					WB_Point q = polygon.get(j);
-					WB_Point q0 = polygon.get(j - 1 < 0 ? size - 1 : j - 1);
-					WB_Point q1 = polygon.get(j + 1 == size ? 0 : j + 1);
-					WB_Point s = new WB_Point();
-					if (WB_GeometryOp.isLeftStrict2D(p0, p, q) && WB_GeometryOp.isRight2D(p0, p, q0)) {
-						if (WB_GeometryOp.getLineIntersectionInto2D(p0, p, q, q0, s)) {
-							if (WB_GeometryOp.isRightStrict2D(p1, p, s)) {
-								double dist = p.getSqDistance2D(s);
+		for (int i = 0; i < n; i++) {
+			WB_Point iVertex = pointlist.get(i);
+			WB_Point iVertexPrev = pointlist.get(i == 0 ? n - 1 : i - 1);
+			WB_Point iVertexNext = pointlist.get(i + 1 == n ? 0 : i + 1);
+			if (WB_GeometryOp.isReflex2D(iVertexPrev, iVertex, iVertexNext)) {
+				for (int j = 0; j < n; j++) {
+					WB_Point jVertex = pointlist.get(j);
+					WB_Point jVertexPrev = pointlist.get(j == 0 ? n - 1 : j - 1);
+					WB_Point jVertexNext = pointlist.get(j + 1 == n ? 0 : j + 1);
+					WB_Point intersection = gf.createPoint();
+					if (WB_GeometryOp.isLeftStrict2D(iVertexPrev, iVertex, jVertex)
+							&& WB_GeometryOp.isRight2D(iVertexPrev, iVertex, jVertexPrev)) {
+						if (WB_GeometryOp.getLineIntersectionInto2D(iVertexPrev, iVertex, jVertex, jVertexPrev,
+								intersection)) {
+							if (WB_GeometryOp.isRightStrict2D(iVertexNext, iVertex, intersection)) {
+								double dist = iVertex.getSqDistance2D(intersection);
 								if (dist < lowerDistance) {
 									lowerDistance = dist;
-									lowerIntersection.set(s);
+									lowerIntersection.set(intersection);
 									lowerIndex = j;
 								}
 							}
 						}
 					}
-					if (WB_GeometryOp.isLeftStrict2D(p1, p, q1) && WB_GeometryOp.isRight2D(p1, p, q)) {
-						if (WB_GeometryOp.getLineIntersectionInto2D(p1, p, q, q1, s)) {
-							if (WB_GeometryOp.isLeftStrict2D(p0, p, s)) {
-								double dist = p.getSqDistance2D(s);
+					if (WB_GeometryOp.isLeftStrict2D(iVertexNext, iVertex, jVertexNext)
+							&& WB_GeometryOp.isRight2D(iVertexNext, iVertex, jVertex)) {
+						if (WB_GeometryOp.getLineIntersectionInto2D(iVertexNext, iVertex, jVertex, jVertexNext,
+								intersection)) {
+							if (WB_GeometryOp.isLeftStrict2D(iVertexPrev, iVertex, intersection)) {
+								double dist = iVertex.getSqDistance2D(intersection);
 								if (dist < upperDistance) {
 									upperDistance = dist;
-									upperIntersection.set(s);
+									upperIntersection.set(intersection);
 									upperIndex = j;
 								}
 							}
 						}
 					}
 				}
-				if (lowerIndex == (upperIndex + 1) % size) {
-					WB_Point s = upperIntersection.add(lowerIntersection).mulSelf(0.5);
+				if (lowerIndex == (upperIndex + 1) % n) {
+					WB_Point midpoint = upperIntersection.add(lowerIntersection).mulSelf(0.5);
 					if (i < upperIndex) {
-						lower.addAll(polygon.subList(i, upperIndex + 1));
-						lower.add(s);
-						upper.add(s);
+						lower.addAll(pointlist.subList(i, upperIndex + 1));
+						lower.add(midpoint);
+						upper.add(midpoint);
 						if (lowerIndex != 0) {
-							upper.addAll(polygon.subList(lowerIndex, size));
+							upper.addAll(pointlist.subList(lowerIndex, n));
 						}
-						upper.addAll(polygon.subList(0, i + 1));
+						upper.addAll(pointlist.subList(0, i + 1));
 					} else {
 						if (i != 0) {
-							lower.addAll(polygon.subList(i, size));
+							lower.addAll(pointlist.subList(i, n));
 						}
-						lower.addAll(polygon.subList(0, upperIndex + 1));
-						lower.add(s);
-						upper.add(s);
-						upper.addAll(polygon.subList(lowerIndex, i + 1));
+						lower.addAll(pointlist.subList(0, upperIndex + 1));
+						lower.add(midpoint);
+						upper.add(midpoint);
+						upper.addAll(pointlist.subList(lowerIndex, i + 1));
 					}
 				} else {
 					if (lowerIndex > upperIndex) {
-						upperIndex += size;
+						upperIndex += n;
 					}
 					closestIndex = lowerIndex;
 					for (int j = lowerIndex; j <= upperIndex; j++) {
-						int jmod = j % size;
-						WB_Point q = polygon.get(jmod);
+						int jmod = j % n;
+						WB_Point q = pointlist.get(jmod);
 
-						if (q == p || q == p0 || q == p1) {
+						if (q == iVertex || q == iVertexPrev || q == iVertexNext) {
 							continue;
 						}
-						if (isVisible(polygon, i, jmod)) {
-							double dist = p.getSqDistance2D(q);
+						if (isVisible(pointlist, i, jmod)) {
+							double dist = iVertex.getSqDistance2D(q);
 							if (dist < closestDistance) {
 								closestDistance = dist;
 								closestIndex = jmod;
@@ -134,82 +141,77 @@ public class WB_PolygonDecomposer {
 						}
 					}
 					if (i < closestIndex) {
-						lower.addAll(polygon.subList(i, closestIndex + 1));
+						lower.addAll(pointlist.subList(i, closestIndex + 1));
 						if (closestIndex != 0) {
-							upper.addAll(polygon.subList(closestIndex, size));
+							upper.addAll(pointlist.subList(closestIndex, n));
 						}
-						upper.addAll(polygon.subList(0, i + 1));
+						upper.addAll(pointlist.subList(0, i + 1));
 					} else {
 						if (i != 0) {
-							lower.addAll(polygon.subList(i, size));
+							lower.addAll(pointlist.subList(i, n));
 						}
-						lower.addAll(polygon.subList(0, closestIndex + 1));
-						upper.addAll(polygon.subList(closestIndex, i + 1));
+						lower.addAll(pointlist.subList(0, closestIndex + 1));
+						upper.addAll(pointlist.subList(closestIndex, i + 1));
 					}
 				}
 				if (lower.size() < upper.size()) {
-					decomposePolygon(lower, polygons);
-					decomposePolygon(upper, polygons);
+					decomposePolygon(lower, accumulator);
+					decomposePolygon(upper, accumulator);
 				} else {
-					decomposePolygon(upper, polygons);
-					decomposePolygon(lower, polygons);
+					decomposePolygon(upper, accumulator);
+					decomposePolygon(lower, accumulator);
 				}
 				return;
 			}
 		}
-		if (polygon.size() < 3) {
+		if (pointlist.size() < 3) {
 			return;
 		}
-		polygons.add(gf.createSimplePolygon(polygon));
+		accumulator.add(gf.createSimplePolygon(pointlist));
 	}
 
-	/**
-	 *
-	 *
-	 * @param polygon
-	 * @param i
-	 * @param j
-	 * @return
-	 */
-	private static boolean isVisible(final List<WB_Point> polygon, final int i, final int j) {
-		int s = polygon.size();
-		WB_Point iv0, iv, iv1;
-		WB_Point jv0, jv, jv1;
-		iv0 = polygon.get(i == 0 ? s - 1 : i - 1);
-		iv = polygon.get(i);
-		iv1 = polygon.get(i + 1 == s ? 0 : i + 1);
+	private static boolean isVisible(final List<WB_Point> pointlist, final int i, final int j) {
+		int n = pointlist.size();
+		WB_Point iVertex, jVertex;
+		iVertex = pointlist.get(i);
+		jVertex = pointlist.get(j);
+		WB_Point iVertexPrev, iVertexNext, jVertexPrev, jVertexNext;
+		iVertexPrev = pointlist.get(i == 0 ? n - 1 : i - 1);
+		iVertexNext = pointlist.get(i + 1 == n ? 0 : i + 1);
+		jVertexPrev = pointlist.get(j == 0 ? n - 1 : j - 1);
+		jVertexNext = pointlist.get(j + 1 == n ? 0 : j + 1);
 
-		jv0 = polygon.get(j == 0 ? s - 1 : j - 1);
-		jv = polygon.get(j);
-		jv1 = polygon.get(j + 1 == s ? 0 : j + 1);
-
-		if (WB_GeometryOp.isReflex2D(iv0, iv, iv1)) {
-			if (WB_GeometryOp.isLeft2D(iv, iv0, jv) && WB_GeometryOp.isRight2D(iv, iv1, jv)) {
+		if (WB_GeometryOp.isReflex2D(iVertexPrev, iVertex, iVertexNext)) {
+			if (WB_GeometryOp.isLeft2D(iVertex, iVertexPrev, jVertex)
+					&& WB_GeometryOp.isRight2D(iVertex, iVertexNext, jVertex)) {
 				return false;
 			}
 		} else {
-			if (WB_GeometryOp.isRight2D(iv, iv1, jv) || WB_GeometryOp.isLeft2D(iv, iv0, jv)) {
+			if (WB_GeometryOp.isRight2D(iVertex, iVertexNext, jVertex)
+					|| WB_GeometryOp.isLeft2D(iVertex, iVertexPrev, jVertex)) {
 				return false;
 			}
 		}
-		if (WB_GeometryOp.isReflex2D(jv0, jv, jv1)) {
-			if (WB_GeometryOp.isLeft2D(jv, jv0, iv) && WB_GeometryOp.isRight2D(jv, jv1, iv)) {
+		if (WB_GeometryOp.isReflex2D(jVertexPrev, jVertex, jVertexNext)) {
+			if (WB_GeometryOp.isLeft2D(jVertex, jVertexPrev, iVertex)
+					&& WB_GeometryOp.isRight2D(jVertex, jVertexNext, iVertex)) {
 				return false;
 			}
 		} else {
-			if (WB_GeometryOp.isRight2D(jv, jv1, iv) || WB_GeometryOp.isLeft2D(jv, jv0, iv)) {
+			if (WB_GeometryOp.isRight2D(jVertex, jVertexNext, iVertex)
+					|| WB_GeometryOp.isLeft2D(jVertex, jVertexPrev, iVertex)) {
 				return false;
 			}
 		}
-		for (int k = 0; k < s; k++) {
-			int ki1 = k + 1 == s ? 0 : k + 1;
-			if (k == i || k == j || ki1 == i || ki1 == j) {
+		for (int k = 0; k < n; k++) {
+			int knext = k + 1 == n ? 0 : k + 1;
+			if (k == i || k == j || knext == i || knext == j) {
 				continue;
 			}
-			WB_Point k1 = polygon.get(k);
-			WB_Point k2 = polygon.get(ki1);
+			WB_Point kVertex = pointlist.get(k);
+			WB_Point kVertexNext = pointlist.get(knext);
 
-			WB_Point in = WB_GeometryOp.getSegmentIntersection2D(iv, jv, k1, k2);
+			WB_Coord in = WB_GeometryOp.getSegmentIntersection2D(iVertex, jVertex, kVertex, kVertexNext);
 			if (in != null) {
 				return false;
 			}

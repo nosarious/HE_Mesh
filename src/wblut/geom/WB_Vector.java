@@ -188,14 +188,6 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 
 	}
 
-	/**
-	 *
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
-	 */
 	public WB_Vector addSelf(final double x, final double y, final double z) {
 		set(xd() + x, yd() + y, zd() + z);
 		return this;
@@ -863,7 +855,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public double getAngle(final WB_Coord p) {
-		return WB_GeometryOp.angleBetween(xd(), yd(), zd(), p.xd(), p.yd(), p.zd());
+		return WB_GeometryOp.getAngleBetween(xd(), yd(), zd(), p.xd(), p.yd(), p.zd());
 	}
 
 	/**
@@ -874,7 +866,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static double getAngle(final WB_Coord q, final WB_Coord p) {
-		return WB_GeometryOp.angleBetween(q.xd(), q.yd(), q.zd(), p.xd(), p.yd(), p.zd());
+		return WB_GeometryOp.getAngleBetween(q.xd(), q.yd(), q.zd(), p.xd(), p.yd(), p.zd());
 	}
 
 	/*
@@ -885,7 +877,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 */
 	@Override
 	public double getAngleNorm(final WB_Coord p) {
-		return WB_GeometryOp.angleBetweenNorm(xd(), yd(), zd(), p.xd(), p.yd(), p.zd());
+		return WB_GeometryOp.getAngleBetweenNorm(xd(), yd(), zd(), p.xd(), p.yd(), p.zd());
 	}
 
 	/**
@@ -896,7 +888,7 @@ public class WB_Vector extends WB_SimpleVector implements WB_MutableCoordinateFu
 	 * @return
 	 */
 	public static double getAngleNorm(final WB_Coord q, final WB_Coord p) {
-		return WB_GeometryOp.angleBetweenNorm(q.xd(), q.yd(), q.zd(), p.xd(), p.yd(), p.zd());
+		return WB_GeometryOp.getAngleBetweenNorm(q.xd(), q.yd(), q.zd(), p.xd(), p.yd(), p.zd());
 	}
 
 	/*

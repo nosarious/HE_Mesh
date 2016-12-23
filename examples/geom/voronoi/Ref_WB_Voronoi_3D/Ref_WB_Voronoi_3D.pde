@@ -40,7 +40,7 @@ void draw() {
   rotateX(mouseY*1.0f/height*TWO_PI);
   noFill();
   strokeWeight(2);
-  render.drawPoints(points, 1); 
+  render.drawPoint(points, 1); 
   strokeWeight(1);
   for (WB_VoronoiCell3D vor : voronoi) {
 

@@ -9,9 +9,10 @@ int[] tetrahedra;
 
 void setup() {
   size(800, 800, P3D);
-  source=new WB_RandomInSphere().setRadius(250);
+  smooth(8);
+  source=new WB_RandomBox().setSize(500,500,500);
   render=new WB_Render3D(this);
-  numPoints=400;
+  numPoints=100;
   points=new WB_Point[numPoints];
   for (int i=0; i<numPoints; i++) {
     points[i]=source.nextPoint();
@@ -19,7 +20,7 @@ void setup() {
   WB_Triangulation3D triangulation=WB_Triangulate.triangulate3D(points);
   tetrahedra=triangulation.getTetrahedra();// 1D array of indices of tetrahedra, 4 indices per tetrahedron
   println("First tetrahedron: ["+tetrahedra[0]+", "+tetrahedra[1]+", "+tetrahedra[2]+", "+tetrahedra[3]+"]");
-  noFill();
+ 
 
 }
 
@@ -31,5 +32,12 @@ void draw() {
   translate(width/2, height/2);
   rotateY(mouseX*1.0f/width*TWO_PI);
   rotateX(mouseY*1.0f/height*TWO_PI);
-  render.drawTetrahedron(tetrahedra, points);
+  WB_Point center;
+  for(int i=0;i<tetrahedra.length;i+=4){
+    pushMatrix();
+    center=new WB_Point(points[tetrahedra[i]]).addSelf(points[tetrahedra[i+1]]).addSelf(points[tetrahedra[i+2]]).addSelf(points[tetrahedra[i+3]]).mulSelf(0.25+0.25*sin(0.005*frameCount));
+  render.translate(center);
+  render.drawTetrahedron(points[tetrahedra[i]],points[tetrahedra[i+1]],points[tetrahedra[i+2]],points[tetrahedra[i+3]]);
+  popMatrix();
+}
 }

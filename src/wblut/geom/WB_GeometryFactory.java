@@ -9,17 +9,10 @@
  */
 package wblut.geom;
 
-import java.awt.Font;
-import java.awt.Shape;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import com.vividsolutions.jts.algorithm.ConvexHull;
@@ -51,14 +44,12 @@ import wblut.external.straightskeleton.Machine;
 import wblut.external.straightskeleton.Output.Face;
 import wblut.external.straightskeleton.Point3d;
 import wblut.external.straightskeleton.Skeleton;
-import wblut.geom.WB_KDTree.WB_KDEntry;
 import wblut.math.WB_Epsilon;
-import wblut.math.WB_Math;
 
 /**
  *
  */
-public class WB_GeometryFactory {
+public class WB_GeometryFactory extends WB_GeometryFactory2D {
 	/**
 	 *
 	 */
@@ -115,27 +106,12 @@ public class WB_GeometryFactory {
 	 *
 	 */
 	private WB_Plane XZ;
-	/**
-	 *
-	 */
-	private WB_CoordinateSystem currentCS;
-	/**
-	 *
-	 */
-	private WB_Transform toWorld;
-	/**
-	 *
-	 */
-	private WB_CoordinateSystem world;
-	/**
-	 *
-	 */
-	private WB_ShapeReader shapereader;
 
 	/**
 	 *
 	 */
 	public WB_GeometryFactory() {
+		super();
 		origin = createPoint(0, 0, 0);
 		X = createVector(1, 0, 0);
 		Y = createVector(0, 1, 0);
@@ -146,54 +122,15 @@ public class WB_GeometryFactory {
 	}
 
 	/**
-	 *
-	 */
-	private static final WB_GeometryFactory factory = new WB_GeometryFactory();
-
-	/**
-	 *
-	 *
-	 * @param CS
-	 */
-	public void setCurrentCS(final WB_CoordinateSystem CS) {
-		if (currentCS == null) {
-			currentCS = WORLD();
-		}
-		currentCS = CS;
-		toWorld = currentCS.getTransformToWorld();
-	}
-
-	/**
-	 *
+	 * Legacy code, WB_GeometryFactory used to be a singleton but this limited
+	 * its use in multithreaded code.
 	 *
 	 * @return
 	 */
-	public WB_CoordinateSystem getCurrentCS() {
-		if (currentCS == null) {
-			currentCS = WORLD();
-		}
-		return currentCS;
-	}
 
-	/**
-	 *
-	 */
-	public void resetCurrentCS() {
-		currentCS = WORLD();
-		toWorld = currentCS.getTransformToWorld();
-	}
+	public static WB_GeometryFactory instance() {
+		return new WB_GeometryFactory();
 
-	/**
-	 *
-	 *
-	 * @return
-	 */
-	public WB_Transform toWorld() {
-		if (currentCS == null) {
-			currentCS = WORLD();
-			toWorld = currentCS.getTransformToWorld();
-		}
-		return toWorld;
 	}
 
 	/**
@@ -319,17 +256,6 @@ public class WB_GeometryFactory {
 	}
 
 	/**
-	 *
-	 * @return WORLD coordinate system
-	 */
-	public WB_CoordinateSystem WORLD() {
-		if (world == null) {
-			world = new WB_CoordinateSystem();
-		}
-		return world;
-	}
-
-	/**
 	 * Create a new right-handed coordinate system. The WORLD CS is the default
 	 * parent; the z-coordinate of X is ignored and X is normalized, Z is
 	 * (0,0,1) and Y is created from X and Z
@@ -340,8 +266,8 @@ public class WB_GeometryFactory {
 	 * @return coordinate
 	 */
 	public WB_CoordinateSystem createCSFromOX(final WB_Coord origin, final WB_Coord X) {
-		final WB_Point lOrigin = createPoint(origin.xd(), origin.yd());
-		final WB_Vector lX = createNormalizedVector(X.xd(), X.yd());
+		final WB_Point lOrigin = createPoint(origin.xd(), origin.yd(), 0);
+		final WB_Vector lX = createNormalizedVector(X.xd(), X.yd(), 0);
 		final WB_Vector lY = createVector(-lX.yd(), lX.xd());
 		return createCSFromOXY(lOrigin, lX, lY);
 	}
@@ -359,7 +285,7 @@ public class WB_GeometryFactory {
 	public WB_CoordinateSystem createCSFromOX(final WB_Coord origin, final WB_Coord X,
 			final WB_CoordinateSystem parent) {
 		final WB_Point lOrigin = createPoint(origin.xd(), origin.yd());
-		final WB_Vector lX = createNormalizedVector(X.xd(), X.yd());
+		final WB_Vector lX = createNormalizedVector(X.xd(), X.yd(), 0);
 		final WB_Vector lY = createVector(-lX.yd(), lX.xd());
 		return createCSFromOXY(lOrigin, lX, lY, parent);
 	}
@@ -440,30 +366,6 @@ public class WB_GeometryFactory {
 	public WB_CoordinateSystem createCSFromOXYZ(final WB_Coord origin, final WB_Coord X, final WB_Coord Y,
 			final WB_Coord Z) {
 		return new WB_CoordinateSystem(origin, X, Y, Z, WORLD());
-	}
-
-	/**
-	 *
-	 *
-	 * @param CS
-	 * @param T
-	 * @param parent
-	 * @return
-	 */
-	public WB_CoordinateSystem createTransformedCS(final WB_CoordinateSystem CS, final WB_Transform T,
-			final WB_CoordinateSystem parent) {
-		return CS.apply(T, parent);
-	}
-
-	/**
-	 *
-	 *
-	 * @param CS
-	 * @param T
-	 * @return
-	 */
-	public WB_CoordinateSystem createTransformedCS(final WB_CoordinateSystem CS, final WB_Transform T) {
-		return CS.apply(T);
 	}
 
 	/**
@@ -555,17 +457,6 @@ public class WB_GeometryFactory {
 	}
 
 	/**
-	 * Copy of coordinate as point, z-ordinate is ignored.
-	 *
-	 * @param p
-	 *            point
-	 * @return copy of point
-	 */
-	public WB_Point createPoint2D(final WB_Coord p) {
-		return createPoint(p.xd(), p.yd(), 0);
-	}
-
-	/**
 	 * Point from Cartesian coordinates
 	 * http://en.wikipedia.org/wiki/Cartesian_coordinate_system
 	 *
@@ -626,97 +517,6 @@ public class WB_GeometryFactory {
 	}
 
 	/**
-	 * Interpolated point, z-ordinate is ignored.
-	 *
-	 * @param p
-	 *            point
-	 * @param q
-	 *            point
-	 * @param f
-	 *            interpolation value, p=0,q=1
-	 * @return copy of point
-	 */
-	public WB_Point createInterpolatedPoint2D(final WB_Coord p, final WB_Coord q, final double f) {
-		return createPoint((1.0 - f) * p.xd() + f * q.xd(), (1.0 - f) * p.yd() + f * q.yd());
-	}
-
-	/**
-	 * Point from polar coordinates
-	 * http://en.wikipedia.org/wiki/Polar_coordinate_system
-	 *
-	 * @param r
-	 *            radius
-	 * @param phi
-	 *            angle
-	 * @return 2D point
-	 */
-	public WB_Point createPointFromPolar(final double r, final double phi) {
-		return createPoint(r * Math.cos(phi), r * Math.sin(phi));
-	}
-
-	/**
-	 * Point from bipolar coordinates
-	 * http://en.wikipedia.org/wiki/Bipolar_coordinates
-	 *
-	 * @param a
-	 *            focus
-	 * @param sigma
-	 *            bipolar coordinate
-	 * @param tau
-	 *            bipolar coordinate
-	 * @return 2D point
-	 */
-	public WB_Point createPointFromBipolar(final double a, final double sigma, final double tau) {
-		double invdenom = Math.cosh(tau) - Math.cos(sigma);
-		invdenom = WB_Epsilon.isZero(invdenom) ? 0.0 : a / invdenom;
-		return createPoint(Math.sinh(tau) * invdenom, Math.sin(sigma) * invdenom);
-	}
-
-	/**
-	 * Point from parabolic coordinates
-	 * http://en.wikipedia.org/wiki/Parabolic_coordinates
-	 *
-	 * @param sigma
-	 *            parabolic coordinate
-	 * @param tau
-	 *            parabolic coordinate
-	 * @return 2D point
-	 */
-	public WB_Point createPointFromParabolic(final double sigma, final double tau) {
-		return createPoint(sigma * tau, 0.5 * (tau * tau - sigma * sigma));
-	}
-
-	/**
-	 * Point from hyperbolic coordinates
-	 * http://en.wikipedia.org/wiki/Hyperbolic_coordinates
-	 *
-	 * @param u
-	 *            hyperbolic angle
-	 * @param v
-	 *            geometric mean >0
-	 * @return 2D point
-	 */
-	public WB_Point createPointFromHyperbolic(final double u, final double v) {
-		return createPoint(v * Math.exp(u), v * Math.exp(-u));
-	}
-
-	/**
-	 * Point from elliptic coordinates
-	 * http://en.wikipedia.org/wiki/Elliptic_coordinates
-	 *
-	 * @param a
-	 *            focus
-	 * @param sigma
-	 *            elliptic coordinate >=0
-	 * @param tau
-	 *            elliptic coordinate between -1 and 1
-	 * @return 2D point
-	 */
-	public WB_Point createPointFromElliptic(final double a, final double sigma, final double tau) {
-		return createPoint(a * sigma * tau, Math.sqrt(a * a * (sigma * sigma - 1) * (1 - tau * tau)));
-	}
-
-	/**
 	 * Incenter of triangle, z-ordinate is ignored.
 	 *
 	 * @param tri
@@ -743,196 +543,6 @@ public class WB_GeometryFactory {
 	}
 
 	/**
-	 * Closest point to 2D line, z-ordinate is ignored.
-	 *
-	 * @param p
-	 *            WB_Coordinate
-	 * @param L
-	 *            WB_Line
-	 * @return closest point on line
-	 */
-	public WB_Point createClosestPointOnLine2D(final WB_Coord p, final WB_Line L) {
-		if (WB_Epsilon.isZero(L.getDirection().xd())) {
-			return createPoint(L.getOrigin().xd(), p.yd());
-		}
-		if (WB_Epsilon.isZero(L.getDirection().yd())) {
-			return createPoint(p.xd(), L.getOrigin().yd());
-		}
-		final double m = L.getDirection().yd() / L.getDirection().xd();
-		final double b = L.getOrigin().yd() - m * L.getOrigin().xd();
-		final double x = (m * p.yd() + p.xd() - m * b) / (m * m + 1);
-		final double y = (m * m * p.yd() + m * p.xd() + b) / (m * m + 1);
-		return createPoint(x, y);
-	}
-
-	/**
-	 * Closest points between two 2D lines, z-ordinate is ignored.
-	 *
-	 * @param L1
-	 *            2D line
-	 * @param L2
-	 *            2D line
-	 * @return if crossing: intersection, if parallel: origin of L1 + point on
-	 *         L2 closest to origin of L1
-	 */
-	public List<WB_Point> createClosestPoint(final WB_Line L1, final WB_Line L2) {
-		final List<WB_Point> result = new ArrayList<WB_Point>();
-		final double a = WB_Vector.dot(L1.getDirection(), L1.getDirection());
-		final double b = WB_Vector.dot(L1.getDirection(), L2.getDirection());
-		final WB_Point r = createPoint(L1.getOrigin()).sub(L2.getOrigin());
-		final double c = WB_Vector.dot(L1.getDirection(), r);
-		final double e = WB_Vector.dot(L2.getDirection(), L2.getDirection());
-		final double f = WB_Vector.dot(L2.getDirection(), r);
-		double denom = a * e - b * b;
-		if (WB_Epsilon.isZero(denom)) {
-			final double t2 = r.dot(L1.getDirection());
-			result.add(createPoint(L1.getOrigin()));
-			result.add(createPoint(L2.getPointOnLine(t2)));
-			return result;
-		}
-		denom = 1.0 / denom;
-		final double t1 = (b * f - c * e) * denom;
-		result.add(createPoint(L1.getPointOnLine(t1)));
-		return result;
-	}
-
-	/**
-	 * Gets intersection points of two circles, z-ordinate is ignored.
-	 *
-	 * @param C0
-	 * @param C1
-	 * @return intersection points of two circles
-	 */
-	public List<WB_Point> createIntersectionPoints(final WB_Circle C0, final WB_Circle C1) {
-		final List<WB_Point> result = new ArrayList<WB_Point>();
-		final WB_Vector u = createVector2D(C1.getCenter()).sub(C0.getCenter());
-		final double d2 = u.getSqLength3D();
-		final double d = Math.sqrt(d2);
-		if (WB_Epsilon.isEqualAbs(d, C0.getRadius() + C1.getRadius())) {
-			result.add(createInterpolatedPoint(C0.getCenter(), C1.getCenter(),
-					C0.getRadius() / (C0.getRadius() + C1.getRadius())));
-			return result;
-		}
-		if (d > C0.getRadius() + C1.getRadius() || d < WB_Math.fastAbs(C0.getRadius() - C1.getRadius())) {
-			return result;
-		}
-		final double r02 = C0.getRadius() * C0.getRadius();
-		final double r12 = C1.getRadius() * C1.getRadius();
-		final double a = (r02 - r12 + d2) / (2 * d);
-		final double h = Math.sqrt(r02 - a * a);
-		final WB_Point c = createPoint(C0.getCenter()).addMulSelf(a / d, u);
-		final double p0x = c.xd() + h * (C1.getCenter().yd() - C0.getCenter().yd()) / d;
-		final double p0y = c.yd() - h * (C1.getCenter().xd() - C0.getCenter().xd()) / d;
-		final double p1x = c.xd() - h * (C1.getCenter().yd() - C0.getCenter().yd()) / d;
-		final double p1y = c.yd() + h * (C1.getCenter().xd() - C0.getCenter().xd()) / d;
-		final WB_Point p0 = createPoint(p0x, p0y);
-		result.add(p0);
-		final WB_Point p1 = createPoint(p1x, p1y);
-		if (!WB_Epsilon.isZeroSq(p0.getSqDistance3D(p1))) {
-			result.add(p1);
-		}
-		return result;
-	}
-
-	/**
-	 * Gets intersection points of 2D line and circle, z-ordinate is ignored.
-	 *
-	 * @param L
-	 * @param C
-	 * @return intersection points of line and circle
-	 */
-	public List<WB_Point> createIntersectionPoints(final WB_Line L, final WB_Circle C) {
-		final List<WB_Point> result = new ArrayList<WB_Point>();
-		final double b = 2 * (L.getDirection().xd() * (L.getOrigin().xd() - C.getCenter().xd())
-				+ L.getDirection().yd() * (L.getOrigin().yd() - C.getCenter().yd()));
-		final double c = WB_Point.getSqLength3D(C.getCenter()) + WB_Vector.getSqLength3D(L.getOrigin())
-				- 2 * (C.getCenter().xd() * L.getOrigin().xd() + C.getCenter().yd() * L.getOrigin().yd())
-				- C.getRadius() * C.getRadius();
-		double disc = b * b - 4 * c;
-		if (disc < -WB_Epsilon.EPSILON) {
-			return result;
-		}
-		if (WB_Epsilon.isZero(disc)) {
-			result.add(createPoint(L.getPointOnLine(-0.5 * b)));
-			return result;
-		}
-		disc = Math.sqrt(disc);
-		result.add(createPoint(L.getPointOnLine(0.5 * (-b + disc))));
-		result.add(createPoint(L.getPointOnLine(0.5 * (-b - disc))));
-		return result;
-	}
-
-	/**
-	 * Gets intersection points of two 2D lines, z-ordinate is ignored.
-	 *
-	 * @param L1
-	 * @param L2
-	 * @return intersection point
-	 */
-	public WB_Point createIntersectionPoint2D(final WB_Line L1, final WB_Line L2) {
-		final double a = WB_Vector.dot(L1.getDirection(), L1.getDirection());
-		final double b = WB_Vector.dot(L1.getDirection(), L2.getDirection());
-		final WB_Vector r = createVector2D(WB_Vector.sub(L1.getOrigin(), L2.getOrigin()));
-		final double c = WB_Vector.dot(L1.getDirection(), r);
-		final double e = WB_Vector.dot(L2.getDirection(), L2.getDirection());
-		final double f = WB_Vector.dot(L2.getDirection(), r);
-		double denom = a * e - b * b;
-		if (WB_Epsilon.isZero(denom)) {
-			return null;
-		}
-		denom = 1.0 / denom;
-		final double t1 = (b * f - c * e) * denom;
-		final double t2 = (a * f - b * c) * denom;
-		final WB_Point p1 = L1.getPointOnLine(t1);
-		final WB_Point p2 = L2.getPointOnLine(t2);
-		return p1.mulAddMul(0.5, 0.5, p2);
-	}
-
-	/**
-	 * Mirror 2D point about 2D line.
-	 *
-	 * @param p
-	 * @param x0
-	 * @param y0
-	 * @param x1
-	 * @param y1
-	 * @return mirrored point
-	 */
-	public WB_Point createMirrorPoint(final WB_Coord p, final double x0, final double y0, final double x1,
-			final double y1) {
-		double dx, dy, a, b;
-		double x2, y2;
-		dx = x1 - x0;
-		dy = y1 - y0;
-		a = (dx * dx - dy * dy) / (dx * dx + dy * dy);
-		b = 2 * dx * dy / (dx * dx + dy * dy);
-		x2 = a * (p.xd() - x0) + b * (p.yd() - y0) + x0;
-		y2 = b * (p.xd() - x0) - a * (p.yd() - y0) + y0;
-		return createPoint(x2, y2);
-	}
-
-	/**
-	 * Mirror 2D point about 2D line.
-	 *
-	 * @param p
-	 *            WB_Coordinate
-	 * @param L
-	 *            WB_Linear
-	 * @return mirrored point
-	 */
-	public WB_Point createMirrorPoint(final WB_Coord p, final WB_Linear L) {
-		double dx, dy, a, b;
-		double x2, y2;
-		dx = L.getDirection().xd();
-		dy = L.getDirection().yd();
-		a = dx * dx - dy * dy;
-		b = 2 * dx * dy;
-		x2 = a * (p.xd() - L.getOrigin().xd()) + b * (p.yd() - L.getOrigin().yd()) + L.getOrigin().xd();
-		y2 = b * (p.xd() - L.getOrigin().xd()) - a * (p.yd() - L.getOrigin().yd()) + L.getOrigin().yd();
-		return createPoint(x2, y2);
-	}
-
-	/**
 	 * Get point with triangle barycentric coordinates.
 	 *
 	 * @param u
@@ -945,29 +555,6 @@ public class WB_GeometryFactory {
 	public WB_Point createPointFromBarycentricCoordinates(final double u, final double v, final double w,
 			final WB_Triangle tri) {
 		return createPointFromTrilinearCoordinates(u / tri.a(), v / tri.b(), w / tri.c(), tri);
-	}
-
-	/**
-	 * Inversion of 2D point p over circle C
-	 * http://mathworld.wolfram.com/Inversion.html
-	 *
-	 * @param p
-	 *            2D point
-	 * @param inversionCircle
-	 *            inversion circle
-	 *
-	 * @return Inversion of 2D point p over circle C, null if p coincides with
-	 *         inversion circle center
-	 */
-	public WB_Point createInversionPoint(final WB_Coord p, final WB_Circle inversionCircle) {
-		final double r2 = inversionCircle.getRadius() * inversionCircle.getRadius();
-		final double OP = WB_GeometryOp.getDistance3D(inversionCircle.getCenter(), p);
-		if (WB_Epsilon.isZero(OP)) {
-			return null;
-		}
-		final double OPp = r2 / OP;
-		final WB_Vector v = createNormalizedVectorFromTo(inversionCircle.getCenter(), p);
-		return createPoint(WB_Point.addMul(inversionCircle.getCenter(), OPp, v));
 	}
 
 	/**
@@ -1250,21 +837,6 @@ public class WB_GeometryFactory {
 	}
 
 	/**
-	 * Orthocenter of triangle.
-	 *
-	 * @param tri
-	 *            triangle
-	 * @return orthocenter
-	 */
-	public WB_Point createOrthocenter2D(final WB_Triangle tri) {
-		final double a2 = tri.a() * tri.a();
-		final double b2 = tri.b() * tri.b();
-		final double c2 = tri.c() * tri.c();
-		return createPointFromBarycentricCoordinates((a2 + b2 - c2) * (a2 - b2 + c2), (a2 + b2 - c2) * (-a2 + b2 + c2),
-				(a2 - b2 + c2) * (-a2 + b2 + c2), tri);
-	}
-
-	/**
 	 * Get point with triangle trilinear coordinates.
 	 *
 	 * @param u
@@ -1352,17 +924,6 @@ public class WB_GeometryFactory {
 	}
 
 	/**
-	 *
-	 *
-	 * @param p
-	 * @param q
-	 * @return
-	 */
-	public WB_Vector createVectorFromTo2D(final WB_Coord p, final WB_Coord q) {
-		return createVector(q.xd() - p.xd(), q.yd() - p.yd(), 0);
-	}
-
-	/**
 	 * Copy of coordinate as vector.
 	 *
 	 * @param p
@@ -1371,17 +932,6 @@ public class WB_GeometryFactory {
 	 */
 	public final WB_Vector createVector(final WB_Coord p) {
 		return new WB_Vector(p);
-	}
-
-	/**
-	 * Copy of coordinate as vector, z-ordinate is ignored.
-	 *
-	 * @param p
-	 *            vector
-	 * @return vector
-	 */
-	public WB_Vector createVector2D(final WB_Coord p) {
-		return createVector(p.xd(), p.yd(), 0);
 	}
 
 	/**
@@ -1440,47 +990,6 @@ public class WB_GeometryFactory {
 	}
 
 	/**
-	 *
-	 *
-	 * @param p
-	 * @return
-	 */
-	public WB_Vector createNormalizedVector2D(final WB_Coord p) {
-		final WB_Vector vec = createVector2D(p);
-		vec.normalizeSelf();
-		return vec;
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @param q
-	 * @return
-	 */
-	public WB_Vector createNormalizedVectorFromTo2D(final WB_Coord p, final WB_Coord q) {
-		final WB_Vector vec = createVector(q.xd() - p.xd(), q.yd() - p.yd(), 0);
-		vec.normalizeSelf();
-		return vec;
-	}
-
-	/**
-	 * Normalized vector from Cartesian coordinates
-	 * http://en.wikipedia.org/wiki/Cartesian_coordinate_system
-	 *
-	 * @param _x
-	 *            x
-	 * @param _y
-	 *            y
-	 * @return 2D vector
-	 */
-	public WB_Vector createNormalizedVector(final double _x, final double _y) {
-		final WB_Vector vec = createVector(_x, _y, 0);
-		vec.normalizeSelf();
-		return vec;
-	}
-
-	/**
 	 * Normalized vector from Cartesian coordinates
 	 * http://en.wikipedia.org/wiki/Cartesian_coordinate_system
 	 *
@@ -1510,6 +1019,12 @@ public class WB_GeometryFactory {
 	 */
 	public WB_Vector createNormalizedVector(final double _x, final double _y, final double _z, final double _w) {
 		final WB_Vector vec = createVector(_x, _y, _z);
+		vec.normalizeSelf();
+		return vec;
+	}
+
+	public WB_Vector createNormalizedVector(final double _x, final double _y) {
+		final WB_Vector vec = createVector(_x, _y);
 		vec.normalizeSelf();
 		return vec;
 	}
@@ -1574,82 +1089,6 @@ public class WB_GeometryFactory {
 				return createNormalizedVector(0, -p.zd(), p.xd());
 			}
 		}
-	}
-
-	/**
-	 * Vector from polar coordinates
-	 * http://en.wikipedia.org/wiki/Polar_coordinate_system
-	 *
-	 * @param r
-	 *            radius
-	 * @param phi
-	 *            angle
-	 * @return 2D vector
-	 */
-	public WB_Vector createVectorFromPolar(final double r, final double phi) {
-		return createVector(r * Math.cos(phi), r * Math.sin(phi));
-	}
-
-	/**
-	 * Vector from bipolar coordinates
-	 * http://en.wikipedia.org/wiki/Bipolar_coordinates
-	 *
-	 * @param a
-	 *            focus
-	 * @param sigma
-	 *            bipolar coordinate
-	 * @param tau
-	 *            bipolar coordinate
-	 * @return 2D vector
-	 */
-	public WB_Vector createVectorFromBipolar(final double a, final double sigma, final double tau) {
-		double invdenom = Math.cosh(tau) - Math.cos(sigma);
-		invdenom = WB_Epsilon.isZero(invdenom) ? 0.0 : a / invdenom;
-		return createVector(Math.sinh(tau) * invdenom, Math.sin(sigma) * invdenom);
-	}
-
-	/**
-	 * Vector from parabolic coordinates
-	 * http://en.wikipedia.org/wiki/Parabolic_coordinates
-	 *
-	 * @param sigma
-	 *            parabolic coordinate
-	 * @param tau
-	 *            parabolic coordinate
-	 * @return 2D vector
-	 */
-	public WB_Vector createVectorFromParabolic(final double sigma, final double tau) {
-		return createVector(sigma * tau, 0.5 * (tau * tau - sigma * sigma));
-	}
-
-	/**
-	 * Vector from hyperbolic coordinates
-	 * http://en.wikipedia.org/wiki/Hyperbolic_coordinates
-	 *
-	 * @param u
-	 *            hyperbolic angle
-	 * @param v
-	 *            geometric mean >0
-	 * @return 2D vector
-	 */
-	public WB_Vector createVectorFromHyperbolic(final double u, final double v) {
-		return createVector(v * Math.exp(u), v * Math.exp(-u));
-	}
-
-	/**
-	 * Vector from elliptic coordinates
-	 * http://en.wikipedia.org/wiki/Elliptic_coordinates
-	 *
-	 * @param a
-	 *            focus
-	 * @param mu
-	 *            elliptic coordinate >=0
-	 * @param nu
-	 *            elliptic coordinate between -PI and PI
-	 * @return 2D vector
-	 */
-	public WB_Vector createVectorFromElliptic(final double a, final double mu, final double nu) {
-		return createVector(a * Math.cosh(mu) * Math.cos(nu), a * Math.sinh(mu) * Math.cos(nu));
 	}
 
 	/**
@@ -1966,24 +1405,6 @@ public class WB_GeometryFactory {
 		return new WB_Line(origin, direction);
 	}
 
-	// 3D
-	/**
-	 * Get 2D line through point with given direction.
-	 *
-	 * @param ox
-	 *            x-ordinate of origin
-	 * @param oy
-	 *            y-ordinate of origin
-	 * @param dx
-	 *            x-ordinate of direction
-	 * @param dy
-	 *            y-ordinate of direction
-	 * @return 2D line through point with given direction
-	 */
-	public WB_Line createLineWithDirection(final double ox, final double oy, final double dx, final double dy) {
-		return createLineWithDirection(createPoint(ox, oy), createVector(dx, dy));
-	}
-
 	/**
 	 * Get 3D line through point with given direction.
 	 *
@@ -2015,299 +1436,12 @@ public class WB_GeometryFactory {
 	 *            point
 	 * @return parallel line through point
 	 */
-	public WB_Line createParallelLineThroughPoint(final WB_Linear L, final WB_Coord p) {
+	public WB_Line createParallelLineThroughPoint(final WB_Line L, final WB_Coord p) {
 		return createLineWithDirection(p, L.getDirection());
 	}
 
-	/**
-	 * Get a 2D line perpendicular to 2D line and through 2D point.
-	 *
-	 * @param L
-	 *            2D line
-	 * @param p
-	 *            2D point
-	 * @return perpendicular 2D line through point
-	 */
-	public WB_Line createPerpendicularLineThroughPoint2D(final WB_Line L, final WB_Coord p) {
-		return createLineWithDirection(p, createVector(-L.getDirection().yd(), L.getDirection().xd()));
-	}
-
-	/**
-	 * Get the two 2D lines parallel to a 2D line and separated by a distance d.
-	 *
-	 * @param L
-	 *            2D line
-	 * @param d
-	 *            distance
-	 * @return two parallel 2D lines
-	 */
-	public List<WB_Line> createParallelLines2D(final WB_Line L, final double d) {
-		final List<WB_Line> result = new ArrayList<WB_Line>(2);
-		result.add(createLineWithDirection(createPoint(L.getOrigin().xd() - d * L.getDirection().yd(),
-				L.getOrigin().yd() + d * L.getDirection().xd()), L.getDirection()));
-		result.add(createLineWithDirection(createPoint(L.getOrigin().xd() + d * L.getDirection().yd(),
-				L.getOrigin().yd() - d * L.getDirection().xd()), L.getDirection()));
-		return result;
-	}
-
-	/**
-	 * Get the 2D bisector of two 2D points. The points should be distinct.
-	 *
-	 * @param p
-	 *            2D point
-	 * @param q
-	 *            2D point
-	 * @return 2D bisector
-	 */
-	public WB_Line createBisector2D(final WB_Coord p, final WB_Coord q) {
-		return createLineWithDirection(createPoint(p).mulAddMulSelf(0.5, 0.5, q),
-				createVector(p.yd() - q.yd(), q.xd() - p.xd()));
-	}
-
-	/**
-	 * Get the 2D angle bisectors of two 2D lines.
-	 *
-	 * @param L1
-	 *            2D line
-	 * @param L2
-	 *            2D line
-	 * @return 2D angle bisector
-	 */
-	public List<WB_Line> createAngleBisector2D(final WB_Line L1, final WB_Line L2) {
-		final WB_Point intersection = createIntersectionPoint2D(L1, L2);
-		final List<WB_Line> result = new ArrayList<WB_Line>(2);
-		if (intersection == null) {
-			final WB_Point L1onL2 = createClosestPointOnLine2D(L1.getOrigin(), L2);
-			result.add(createLineWithDirection(L1onL2.mulAddMul(0.5, 0.5, L1.getOrigin()), L1.getDirection()));
-			return result;
-		} else {
-			if (WB_Vector.dot(L1.getDirection(), L2.getDirection()) > 0) {
-				final WB_Point p1 = intersection.addMul(100, L1.getDirection());
-				final WB_Point p2 = intersection.addMul(100, L2.getDirection());
-				final WB_Vector dir = createVector2D(p1.mulAddMul(0.5, 0.5, p2).sub(intersection));
-				result.add(createLineWithDirection(intersection, dir));
-				result.add(createLineWithDirection(intersection.xd(), intersection.yd(), -dir.yd(), dir.xd()));
-				return result;
-			} else {
-				final WB_Point p1 = intersection.addMul(100, L1.getDirection());
-				final WB_Point p2 = intersection.addMul(-100, L2.getDirection());
-				final WB_Vector dir = createVector2D(p1.mulAddMul(0.5, 0.5, p2).sub(intersection));
-				result.add(createLineWithDirection(intersection, dir));
-				result.add(createLineWithDirection(intersection.xd(), intersection.yd(), -dir.yd(), dir.xd()));
-				return result;
-			}
-		}
-	}
-
-	/**
-	 * Get the 2D line tangent to a circle at a 2D point.
-	 *
-	 * @param C
-	 *            circle
-	 * @param p
-	 *            point
-	 * @return 2D line tangent to circle at point
-	 */
-	public WB_Line createLineTangentToCircleInPoint(final WB_Circle C, final WB_Coord p) {
-		final WB_Vector v = createVector2D(p).sub(C.getCenter());
-		return createLineWithDirection(p, createVector(-v.yd(), v.xd()));
-	}
-
-	/**
-	 * Gets the 2D lines tangent to a circle through 2D point.
-	 *
-	 * @param C
-	 *            circle
-	 * @param p
-	 *            point
-	 * @return 2D lines tangent to circle through point
-	 */
-	public List<WB_Line> createLinesTangentToCircleThroughPoint(final WB_Circle C, final WB_Coord p) {
-		final List<WB_Line> result = new ArrayList<WB_Line>(2);
-		final double dcp = WB_GeometryOp.getDistance3D(C.getCenter(), p);
-		final WB_Vector u = createVector2D(p).sub(C.getCenter());
-		if (WB_Epsilon.isZero(dcp - C.getRadius())) {
-			result.add(createLineWithDirection(p, createVector(-u.yd(), u.xd())));
-		} else if (dcp < C.getRadius()) {
-			return result;
-		} else if (!WB_Epsilon.isZero(u.xd())) {
-			final double ux2 = u.xd() * u.xd();
-			final double ux4 = ux2 * ux2;
-			final double uy2 = u.yd() * u.yd();
-			final double r2 = C.getRadius() * C.getRadius();
-			final double r4 = r2 * r2;
-			final double num = r2 * uy2;
-			final double denom = ux2 + uy2;
-			final double rad = Math.sqrt(-r4 * ux2 + r2 * ux4 + r2 * ux2 * uy2);
-			result.add(createLineWithDirection(p,
-					createVector(-(r2 * u.yd() + rad) / denom, (r2 - (num + u.yd() * rad) / denom) / u.xd())));
-			result.add(createLineWithDirection(p,
-					createVector(-(r2 * u.yd() - rad) / denom, (r2 - (num - u.yd() * rad) / denom) / u.xd())));
-		} else {
-			final double ux2 = u.yd() * u.yd();
-			final double ux4 = ux2 * ux2;
-			final double uy2 = u.xd() * u.xd();
-			final double r2 = C.getRadius() * C.getRadius();
-			final double r4 = r2 * r2;
-			final double num = r2 * uy2;
-			final double denom = ux2 + uy2;
-			final double rad = Math.sqrt(-r4 * ux2 + r2 * ux4 + r2 * ux2 * uy2);
-			result.add(createLineWithDirection(p,
-					createVector((r2 - (num + u.xd() * rad) / denom) / u.yd(), -(r2 * u.xd() + rad) / denom)));
-			result.add(createLineWithDirection(p,
-					createVector((r2 - (num - u.xd() * rad) / denom) / u.yd(), -(r2 * u.xd() - rad) / denom)));
-		}
-		return result;
-	}
-
-	/**
-	 * Gets the 2D lines tangent to 2 circles.
-	 *
-	 * @param C0
-	 *            circle
-	 * @param C1
-	 *            circle
-	 * @return the 2D lines tangent to the 2 circles
-	 */
-	public List<WB_Line> createLinesTangentTo2Circles(final WB_Circle C0, final WB_Circle C1) {
-		final List<WB_Line> result = new ArrayList<WB_Line>(4);
-		final WB_Vector w = createVector2D(C1.getCenter()).sub(C0.getCenter());
-		final double wlensqr = w.getSqLength3D();
-		final double rsum = C0.getRadius() + C1.getRadius();
-		final double rdiff = C1.getRadius() - C0.getRadius();
-		if (wlensqr < rdiff * rdiff) {
-			return result;
-		}
-		boolean inside = false;
-		if (wlensqr <= rsum * rsum) {
-			inside = true;
-		}
-		if (!WB_Epsilon.isZero(rdiff)) {
-			final double r0sqr = C0.getRadius() * C0.getRadius();
-			final double r1sqr = C1.getRadius() * C1.getRadius();
-			final double c0 = -r0sqr;
-			final double c1 = 2 * r0sqr;
-			final double c2 = C1.getRadius() * C1.getRadius() - r0sqr;
-			final double invc2 = 1.0 / c2;
-			final double discr = Math.sqrt(WB_Math.fastAbs(c1 * c1 - 4 * c0 * c2));
-			double s, oms, a;
-			s = -0.5 * (c1 + discr) * invc2;
-			if (s >= 0.5) {
-				a = Math.sqrt(WB_Math.fastAbs(wlensqr - r0sqr / (s * s)));
-			} else {
-				oms = 1.0 - s;
-				a = Math.sqrt(WB_Math.fastAbs(wlensqr - r1sqr / (oms * oms)));
-			}
-			List<WB_Vector> dir = getDirections(w, a);
-			WB_Point org = createPoint(C0.getCenter().xd() + s * w.xd(), C0.getCenter().yd() + s * w.yd());
-			result.add(createLineWithDirection(org, dir.get(0)));
-			result.add(createLineWithDirection(org, dir.get(1)));
-			s = -0.5 * (c1 - discr) * invc2;
-			if (s >= 0.5) {
-				a = Math.sqrt(WB_Math.fastAbs(wlensqr - r0sqr / (s * s)));
-			} else {
-				oms = 1.0 - s;
-				a = Math.sqrt(WB_Math.fastAbs(wlensqr - r1sqr / (oms * oms)));
-			}
-			dir = getDirections(w, a);
-			org = createPoint(C0.getCenter().xd() + s * w.xd(), C0.getCenter().yd() + s * w.yd());
-			if (!inside) {
-				result.add(createLineWithDirection(org, dir.get(0)));
-			}
-			if (!inside) {
-				result.add(createLineWithDirection(org, dir.get(1)));
-			}
-		} else {
-			final WB_Point mid = createPoint2D(C0.getCenter()).mulAddMul(0.5, 0.5, C1.getCenter());
-			final double a = Math.sqrt(WB_Math.fastAbs(wlensqr - 4 * C0.getRadius() * C0.getRadius()));
-			final double invwlen = 1.0 / Math.sqrt(wlensqr);
-			result.add(createLineWithDirection(createPoint(mid.xd() + C0.getRadius() * w.yd() * invwlen,
-					mid.yd() - C0.getRadius() * w.xd() * invwlen), w));
-			result.add(createLineWithDirection(createPoint(mid.xd() - C0.getRadius() * w.yd() * invwlen,
-					mid.yd() + C0.getRadius() * w.xd() * invwlen), w));
-			final List<WB_Vector> dir = getDirections(w, a);
-			if (!inside) {
-				result.add(createLineWithDirection(mid, dir.get(0)));
-			}
-			if (!inside) {
-				result.add(createLineWithDirection(mid, dir.get(1)));
-			}
-		}
-		if (WB_Epsilon.isZeroSq(wlensqr - rsum * rsum)) {
-			final WB_Point org = createInterpolatedPoint(C0.getCenter(), C1.getCenter(),
-					C0.getRadius() / (C0.getRadius() + C1.getRadius()));
-			final WB_Vector dir = createNormalizedVector(C1.getCenter().xd() - C0.getCenter().xd(),
-					C1.getCenter().yd() - C0.getCenter().yd());
-			result.add(createLineWithDirection(org, createVector(-dir.yd(), dir.xd())));
-		}
-		if (WB_Epsilon.isZeroSq(wlensqr - rdiff * rdiff)) {
-			final WB_Point org = createInterpolatedPoint(C0.getCenter(), C1.getCenter(),
-					C0.getRadius() / (C0.getRadius() - C1.getRadius()));
-			final WB_Vector dir = createNormalizedVector(C1.getCenter().xd() - C0.getCenter().xd(),
-					C1.getCenter().yd() - C0.getCenter().yd());
-			result.add(createLineWithDirection(org, createVector(-dir.yd(), dir.xd())));
-		}
-		return result;
-	}
-
-	/**
-	 *
-	 *
-	 * @param w
-	 * @param a
-	 * @return
-	 */
-	private List<WB_Vector> getDirections(final WB_Coord w, final double a) {
-		final List<WB_Vector> dir = new ArrayList<WB_Vector>(2);
-		final double asqr = a * a;
-		final double wxsqr = w.xd() * w.xd();
-		final double wysqr = w.yd() * w.yd();
-		final double c2 = wxsqr + wysqr;
-		final double invc2 = 1.0 / c2;
-		double c0, c1, discr, invwx;
-		final double invwy;
-		if (WB_Math.fastAbs(w.xd()) >= WB_Math.fastAbs(w.yd())) {
-			c0 = asqr - wxsqr;
-			c1 = -2 * a * w.yd();
-			discr = Math.sqrt(WB_Math.fastAbs(c1 * c1 - 4 * c0 * c2));
-			invwx = 1.0 / w.xd();
-			final double dir0y = -0.5 * (c1 + discr) * invc2;
-			dir.add(createVector((a - w.yd() * dir0y) * invwx, dir0y));
-			final double dir1y = -0.5 * (c1 - discr) * invc2;
-			dir.add(createVector((a - w.yd() * dir1y) * invwx, dir1y));
-		} else {
-			c0 = asqr - wysqr;
-			c1 = -2 * a * w.xd();
-			discr = Math.sqrt(WB_Math.fastAbs(c1 * c1 - 4 * c0 * c2));
-			invwy = 1.0 / w.yd();
-			final double dir0x = -0.5 * (c1 + discr) * invc2;
-			dir.add(createVector(dir0x, (a - w.xd() * dir0x) * invwy));
-			final double dir1x = -0.5 * (c1 - discr) * invc2;
-			dir.add(createVector(dir1x, (a - w.xd() * dir1x) * invwy));
-		}
-		return dir;
-	}
-
-	/**
-	 * Gets the two 2D lines perpendicular to a 2D line and tangent to a circle.
-	 *
-	 * @param L
-	 *            2D line
-	 * @param C
-	 *            circle
-	 * @return 2D lines perpendicular to line and tangent to circle
-	 */
-	public List<WB_Line> createPerpendicularLinesTangentToCircle(final WB_Line L, final WB_Circle C) {
-		final List<WB_Line> result = new ArrayList<WB_Line>(2);
-		result.add(createLineWithDirection(
-				createPoint(C.getCenter().xd() + C.getRadius() * L.getDirection().xd(),
-						C.getCenter().yd() + C.getRadius() * L.getDirection().yd()),
-				createVector(-L.getDirection().yd(), L.getDirection().xd())));
-		result.add(createLineWithDirection(
-				createPoint(C.getCenter().xd() - C.getRadius() * L.getDirection().xd(),
-						C.getCenter().yd() - C.getRadius() * L.getDirection().yd()),
-				createVector(-L.getDirection().yd(), L.getDirection().xd())));
-		return result;
+	public WB_Plane createBisector(final WB_Coord p, final WB_Coord q) {
+		return createPlane(createMidpoint(p, q), createVectorFromTo(p, q));
 	}
 
 	/**
@@ -2376,24 +1510,6 @@ public class WB_GeometryFactory {
 	}
 
 	/**
-	 * Get 2D ray through point with given direction.
-	 *
-	 * @param ox
-	 *            x-ordinate of origin
-	 * @param oy
-	 *            y-ordinate of origin
-	 * @param dx
-	 *            x-ordinate of direction
-	 * @param dy
-	 *            y-ordinate of direction
-	 * @return 2D ray through point with given direction
-	 */
-	public WB_Ray createRayWithDirection(final double ox, final double oy, final double dx, final double dy) {
-		return createRayWithDirection(createPoint(ox, oy), createVector(dx, dy));
-	}
-
-	// 3D
-	/**
 	 * Get 3D ray through point with given direction.
 	 *
 	 * @param ox
@@ -2424,7 +1540,7 @@ public class WB_GeometryFactory {
 	 *            point
 	 * @return parallel line through point
 	 */
-	public WB_Ray createParallelRayThroughPoint(final WB_Linear L, final WB_Coord p) {
+	public WB_Ray createParallelRayThroughPoint(final WB_Line L, final WB_Coord p) {
 		return createRayWithDirection(p, L.getDirection());
 	}
 
@@ -2490,7 +1606,8 @@ public class WB_GeometryFactory {
 	 */
 	public WB_Segment createSegmentWithLength(final double ox, final double oy, final double dx, final double dy,
 			final double length) {
-		return createSegment(createPoint(ox, oy), createPoint(ox, oy).addMul(length, createNormalizedVector(dx, dy)));
+		return createSegment(createPoint(ox, oy),
+				createPoint(ox, oy).addMul(length, createNormalizedVector(dx, dy, 0)));
 	}
 
 	// 3D
@@ -2540,1078 +1657,30 @@ public class WB_GeometryFactory {
 				createPoint(ox, oy, oz).addMul(length, createNormalizedVector(dx, dy, dz)));
 	}
 
-	/**
-	 *
-	 *
-	 * @param points
-	 * @return
-	 */
-	public WB_PolyLine createPolyLine(final WB_Coord[] points) {
-		return new WB_PolyLine(points);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @return
-	 */
-	public WB_PolyLine createPolyLine(final Collection<? extends WB_Coord> points) {
-		return new WB_PolyLine(points);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @return
-	 */
-	public WB_Ring createRing(final WB_Coord[] points) {
-		return new WB_Ring(points);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @return
-	 */
-	public WB_Ring createRing(final List<? extends WB_Coord> points) {
-		return new WB_Ring(points);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @return
-	 */
-	public WB_Polygon createSimplePolygon(final WB_Coord... points) {
-		return new WB_Polygon(points);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @return
-	 */
-	public WB_Polygon createSimplePolygon(final WB_Polygon poly) {
-		return new WB_TriangulatePolygon().makeSimplePolygon(poly);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @return
-	 */
-	public WB_Polygon createSimplePolygon(final Collection<? extends WB_Coord> points) {
-		return new WB_Polygon(points);
-	}
-
-	public WB_Polygon createSimplePolygon(final WB_Triangle triangle) {
-		return new WB_Polygon(triangle.p1, triangle.p2, triangle.p3);
-	}
-
-	public WB_Polygon createSimplePolygon(final WB_Quad quad) {
-		return new WB_Polygon(quad.p1, quad.p2, quad.p3, quad.p4);
-	}
-
-	public WB_Polygon createSimplePolygon(final WB_Pentagon pentagon) {
-		return new WB_Polygon(pentagon.p1, pentagon.p2, pentagon.p3, pentagon.p4, pentagon.p5);
-	}
-
-	public WB_Polygon createSimplePolygon(final WB_Hexagon hexagon) {
-		return new WB_Polygon(hexagon.p1, hexagon.p2, hexagon.p3, hexagon.p4, hexagon.p5, hexagon.p6);
-	}
-
-	public WB_Polygon createSimplePolygon(final WB_Octagon octagon) {
-		return new WB_Polygon(octagon.p1, octagon.p2, octagon.p3, octagon.p4, octagon.p5, octagon.p6, octagon.p7,
-				octagon.p8);
-	}
-
-	/**
-	 *
-	 *
-	 * @param tuples
-	 * @param indices
-	 * @return
-	 */
-	public WB_Polygon createSimplePolygon(final List<? extends WB_Coord> tuples, final int[] indices) {
-		final List<WB_Coord> coords = new FastTable<WB_Coord>();
-		for (final int indice : indices) {
-			coords.add(tuples.get(indice));
-		}
-		return createSimplePolygon(coords);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param innerpoints
-	 * @return
-	 */
-	public WB_Polygon createPolygonWithHole(final WB_Coord[] points, final WB_Coord[] innerpoints) {
-		return new WB_Polygon(points, innerpoints);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param innerpoints
-	 * @return
-	 */
-	public WB_Polygon createPolygonWithHole(final Collection<? extends WB_Coord> points,
-			final Collection<? extends WB_Coord> innerpoints) {
-		return new WB_Polygon(points, innerpoints);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param innerpoints
-	 * @return
-	 */
-	public WB_Polygon createPolygonWithHoles(final WB_Coord[] points, final WB_Coord[][] innerpoints) {
-		return new WB_Polygon(points, innerpoints);
-	}
-
-	/**
-	 *
-	 *
-	 * @param points
-	 * @param innerpoints
-	 * @return
-	 */
-	public WB_Polygon createPolygonWithHoles(final Collection<? extends WB_Coord> points,
-			final List<? extends WB_Coord>[] innerpoints) {
-		return new WB_Polygon(points, innerpoints);
-	}
-
-	/**
-	 *
-	 *
-	 * @param JTSpoly
-	 * @return
-	 */
-	public WB_Polygon createPolygonFromJTSPolygon(final Polygon JTSpoly) {
+	public WB_Polygon createPolygonFromJTSPolygon(final Polygon JTSpoly, final WB_Map2D map) {
 		final LineString shell = JTSpoly.getExteriorRing();
 		Coordinate[] coords = shell.getCoordinates();
-		final WB_Coord[] points = new WB_Coord[coords.length - 1];
+		final WB_Point[] points = new WB_Point[coords.length - 1];
 		for (int i = 0; i < coords.length - 1; i++) {
 			points[i] = createPoint(coords[i]);
+			map.unmapPoint3D(points[i], points[i]);
 		}
 		final int numholes = JTSpoly.getNumInteriorRing();
 		if (numholes > 0) {
-			final WB_Coord[][] holecoords = new WB_Coord[numholes][];
+			final WB_Point[][] holecoords = new WB_Point[numholes][];
 			for (int i = 0; i < numholes; i++) {
 				final LineString hole = JTSpoly.getInteriorRingN(i);
 				coords = hole.getCoordinates();
-				holecoords[i] = new WB_Coord[coords.length - 1];
+				holecoords[i] = new WB_Point[coords.length - 1];
 				for (int j = 0; j < coords.length - 1; j++) {
 					holecoords[i][j] = createPoint(coords[j]);
+					map.unmapPoint3D(holecoords[i][j], holecoords[i][j]);
 				}
 			}
 			return createPolygonWithHoles(points, holecoords);
 		} else {
 			return createSimplePolygon(points);
 		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param geometry
-	 * @return
-	 */
-	private List<WB_Polygon> createPolygonsFromJTSGeometry(final Geometry geometry) {
-		final List<WB_Polygon> polygons = new FastTable<WB_Polygon>();
-		for (int i = 0; i < geometry.getNumGeometries(); i++) {
-			final Geometry geo = geometry.getGeometryN(i);
-			if (!geo.isEmpty()) {
-				if (geo.getGeometryType().equals("Polygon")) {
-					polygons.add(createPolygonFromJTSPolygon((Polygon) geo));
-				} else if (geo.getGeometryType().equals("MultiPolygon")) {
-					for (int j = 0; j < geo.getNumGeometries(); j++) {
-						final Geometry ggeo = geo.getGeometryN(j);
-						polygons.add(createPolygonFromJTSPolygon((Polygon) ggeo));
-					}
-				} else if (geo.getGeometryType().equals("GeometryCollection")) {
-					for (int j = 0; j < geo.getNumGeometries(); j++) {
-						final Geometry ggeo = geo.getGeometryN(j);
-						polygons.addAll(createPolygonsFromJTSGeometry(ggeo));
-					}
-				}
-			}
-		}
-		return polygons;
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @return
-	 */
-	public WB_Polygon createPolygonConvexHull(final WB_Polygon poly) {
-		final Polygon JTSpoly = toJTSPolygon(poly);
-		final Geometry result = new ConvexHull(JTSpoly).getConvexHull();
-		if (result.getGeometryType().equals("Polygon")) {
-			createPolygonFromJTSPolygon((Polygon) result);
-		}
-		return null;
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @return
-	 */
-	public List<WB_Polygon> createConvexPolygonDecomposition2D(final WB_Polygon poly) {
-
-		return WB_PolygonDecomposer.decomposePolygon2D(poly);
-
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @param d
-	 * @return
-	 */
-	public List<WB_Polygon> createBufferedPolygons(final WB_Polygon poly, final double d) {
-		final Polygon JTSpoly = toJTSPolygon(poly);
-		final Geometry result = BufferOp.bufferOp(JTSpoly, d);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @param d
-	 * @return
-	 */
-	public List<WB_Polygon> createBufferedPolygons(final Collection<? extends WB_Polygon> poly, final double d) {
-		final Polygon[] allPoly = new Polygon[poly.size()];
-		int i = 0;
-		for (final WB_Polygon pol : poly) {
-			allPoly[i++] = toJTSPolygon(pol);
-		}
-		final MultiPolygon collPoly = JTSgf.createMultiPolygon(allPoly);
-		final Geometry result = BufferOp.bufferOp(collPoly, d);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @param d
-	 * @param n
-	 * @return
-	 */
-	public List<WB_Polygon> createBufferedPolygons(final WB_Polygon poly, final double d, final int n) {
-		final Polygon JTSpoly = toJTSPolygon(poly);
-		final Geometry result = BufferOp.bufferOp(JTSpoly, d, n);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @param d
-	 * @param n
-	 * @return
-	 */
-	public List<WB_Polygon> createBufferedPolygons(final Collection<? extends WB_Polygon> poly, final double d,
-			final int n) {
-		final Polygon[] allPoly = new Polygon[poly.size()];
-		int i = 0;
-		for (final WB_Polygon pol : poly) {
-			allPoly[i++] = toJTSPolygon(pol);
-		}
-		final MultiPolygon collPoly = JTSgf.createMultiPolygon(allPoly);
-		final Geometry result = BufferOp.bufferOp(collPoly, d, n);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @return
-	 */
-	public List<WB_Polygon> createBoundaryPolygons(final WB_Polygon poly) {
-		final Polygon JTSpoly = toJTSPolygon(poly);
-		final LineString result = JTSpoly.getExteriorRing();
-		return createPolygonsFromJTSGeometry(JTSgf.createPolygon(result.getCoordinates()));
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @return
-	 */
-	public List<WB_Polygon> createBoundaryPolygons(final Collection<? extends WB_Polygon> poly) {
-		List<WB_Polygon> result = new ArrayList<WB_Polygon>();
-
-		if (poly.size() < 1) {
-			return result;
-		} else if (poly.size() == 1) {
-			return createBoundaryPolygons(poly.iterator().next());
-
-		} else {
-			Iterator<? extends WB_Polygon> pItr = poly.iterator();
-			result = createBoundaryPolygons(pItr.next());
-			while (pItr.hasNext()) {
-				result = unionPolygons(result, createBoundaryPolygons(pItr.next()));
-
-			}
-			return result;
-		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @param d
-	 * @return
-	 */
-	public List<WB_Polygon> createRibbonPolygons(final WB_Polygon poly, final double d) {
-		final Polygon JTSpoly = toJTSPolygon(poly);
-		final Geometry outer = BufferOp.bufferOp(JTSpoly, d * 0.5);
-		final Geometry inner = BufferOp.bufferOp(JTSpoly, -d * 0.5);
-		final Geometry result = outer.difference(inner);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @param d
-	 * @return
-	 */
-	public List<WB_Polygon> createRibbonPolygons(final Collection<? extends WB_Polygon> poly, final double d) {
-		final Polygon[] allPoly = new Polygon[poly.size()];
-		int i = 0;
-		for (final WB_Polygon pol : poly) {
-			allPoly[i++] = toJTSPolygon(pol);
-		}
-		final MultiPolygon collPoly = JTSgf.createMultiPolygon(allPoly);
-		final Geometry outer = BufferOp.bufferOp(collPoly, d * 0.5);
-		final Geometry inner = BufferOp.bufferOp(collPoly, -d * 0.5);
-		final Geometry result = outer.difference(inner);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @param d
-	 * @return
-	 */
-	public List<WB_Polygon> createRibbonPolygons(final WB_Polygon poly, final double o, final double i) {
-		final Polygon JTSpoly = toJTSPolygon(poly);
-		final Geometry outer = BufferOp.bufferOp(JTSpoly, o);
-		final Geometry inner = BufferOp.bufferOp(JTSpoly, -i);
-		final Geometry result = outer.difference(inner);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @param d
-	 * @return
-	 */
-	public List<WB_Polygon> createRibbonPolygons(final Collection<? extends WB_Polygon> poly, final double o,
-			final double i) {
-		final Polygon[] allPoly = new Polygon[poly.size()];
-		int j = 0;
-		for (final WB_Polygon pol : poly) {
-			allPoly[j++] = toJTSPolygon(pol);
-		}
-		final MultiPolygon collPoly = JTSgf.createMultiPolygon(allPoly);
-		final Geometry outer = BufferOp.bufferOp(collPoly, o);
-		final Geometry inner = BufferOp.bufferOp(collPoly, -i);
-		final Geometry result = outer.difference(inner);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @param tol
-	 * @return
-	 */
-	public List<WB_Polygon> createSimplifiedPolygon(final WB_Polygon poly, final double tol) {
-		final Polygon JTSpoly = toJTSPolygon(poly);
-		// final Geometry result = DouglasPeuckerSimplifier.simplify(JTSpoly,
-		// tol);
-		final Geometry result = TopologyPreservingSimplifier.simplify(JTSpoly, tol);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @param max
-	 * @return
-	 */
-	public List<WB_Polygon> createDensifiedPolygon(final WB_Polygon poly, final double max) {
-		final Polygon JTSpoly = toJTSPolygon(poly);
-		// final Geometry result = DouglasPeuckerSimplifier.simplify(JTSpoly,
-		// tol);
-		final Geometry result = Densifier.densify(JTSpoly, max);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly1
-	 * @param poly2
-	 * @return
-	 */
-	public List<WB_Polygon> unionPolygons(final WB_Polygon poly1, final WB_Polygon poly2) {
-		final Polygon JTSpoly1 = toJTSPolygon(poly1);
-		final Polygon JTSpoly2 = toJTSPolygon(poly2);
-		final Geometry result = JTSpoly1.union(JTSpoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly1
-	 * @param poly2
-	 * @return
-	 */
-	public List<WB_Polygon> unionPolygons(final WB_Polygon poly1, final Collection<? extends WB_Polygon> poly2) {
-		final Polygon JTSpoly1 = toJTSPolygon(poly1);
-		final Polygon[] allPoly2 = new Polygon[poly2.size()];
-		int i = 0;
-		for (final WB_Polygon poly : poly2) {
-			allPoly2[i++] = toJTSPolygon(poly);
-		}
-		final MultiPolygon collPoly2 = JTSgf.createMultiPolygon(allPoly2);
-		final Geometry result = JTSpoly1.union(collPoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly1
-	 * @param poly2
-	 * @return
-	 */
-	public List<WB_Polygon> unionPolygons(final Collection<? extends WB_Polygon> poly1,
-			final Collection<? extends WB_Polygon> poly2) {
-		final Polygon[] allPoly1 = new Polygon[poly1.size()];
-		int i = 0;
-		for (final WB_Polygon poly : poly1) {
-			allPoly1[i++] = toJTSPolygon(poly);
-		}
-		final MultiPolygon collPoly1 = JTSgf.createMultiPolygon(allPoly1);
-		final Polygon[] allPoly2 = new Polygon[poly2.size()];
-		i = 0;
-		for (final WB_Polygon poly : poly2) {
-			allPoly2[i++] = toJTSPolygon(poly);
-		}
-		final MultiPolygon collPoly2 = JTSgf.createMultiPolygon(allPoly2);
-		final Geometry result = collPoly1.union(collPoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly1
-	 * @param poly2
-	 * @return
-	 */
-	public List<WB_Polygon> subtractPolygons(final WB_Polygon poly1, final WB_Polygon poly2) {
-		final Polygon JTSpoly1 = toJTSPolygon(poly1);
-		final Polygon JTSpoly2 = toJTSPolygon(poly2);
-		final Geometry result = JTSpoly1.difference(JTSpoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly1
-	 * @param poly2
-	 * @return
-	 */
-	public List<WB_Polygon> subtractPolygons(final WB_Polygon poly1, final Collection<? extends WB_Polygon> poly2) {
-		final Polygon JTSpoly1 = toJTSPolygon(poly1);
-		final Polygon[] allPoly2 = new Polygon[poly2.size()];
-		int i = 0;
-		for (final WB_Polygon poly : poly2) {
-			allPoly2[i++] = toJTSPolygon(poly);
-		}
-		final MultiPolygon collPoly2 = JTSgf.createMultiPolygon(allPoly2);
-		final Geometry result = JTSpoly1.difference(collPoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly1
-	 * @param poly2
-	 * @return
-	 */
-	public List<WB_Polygon> subtractPolygons(final Collection<? extends WB_Polygon> poly1,
-			final Collection<? extends WB_Polygon> poly2) {
-		final Polygon[] allPoly1 = new Polygon[poly1.size()];
-		int i = 0;
-		for (final WB_Polygon poly : poly1) {
-			allPoly1[i++] = toJTSPolygon(poly);
-		}
-		final MultiPolygon collPoly1 = JTSgf.createMultiPolygon(allPoly1);
-		final Polygon[] allPoly2 = new Polygon[poly2.size()];
-		i = 0;
-		for (final WB_Polygon poly : poly2) {
-			allPoly2[i++] = toJTSPolygon(poly);
-		}
-		final MultiPolygon collPoly2 = JTSgf.createMultiPolygon(allPoly2);
-		final Geometry result = collPoly1.difference(collPoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly1
-	 * @param poly2
-	 * @return
-	 */
-	public List<WB_Polygon> subtractPolygons(final Collection<? extends WB_Polygon> poly1, final WB_Polygon poly2) {
-		final Polygon[] allPoly1 = new Polygon[poly1.size()];
-		int i = 0;
-		for (final WB_Polygon poly : poly1) {
-			allPoly1[i++] = toJTSPolygon(poly);
-		}
-		final MultiPolygon collPoly1 = JTSgf.createMultiPolygon(allPoly1);
-		final Polygon JTSpoly2 = toJTSPolygon(poly2);
-		final Geometry result = collPoly1.difference(JTSpoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly1
-	 * @param poly2
-	 * @return
-	 */
-	public List<WB_Polygon> intersectPolygons(final WB_Polygon poly1, final WB_Polygon poly2) {
-		final Polygon JTSpoly1 = toJTSPolygon(poly1);
-		final Polygon JTSpoly2 = toJTSPolygon(poly2);
-		final Geometry result = JTSpoly1.intersection(JTSpoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly1
-	 * @param poly2
-	 * @return
-	 */
-	public List<WB_Polygon> intersectPolygons(final WB_Polygon poly1, final Collection<? extends WB_Polygon> poly2) {
-		final Polygon JTSpoly1 = toJTSPolygon(poly1);
-		final Polygon[] allPoly2 = new Polygon[poly2.size()];
-		int i = 0;
-		for (final WB_Polygon poly : poly2) {
-			allPoly2[i++] = toJTSPolygon(poly);
-		}
-		final MultiPolygon collPoly2 = JTSgf.createMultiPolygon(allPoly2);
-		final Geometry result = JTSpoly1.intersection(collPoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly1
-	 * @param poly2
-	 * @return
-	 */
-	public List<WB_Polygon> intersectPolygons(final Collection<? extends WB_Polygon> poly1,
-			final Collection<? extends WB_Polygon> poly2) {
-		final Polygon[] allPoly1 = new Polygon[poly1.size()];
-		int i = 0;
-		for (final WB_Polygon poly : poly1) {
-			allPoly1[i++] = toJTSPolygon(poly);
-		}
-		final MultiPolygon collPoly1 = JTSgf.createMultiPolygon(allPoly1);
-		final Polygon[] allPoly2 = new Polygon[poly2.size()];
-		i = 0;
-		for (final WB_Polygon poly : poly2) {
-			allPoly2[i++] = toJTSPolygon(poly);
-		}
-		final MultiPolygon collPoly2 = JTSgf.createMultiPolygon(allPoly2);
-		final Geometry result = collPoly1.intersection(collPoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly1
-	 * @param poly2
-	 * @return
-	 */
-	public List<WB_Polygon> symDifferencePolygons(final WB_Polygon poly1, final WB_Polygon poly2) {
-		final Polygon JTSpoly1 = toJTSPolygon(poly1);
-		final Polygon JTSpoly2 = toJTSPolygon(poly2);
-		final Geometry result = JTSpoly1.symDifference(JTSpoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly1
-	 * @param poly2
-	 * @return
-	 */
-	public List<WB_Polygon> symDifferencePolygons(final WB_Polygon poly1,
-			final Collection<? extends WB_Polygon> poly2) {
-		final Polygon JTSpoly1 = toJTSPolygon(poly1);
-		final Polygon[] allPoly2 = new Polygon[poly2.size()];
-		int i = 0;
-		for (final WB_Polygon poly : poly2) {
-			allPoly2[i++] = toJTSPolygon(poly);
-		}
-		final MultiPolygon collPoly2 = JTSgf.createMultiPolygon(allPoly2);
-		final Geometry result = JTSpoly1.symDifference(collPoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly1
-	 * @param poly2
-	 * @return
-	 */
-	public List<WB_Polygon> symDifferencePolygons(final Collection<? extends WB_Polygon> poly1,
-			final Collection<? extends WB_Polygon> poly2) {
-		final Polygon[] allPoly1 = new Polygon[poly1.size()];
-		int i = 0;
-		for (final WB_Polygon poly : poly1) {
-			allPoly1[i++] = toJTSPolygon(poly);
-		}
-		final MultiPolygon collPoly1 = JTSgf.createMultiPolygon(allPoly1);
-		final Polygon[] allPoly2 = new Polygon[poly2.size()];
-		i = 0;
-		for (final WB_Polygon poly : poly2) {
-			allPoly2[i++] = toJTSPolygon(poly);
-		}
-		final MultiPolygon collPoly2 = JTSgf.createMultiPolygon(allPoly2);
-		final Geometry result = collPoly1.symDifference(collPoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @param container
-	 * @return
-	 */
-	public List<WB_Polygon> constrainPolygons(final WB_Polygon poly, final WB_Polygon container) {
-		final Polygon JTSpoly1 = toJTSPolygon(poly);
-		final Polygon JTSpoly2 = toJTSPolygon(container);
-		final Geometry result = JTSpoly1.intersection(JTSpoly2);
-		return createPolygonsFromJTSGeometry(result);
-	}
-
-	/**
-	 *
-	 *
-	 * @param polygons
-	 * @param container
-	 * @return
-	 */
-	public List<WB_Polygon> constrainPolygons(final WB_Polygon[] polygons, final WB_Polygon container) {
-		final List<WB_Polygon> polys = new FastTable<WB_Polygon>();
-		for (final WB_Polygon poly : polygons) {
-			final Polygon JTSpoly1 = toJTSPolygon(poly);
-			final Polygon JTSpoly2 = toJTSPolygon(container);
-			final Geometry result = JTSpoly1.intersection(JTSpoly2);
-			polys.addAll(createPolygonsFromJTSGeometry(result));
-		}
-		return polys;
-	}
-
-	/**
-	 *
-	 *
-	 * @param polygons
-	 * @param container
-	 * @return
-	 */
-	public List<WB_Polygon> constrainPolygons(final List<WB_Polygon> polygons, final WB_Polygon container) {
-		final List<WB_Polygon> polys = new FastTable<WB_Polygon>();
-		for (final WB_Polygon poly : polygons) {
-			final Polygon JTSpoly1 = toJTSPolygon(poly);
-			final Polygon JTSpoly2 = toJTSPolygon(container);
-			final Geometry result = JTSpoly1.intersection(JTSpoly2);
-			if (!result.isEmpty()) {
-				polys.addAll(createPolygonsFromJTSGeometry(result));
-			}
-		}
-		return polys;
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param fontName
-	 * @param pointSize
-	 * @return
-	 */
-	public List<WB_Polygon> createTextWithTTFFont(final String text, final String fontName, final float pointSize) {
-		try {
-			final InputStream is = new FileInputStream(fontName);
-			final Font font = Font.createFont(Font.TRUETYPE_FONT, is);
-			return createText(text, font.deriveFont(pointSize), 400.0);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-		return new FastTable<WB_Polygon>();
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param fontName
-	 * @param pointSize
-	 * @param flatness
-	 * @return
-	 */
-	public List<WB_Polygon> createTextWithTTFFont(final String text, final String fontName, final float pointSize,
-			final double flatness) {
-		try {
-			final InputStream is = new FileInputStream(fontName);
-			final Font font = Font.createFont(Font.TRUETYPE_FONT, is);
-			return createText(text, font.deriveFont(pointSize), flatness);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-		return new FastTable<WB_Polygon>();
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param fontName
-	 * @param style
-	 * @param pointSize
-	 * @param flatness
-	 * @return
-	 */
-	public List<WB_Polygon> createTextWithTTFFont(final String text, final String fontName, final int style,
-			final float pointSize, final double flatness) {
-		try {
-			final InputStream is = new FileInputStream(fontName);
-			final Font font = Font.createFont(Font.TRUETYPE_FONT, is);
-			return createText(text, font.deriveFont(style, pointSize), flatness);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-		return new FastTable<WB_Polygon>();
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param fontName
-	 * @param pointSize
-	 * @return
-	 */
-	public List<WB_Polygon> createTextWithOpenTypeFont(final String text, final String fontName,
-			final float pointSize) {
-		try {
-			final InputStream is = new FileInputStream(fontName);
-			final Font font = Font.createFont(Font.TRUETYPE_FONT, is);
-			return createText(text, font.deriveFont(pointSize), 400.0);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-		return new FastTable<WB_Polygon>();
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param fontName
-	 * @param pointSize
-	 * @param flatness
-	 * @return
-	 */
-	public List<WB_Polygon> createTextWithOpenTypeFont(final String text, final String fontName, final float pointSize,
-			final double flatness) {
-		try {
-			final InputStream is = new FileInputStream(fontName);
-			final Font font = Font.createFont(Font.TRUETYPE_FONT, is);
-			return createText(text, font.deriveFont(pointSize), flatness);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-		return new FastTable<WB_Polygon>();
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param fontName
-	 * @param style
-	 * @param pointSize
-	 * @param flatness
-	 * @return
-	 */
-	public List<WB_Polygon> createTextWithOpenTypeFont(final String text, final String fontName, final int style,
-			final float pointSize, final double flatness) {
-		try {
-			final InputStream is = new FileInputStream(fontName);
-			final Font font = Font.createFont(Font.TRUETYPE_FONT, is);
-			return createText(text, font.deriveFont(style, pointSize), flatness);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-		return new FastTable<WB_Polygon>();
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param fontName
-	 * @param pointSize
-	 * @return
-	 */
-	public List<WB_Polygon> createTextWithType1Font(final String text, final String fontName, final float pointSize) {
-		try {
-			final InputStream is = new FileInputStream(fontName);
-			final Font font = Font.createFont(Font.TYPE1_FONT, is);
-			return createText(text, font.deriveFont(pointSize), 400.0);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-		return new FastTable<WB_Polygon>();
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param fontName
-	 * @param pointSize
-	 * @param flatness
-	 * @return
-	 */
-	public List<WB_Polygon> createTextWithType1Font(final String text, final String fontName, final float pointSize,
-			final double flatness) {
-		try {
-			final InputStream is = new FileInputStream(fontName);
-			final Font font = Font.createFont(Font.TYPE1_FONT, is);
-			return createText(text, font.deriveFont(pointSize), flatness);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-		return new FastTable<WB_Polygon>();
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param fontName
-	 * @param style
-	 * @param pointSize
-	 * @param flatness
-	 * @return
-	 */
-	public List<WB_Polygon> createTextWithType1Font(final String text, final String fontName, final int style,
-			final float pointSize, final double flatness) {
-		try {
-			final InputStream is = new FileInputStream(fontName);
-			final Font font = Font.createFont(Font.TYPE1_FONT, is);
-			return createText(text, font.deriveFont(style, pointSize), flatness);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-		return new FastTable<WB_Polygon>();
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param fontName
-	 * @param pointSize
-	 * @return
-	 */
-	public List<WB_Polygon> createText(final String text, final String fontName, final float pointSize) {
-		final Font font = new Font(fontName, 0, (int) pointSize);
-		return createText(text, font, 400.0);
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param fontName
-	 * @param pointSize
-	 * @param flatness
-	 * @return
-	 */
-	public List<WB_Polygon> createText(final String text, final String fontName, final float pointSize,
-			final double flatness) {
-		final Font font = new Font(fontName, 0, (int) pointSize);
-		return createText(text, font, flatness);
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param fontName
-	 * @param style
-	 * @param pointSize
-	 * @param flatness
-	 * @return
-	 */
-	public List<WB_Polygon> createText(final String text, final String fontName, final int style, final float pointSize,
-			final double flatness) {
-		final Font font = new Font(fontName, style, (int) pointSize);
-		return createText(text, font, flatness);
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param font
-	 * @param style
-	 * @param pointSize
-	 * @param flatness
-	 * @return
-	 */
-	public List<WB_Polygon> createText(final String text, final Font font, final int style, final float pointSize,
-			final double flatness) {
-		final Font nfont = font.deriveFont(style, pointSize);
-		return createText(text, nfont, flatness);
-	}
-
-	/**
-	 *
-	 *
-	 * @param text
-	 * @param font
-	 * @param flatness
-	 * @return
-	 */
-	public List<WB_Polygon> createText(final String text, final Font font, final double flatness) {
-		try {
-			if (shapereader == null) {
-				shapereader = new WB_ShapeReader();
-			}
-			final char[] chs = text.toCharArray();
-			final FontRenderContext fontContext = new FontRenderContext(null, false, true);
-			final GlyphVector gv = font.createGlyphVector(fontContext, chs);
-			final List<WB_Polygon> geometries = new FastTable<WB_Polygon>();
-			for (int i = 0; i < gv.getNumGlyphs(); i++) {
-				geometries.addAll(shapereader.read(gv.getGlyphOutline(i), flatness));
-			}
-			return geometries;
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-		return new FastTable<WB_Polygon>();
-
-	}
-
-	/**
-	 *
-	 *
-	 * @param shape
-	 * @param flatness
-	 * @return
-	 */
-	public List<WB_Polygon> createShape(final Shape shape, final double flatness) {
-		if (shapereader == null) {
-			shapereader = new WB_ShapeReader();
-		}
-		return shapereader.read(shape, flatness);
-	}
-
-	/**
-	 *
-	 *
-	 * @param poly
-	 * @return
-	 */
-	Polygon toJTSPolygon(final WB_Polygon poly) {
-		final int[] npc = poly.getNumberOfPointsPerContour();
-		Coordinate[] coords = new Coordinate[npc[0] + 1];
-		int i = 0;
-		for (i = 0; i < npc[0]; i++) {
-			coords[i] = toJTSCoordinate(poly.getPoint(i), i);
-		}
-		coords[i] = toJTSCoordinate(poly.getPoint(0), 0);
-		final LinearRing shell = JTSgf.createLinearRing(coords);
-		final LinearRing[] holes = new LinearRing[poly.getNumberOfHoles()];
-		int index = poly.getNumberOfShellPoints();
-		for (i = 0; i < poly.getNumberOfHoles(); i++) {
-			coords = new Coordinate[npc[i + 1] + 1];
-			coords[npc[i + 1]] = toJTSCoordinate(poly.getPoint(index), index);
-			for (int j = 0; j < npc[i + 1]; j++) {
-				coords[j] = toJTSCoordinate(poly.getPoint(index), index);
-				index++;
-			}
-			holes[i] = JTSgf.createLinearRing(coords);
-		}
-		return JTSgf.createPolygon(shell, holes);
-	}
-
-	/**
-	 *
-	 *
-	 * @param point
-	 * @param i
-	 * @return
-	 */
-	Coordinate toJTSCoordinate(final WB_Coord point, final int i) {
-		return new Coordinate(point.xd(), point.yd(), i);
 	}
 
 	/**
@@ -3685,29 +1754,6 @@ public class WB_GeometryFactory {
 	 *            x-ordinate of first point of triangle
 	 * @param p1y
 	 *            y-ordinate of first point of triangle
-	 * @param p2x
-	 *            x-ordinate of second point of triangle
-	 * @param p2y
-	 *            y-ordinate of second point of triangle
-	 * @param p3x
-	 *            x-ordinate of third point of triangle
-	 * @param p3y
-	 *            y-ordinate of third point of triangle
-	 * @return triangle
-	 */
-	public WB_Triangle createTriangle(final double p1x, final double p1y, final double p2x, final double p2y,
-			final double p3x, final double p3y) {
-		return createTriangle(createPoint(p1x, p1y), createPoint(p2x, p2y), createPoint(p3x, p3y));
-	}
-
-	// 3D
-	/**
-	 * Get triangle from 3 points.
-	 *
-	 * @param p1x
-	 *            x-ordinate of first point of triangle
-	 * @param p1y
-	 *            y-ordinate of first point of triangle
 	 * @param p1z
 	 *            z-ordinate of first point of triangle
 	 * @param p2x
@@ -3740,78 +1786,9 @@ public class WB_GeometryFactory {
 	 *            third point of triangle
 	 * @return triangle
 	 */
+
 	public WB_Triangle createTriangle(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3) {
 		return new WB_Triangle(p1, p2, p3);
-	}
-
-	/**
-	 * Circle with center and radius.
-	 *
-	 * @param center
-	 * @param normal
-	 * @param diameter
-	 * @return circle
-	 */
-	public WB_Circle createCircleWithDiametet(final WB_Coord center, final WB_Coord normal, final double diameter) {
-		return new WB_Circle(center, normal, 0.5 * diameter);
-	}
-
-	/**
-	 * Circle with center and diameter.
-	 *
-	 * @param center
-	 * @param normal
-	 * @param radius
-	 * @return circle
-	 */
-	public WB_Circle createCircleWithRadius(final WB_Coord center, final WB_Coord normal, final double radius) {
-		return new WB_Circle(center, normal, radius);
-	}
-
-	/**
-	 *
-	 *
-	 * @param center
-	 * @param radius
-	 * @return
-	 */
-	public WB_Circle createCircleWithRadius(final WB_Coord center, final double radius) {
-		return new WB_Circle(center, radius);
-	}
-
-	/**
-	 * Circle with center and diameter.
-	 *
-	 * @param center
-	 * @param diameter
-	 * @return circle
-	 */
-	public WB_Circle createCircleWithDiameter(final WB_Coord center, final double diameter) {
-		return createCircleWithRadius(center, .5 * diameter);
-	}
-
-	/**
-	 * Circle with center and radius.
-	 *
-	 * @param x
-	 * @param y
-	 * @param radius
-	 * @return circle
-	 */
-	public WB_Circle createCircleWithRadius(final double x, final double y, final double radius) {
-		return createCircleWithRadius(createPoint(x, y), radius);
-	}
-
-	/**
-	 * Circle with diameter and radius.
-	 *
-	 * @param x
-	 * @param y
-	 * @param diameter
-	 * @return circle
-	 */
-	public WB_Circle createCircleWithDiameter(final double x, final double y, final double diameter) {
-		return createCircleWithRadius(createPoint(x, y), .5 * diameter);
 	}
 
 	/**
@@ -3840,36 +1817,6 @@ public class WB_GeometryFactory {
 				Math.abs(s) * C.getRadius());
 	}
 
-	// 3D
-	/**
-	 * Get circumcircle of 2D triangle, z-ordinate is ignored.
-	 *
-	 * @param tri
-	 *            triangle
-	 * @return circumcircle
-	 */
-	public WB_Circle createCircumcircle(final WB_Triangle tri) {
-		final double a = tri.a();
-		final double b = tri.b();
-		final double c = tri.c();
-		final double radius = a * b * c / Math.sqrt(2 * a * a * b * b + 2 * b * b * c * c + 2 * a * a * c * c
-				- a * a * a * a - b * b * b * b - c * c * c * c);
-		final double bx = tri.p2().xd() - tri.p1().xd();
-		final double by = tri.p2().yd() - tri.p1().yd();
-		final double cx = tri.p3().xd() - tri.p1().xd();
-		final double cy = tri.p3().yd() - tri.p1().yd();
-		double d = 2 * (bx * cy - by * cx);
-		if (WB_Epsilon.isZero(d)) {
-			return null;
-		}
-		d = 1.0 / d;
-		final double b2 = bx * bx + by * by;
-		final double c2 = cx * cx + cy * cy;
-		final double x = (cy * b2 - by * c2) * d;
-		final double y = (bx * c2 - cx * b2) * d;
-		return createCircleWithRadius(createPoint(x + tri.p1().xd(), y + tri.p1().yd()), radius);
-	}
-
 	/**
 	 *
 	 *
@@ -3887,11 +1834,10 @@ public class WB_GeometryFactory {
 	}
 
 	/**
-	 * Get incircle of triangle, z-ordinate is ignored.
+	 *
 	 *
 	 * @param tri
-	 *            triangle
-	 * @return incircle
+	 * @return
 	 */
 	public WB_Circle createIncircle(final WB_Triangle tri) {
 		final double a = tri.a();
@@ -3901,1315 +1847,8 @@ public class WB_GeometryFactory {
 		final double radius = 0.5 * Math.sqrt((b + c - a) * (c + a - b) * (a + b - c) * invabc);
 		final double x = (tri.p1().xd() * a + tri.p2().xd() * b + tri.p3().xd() * c) * invabc;
 		final double y = (tri.p1().yd() * a + tri.p2().yd() * b + tri.p3().yd() * c) * invabc;
-		return createCircleWithRadius(createPoint(x, y), radius);
-	}
-
-	/**
-	 *
-	 *
-	 * @param tri
-	 * @return
-	 */
-	public WB_Circle createIncircle3D(final WB_Triangle tri) {
-		final double a = tri.a();
-		final double b = tri.b();
-		final double c = tri.c();
-		final double invabc = 1.0 / (a + b + c);
-		final double radius = 0.5 * Math.sqrt((b + c - a) * (c + a - b) * (a + b - c) * invabc);
-		final double x = (tri.p1().xd() * a + tri.p2().xd() * b + tri.p3().xd() * c) * invabc;
-		final double y = (tri.p1().yd() * a + tri.p2().yd() * b + tri.p3().yd() * c) * invabc;
 		final double z = (tri.p1().zd() * a + tri.p2().zd() * b + tri.p3().zd() * c) * invabc;
 		return createCircleWithRadius(createPoint(x, y, z), tri.getPlane().getNormal(), radius);
-	}
-
-	/**
-	 * Gets the circle through 3 2D points, z-ordinate is ignored.
-	 *
-	 * @param p0
-	 * @param p1
-	 * @param p2
-	 * @return circle through 3 points
-	 */
-	public WB_Circle createCirclePPP(final WB_Coord p0, final WB_Coord p1, final WB_Coord p2) {
-		final WB_Predicates pred = new WB_Predicates();
-		final double[] circumcenter = pred.circumcenterTri(toDouble(p0), toDouble(p1), toDouble(p2));
-		final WB_Point center = createPoint(circumcenter[0], circumcenter[1]);
-		return createCircleWithRadius(center, center.getDistance3D(p0));
-	}
-
-	/**
-	 * http://www.cut-the-knot.org/Curriculum/Geometry/GeoGebra/PPL.shtml
-	 *
-	 * @param p
-	 * @param q
-	 * @param L
-	 * @return circles through 2 points and tangent to line
-	 */
-	public List<WB_Circle> createCirclePPL(final WB_Coord p, final WB_Coord q, final WB_Line L) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>();
-		if (WB_GeometryOp.sameSideOfLine2D(p, q, L) == WB_Classification.DIFF) {
-			return result;
-		}
-		if (WB_GeometryOp.classifyPointToLine2D(p, L) == WB_Classification.ON
-				&& WB_GeometryOp.classifyPointToLine2D(q, L) == WB_Classification.ON) {
-			return result;
-		}
-		final WB_Line PQ = createLineThroughPoints(p, q);
-		if (WB_GeometryOp.classifyPointToLine2D(p, L) == WB_Classification.ON) {
-			if (WB_Epsilon.isZeroSq(createClosestPointOnLine2D(q, L).getSqDistance3D(p))) {
-				result.add(createCircleWithRadius(createPoint(p).mulAddMul(0.5, 0.5, q),
-						0.5 * WB_GeometryOp.getDistanceToPoint2D(p, q)));
-			} else {
-				final WB_Line perp = createPerpendicularLineThroughPoint2D(L, p);
-				final WB_Line PQbis = createBisector2D(p, q);
-				final WB_Point intersect = createIntersectionPoint2D(perp, PQbis);
-				result.add(createCircleWithRadius(intersect, WB_GeometryOp.getDistanceToPoint2D(p, intersect)));
-			}
-			return result;
-		}
-		if (WB_GeometryOp.classifyPointToLine2D(q, L) == WB_Classification.ON) {
-			if (WB_Epsilon.isZeroSq(createClosestPointOnLine2D(p, L).getSqDistance3D(q))) {
-				result.add(createCircleWithRadius(createPoint(p).mulAddMulSelf(0.5, 0.5, q),
-						0.5 * WB_GeometryOp.getDistanceToPoint2D(p, q)));
-			} else {
-				final WB_Line perp = createPerpendicularLineThroughPoint2D(L, q);
-				final WB_Line PQbis = createBisector2D(p, q);
-				final WB_Point intersect = createIntersectionPoint2D(perp, PQbis);
-				result.add(createCircleWithRadius(intersect, WB_GeometryOp.getDistanceToPoint2D(p, intersect)));
-			}
-			return result;
-		}
-		final WB_Point F = createIntersectionPoint2D(L, PQ);
-		if (F == null) {
-			final WB_Point r = createClosestPointOnLine2D(
-					createPoint(0.5 * p.xd() + 0.5 * q.xd(), 0.5 * p.yd() + 0.5 * q.yd()), L);
-			result.add(createCirclePPP(p, q, r));
-		} else {
-			double d = WB_GeometryOp.getDistanceToPoint2D(p, q);
-			final WB_Circle OPQ = createCircleThrough2Points(p, q, d).get(0);
-			final WB_Point center = F.mulAddMul(0.5, 0.5, OPQ.getCenter());
-			final WB_Circle STF = createCircleWithRadius(center, center.getDistance3D(F));
-			final List<WB_Point> intersections = createIntersectionPoints(STF, OPQ);
-			d = F.getDistance3D(intersections.get(0));
-			final WB_Point K = F.addMul(d, L.getDirection());
-			final WB_Point J = F.addMul(-d, L.getDirection());
-			result.add(createCirclePPP(p, q, K));
-			result.add(createCirclePPP(p, q, J));
-		}
-		return uniqueOnly(result);
-	}
-
-	/**
-	 * Gets circles tangent to 2 2D lines through point.
-	 * http://www.cut-the-knot.org/Curriculum/Geometry/GeoGebra/PLL.shtml
-	 *
-	 * @param p
-	 *            point
-	 * @param L1
-	 *            line
-	 * @param L2
-	 *            line
-	 * @return circles tangent to 2 2D lines through point
-	 */
-	public List<WB_Circle> createCirclePLL(final WB_Coord p, final WB_Line L1, final WB_Line L2) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>(2);
-		final WB_Point A = createIntersectionPoint2D(L1, L2);
-		final List<WB_Line> bis = createAngleBisector2D(L1, L2);
-		if (A == null) {
-			final double r = WB_GeometryOp.distanceToLine2D(L1.getOrigin(), bis.get(0));
-			final WB_Circle C = createCircleWithRadius(p, r);
-			final List<WB_Point> intersections = createIntersectionPoints(bis.get(0), C);
-			for (final WB_Point point : intersections) {
-				result.add(createCircleWithRadius(point, r));
-			}
-		} else {
-			final List<WB_Circle> circles = createCircleTangentTo2Lines(L1, L2, 100.0);
-			final List<WB_Circle> selcircles = new ArrayList<WB_Circle>();
-			for (final WB_Circle C : circles) {
-				if (WB_GeometryOp.sameSideOfLine2D(p, C.getCenter(), L1) == WB_Classification.SAME
-						&& WB_GeometryOp.sameSideOfLine2D(p, C.getCenter(), L2) == WB_Classification.SAME) {
-					selcircles.add(C);
-				}
-			}
-			for (final WB_Circle C : selcircles) {
-				final WB_Point E = new WB_Point(C.getCenter());
-				final WB_Line Ap = createLineThroughPoints(A, p);
-				final List<WB_Point> intersections = createIntersectionPoints(Ap, C);
-				if (intersections.size() == 1) {
-					final WB_Point G = intersections.get(0);
-					final double AG = A.getDistance3D(G);
-					final double AD = A.getDistance3D(p);
-					final double AE = A.getDistance3D(E);
-					final double AK = AD / AG * AE;
-					final WB_Vector v = createNormalizedVector(E.sub(A));
-					final WB_Point K = createPoint(A.addMul(AK, v));
-					result.add(createCircleWithRadius(K, WB_GeometryOp.distanceToLine2D(K, L1)));
-				} else if (intersections.size() == 2) {
-					final WB_Point G = intersections.get(0);
-					final WB_Point H = intersections.get(1);
-					final double AH = A.getDistance3D(H);
-					final double AG = A.getDistance3D(G);
-					final double AD = A.getDistance3D(p);
-					final double AE = A.getDistance3D(E);
-					final double AI = AD / AH * AE;
-					final double AK = AD / AG * AE;
-					final WB_Vector v = createNormalizedVector(E.sub(A));
-					final WB_Point I = createPoint(A.addMul(AI, v));
-					final WB_Point K = createPoint(A.addMul(AK, v));
-					result.add(createCircleWithRadius(I, WB_GeometryOp.distanceToLine2D(I, L1)));
-					result.add(createCircleWithRadius(K, WB_GeometryOp.distanceToLine2D(K, L1)));
-				}
-			}
-		}
-		return uniqueOnly(result);
-	}
-
-	/**
-	 * Gets circles through two 2d points tangent to circle.
-	 * http://mathafou.free.fr/pbg_en/sol136.html
-	 *
-	 * @param p
-	 *            2D point
-	 * @param q
-	 *            2D point
-	 * @param C
-	 *            circle
-	 * @return circles through two 2d points tangent to circle
-	 */
-	public List<WB_Circle> createCirclePPC(final WB_Coord p, final WB_Coord q, final WB_Circle C) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>();
-		final WB_Classification pType = WB_GeometryOp.classifyPointToCircle2D(p, C);
-		final WB_Classification qType = WB_GeometryOp.classifyPointToCircle2D(q, C);
-		if (WB_Epsilon.isZero(WB_GeometryOp.getDistanceToPoint2D(p, q))) {
-			return result;
-		}
-		// Both points on circle: only solution is circle itself
-		if (pType == WB_Classification.ON && qType == WB_Classification.ON) {
-			return result;
-			// Point p on circle, arbitrary point q.
-		} else if (pType == WB_Classification.ON) {
-			final WB_Line ABbis = createBisector2D(p, q);
-			final WB_Line ATbis = createLineThroughPoints(p, C.getCenter());
-			final WB_Point center = createIntersectionPoint2D(ABbis, ATbis);
-			if (center != null) {
-				result.add(createCircleWithRadius(center, center.getDistance3D(p)));
-			}
-			return result;
-			// Point q on circle, arbitrary point p.
-		} else if (qType == WB_Classification.ON) {
-			final WB_Line ABbis = createBisector2D(p, q);
-			final WB_Line ATbis = createLineThroughPoints(q, C.getCenter());
-			final WB_Point center = createIntersectionPoint2D(ABbis, ATbis);
-			if (center != null) {
-				result.add(createCircleWithRadius(center, center.getDistance3D(p)));
-			}
-			return result;
-		}
-		// One point inside, one point outside. (All cases with points on circle
-		// are already handled). No solution.
-		if (pType != qType) {
-			return result;
-		}
-		// Both points outside
-		else if (pType == WB_Classification.OUTSIDE) {
-			final WB_Line AB = createLineThroughPoints(p, q);
-			final WB_Line ABbis = createBisector2D(p, q);
-			if (WB_Point.isCollinear(C.getCenter(), ABbis.getOrigin(), ABbis.getPointOnLine(100.0))) {
-				final List<WB_Point> points = createIntersectionPoints(ABbis, C);
-				for (final WB_Point pt : points) {
-					result.add(createCirclePPP(pt, p, q));
-				}
-			} else {
-				WB_Vector v = createVector(-AB.getDirection().yd(), AB.getDirection().xd());
-				WB_Point E = WB_Point.addMul(C.getCenter(), 0.5 * C.getRadius(), v);
-				if (E.isCollinear(p, q)) {
-					v = createVector(AB.getDirection().yd(), -AB.getDirection().xd());
-					E = WB_Point.addMul(C.getCenter(), 0.5 * C.getRadius(), v);
-				}
-				final WB_Circle circle = createCirclePPP(p, q, E);
-				final List<WB_Point> intersections = createIntersectionPoints(circle, C);
-				final WB_Line MN = createLineThroughPoints(intersections.get(0), intersections.get(1));
-				final WB_Point point = createIntersectionPoint2D(AB, MN);
-				if (point == null) {
-					return result;
-				}
-				final List<WB_Line> tangents = createLinesTangentToCircleThroughPoint(C, point);
-				for (final WB_Line L : tangents) {
-					final WB_Point T = createClosestPointOnLine2D(C.getCenter(), L);
-					final WB_Line ATbis;
-					ATbis = createBisector2D(p, T);
-					final WB_Point center = createIntersectionPoint2D(ABbis, ATbis);
-					if (center != null) {
-						result.add(createCircleWithRadius(center, center.getDistance3D(p)));
-					}
-				}
-			}
-			// Both points inside, solve with inversion
-		} else {
-			final List<WB_Circle> iresult = new ArrayList<WB_Circle>();
-			final WB_Circle iC;
-			final WB_Circle iC2;
-			final double k2;
-			final boolean dp = WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(C.getCenter(), p));
-			final boolean dq = WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(C.getCenter(), q));
-			if (dp || dq) {
-				final WB_Vector v = createNormalizedVector(-p.yd() - q.yd(), p.xd() + q.xd());
-				iC = createCircleWithRadius(WB_Point.addMul(C.getCenter(), 0.5 * C.getRadius(), v), C.getRadius() * 3);
-				k2 = iC.getRadius() * iC.getRadius();
-				final double s = k2
-						/ (WB_GeometryOp.getDistance3D(C.getCenter(), iC.getCenter()) - C.getRadius() * C.getRadius());
-				iC2 = createCircleWithRadius(iC.getCenter().xd() + s * (C.getCenter().xd() - iC.getCenter().xd()),
-						iC.getCenter().yd() + s * (C.getCenter().yd() - iC.getCenter().yd()),
-						Math.abs(s) * C.getRadius());
-			} else {
-				iC = C;
-				k2 = iC.getRadius() * iC.getRadius();
-				iC2 = C;
-			}
-			final WB_Point ip = createInversionPoint(p, iC);
-			final WB_Point iq = createInversionPoint(q, iC);
-			final WB_Line ABbis = createBisector2D(ip, iq);
-			if (WB_Point.isCollinear(iC2.getCenter(), ABbis.getOrigin(), ABbis.getPointOnLine(100.0))) {
-				final List<WB_Point> points = createIntersectionPoints(ABbis, iC2);
-				for (final WB_Point pt : points) {
-					iresult.add(createCirclePPP(pt, ip, iq));
-				}
-			} else {
-				final WB_Line AB = createLineThroughPoints(ip, iq);
-				WB_Vector v = createVector(-AB.getDirection().yd(), AB.getDirection().xd());
-				WB_Point E = WB_Point.addMul(iC2.getCenter(), 0.5 * iC2.getRadius(), v);
-				if (E.isCollinear(ip, iq)) {
-					v = createVector(AB.getDirection().yd(), -AB.getDirection().xd());
-					E = WB_Point.addMul(iC2.getCenter(), 0.5 * iC2.getRadius(), v);
-				}
-				final WB_Circle circle = createCirclePPP(ip, iq, E);
-				final List<WB_Point> intersections = createIntersectionPoints(circle, iC2);
-				final WB_Line MN = createLineThroughPoints(intersections.get(0), intersections.get(1));
-				final WB_Point point = createIntersectionPoint2D(AB, MN);
-				if (point == null) {
-					return result;
-				}
-				final List<WB_Line> tangents = createLinesTangentToCircleThroughPoint(iC2, point);
-				for (final WB_Line L : tangents) {
-					final WB_Point T = createClosestPointOnLine2D(iC2.getCenter(), L);
-					final WB_Line ATbis;
-					ATbis = createBisector2D(ip, T);
-					final WB_Point center = createIntersectionPoint2D(ABbis, ATbis);
-					if (center != null) {
-						iresult.add(createCircleWithRadius(center, center.getDistance3D(ip)));
-					}
-				}
-			}
-			for (final WB_Circle circle : iresult) {
-				final double s = k2 / (WB_GeometryOp.getSqDistance3D(circle.getCenter(), iC.getCenter())
-						- circle.getRadius() * circle.getRadius());
-				result.add(createCircleWithRadius(
-						iC.getCenter().xd() + s * (circle.getCenter().xd() - iC.getCenter().xd()),
-						iC.getCenter().yd() + s * (circle.getCenter().yd() - iC.getCenter().yd()),
-						Math.abs(s) * circle.getRadius()));
-			}
-		}
-		return uniqueOnly(result);
-	}
-
-	/**
-	 * http://www.cut-the-knot.org/Curriculum/Geometry/GeoGebra/PCC.shtml#
-	 * solution
-	 *
-	 * @param p
-	 * @param C1
-	 * @param C2
-	 * @return circles through point and tangent to two circles
-	 */
-	public List<WB_Circle> createCirclePCC(final WB_Coord p, final WB_Circle C1, final WB_Circle C2) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>();
-		if (C1.equals(C2)) {
-			return result;
-		}
-		// p on C1
-		if (WB_GeometryOp.classifyPointToCircle2D(p, C1) == WB_Classification.ON) {
-			final WB_Line tangent = createLineTangentToCircleInPoint(C1, p);
-			return createCirclePLC(p, tangent, C2);
-		}
-		// p on C2
-		if (WB_GeometryOp.classifyPointToCircle2D(p, C2) == WB_Classification.ON) {
-			final WB_Line tangent = createLineTangentToCircleInPoint(C2, p);
-			return createCirclePLC(p, tangent, C1);
-		}
-		final WB_Classification C1toC2 = WB_GeometryOp.classifyCircleToCircle2D(C1, C2);
-		// C1 tangent to C2
-		if (WB_GeometryOp.isTangent2D(C1, C2)) {
-			final WB_Point q = createIntersectionPoints(C1, C2).get(0);
-			result.addAll(createCirclePPC(p, q, C1));
-			// C1 inside C2, transform to outside case
-		} else if (C1toC2 == WB_Classification.INSIDE) {
-			if (WB_GeometryOp.classifyPointToCircle2D(p, C1) == WB_Classification.INSIDE) {
-				return result;
-			}
-			final WB_Vector v = !WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(C1.getCenter(), C2.getCenter()))
-					? createNormalizedVectorFromTo(C1.getCenter(), C2.getCenter()) : X();
-			WB_Point invcenter = WB_Point.addMul(C1.getCenter(), 0.5 * (C1.getRadius() + C2.getRadius()), v);
-			if (WB_Epsilon.isZero(invcenter.getDistance3D(p))) {
-				invcenter = WB_Point.addMul(C1.getCenter(), C1.getRadius() + 0.4 * (C2.getRadius() - C1.getRadius()),
-						v);
-			}
-			final WB_Circle invC = createCircleWithRadius(invcenter, 2 * (C1.getRadius() + C2.getRadius()));
-			final WB_Point q = createInversionPoint(p, invC);
-			final WB_Circle invC1 = createInversionCircle(C1, invC);
-			final WB_Circle invC2 = createInversionCircle(C2, invC);
-			if (invC1 != null) {
-				final List<WB_Circle> invResult = createCirclePCC(q, invC1, invC2);
-				for (final WB_Circle inv : invResult) {
-					result.add(createInversionCircle(inv, invC));
-				}
-			}
-			// C2 inside C1, transfrom to outside case
-		} else if (C1toC2 == WB_Classification.CONTAINING) {
-			if (WB_GeometryOp.classifyPointToCircle2D(p, C2) == WB_Classification.INSIDE) {
-				return result;
-			}
-			final WB_Vector v = !WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(C1.getCenter(), C2.getCenter()))
-					? createNormalizedVectorFromTo(C2.getCenter(), C1.getCenter()) : X();
-			WB_Point invcenter = WB_Point.addMul(C2.getCenter(), 0.5 * (C1.getRadius() + C2.getRadius()), v);
-			if (WB_Epsilon.isZero(invcenter.getDistance3D(p))) {
-				invcenter = WB_Point.addMul(C2.getCenter(), C2.getRadius() + 0.4 * (C1.getRadius() - C2.getRadius()),
-						v);
-			}
-			final WB_Circle invC = createCircleWithRadius(invcenter, 2 * (C1.getRadius() + C2.getRadius()));
-			final WB_Point q = createInversionPoint(p, invC);
-			final WB_Circle invC1 = createInversionCircle(C1, invC);
-			final WB_Circle invC2 = createInversionCircle(C2, invC);
-			if (invC1 != null) {
-				final List<WB_Circle> invResult = createCirclePCC(q, invC1, invC2);
-				for (final WB_Circle inv : invResult) {
-					result.add(createInversionCircle(inv, invC));
-				}
-			}
-		}
-		// C1 and C2 outside or C1 and C2 crossing with p in intersection or
-		// completely outside
-		else if (C1toC2 == WB_Classification.OUTSIDE || C1toC2 == WB_Classification.CROSSING
-				&& !(WB_GeometryOp.classifyPointToCircle2D(p, C1) == WB_Classification.OUTSIDE)
-						^ WB_GeometryOp.classifyPointToCircle2D(p, C2) == WB_Classification.OUTSIDE) {
-			final List<WB_Line> tangents = createLinesTangentTo2Circles(C1, C2);
-			// if ((WB_Classify.classifyPointToCircle2D(p, C1) ==
-			// WB_Classification.INSIDE)
-			// || (WB_Classify.classifyPointToCircle2D(p, C2) ==
-			// WB_Classification.INSIDE)) {
-			// return result;
-			// }
-			if (WB_GeometryOp.classifyPointToCircle2D(p, C1) == WB_Classification.ON) {
-				final WB_Line L = createLineTangentToCircleInPoint(C1, p);
-				return createCirclePLC(p, L, C2);
-			}
-			if (WB_GeometryOp.classifyPointToCircle2D(p, C2) == WB_Classification.ON) {
-				final WB_Line L = createLineTangentToCircleInPoint(C2, p);
-				return createCirclePLC(p, L, C1);
-			}
-			WB_Line T1;
-			WB_Line T2;
-			WB_Point point;
-			if (tangents.size() > 1) {
-				T1 = tangents.get(0);
-				T2 = tangents.get(1);
-				point = createIntersectionPoint2D(T1, T2);
-				if (point != null) {
-					final WB_Point G = createClosestPointOnLine2D(C1.getCenter(), T1);
-					final WB_Point H = createClosestPointOnLine2D(C2.getCenter(), T1);
-					final WB_Circle circle = createCirclePPP(G, H, p);
-					final WB_Line Pp = createLineThroughPoints(p, point);
-					final List<WB_Point> intersections = createIntersectionPoints(Pp, circle);
-					WB_Point Ep = null;
-					if (!WB_Epsilon.isZero(intersections.get(0).getDistance3D(p))) {
-						Ep = intersections.get(0);
-					} else if (!WB_Epsilon.isZero(intersections.get(1).getDistance3D(p))) {
-						Ep = intersections.get(1);
-					}
-					if (Ep != null) {
-						result.addAll(createCirclePPC(p, Ep, C1));
-					}
-				} else {// tangents T1 and T2 are parallel
-					final WB_Point G = createClosestPointOnLine2D(C1.getCenter(), T1);
-					final WB_Point H = createClosestPointOnLine2D(C2.getCenter(), T1);
-					final WB_Circle circle = createCirclePPP(G, H, p);
-					final WB_Line Pp = createParallelLineThroughPoint(T1, p);
-					final List<WB_Point> intersections = createIntersectionPoints(Pp, circle);
-					if (intersections.size() == 2) {
-						WB_Point Ep = null;
-						if (!WB_Epsilon.isZero(intersections.get(0).getDistance3D(p))) {
-							Ep = intersections.get(0);
-						} else if (!WB_Epsilon.isZero(intersections.get(1).getDistance3D(p))) {
-							Ep = intersections.get(1);
-						}
-						if (Ep != null) {
-							result.addAll(createCirclePPC(p, Ep, C1));
-						}
-					} else if (intersections.size() == 1) {
-						final WB_Line L = createLineThroughPoints(C1.getCenter(), C2.getCenter());
-						result.addAll(createCircleLCC(L, C1, C2));
-						final List<WB_Circle> filter = new ArrayList<WB_Circle>();
-						for (int i = 0; i < result.size(); i++) {
-							final WB_Circle C = result.get(i);
-							if (WB_GeometryOp.isTangent2D(C, C1) && WB_GeometryOp.isTangent2D(C, C2)
-									&& WB_GeometryOp.classifyPointToCircle2D(p, C) == WB_Classification.ON) {
-								filter.add(C);
-							}
-						}
-						return uniqueOnly(filter);
-					}
-				}
-			}
-			if (tangents.size() == 4) {
-				T1 = tangents.get(2);
-				T2 = tangents.get(3);
-				point = createIntersectionPoint2D(T1, T2);
-				if (point != null) {
-					final WB_Point G = createClosestPointOnLine2D(C1.getCenter(), T1);
-					final WB_Point H = createClosestPointOnLine2D(C2.getCenter(), T1);
-					final WB_Circle circle = createCirclePPP(G, H, p);
-					final WB_Line Pp = createLineThroughPoints(p, point);
-					final List<WB_Point> intersections = createIntersectionPoints(Pp, circle);
-					WB_Point Ep = null;
-					if (!WB_Epsilon.isZero(intersections.get(0).getDistance3D(p))) {
-						Ep = intersections.get(0);
-					} else if (!WB_Epsilon.isZero(intersections.get(1).getDistance3D(p))) {
-						Ep = intersections.get(1);
-					}
-					if (Ep != null) {
-						result.addAll(createCirclePPC(p, Ep, C1));
-					}
-				}
-			}
-		}
-		// C1 and C2 crossing and p in only one of the two circles
-		else {
-			if (WB_GeometryOp.classifyPointToCircle2D(p, C1) == WB_Classification.INSIDE) {
-				final double r1 = C1.getRadius() - WB_GeometryOp.getDistance3D(C1.getCenter(), p);
-				final double r2 = WB_GeometryOp.getDistance3D(C2.getCenter(), p) - C2.getRadius();
-				WB_Circle invC;
-				if (r1 <= r2) {
-					final WB_Coord v = createLineThroughPoints(C1.getCenter(), p).getDirection();
-					final WB_Point center = createPoint(p).addMulSelf(0.45 * r1, v);
-					invC = createCircleWithRadius(center, 0.45 * r1);
-				} else {
-					final WB_Coord v = createLineThroughPoints(C2.getCenter(), p).getDirection();
-					final WB_Point center = createPoint(p).addMulSelf(0.45 * r2, v);
-					invC = createCircleWithRadius(center, 0.45 * r2);
-				}
-				final WB_Circle invC1 = createInversionCircle(C1, invC);
-				final WB_Circle invC2 = createInversionCircle(C2, invC);
-				if (invC1 != null) {
-					final List<WB_Circle> invResult = createCirclePCC(p, invC1, invC2);
-					for (final WB_Circle inv : invResult) {
-						result.add(createInversionCircle(inv, invC));
-					}
-				}
-			} else {
-				final double r1 = -C1.getRadius() + WB_GeometryOp.getDistance3D(C1.getCenter(), p);
-				final double r2 = -WB_GeometryOp.getDistance3D(C2.getCenter(), p) + C2.getRadius();
-				WB_Circle invC;
-				if (r1 <= r2) {
-					final WB_Coord v = createLineThroughPoints(C1.getCenter(), p).getDirection();
-					final WB_Point center = createPoint(p).addMulSelf(0.45 * r1, v);
-					invC = createCircleWithRadius(center, 0.45 * r1);
-				} else {
-					final WB_Coord v = createLineThroughPoints(C2.getCenter(), p).getDirection();
-					final WB_Point center = createPoint(p).addMulSelf(0.45 * r2, v);
-					invC = createCircleWithRadius(center, 0.45 * r2);
-				}
-				final WB_Circle invC1 = createInversionCircle(C1, invC);
-				final WB_Circle invC2 = createInversionCircle(C2, invC);
-				if (invC1 != null) {
-					final List<WB_Circle> invResult = createCirclePCC(p, invC1, invC2);
-					for (final WB_Circle inv : invResult) {
-						result.add(createInversionCircle(inv, invC));
-					}
-				}
-			}
-		}
-		return uniqueOnly(result);
-	}
-
-	/**
-	 * Gets circles through a 2D point tangent to a circle and a 2D line.
-	 * http://www.epab.bme.hu/geoc2/GC2_Lecture_notes_11_Spring.pdf
-	 *
-	 * @param p
-	 *            2D point
-	 * @param L
-	 *            2D line
-	 * @param C
-	 *            circle
-	 * @return circles through a 2D point tangent to circle and 2D line
-	 */
-	public List<WB_Circle> createCirclePLC(final WB_Coord p, final WB_Line L, final WB_Circle C) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>();
-		createIntersectionPoints(L, C).size();
-		WB_Line Lperp = createPerpendicularLineThroughPoint2D(L, C.getCenter());
-		if (WB_GeometryOp.classifyPointToCircle2D(p, C) == WB_Classification.ON) {
-			final WB_Line tangent = createLineTangentToCircleInPoint(C, p);
-			result.addAll(createCirclePLL(p, tangent, L));
-		} else if (WB_GeometryOp.classifyPointToLine2D(p, L) == WB_Classification.ON) {
-			List<WB_Point> points = createIntersectionPoints(Lperp, C);
-			final WB_Point A1 = points.get(0);
-			final WB_Point A2 = points.get(1);
-			if (WB_GeometryOp.classifyPointToLine2D(p, Lperp) != WB_Classification.ON) {
-				final WB_Point B = createIntersectionPoint2D(L, Lperp);
-				if (WB_Epsilon.isZero(A2.getDistance3D(B))) {
-					final WB_Line A1P = createLineThroughPoints(A1, p);
-					points = createIntersectionPoints(A1P, C);
-					WB_Point Q1 = null;
-					if (!WB_Epsilon.isZeroSq(points.get(0).getSqDistance3D(A1))) {
-						Q1 = points.get(0);
-					} else if (!WB_Epsilon.isZeroSq(points.get(1).getSqDistance3D(A1))) {
-						Q1 = points.get(1);
-					}
-					if (Q1 != null) {
-						Lperp = createPerpendicularLineThroughPoint2D(L, p);
-						final WB_Line Q1P = createBisector2D(Q1, p);
-						final WB_Point intersection = createIntersectionPoint2D(Lperp, Q1P);
-						result.add(createCircleWithRadius(intersection, intersection.getDistance3D(Q1)));
-					}
-				} else if (!A2.isCollinear(B, p)) {
-					final WB_Line A1P = createLineThroughPoints(A1, p);
-					final WB_Circle BA2P = createCirclePPP(B, A2, p);
-					points = createIntersectionPoints(A1P, BA2P);
-					WB_Point Q1 = null;
-					if (!WB_Epsilon.isZeroSq(points.get(0).getSqDistance3D(p))) {
-						Q1 = points.get(0);
-					} else if (!WB_Epsilon.isZeroSq(points.get(1).getSqDistance3D(p))) {
-						Q1 = points.get(1);
-					}
-					if (Q1 != null) {
-						result.addAll(createCirclePPL(p, Q1, L));
-					}
-				}
-				if (WB_Epsilon.isZero(A1.getDistance3D(B))) {
-					final WB_Line A2P = createLineThroughPoints(A2, p);
-					points = createIntersectionPoints(A2P, C);
-					WB_Point Q1 = null;
-					if (!WB_Epsilon.isZeroSq(points.get(0).getSqDistance3D(A2))) {
-						Q1 = points.get(0);
-					} else if (!WB_Epsilon.isZeroSq(points.get(1).getSqDistance3D(A1))) {
-						Q1 = points.get(1);
-					}
-					if (Q1 != null) {
-						Lperp = createPerpendicularLineThroughPoint2D(L, p);
-						final WB_Line Q1P = createBisector2D(Q1, p);
-						final WB_Point intersection = createIntersectionPoint2D(Lperp, Q1P);
-						result.add(createCircleWithRadius(intersection, intersection.getDistance3D(Q1)));
-					}
-				} else if (!A1.isCollinear(B, p)) {
-					final WB_Line A2P = createLineThroughPoints(A2, p);
-					final WB_Circle BA1P = createCirclePPP(B, A1, p);
-					points = createIntersectionPoints(A2P, BA1P);
-					WB_Point Q2 = null;
-					if (!WB_Epsilon.isZeroSq(points.get(0).getSqDistance3D(p))) {
-						Q2 = points.get(0);
-					} else if (!WB_Epsilon.isZeroSq(points.get(1).getSqDistance3D(p))) {
-						Q2 = points.get(1);
-					}
-					if (Q2 != null) {
-						result.addAll(createCirclePPL(p, Q2, L));
-					}
-				}
-			} else {
-				double d = WB_GeometryOp.distanceToLine2D(A1, L);
-				if (!WB_Epsilon.isZero(d)) {
-					result.add(createCircleWithRadius(createInterpolatedPoint(p, A1, 0.5), 0.5 * d));
-				}
-				d = WB_GeometryOp.distanceToLine2D(A2, L);
-				if (!WB_Epsilon.isZero(d)) {
-					result.add(createCircleWithRadius(createInterpolatedPoint(p, A2, 0.5), 0.5 * d));
-				}
-			}
-		} else {
-			final boolean tangentcircle = WB_GeometryOp.classifyCircleToLine2D(C, L) == WB_Classification.TANGENT;
-			if (tangentcircle) {
-				result.addAll(createCirclePPL(p, createClosestPointOnLine2D(C.getCenter(), L), L));
-				if (WB_GeometryOp.classifyPointToLine2D(p, L) == WB_GeometryOp.classifyPointToLine2D(C.getCenter(), L)
-						&& WB_GeometryOp.classifyPointToCircle2D(p, C) != WB_Classification.INSIDE) {
-					final WB_Circle inversion = createCircleWithRadius(p, 100.0);
-					WB_Point p1 = createInversionPoint(L.getOrigin(), inversion);
-					WB_Point p2 = createInversionPoint(L.getPointOnLine(100.0), inversion);
-					final WB_Circle invL = createCirclePPP(p, p1, p2);
-					p1 = createInversionPoint(WB_Point.addMul(C.getCenter(), C.getRadius(), X()), inversion);
-					p2 = createInversionPoint(WB_Point.addMul(C.getCenter(), -C.getRadius(), X()), inversion);
-					final WB_Point p3 = createInversionPoint(WB_Point.addMul(C.getCenter(), C.getRadius(), Y()),
-							inversion);
-					final WB_Circle invC = createCirclePPP(p1, p2, p3);
-					final List<WB_Line> invResult = createLinesTangentTo2Circles(invL, invC);
-					for (int i = 0; i < Math.min(2, invResult.size()); i++) {
-						final WB_Line inv = invResult.get(i);
-						p1 = createInversionPoint(inv.getOrigin(), inversion);
-						p2 = createInversionPoint(inv.getPointOnLine(100.0), inversion);
-						result.add(createCirclePPP(p, p1, p2));
-					}
-				}
-			} else {
-				final WB_Circle inversion = createCircleWithRadius(p, 100.0);
-				WB_Point p1 = createInversionPoint(L.getOrigin(), inversion);
-				WB_Point p2 = createInversionPoint(L.getPointOnLine(100.0), inversion);
-				final WB_Circle invL = createCirclePPP(p, p1, p2);
-				p1 = createInversionPoint(WB_Point.addMul(C.getCenter(), C.getRadius(), X()), inversion);
-				p2 = createInversionPoint(WB_Point.addMul(C.getCenter(), -C.getRadius(), X()), inversion);
-				final WB_Point p3 = createInversionPoint(WB_Point.addMul(C.getCenter(), C.getRadius(), Y()), inversion);
-				final WB_Circle invC = createCirclePPP(p1, p2, p3);
-				final List<WB_Line> invResult = createLinesTangentTo2Circles(invL, invC);
-				for (int i = 0; i < invResult.size(); i++) {
-					final WB_Line inv = invResult.get(i);
-					p1 = createInversionPoint(inv.getOrigin(), inversion);
-					p2 = createInversionPoint(inv.getPointOnLine(100.0), inversion);
-					result.add(createCirclePPP(p, p1, p2));
-				}
-			}
-		}
-		final List<WB_Circle> filter = new ArrayList<WB_Circle>();
-		for (int i = 0; i < result.size(); i++) {
-			if (!C.equals(result.get(i))) {
-				filter.add(result.get(i));
-			}
-		}
-		return uniqueOnly(filter);
-	}
-
-	/**
-	 * Gets the circle tangent to 3 2D lines.
-	 *
-	 * @param L1
-	 *
-	 * @param L2
-	 *
-	 * @param L3
-	 *
-	 * @return circle tangent to 3 lines
-	 */
-	public List<WB_Circle> createCircleLLL(final WB_Line L1, final WB_Line L2, final WB_Line L3) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>();
-		final List<WB_Line> lines12 = createAngleBisector2D(L1, L2);
-		final List<WB_Line> lines23 = createAngleBisector2D(L2, L3);
-		final List<WB_Line> lines31 = createAngleBisector2D(L3, L1);
-		final List<WB_Point> intersections = new ArrayList<WB_Point>();
-		WB_Point point;
-		for (int i = 0; i < lines12.size(); i++) {
-			for (int j = 0; j < lines23.size(); j++) {
-				point = createIntersectionPoint2D(lines12.get(i), lines23.get(j));
-				if (point != null) {
-					intersections.add(point);
-				}
-			}
-			for (int j = 0; j < lines31.size(); j++) {
-				point = createIntersectionPoint2D(lines12.get(i), lines31.get(j));
-				if (point != null) {
-					intersections.add(point);
-				}
-			}
-		}
-		for (int i = 0; i < lines23.size(); i++) {
-			for (int j = 0; j < lines31.size(); j++) {
-				point = createIntersectionPoint2D(lines23.get(i), lines31.get(j));
-				if (point != null) {
-					intersections.add(point);
-				}
-			}
-		}
-		for (final WB_Point p : intersections) {
-			final WB_Point p2 = createClosestPointOnLine2D(p, L1);
-			result.add(createCircleWithRadius(p, p.getDistance3D(p2)));
-		}
-		return uniqueOnly(result);
-	}
-
-	/**
-	 * Gets circles tangent to 2 2D lines and a circle.
-	 *
-	 * @param L1
-	 *            line
-	 * @param L2
-	 *            line
-	 * @param C
-	 *            circle
-	 * @return circles tangent to 2 2D lines through point
-	 */
-	public List<WB_Circle> createCircleLLC(final WB_Line L1, final WB_Line L2, final WB_Circle C) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>();
-		final WB_Point p = createPoint(C.getCenter());
-		final WB_Point A = createIntersectionPoint2D(L1, L2);
-		final List<WB_Line> bis = createAngleBisector2D(L1, L2);
-		if (A == null) {
-			final WB_Line bisec = bis.get(0);
-			final double d = 0.5 * WB_GeometryOp.distanceToLine2D(L1.getOrigin(), L2);
-			final WB_Circle C1 = createCircleWithRadius(C.getCenter(), d + C.getRadius());
-			final WB_Circle C2 = createCircleWithRadius(C.getCenter(), d - C.getRadius());
-			final List<WB_Point> points = createIntersectionPoints(bisec, C1);
-			points.addAll(createIntersectionPoints(bisec, C2));
-			for (final WB_Point point : points) {
-				result.add(createCircleWithRadius(point, d));
-			}
-		} else if (WB_Epsilon.isZeroSq(A.getSqDistance3D(p))) {
-			final List<WB_Point> points = createIntersectionPoints(bis.get(0), C);
-			points.addAll(createIntersectionPoints(bis.get(1), C));
-			for (final WB_Point point : points) {
-				result.addAll(createCirclePLL(point, L1, L2));
-			}
-		} else {
-			final WB_Vector v1 = createVector(-L1.getDirection().yd(), L1.getDirection().xd());
-			final WB_Vector v2 = createVector(-L2.getDirection().yd(), L2.getDirection().xd());
-			WB_Line L1s = createLineWithDirection(new WB_Point(L1.getOrigin()).addMulSelf(-C.getRadius(), v1),
-					L1.getDirection());
-			WB_Line L2s = createLineWithDirection(new WB_Point(L2.getOrigin()).addMulSelf(-C.getRadius(), v2),
-					L2.getDirection());
-			List<WB_Circle> tmp = createCirclePLL(p, L1s, L2s);
-			for (final WB_Circle circle : tmp) {
-				result.add(createCircleWithRadius(circle.getCenter(),
-						WB_GeometryOp.distanceToLine2D(circle.getCenter(), L1)));
-			}
-			L1s = createLineWithDirection(new WB_Point(L1.getOrigin()).addMulSelf(C.getRadius(), v1),
-					L1.getDirection());
-			L2s = createLineWithDirection(new WB_Point(L2.getOrigin()).addMulSelf(C.getRadius(), v2),
-					L2.getDirection());
-			tmp = createCirclePLL(p, L1s, L2s);
-			for (final WB_Circle circle : tmp) {
-				result.add(createCircleWithRadius(circle.getCenter(),
-						WB_GeometryOp.distanceToLine2D(circle.getCenter(), L1)));
-			}
-			L1s = createLineWithDirection(new WB_Point(L1.getOrigin()).addMulSelf(-C.getRadius(), v1),
-					L1.getDirection());
-			L2s = createLineWithDirection(new WB_Point(L2.getOrigin()).addMulSelf(C.getRadius(), v2),
-					L2.getDirection());
-			tmp = createCirclePLL(p, L1s, L2s);
-			for (final WB_Circle circle : tmp) {
-				result.add(createCircleWithRadius(circle.getCenter(),
-						WB_GeometryOp.distanceToLine2D(circle.getCenter(), L1)));
-			}
-			L1s = createLineWithDirection(new WB_Point(L1.getOrigin()).addMulSelf(C.getRadius(), v1),
-					L1.getDirection());
-			L2s = createLineWithDirection(new WB_Point(L2.getOrigin()).addMulSelf(-C.getRadius(), v2),
-					L2.getDirection());
-			tmp = createCirclePLL(p, L1s, L2s);
-			for (final WB_Circle circle : tmp) {
-				result.add(createCircleWithRadius(circle.getCenter(),
-						WB_GeometryOp.distanceToLine2D(circle.getCenter(), L1)));
-			}
-		}
-		final List<WB_Circle> filter = new ArrayList<WB_Circle>();
-		for (int i = 0; i < result.size(); i++) {
-			if (!result.get(i).equals(C)
-					&& WB_Epsilon.isEqualAbs(result.get(i).getRadius(),
-							WB_GeometryOp.distanceToLine2D(result.get(i).getCenter(), L1))
-					&& WB_Epsilon.isEqualAbs(result.get(i).getRadius(),
-							WB_GeometryOp.distanceToLine2D(result.get(i).getCenter(), L2))) {
-				filter.add(result.get(i));
-			}
-		}
-		return uniqueOnly(filter);
-	}
-
-	/**
-	 * Gets circles tangent to 2D line and two circles.
-	 *
-	 * @param L
-	 *            line
-	 * @param C1
-	 *            circle
-	 * @param C2
-	 *            circle
-	 * @return circles tangent to 2D line and two circles
-	 */
-	public List<WB_Circle> createCircleLCC(final WB_Line L, final WB_Circle C1, final WB_Circle C2) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>();
-		final List<WB_Circle> tmp;
-		if (C1.getRadius() == C2.getRadius()) {
-			final WB_Vector v = createVector(-L.getDirection().yd(), L.getDirection().xd());
-			final WB_Line L1s = createLineWithDirection(WB_Vector.addMul(L.getOrigin(), -C1.getRadius(), v),
-					L.getDirection());
-			final WB_Line L2s = createLineWithDirection(WB_Vector.addMul(L.getOrigin(), C1.getRadius(), v),
-					L.getDirection());
-			tmp = createCirclePPL(C1.getCenter(), C2.getCenter(), L1s);
-			tmp.addAll(createCirclePPL(C1.getCenter(), C2.getCenter(), L2s));
-			createCircleWithRadius(C1.getCenter(), C1.getRadius() + C2.getRadius());
-			tmp.addAll(createCirclePLC(C1.getCenter(), L1s,
-					createCircleWithRadius(C2.getCenter(), C1.getRadius() + C2.getRadius())));
-			tmp.addAll(createCirclePLC(C1.getCenter(), L2s,
-					createCircleWithRadius(C2.getCenter(), C1.getRadius() + C2.getRadius())));
-			tmp.addAll(createCirclePLC(C2.getCenter(), L1s,
-					createCircleWithRadius(C1.getCenter(), C1.getRadius() + C2.getRadius())));
-			tmp.addAll(createCirclePLC(C2.getCenter(), L2s,
-					createCircleWithRadius(C1.getCenter(), C1.getRadius() + C2.getRadius())));
-		} else {
-			WB_Circle Cm;
-			WB_Circle CM;
-			if (C1.getRadius() < C2.getRadius()) {
-				Cm = C1;
-				CM = C2;
-			} else {
-				Cm = C2;
-				CM = C1;
-			}
-			WB_Circle C = createCircleWithRadius(CM.getCenter(), CM.getRadius() - Cm.getRadius());
-			final WB_Vector v = createVector(-L.getDirection().yd(), L.getDirection().xd());
-			final WB_Line L1s = createLineWithDirection(WB_Vector.addMul(L.getOrigin(), -Cm.getRadius(), v),
-					L.getDirection());
-			final WB_Line L2s = createLineWithDirection(WB_Vector.addMul(L.getOrigin(), Cm.getRadius(), v),
-					L.getDirection());
-			tmp = createCirclePLC(Cm.getCenter(), L1s, C);
-			tmp.addAll(createCirclePLC(Cm.getCenter(), L2s, C));
-			C = createCircleWithRadius(CM.getCenter(), CM.getRadius() + Cm.getRadius());
-			tmp.addAll(createCirclePLC(Cm.getCenter(), L1s, C));
-			tmp.addAll(createCirclePLC(Cm.getCenter(), L2s, C));
-		}
-		for (final WB_Circle circle : tmp) {
-			final WB_Circle newC = createCircleWithRadius(circle.getCenter(),
-					WB_GeometryOp.distanceToLine2D(circle.getCenter(), L));
-			if (WB_GeometryOp.isTangent2D(newC, C1) && WB_GeometryOp.isTangent2D(newC, C2)) {
-				result.add(newC);
-			}
-		}
-		final List<WB_Circle> filter = new ArrayList<WB_Circle>();
-		for (int i = 0; i < result.size(); i++) {
-			if (!result.get(i).equals(C1) && !result.get(i).equals(C2)) {
-				filter.add(result.get(i));
-			}
-		}
-		return uniqueOnly(filter);
-	}
-
-	/**
-	 *
-	 *
-	 * @param C1
-	 * @param C2
-	 * @param C3
-	 * @return
-	 */
-	public List<WB_Circle> createCircleCCC(WB_Circle C1, WB_Circle C2, WB_Circle C3) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>();
-		if (C1.equals(C2) || C2.equals(C3) || C1.equals(C3)) {
-			return result;
-		}
-		WB_Circle C;
-		if (C1.getRadius() > C2.getRadius()) {
-			C = C2;
-			C2 = C1;
-			C1 = C;
-		}
-		if (C2.getRadius() > C3.getRadius()) {
-			C = C3;
-			C3 = C2;
-			C2 = C;
-		}
-		if (C1.getRadius() > C2.getRadius()) {
-			C = C2;
-			C2 = C1;
-			C1 = C;
-		}
-		// if (C1.getCenter().isCollinear(C2.getCenter(), C3.getCenter())) {
-		final List<WB_Circle> circles = new ArrayList<WB_Circle>();
-		if (C1.getRadius() == C2.getRadius() && C2.getRadius() == C3.getRadius()) {
-			final double R = C1.getRadius();
-			circles.add(createCirclePPP(C1.getCenter(), C2.getCenter(), C3.getCenter()));
-			circles.addAll(
-					createCirclePPC(C1.getCenter(), C2.getCenter(), createCircleWithRadius(C3.getCenter(), 2 * R)));
-			circles.addAll(
-					createCirclePPC(C1.getCenter(), C3.getCenter(), createCircleWithRadius(C2.getCenter(), 2 * R)));
-			circles.addAll(
-					createCirclePPC(C3.getCenter(), C2.getCenter(), createCircleWithRadius(C1.getCenter(), 2 * R)));
-			for (final WB_Circle circle : circles) {
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() + R));
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() - R));
-			}
-		} else if (C1.getRadius() == C2.getRadius()) {
-			final double R = C1.getRadius();
-			circles.addAll(createCirclePPC(C1.getCenter(), C2.getCenter(),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() + R)));
-			circles.addAll(createCirclePPC(C1.getCenter(), C2.getCenter(),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() - R)));
-			circles.addAll(createCirclePCC(C1.getCenter(), createCircleWithRadius(C2.getCenter(), 2 * R),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() + R)));
-			circles.addAll(createCirclePCC(C1.getCenter(), createCircleWithRadius(C2.getCenter(), 2 * R),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() - R)));
-			for (final WB_Circle circle : circles) {
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() + R));
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() - R));
-			}
-		} else if (C2.getRadius() == C3.getRadius()) {
-			double R = C1.getRadius();
-			circles.addAll(createCirclePCC(C1.getCenter(), createCircleWithRadius(C2.getCenter(), C2.getRadius() + R),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() + R)));
-			circles.addAll(createCirclePCC(C1.getCenter(), createCircleWithRadius(C2.getCenter(), C2.getRadius() + R),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() - R)));
-			circles.addAll(createCirclePCC(C1.getCenter(), createCircleWithRadius(C2.getCenter(), C2.getRadius() - R),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() + R)));
-			circles.addAll(createCirclePCC(C1.getCenter(), createCircleWithRadius(C2.getCenter(), C2.getRadius() - R),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() - R)));
-			for (final WB_Circle circle : circles) {
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() + R));
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() - R));
-			}
-			R = C2.getRadius();
-			circles.addAll(createCirclePCC(C2.getCenter(), createCircleWithRadius(C1.getCenter(), C1.getRadius() + R),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() + R)));
-			circles.addAll(createCirclePCC(C3.getCenter(), createCircleWithRadius(C1.getCenter(), C1.getRadius() + R),
-					createCircleWithRadius(C2.getCenter(), C2.getRadius() + R)));
-			circles.addAll(createCirclePPC(C2.getCenter(), C3.getCenter(),
-					createCircleWithRadius(C1.getCenter(), C1.getRadius() + R)));
-			for (final WB_Circle circle : circles) {
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() + R));
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() - R));
-			}
-		} else {
-			double R = C1.getRadius();
-			circles.addAll(createCirclePCC(C1.getCenter(), createCircleWithRadius(C2.getCenter(), C2.getRadius() + R),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() + R)));
-			circles.addAll(createCirclePCC(C1.getCenter(), createCircleWithRadius(C2.getCenter(), C2.getRadius() + R),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() - R)));
-			circles.addAll(createCirclePCC(C1.getCenter(), createCircleWithRadius(C2.getCenter(), C2.getRadius() - R),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() + R)));
-			circles.addAll(createCirclePCC(C1.getCenter(), createCircleWithRadius(C2.getCenter(), C2.getRadius() - R),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() - R)));
-			for (final WB_Circle circle : circles) {
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() + R));
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() - R));
-			}
-			R = C2.getRadius();
-			circles.addAll(createCirclePCC(C2.getCenter(), createCircleWithRadius(C1.getCenter(), C1.getRadius() + R),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() + R)));
-			circles.addAll(createCirclePCC(C2.getCenter(), createCircleWithRadius(C1.getCenter(), C1.getRadius() + R),
-					createCircleWithRadius(C3.getCenter(), C3.getRadius() - R)));
-			for (final WB_Circle circle : circles) {
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() + R));
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() - R));
-			}
-			R = C3.getRadius();
-			circles.addAll(createCirclePCC(C3.getCenter(), createCircleWithRadius(C1.getCenter(), C1.getRadius() + R),
-					createCircleWithRadius(C2.getCenter(), C2.getRadius() + R)));
-			for (final WB_Circle circle : circles) {
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() + R));
-				result.add(createCircleWithRadius(circle.getCenter(), circle.getRadius() - R));
-			}
-		}
-		final List<WB_Circle> filter = new ArrayList<WB_Circle>();
-		for (int i = 0; i < result.size(); i++) {
-			C = result.get(i);
-			if (!C.equals(C1) && !C.equals(C2) && !C.equals(C3)) {
-				if (WB_GeometryOp.isTangent2D(C, C1) && WB_GeometryOp.isTangent2D(C, C2)
-						&& WB_GeometryOp.isTangent2D(C, C3)) {
-					filter.add(result.get(i));
-				}
-			}
-		}
-		return uniqueOnly(filter);
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @return
-	 */
-	private double[] toDouble(final WB_Coord p) {
-		return new double[] { p.xd(), p.yd(), 0 };
-	}
-
-	/**
-	 *
-	 *
-	 * @param circles
-	 * @return
-	 */
-	private List<WB_Circle> uniqueOnly(final List<WB_Circle> circles) {
-		final List<WB_Circle> uniqcircles = new ArrayList<WB_Circle>();
-		for (int i = 0; i < circles.size(); i++) {
-			boolean uniq = true;
-			for (int j = 0; j < uniqcircles.size(); j++) {
-				if (circles.get(i).equals(uniqcircles.get(j))) {
-					uniq = false;
-					break;
-				}
-			}
-			if (uniq) {
-				uniqcircles.add(circles.get(i));
-			}
-		}
-		return uniqcircles;
-	}
-
-	/**
-	 * Gets the circles with given radius through 2 points.
-	 *
-	 * @param p0
-	 *
-	 * @param p1
-	 *
-	 * @param r
-	 *            radius
-	 * @return circles with given radius through 2 points
-	 */
-	public List<WB_Circle> createCircleThrough2Points(final WB_Coord p0, final WB_Coord p1, final double r) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>();
-		final WB_Circle C0 = createCircleWithRadius(p0, r);
-		final WB_Circle C1 = createCircleWithRadius(p1, r);
-		final List<WB_Point> intersection = createIntersectionPoints(C0, C1);
-		for (int i = 0; i < intersection.size(); i++) {
-			result.add(createCircleWithRadius(intersection.get(i), r));
-		}
-		return result;
-	}
-
-	/**
-	 * Gets circles with given radius tangent to 2D line through 2D point.
-	 *
-	 * @param L
-	 *            line
-	 * @param p
-	 *            point
-	 * @param r
-	 *            radius
-	 * @return circles with given radius tangent to line through point
-	 */
-	public List<WB_Circle> createCircleTangentToLineThroughPoint(final WB_Line L, final WB_Coord p, final double r) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>();
-		double cPrime = L.c() + L.a() * p.xd() + L.b() * p.yd();
-		if (WB_Epsilon.isZero(cPrime)) {
-			result.add(createCircleWithRadius(createPoint(p.xd() + r * L.a(), p.yd() + r * L.b()), r));
-			result.add(createCircleWithRadius(createPoint(p.xd() - r * L.a(), p.yd() - r * L.b()), r));
-			return result;
-		}
-		double a, b;
-		if (cPrime < 0) {
-			a = -L.a();
-			b = -L.b();
-			cPrime *= -1;
-		} else {
-			a = L.a();
-			b = L.b();
-		}
-		final double tmp1 = cPrime - r;
-		double tmp2 = r * r - tmp1 * tmp1;
-		if (WB_Epsilon.isZero(tmp2)) {
-			result.add(createCircleWithRadius(createPoint(p.xd() - tmp1 * a, p.yd() - tmp1 * b), r));
-			return result;
-		} else if (tmp2 < 0) {
-			return result;
-		} else {
-			tmp2 = Math.sqrt(tmp2);
-			final WB_Point tmpp = createPoint(p.xd() - a * tmp1, p.yd() - b * tmp1);
-			result.add(createCircleWithRadius(createPoint(tmpp.xd() + tmp2 * b, tmpp.yd() - tmp2 * a), r));
-			result.add(createCircleWithRadius(createPoint(tmpp.xd() - tmp2 * b, tmpp.yd() + tmp2 * a), r));
-			return result;
-		}
-	}
-
-	/**
-	 * Gets circles with given radius tangent to 2 2D lines.
-	 *
-	 * @param L0
-	 *            line
-	 * @param L1
-	 *            line
-	 * @param r
-	 *            radius
-	 * @return circles with radius tangent to 2 2D lines
-	 */
-	public List<WB_Circle> createCircleTangentTo2Lines(final WB_Line L0, final WB_Line L1, final double r) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>(4);
-		final double discrm0 = r;
-		final double discrm1 = r;
-		final double invDenom = 1.0 / (-L1.a() * L0.b() + L0.a() * L1.b());
-		double cx = -(L1.b() * (L0.c() + discrm0) - L0.b() * (L1.c() + discrm1)) * invDenom;
-		double cy = +(L1.a() * (L0.c() + discrm0) - L0.a() * (L1.c() + discrm1)) * invDenom;
-		result.add(createCircleWithRadius(createPoint(cx, cy), r));
-		cx = -(L1.b() * (L0.c() + discrm0) - L0.b() * (L1.c() - discrm1)) * invDenom;
-		cy = +(L1.a() * (L0.c() + discrm0) - L0.a() * (L1.c() - discrm1)) * invDenom;
-		result.add(createCircleWithRadius(createPoint(cx, cy), r));
-		cx = -(L1.b() * (L0.c() - discrm0) - L0.b() * (L1.c() + discrm1)) * invDenom;
-		cy = +(L1.a() * (L0.c() - discrm0) - L0.a() * (L1.c() + discrm1)) * invDenom;
-		result.add(createCircleWithRadius(createPoint(cx, cy), r));
-		cx = -(L1.b() * (L0.c() - discrm0) - L0.b() * (L1.c() - discrm1)) * invDenom;
-		cy = +(L1.a() * (L0.c() - discrm0) - L0.a() * (L1.c() - discrm1)) * invDenom;
-		result.add(createCircleWithRadius(createPoint(cx, cy), r));
-		return result;
-	}
-
-	/**
-	 * Gets circles with given radius through 2D point and tangent to circle.
-	 *
-	 * @param C
-	 *            circle
-	 * @param p
-	 *            point
-	 * @param r
-	 *            radius
-	 *
-	 * @return circles with given radius through point and tangent to circle
-	 */
-	public List<WB_Circle> createCircleTangentToCircleThroughPoint(final WB_Circle C, final WB_Coord p,
-			final double r) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>(4);
-		final double dcp = createPoint(p).getDistance3D(C.getCenter());
-		if (dcp > C.getRadius() + 2 * r) {
-			return result;
-		} else if (dcp < C.getRadius() - 2 * r) {
-			return result;
-		} else {
-			final WB_Circle ctmp1 = createCircleWithRadius(p, r);
-			WB_Circle ctmp2 = createCircleWithRadius(C.getCenter(), r + C.getRadius());
-			List<WB_Point> intersection = createIntersectionPoints(ctmp1, ctmp2);
-			for (int i = 0; i < intersection.size(); i++) {
-				result.add(createCircleWithRadius(intersection.get(i), r));
-			}
-			ctmp2 = createCircleWithRadius(C.getCenter(), WB_Math.fastAbs(r - C.getRadius()));
-			intersection = createIntersectionPoints(ctmp1, ctmp2);
-			for (int i = 0; i < intersection.size(); i++) {
-				result.add(createCircleWithRadius(intersection.get(i), r));
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Gets the circle tangent to line and circle.
-	 *
-	 * @param L
-	 *            the l
-	 * @param C
-	 *            the c
-	 * @param r
-	 *            the r
-	 * @return the circle tangent to line and circle
-	 */
-	public List<WB_Circle> createCircleTangentToLineAndCircle(final WB_Line L, final WB_Circle C, final double r) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>(8);
-		final double d = WB_GeometryOp.distanceToLine2D(C.getCenter(), L);
-		if (d > 2 * r + C.getRadius()) {
-			return result;
-		}
-		final WB_Line L1 = createLineWithDirection(
-				WB_Vector.addMul(L.getOrigin(), r, createVector(L.getDirection().yd(), -L.getDirection().xd())),
-				L.getDirection());
-		final WB_Line L2 = createLineWithDirection(
-				WB_Vector.addMul(L.getOrigin(), r, createVector(-L.getDirection().yd(), +L.getDirection().xd())),
-				L.getDirection());
-		final WB_Circle C1 = createCircleWithRadius(C.getCenter(), C.getRadius() + r);
-		final WB_Circle C2 = createCircleWithRadius(C.getCenter(), WB_Math.fastAbs(C.getRadius() - r));
-		final List<WB_Coord> intersections = new ArrayList<WB_Coord>();
-		intersections.addAll(createIntersectionPoints(L1, C1));
-		intersections.addAll(createIntersectionPoints(L1, C2));
-		intersections.addAll(createIntersectionPoints(L2, C1));
-		intersections.addAll(createIntersectionPoints(L2, C2));
-		for (int i = 0; i < intersections.size(); i++) {
-			result.add(createCircleWithRadius(intersections.get(i), r));
-		}
-		return result;
-	}
-
-	/**
-	 * Gets circles with given radius tangent to two circles. This will return
-	 * all tangent circles with a certaun radius whose center are non-collinear
-	 * with the the two centers.
-	 *
-	 * @param C0
-	 *
-	 * @param C1
-	 *
-	 * @param r
-	 *            radius
-	 * @return non-collinear circles with given radius tangent to two circles
-	 */
-	public List<WB_Circle> createCircleTangentTo2CirclesNonCollinear(final WB_Circle C0, final WB_Circle C1,
-			final double r) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>(2);
-		final double d = WB_GeometryOp.getDistance3D(C0.getCenter(), C1.getCenter());
-		if (WB_Epsilon.isZero(d)) {
-			return result;
-		}
-		final WB_Circle C0r = createCircleWithRadius(C0.getCenter(), C0.getRadius() + r);
-		final WB_Circle C1r = createCircleWithRadius(C1.getCenter(), C1.getRadius() + r);
-		final List<WB_Point> intersections = createIntersectionPoints(C0r, C1r);
-		if (intersections.size() < 2) {
-			return result;
-		}
-		for (int i = 0; i < intersections.size(); i++) {
-			result.add(createCircleWithRadius(intersections.get(i), r));
-		}
-		final Iterator<WB_Circle> itr = result.iterator();
-		WB_Circle C;
-		while (itr.hasNext()) {
-			C = itr.next();
-			if (C.equals(C0) || C.equals(C1)) {
-				itr.remove();
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Gets circles tangent to two circles. This will return all tangent circles
-	 * whose center are collinear with the the two centers.
-	 *
-	 * @param C0
-	 *
-	 * @param C1
-	 *
-	 * @return collinear circles tangent to two circles
-	 */
-	public List<WB_Circle> createCircleTangentTo2CirclesCollinear(final WB_Circle C0, final WB_Circle C1) {
-		final List<WB_Circle> result = new ArrayList<WB_Circle>(2);
-		final double d = WB_GeometryOp.getDistance3D(C0.getCenter(), C1.getCenter());
-		if (WB_Epsilon.isZero(d)) {
-			return result;
-		}
-		double r = 0.5 * (d + C0.getRadius() + C1.getRadius());
-		double f = (r - C0.getRadius()) / (2 * r - C0.getRadius() - C1.getRadius());
-		if (!WB_Epsilon.isZero(r)) {
-			result.add(createCircleWithRadius(createInterpolatedPoint(C0.getCenter(), C1.getCenter(), f),
-					WB_Math.fastAbs(r)));
-		}
-		r = 0.5 * (d + C0.getRadius() - C1.getRadius());
-		f = (r - C0.getRadius()) / d;
-		if (!WB_Epsilon.isZero(r)) {
-			result.add(createCircleWithRadius(createInterpolatedPoint(C0.getCenter(), C1.getCenter(), f),
-					WB_Math.fastAbs(r)));
-		}
-		r = 0.5 * (d + C1.getRadius() - C0.getRadius());
-		f = (r - C1.getRadius()) / d;
-		if (!WB_Epsilon.isZero(r)) {
-			result.add(createCircleWithRadius(createInterpolatedPoint(C1.getCenter(), C0.getCenter(), f),
-					WB_Math.fastAbs(r)));
-		}
-		r = 0.5 * (d - C1.getRadius() - C0.getRadius());
-		f = (r + C0.getRadius()) / d;
-		if (!WB_Epsilon.isZero(r)) {
-			result.add(createCircleWithRadius(createInterpolatedPoint(C0.getCenter(), C1.getCenter(), f),
-					WB_Math.fastAbs(r)));
-		}
-		final Iterator<WB_Circle> itr = result.iterator();
-		WB_Circle C;
-		while (itr.hasNext()) {
-			C = itr.next();
-			if (C.equals(C0) || C.equals(C1)) {
-				itr.remove();
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Return all circles tangential to two given circles. This function returns
-	 * all circles with a collinear center regardless of radius and the circles
-	 * with a non-collinear center with the given radius.
-	 *
-	 * @param C0
-	 * @param C1
-	 * @param r
-	 * @return
-	 */
-	public List<WB_Circle> createCircleTangentTo2Circles(final WB_Circle C0, final WB_Circle C1, final double r) {
-		final List<WB_Circle> result = createCircleTangentTo2CirclesNonCollinear(C0, C1, r);
-		result.addAll(createCircleTangentTo2CirclesCollinear(C0, C1));
-
-		return result;
-
 	}
 
 	/**
@@ -5366,7 +2005,7 @@ public class WB_GeometryFactory {
 	 * @return
 	 */
 	public WB_Mesh createMesh(final WB_AABB aabb) {
-		return createMesh(aabb.getPoints(), aabb.getFaces());
+		return createMesh(aabb.getCorners(), aabb.getFaces());
 	}
 
 	/**
@@ -5378,8 +2017,8 @@ public class WB_GeometryFactory {
 	public WB_Mesh createUniqueMesh(final WB_Mesh mesh) {
 		final List<WB_Coord> uniqueVertices = new FastTable<WB_Coord>();
 		final TIntIntMap oldnew = new TIntIntHashMap(10, 0.5f, -1, -1);
-		final WB_KDTree<WB_Coord, Integer> kdtree = new WB_KDTree<WB_Coord, Integer>();
-		WB_KDEntry<WB_Coord, Integer> neighbor;
+		final WB_KDTreeInteger<WB_Coord> kdtree = new WB_KDTreeInteger<WB_Coord>();
+		WB_KDTreeInteger.WB_KDEntryInteger<WB_Coord> neighbor;
 		WB_Coord v = mesh.getVertex(0);
 		kdtree.add(v, 0);
 		uniqueVertices.add(v);
@@ -5417,9 +2056,9 @@ public class WB_GeometryFactory {
 	public WB_Mesh createUniqueMesh(final WB_Mesh mesh, final double threshold) {
 		final List<WB_Coord> uniqueVertices = new FastTable<WB_Coord>();
 		final TIntIntMap oldnew = new TIntIntHashMap(10, 0.5f, -1, -1);
-		final WB_KDTree<WB_Coord, Integer> kdtree = new WB_KDTree<WB_Coord, Integer>();
+		final WB_KDTreeInteger<WB_Coord> kdtree = new WB_KDTreeInteger<WB_Coord>();
 		final double t2 = threshold * threshold;
-		WB_KDEntry<WB_Coord, Integer> neighbor;
+		WB_KDTreeInteger.WB_KDEntryInteger<WB_Coord> neighbor;
 		WB_Coord v = mesh.getVertex(0);
 		kdtree.add(v, 0);
 		uniqueVertices.add(v);
@@ -8691,8 +5330,8 @@ public class WB_GeometryFactory {
 	 */
 	public WB_Mesh createConvexHull(final WB_Coord[] points, final boolean triangulate) {
 		final List<WB_Coord> uniqueVertices = new FastTable<WB_Coord>();
-		final WB_KDTree<WB_Coord, Integer> kdtree = new WB_KDTree<WB_Coord, Integer>();
-		WB_KDEntry<WB_Coord, Integer> neighbor;
+		final WB_KDTreeInteger<WB_Coord> kdtree = new WB_KDTreeInteger<WB_Coord>();
+		WB_KDTreeInteger.WB_KDEntryInteger<WB_Coord> neighbor;
 		int n = 0;
 		for (final WB_Coord p : points) {
 			if (n == 0) {
@@ -8728,8 +5367,8 @@ public class WB_GeometryFactory {
 	 */
 	public WB_Mesh createConvexHull(final List<? extends WB_Coord> points, final boolean triangulate) {
 		final List<WB_Coord> uniqueVertices = new FastTable<WB_Coord>();
-		final WB_KDTree<WB_Coord, Integer> kdtree = new WB_KDTree<WB_Coord, Integer>();
-		WB_KDEntry<WB_Coord, Integer> neighbor;
+		final WB_KDTreeInteger<WB_Coord> kdtree = new WB_KDTreeInteger<WB_Coord>();
+		WB_KDTreeInteger.WB_KDEntryInteger<WB_Coord> neighbor;
 		int n = 0;
 		for (final WB_Coord p : points) {
 			if (n == 0) {
@@ -8767,8 +5406,8 @@ public class WB_GeometryFactory {
 	public WB_Mesh createConvexHullWithThreshold(final WB_Coord[] points, final boolean triangulate,
 			final double threshold) {
 		final List<WB_Coord> uniqueVertices = new FastTable<WB_Coord>();
-		final WB_KDTree<WB_Coord, Integer> kdtree = new WB_KDTree<WB_Coord, Integer>();
-		WB_KDEntry<WB_Coord, Integer> neighbor;
+		final WB_KDTreeInteger<WB_Coord> kdtree = new WB_KDTreeInteger<WB_Coord>();
+		WB_KDTreeInteger.WB_KDEntryInteger<WB_Coord> neighbor;
 		final double t2 = threshold * threshold;
 		int n = 0;
 		for (final WB_Coord p : points) {
@@ -8807,8 +5446,8 @@ public class WB_GeometryFactory {
 	public WB_Mesh createConvexHullWithThreshold(final List<? extends WB_Coord> points, final boolean triangulate,
 			final double threshold) {
 		final List<WB_Coord> uniqueVertices = new FastTable<WB_Coord>();
-		final WB_KDTree<WB_Coord, Integer> kdtree = new WB_KDTree<WB_Coord, Integer>();
-		WB_KDEntry<WB_Coord, Integer> neighbor;
+		final WB_KDTreeInteger<WB_Coord> kdtree = new WB_KDTreeInteger<WB_Coord>();
+		WB_KDTreeInteger.WB_KDEntryInteger<WB_Coord> neighbor;
 		final double t2 = threshold * threshold;
 		int n = 0;
 		for (final WB_Coord p : points) {
@@ -8999,10 +5638,365 @@ public class WB_GeometryFactory {
 	/**
 	 *
 	 *
-	 * @param T
+	 * @param poly
+	 * @return
 	 */
-	public void apply(final WB_Transform T) {
-		setCurrentCS(createTransformedCS(getCurrentCS(), T));
+	Polygon toJTSPolygon(final WB_Polygon poly, final WB_Map2D map) {
+		final int[] npc = poly.getNumberOfPointsPerContour();
+		Coordinate[] coords = new Coordinate[npc[0] + 1];
+		int i = 0;
+		for (i = 0; i < npc[0]; i++) {
+			coords[i] = toJTSCoordinate(poly.getPoint(i), i, map);
+		}
+		coords[i] = toJTSCoordinate(poly.getPoint(0), 0, map);
+		final LinearRing shell = JTSgf.createLinearRing(coords);
+		final LinearRing[] holes = new LinearRing[poly.getNumberOfHoles()];
+		int index = poly.getNumberOfShellPoints();
+		for (i = 0; i < poly.getNumberOfHoles(); i++) {
+			coords = new Coordinate[npc[i + 1] + 1];
+			coords[npc[i + 1]] = toJTSCoordinate(poly.getPoint(index), index, map);
+			for (int j = 0; j < npc[i + 1]; j++) {
+				coords[j] = toJTSCoordinate(poly.getPoint(index), index, map);
+				index++;
+			}
+			holes[i] = JTSgf.createLinearRing(coords);
+		}
+		return JTSgf.createPolygon(shell, holes);
+	}
+
+	Geometry toJTSMultiPolygon(final List<WB_Polygon> polys, final WB_Map2D map) {
+		Polygon[] JTSpolys = new Polygon[polys.size()];
+		for (int j = 0; j < polys.size(); j++) {
+			WB_Polygon poly = polys.get(j);
+			final int[] npc = poly.getNumberOfPointsPerContour();
+			Coordinate[] coords = new Coordinate[npc[0] + 1];
+			int i = 0;
+			for (i = 0; i < npc[0]; i++) {
+				coords[i] = toJTSCoordinate(poly.getPoint(i), i, map);
+			}
+			coords[i] = toJTSCoordinate2D(poly.getPoint(0), 0);
+			final LinearRing shell = JTSgf.createLinearRing(coords);
+			final LinearRing[] holes = new LinearRing[poly.getNumberOfHoles()];
+			int index = poly.getNumberOfShellPoints();
+			for (i = 0; i < poly.getNumberOfHoles(); i++) {
+				coords = new Coordinate[npc[i + 1] + 1];
+				coords[npc[i + 1]] = toJTSCoordinate(poly.getPoint(index), index, map);
+				for (int k = 0; k < npc[i + 1]; k++) {
+					coords[k] = toJTSCoordinate(poly.getPoint(index), index, map);
+					index++;
+				}
+				holes[i] = JTSgf.createLinearRing(coords);
+			}
+			JTSpolys[j] = JTSgf.createPolygon(shell, holes);
+		}
+		return JTSgf.createMultiPolygon(JTSpolys).buffer(0);
+	}
+
+	/**
+	 *
+	 *
+	 * @param point
+	 * @param i
+	 * @return
+	 */
+
+	Coordinate toJTSCoordinate(final WB_Coord point, final int i, final WB_Map2D map) {
+		WB_Point mp = new WB_Point();
+		map.mapPoint3D(point, mp);
+		return new Coordinate(mp.xd(), mp.yd(), i);
+	}
+
+	/**
+	 *
+	 *
+	 * @param geometry
+	 * @return
+	 */
+	private List<WB_Polygon> createPolygonsFromJTSGeometry(final Geometry geometry, final WB_Map2D map) {
+		final List<WB_Polygon> polygons = new FastTable<WB_Polygon>();
+		for (int i = 0; i < geometry.getNumGeometries(); i++) {
+			final Geometry geo = geometry.getGeometryN(i);
+			if (!geo.isEmpty()) {
+				if (geo.getGeometryType().equals("Polygon")) {
+					polygons.add(createPolygonFromJTSPolygon((Polygon) geo, map));
+				} else if (geo.getGeometryType().equals("MultiPolygon")) {
+					for (int j = 0; j < geo.getNumGeometries(); j++) {
+						final Geometry ggeo = geo.getGeometryN(j);
+						polygons.add(createPolygonFromJTSPolygon((Polygon) ggeo, map));
+					}
+				} else if (geo.getGeometryType().equals("GeometryCollection")) {
+					for (int j = 0; j < geo.getNumGeometries(); j++) {
+						final Geometry ggeo = geo.getGeometryN(j);
+						polygons.addAll(createPolygonsFromJTSGeometry(ggeo, map));
+					}
+				}
+			}
+		}
+		return polygons;
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @return
+	 */
+	public WB_Polygon createPolygonConvexHull(final WB_Polygon poly) {
+		WB_Map2D map = new WB_PlanarMap(poly.getPlane(0));
+		final Polygon JTSpoly = toJTSPolygon(poly, map);
+		final Geometry result = new ConvexHull(JTSpoly).getConvexHull();
+		if (result.getGeometryType().equals("Polygon")) {
+			createPolygonFromJTSPolygon((Polygon) result, map);
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @return
+	 */
+	public List<WB_Polygon> createBufferedPolygons(final WB_Polygon poly, final double d) {
+		WB_Map2D map = new WB_PlanarMap(poly.getPlane(0));
+		final Polygon JTSpoly = toJTSPolygon(poly, map);
+		final Geometry result = BufferOp.bufferOp(JTSpoly, d);
+		return createPolygonsFromJTSGeometry(result, map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @return
+	 */
+	public List<WB_Polygon> createBufferedPolygons(final Collection<? extends WB_Polygon> poly, final double d) {
+		WB_Map2D map = new WB_PlanarMap(poly.iterator().next().getPlane(0));
+
+		final Polygon[] allPoly = new Polygon[poly.size()];
+		int i = 0;
+		for (final WB_Polygon pol : poly) {
+			allPoly[i++] = toJTSPolygon(pol, map);
+		}
+		final MultiPolygon collPoly = JTSgf.createMultiPolygon(allPoly);
+		final Geometry result = BufferOp.bufferOp(collPoly, d);
+		return createPolygonsFromJTSGeometry(result, map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @param n
+	 * @return
+	 */
+	public List<WB_Polygon> createBufferedPolygons(final WB_Polygon poly, final double d, final int n) {
+		WB_Map2D map = new WB_PlanarMap(poly.getPlane(0));
+		final Polygon JTSpoly = toJTSPolygon(poly, map);
+		final Geometry result = BufferOp.bufferOp(JTSpoly, d, n);
+		return createPolygonsFromJTSGeometry(result, map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @param n
+	 * @return
+	 */
+	public List<WB_Polygon> createBufferedPolygons(final Collection<? extends WB_Polygon> poly, final double d,
+			final int n) {
+		WB_Map2D map = new WB_PlanarMap(poly.iterator().next().getPlane(0));
+
+		final Polygon[] allPoly = new Polygon[poly.size()];
+		int i = 0;
+		for (final WB_Polygon pol : poly) {
+			allPoly[i++] = toJTSPolygon(pol, map);
+		}
+		final MultiPolygon collPoly = JTSgf.createMultiPolygon(allPoly);
+		final Geometry result = BufferOp.bufferOp(collPoly, d, n);
+		return createPolygonsFromJTSGeometry(result, map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @return
+	 */
+	public List<WB_Polygon> createBoundaryPolygons(final WB_Polygon poly) {
+		WB_Map2D map = new WB_PlanarMap(poly.getPlane(0));
+		final Polygon JTSpoly = toJTSPolygon(poly, map);
+		final LineString result = JTSpoly.getExteriorRing();
+		return createPolygonsFromJTSGeometry(JTSgf.createPolygon(result.getCoordinates()), map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @return
+	 */
+	public List<WB_Polygon> createRibbonPolygons(final WB_Polygon poly, final double d) {
+		WB_Map2D map = new WB_PlanarMap(poly.getPlane(0));
+		final Polygon JTSpoly = toJTSPolygon(poly, map);
+		final Geometry outer = BufferOp.bufferOp(JTSpoly, d * 0.5);
+		final Geometry inner = BufferOp.bufferOp(JTSpoly, -d * 0.5);
+		final Geometry result = outer.difference(inner);
+		return createPolygonsFromJTSGeometry(result, map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @return
+	 */
+	public List<WB_Polygon> createRibbonPolygons(final Collection<? extends WB_Polygon> poly, final double d) {
+		WB_Map2D map = new WB_PlanarMap(poly.iterator().next().getPlane(0));
+
+		final Polygon[] allPoly = new Polygon[poly.size()];
+		int i = 0;
+		for (final WB_Polygon pol : poly) {
+			allPoly[i++] = toJTSPolygon(pol, map);
+		}
+		final MultiPolygon collPoly = JTSgf.createMultiPolygon(allPoly);
+		final Geometry outer = BufferOp.bufferOp(collPoly, d * 0.5);
+		final Geometry inner = BufferOp.bufferOp(collPoly, -d * 0.5);
+		final Geometry result = outer.difference(inner);
+		return createPolygonsFromJTSGeometry(result, map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @return
+	 */
+	public List<WB_Polygon> createRibbonPolygons(final WB_Polygon poly, final double o, final double i) {
+		WB_Map2D map = new WB_PlanarMap(poly.getPlane(0));
+		final Polygon JTSpoly = toJTSPolygon(poly, map);
+		final Geometry outer = BufferOp.bufferOp(JTSpoly, o);
+		final Geometry inner = BufferOp.bufferOp(JTSpoly, -i);
+		final Geometry result = outer.difference(inner);
+		return createPolygonsFromJTSGeometry(result, map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param d
+	 * @return
+	 */
+	public List<WB_Polygon> createRibbonPolygons(final Collection<? extends WB_Polygon> poly, final double o,
+			final double i) {
+		WB_Map2D map = new WB_PlanarMap(poly.iterator().next().getPlane(0));
+
+		final Polygon[] allPoly = new Polygon[poly.size()];
+		int j = 0;
+		for (final WB_Polygon pol : poly) {
+			allPoly[j++] = toJTSPolygon(pol, map);
+		}
+		final MultiPolygon collPoly = JTSgf.createMultiPolygon(allPoly);
+		final Geometry outer = BufferOp.bufferOp(collPoly, o);
+		final Geometry inner = BufferOp.bufferOp(collPoly, -i);
+		final Geometry result = outer.difference(inner);
+		return createPolygonsFromJTSGeometry(result, map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param tol
+	 * @return
+	 */
+	public List<WB_Polygon> createSimplifiedPolygon(final WB_Polygon poly, final double tol) {
+		WB_Map2D map = new WB_PlanarMap(poly.getPlane(0));
+		final Polygon JTSpoly = toJTSPolygon(poly, map);
+		// final Geometry result = DouglasPeuckerSimplifier.simplify(JTSpoly,
+		// tol);
+		final Geometry result = TopologyPreservingSimplifier.simplify(JTSpoly, tol);
+		return createPolygonsFromJTSGeometry(result, map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param max
+	 * @return
+	 */
+	public List<WB_Polygon> createDensifiedPolygon(final WB_Polygon poly, final double max) {
+		WB_Map2D map = new WB_PlanarMap(poly.getPlane(0));
+		final Polygon JTSpoly = toJTSPolygon(poly, map);
+		// final Geometry result = DouglasPeuckerSimplifier.simplify(JTSpoly,
+		// tol);
+		final Geometry result = Densifier.densify(JTSpoly, max);
+		return createPolygonsFromJTSGeometry(result, map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param poly
+	 * @param container
+	 * @return
+	 */
+	public List<WB_Polygon> constrainPolygons(final WB_Polygon poly, final WB_Polygon container) {
+		WB_Map2D map = new WB_PlanarMap(poly.getPlane(0));
+		final Polygon JTSpoly1 = toJTSPolygon(poly, map);
+		final Polygon JTSpoly2 = toJTSPolygon(container, map);
+		final Geometry result = JTSpoly1.intersection(JTSpoly2);
+		return createPolygonsFromJTSGeometry(result, map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param polygons
+	 * @param container
+	 * @return
+	 */
+	public List<WB_Polygon> constrainPolygons(final WB_Polygon[] polygons, final WB_Polygon container) {
+		WB_Map2D map = new WB_PlanarMap(polygons[0].getPlane(0));
+		final List<WB_Polygon> polys = new FastTable<WB_Polygon>();
+		for (final WB_Polygon poly : polygons) {
+			final Polygon JTSpoly1 = toJTSPolygon(poly, map);
+			final Polygon JTSpoly2 = toJTSPolygon(container, map);
+			final Geometry result = JTSpoly1.intersection(JTSpoly2);
+			polys.addAll(createPolygonsFromJTSGeometry(result, map));
+		}
+		return polys;
+	}
+
+	/**
+	 *
+	 *
+	 * @param polygons
+	 * @param container
+	 * @return
+	 */
+	public List<WB_Polygon> constrainPolygons(final List<WB_Polygon> polygons, final WB_Polygon container) {
+		WB_Map2D map = new WB_PlanarMap(polygons.get(0).getPlane(0));
+		final List<WB_Polygon> polys = new FastTable<WB_Polygon>();
+		for (final WB_Polygon poly : polygons) {
+			final Polygon JTSpoly1 = toJTSPolygon(poly, map);
+			final Polygon JTSpoly2 = toJTSPolygon(container, map);
+			final Geometry result = JTSpoly1.intersection(JTSpoly2);
+			if (!result.isEmpty()) {
+				polys.addAll(createPolygonsFromJTSGeometry(result, map));
+			}
+		}
+		return polys;
 	}
 
 }

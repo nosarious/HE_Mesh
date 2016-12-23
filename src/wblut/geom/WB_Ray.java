@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -14,7 +14,7 @@ import wblut.math.WB_Math;
 /**
  *
  */
-public class WB_Ray extends WB_Linear implements WB_Curve {
+public class WB_Ray extends WB_Line {
 	/**
 	 *
 	 *
@@ -84,7 +84,7 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -94,7 +94,7 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Linear#set(wblut.geom.WB_Coordinate,
 	 * wblut.geom.WB_Coordinate)
 	 */
@@ -112,6 +112,7 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 	 * @param p1
 	 * @param p2
 	 */
+	@Override
 	public void setFromPoints(final WB_Coord p1, final WB_Coord p2) {
 		origin = new WB_Point(p1);
 		final WB_Vector dn = new WB_Vector(p1, p2);
@@ -121,34 +122,48 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Linear#getPointOnLine(double)
 	 */
 	@Override
-	public WB_Point getPointOnLine(final double t) {
+	public WB_Point getPoint(final double t) {
 		final WB_Point result = new WB_Point(direction);
 		result.scaleSelf(WB_Math.max(0, t));
 		result.addSelf(origin);
 		return result;
 	}
 
-	/**
-	 *
-	 *
-	 * @param t
-	 * @param p
-	 */
-	public void getPointOnLineInto(final double t, final WB_Point p) {
-		p.set(direction);
+	@Override
+	public void getPointInto(final double t, final WB_MutableCoord p) {
 		if (t > 0) {
-			p.scaleSelf(t);
+			p.set(direction.mul(t).addSelf(origin));
+		} else {
+			p.set(origin);
 		}
-		p.addSelf(origin);
+
+	}
+
+	@Override
+	public WB_Point getParametricPoint(final double t) {
+		final WB_Point result = new WB_Point(direction);
+		result.scaleSelf(WB_Math.max(0, t));
+		result.addSelf(origin);
+		return result;
+	}
+
+	@Override
+	public void getParametricPointInto(final double t, final WB_MutableCoord p) {
+		if (t > 0) {
+			p.set(direction.mul(t).addSelf(origin));
+		} else {
+			p.set(origin);
+		}
+
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Linear#getOrigin()
 	 */
 	@Override
@@ -158,7 +173,7 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Linear#getDirection()
 	 */
 	@Override
@@ -168,7 +183,7 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Curve#curvePoint(double)
 	 */
 	@Override
@@ -176,29 +191,33 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 		if (u < 0) {
 			return null;
 		}
-		return this.getPointOnLine(u);
+		return this.getPoint(u);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.geom.WB_Curve#curveDirection(double)
 	 */
 	@Override
-	public WB_Vector curveDirection(double u) {
+	public WB_Vector curveDirection(final double u) {
 
-		return new WB_Vector(direction);
-	}
-
-	/* (non-Javadoc)
-	 * @see wblut.geom.WB_Curve#curveDerivative(double)
-	 */
-	@Override
-	public WB_Vector curveDerivative(double u) {
 		return new WB_Vector(direction);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
+	 * @see wblut.geom.WB_Curve#curveDerivative(double)
+	 */
+	@Override
+	public WB_Vector curveDerivative(final double u) {
+		return new WB_Vector(direction);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.geom.WB_Curve#loweru()
 	 */
 	@Override
@@ -208,11 +227,38 @@ public class WB_Ray extends WB_Linear implements WB_Curve {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Curve#upperu()
 	 */
 	@Override
 	public double getUpperU() {
 		return Double.POSITIVE_INFINITY;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(final Object o) {
+		if (o == this) {
+			return true;
+		}
+		if (!(o instanceof WB_Ray)) {
+			return false;
+		}
+		return origin.equals(((WB_Ray) o).getOrigin()) && direction.equals(((WB_Ray) o).getDirection());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return 31 * origin.hashCode() + direction.hashCode();
+	}
+
 }

@@ -294,10 +294,10 @@ public class WB_Polygon extends WB_Ring {
 			} else if (numberOfShellPoints == 3 && numberOfContours == 1) {
 				return new int[] { 0, 1, 2 };
 			} else if (numberOfShellPoints == 4 && numberOfContours == 1) {
-				return WB_TriangulatePolygon.triangulateQuad(points.get(0), points.get(1), points.get(2),
+				return WB_PolygonTriangulator.triangulateQuad(points.get(0), points.get(1), points.get(2),
 						points.get(3));
 			} else {
-				final WB_Triangulation2D triangulation = new WB_TriangulatePolygon()
+				final WB_Triangulation2D triangulation = new WB_PolygonTriangulator()
 						.triangulatePolygon2D(this.toPolygon2D(), optimize);
 				triangles = triangulation.getTriangles();
 			}
@@ -345,6 +345,18 @@ public class WB_Polygon extends WB_Ring {
 		}
 		normal.normalizeSelf();
 		return normal;
+	}
+
+	public WB_Point getCenter() {
+		final int nsp = getNumberOfShellPoints();
+		WB_Point center = new WB_Point();
+		for (int i = 0; i < nsp; i++) {
+
+			center.addSelf(points.get(i));
+		}
+		center.divSelf(nsp);
+		return center;
+
 	}
 
 	/*
@@ -618,8 +630,8 @@ public class WB_Polygon extends WB_Ring {
 	 * @param d
 	 * @return
 	 */
-	public List<WB_Polygon> trimPolygon(final double d) {
-		return gf.createBufferedPolygons(this, -d);
+	public List<WB_Polygon> trimPolygon2D(final double d) {
+		return gf.createBufferedPolygons2D(this, -d);
 	}
 
 	/**
@@ -753,7 +765,7 @@ public class WB_Polygon extends WB_Ring {
 	 * @return
 	 */
 	public WB_Polygon getSimplePolygon() {
-		return new WB_TriangulatePolygon().makeSimplePolygon(this);
+		return new WB_PolygonTriangulator().makeSimplePolygon(this);
 	}
 
 }
