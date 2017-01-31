@@ -99,11 +99,11 @@ public class WB_AlphaTriangulation3D {
 	}
 
 	private void setAlpha() {
-		WB_Predicates predicates = new WB_Predicates();
+
 		alpha = new double[tetrahedra.length / 4];
 		int index = 0;
 		for (int i = 0; i < tetrahedra.length; i += 4) {
-			alpha[index++] = predicates.circumradiusTetra(points.get(tetrahedra[i]), points.get(tetrahedra[i + 1]),
+			alpha[index++] = WB_Predicates.circumradius3D(points.get(tetrahedra[i]), points.get(tetrahedra[i + 1]),
 					points.get(tetrahedra[i + 2]), points.get(tetrahedra[i + 3]));
 
 		}

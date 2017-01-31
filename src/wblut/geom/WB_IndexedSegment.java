@@ -3,24 +3,21 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 
 package wblut.geom;
 
-
 public class WB_IndexedSegment extends WB_Segment {
-
 
 	private int i1;
 
 	private int i2;
-
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	// private final WB_Coordinate[] points;
-
 
 	/**
 	 *
@@ -50,7 +47,6 @@ public class WB_IndexedSegment extends WB_Segment {
 		this.i2 = i2;
 	}
 
-
 	/**
 	 *
 	 *
@@ -59,7 +55,6 @@ public class WB_IndexedSegment extends WB_Segment {
 	public int i1() {
 		return i1;
 	}
-
 
 	/**
 	 *
@@ -70,8 +65,9 @@ public class WB_IndexedSegment extends WB_Segment {
 		return i2;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.geom.WB_Segment#negate()
 	 */
 	@Override
@@ -79,8 +75,9 @@ public class WB_IndexedSegment extends WB_Segment {
 		return new WB_IndexedSegment(i2, i1, endpoint, origin);
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.geom.WB_Segment#reverse()
 	 */
 	@Override
@@ -94,36 +91,8 @@ public class WB_IndexedSegment extends WB_Segment {
 		i1 = tmp;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see wblut.geom.WB_Segment#getPoint(int)
-	 */
 	@Override
-	public WB_Coord getPoint(final int i) {
-		if (i == 0) {
-			return getOrigin();
-		}
-		if (i == 1) {
-			return getEndpoint();
-		}
-		return null;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see wblut.geom.WB_Segment#getType()
-	 */
-	@Override
-	public WB_GeometryType getType() {
-		return WB_GeometryType.SEGMENT;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see wblut.geom.WB_Segment#apply(wblut.geom.WB_Transform)
-	 */
-	@Override
-	public WB_Geometry apply(final WB_Transform T) {
+	public WB_Segment apply(final WB_Transform T) {
 		return geometryfactory.createSegment(new WB_Point(getOrigin()).applyAsPoint(T),
 				new WB_Point(getEndpoint()).applyAsPoint(T));
 	}

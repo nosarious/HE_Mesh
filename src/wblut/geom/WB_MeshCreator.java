@@ -19,5 +19,5 @@ public interface WB_MeshCreator {
 	 *
 	 * @return
 	 */
-	public WB_Mesh getMesh();
+	public WB_Mesh create();
 }

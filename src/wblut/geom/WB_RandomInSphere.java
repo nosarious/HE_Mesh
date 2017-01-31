@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -25,7 +25,7 @@ public class WB_RandomInSphere implements WB_RandomPoint {
 	private WB_Vector offset;
 
 	/**
-	 * 
+	 *
 	 */
 	public WB_RandomInSphere() {
 		randomGen = new WB_MTRandom();
@@ -34,9 +34,9 @@ public class WB_RandomInSphere implements WB_RandomPoint {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param seed 
+	 *
+	 * @param seed
 	 */
 	public WB_RandomInSphere(final long seed) {
 		randomGen = new WB_MTRandom(seed);
@@ -44,7 +44,9 @@ public class WB_RandomInSphere implements WB_RandomPoint {
 		offset = new WB_Vector();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#setSeed(long)
 	 */
 	@Override
@@ -54,41 +56,47 @@ public class WB_RandomInSphere implements WB_RandomPoint {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param r 
-	 * @return 
+	 *
+	 * @param r
+	 * @return
 	 */
-	public WB_RandomInSphere setRadius(double r) {
+	public WB_RandomInSphere setRadius(final double r) {
 		radius = r;
 		return this;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#nextPoint()
 	 */
 	@Override
 	public WB_Point nextPoint() {
-		final double elevation = Math.asin((2.0 * randomGen.nextDouble()) - 1);
+		final double elevation = Math.asin(2.0 * randomGen.nextDouble() - 1);
 		final double azimuth = 2 * Math.PI * randomGen.nextDouble();
 		final double r = radius * Math.pow(randomGen.nextDouble(), 1.0 / 3.0);
 		return new WB_Point(r * Math.cos(elevation) * Math.cos(azimuth), r * Math.cos(elevation) * Math.sin(azimuth),
-				r * Math.sin(elevation));
+				r * Math.sin(elevation)).addSelf(offset);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#nextVector()
 	 */
 	@Override
 	public WB_Vector nextVector() {
-		final double elevation = Math.asin((2.0 * randomGen.nextDouble()) - 1);
+		final double elevation = Math.asin(2.0 * randomGen.nextDouble() - 1);
 		final double azimuth = 2 * Math.PI * randomGen.nextDouble();
 		final double r = radius * Math.pow(randomGen.nextDouble(), 1.0 / 3.0);
 		return new WB_Vector(r * Math.cos(elevation) * Math.cos(azimuth), r * Math.cos(elevation) * Math.sin(azimuth),
-				r * Math.sin(elevation));
+				r * Math.sin(elevation)).addSelf(offset);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#reset()
 	 */
 	@Override
@@ -96,29 +104,35 @@ public class WB_RandomInSphere implements WB_RandomPoint {
 		randomGen.reset();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#setOffset(wblut.geom.WB_Coord)
 	 */
 	@Override
-	public WB_RandomPoint setOffset(WB_Coord offset) {
+	public WB_RandomPoint setOffset(final WB_Coord offset) {
 		this.offset.set(offset);
 		return this;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#setOffset(double, double)
 	 */
 	@Override
-	public WB_RandomPoint setOffset(double x, double y) {
+	public WB_RandomPoint setOffset(final double x, final double y) {
 		this.offset.set(x, y, 0);
 		return this;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wblut.geom.WB_RandomPoint#setOffset(double, double, double)
 	 */
 	@Override
-	public WB_RandomPoint setOffset(double x, double y, double z) {
+	public WB_RandomPoint setOffset(final double x, final double y, final double z) {
 		this.offset.set(x, y, z);
 		return this;
 	}

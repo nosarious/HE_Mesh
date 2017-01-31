@@ -33,7 +33,7 @@ public class WB_VoronoiCell3D {
 	/**
 	 *
 	 */
-	WB_FacelistMesh cell;
+	WB_Mesh cell;
 
 	/**
 	 *
@@ -53,7 +53,7 @@ public class WB_VoronoiCell3D {
 	/**
 	 *
 	 */
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/**
 	 *
@@ -94,7 +94,7 @@ public class WB_VoronoiCell3D {
 	 * @param generator
 	 * @param index
 	 */
-	public WB_VoronoiCell3D(final WB_FacelistMesh cell, final WB_Point generator, final int index) {
+	public WB_VoronoiCell3D(final WB_Mesh cell, final WB_Point generator, final int index) {
 		this.generator = generator;
 		this.index = index;
 		this.cell = cell;
@@ -143,7 +143,7 @@ public class WB_VoronoiCell3D {
 	 * @param convexMesh
 	 * @param d
 	 */
-	public void constrain(final WB_FacelistMesh convexMesh, final double d) {
+	public void constrain(final WB_Mesh convexMesh, final double d) {
 		constrain(convexMesh.getPlanes(d));
 	}
 
@@ -152,7 +152,7 @@ public class WB_VoronoiCell3D {
 	 *
 	 * @param convexMesh
 	 */
-	public void constrain(final WB_FacelistMesh convexMesh) {
+	public void constrain(final WB_Mesh convexMesh) {
 		constrain(convexMesh.getPlanes(0));
 	}
 
@@ -174,7 +174,7 @@ public class WB_VoronoiCell3D {
 			pointloop: for (int i = 0; i < cell.getNumberOfVertices(); i++) {
 				p = cell.getVertex(i);
 				for (final WB_Plane P : planes) {
-					d = WB_GeometryOp.getDistanceToPlane3D(p, P);
+					d = WB_GeometryOp3D.getDistanceToPlane3D(p, P);
 					if (WB_Epsilon.isZero(d)) {
 						onBoundary[i] = true;
 						continue pointloop;
@@ -219,7 +219,7 @@ public class WB_VoronoiCell3D {
 							&& (classifyPoints[edge[0]] == WB_Classification.FRONT))) {
 				final WB_Coord a = cell.getVertex(edge[0]);
 				final WB_Coord b = cell.getVertex(edge[1]);
-				newPoints.add((WB_Point) WB_GeometryOp.getIntersection3D(a, b, P).object);
+				newPoints.add((WB_Point) WB_GeometryOp3D.getIntersection3D(a, b, P).object);
 				sliced = true;
 			}
 		}
@@ -236,7 +236,7 @@ public class WB_VoronoiCell3D {
 	private WB_Classification[] ptsPlane(final WB_Plane P) {
 		final WB_Classification[] result = new WB_Classification[cell.getNumberOfVertices()];
 		for (int i = 0; i < cell.getNumberOfVertices(); i++) {
-			result[i] = WB_GeometryOp.classifyPointToPlane3D(cell.getVertex(i), P);
+			result[i] = WB_GeometryOp3D.classifyPointToPlane3D(cell.getVertex(i), P);
 		}
 		return result;
 	}
@@ -264,7 +264,7 @@ public class WB_VoronoiCell3D {
 	 *
 	 * @return
 	 */
-	public WB_FacelistMesh getMesh() {
+	public WB_Mesh getMesh() {
 		return cell;
 	}
 

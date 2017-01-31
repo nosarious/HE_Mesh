@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -50,7 +50,7 @@ public class WB_MeshGraph {
 			if (meshedges[i][0] != meshedges[i][1]) {
 				p0 = mesh.getVertex(meshedges[i][0]);
 				p1 = mesh.getVertex(meshedges[i][1]);
-				d = WB_GeometryOp.getDistance3D(p0, p1);
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
 				v0 = vertices[meshedges[i][0]];
 				v1 = vertices[meshedges[i][1]];
 				v0.neighbors.add(new WB_GraphEdge(v1, d));
@@ -82,7 +82,7 @@ public class WB_MeshGraph {
 			if (meshedges[i][0] != meshedges[i][1]) {
 				p0 = mesh.getVertex(meshedges[i][0]);
 				p1 = mesh.getVertex(meshedges[i][1]);
-				d = WB_GeometryOp.getDistance3D(p0, p1);
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
 				v0 = vertices[meshedges[i][0]];
 				v1 = vertices[meshedges[i][1]];
 				v0.neighbors.add(new WB_GraphEdge(v1, d));
@@ -95,13 +95,138 @@ public class WB_MeshGraph {
 	/**
 	 *
 	 *
-	 * @param i
-	 * @return
-	 * @deprecated Use {@link #getVertexIndex(int)} instead
+	 * @param mesh
 	 */
-	@Deprecated
-	public int getVertex(final int i) {
-		return getVertexIndex(i);
+	public WB_MeshGraph(final HE_Mesh mesh) {
+		vertices = new WB_GraphVertex[mesh.getNumberOfVertices()];
+		for (int i = 0; i < mesh.getNumberOfVertices(); i++) {
+			vertices[i] = new WB_GraphVertex(i, mesh.getVertex(i));
+		}
+		final int[][] meshedges = mesh.getEdgesAsInt();
+		WB_Coord p0;
+		WB_Coord p1;
+		WB_GraphVertex v0;
+		WB_GraphVertex v1;
+		double d;
+		for (int i = 0; i < meshedges.length; i++) {
+			if (meshedges[i][0] != meshedges[i][1]) {
+				p0 = mesh.getVertex(meshedges[i][0]);
+				p1 = mesh.getVertex(meshedges[i][1]);
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
+				v0 = vertices[meshedges[i][0]];
+				v1 = vertices[meshedges[i][1]];
+				v0.neighbors.add(new WB_GraphEdge(v1, d));
+				v1.neighbors.add(new WB_GraphEdge(v0, d));
+			}
+		}
+		lastSource = -1;
+	}
+
+	/**
+	 *
+	 *
+	 * @param mesh
+	 * @param offset
+	 */
+	public WB_MeshGraph(final HE_Mesh mesh, final double offset) {
+		vertices = new WB_GraphVertex[mesh.getNumberOfVertices()];
+		for (int i = 0; i < mesh.getNumberOfVertices(); i++) {
+			vertices[i] = new WB_GraphVertex(i,
+					new WB_Point(mesh.getVertex(i)).addMulSelf(offset, mesh.getVertexNormal(i)));
+		}
+		final int[][] meshedges = mesh.getEdgesAsInt();
+		WB_Coord p0;
+		WB_Coord p1;
+		WB_GraphVertex v0;
+		WB_GraphVertex v1;
+		double d;
+		for (int i = 0; i < meshedges.length; i++) {
+			if (meshedges[i][0] != meshedges[i][1]) {
+				p0 = mesh.getVertex(meshedges[i][0]);
+				p1 = mesh.getVertex(meshedges[i][1]);
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
+				v0 = vertices[meshedges[i][0]];
+				v1 = vertices[meshedges[i][1]];
+				v0.neighbors.add(new WB_GraphEdge(v1, d));
+				v1.neighbors.add(new WB_GraphEdge(v0, d));
+			}
+		}
+		lastSource = -1;
+	}
+
+	public WB_MeshGraph(final List<? extends WB_Coord> points, final WB_Triangulation3D triangulation) {
+		vertices = new WB_GraphVertex[points.size()];
+		for (int i = 0; i < points.size(); i++) {
+			vertices[i] = new WB_GraphVertex(i, points.get(i));
+		}
+		final int[] meshedges = triangulation.getEdges();
+		WB_Coord p0;
+		WB_Coord p1;
+		WB_GraphVertex v0;
+		WB_GraphVertex v1;
+		double d;
+		for (int i = 0; i < meshedges.length; i += 2) {
+			if (meshedges[i] != meshedges[i + 1]) {
+				p0 = points.get(meshedges[i]);
+				p1 = points.get(meshedges[i + 1]);
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
+				v0 = vertices[meshedges[i]];
+				v1 = vertices[meshedges[i + 1]];
+				v0.neighbors.add(new WB_GraphEdge(v1, d));
+				v1.neighbors.add(new WB_GraphEdge(v0, d));
+			}
+		}
+		lastSource = -1;
+	}
+
+	public WB_MeshGraph(final WB_Coord[] points, final WB_Triangulation3D triangulation) {
+		vertices = new WB_GraphVertex[points.length];
+		for (int i = 0; i < points.length; i++) {
+			vertices[i] = new WB_GraphVertex(i, points[i]);
+		}
+		final int[] meshedges = triangulation.getEdges();
+		WB_Coord p0;
+		WB_Coord p1;
+		WB_GraphVertex v0;
+		WB_GraphVertex v1;
+		double d;
+		for (int i = 0; i < meshedges.length; i += 2) {
+			if (meshedges[i] != meshedges[i + 1]) {
+				p0 = points[meshedges[i]];
+				p1 = points[meshedges[i + 1]];
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
+				v0 = vertices[meshedges[i]];
+				v1 = vertices[meshedges[i + 1]];
+				v0.neighbors.add(new WB_GraphEdge(v1, d));
+				v1.neighbors.add(new WB_GraphEdge(v0, d));
+			}
+		}
+		lastSource = -1;
+	}
+
+	public WB_MeshGraph(final WB_Coord[] points, final WB_Triangulation2D triangulation) {
+		vertices = new WB_GraphVertex[points.length];
+		for (int i = 0; i < points.length; i++) {
+			vertices[i] = new WB_GraphVertex(i, points[i]);
+		}
+		final int[] meshedges = triangulation.getEdges();
+		WB_Coord p0;
+		WB_Coord p1;
+		WB_GraphVertex v0;
+		WB_GraphVertex v1;
+		double d;
+		for (int i = 0; i < meshedges.length; i += 2) {
+			if (meshedges[i] != meshedges[i + 1]) {
+				p0 = points[meshedges[i]];
+				p1 = points[meshedges[i + 1]];
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
+				v0 = vertices[meshedges[i]];
+				v1 = vertices[meshedges[i + 1]];
+				v0.neighbors.add(new WB_GraphEdge(v1, d));
+				v1.neighbors.add(new WB_GraphEdge(v0, d));
+			}
+		}
+		lastSource = -1;
 	}
 
 	/**
@@ -112,17 +237,6 @@ public class WB_MeshGraph {
 	 */
 	public int getVertexIndex(final int i) {
 		return vertices[i].index;
-	}
-
-	/**
-	 *
-	 *
-	 * @param i
-	 * @deprecated Use {@link #computePathsToVertex(int)} instead
-	 */
-	@Deprecated
-	public void computePaths(final int i) {
-		computePathsToVertex(i);
 	}
 
 	/**
@@ -154,19 +268,6 @@ public class WB_MeshGraph {
 			}
 		}
 		lastSource = i;
-	}
-
-	/**
-	 *
-	 *
-	 * @param source
-	 * @param target
-	 * @return
-	 * @deprecated Use {@link #getShortestPathBetweenVertices(int,int)} instead
-	 */
-	@Deprecated
-	public int[] getShortestPath(final int source, final int target) {
-		return getShortestPathBetweenVertices(source, target);
 	}
 
 	/**
@@ -209,9 +310,8 @@ public class WB_MeshGraph {
 		}
 		for (final WB_GraphVertex v : vertices) {
 			final int[] path = getShortestPathBetweenVertices(i, v.index);
-			for (int j = 0; j < (path.length - 1); j++) {
-				frame.nodes.get(path[j]).value = Math.max(frame.nodes.get(path[j]).value,
-						1.0 - ((j * 1.0) / path.length));
+			for (int j = 0; j < path.length - 1; j++) {
+				frame.nodes.get(path[j]).value = Math.max(frame.nodes.get(path[j]).value, 1.0 - j * 1.0 / path.length);
 				frame.addStrut(path[j], path[j + 1]);
 			}
 			frame.nodes.get(path[path.length - 1]).value = Math.max(frame.nodes.get(path[path.length - 1]).value,
@@ -236,11 +336,31 @@ public class WB_MeshGraph {
 		for (final WB_GraphVertex v : vertices) {
 			final int[] path = getShortestPathBetweenVertices(i, v.index);
 			final int nodes = Math.min(maxnodes, path.length);
-			for (int j = 0; j < (nodes - 1); j++) {
-				frame.nodes.get(path[j]).value = Math.max(frame.nodes.get(path[j]).value, 1.0 - ((j * 1.0) / nodes));
+			for (int j = 0; j < nodes - 1; j++) {
+				frame.nodes.get(path[j]).value = Math.max(frame.nodes.get(path[j]).value, 1.0 - j * 1.0 / nodes);
 				frame.addStrut(path[j], path[j + 1]);
 			}
 			frame.nodes.get(path[nodes - 1]).value = Math.max(frame.nodes.get(path[nodes - 1]).value, 1.0 / nodes);
+		}
+		return frame;
+	}
+
+	public WB_Frame getFrame(final int i, final int maxnodes, final double offset) {
+		final WB_Frame frame = new WB_Frame();
+		computePathsToVertex(i);
+		for (final WB_GraphVertex v : vertices) {
+			frame.addNode(v.x, v.y, v.z, 0);
+		}
+		for (final WB_GraphVertex v : vertices) {
+			final int[] path = getShortestPathBetweenVertices(i, v.index);
+			final int nodes = Math.min(maxnodes, path.length);
+			for (int j = 0; j < nodes - 1; j++) {
+				frame.nodes.get(path[j]).value = Math.max(frame.nodes.get(path[j]).value,
+						1.0 - j * 1.0 / nodes + offset);
+				frame.addStrut(path[j], path[j + 1]);
+			}
+			frame.nodes.get(path[nodes - 1]).value = Math.max(frame.nodes.get(path[nodes - 1]).value,
+					1.0 / nodes + offset);
 		}
 		return frame;
 	}
@@ -265,8 +385,8 @@ public class WB_MeshGraph {
 			if (nodes <= 1) {
 				continue;
 			}
-			for (int j = 0; j < (nodes - 1); j++) {
-				frame.nodes.get(path[j]).value = Math.max(frame.nodes.get(path[j]).value, 1.0 - ((j * 1.0) / nodes));
+			for (int j = 0; j < nodes - 1; j++) {
+				frame.nodes.get(path[j]).value = Math.max(frame.nodes.get(path[j]).value, 1.0 - j * 1.0 / nodes);
 				frame.addStrut(path[j], path[j + 1]);
 			}
 			frame.nodes.get(path[nodes - 1]).value = Math.max(frame.nodes.get(path[nodes - 1]).value, 1.0 / nodes);
@@ -281,24 +401,24 @@ public class WB_MeshGraph {
 	 */
 	public static void main(final String[] args) {
 		final WB_Geodesic geo = new WB_Geodesic(1.0, 2, 0, WB_Geodesic.ICOSAHEDRON);
-		WB_MeshGraph graph = new WB_MeshGraph(geo.getMesh());
+		WB_MeshGraph graph = new WB_MeshGraph(geo.create());
 		for (final WB_GraphVertex v : graph.vertices) {
 			final int[] path = graph.getShortestPathBetweenVertices(5, v.index);
 			System.out.println("Distance to " + v + ": " + v.minWeight);
 			System.out.print("Path: ");
-			for (int i = 0; i < (path.length - 1); i++) {
+			for (int i = 0; i < path.length - 1; i++) {
 				System.out.print(path[i] + "->");
 			}
 			System.out.println(path[path.length - 1] + ".");
 		}
-		final HE_Mesh mesh = new HE_Mesh(geo.getMesh());
+		final HE_Mesh mesh = new HE_Mesh(geo.create());
 		mesh.smooth();
 		graph = new WB_MeshGraph(mesh);
 		for (final WB_GraphVertex v : graph.vertices) {
 			final int[] path = graph.getShortestPathBetweenVertices(0, v.index);
 			System.out.println("Distance to " + v + ": " + v.minWeight);
 			System.out.print("Path: ");
-			for (int i = 0; i < (path.length - 1); i++) {
+			for (int i = 0; i < path.length - 1; i++) {
 				System.out.print(path[i] + "->");
 			}
 			System.out.println(path[path.length - 1] + ".");
@@ -307,7 +427,7 @@ public class WB_MeshGraph {
 			final int[] path = graph.getShortestPathBetweenVertices(5, v.index);
 			System.out.println("Distance to " + v + ": " + v.minWeight);
 			System.out.print("Path: ");
-			for (int i = 0; i < (path.length - 1); i++) {
+			for (int i = 0; i < path.length - 1; i++) {
 				System.out.print(path[i] + "->");
 			}
 			System.out.println(path[path.length - 1] + ".");
@@ -360,7 +480,7 @@ public class WB_MeshGraph {
 		 */
 		@Override
 		public String toString() {
-			return ("Vertex " + index);
+			return "Vertex " + index;
 		}
 
 		/*

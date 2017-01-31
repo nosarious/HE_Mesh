@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -33,18 +33,18 @@ import wblut.external.ProGAL.CVertex;
 import wblut.external.ProGAL.DelaunayComplex;
 
 /**
- * 
+ *
  */
 public class WB_Voronoi {
 
 	/**
-	 * 
+	 *
 	 */
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private static WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 	final static WB_Map2D XY = geometryfactory.createEmbeddedPlane();
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param n
@@ -78,7 +78,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param n
@@ -114,7 +114,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param aabb
@@ -127,7 +127,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param aabb
@@ -140,7 +140,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param aabb
@@ -151,7 +151,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param nv
@@ -165,7 +165,7 @@ public class WB_Voronoi {
 		}
 		final int n = points.length;
 		final List<wblut.external.ProGAL.Point> tmppoints = new ArrayList<wblut.external.ProGAL.Point>(n);
-		final WB_KDTree<WB_Coord, Integer> tree = new WB_KDTree<WB_Coord, Integer>();
+		final WB_KDTreeInteger<WB_Coord> tree = new WB_KDTreeInteger<WB_Coord>();
 		for (int i = 0; i < n; i++) {
 			tmppoints.add(new wblut.external.ProGAL.Point(points[i].xd(), points[i].yd(), points[i].zd()));
 			tree.add(points[i], i);
@@ -200,7 +200,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @return
@@ -215,7 +215,7 @@ public class WB_Voronoi {
 			return new int[][] { { 1, 2, 3 }, { 0, 2, 3 }, { 0, 1, 3 }, { 0, 1, 2 } };
 		}
 		final List<wblut.external.ProGAL.Point> tmppoints = new ArrayList<wblut.external.ProGAL.Point>(nv);
-		final WB_KDTree<WB_Coord, Integer> tree = new WB_KDTree<WB_Coord, Integer>();
+		final WB_KDTreeInteger<WB_Coord> tree = new WB_KDTreeInteger<WB_Coord>();
 		for (int i = 0; i < nv; i++) {
 			tmppoints.add(new wblut.external.ProGAL.Point(points[i].xd(), points[i].yd(), points[i].zd()));
 			tree.add(points[i], i);
@@ -240,7 +240,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @return
@@ -255,7 +255,7 @@ public class WB_Voronoi {
 			return new int[][] { { 1, 2, 3 }, { 0, 2, 3 }, { 0, 1, 3 }, { 0, 1, 2 } };
 		}
 		final List<wblut.external.ProGAL.Point> tmppoints = new ArrayList<wblut.external.ProGAL.Point>(nv);
-		final WB_KDTree<WB_Coord, Integer> tree = new WB_KDTree<WB_Coord, Integer>();
+		final WB_KDTreeInteger<WB_Coord> tree = new WB_KDTreeInteger<WB_Coord>();
 		WB_Coord p;
 		for (int i = 0; i < nv; i++) {
 			p = points.get(i);
@@ -282,7 +282,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param aabb
@@ -293,7 +293,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param nv
@@ -308,7 +308,7 @@ public class WB_Voronoi {
 		}
 		final int n = points.size();
 		final List<wblut.external.ProGAL.Point> tmppoints = new ArrayList<wblut.external.ProGAL.Point>(n);
-		final WB_KDTree<WB_Coord, Integer> tree = new WB_KDTree<WB_Coord, Integer>();
+		final WB_KDTreeInteger<WB_Coord> tree = new WB_KDTreeInteger<WB_Coord>();
 		int i = 0;
 		for (final WB_Coord p : points) {
 			tmppoints.add(new wblut.external.ProGAL.Point(p.xd(), p.yd(), p.zd()));
@@ -345,7 +345,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param nv
@@ -361,7 +361,7 @@ public class WB_Voronoi {
 			final ArrayList<WB_Plane> cutPlanes = new ArrayList<WB_Plane>();
 			final WB_Point O = new WB_Point();
 			WB_Plane P;
-			final WB_FacelistMesh cell = geometryfactory.createMesh(aabb);
+			final WB_Mesh cell = geometryfactory.createMesh(aabb);
 			for (int j = 0; j < n; j++) {
 				if (j != i) {
 					final WB_Vector N = new WB_Vector(points.get(i));
@@ -382,7 +382,7 @@ public class WB_Voronoi {
 				unique = true;
 				for (int k = 0; k < j; k++) {
 					final WB_Plane Pj = cutPlanes.get(j);
-					if (WB_Plane.isEqual(P, Pj)) {
+					if (WB_GeometryOp3D.isEqual(P, Pj)) {
 						unique = false;
 						break;
 					}
@@ -404,11 +404,11 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param aabb 
-	 * @return 
+	 *
+	 * @param points
+	 * @param aabb
+	 * @return
 	 */
 	public static List<WB_VoronoiCell3D> getVoronoi3DBruteForce(final List<? extends WB_Coord> points,
 			final WB_AABB aabb) {
@@ -418,7 +418,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param nv
@@ -433,7 +433,7 @@ public class WB_Voronoi {
 			final ArrayList<WB_Plane> cutPlanes = new ArrayList<WB_Plane>();
 			final WB_Point O = new WB_Point();
 			WB_Plane P;
-			final WB_FacelistMesh cell = geometryfactory.createMesh(aabb);
+			final WB_Mesh cell = geometryfactory.createMesh(aabb);
 			for (int j = 0; j < n; j++) {
 				if (j != i) {
 					final WB_Vector N = new WB_Vector(points[i]);
@@ -454,7 +454,7 @@ public class WB_Voronoi {
 				unique = true;
 				for (int k = 0; k < j; k++) {
 					final WB_Plane Pj = cutPlanes.get(j);
-					if (WB_Plane.isEqual(P, Pj)) {
+					if (WB_GeometryOp3D.isEqual(P, Pj)) {
 						unique = false;
 						break;
 					}
@@ -476,18 +476,18 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param aabb 
-	 * @return 
+	 *
+	 * @param points
+	 * @param aabb
+	 * @return
 	 */
 	public static List<WB_VoronoiCell3D> getVoronoi3DBruteForce(final WB_Coord[] points, final WB_AABB aabb) {
 		return getVoronoi3DBruteForce(points, points.length, aabb);
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param v
 	 * @return
@@ -497,7 +497,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param context
@@ -513,7 +513,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param context
@@ -532,7 +532,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param d
@@ -544,7 +544,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param d
@@ -557,7 +557,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param d
@@ -576,7 +576,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param d
@@ -597,12 +597,12 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param d 
-	 * @param c 
-	 * @return 
+	 *
+	 * @param points
+	 * @param d
+	 * @param c
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getVoronoi2D(final Collection<? extends WB_Coord> points, final double d,
 			final int c) {
@@ -617,21 +617,21 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param d 
-	 * @return 
+	 *
+	 * @param points
+	 * @param d
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getVoronoi2D(final Collection<? extends WB_Coord> points, final double d) {
 		return getVoronoi2D(points, d, 2, XY);
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @return 
+	 *
+	 * @param points
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getVoronoi2D(final Collection<? extends WB_Point> points) {
 		final int n = points.size();
@@ -645,12 +645,12 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param d 
-	 * @param c 
-	 * @return 
+	 *
+	 * @param points
+	 * @param d
+	 * @param c
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getVoronoi2D(final WB_Coord[] points, final double d, final int c) {
 		final int n = points.length;
@@ -662,21 +662,21 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param d 
-	 * @return 
+	 *
+	 * @param points
+	 * @param d
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getVoronoi2D(final WB_Coord[] points, final double d) {
 		return getVoronoi2D(points, d, 2, XY);
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @return 
+	 *
+	 * @param points
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getVoronoi2D(final WB_Coord[] points) {
 		final int n = points.length;
@@ -688,7 +688,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param context
@@ -704,7 +704,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param boundary
@@ -730,12 +730,12 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param context 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param context
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final WB_Polygon boundary,
 			final WB_Map2D context) {
@@ -749,7 +749,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param context
@@ -768,7 +768,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param boundary
@@ -798,15 +798,28 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param context 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param context
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
-			WB_Polygon boundary, final WB_Map2D context) {
+			final WB_Polygon boundary, final WB_Map2D context) {
+		int n = points.size();
+		final ArrayList<Coordinate> coords = new ArrayList<Coordinate>(n);
+		int id = 0;
+		for (final WB_Coord p : points) {
+			coords.add(toCoordinate(p, id, context));
+			id++;
+		}
+
+		return getClippedVoronoi2D(coords, boundary, context);
+	}
+
+	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
+			final List<WB_Polygon> boundary, final WB_Map2D context) {
 		int n = points.size();
 		final ArrayList<Coordinate> coords = new ArrayList<Coordinate>(n);
 		int id = 0;
@@ -819,7 +832,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param d
@@ -837,7 +850,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param boundary
@@ -864,13 +877,13 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param d 
-	 * @param context 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param d
+	 * @param context
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final WB_Polygon boundary,
 			final double d, final WB_Map2D context) {
@@ -884,7 +897,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param boundary
@@ -915,13 +928,13 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param d 
-	 * @param context 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param d
+	 * @param context
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
 			final WB_Polygon boundary, final double d, final WB_Map2D context) {
@@ -936,8 +949,21 @@ public class WB_Voronoi {
 		return getClippedVoronoi2D(coords, boundary, d, 2, context);
 	}
 
+	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
+			final List<WB_Polygon> boundary, final double d, final WB_Map2D context) {
+		int n = points.size();
+		final ArrayList<Coordinate> coords = new ArrayList<Coordinate>(n);
+		int id = 0;
+		for (final WB_Coord p : points) {
+			coords.add(toCoordinate(p, id, context));
+			id++;
+		}
+
+		return getClippedVoronoi2D(coords, boundary, d, 2, context);
+	}
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param d
@@ -957,7 +983,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param d
@@ -976,7 +1002,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param boundary
@@ -1004,14 +1030,14 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param d 
-	 * @param c 
-	 * @param context 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param d
+	 * @param c
+	 * @param context
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final WB_Polygon boundary,
 			final double d, final int c, final WB_Map2D context) {
@@ -1025,7 +1051,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param d
@@ -1046,7 +1072,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param points
 	 * @param boundary
@@ -1078,14 +1104,14 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param d 
-	 * @param c 
-	 * @param context 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param d
+	 * @param c
+	 * @param context
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
 			final WB_Polygon boundary, final double d, final int c, final WB_Map2D context) {
@@ -1100,14 +1126,27 @@ public class WB_Voronoi {
 		return getClippedVoronoi2D(coords, boundary, d, c, context);
 	}
 
+	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
+			final List<WB_Polygon> boundary, final double d, final int c, final WB_Map2D context) {
+		int n = points.size();
+		final ArrayList<Coordinate> coords = new ArrayList<Coordinate>(n);
+		int id = 0;
+		for (final WB_Coord p : points) {
+			coords.add(toCoordinate(p, id, context));
+			id++;
+		}
+
+		return getClippedVoronoi2D(coords, boundary, d, c, context);
+	}
+
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param d 
-	 * @param c 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param d
+	 * @param c
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
 			final Collection<? extends WB_Coord> boundary, final double d, final int c) {
@@ -1132,12 +1171,12 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param d 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param d
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
 			final Collection<? extends WB_Coord> boundary, final double d) {
@@ -1162,11 +1201,11 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
 			final Collection<? extends WB_Coord> boundary) {
@@ -1191,12 +1230,12 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param d 
-	 * @param c 
-	 * @return 
+	 *
+	 * @param points
+	 * @param d
+	 * @param c
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
 			final double d, final int c) {
@@ -1211,11 +1250,11 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param d 
-	 * @return 
+	 *
+	 * @param points
+	 * @param d
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
 			final double d) {
@@ -1230,10 +1269,10 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @return 
+	 *
+	 * @param points
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points) {
 		final int n = points.size();
@@ -1247,12 +1286,12 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param d 
-	 * @param c 
-	 * @return 
+	 *
+	 * @param points
+	 * @param d
+	 * @param c
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final double d, final int c) {
 		final int n = points.length;
@@ -1264,11 +1303,11 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param d 
-	 * @return 
+	 *
+	 * @param points
+	 * @param d
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final double d) {
 		final int n = points.length;
@@ -1280,13 +1319,13 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param d 
-	 * @param c 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param d
+	 * @param c
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final WB_Coord[] boundary,
 			final double d, final int c) {
@@ -1307,12 +1346,12 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param d 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param d
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final WB_Coord[] boundary,
 			final double d) {
@@ -1333,11 +1372,11 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final WB_Coord[] boundary) {
 		int n = points.length;
@@ -1357,10 +1396,10 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @return 
+	 *
+	 * @param points
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points) {
 		final int n = points.length;
@@ -1372,11 +1411,11 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final WB_Polygon boundary) {
 		int n = points.length;
@@ -1388,15 +1427,38 @@ public class WB_Voronoi {
 		return getClippedVoronoi2D(coords, boundary, XY);
 	}
 
+	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final List<WB_Polygon> boundary) {
+		int n = points.length;
+		final ArrayList<Coordinate> coords = new ArrayList<Coordinate>(n);
+		for (int i = 0; i < n; i++) {
+			coords.add(toCoordinate(points[i], i, XY));
+		}
+
+		return getClippedVoronoi2D(coords, boundary, XY);
+	}
+
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
-			WB_Polygon boundary) {
+			final WB_Polygon boundary) {
+		int n = points.size();
+		final ArrayList<Coordinate> coords = new ArrayList<Coordinate>(n);
+		int id = 0;
+		for (final WB_Coord p : points) {
+			coords.add(toCoordinate(p, id, XY));
+			id++;
+		}
+
+		return getClippedVoronoi2D(coords, boundary, XY);
+	}
+
+	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
+			final List<WB_Polygon> boundary) {
 		int n = points.size();
 		final ArrayList<Coordinate> coords = new ArrayList<Coordinate>(n);
 		int id = 0;
@@ -1409,12 +1471,12 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param d 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param d
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final WB_Polygon boundary,
 			final double d) {
@@ -1427,13 +1489,24 @@ public class WB_Voronoi {
 		return getClippedVoronoi2D(coords, boundary, d, 2, XY);
 	}
 
+	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final List<WB_Polygon> boundary,
+			final double d) {
+		int n = points.length;
+		final ArrayList<Coordinate> coords = new ArrayList<Coordinate>(n);
+		for (int i = 0; i < n; i++) {
+			coords.add(toCoordinate(points[i], i, XY));
+		}
+
+		return getClippedVoronoi2D(coords, boundary, d, 2, XY);
+	}
+
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param d 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param d
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
 			final WB_Polygon boundary, final double d) {
@@ -1448,14 +1521,27 @@ public class WB_Voronoi {
 		return getClippedVoronoi2D(coords, boundary, d, 2, XY);
 	}
 
+	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
+			final List<WB_Polygon> boundary, final double d) {
+		int n = points.size();
+		final ArrayList<Coordinate> coords = new ArrayList<Coordinate>(n);
+		int id = 0;
+		for (final WB_Coord p : points) {
+			coords.add(toCoordinate(p, id, XY));
+			id++;
+		}
+
+		return getClippedVoronoi2D(coords, boundary, d, 2, XY);
+	}
+
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param d 
-	 * @param c 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param d
+	 * @param c
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final WB_Polygon boundary,
 			final double d, final int c) {
@@ -1468,14 +1554,25 @@ public class WB_Voronoi {
 		return getClippedVoronoi2D(coords, boundary, d, c, XY);
 	}
 
+	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final WB_Coord[] points, final List<WB_Polygon> boundary,
+			final double d, final int c) {
+		int n = points.length;
+		final ArrayList<Coordinate> coords = new ArrayList<Coordinate>(n);
+		for (int i = 0; i < n; i++) {
+			coords.add(toCoordinate(points[i], i, XY));
+		}
+
+		return getClippedVoronoi2D(coords, boundary, d, c, XY);
+	}
+
 	/**
-	 * 
 	 *
-	 * @param points 
-	 * @param boundary 
-	 * @param d 
-	 * @param c 
-	 * @return 
+	 *
+	 * @param points
+	 * @param boundary
+	 * @param d
+	 * @param c
+	 * @return
 	 */
 	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
 			final WB_Polygon boundary, final double d, final int c) {
@@ -1490,8 +1587,21 @@ public class WB_Voronoi {
 		return getClippedVoronoi2D(coords, boundary, d, c, XY);
 	}
 
+	public static List<WB_VoronoiCell2D> getClippedVoronoi2D(final Collection<? extends WB_Coord> points,
+			final List<WB_Polygon> boundary, final double d, final int c) {
+		int n = points.size();
+		final ArrayList<Coordinate> coords = new ArrayList<Coordinate>(n);
+		int id = 0;
+		for (final WB_Coord p : points) {
+			coords.add(toCoordinate(p, id, XY));
+			id++;
+		}
+
+		return getClippedVoronoi2D(coords, boundary, d, c, XY);
+	}
+
 	/**
-	 * 
+	 *
 	 *
 	 * @param coords
 	 * @param context
@@ -1512,7 +1622,7 @@ public class WB_Voronoi {
 				polypoints.add(toPoint(element.x, element.y, context));
 			}
 			final Point centroid = poly.getCentroid();
-			final WB_Point pc = (centroid == null) ? null : toPoint(centroid.getX(), centroid.getY(), context);
+			final WB_Point pc = centroid == null ? null : toPoint(centroid.getX(), centroid.getY(), context);
 			final int index = (int) ((Coordinate) poly.getUserData()).z;
 			final double area = poly.getArea();
 			result.add(
@@ -1522,7 +1632,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param coords
 	 * @param d
@@ -1549,7 +1659,7 @@ public class WB_Voronoi {
 				polypoints.add(toPoint(element.x, element.y, context));
 			}
 			final Point centroid = poly.getCentroid();
-			final WB_Point pc = (centroid == null) ? null : toPoint(centroid.getX(), centroid.getY(), context);
+			final WB_Point pc = centroid == null ? null : toPoint(centroid.getX(), centroid.getY(), context);
 			final int index = (int) ((Coordinate) poly.getUserData()).z;
 			final double area = poly.getArea();
 			result.add(
@@ -1559,7 +1669,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param coords
 	 * @param context
@@ -1591,7 +1701,7 @@ public class WB_Voronoi {
 						polypoints.add(toPoint(element.x, element.y, context));
 					}
 					final Point centroid = poly.getCentroid();
-					final WB_Point pc = (centroid == null) ? null : toPoint(centroid.getX(), centroid.getY(), context);
+					final WB_Point pc = centroid == null ? null : toPoint(centroid.getX(), centroid.getY(), context);
 					final int index = (int) cellindex;
 					final double area = poly.getArea();
 					result.add(new WB_VoronoiCell2D(polypoints, index, geometryfactory.createPoint(coords.get(index)),
@@ -1603,7 +1713,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param coords
 	 * @param d
@@ -1638,7 +1748,7 @@ public class WB_Voronoi {
 						polypoints.add(toPoint(element.x, element.y, context));
 					}
 					final Point centroid = poly.getCentroid();
-					final WB_Point pc = (centroid == null) ? null : toPoint(centroid.getX(), centroid.getY(), context);
+					final WB_Point pc = centroid == null ? null : toPoint(centroid.getX(), centroid.getY(), context);
 					final int index = (int) cellindex;
 					final double area = poly.getArea();
 					result.add(new WB_VoronoiCell2D(polypoints, index, geometryfactory.createPoint(coords.get(index)),
@@ -1650,7 +1760,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param coords
 	 * @param bdcoords
@@ -1683,7 +1793,7 @@ public class WB_Voronoi {
 						polypoints.add(toPoint(element.x, element.y, context));
 					}
 					final Point centroid = poly.getCentroid();
-					final WB_Point pc = (centroid == null) ? null : toPoint(centroid.getX(), centroid.getY(), context);
+					final WB_Point pc = centroid == null ? null : toPoint(centroid.getX(), centroid.getY(), context);
 					final int index = (int) cellindex;
 					final double area = poly.getArea();
 					result.add(new WB_VoronoiCell2D(polypoints, index, geometryfactory.createPoint(coords.get(index)),
@@ -1695,12 +1805,12 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param coords 
-	 * @param constraint 
-	 * @param context 
-	 * @return 
+	 *
+	 * @param coords
+	 * @param constraint
+	 * @param context
+	 * @return
 	 */
 	private static List<WB_VoronoiCell2D> getClippedVoronoi2D(final ArrayList<Coordinate> coords,
 			final WB_Polygon constraint, final WB_Map2D context) {
@@ -1711,7 +1821,7 @@ public class WB_Voronoi {
 		final int npolys = polys.getNumGeometries();
 		final List<WB_VoronoiCell2D> result = new FastTable<WB_VoronoiCell2D>();
 
-		final Polygon hull = geometryfactory.toJTSPolygon(constraint);
+		final Polygon hull = geometryfactory.toJTSPolygon2D(constraint);
 		for (int i = 0; i < npolys; i++) {
 			Polygon poly = (Polygon) polys.getGeometryN(i);
 			final Geometry intersect = poly.intersection(hull);
@@ -1727,7 +1837,7 @@ public class WB_Voronoi {
 						polypoints.add(toPoint(element.x, element.y, context));
 					}
 					final Point centroid = poly.getCentroid();
-					final WB_Point pc = (centroid == null) ? null : toPoint(centroid.getX(), centroid.getY(), context);
+					final WB_Point pc = centroid == null ? null : toPoint(centroid.getX(), centroid.getY(), context);
 					final int index = (int) cellindex;
 					final double area = poly.getArea();
 					result.add(new WB_VoronoiCell2D(polypoints, index, geometryfactory.createPoint(coords.get(index)),
@@ -1739,7 +1849,51 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
+	 *
+	 * @param coords
+	 * @param constraint
+	 * @param context
+	 * @return
+	 */
+	private static List<WB_VoronoiCell2D> getClippedVoronoi2D(final ArrayList<Coordinate> coords,
+			final List<WB_Polygon> constraint, final WB_Map2D context) {
+		final DelaunayTriangulationBuilder dtb = new DelaunayTriangulationBuilder();
+		dtb.setSites(coords);
+		final QuadEdgeSubdivision qes = dtb.getSubdivision();
+		final GeometryCollection polys = (GeometryCollection) qes.getVoronoiDiagram(new GeometryFactory());
+		final int npolys = polys.getNumGeometries();
+		final List<WB_VoronoiCell2D> result = new FastTable<WB_VoronoiCell2D>();
+
+		final Geometry hull = geometryfactory.toJTSMultiPolygon2D(constraint);
+		for (int i = 0; i < npolys; i++) {
+			Polygon poly = (Polygon) polys.getGeometryN(i);
+			final Geometry intersect = poly.intersection(hull);
+			final double cellindex = ((Coordinate) poly.getUserData()).z;
+			for (int j = 0; j < intersect.getNumGeometries(); j++) {
+				if (intersect.getGeometryN(j).getGeometryType().equals("Polygon")
+						&& !intersect.getGeometryN(j).isEmpty()) {
+					poly = (Polygon) intersect.getGeometryN(j);
+
+					final Coordinate[] polycoord = poly.getCoordinates();
+					final List<WB_Point> polypoints = new FastTable<WB_Point>();
+					for (final Coordinate element : polycoord) {
+						polypoints.add(toPoint(element.x, element.y, context));
+					}
+					final Point centroid = poly.getCentroid();
+					final WB_Point pc = centroid == null ? null : toPoint(centroid.getX(), centroid.getY(), context);
+					final int index = (int) cellindex;
+					final double area = poly.getArea();
+					result.add(new WB_VoronoiCell2D(polypoints, index, geometryfactory.createPoint(coords.get(index)),
+							area, pc));
+				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 *
 	 *
 	 * @param coords
 	 * @param bdcoords
@@ -1776,7 +1930,7 @@ public class WB_Voronoi {
 						polypoints.add(toPoint(element.x, element.y, context));
 					}
 					final Point centroid = poly.getCentroid();
-					final WB_Point pc = (centroid == null) ? null : toPoint(centroid.getX(), centroid.getY(), context);
+					final WB_Point pc = centroid == null ? null : toPoint(centroid.getX(), centroid.getY(), context);
 					final int index = (int) cellindex;
 					final double area = poly.getArea();
 					result.add(new WB_VoronoiCell2D(polypoints, index, geometryfactory.createPoint(coords.get(index)),
@@ -1788,14 +1942,14 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param coords 
-	 * @param constraint 
-	 * @param d 
-	 * @param c 
-	 * @param context 
-	 * @return 
+	 *
+	 * @param coords
+	 * @param constraint
+	 * @param d
+	 * @param c
+	 * @param context
+	 * @return
 	 */
 	private static List<WB_VoronoiCell2D> getClippedVoronoi2D(final ArrayList<Coordinate> coords,
 			final WB_Polygon constraint, final double d, final int c, final WB_Map2D context) {
@@ -1805,7 +1959,7 @@ public class WB_Voronoi {
 		final GeometryCollection polys = (GeometryCollection) qes.getVoronoiDiagram(new GeometryFactory());
 		final int npolys = polys.getNumGeometries();
 		final List<WB_VoronoiCell2D> result = new FastTable<WB_VoronoiCell2D>();
-		final Polygon hull = geometryfactory.toJTSPolygon(constraint);
+		final Polygon hull = geometryfactory.toJTSPolygon2D(constraint);
 		for (int i = 0; i < npolys; i++) {
 			Polygon poly = (Polygon) polys.getGeometryN(i);
 			Geometry intersect = poly.intersection(hull);
@@ -1823,7 +1977,44 @@ public class WB_Voronoi {
 						polypoints.add(toPoint(element.x, element.y, context));
 					}
 					final Point centroid = poly.getCentroid();
-					final WB_Point pc = (centroid == null) ? null : toPoint(centroid.getX(), centroid.getY(), context);
+					final WB_Point pc = centroid == null ? null : toPoint(centroid.getX(), centroid.getY(), context);
+					final int index = (int) cellindex;
+					final double area = poly.getArea();
+					result.add(new WB_VoronoiCell2D(polypoints, index, geometryfactory.createPoint(coords.get(index)),
+							area, pc));
+				}
+			}
+		}
+		return result;
+	}
+
+	private static List<WB_VoronoiCell2D> getClippedVoronoi2D(final ArrayList<Coordinate> coords,
+			final List<WB_Polygon> constraint, final double d, final int c, final WB_Map2D context) {
+		final DelaunayTriangulationBuilder dtb = new DelaunayTriangulationBuilder();
+		dtb.setSites(coords);
+		final QuadEdgeSubdivision qes = dtb.getSubdivision();
+		final GeometryCollection polys = (GeometryCollection) qes.getVoronoiDiagram(new GeometryFactory());
+		final int npolys = polys.getNumGeometries();
+		final List<WB_VoronoiCell2D> result = new FastTable<WB_VoronoiCell2D>();
+		final Geometry hull = geometryfactory.toJTSMultiPolygon2D(constraint);
+		for (int i = 0; i < npolys; i++) {
+			Polygon poly = (Polygon) polys.getGeometryN(i);
+			Geometry intersect = poly.intersection(hull);
+			intersect = intersect.buffer(-d, c);
+			final double cellindex = ((Coordinate) poly.getUserData()).z;
+			for (int j = 0; j < intersect.getNumGeometries(); j++) {
+				if (intersect.getGeometryN(j).getGeometryType().equals("Polygon")
+						&& !intersect.getGeometryN(j).isEmpty()) {
+					poly = (Polygon) intersect.getGeometryN(j);
+
+					final Coordinate[] polycoord = poly.getCoordinates();
+					final List<WB_Point> polypoints = new FastTable<WB_Point>();
+					;
+					for (final Coordinate element : polycoord) {
+						polypoints.add(toPoint(element.x, element.y, context));
+					}
+					final Point centroid = poly.getCentroid();
+					final WB_Point pc = centroid == null ? null : toPoint(centroid.getX(), centroid.getY(), context);
 					final int index = (int) cellindex;
 					final double area = poly.getArea();
 					result.add(new WB_VoronoiCell2D(polypoints, index, geometryfactory.createPoint(coords.get(index)),
@@ -1835,7 +2026,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param p
 	 * @param i
@@ -1850,7 +2041,7 @@ public class WB_Voronoi {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param x
 	 * @param y

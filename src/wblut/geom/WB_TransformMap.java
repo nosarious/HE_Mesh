@@ -30,7 +30,7 @@ public class WB_TransformMap implements WB_Map {
 	 */
 	@Override
 	public void mapPoint3D(WB_Coord p, WB_MutableCoord result) {
-		T.applyAsPoint(p, result);
+		T.applyAsPointInto(p, result);
 
 	}
 
@@ -39,7 +39,7 @@ public class WB_TransformMap implements WB_Map {
 	 */
 	@Override
 	public void mapPoint3D(double x, double y, double z, WB_MutableCoord result) {
-		T.applyAsPoint(x, y, z, result);
+		T.applyAsPointInto(x, y, z, result);
 
 	}
 
@@ -48,7 +48,7 @@ public class WB_TransformMap implements WB_Map {
 	 */
 	@Override
 	public void unmapPoint3D(WB_Coord p, WB_MutableCoord result) {
-		invT.applyAsPoint(p, result);
+		invT.applyAsPointInto(p, result);
 
 	}
 
@@ -57,7 +57,7 @@ public class WB_TransformMap implements WB_Map {
 	 */
 	@Override
 	public void unmapPoint3D(double u, double v, double w, WB_MutableCoord result) {
-		invT.applyAsPoint(u, v, w, result);
+		invT.applyAsPointInto(u, v, w, result);
 
 	}
 
@@ -66,7 +66,7 @@ public class WB_TransformMap implements WB_Map {
 	 */
 	@Override
 	public void mapVector3D(WB_Coord p, WB_MutableCoord result) {
-		T.applyAsVector(p, result);
+		T.applyAsVectorInto(result, p);
 
 	}
 
@@ -75,7 +75,7 @@ public class WB_TransformMap implements WB_Map {
 	 */
 	@Override
 	public void mapVector3D(double x, double y, double z, WB_MutableCoord result) {
-		T.applyAsVector(x, y, z, result);
+		T.applyAsVectorInto(result, x, y, z);
 
 	}
 
@@ -84,7 +84,7 @@ public class WB_TransformMap implements WB_Map {
 	 */
 	@Override
 	public void unmapVector3D(WB_Coord p, WB_MutableCoord result) {
-		invT.applyAsVector(p, result);
+		invT.applyAsVectorInto(result, p);
 
 	}
 
@@ -93,7 +93,7 @@ public class WB_TransformMap implements WB_Map {
 	 */
 	@Override
 	public void unmapVector3D(double u, double v, double w, WB_MutableCoord result) {
-		invT.applyAsVector(u, v, w, result);
+		invT.applyAsVectorInto(result, u, v, w);
 
 	}
 

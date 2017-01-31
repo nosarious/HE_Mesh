@@ -44,9 +44,9 @@ class WB_GeodesicII {
 
 		private final int v, hv;
 
-		private WB_FacelistMesh mesh;
+		private WB_Mesh mesh;
 
-		private static WB_GeometryFactory gf = WB_GeometryFactory.instance();
+		private static WB_GeometryFactory gf = new WB_GeometryFactory();
 
 		private final double radius;
 
@@ -104,7 +104,7 @@ class WB_GeodesicII {
 		 *
 		 * @return
 		 */
-		public WB_FacelistMesh getMesh() {
+		public WB_Mesh getMesh() {
 			createMesh();
 			return mesh;
 		}
@@ -529,7 +529,7 @@ class WB_GeodesicII {
 				p.applyAsPointSelf(T);
 			}
 			final double threshold = LCDPoints[0][0]
-					.getDistance3D(LCDPoints[0][hv]) / (2 * v);
+					.getDistance(LCDPoints[0][hv]) / (2 * v);
 			mesh = gf.createUniqueMesh(gf.createMesh(points, faces), threshold);
 		}
 

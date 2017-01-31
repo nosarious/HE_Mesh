@@ -318,6 +318,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a2b56e3c746bba09baa7a86f02398a75c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1def877682a634ae9e3fd42b703815ac"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a1def877682a634ae9e3fd42b703815ac">getVertexAngleNormal</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> vertex)</td></tr>
 <tr class="separator:a1def877682a634ae9e3fd42b703815ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a129ac3c4f2acf3f53562ece1951397b2"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a129ac3c4f2acf3f53562ece1951397b2">getUmbrellaAngle</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> v)</td></tr>
+<tr class="separator:a129ac3c4f2acf3f53562ece1951397b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7dcbeb24c1c25c859af84a3a9d39f6aa"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a7dcbeb24c1c25c859af84a3a9d39f6aa">getGaussianCurvature</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> vertex, final <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a> meanCurvatureVector)</td></tr>
 <tr class="separator:a7dcbeb24c1c25c859af84a3a9d39f6aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97e1ab03dd8237578aa604891207e78e"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a97e1ab03dd8237578aa604891207e78e">getGaussianCurvature</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> vertex)</td></tr>
@@ -580,6 +582,7 @@ Static Private Attributes</h2></td></tr>
 <p>Collapse edge. End vertices are averaged. Degenerate faces are removed. This function can result in non-manifold meshes.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">mesh</td><td></td></tr>
     <tr><td class="paramname">e</td><td>edge to collapse </td></tr>
   </table>
   </dd>
@@ -628,6 +631,7 @@ Static Private Attributes</h2></td></tr>
 <p>Collapse edge to its midpoint or to point on boundary</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">mesh</td><td></td></tr>
     <tr><td class="paramname">e</td><td></td></tr>
     <tr><td class="paramname">strict</td><td>if true then an edge with two vertices on the boundary is always preserved</td></tr>
   </table>
@@ -705,6 +709,7 @@ Static Private Attributes</h2></td></tr>
 <p>Collapse halfedge if its vertex doesn't belong to the boundary</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">mesh</td><td></td></tr>
     <tr><td class="paramname">he</td><td>he</td></tr>
   </table>
   </dd>
@@ -1009,6 +1014,7 @@ Static Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">v</td><td></td></tr>
     <tr><td class="paramname">normal</td><td></td></tr>
     <tr><td class="paramname">t1</td><td></td></tr>
     <tr><td class="paramname">t2</td><td></td></tr>
@@ -1771,6 +1777,7 @@ Static Private Attributes</h2></td></tr>
 Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr�der, and Alan H. Barr. <a href="http://www.cs.caltech.edu/~mmeyer/Publications/diffGeomOps.pdf">http://www.cs.caltech.edu/~mmeyer/Publications/diffGeomOps.pdf</a> <a href="http://www.cs.caltech.edu/~mmeyer/Publications/diffGeomOps.pdf">http://www.cs.caltech.edu/~mmeyer/Publications/diffGeomOps.pdf</a> Note: on a sphere, the Gaussian curvature is very accurate, but not the mean curvature. Guoliang Xu suggests improvements in his papers <a href="http://lsec.cc.ac.cn/~xuguo/xuguo3.htm">http://lsec.cc.ac.cn/~xuguo/xuguo3.htm</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">vertex</td><td></td></tr>
     <tr><td class="paramname">meanCurvatureVector</td><td></td></tr>
   </table>
   </dd>
@@ -2708,6 +2715,31 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a129ac3c4f2acf3f53562ece1951397b2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static double wblut.hemesh.HET_MeshOp.getUmbrellaAngle </td>
+          <td>(</td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a>&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
 </div>
@@ -3765,7 +3797,6 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">selection</td><td>edges to split. </td></tr>
-    <tr><td class="paramname">mesh</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -3809,7 +3840,6 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
   <table class="params">
     <tr><td class="paramname">selection</td><td>edges to split. </td></tr>
     <tr><td class="paramname">offset</td><td>the offset </td></tr>
-    <tr><td class="paramname">mesh</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -4077,7 +4107,6 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">faces</td><td></td></tr>
-    <tr><td class="paramname">mesh</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -4120,7 +4149,6 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
   <table class="params">
     <tr><td class="paramname">faces</td><td></td></tr>
     <tr><td class="paramname">d</td><td></td></tr>
-    <tr><td class="paramname">mesh</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -4170,7 +4198,6 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
     <tr><td class="paramname">faces</td><td></td></tr>
     <tr><td class="paramname">d</td><td></td></tr>
     <tr><td class="paramname">c</td><td></td></tr>
-    <tr><td class="paramname">mesh</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -4324,7 +4351,6 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">faces</td><td></td></tr>
-    <tr><td class="paramname">mesh</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -4367,7 +4393,6 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
   <table class="params">
     <tr><td class="paramname">faces</td><td></td></tr>
     <tr><td class="paramname">d</td><td></td></tr>
-    <tr><td class="paramname">mesh</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -4417,7 +4442,6 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
     <tr><td class="paramname">faces</td><td></td></tr>
     <tr><td class="paramname">d</td><td></td></tr>
     <tr><td class="paramname">c</td><td></td></tr>
-    <tr><td class="paramname">mesh</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -4482,7 +4506,6 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">sel</td><td>the sel </td></tr>
-    <tr><td class="paramname">mesh</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -4547,7 +4570,6 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">selection</td><td>selection to split </td></tr>
-    <tr><td class="paramname">mesh</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -4611,7 +4633,6 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">selection</td><td></td></tr>
-    <tr><td class="paramname">mesh</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -5359,7 +5380,7 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 1 2016 00:03:03 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 23 2016 12:41:14 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

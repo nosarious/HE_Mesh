@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -14,7 +14,7 @@ import java.util.Collection;
 /**
  *
  */
-public class WB_TriangleMesh extends WB_FacelistMesh {
+public class WB_TriangleMesh extends WB_Mesh {
 
 	/**
 	 *
@@ -64,7 +64,7 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 	/**
 	 *
 	 */
-	public static final WB_GeometryFactory geometryfactory = WB_GeometryFactory.instance();
+	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/**
 	 *
@@ -93,7 +93,7 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 	 *
 	 * @param mesh
 	 */
-	protected WB_TriangleMesh(final WB_FacelistMesh mesh) {
+	protected WB_TriangleMesh(final WB_Mesh mesh) {
 		vertices = mesh.getPoints();
 		faces = mesh.getFacesAsInt();
 		aabb = new WB_AABB(vertices);
@@ -158,16 +158,16 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 			final WB_Vector a = geometryfactory.createNormalizedVectorFromTo(p0, p1);
 			final WB_Vector b = geometryfactory.createNormalizedVectorFromTo(p1, p2);
 			final WB_Vector c = geometryfactory.createNormalizedVectorFromTo(p2, p0);
-			final double l2a = a.getSqLength3D();
-			final double l2b = b.getSqLength3D();
-			final double l2c = c.getSqLength3D();
+			final double l2a = a.getSqLength();
+			final double l2b = b.getSqLength();
+			final double l2c = c.getSqLength();
 			final WB_Vector facenormal = a.cross(b);
-			(vertexNormals[face[0]]).addMulSelf(1.0 / (l2a * l2c), facenormal);
-			(vertexNormals[face[1]]).addMulSelf(1.0 / (l2b * l2a), facenormal);
-			(vertexNormals[face[2]]).addMulSelf(1.0 / (l2c * l2b), facenormal);
+			vertexNormals[face[0]].addMulSelf(1.0 / (l2a * l2c), facenormal);
+			vertexNormals[face[1]].addMulSelf(1.0 / (l2b * l2a), facenormal);
+			vertexNormals[face[2]].addMulSelf(1.0 / (l2c * l2b), facenormal);
 		}
 		for (final WB_Vector v : vertexNormals) {
-			(v).normalizeSelf();
+			v.normalizeSelf();
 		}
 		vNormalsUpdated = true;
 	}
@@ -195,12 +195,12 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 			final WB_Vector a = geometryfactory.createNormalizedVectorFromTo(p0, p1);
 			final WB_Vector b = geometryfactory.createNormalizedVectorFromTo(p1, p2);
 			final WB_Vector facenormal = a.cross(b);
-			(vertexNormals[face[0]]).addSelf(facenormal);
-			(vertexNormals[face[1]]).addSelf(facenormal);
-			(vertexNormals[face[2]]).addSelf(facenormal);
+			vertexNormals[face[0]].addSelf(facenormal);
+			vertexNormals[face[1]].addSelf(facenormal);
+			vertexNormals[face[2]].addSelf(facenormal);
 		}
 		for (final WB_Vector v : vertexNormals) {
-			(v).normalizeSelf();
+			v.normalizeSelf();
 		}
 		vNormalsUpdated = true;
 	}
@@ -238,9 +238,9 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 			P10.mulSelf(-1);
 			final double w1 = P10.getAngleNorm(P21);
 			final WB_Vector fn = faceNormals[i];
-			(vertexNormals[face[0]]).addMulSelf(w0, fn);
-			(vertexNormals[face[1]]).addMulSelf(w1, fn);
-			(vertexNormals[face[2]]).addMulSelf(Math.PI - w0 - w1, fn);
+			vertexNormals[face[0]].addMulSelf(w0, fn);
+			vertexNormals[face[1]].addMulSelf(w1, fn);
+			vertexNormals[face[2]].addMulSelf(Math.PI - w0 - w1, fn);
 			i++;
 		}
 		for (final WB_Vector v : vertexNormals) {
@@ -268,13 +268,13 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 		int i = 0;
 		for (final int[] face : faces) {
 			final WB_Vector fn = faceNormals[i];
-			(vertexNormals[face[0]]).addSelf(fn);
-			(vertexNormals[face[1]]).addSelf(fn);
-			(vertexNormals[face[2]]).addSelf(fn);
+			vertexNormals[face[0]].addSelf(fn);
+			vertexNormals[face[1]].addSelf(fn);
+			vertexNormals[face[2]].addSelf(fn);
 			i++;
 		}
 		for (final WB_Vector v : vertexNormals) {
-			(v).normalizeSelf();
+			v.normalizeSelf();
 		}
 		vNormalsUpdated = true;
 	}
@@ -301,24 +301,24 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 			// Compute corner weights
 			final WB_Vector c = e0.cross(e1);
 			double x, y, z;
-			final double area = 0.5 * c.getLength3D();
-			final double[] l2 = new double[] { e0.getSqLength3D(), e1.getSqLength3D(), e2.getSqLength3D() };
-			final double[] ew = new double[] { l2[0] * ((l2[1] + l2[2]) - l2[0]), l2[1] * ((l2[2] + l2[0]) - l2[1]),
-					l2[2] * ((l2[0] + l2[1]) - l2[2]) };
+			final double area = 0.5 * c.getLength();
+			final double[] l2 = new double[] { e0.getSqLength(), e1.getSqLength(), e2.getSqLength() };
+			final double[] ew = new double[] { l2[0] * (l2[1] + l2[2] - l2[0]), l2[1] * (l2[2] + l2[0] - l2[1]),
+					l2[2] * (l2[0] + l2[1] - l2[2]) };
 			if (ew[0] <= 0.0f) {
-				y = (-0.25 * l2[2] * area) / e0.dot(e2);
-				z = (-0.25 * l2[1] * area) / e0.dot(e1);
+				y = -0.25 * l2[2] * area / e0.dot(e2);
+				z = -0.25 * l2[1] * area / e0.dot(e1);
 				x = area - y - z;
 			} else if (ew[1] <= 0.0f) {
-				z = (-0.25 * l2[0] * area) / e1.dot(e0);
-				x = (-0.25 * l2[2] * area) / e1.dot(e2);
+				z = -0.25 * l2[0] * area / e1.dot(e0);
+				x = -0.25 * l2[2] * area / e1.dot(e2);
 				y = area - z - x;
 			} else if (ew[2] <= 0.0f) {
-				x = (-0.25 * l2[1] * area) / e2.dot(e1);
-				y = (-0.25 * l2[0] * area) / e2.dot(e0);
+				x = -0.25 * l2[1] * area / e2.dot(e1);
+				y = -0.25 * l2[0] * area / e2.dot(e0);
 				z = area - x - y;
 			} else {
-				final double ewscale = (0.5f * area) / (ew[0] + ew[1] + ew[2]);
+				final double ewscale = 0.5f * area / (ew[0] + ew[1] + ew[2]);
 				x = ewscale * (ew[1] + ew[2]);
 				y = ewscale * (ew[2] + ew[0]);
 				z = ewscale * (ew[0] + ew[1]);
@@ -355,9 +355,9 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 			pdir1[face[2]] = geometryfactory.createVectorFromTo(vertices.get(face[2]), vertices.get(face[0]));
 		}
 		for (int i = 0; i < nv; i++) {
-			(pdir1[i]).crossSelf(vertexNormals[i]);
+			pdir1[i].crossSelf(vertexNormals[i]);
 			pdir1[i].normalizeSelf();
-			pdir2[i] = (vertexNormals[i]).cross(pdir1[i]);
+			pdir2[i] = vertexNormals[i].cross(pdir1[i]);
 			pdir2[i].normalizeSelf();
 		}
 		int i = 0;
@@ -372,8 +372,8 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 			final double[] m = new double[] { 0, 0, 0 };
 			final double[][] w = new double[][] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
 			for (int j = 0; j < 3; j++) {
-				final double u = ((j == 0) ? e0 : ((j == 1) ? e1 : e2)).dot(t);
-				final double v = ((j == 0) ? e0 : ((j == 1) ? e1 : e2)).dot(b);
+				final double u = (j == 0 ? e0 : j == 1 ? e1 : e2).dot(t);
+				final double v = (j == 0 ? e0 : j == 1 ? e1 : e2).dot(b);
 				w[0][0] += u * u;
 				w[0][1] += u * v;
 				w[2][2] += v * v;
@@ -382,7 +382,7 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 				final double dnu = dn.dot(t);
 				final double dnv = dn.dot(b);
 				m[0] += dnu * u;
-				m[1] += (dnu * v) + (dnv * u);
+				m[1] += dnu * v + dnv * u;
 				m[2] += dnv * v;
 			}
 			w[1][1] = w[0][0] + w[2][2];
@@ -448,8 +448,8 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 			final double[][] w = new double[][] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
 			for (int j = 0; j < 3; j++) {
 				final WB_Vector dfcurv = geometryfactory.createVectorFromTo(fcurv[NEXT[j]], fcurv[PREV[j]]);
-				final double u = ((j == 0) ? e0 : ((j == 1) ? e1 : e2)).dot(t);
-				final double v = ((j == 0) ? e0 : ((j == 1) ? e1 : e2)).dot(b);
+				final double u = (j == 0 ? e0 : j == 1 ? e1 : e2).dot(t);
+				final double v = (j == 0 ? e0 : j == 1 ? e1 : e2).dot(b);
 				final double u2 = u * u;
 				final double v2 = v * v;
 				final double uv = u * v;
@@ -457,13 +457,13 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 				w[0][1] += uv;
 				w[3][3] += v2;
 				m[0] += u * dfcurv.xd();
-				m[1] += (v * dfcurv.xd()) + (2.0 * u * dfcurv.yd());
-				m[2] += (2 * v * dfcurv.yd()) + (u * dfcurv.zd());
+				m[1] += v * dfcurv.xd() + 2.0 * u * dfcurv.yd();
+				m[2] += 2 * v * dfcurv.yd() + u * dfcurv.zd();
 				m[3] += v * dfcurv.zd();
 			}
-			w[1][1] = (2.0 * w[0][0]) + w[3][3];
+			w[1][1] = 2.0 * w[0][0] + w[3][3];
 			w[1][2] = 2.0 * w[0][1];
-			w[2][2] = w[0][0] + (2.0 * w[3][3]);
+			w[2][2] = w[0][0] + 2.0 * w[3][3];
 			w[2][3] = w[0][1];
 			final double[] diag = new double[4];
 			if (!ldltdc(w, diag)) {
@@ -538,7 +538,7 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 			}
 			int f = vfNeighbors[i][0];
 			int fPrev = prevFace(i, f);
-			while ((fPrev >= 0) && (fPrev != vfNeighbors[i][0])) {
+			while (fPrev >= 0 && fPrev != vfNeighbors[i][0]) {
 				f = fPrev;
 				fPrev = prevFace(i, f);
 			}
@@ -547,7 +547,7 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 			do {
 				vfNeighbors[i][counter++] = f;
 				f = nextFace(i, f);
-			} while ((f >= 0) && (f != fStart));
+			} while (f >= 0 && f != fStart);
 		}
 	}
 
@@ -603,7 +603,7 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 	 * @return
 	 */
 	int indexOf(final int i, final int[] face) {
-		return (face[0] == i) ? 0 : ((face[1] == i) ? 1 : ((face[2] == i) ? 2 : -1));
+		return face[0] == i ? 0 : face[1] == i ? 1 : face[2] == i ? 2 : -1;
 	}
 
 	/**
@@ -670,7 +670,7 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 	 */
 	int nextFace(final int v_center, final int f) {
 		final int[] face = faces[f];
-		final int i_center = (face[0] == v_center) ? 0 : ((face[1] == v_center) ? 1 : 2);
+		final int i_center = face[0] == v_center ? 0 : face[1] == v_center ? 1 : 2;
 		final int i_next = NEXT[i_center];
 		return ffNeighbors[f][i_next];
 	}
@@ -684,7 +684,7 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 	 */
 	int prevFace(final int v_center, final int f) {
 		final int[] face = faces[f];
-		final int i_center = (face[0] == v_center) ? 0 : ((face[1] == v_center) ? 1 : 2);
+		final int i_center = face[0] == v_center ? 0 : face[1] == v_center ? 1 : 2;
 		final int i_prev = PREV[i_center];
 		return ffNeighbors[f][i_prev];
 	}
@@ -773,9 +773,9 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 		final double v1 = rNewU.dot(oldV);
 		final double u2 = rNewV.dot(oldU);
 		final double v2 = rNewV.dot(oldV);
-		newKs.set((oldKu * u1 * u1) + (oldKuv * (2 * u1 * v1)) + (oldKv * v1 * v1),
-				(oldKu * u1 * u2) + (oldKuv * ((u1 * v2) + (u2 * v1))) + (oldKv * v1 * v2),
-				(oldKu * u2 * u2) + (oldKuv * (2 * u2 * v2)) + (oldKv * v2 * v2));
+		newKs.set(oldKu * u1 * u1 + oldKuv * (2 * u1 * v1) + oldKv * v1 * v1,
+				oldKu * u1 * u2 + oldKuv * (u1 * v2 + u2 * v1) + oldKv * v1 * v2,
+				oldKu * u2 * u2 + oldKuv * (2 * u2 * v2) + oldKv * v2 * v2);
 	}
 
 	/**
@@ -798,14 +798,14 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 		final double v1 = rNewU.dot(oldV);
 		final double u2 = rNewV.dot(oldU);
 		final double v2 = rNewV.dot(oldV);
-		newDcurv[0] = (oldDcurv[0] * u1 * u1 * u1) + (oldDcurv[1] * 3.0f * u1 * u1 * v1)
-				+ (oldDcurv[2] * 3.0f * u1 * v1 * v1) + (oldDcurv[3] * v1 * v1 * v1);
-		newDcurv[1] = (oldDcurv[0] * u1 * u1 * u2) + (oldDcurv[1] * ((u1 * u1 * v2) + (2.0f * u2 * u1 * v1)))
-				+ (oldDcurv[2] * ((u2 * v1 * v1) + (2.0f * u1 * v1 * v2))) + (oldDcurv[3] * v1 * v1 * v2);
-		newDcurv[2] = (oldDcurv[0] * u1 * u2 * u2) + (oldDcurv[1] * ((u2 * u2 * v1) + (2.0f * u1 * u2 * v2)))
-				+ (oldDcurv[2] * ((u1 * v2 * v2) + (2.0f * u2 * v2 * v1))) + (oldDcurv[3] * v1 * v2 * v2);
-		newDcurv[3] = (oldDcurv[0] * u2 * u2 * u2) + (oldDcurv[1] * 3.0f * u2 * u2 * v2)
-				+ (oldDcurv[2] * 3.0f * u2 * v2 * v2) + (oldDcurv[3] * v2 * v2 * v2);
+		newDcurv[0] = oldDcurv[0] * u1 * u1 * u1 + oldDcurv[1] * 3.0f * u1 * u1 * v1 + oldDcurv[2] * 3.0f * u1 * v1 * v1
+				+ oldDcurv[3] * v1 * v1 * v1;
+		newDcurv[1] = oldDcurv[0] * u1 * u1 * u2 + oldDcurv[1] * (u1 * u1 * v2 + 2.0f * u2 * u1 * v1)
+				+ oldDcurv[2] * (u2 * v1 * v1 + 2.0f * u1 * v1 * v2) + oldDcurv[3] * v1 * v1 * v2;
+		newDcurv[2] = oldDcurv[0] * u1 * u2 * u2 + oldDcurv[1] * (u2 * u2 * v1 + 2.0f * u1 * u2 * v2)
+				+ oldDcurv[2] * (u1 * v2 * v2 + 2.0f * u2 * v2 * v1) + oldDcurv[3] * v1 * v2 * v2;
+		newDcurv[3] = oldDcurv[0] * u2 * u2 * u2 + oldDcurv[1] * 3.0f * u2 * u2 * v2 + oldDcurv[2] * 3.0f * u2 * v2 * v2
+				+ oldDcurv[3] * v2 * v2 * v2;
 	}
 
 	/**
@@ -856,12 +856,12 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 		double c = 1, s = 0, tt = 0;
 		if (kuv != 0.0f) {
 			// Jacobi rotation to diagonalize
-			final double h = (0.5 * (kv - ku)) / kuv;
-			tt = (h < 0.0) ? 1.0 / (h - Math.sqrt(1.0 + (h * h))) : 1.0 / (h + Math.sqrt(1.0 + (h * h)));
-			c = 1.0 / Math.sqrt(1.0 + (tt * tt));
+			final double h = 0.5 * (kv - ku) / kuv;
+			tt = h < 0.0 ? 1.0 / (h - Math.sqrt(1.0 + h * h)) : 1.0 / (h + Math.sqrt(1.0 + h * h));
+			c = 1.0 / Math.sqrt(1.0 + tt * tt);
 			s = tt * c;
 		}
-		ks.set(ku - (tt * kuv), kv + (tt * kuv), 0);
+		ks.set(ku - tt * kuv, kv + tt * kuv, 0);
 		if (Math.abs(ks.xd()) >= Math.abs(ks.yd())) {
 			pdir1.set(rOldU.mulAddMul(c, -s, rOldV));
 		} else {
@@ -1037,18 +1037,8 @@ public class WB_TriangleMesh extends WB_FacelistMesh {
 		if (!DCurvaturesUpdated) {
 			updateDCurvatures();
 		}
-		return (dcurv[i][0] * dcurv[i][0]) + (dcurv[i][1] * dcurv[i][1]) + (dcurv[i][2] * dcurv[i][2])
-				+ (dcurv[i][3] * dcurv[i][3]);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see wblut.geom.WB_FaceListMesh#getType()
-	 */
-	@Override
-	public WB_GeometryType getType() {
-		return WB_GeometryType.MESH;
+		return dcurv[i][0] * dcurv[i][0] + dcurv[i][1] * dcurv[i][1] + dcurv[i][2] * dcurv[i][2]
+				+ dcurv[i][3] * dcurv[i][3];
 	}
 
 	/*
