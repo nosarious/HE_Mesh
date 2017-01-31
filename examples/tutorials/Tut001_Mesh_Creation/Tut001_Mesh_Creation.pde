@@ -4,16 +4,11 @@ import wblut.core.*;
 import wblut.hemesh.*;
 import wblut.geom.*;
 
-
-
-
-import processing.opengl.*;
-
 HE_Mesh box;
 WB_Render render;
 
 void setup(){
-    size(600,600,OPENGL);
+    size(600,600,P3D);
    
     // All meshes are built with separate objects called creators
     HEC_Box boxCreator=new HEC_Box(); 
@@ -48,7 +43,3 @@ void setup(){
    stroke(0);
    render.drawEdges(box);
   }
-
-
-
-

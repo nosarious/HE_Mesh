@@ -50,10 +50,10 @@ void setup() {
   //check mesh validity, surfaces meshes will have "Null reference (face)" for the outer halfedges.
   //other messages could refer to inconsistent face orientation, missing faces or meshes not representable by
   //the hemesh datastructure
-  mesh.validate(true, true);
+  mesh.validate();
 
   //This should work
-  mesh.modify(new HEM_Lattice().setDepth(5).setWidth(5));
+  
   mesh.subdivide(new HES_Smooth());
   render=new WB_Render(this);
 }
@@ -69,8 +69,3 @@ void draw() {
   stroke(0);
   render.drawEdges(mesh);
 }
-
-
-
-
-

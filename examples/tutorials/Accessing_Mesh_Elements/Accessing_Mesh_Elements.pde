@@ -11,13 +11,12 @@ void setup() {
 
 
   /*
-* A HE_Mesh objects contains 4 kinds of elements, 3 of them self-
+* A HE_Mesh objects contains 3 kinds of elements, 2 of them self-
    * explanatory:
    *   HE_Vertex
    *   HE_Face
-   *   HE_Edge
    *
-   * The 4th, the halfedge, requires a bit more explanation, see Halfedge
+   * The 3th, the halfedge, represents both an edge and a "halfedge". This requires a bit more explanation, see Halfedge
    *
    *  HE_Halfedge
    *
@@ -27,18 +26,18 @@ void setup() {
 
   // Retrieve a single element; requires the key (a long value normally available from context or a HET_Selector), the key of an element never changes. An element knows its own key:
   long key=0;
-  HE_Vertex v= mesh.getVertexByKey(key);
-  HE_Face f=  mesh.getFaceByKey(key);
-  HE_Edge e=mesh.getEdgeByKey(key);
-  HE_Halfedge he= mesh.getHalfedgeByKey(key);
+  HE_Vertex v= mesh.getVertexWithKey(key);
+  HE_Face f=  mesh.getFaceWithKey(key);
+  HE_Halfedge e=mesh.getEdgeWithKey(key);
+  HE_Halfedge he= mesh.getHalfedgeWithKey(key);
 
   // Or use an index; these are straightforward however the index of an element will typically change. An element does not know its own index, but the mesh it belongs to does:
   int index=0;
-  v =mesh.getVertexByIndex(index);
+  v =mesh.getVertexWithIndex(index);
   index=mesh.getIndex(v);
-  f= mesh.getFaceByIndex(index);
-  e =mesh.getEdgeByIndex(index);
-  he =mesh.getHalfedgeByIndex(index);
+  f= mesh.getFaceWithIndex(index);
+  e =mesh.getEdgeWithIndex(index);
+  he =mesh.getHalfedgeWithIndex(index);
 
 
   /*
@@ -46,7 +45,7 @@ void setup() {
    */
   println();
   println("# vertices: "+mesh.getNumberOfVertices());
-  HE_VertexIterator vItr=new HE_VertexIterator(mesh);
+  HE_VertexIterator vItr= mesh.vItr();
   while (vItr.hasNext ()) {
     v=vItr.next();
     println(v);
@@ -54,7 +53,7 @@ void setup() {
   }
   println();
   println("# faces: "+mesh.getNumberOfFaces());
-  HE_FaceIterator fItr=new HE_FaceIterator(mesh);
+  HE_FaceIterator fItr=mesh.fItr();
   while (fItr.hasNext ()) {
     f=fItr.next();
     println(f);
@@ -62,7 +61,7 @@ void setup() {
   }
   println();
   println("# edges: "+mesh.getNumberOfEdges());
-  HE_EdgeIterator eItr=new HE_EdgeIterator(mesh);
+  HE_EdgeIterator eItr=mesh.eItr();
   while (eItr.hasNext ()) {
     e=eItr.next();
     println(e);
@@ -70,7 +69,7 @@ void setup() {
   }
   println();
   println("# halfedges: "+mesh.getNumberOfHalfedges());
-  HE_HalfedgeIterator heItr=new HE_HalfedgeIterator(mesh);
+  HE_HalfedgeIterator heItr=mesh.heItr();
   while (heItr.hasNext ()) {
     he=heItr.next();
     println(he);
@@ -82,9 +81,9 @@ void setup() {
   * Looping around faces and vertices is done with circulators.
    */
 
-  v=mesh.getVertexByIndex(0);
+  v=mesh.getVertexWithIndex(0);
   println("Vertex neighbors of vertex: "+v);
-  HE_VertexVertexCirculator vvCrc=new HE_VertexVertexCirculator(v);
+  HE_VertexVertexCirculator vvCrc=v.vvCrc();
   HE_Vertex vneighbor;
   while (vvCrc.hasNext ()) {
     vneighbor=vvCrc.next();
@@ -94,7 +93,7 @@ void setup() {
   println();
 
   println("Edge star of vertex: "+v);
-  HE_VertexEdgeCirculator veCrc=new HE_VertexEdgeCirculator(v);
+  HE_VertexEdgeCirculator veCrc=v.veCrc();
   while (veCrc.hasNext ()) {
     e=veCrc.next();
     println(e);
@@ -103,7 +102,7 @@ void setup() {
   println();
 
   println("Face star of vertex: "+v);
-  HE_VertexFaceCirculator vfCrc=new HE_VertexFaceCirculator(v);
+  HE_VertexFaceCirculator vfCrc=v.vfCrc();
   while (vfCrc.hasNext ()) {
     f=vfCrc.next();
     println(f);
@@ -112,7 +111,7 @@ void setup() {
   println();
 
   println("Outward halfedge star of vertex: "+v);
-  HE_VertexHalfedgeOutCirculator vheoCrc=new HE_VertexHalfedgeOutCirculator(v);
+  HE_VertexHalfedgeOutCirculator vheoCrc=v.vheoCrc();
   while (vheoCrc.hasNext ()) {
     he=vheoCrc.next();
     println(he);
@@ -121,17 +120,17 @@ void setup() {
   println();
 
   println("Inward halfedge star of vertex: "+v);
-  HE_VertexHalfedgeInCirculator vheiCrc=new HE_VertexHalfedgeInCirculator(v);
+  HE_VertexHalfedgeInCirculator vheiCrc=v.vheiCrc();
   while (vheiCrc.hasNext ()) {
     he=vheiCrc.next();
     println(he);
     //do thingy
   }
   println();
-  f=mesh.getFaceByIndex(0);
+  f=mesh.getFaceWithIndex(0);
 
   println("Vertices of face: "+f);
-  HE_FaceVertexCirculator fvCrc=new HE_FaceVertexCirculator(f);
+  HE_FaceVertexCirculator fvCrc=f.fvCrc();
   while (fvCrc.hasNext ()) {
     v=fvCrc.next();
     println(v);
@@ -140,7 +139,7 @@ void setup() {
   println();
 
   println("Edges of face: "+f);
-  HE_FaceEdgeCirculator feCrc=new HE_FaceEdgeCirculator(f);
+  HE_FaceEdgeCirculator feCrc=f.feCrc();
   while (feCrc.hasNext ()) {
     e=feCrc.next();
     println(e);
@@ -150,7 +149,7 @@ void setup() {
 
   HE_Face fadjacent;
   println("Neighboring faces of face: "+f);
-  HE_FaceFaceCirculator ffCrc=new HE_FaceFaceCirculator(f);
+  HE_FaceFaceCirculator ffCrc=f.ffCrc();
   while (ffCrc.hasNext ()) {
     fadjacent=ffCrc.next();
     println(fadjacent);
@@ -159,7 +158,7 @@ void setup() {
   println();
 
   println("Inner halfedges of face: "+f);
-  HE_FaceHalfedgeInnerCirculator fheiCrc=new HE_FaceHalfedgeInnerCirculator(f);
+  HE_FaceHalfedgeInnerCirculator fheiCrc=f.fheiCrc();
   while (fheiCrc.hasNext ()) {
     he=fheiCrc.next();
     println(he);
@@ -168,7 +167,7 @@ void setup() {
   println();
 
   println("Outer halfedges of face: "+f);
-  HE_FaceHalfedgeOuterCirculator fheoCrc=new HE_FaceHalfedgeOuterCirculator(f);
+  HE_FaceHalfedgeOuterCirculator fheoCrc=f.fheoCrc();
   while (fheoCrc.hasNext ()) {
     he=fheoCrc.next();
     println(he);
@@ -176,4 +175,3 @@ void setup() {
   }
   println();
 }
-

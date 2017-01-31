@@ -5,14 +5,12 @@ import wblut.hemesh.*;
 import wblut.geom.*;
 
 
-import processing.opengl.*;
-
 HE_Mesh box;
 HE_Mesh importbox;
 WB_Render render;
 
 void setup() {
-  size(600, 600, OPENGL);
+  size(600, 600, P3D);
   smooth();
 
   HEC_Box boxCreator=new HEC_Box().setWidth(400).setWidthSegments(10)
@@ -26,20 +24,20 @@ void setup() {
 //Save mesh to file
 
   //Simple stereolithography file format, accepted by many 3D programs and 3D printers
-  HET_Export.saveToSTL(box,sketchPath("box.stl"),1.0);
+  HET_Export.saveToSTL(box,sketchPath(),"box");
   
   //Basic Wavefront OBJ file format, accepted by many 3D programs and 3D printers
-  HET_Export.saveToOBJ(box,sketchPath("box.obj")); 
+  HET_Export.saveToOBJ(box,sketchPath(),"box"); 
   
   
   //Vertices and indexed face list, connectivity information has to be rebuild on import;
-  HET_Export.saveToSimpleMesh(box,sketchPath("box.mesh")); 
+  HET_Export.saveToSimpleMesh(box,sketchPath(),"box"); 
   
   //Stores all connectivity information, larger than simple mesh
-  HET_Export.saveToHemesh(box,sketchPath("box.hemesh")); 
+  HET_Export.saveToHemesh(box,sketchPath(),"box"); 
   
   //Binary compressed version of hemesh
-  HET_Export.saveToBinaryHemesh(box,sketchPath("box.binhemesh"));
+  HET_Export.saveToBinaryHemesh(box,sketchPath(),"box");
   
  //Each mesh file format has its corresponding creator.
  HEC_FromSimpleMeshFile fsmf=new HEC_FromSimpleMeshFile().setPath(sketchPath("box.mesh"));
@@ -63,7 +61,3 @@ void draw() {
   stroke(0);
   render.drawEdges(box);
 }
-
-
-
-

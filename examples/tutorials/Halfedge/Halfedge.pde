@@ -10,7 +10,7 @@ HE_Mesh mesh = new HE_Mesh(new HEC_Cube().setEdge(100));
 
 /*
 * The basic building block of HE_Mesh is the halfedge. In a valid
-* manifold, each edge is shared by two faces. An open surface while have
+* manifold, each edge is shared by two faces. An open surface will have
 * some edges with only one face. Each edge connects two vertices
 * Imagine the edge is split lengthwise in two half edges, each one belonging to
 * one of the faces and one of the vertices. The two halfedges are paired
@@ -52,6 +52,10 @@ while(he!=face.getHalfedge());
 * One caveat, be careful when changing the halfedge loop while going through it.
 * Changing the next halfedge, he.setNext(something), can easily lead to an infinite
 * loop, he.nextInface() never looping back to face.getHalfedge().
+*
+* No really: don't modify halfedge loops while traversing. Use one pass to store all necessary halfedges in a List or array,
+* and then do a second pass through that List or arry to make the necessary adjustments.
+*
 */
 
 //Likewise, you can use halfedges to loop around a vertex

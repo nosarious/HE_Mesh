@@ -5,15 +5,11 @@ import wblut.hemesh.*;
 import wblut.geom.*;
 
 
-
-
-import processing.opengl.*;
-
 HE_Mesh box;
 WB_Render render;
 
 void setup(){
-    size(600,600,OPENGL);
+    size(600,600,P3D);
     
     HEC_Box boxCreator=new HEC_Box().setWidth(400).setWidthSegments(5)
       .setHeight(200).setHeightSegments(3)
@@ -54,7 +50,3 @@ void setup(){
    render.drawEdges(box);
 
   }
-
-
-
-

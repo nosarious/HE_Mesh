@@ -22,7 +22,7 @@ void setup() {
   selection=new HE_Selection(box);  
 
   //add faces to selection 
-  HE_FaceIterator fItr=new HE_FaceIterator(box);
+  HE_FaceIterator fItr=box.fItr();
   HE_Face f;
   while (fItr.hasNext ()) {
     f=fItr.next();
@@ -32,12 +32,12 @@ void setup() {
   HES_CatmullClark cc=new HES_CatmullClark().setKeepEdges(false).setKeepBoundary(false);
 
   //only modify selection (if applicable)
-  box.subdivideSelected(cc, selection, 2);
+  selection.subdivide(cc,  2);
 
-  //modifier try to preserve selections whenever possible
+  //modifiers try to preserve selections whenever possible
 
 
-  box.modifySelected(new HEM_Extrude().setDistance(10).setChamfer(.5), selection);
+  selection.modify(new HEM_Extrude().setDistance(10).setChamfer(.5));
   render=new WB_Render(this);
 }
 
@@ -55,7 +55,3 @@ void draw() {
   stroke(0);
   render.drawEdges(box);
 }
-
-
-
-

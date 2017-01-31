@@ -23,7 +23,7 @@ void setup() {
   HE_Selection selection=new HE_Selection(box);  
 
   //add faces to selection
-  HE_FaceIterator fItr=new HE_FaceIterator(box);
+  HE_FaceIterator fItr=box.fItr();
   HE_Face f;
   while (fItr.hasNext ()) {
     f=fItr.next();
@@ -34,12 +34,12 @@ void setup() {
   HEM_Extrude extrude=new HEM_Extrude().setDistance(100);
 
   //only modify selection (if applicable)
-  box.modifySelected(extrude, selection);
+  selection.modify(extrude);
   
   //Some modifiers store selections after application.
   HE_Selection newSelection=extrude.walls;
   extrude.setDistance(-10).setChamfer(0.4);
-  box.modifySelected(extrude,newSelection);
+  newSelection.modify(extrude);
   
   render=new WB_Render(this);
 }
@@ -55,7 +55,3 @@ void draw() {
   stroke(0);
   render.drawEdges(box);
 }
-
-
-
-
