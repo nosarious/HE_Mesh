@@ -979,6 +979,12 @@ public class WB_Vector2D extends WB_SimpleVector2D implements WB_MutableCoordina
 	}
 
 	@Override
+	/**
+	 * 
+	 * @param angle
+	 * @param p
+	 * @return
+	 */
 	public WB_Vector2D rotateAboutPoint2DSelf(final double angle, final WB_Coord p) {
 		final WB_Transform2D raa = new WB_Transform2D();
 		raa.addRotateAboutPoint(angle, p);

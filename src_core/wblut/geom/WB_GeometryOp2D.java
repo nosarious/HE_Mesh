@@ -2054,6 +2054,7 @@ public class WB_GeometryOp2D extends WB_GeometryOpGLU {
 	/**
 	 * Project point to circle
 	 *
+	 * @param C
 	 * @param v
 	 * @return point projected to circle
 	 */
@@ -2542,9 +2543,9 @@ public class WB_GeometryOp2D extends WB_GeometryOpGLU {
 	}
 
 	/**
-	 *
-	 *
-	 * @param C
+	 * 
+	 * @param C1
+	 * @param C2
 	 * @return
 	 */
 	public static final boolean isTangent2D(final WB_Circle C1, final WB_Circle C2) {
@@ -3056,11 +3057,9 @@ public class WB_GeometryOp2D extends WB_GeometryOpGLU {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param ux
 	 * @param uy
-	 * @param uz
 	 * @return
 	 */
 	public static final boolean isZero2D(final double ux, final double uy) {

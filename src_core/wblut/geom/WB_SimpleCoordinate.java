@@ -66,9 +66,8 @@ public class WB_SimpleCoordinate extends WB_SimpleCoordinate2D {
 	}
 
 	/**
-	 *
-	 *
-	 * @param v
+	 * 
+	 * @param p
 	 */
 	public WB_SimpleCoordinate(final WB_Coord p) {
 		x = p.xd();

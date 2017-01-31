@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html">HET_MeshOp</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
@@ -308,8 +326,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a2a65231ff3c2c87ba727edf51dca5c84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d7a48a1d2e93c50194978794518f83e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="enumwblut_1_1geom_1_1_w_b___classification.html">WB_Classification</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a5d7a48a1d2e93c50194978794518f83e">getVertexType</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> vertex)</td></tr>
 <tr class="separator:a5d7a48a1d2e93c50194978794518f83e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9569f8006a7ef627e9ad02fbb2d3d851"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a9569f8006a7ef627e9ad02fbb2d3d851">getVertexCS</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> v)</td></tr>
-<tr class="separator:a9569f8006a7ef627e9ad02fbb2d3d851"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe0b0c375a0456e0ffbddcb23f1b3196"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#afe0b0c375a0456e0ffbddcb23f1b3196">getVertexCS</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> v)</td></tr>
+<tr class="separator:afe0b0c375a0456e0ffbddcb23f1b3196"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa55d466383544418221c4e0bd52ed165"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#aa55d466383544418221c4e0bd52ed165">getVertexNormal</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> v)</td></tr>
 <tr class="separator:aa55d466383544418221c4e0bd52ed165"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adca61d174e816954aed1c5fdb192539c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#adca61d174e816954aed1c5fdb192539c">getVertexAverageNormal</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> v)</td></tr>
@@ -324,8 +342,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a7dcbeb24c1c25c859af84a3a9d39f6aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97e1ab03dd8237578aa604891207e78e"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a97e1ab03dd8237578aa604891207e78e">getGaussianCurvature</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> vertex)</td></tr>
 <tr class="separator:a97e1ab03dd8237578aa604891207e78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a845003aae7ee38fe408b25c5e2fbe4ff"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a845003aae7ee38fe408b25c5e2fbe4ff">getCurvatureDirections</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> v)</td></tr>
-<tr class="separator:a845003aae7ee38fe408b25c5e2fbe4ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed04c9484964c8a169c4484f5536e86b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#aed04c9484964c8a169c4484f5536e86b">getCurvatureDirections</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> v)</td></tr>
+<tr class="separator:aed04c9484964c8a169c4484f5536e86b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9318943d89607c92b19a52b12361db0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#af9318943d89607c92b19a52b12361db0">getFaceNormal</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html">HE_Face</a> face)</td></tr>
 <tr class="separator:af9318943d89607c92b19a52b12361db0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acee14a50f3fdc99c3606f436bab09b7a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#acee14a50f3fdc99c3606f436bab09b7a">getNonNormFaceNormal</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html">HE_Face</a> face)</td></tr>
@@ -346,6 +364,10 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:afe7a9c1f677da79a687fb02aba5abc3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a166b3890c9c3b76b05b1211cf3fe17c3"><td class="memItemLeft" align="right" valign="top">static boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a166b3890c9c3b76b05b1211cf3fe17c3">pointIsStrictlyInFace</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p, final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html">HE_Face</a> f)</td></tr>
 <tr class="separator:a166b3890c9c3b76b05b1211cf3fe17c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3987bfdd0c20278b6e72ae4d660b70d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#aa3987bfdd0c20278b6e72ae4d660b70d">expandVertexToEdge</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html">HE_Mesh</a> mesh, final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> v, final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html">HE_Face</a> f1, final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html">HE_Face</a> f2, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> vn)</td></tr>
+<tr class="separator:aa3987bfdd0c20278b6e72ae4d660b70d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a9078208453818541e32a12e93a682e"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a4a9078208453818541e32a12e93a682e">getVolume</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html">HE_Mesh</a> mesh)</td></tr>
+<tr class="separator:a4a9078208453818541e32a12e93a682e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -358,10 +380,12 @@ Static Private Member Functions</h2></td></tr>
 <tr class="separator:adfb64d4fba0132155a5d4c97029f61bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1db1c1ea665a0cf0fae5ccb6b92edcb8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a1db1c1ea665a0cf0fae5ccb6b92edcb8">findOptimalSolution</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a> v, final <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a> normal, final <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a> t1, final <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a> t2)</td></tr>
 <tr class="separator:a1db1c1ea665a0cf0fae5ccb6b92edcb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa624bcc1689136aab0c427a800d48160"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#aa624bcc1689136aab0c427a800d48160">signedVolume</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html">HE_Face</a> f, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> center)</td></tr>
+<tr class="separator:aa624bcc1689136aab0c427a800d48160"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
-<tr class="memitem:a823334061232b4a04ac5eaebdbc61143"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a823334061232b4a04ac5eaebdbc61143">gf</a> = <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a9ac73262054d19293ae9877b7be63d8e">WB_GeometryFactory.instance</a>()</td></tr>
+<tr class="memitem:a823334061232b4a04ac5eaebdbc61143"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a823334061232b4a04ac5eaebdbc61143">gf</a> = new <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>()</td></tr>
 <tr class="separator:a823334061232b4a04ac5eaebdbc61143"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -969,6 +993,69 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aa3987bfdd0c20278b6e72ae4d660b70d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void wblut.hemesh.HET_MeshOp.expandVertexToEdge </td>
+          <td>(</td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html">HE_Mesh</a>&#160;</td>
+          <td class="paramname"><em>mesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a>&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html">HE_Face</a>&#160;</td>
+          <td class="paramname"><em>f1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html">HE_Face</a>&#160;</td>
+          <td class="paramname"><em>f2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
+          <td class="paramname"><em>vn</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Expand vertex to new edge.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mesh</td><td></td></tr>
+    <tr><td class="paramname">v</td><td>vertex to expand </td></tr>
+    <tr><td class="paramname">f1</td><td>first face </td></tr>
+    <tr><td class="paramname">f2</td><td>second face </td></tr>
+    <tr><td class="paramname">vn</td><td>position of new vertex </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a1db1c1ea665a0cf0fae5ccb6b92edcb8"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1392,7 +1479,7 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a845003aae7ee38fe408b25c5e2fbe4ff"></a>
+<a class="anchor" id="aed04c9484964c8a169c4484f5536e86b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1400,7 +1487,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a> wblut.hemesh.HET_MeshOp.getCurvatureDirections </td>
+          <td class="memname">static <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a> wblut.hemesh.HET_MeshOp.getCurvatureDirections </td>
           <td>(</td>
           <td class="paramtype">final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a>&#160;</td>
           <td class="paramname"><em>v</em></td><td>)</td>
@@ -2819,7 +2906,7 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
 
 </div>
 </div>
-<a class="anchor" id="a9569f8006a7ef627e9ad02fbb2d3d851"></a>
+<a class="anchor" id="afe0b0c375a0456e0ffbddcb23f1b3196"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -2827,7 +2914,7 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a> wblut.hemesh.HET_MeshOp.getVertexCS </td>
+          <td class="memname">static <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a> wblut.hemesh.HET_MeshOp.getVertexCS </td>
           <td>(</td>
           <td class="paramtype">final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a>&#160;</td>
           <td class="paramname"><em>v</em></td><td>)</td>
@@ -2881,6 +2968,30 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
           <td>(</td>
           <td class="paramtype">final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html">HE_Vertex</a>&#160;</td>
           <td class="paramname"><em>vertex</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a4a9078208453818541e32a12e93a682e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static double wblut.hemesh.HET_MeshOp.getVolume </td>
+          <td>(</td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html">HE_Mesh</a>&#160;</td>
+          <td class="paramname"><em>mesh</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -3086,6 +3197,40 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa624bcc1689136aab0c427a800d48160"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static double wblut.hemesh.HET_MeshOp.signedVolume </td>
+          <td>(</td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html">HE_Face</a>&#160;</td>
+          <td class="paramname"><em>f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
+          <td class="paramname"><em>center</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -5342,7 +5487,7 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a> wblut.hemesh.HET_MeshOp.gf = <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a9ac73262054d19293ae9877b7be63d8e">WB_GeometryFactory.instance</a>()</td>
+          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a> wblut.hemesh.HET_MeshOp.gf = new <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>()</td>
         </tr>
       </table>
   </td>
@@ -5375,14 +5520,18 @@ Operators for Triangulated 2-Manifolds", Mark Meyer, Mathieu Desbrun, Peter Schr
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/wblut/hemesh/<a class="el" href="_h_e_t___mesh_op_8java.html">HET_MeshOp.java</a></li>
+<li>src_hemesh_tools/wblut/hemesh/<a class="el" href="_h_e_t___mesh_op_8java.html">HET_MeshOp.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:14 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html">HET_MeshOp</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:27 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

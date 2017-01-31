@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1processing_1_1_w_b___render2_d.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1processing.html">processing</a></li><li class="navelem"><a class="el" href="classwblut_1_1processing_1_1_w_b___render2_d.html">WB_Render2D</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -146,8 +164,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a599948699235e943005836a711662f99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5612d61b83a5daa22b2bda490cfdeaa0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1processing_1_1_w_b___render2_d.html#a5612d61b83a5daa22b2bda490cfdeaa0">drawPolygon2D</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a> P)</td></tr>
 <tr class="separator:a5612d61b83a5daa22b2bda490cfdeaa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a867a5028b43482cf8c31f8483079a826"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1processing_1_1_w_b___render2_d.html#a867a5028b43482cf8c31f8483079a826">drawPolygon2D</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a>[] P)</td></tr>
+<tr class="separator:a867a5028b43482cf8c31f8483079a826"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a328f3d602a4d3ff7ae1b40a90de933f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1processing_1_1_w_b___render2_d.html#a328f3d602a4d3ff7ae1b40a90de933f4">drawPolygon2D</a> (final Collection&lt;?extends <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a> &gt; P)</td></tr>
+<tr class="separator:a328f3d602a4d3ff7ae1b40a90de933f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aede3bc743c766739fbfd814a8138b860"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1processing_1_1_w_b___render2_d.html#aede3bc743c766739fbfd814a8138b860">drawPolygonEdges2D</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a> P)</td></tr>
 <tr class="separator:aede3bc743c766739fbfd814a8138b860"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ca93944fec4be06d5c64bb1bcecf8fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1processing_1_1_w_b___render2_d.html#a7ca93944fec4be06d5c64bb1bcecf8fa">drawPolygonEdges2D</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a>[] P)</td></tr>
+<tr class="separator:a7ca93944fec4be06d5c64bb1bcecf8fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1462b1a7c4416725854b4429764942c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1processing_1_1_w_b___render2_d.html#aa1462b1a7c4416725854b4429764942c">drawPolygonEdges2D</a> (final Collection&lt;?extends <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a> &gt; P)</td></tr>
+<tr class="separator:aa1462b1a7c4416725854b4429764942c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5087d1d1a6cc087c9eb9e747a0970318"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1processing_1_1_w_b___render2_d.html#a5087d1d1a6cc087c9eb9e747a0970318">drawCircle2D</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">WB_Circle</a> C)</td></tr>
 <tr class="separator:a5087d1d1a6cc087c9eb9e747a0970318"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a311dc28dc566cc92cec89a40aee9633b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1processing_1_1_w_b___render2_d.html#a311dc28dc566cc92cec89a40aee9633b">drawTriangle2D</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___triangle.html">WB_Triangle</a> T)</td></tr>
@@ -182,6 +208,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:adaf62c8d7c3c861745e1ef2ae6f07ffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a344902d7e5e3b3215bdbb101ff190d8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1processing_1_1_w_b___render2_d.html#a344902d7e5e3b3215bdbb101ff190d8d">drawSegment2D</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">WB_Segment</a>[] segments)</td></tr>
 <tr class="separator:a344902d7e5e3b3215bdbb101ff190d8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54aab830d6305fd3cabe0564f1bdcbe1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1processing_1_1_w_b___render2_d.html#a54aab830d6305fd3cabe0564f1bdcbe1">drawSegment2D</a> (final int[] segs, final List&lt;?extends <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> &gt; coords)</td></tr>
+<tr class="separator:a54aab830d6305fd3cabe0564f1bdcbe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb7b5539f1a7c54259a50da7b6d8ce96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1processing_1_1_w_b___render2_d.html#aeb7b5539f1a7c54259a50da7b6d8ce96">translate2D</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p)</td></tr>
 <tr class="separator:aeb7b5539f1a7c54259a50da7b6d8ce96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classwblut_1_1processing_1_1_w_b___processing"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classwblut_1_1processing_1_1_w_b___processing')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classwblut_1_1processing_1_1_w_b___processing.html">wblut.processing.WB_Processing</a></td></tr>
@@ -523,6 +551,38 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a867a5028b43482cf8c31f8483079a826"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wblut.processing.WB_Render2D.drawPolygon2D </td>
+          <td>(</td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a>[]&#160;</td>
+          <td class="paramname"><em>P</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a328f3d602a4d3ff7ae1b40a90de933f4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wblut.processing.WB_Render2D.drawPolygon2D </td>
+          <td>(</td>
+          <td class="paramtype">final Collection&lt;?extends <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a> &gt;&#160;</td>
+          <td class="paramname"><em>P</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="aede3bc743c766739fbfd814a8138b860"></a>
 <div class="memitem">
 <div class="memproto">
@@ -542,6 +602,38 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a7ca93944fec4be06d5c64bb1bcecf8fa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wblut.processing.WB_Render2D.drawPolygonEdges2D </td>
+          <td>(</td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a>[]&#160;</td>
+          <td class="paramname"><em>P</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aa1462b1a7c4416725854b4429764942c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wblut.processing.WB_Render2D.drawPolygonEdges2D </td>
+          <td>(</td>
+          <td class="paramtype">final Collection&lt;?extends <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a> &gt;&#160;</td>
+          <td class="paramname"><em>P</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -718,6 +810,32 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a54aab830d6305fd3cabe0564f1bdcbe1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wblut.processing.WB_Render2D.drawSegment2D </td>
+          <td>(</td>
+          <td class="paramtype">final int[]&#160;</td>
+          <td class="paramname"><em>segs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final List&lt;?extends <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> &gt;&#160;</td>
+          <td class="paramname"><em>coords</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1217,14 +1335,18 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/wblut/processing/<a class="el" href="_w_b___render2_d_8java.html">WB_Render2D.java</a></li>
+<li>src_processing/wblut/processing/<a class="el" href="_w_b___render2_d_8java.html">WB_Render2D.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:17 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1processing.html">processing</a></li><li class="navelem"><a class="el" href="classwblut_1_1processing_1_1_w_b___render2_d.html">WB_Render2D</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:31 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

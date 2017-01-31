@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1hemesh_1_1_h_e___path_halfedge.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">HE_PathHalfedge</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">wblut.hemesh.HE_PathHalfedge Member List</div>  </div>
@@ -96,19 +114,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>This is the complete list of members for <a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#adb8f77c5890a72348f4ecb45714eb8a5">_currentKey</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html">wblut.hemesh.HE_Element</a></td><td class="entry"><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#abc73271f63e21356036d62e3104762a1">_he</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a1c10940133de1e8f8d7092ef7117df81">_key</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html">wblut.hemesh.HE_Element</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a463de6227429d15dd15bb4641e4a1ecc">labels</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html">wblut.hemesh.HE_Element</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a4876af51a2152b78cfc1e6663305064c">_next</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#acc25b35c8cd8597df95989fca86b8f3b">_prev</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a5b9f09c91d40111fad8cfc414c3b465c">clear</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#adc05141cce08436cdc746eec3e3de9b4">clearNext</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a0f9c44bbb6fcfb53d3bbb1543152b2e9">clearPrev</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#ae174a24e288c624b5e9a7e498ae9f64c">clearVisited</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#ae282fd7d840674bc6212633e8687e132">color</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#a7cc3eaf415a229155d113da8bd1d42d6">copyProperties</a>(final HE_MeshElement el)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a30739ae3f00b567b9e7386e67aaa977d">wblut::hemesh::HE_Element.copyProperties</a>(final HE_Element el)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html">wblut.hemesh.HE_Element</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#abc73271f63e21356036d62e3104762a1">_he</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a4876af51a2152b78cfc1e6663305064c">_next</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#acc25b35c8cd8597df95989fca86b8f3b">_prev</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a5b9f09c91d40111fad8cfc414c3b465c">clear</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#adc05141cce08436cdc746eec3e3de9b4">clearNext</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a0f9c44bbb6fcfb53d3bbb1543152b2e9">clearPrev</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#ae174a24e288c624b5e9a7e498ae9f64c">clearVisited</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#ae282fd7d840674bc6212633e8687e132">color</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#a7cc3eaf415a229155d113da8bd1d42d6">copyProperties</a>(final HE_MeshElement el)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a30739ae3f00b567b9e7386e67aaa977d">wblut::hemesh::HE_Element.copyProperties</a>(final HE_Element el)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html">wblut.hemesh.HE_Element</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#ac36ceff2215437dd4961d6203ea4cd0b">currentKey</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html">wblut.hemesh.HE_Element</a></td><td class="entry"><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#a1adb4f7b4e8a319684cd3fbe10bae85f">equals</a>(final Object other)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#a90bb018cd013cb88c18f4c2881f4cba7">getColor</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#aad6c46afbf13d7feca999a2e9eabc194">getEndVertex</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"></td></tr>
@@ -129,6 +145,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#a93558b96f0a47aaa238be6dc741a3f97">isVisible</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#ad9041ce8507e71e64c288c460a2dd459">isVisited</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a3b3343c5a8a2c6de271c93ba76d093c0">key</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a520e1cd043363dcaa59c976663f0eabc">wblut::hemesh::HE_MeshElement.key</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html">wblut.hemesh.HE_Element</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a99eede04ec24dc381750f3c75adb2db8">labels</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html">wblut.hemesh.HE_Element</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#a75fad19a4d17e2c386f02e2f953aedab">setColor</a>(final int color)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a103efacbf0b435dae86827089cd9a88f">setHalfedge</a>(final HE_Halfedge he)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html">wblut.hemesh.HE_PathHalfedge</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#ab75cc4d89cd37ee379269ea2a3da76db">setInternalLabel</a>(final int label)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html">wblut.hemesh.HE_Element</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
@@ -143,11 +161,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#ab9157b45a0cc43a978498d94a39545b6">visible</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#a6bd72ae7ae541d9408df397a41964d84">visited</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:06 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:14 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

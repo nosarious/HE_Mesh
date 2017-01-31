@@ -63,9 +63,8 @@ public class HEM_TriangleInversion extends HEM_Modifier {
 	}
 
 	/**
-	 *
-	 *
-	 * @param c
+	 * 
+	 * @param triangle
 	 * @return
 	 */
 	public HEM_TriangleInversion setTriangle(final WB_Triangle triangle) {

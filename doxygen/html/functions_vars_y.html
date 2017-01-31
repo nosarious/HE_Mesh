@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -39,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -107,6 +116,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_vars_y.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -127,7 +150,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_y"></a>- y -</h3><ul>
 <li>Y
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a831c6261b27e896a756780c0853af5b7">wblut.geom.WB_GeometryFactory</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#adb75549ce6953022695df08140f49694">wblut.geom.WB_Point</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#ae5c9a44d836ca7d090c3d186dd2951b3">wblut.geom.WB_SimpleVector</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html#a93e56bb7e18aa19d4450611196c9770a">wblut.geom.WB_SimpleVector2D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector4_d.html#a5e3b7b1eac90716098af4ba2d9b59d6a">wblut.geom.WB_SimpleVector4D</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___swizzle.html#a224452defd3b8a80d6b83d4c695a523e">wblut.geom.WB_Swizzle</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a28617ee8f3400560e5d72c334767c7ee">wblut.geom.WB_Vector</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector2_d.html#ab74888fd61596485921e6d7988d9d864">wblut.geom.WB_Vector2D</a>
 </li>
 <li>Y2D
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#ab4e094148e9628e5ff2250e50826fbb2">wblut.geom.WB_GeometryFactory2D</a>
@@ -136,6 +165,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___iso_surface.html#ae877ee2f7a0e4ba8c4e7fd17af781203">wblut.geom.WB_IsoSurface</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___iso_surface2_d.html#a245f81955f1ee4f0c1f07bee5097d1f4">wblut.geom.WB_IsoSurface2D</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___iso_surface_v_o_l2_d.html#af9af3069c5c9081c0a95ba8b47ee91b3">wblut.geom.WB_IsoSurfaceVOL2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_function.html#a3228efd63a5d90bc5a6eda5ad45b06ab">wblut.hemesh.HEC_IsoFunction</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_grid.html#a47d1da759663c89b4747f19c03331849">wblut.hemesh.HEC_IsoGrid</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface.html#ae13a062fa70ed40155482a1ad6cd4c3f">wblut.hemesh.HEC_IsoSurface</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_n_e_p.html#a54a5e81e20d8eaea37dbdbc86ae48245">wblut.hemesh.HEC_IsoSurfaceNEP</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_n_e_p2_d.html#a57f0b993a686bbe8baac8d6b67e465fa">wblut.hemesh.HEC_IsoSurfaceNEP2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_s_n_a_p.html#ac808279f10c88011c1362d531b7f2317">wblut.hemesh.HEC_IsoSurfaceSNAP</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_s_n_a_p2_d.html#a092a831356b3a27106442693fa55997a">wblut.hemesh.HEC_IsoSurfaceSNAP2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_v_o_l.html#ab0739aa72845b58e1cb7e48acae2d865">wblut.hemesh.HEC_IsoSurfaceVOL</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_v_o_l2_d.html#a157856cb408874c98328545f88f69782">wblut.hemesh.HEC_IsoSurfaceVOL2D</a>
 </li>
 <li>YX
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ac6e74e7e2cb03722244ae8932443e613">wblut.geom.WB_GeometryFactory</a>
@@ -183,11 +221,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 31 2017 20:34:19 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:35 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -53,12 +53,10 @@ public interface WB_MutableCoordinateTransform2D extends WB_CoordinateTransform2
 	public WB_Coord applyAsNormal2DSelf(final WB_Transform2D T);
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param angle
 	 * @param p
-	 * @param a
-	 * @return this
+	 * @return
 	 */
 	public WB_Coord rotateAboutPoint2DSelf(final double angle, final WB_Coord p);
 

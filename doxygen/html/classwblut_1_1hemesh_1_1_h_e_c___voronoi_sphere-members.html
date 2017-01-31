@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">wblut.hemesh.HEC_VoronoiSphere Member List</div>  </div>
@@ -107,7 +125,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ab6e977053da61f3d281e60cdbf9b25a8">createBase</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a70a087af3b483b33cded64023ad34887">cutoff</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ac3460515933e7e20b63987ff9dc5c0ea">dir</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ab28ae1ff1a298ade1661ebce0c269541">grow</a>(final WB_Point[] tracers, final int index)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a34c7b7e426b9242cbcd1eac82b0ad2fa">grow</a>(final WB_Point[] tracers, final int index, final double offset)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#aeed3502a415a3500be9d38e3857a0a9d">HEC_Creator</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#aee16e8890ca207b8acbf630f770f1650">HEC_VoronoiSphere</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#af38f9858e5ea0b53256899bc36ef0a30">home</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
@@ -115,45 +133,51 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a1366dc0857c48a8007044cc263a4d14b">manifoldCheck</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a04dc6125ac0f400a365c715e3273cf90">numberOfPoints</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#acdfab76543cebc5be331b5690edbf5bc">numTracers</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#ae0a0aeb42ee2036926d15f2b67d0d397">override</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#aa3c09131ec19efa8f091bdcf1cbb8d08">points</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a905a84179b5628634f20fb8905e2fc30">randomGen</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#aabf5d8b19010b8d0f79a8f7834180ba9">scale</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a54975bbb3a711e030e81d79dadeea3f0">setApprox</a>(final boolean a)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a4943a149c1089d864b5e0a28f03f0edd">setCellIndex</a>(final int i)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#afae1921166d6ccce301a8681904e9eae">setCenter</a>(final double x, final double y, final double z)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#acc07c7dcfd597e6eb3bdfb2a07549451">setCenter</a>(final WB_Coord c)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a2a47b8708104fedfc7b0aa0af556d8f7">setCutoff</a>(final double c)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a1144057dafe61cf61de4b37e983f0384">setLevel</a>(final int l)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a0d78018524566e6e73c07359635060fd">setManifoldCheck</a>(final boolean b)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a7e2005f1aad16d16936ca36276648d9b">setN</a>(final int N)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ac4c6041240427ca0630c82842597b866">setNumTracers</a>(final int n)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ac8039abee1a6ab9d73dcbfdc25433012">offset</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#ae0a0aeb42ee2036926d15f2b67d0d397">override</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a72f343d3833b89dd4e2ced40d1c12b29">points</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a905a84179b5628634f20fb8905e2fc30">randomGen</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#aabf5d8b19010b8d0f79a8f7834180ba9">scale</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a54975bbb3a711e030e81d79dadeea3f0">setApprox</a>(final boolean a)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a4943a149c1089d864b5e0a28f03f0edd">setCellIndex</a>(final int i)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#afae1921166d6ccce301a8681904e9eae">setCenter</a>(final double x, final double y, final double z)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#acc07c7dcfd597e6eb3bdfb2a07549451">setCenter</a>(final WB_Coord c)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a2a47b8708104fedfc7b0aa0af556d8f7">setCutoff</a>(final double c)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a1144057dafe61cf61de4b37e983f0384">setLevel</a>(final int l)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a0d78018524566e6e73c07359635060fd">setManifoldCheck</a>(final boolean b)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a7e2005f1aad16d16936ca36276648d9b">setN</a>(final int N)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ac4c6041240427ca0630c82842597b866">setNumTracers</a>(final int n)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#abf13260f5e590e247cb6bab9aa7f26c5">setOffset</a>(final double o)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#ab455daa00b8593eb17f725d05253e2ca">setOverride</a>(final boolean b)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ab3049973073f0b99428dd1a8d5f1f763">setPoints</a>(final WB_Point[] points)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a7d39f5dc583e1c58c974d245d301fb9a">setPoints</a>(final Collection&lt;?extends WB_Coord &gt; points)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a3df52c69305cf23bc1c1d60224d4e95f">setPoints</a>(final double[][] points)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ac6b3da9af5e6ee885b08eaf062a76862">setPoints</a>(final float[][] points)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a1677f7b9cb9b3ab47ee051f2a79f5497">setScale</a>(final double s)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a756722726a6f2b8fb7d81025a407129a">setSeed</a>(final long seed)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a257a55394a3e9e9f893e1576a7d431b6">setToModelview</a>(final PApplet home)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a2633e0276944c56f0457b72f99479495">setToWorldview</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a831c7cddabcc5b6667e6feb5faf6044a">setTraceStep</a>(final double d)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a7d697ee3596ca6a94c43c6e882bc5365">setZAngle</a>(final double a)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#abd4b7abd0a691275100d19256943ac83">setZAxis</a>(final double x, final double y, final double z)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a9f0c9e38470f40f49a8d57da8752c67a">setZAxis</a>(final double p0x, final double p0y, final double p0z, final double p1x, final double p1y, final double p1z)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a29fc75b4a410743b589dea028c875522">setZAxis</a>(final WB_Coord p)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a5b56ea357109f8f3e75d91bba9b94cfb">setZAxis</a>(final WB_Coord p0, final WB_Coord p1)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a83505ecccfe92d7defc5fee126b5f1ae">toModelview</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a312bfdbaba545b7318c9ed64662612e8">traceStep</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___machine.html#aa7eb78fb705f2396c55e022e34afb408">tracker</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___machine.html">wblut.hemesh.HE_Machine</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a556800b5031247bed0cfcb08bb7fdcf7">Z</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a9092440a774844e4f667acc4a21c2f2e">zangle</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#ab25e6abd97228cb3e9dc45bef929aa59">zaxis</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a1640669c8052ccca2b715c0e1c8d59fe">setPoints</a>(final WB_Coord[] points)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a1677f7b9cb9b3ab47ee051f2a79f5497">setScale</a>(final double s)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a756722726a6f2b8fb7d81025a407129a">setSeed</a>(final long seed)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a257a55394a3e9e9f893e1576a7d431b6">setToModelview</a>(final PApplet home)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a2633e0276944c56f0457b72f99479495">setToWorldview</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a831c7cddabcc5b6667e6feb5faf6044a">setTraceStep</a>(final double d)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a7d697ee3596ca6a94c43c6e882bc5365">setZAngle</a>(final double a)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#abd4b7abd0a691275100d19256943ac83">setZAxis</a>(final double x, final double y, final double z)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a9f0c9e38470f40f49a8d57da8752c67a">setZAxis</a>(final double p0x, final double p0y, final double p0z, final double p1x, final double p1y, final double p1z)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a29fc75b4a410743b589dea028c875522">setZAxis</a>(final WB_Coord p)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a5b56ea357109f8f3e75d91bba9b94cfb">setZAxis</a>(final WB_Coord p0, final WB_Coord p1)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a83505ecccfe92d7defc5fee126b5f1ae">toModelview</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a312bfdbaba545b7318c9ed64662612e8">traceStep</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">wblut.hemesh.HEC_VoronoiSphere</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___machine.html#aa7eb78fb705f2396c55e022e34afb408">tracker</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___machine.html">wblut.hemesh.HE_Machine</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a556800b5031247bed0cfcb08bb7fdcf7">Z</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a9092440a774844e4f667acc4a21c2f2e">zangle</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#ab25e6abd97228cb3e9dc45bef929aa59">zaxis</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:11 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:21 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

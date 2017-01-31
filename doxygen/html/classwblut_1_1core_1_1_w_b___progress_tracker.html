@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1core_1_1_w_b___progress_tracker.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1core.html">core</a></li><li class="navelem"><a class="el" href="classwblut_1_1core_1_1_w_b___progress_tracker.html">WB_ProgressTracker</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -113,10 +131,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a21915eecec2b493d14aa8f776beb67f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a982213886a9c3d42717668cc5bd1b349"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1core_1_1_w_b___progress_tracker.html#a982213886a9c3d42717668cc5bd1b349">setStatus</a> (final Object caller, final String status, final int inc)</td></tr>
 <tr class="separator:a982213886a9c3d42717668cc5bd1b349"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80d7461c3b712ee79e437e19089c65fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1core_1_1_w_b___progress_tracker.html#a80d7461c3b712ee79e437e19089c65fe">setStatusByString</a> (final String caller, final String status, final int inc)</td></tr>
+<tr class="separator:a80d7461c3b712ee79e437e19089c65fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9e4d5d730df62b1aac0ecb7c5a32cce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1core_1_1_w_b___progress_tracker.html#ab9e4d5d730df62b1aac0ecb7c5a32cce">setStatus</a> (final Object caller, final String status, final <a class="el" href="classwblut_1_1core_1_1_w_b___progress_counter.html">WB_ProgressCounter</a> counter)</td></tr>
 <tr class="separator:ab9e4d5d730df62b1aac0ecb7c5a32cce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad016e4c6596b979ad3c5d57938214862"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1core_1_1_w_b___progress_tracker.html#ad016e4c6596b979ad3c5d57938214862">setStatusByString</a> (final String caller, final String status, final <a class="el" href="classwblut_1_1core_1_1_w_b___progress_counter.html">WB_ProgressCounter</a> counter)</td></tr>
+<tr class="separator:ad016e4c6596b979ad3c5d57938214862"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adda2b8dd52d98ffa4e6357e8550bde05"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1core_1_1_w_b___progress_tracker.html#adda2b8dd52d98ffa4e6357e8550bde05">isUpdated</a> ()</td></tr>
 <tr class="separator:adda2b8dd52d98ffa4e6357e8550bde05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a262f95227db222685a2e2add8ea8f210"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1core_1_1_w_b___progress_tracker.html#a262f95227db222685a2e2add8ea8f210">setDepth</a> (final int <a class="el" href="classwblut_1_1core_1_1_w_b___progress_tracker.html#a7b373c181d81a889f2bbaac046531bb8">depth</a>)</td></tr>
+<tr class="separator:a262f95227db222685a2e2add8ea8f210"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -129,8 +153,6 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a5b03392f3563dfe1aac13b81b440990a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d9c58f9120c754c0d2db3b763bf3d15"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1core_1_1_w_b___progress_tracker.html#a3d9c58f9120c754c0d2db3b763bf3d15">getStatus</a> ()</td></tr>
 <tr class="separator:a3d9c58f9120c754c0d2db3b763bf3d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad016e4c6596b979ad3c5d57938214862"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1core_1_1_w_b___progress_tracker.html#ad016e4c6596b979ad3c5d57938214862">setStatusByString</a> (final String caller, final String status, final <a class="el" href="classwblut_1_1core_1_1_w_b___progress_counter.html">WB_ProgressCounter</a> counter)</td></tr>
-<tr class="separator:ad016e4c6596b979ad3c5d57938214862"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -237,6 +259,22 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a262f95227db222685a2e2add8ea8f210"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wblut.core.WB_ProgressTracker.setDepth </td>
+          <td>(</td>
+          <td class="paramtype">final int&#160;</td>
+          <td class="paramname"><em>depth</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a21915eecec2b493d14aa8f776beb67f6"></a>
 <div class="memitem">
 <div class="memproto">
@@ -339,12 +377,49 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a80d7461c3b712ee79e437e19089c65fe"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wblut.core.WB_ProgressTracker.setStatusByString </td>
+          <td>(</td>
+          <td class="paramtype">final String&#160;</td>
+          <td class="paramname"><em>caller</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final String&#160;</td>
+          <td class="paramname"><em>status</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final int&#160;</td>
+          <td class="paramname"><em>inc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">caller</td><td></td></tr>
+    <tr><td class="paramname">status</td><td></td></tr>
+    <tr><td class="paramname">inc</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ad016e4c6596b979ad3c5d57938214862"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void wblut.core.WB_ProgressTracker.setStatusByString </td>
@@ -370,11 +445,6 @@ Static Private Attributes</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -489,14 +559,18 @@ Static Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/wblut/core/<a class="el" href="_w_b___progress_tracker_8java.html">WB_ProgressTracker.java</a></li>
+<li>src_core/wblut/core/<a class="el" href="_w_b___progress_tracker_8java.html">WB_ProgressTracker.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:01 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1core.html">core</a></li><li class="navelem"><a class="el" href="classwblut_1_1core_1_1_w_b___progress_tracker.html">WB_ProgressTracker</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:00 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

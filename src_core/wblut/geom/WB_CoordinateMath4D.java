@@ -227,9 +227,11 @@ public interface WB_CoordinateMath4D {
 
 	/**
 	 * Add 3D coordinate values. Leave w-value unchanged.
-	 *
+	 * 
 	 * @param x
-	 * @return new WB_Coord
+	 * @param y
+	 * @param z
+	 * @return
 	 */
 	public WB_Coord add3D(final double x, final double y, final double z);
 

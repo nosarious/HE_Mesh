@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html">HEMC_Panelizer</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -112,12 +130,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a3a0bcc87c0b3ed10db99559208e2140a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a3a0bcc87c0b3ed10db99559208e2140a">HEMC_Panelizer</a> ()</td></tr>
+<tr class="separator:a3a0bcc87c0b3ed10db99559208e2140a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a778838c823eef92a866e388da000891f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html">HEMC_Panelizer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a778838c823eef92a866e388da000891f">setThickness</a> (final double d)</td></tr>
 <tr class="separator:a778838c823eef92a866e388da000891f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cf24e4324b2401b701f798a317c90cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html">HEMC_Panelizer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a5cf24e4324b2401b701f798a317c90cf">setOffset</a> (final double d)</td></tr>
+<tr class="separator:a5cf24e4324b2401b701f798a317c90cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9576d29741eb87fcb4cff1ef56b216cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html">HEMC_Panelizer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a9576d29741eb87fcb4cff1ef56b216cb">setThickness</a> (final double dmin, final double dmax)</td></tr>
 <tr class="separator:a9576d29741eb87fcb4cff1ef56b216cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86679958d30ed2a02eaf8f6b98837a0c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html">HEMC_Panelizer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a86679958d30ed2a02eaf8f6b98837a0c">setThickness</a> (final double dmin, final double dmax, final long seed)</td></tr>
-<tr class="separator:a86679958d30ed2a02eaf8f6b98837a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24fe070c6ddb0c7b8002193725cf2e8f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html">HEMC_Panelizer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a24fe070c6ddb0c7b8002193725cf2e8f">setOffset</a> (final double dmin, final double dmax)</td></tr>
+<tr class="separator:a24fe070c6ddb0c7b8002193725cf2e8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a882cccbf66d0b44e6856168ed243c951"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html">HEMC_Panelizer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a882cccbf66d0b44e6856168ed243c951">setSeed</a> (final long seed)</td></tr>
+<tr class="separator:a882cccbf66d0b44e6856168ed243c951"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3745cdbe1cb7a0a9d5f70d5aedb5a654"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html">HEMC_Panelizer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a3745cdbe1cb7a0a9d5f70d5aedb5a654">setMesh</a> (final <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html">HE_Mesh</a> <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a691300c24f7fe2202cef879c09136c59">mesh</a>)</td></tr>
 <tr class="separator:a3745cdbe1cb7a0a9d5f70d5aedb5a654"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22dd85b4a973e85d402d14c81949bf2a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_collection.html">HE_MeshCollection</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a22dd85b4a973e85d402d14c81949bf2a">create</a> ()</td></tr>
@@ -145,10 +169,14 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a691300c24f7fe2202cef879c09136c59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98e16d4b88f0134204b72286268580c4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a98e16d4b88f0134204b72286268580c4">thickness</a></td></tr>
 <tr class="separator:a98e16d4b88f0134204b72286268580c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa9a1502d0a32afed19dd941e9e635e1"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#afa9a1502d0a32afed19dd941e9e635e1">range</a></td></tr>
-<tr class="separator:afa9a1502d0a32afed19dd941e9e635e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3664ab34e0d7ab1174e387eeafd6ba7b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a3664ab34e0d7ab1174e387eeafd6ba7b">trange</a></td></tr>
+<tr class="separator:a3664ab34e0d7ab1174e387eeafd6ba7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8f873bdf6ec58df00da50500e65fe1c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1math_1_1_w_b___m_t_random.html">WB_MTRandom</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#aa8f873bdf6ec58df00da50500e65fe1c">random</a></td></tr>
 <tr class="separator:aa8f873bdf6ec58df00da50500e65fe1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdb026131979975e3bb5c630049ee51f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#afdb026131979975e3bb5c630049ee51f">offset</a></td></tr>
+<tr class="separator:afdb026131979975e3bb5c630049ee51f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b86f74bca8e2b385a8a413ed730351a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a3b86f74bca8e2b385a8a413ed730351a">orange</a></td></tr>
+<tr class="separator:a3b86f74bca8e2b385a8a413ed730351a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -162,7 +190,23 @@ Additional Inherited Members</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Planar cut of a mesh. Both parts are returned as separate meshes.</p>
 <dl class="section author"><dt>Author</dt><dd>Frederik Vanhoutte (W:Blut) </dd></dl>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a3a0bcc87c0b3ed10db99559208e2140a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">wblut.hemesh.HEMC_Panelizer.HEMC_Panelizer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a22dd85b4a973e85d402d14c81949bf2a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -199,6 +243,64 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>self </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5cf24e4324b2401b701f798a317c90cf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html">HEMC_Panelizer</a> wblut.hemesh.HEMC_Panelizer.setOffset </td>
+          <td>(</td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>d</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a24fe070c6ddb0c7b8002193725cf2e8f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html">HEMC_Panelizer</a> wblut.hemesh.HEMC_Panelizer.setOffset </td>
+          <td>(</td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>dmin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>dmax</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a882cccbf66d0b44e6856168ed243c951"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html">HEMC_Panelizer</a> wblut.hemesh.HEMC_Panelizer.setSeed </td>
+          <td>(</td>
+          <td class="paramtype">final long&#160;</td>
+          <td class="paramname"><em>seed</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -261,47 +363,6 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a86679958d30ed2a02eaf8f6b98837a0c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html">HEMC_Panelizer</a> wblut.hemesh.HEMC_Panelizer.setThickness </td>
-          <td>(</td>
-          <td class="paramtype">final double&#160;</td>
-          <td class="paramname"><em>dmin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">final double&#160;</td>
-          <td class="paramname"><em>dmax</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">final long&#160;</td>
-          <td class="paramname"><em>seed</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dmin</td><td></td></tr>
-    <tr><td class="paramname">dmax</td><td></td></tr>
-    <tr><td class="paramname">seed</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a691300c24f7fe2202cef879c09136c59"></a>
 <div class="memitem">
@@ -324,6 +385,47 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="afdb026131979975e3bb5c630049ee51f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double wblut.hemesh.HEMC_Panelizer.offset</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a3b86f74bca8e2b385a8a413ed730351a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double wblut.hemesh.HEMC_Panelizer.orange</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The range. </p>
+
+</div>
+</div>
 <a class="anchor" id="aa8f873bdf6ec58df00da50500e65fe1c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -341,27 +443,6 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="afa9a1502d0a32afed19dd941e9e635e1"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double wblut.hemesh.HEMC_Panelizer.range</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>The range. </p>
 
 </div>
 </div>
@@ -386,15 +467,40 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a3664ab34e0d7ab1174e387eeafd6ba7b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double wblut.hemesh.HEMC_Panelizer.trange</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>The range. </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/wblut/hemesh/<a class="el" href="_h_e_m_c___panelizer_8java.html">HEMC_Panelizer.java</a></li>
+<li>src_hemesh_creators/wblut/hemesh/<a class="el" href="_h_e_m_c___panelizer_8java.html">HEMC_Panelizer.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:13 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html">HEMC_Panelizer</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:25 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

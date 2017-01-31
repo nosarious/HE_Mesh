@@ -14,13 +14,13 @@ public class WB_Version {
 
 	public static final WB_Version CURRENT_VERSION = new WB_Version();
 
-	public static final int MAJOR = 4;
+	public static final int MAJOR = 5;
 
 	public static final int MINOR = 0;
 
 	public static final int PATCH = 0;
 
-	private static final String releaseInfo = "Victor";
+	private static final String releaseInfo = "Reboot";
 
 	/**
 	 *

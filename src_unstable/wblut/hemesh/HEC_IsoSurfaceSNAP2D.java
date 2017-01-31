@@ -587,11 +587,9 @@ public class HEC_IsoSurfaceSNAP2D extends HEC_Creator {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param i
 	 * @param j
-	 * @param k
 	 * @param offset
 	 * @return
 	 */
@@ -802,11 +800,9 @@ public class HEC_IsoSurfaceSNAP2D extends HEC_Creator {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param i
 	 * @param j
-	 * @param k
 	 * @return
 	 */
 	private int index(final int i, final int j) {
@@ -814,15 +810,10 @@ public class HEC_IsoSurfaceSNAP2D extends HEC_Creator {
 	}
 
 	/**
-	 * Value.
-	 *
+	 * 
 	 * @param i
-	 *            the i
 	 * @param j
-	 *            the j
-	 * @param k
-	 *            the k
-	 * @return the double
+	 * @return
 	 */
 	private double value(final int i, final int j) {
 		if (Double.isNaN(boundary)) { // if no boundary is set i,j,k should

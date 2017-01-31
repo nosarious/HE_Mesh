@@ -286,11 +286,9 @@ public class HEC_IsoSurfaceNEP2D extends HEC_Creator {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param i
 	 * @param j
-	 * @param k
 	 * @return
 	 */
 	private int index(final int i, final int j) {
@@ -319,11 +317,9 @@ public class HEC_IsoSurfaceNEP2D extends HEC_Creator {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param i
 	 * @param j
-	 * @param k
 	 * @param offset
 	 * @return
 	 */
@@ -427,18 +423,12 @@ public class HEC_IsoSurfaceNEP2D extends HEC_Creator {
 		mu = (isolevel - valp1) / (valp2 - valp1);
 		return new HE_Vertex(p1.xd() + mu * (p2.xd() - p1.xd()), p1.yd() + mu * (p2.yd() - p1.yd()), 0);
 	}
-
-	/**
-	 * Classify cell.
-	 *
-	 * @param i
-	 *            the i
-	 * @param j
-	 *            the j
-	 * @param k
-	 *            the k
-	 * @return the int
-	 */
+/**
+ * 
+ * @param i
+ * @param j
+ * @return
+ */
 	private int classifyCell(final int i, final int j) {
 		if (Double.isNaN(boundary)) {
 			if (i < 0 || j < 0 || i >= resx || j >= resy) {

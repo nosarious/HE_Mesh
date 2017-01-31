@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1nurbs_1_1_w_b___r_b_spline_surface.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1nurbs.html">nurbs</a></li><li class="navelem"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___r_b_spline_surface.html">WB_RBSplineSurface</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -156,10 +174,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a010fddff145729db669a029ec4f18635 inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5f7d6e627b9b8e9601b7be5908f7c0e inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline_surface.html#aa5f7d6e627b9b8e9601b7be5908f7c0e">WB_BSplineSurface</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___point_homogeneous.html">WB_PointHomogeneous</a>[][] controlPoints, final <a class="el" href="classwblut_1_1nurbs_1_1_w_b___nurbs_knot.html">WB_NurbsKnot</a> <a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline_surface.html#a7f7a537eece89c4141e14bbc072c48d8">uknot</a>, final <a class="el" href="classwblut_1_1nurbs_1_1_w_b___nurbs_knot.html">WB_NurbsKnot</a> <a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline_surface.html#aa1dbc4a3011ff148913b33d25b8e343c">vknot</a>)</td></tr>
 <tr class="separator:aa5f7d6e627b9b8e9601b7be5908f7c0e inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c248654e914bb98982fb0ab4f63bd04 inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline_surface.html#a5c248654e914bb98982fb0ab4f63bd04">WB_BSplineSurface</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>[][] controlPoints, final int udegree, final int vdegree)</td></tr>
-<tr class="separator:a5c248654e914bb98982fb0ab4f63bd04 inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95eb52f9ac40f4cd61f417f6913fef57 inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline_surface.html#a95eb52f9ac40f4cd61f417f6913fef57">WB_BSplineSurface</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a> point00, final <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a> point10, final <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a> point01, final <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a> point11)</td></tr>
-<tr class="separator:a95eb52f9ac40f4cd61f417f6913fef57 inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9acec28402f2ee28e03824329c82e8a5 inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline_surface.html#a9acec28402f2ee28e03824329c82e8a5">WB_BSplineSurface</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>[][] controlPoints, final int udegree, final int vdegree)</td></tr>
+<tr class="separator:a9acec28402f2ee28e03824329c82e8a5 inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4eea24d2ae0c178e5440139ab10cd356 inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline_surface.html#a4eea24d2ae0c178e5440139ab10cd356">WB_BSplineSurface</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> point00, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> point10, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> point01, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> point11)</td></tr>
+<tr class="separator:a4eea24d2ae0c178e5440139ab10cd356 inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a957440cdff752cbde6312f4b86fc7cdd inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline_surface.html#a957440cdff752cbde6312f4b86fc7cdd">surfacePoint</a> (final double u, final double v)</td></tr>
 <tr class="separator:a957440cdff752cbde6312f4b86fc7cdd inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd7b7007eaee054406cf83acd66294f4 inherit pub_methods_classwblut_1_1nurbs_1_1_w_b___b_spline_surface"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html">HE_Mesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline_surface.html#abd7b7007eaee054406cf83acd66294f4">toControlHemesh</a> ()</td></tr>
@@ -742,14 +760,18 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/wblut/nurbs/<a class="el" href="_w_b___r_b_spline_surface_8java.html">WB_RBSplineSurface.java</a></li>
+<li>src_nurbs/wblut/nurbs/<a class="el" href="_w_b___r_b_spline_surface_8java.html">WB_RBSplineSurface.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:17 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1nurbs.html">nurbs</a></li><li class="navelem"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___r_b_spline_surface.html">WB_RBSplineSurface</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:30 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

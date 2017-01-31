@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -39,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -77,7 +86,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow4" class="tabs3">
     <ul class="tablist">
-      <li class="current"><a href="functions_func.html#index_a"><span>a</span></a></li>
+      <li class="current"><a href="functions_func.html#index__"><span>_</span></a></li>
+      <li><a href="functions_func_a.html#index_a"><span>a</span></a></li>
       <li><a href="functions_func_b.html#index_b"><span>b</span></a></li>
       <li><a href="functions_func_c.html#index_c"><span>c</span></a></li>
       <li><a href="functions_func_d.html#index_d"><span>d</span></a></li>
@@ -106,6 +116,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_func.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -123,187 +147,55 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 &#160;
 
-<h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
-<li>a()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___poly_line.html#a20fbb8c92e50de5445a4f163430bc2db">wblut.geom.WB_PolyLine</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___ring.html#a53f637b10433a164f94ed410c0b530a1">wblut.geom.WB_Ring</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___triangle.html#ae054f567a8ea9014f7eedbcf17365410">wblut.geom.WB_Triangle</a>
+<h3><a class="anchor" id="index__"></a>- _ -</h3><ul>
+<li>_clearFace()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#a4cbf467d158bae574ca764e6ba7967e7">wblut.hemesh.HE_Halfedge</a>
 </li>
-<li>add()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___a_a_b_b.html#a16c9e377540d90ec3a95bbc3156bd5df">wblut.geom.WB_AABB</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___a_a_b_b2_d.html#aeaec2fd5f6ab39df9d42aaf8678fe232">wblut.geom.WB_AABB2D</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___frame.html#a81427c7a0cfc53db651fbbbf069879fa">wblut.geom.WB_Frame</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree.html#a31e8e7b89e187f129583eef9c4ff7ef7">wblut.geom.WB_KDTree&lt; T extends WB_Coord, V &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_w_b___k_d_node.html#af56260b8369f11f78c15afcb61bd22c0">wblut.geom.WB_KDTree&lt; T extends WB_Coord, V &gt;.WB_KDNode&lt; T extends WB_Coord, V &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_double.html#afd2203ed4bf47099911912a97543c7fd">wblut.geom.WB_KDTreeDouble&lt; T extends WB_Coord &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_double_1_1_w_b___k_d_node_double.html#a6cea460ca889477ae9ff951b32b74d7b">wblut.geom.WB_KDTreeDouble&lt; T extends WB_Coord &gt;.WB_KDNodeDouble&lt; T extends WB_Coord &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_integer.html#aa981e1d47fb55d9a108f5f3ec4b69ac7">wblut.geom.WB_KDTreeInteger&lt; T extends WB_Coord &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_integer_1_1_w_b___k_d_node_integer.html#a3016e70c033a282b0bf262c05d676164">wblut.geom.WB_KDTreeInteger&lt; T extends WB_Coord &gt;.WB_KDNodeInteger&lt; T extends WB_Coord &gt;</a>
+<li>_clearHalfedge()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#ac7953596ac7f7bd55e68550bfb87cbde">wblut.hemesh.HE_Face</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a32239d7e7814014fe1555d500fced0a6">wblut.hemesh.HE_Vertex</a>
 </li>
-<li>addAll()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___octree_integer.html#a020f8468f2e9bea9d890a1cc37123e9e">wblut.geom.WB_OctreeInteger</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree_double.html#ac35da810c4867159c57a50b4765e01e2">wblut.geom.WB_QuadtreeDouble</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree_integer.html#a0a379f0b5fb375d689dce027508f3161">wblut.geom.WB_QuadtreeInteger</a>
+<li>_clearNext()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#a6f24059459e0989fe0e1ec8ad56b000f">wblut.hemesh.HE_Halfedge</a>
 </li>
-<li>addBox()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_w_b___k_d_node.html#a452eeb7a8f23f438ab6d2344effaf091">wblut.geom.WB_KDTree&lt; T extends WB_Coord, V &gt;.WB_KDNode&lt; T extends WB_Coord, V &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_double_1_1_w_b___k_d_node_double.html#a6ee12b473bc2c2c4e76305be108bac85">wblut.geom.WB_KDTreeDouble&lt; T extends WB_Coord &gt;.WB_KDNodeDouble&lt; T extends WB_Coord &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_integer_1_1_w_b___k_d_node_integer.html#a2430d0c739eb4447b26166136ec181b3">wblut.geom.WB_KDTreeInteger&lt; T extends WB_Coord &gt;.WB_KDNodeInteger&lt; T extends WB_Coord &gt;</a>
+<li>_clearPair()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#af8900c4520c6715cfe88819cf0dc3137">wblut.hemesh.HE_Halfedge</a>
 </li>
-<li>addHexagon()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_w_b___subdivision_result.html#a220191cd0649484b36cbd3dcebbe3261">wblut.geom.WB_Subdivision.WB_SubdivisionResult</a>
+<li>_clearPrev()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#a057389766d18487bdfda1100bf7781a1">wblut.hemesh.HE_Halfedge</a>
 </li>
-<li>addInLeaf()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_w_b___k_d_node.html#aea492eb0c3ffa27618bdce758e1785f8">wblut.geom.WB_KDTree&lt; T extends WB_Coord, V &gt;.WB_KDNode&lt; T extends WB_Coord, V &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_double_1_1_w_b___k_d_node_double.html#adf297932b96f4637634469cdbfea9f2e">wblut.geom.WB_KDTreeDouble&lt; T extends WB_Coord &gt;.WB_KDNodeDouble&lt; T extends WB_Coord &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_integer_1_1_w_b___k_d_node_integer.html#af7b02706593d950179f76f646cc8f768">wblut.geom.WB_KDTreeInteger&lt; T extends WB_Coord &gt;.WB_KDNodeInteger&lt; T extends WB_Coord &gt;</a>
+<li>_clearVertex()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#aa34aadc09121f3686794e56d62466ae6">wblut.hemesh.HE_Halfedge</a>
 </li>
-<li>addLeafBounds()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_w_b___k_d_node.html#ad3f3f9890ac128b39294daf86b3c542a">wblut.geom.WB_KDTree&lt; T extends WB_Coord, V &gt;.WB_KDNode&lt; T extends WB_Coord, V &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_double_1_1_w_b___k_d_node_double.html#a4bc1b7945d22f78a02c456cf9e3859c1">wblut.geom.WB_KDTreeDouble&lt; T extends WB_Coord &gt;.WB_KDNodeDouble&lt; T extends WB_Coord &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_integer_1_1_w_b___k_d_node_integer.html#ad318cb55b5291635c833f0d531eb3bfa">wblut.geom.WB_KDTreeInteger&lt; T extends WB_Coord &gt;.WB_KDNodeInteger&lt; T extends WB_Coord &gt;</a>
+<li>_setFace()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#ad0af9feb6d7efb15ea4bfd6211ff395a">wblut.hemesh.HE_Halfedge</a>
 </li>
-<li>addLeafRegion()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_w_b___k_d_node.html#a0b055b08c3461b5a763089576676da86">wblut.geom.WB_KDTree&lt; T extends WB_Coord, V &gt;.WB_KDNode&lt; T extends WB_Coord, V &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_double_1_1_w_b___k_d_node_double.html#a9e2fe44d820d0f085cad81baf98009b6">wblut.geom.WB_KDTreeDouble&lt; T extends WB_Coord &gt;.WB_KDNodeDouble&lt; T extends WB_Coord &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_integer_1_1_w_b___k_d_node_integer.html#a85647b31e2593d9536d2c7cff462252f">wblut.geom.WB_KDTreeInteger&lt; T extends WB_Coord &gt;.WB_KDNodeInteger&lt; T extends WB_Coord &gt;</a>
+<li>_setHalfedge()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#a8539d72ea273ec206138355333ad5b5a">wblut.hemesh.HE_Face</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a76a40b4a475a7c041f20e20436406197">wblut.hemesh.HE_Vertex</a>
 </li>
-<li>addLevel()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_w_b___k_d_node.html#a0e80673630aa85f01e5e9ec712b5e912">wblut.geom.WB_KDTree&lt; T extends WB_Coord, V &gt;.WB_KDNode&lt; T extends WB_Coord, V &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_double_1_1_w_b___k_d_node_double.html#a4ea7e05b3328e953798407ced583c1a9">wblut.geom.WB_KDTreeDouble&lt; T extends WB_Coord &gt;.WB_KDNodeDouble&lt; T extends WB_Coord &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_integer_1_1_w_b___k_d_node_integer.html#a538c9fa48a90b414b7492337fc501743">wblut.geom.WB_KDTreeInteger&lt; T extends WB_Coord &gt;.WB_KDNodeInteger&lt; T extends WB_Coord &gt;</a>
+<li>_setNext()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#a52c7a777576f386441a467ddce39554e">wblut.hemesh.HE_Halfedge</a>
 </li>
-<li>addNode()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___frame.html#ad44ce574e7c80372a0cc261789b25487">wblut.geom.WB_Frame</a>
+<li>_setPair()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#ab0e26c6557f3cf7666110903280c7a06">wblut.hemesh.HE_Halfedge</a>
 </li>
-<li>addNodes()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___frame.html#a0325e67a70ea9fe79445343211b128ce">wblut.geom.WB_Frame</a>
+<li>_setPrev()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#a0073e1eb16c40260b608ddfd3a02e73f">wblut.hemesh.HE_Halfedge</a>
 </li>
-<li>addOctagon()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_w_b___subdivision_result.html#a1fd627c89101aa1081449d13f6d07ea7">wblut.geom.WB_Subdivision.WB_SubdivisionResult</a>
-</li>
-<li>addPentagon()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_w_b___subdivision_result.html#a78fcb99b61f93a54764e5beba19a457d">wblut.geom.WB_Subdivision.WB_SubdivisionResult</a>
-</li>
-<li>addPoint()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___octree.html#adb5c8441b64e2b1a93e0ea0c6ca4ad4b">wblut.geom.WB_Octree&lt; V &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___octree_double.html#ab9d72e33b50747a8e27dc16de071bd42">wblut.geom.WB_OctreeDouble</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___octree_integer.html#a75074b5ce19f69416770a11d68102d34">wblut.geom.WB_OctreeInteger</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree.html#a9bbdf76d5de7abe17565b83b8d83cb6d">wblut.geom.WB_Quadtree&lt; V &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree_double.html#a8586020004d579d3c6930844356fdcca">wblut.geom.WB_QuadtreeDouble</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree_integer.html#a482224b5dd3237742b08b2582b8e23ba">wblut.geom.WB_QuadtreeInteger</a>
-</li>
-<li>addQuad()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_w_b___subdivision_result.html#a137475d88c8e1c580de8852f2e5f9e54">wblut.geom.WB_Subdivision.WB_SubdivisionResult</a>
-</li>
-<li>addRegion()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_w_b___k_d_node.html#a0df772696bb130024aacf6c352273152">wblut.geom.WB_KDTree&lt; T extends WB_Coord, V &gt;.WB_KDNode&lt; T extends WB_Coord, V &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_double_1_1_w_b___k_d_node_double.html#a8e5cb36420b3bdbceccc1f095843985d">wblut.geom.WB_KDTreeDouble&lt; T extends WB_Coord &gt;.WB_KDNodeDouble&lt; T extends WB_Coord &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_integer_1_1_w_b___k_d_node_integer.html#a1d7776eb7948844600d5a6f8155bcd92">wblut.geom.WB_KDTreeInteger&lt; T extends WB_Coord &gt;.WB_KDNodeInteger&lt; T extends WB_Coord &gt;</a>
-</li>
-<li>addStrut()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___frame.html#a496f3148567fe49b1cb229624aa57284">wblut.geom.WB_Frame</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___frame_1_1_w_b___frame_node.html#aeacd90b3dcb59894e0965986eef9ebd6">wblut.geom.WB_Frame.WB_FrameNode</a>
-</li>
-<li>addTriangle()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_w_b___subdivision_result.html#a9c062e4b06c7dd249834ad9a5bf0dff7">wblut.geom.WB_Subdivision.WB_SubdivisionResult</a>
-</li>
-<li>addValue()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___hash_grid_double.html#a117dc839003fa8f395395172562ffacf">wblut.geom.WB_HashGridDouble</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___hash_grid_integer.html#abd42109e009916600d6a6b2d95eb0325">wblut.geom.WB_HashGridInteger</a>
-</li>
-<li>alphaTriangulate2D()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___triangulate2_d.html#a0e23535983e990e546fe53a79a37ae54">wblut.geom.WB_Triangulate2D</a>
-</li>
-<li>alphaTriangulate3D()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___triangulate3_d.html#a3004d1623de3bbfdcc79e263d01b820d">wblut.geom.WB_Triangulate3D</a>
-</li>
-<li>apply()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a75bbbf39d13ced4d8b9ea98e5c6b3e61">wblut.geom.WB_GeometryFactory2D</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___indexed_segment.html#a3015773007cb485f7be70e7feeaf86d8">wblut.geom.WB_IndexedSegment</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a62a8112b9747d1da6088c6420efd8cf2">wblut.geom.WB_Mesh</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___poly_line.html#aae2e9776b6233c572a1565a65dd23b27">wblut.geom.WB_PolyLine</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___ring.html#a8a10f37aaf4b2df14aad40a641074a07">wblut.geom.WB_Ring</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___sphere.html#a7353a53db9110b83a36a6a2cac83a443">wblut.geom.WB_Sphere</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_h01.html#a34f5aa10581f5d4a0a3f1b2117e5ac19">wblut.geom.WB_Subdivision.H01</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_h02.html#a556aefbee1a649d0849ca84da8d18e2b">wblut.geom.WB_Subdivision.H02</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_h03.html#a0849613b8ee0ae6a19277b7e2feebf19">wblut.geom.WB_Subdivision.H03</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_h04.html#a57a59d0233ac209dc126f9d3613c735e">wblut.geom.WB_Subdivision.H04</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_h05.html#a2d6226d90e1425a9003b9ee0d8784a1d">wblut.geom.WB_Subdivision.H05</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_h06.html#a9d63e9e3f32c5e8dc78e521e8468e9f5">wblut.geom.WB_Subdivision.H06</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_h07.html#adfc35a9ad9026604e394e1dd05c1ac19">wblut.geom.WB_Subdivision.H07</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_h08.html#a9663896af04f1548cfef35dcc6d3fda6">wblut.geom.WB_Subdivision.H08</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_h09.html#a30f64e2e3440ce77f3343318a5f7beae">wblut.geom.WB_Subdivision.H09</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o01.html#a7e4af0ae05c0391148ddf243632cf08b">wblut.geom.WB_Subdivision.O01</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o02.html#a3e41c14f61dad5393667cab944c4daa7">wblut.geom.WB_Subdivision.O02</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o03.html#a78a9c246e0e82e65290f8910ef3d283d">wblut.geom.WB_Subdivision.O03</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o04.html#abc32941ee8c56a9d91a17ebf843fe199">wblut.geom.WB_Subdivision.O04</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o05.html#a63767eb8aa7a5698f9cf1967c7896517">wblut.geom.WB_Subdivision.O05</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o06.html#aeefb848539d0ccfa2bd27329819e6c79">wblut.geom.WB_Subdivision.O06</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o07.html#a3a591482d1ddd809cfc771189d1dd092">wblut.geom.WB_Subdivision.O07</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o08.html#a77b1a7fe520cc3e17bb8e4e92acd27e1">wblut.geom.WB_Subdivision.O08</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o09.html#ae0be5dbca351d9b7167c75bf0de7601d">wblut.geom.WB_Subdivision.O09</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o10.html#a0a0918e08c6a990b6af19c44b29a17f6">wblut.geom.WB_Subdivision.O10</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o11.html#aed28a42d462cf2467911e42584bcda40">wblut.geom.WB_Subdivision.O11</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o12.html#a4118aea5d329e2030dbafefa93397b39">wblut.geom.WB_Subdivision.O12</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o13.html#a65712213d9141ff6fab5719ce097e711">wblut.geom.WB_Subdivision.O13</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_o14.html#a53105a302ce72e151c38902298085778">wblut.geom.WB_Subdivision.O14</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_p01.html#a633659aaf364ae38836eb4bf0ca03f96">wblut.geom.WB_Subdivision.P01</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_p02.html#acc94d587aaff3fcb968b2f8089bf7c71">wblut.geom.WB_Subdivision.P02</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_p03.html#afaa533ff88cd348351074656b3672d75">wblut.geom.WB_Subdivision.P03</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_p04.html#a07dd407863d2edc6c770e71a89740800">wblut.geom.WB_Subdivision.P04</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_p05.html#afab1054c71e2b7023de146670b26886f">wblut.geom.WB_Subdivision.P05</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_p06.html#a9f8511601792833ae0533d00215acd9b">wblut.geom.WB_Subdivision.P06</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_p07.html#ae3736d08c4ff277ddd228a67754cd897">wblut.geom.WB_Subdivision.P07</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_p08.html#ac54d1befcef2ff256dbc5502e74c1b17">wblut.geom.WB_Subdivision.P08</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_p09.html#abba607543ecca82fa04c20ca5b996829">wblut.geom.WB_Subdivision.P09</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q01.html#a1ada788fe53064c9195f4e2f0fcecd1d">wblut.geom.WB_Subdivision.Q01</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q02.html#a3c16cbb48c53b462251bca02c38761ea">wblut.geom.WB_Subdivision.Q02</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q03.html#ae5912665da91f59f2765750fb9d0d968">wblut.geom.WB_Subdivision.Q03</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q04.html#a2adb10ab8308639302a6087fd157b8e3">wblut.geom.WB_Subdivision.Q04</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q05.html#abca3616ecd51799c2a17ac8fc7f955ee">wblut.geom.WB_Subdivision.Q05</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q06.html#a7ed75998a1bf83662133eab4792526cc">wblut.geom.WB_Subdivision.Q06</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q07.html#ae4f44aa760d0cda0d4fbe2300f61a669">wblut.geom.WB_Subdivision.Q07</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q08.html#a82b1235d61ba5aca547aa6a3a37203a2">wblut.geom.WB_Subdivision.Q08</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q09.html#aae127bfd72af9516a7820579dd280638">wblut.geom.WB_Subdivision.Q09</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q10.html#add09b547c4767097c1d782324a8fb712">wblut.geom.WB_Subdivision.Q10</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q11.html#a9b94060fcca525bce0946f94370fb927">wblut.geom.WB_Subdivision.Q11</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q12.html#ac9cb5eb9eee0416f5e382cc8dfd8a843">wblut.geom.WB_Subdivision.Q12</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q13.html#ac2e9ffb486333777971ffee873d4fcdb">wblut.geom.WB_Subdivision.Q13</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q14.html#afbc9a486067203bd08156f8e905c5634">wblut.geom.WB_Subdivision.Q14</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q15.html#a0b30d05a337bf40bd0aa6754d78ea7ee">wblut.geom.WB_Subdivision.Q15</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q16.html#af836d734d6d8fb52625bf748b2f3ee43">wblut.geom.WB_Subdivision.Q16</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_q17.html#a5a37a665507555b80fb977594ac34f0c">wblut.geom.WB_Subdivision.Q17</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t00.html#a6c4f3197927477437d2545e103fe1734">wblut.geom.WB_Subdivision.T00</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t01.html#a50c594ef39d377f569a2116c2f6cba3d">wblut.geom.WB_Subdivision.T01</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t02.html#a9a3f6df15effdd2c0bb2ff674c9cdaaa">wblut.geom.WB_Subdivision.T02</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t03.html#aa894e845b3865e575eceb580c4d849cd">wblut.geom.WB_Subdivision.T03</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t04.html#a37739e0f66e4f3f2e0fc2e373358be1a">wblut.geom.WB_Subdivision.T04</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t05.html#a53fb4caa5d659414b509556036df357f">wblut.geom.WB_Subdivision.T05</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t06.html#a0b6395dcefcc4acad4cba7d45df9e3e9">wblut.geom.WB_Subdivision.T06</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t07.html#a9539b39b82af07768e33eaab58bafc90">wblut.geom.WB_Subdivision.T07</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t08.html#a9b11332673c4fde89d5172f620dce235">wblut.geom.WB_Subdivision.T08</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t09.html#aa83405f021716e4c94f9f49cf7ad0418">wblut.geom.WB_Subdivision.T09</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t10.html#a678c73ac489cebadff63b6cac83ecc87">wblut.geom.WB_Subdivision.T10</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t11.html#a05a10905021af2aecdbc38ea67f625a6">wblut.geom.WB_Subdivision.T11</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t12.html#a409e4a0240f8b00d003e130db4ac547d">wblut.geom.WB_Subdivision.T12</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t13.html#aa698c0a1d98bc9aa8be875bf98f74aad">wblut.geom.WB_Subdivision.T13</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___subdivision_1_1_t14.html#a121a30962df24030c98b93847530e079">wblut.geom.WB_Subdivision.T14</a>
-, <a class="el" href="interfacewblut_1_1geom_1_1_w_b___subdivision_1_1_w_b___hexagon_subdivision.html#abf27eedc105f7ca322f265d148842542">wblut.geom.WB_Subdivision.WB_HexagonSubdivision</a>
-, <a class="el" href="interfacewblut_1_1geom_1_1_w_b___subdivision_1_1_w_b___octagon_subdivision.html#a75821688d69b54fdeab0f83339347969">wblut.geom.WB_Subdivision.WB_OctagonSubdivision</a>
-, <a class="el" href="interfacewblut_1_1geom_1_1_w_b___subdivision_1_1_w_b___pentagon_subdivision.html#af84daddfdf439aa43e80c0f9312da5b2">wblut.geom.WB_Subdivision.WB_PentagonSubdivision</a>
-, <a class="el" href="interfacewblut_1_1geom_1_1_w_b___subdivision_1_1_w_b___quad_subdivision.html#a26bcff4ecdf0271be884f659a62460a8">wblut.geom.WB_Subdivision.WB_QuadSubdivision</a>
-, <a class="el" href="interfacewblut_1_1geom_1_1_w_b___subdivision_1_1_w_b___triangle_subdivision.html#abda5189bbaceadb68db25670da844ed7">wblut.geom.WB_Subdivision.WB_TriangleSubdivision</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___tetrahedron.html#adb201240a801a3ecbf55dfc5e08210c1">wblut.geom.WB_Tetrahedron</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___triangle.html#a92c91450738b980fa35da607d9bdce59">wblut.geom.WB_Triangle</a>
+<li>_setVertex()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#abb96c29d4d0c06c4d421b58ae31388e2">wblut.hemesh.HE_Halfedge</a>
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 31 2017 20:34:17 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:33 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

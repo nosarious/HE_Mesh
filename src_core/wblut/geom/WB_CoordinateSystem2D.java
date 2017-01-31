@@ -32,12 +32,10 @@ public class WB_CoordinateSystem2D {
 	private boolean _isWorld;
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param origin
 	 * @param x
 	 * @param y
-	 * @param z
 	 * @param parent
 	 */
 	protected WB_CoordinateSystem2D(final WB_Coord origin, final WB_Coord x, final WB_Coord y,
@@ -97,7 +95,6 @@ public class WB_CoordinateSystem2D {
 	 * @param origin
 	 * @param x
 	 * @param y
-	 * @param z
 	 */
 	protected void set(final WB_Coord origin, final WB_Coord x, final WB_Coord y) {
 		_origin = new WB_Point(origin);
@@ -229,11 +226,9 @@ public class WB_CoordinateSystem2D {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param xx
 	 * @param xy
-	 * @param xz
 	 * @return
 	 */
 	public WB_CoordinateSystem2D setX(final double xx, final double xy) {
@@ -244,11 +239,9 @@ public class WB_CoordinateSystem2D {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param yx
 	 * @param yy
-	 * @param yz
 	 * @return
 	 */
 	public WB_CoordinateSystem2D setY(final double yx, final double yy) {

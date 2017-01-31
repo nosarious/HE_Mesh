@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">HET_MeshBuffer</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">wblut.hemesh.HET_MeshBuffer Member List</div>  </div>
@@ -105,22 +123,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#a56f416ae875dfb461ebef4fd1f4d2e81">endDraw</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#ac042058f27e7cb51562c038b4d5a5fad">HET_MeshBuffer</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#a92ad495f4bfae8c6ff36b0843e8d77f7">home</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#ab37b1cd27aedbadf9cfea3b6a671abeb">meshes</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#a353157646ebc8c59d57a0019e08d049d">meshes</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#aa60bd77afaed4a923e90a5805d034242">nextMesh</a>()</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#a920af9dc78a612f19b4aead8b4ac1d83">p1</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#afcad9c10dd9bd5865af51e6737c36c52">quads</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#ab59a8712fc5b10e9f787aab0b4ddec18">shape</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#a2ffc130a6568b8b069538fa73776d481">shapectr</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#abf83864036d91fe3e82edc5ef9e27f9d">tempMeshes</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#a7b36b6427beb19a721a919b355b5ba64">triangles</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#a4204ba667ae5df24d2082879f63da614">vertex</a>(final float x, final float y)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#a7cf32d77b8a316905205ee0d6f96ee26">vertex</a>(final float x, final float y, final float z)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#a7b36b6427beb19a721a919b355b5ba64">triangles</a></td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#a4204ba667ae5df24d2082879f63da614">vertex</a>(final float x, final float y)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#a7cf32d77b8a316905205ee0d6f96ee26">vertex</a>(final float x, final float y, final float z)</td><td class="entry"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html">wblut.hemesh.HET_MeshBuffer</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:14 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:27 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

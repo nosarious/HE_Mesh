@@ -235,12 +235,10 @@ public class HEC_VoronoiSphere extends HEC_Creator {
 	}
 
 	/**
-	 * Grow the tracers.
-	 *
+	 * 
 	 * @param tracers
-	 *            the tracers
 	 * @param index
-	 *            the index
+	 * @param offset
 	 */
 	private void grow(final WB_Point[] tracers, final int index, final double offset) {
 		final WB_KDTreeInteger<WB_Coord> kdtree = new WB_KDTreeInteger<WB_Coord>();

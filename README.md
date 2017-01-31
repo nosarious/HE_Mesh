@@ -6,7 +6,7 @@ HE_Mesh, a Java library for creating and manipulating polygonal meshes. Aimed pr
 ## Building HE_Mesh from source.
 
 The first thing you need to do is download or fork this repository and import the code in Eclipse.
-You need to add some other external *.jar files to the properties of your Eclipse project to compile HE_Mesh.
+You need to add some other external *.jar files to the properties of your Eclipse project to compile HE_Mesh. These are included in the repository (folder external).
 
 * `core.jar`: This is the core Processing API for Processing 3. Download the latest version of Processing here: http://processing.org/
 * `javolution-6.1.0.jar`: Javolution is used to make HE_Mesh faster. You'll need version 6.1.0, download here: http://www.wblut.com/hemesh/javolution-6.1.0.zip (http://javolution.org/)
@@ -17,10 +17,11 @@ You need to add some other external *.jar files to the properties of your Eclips
 * `hemesh-data-2_2_0.jar`: Data for HE_Mesh. The required JAR can be downloaded here: http://www.wblut.com/hemesh/hemesh-data.zip
 * `exp4j.jar`: A simple expression evaluator for Java: https://github.com/fasseg/exp4j. Download a built version here: http://www.objecthunter.net/exp4j/download.html
 * `objparser.jar`: A simple OBJ file parser for Java: https://github.com/momchil-atanasov/java-data-front  Download a built version here:http://www.wblut.com/hemesh/objparser.zip
+* `EJML`: some functions use least-square approximations and other linear algebra approaches: http://ejml.org/
 
-## Build-of-the-day HE_Mesh (2016/07/23)
+## Build-of-the-day HE_Mesh (2017/01/31)
 
-Download a recent built here: http://www.wblut.com/hemesh/hemesh20160723.zip.
+Download a recent built here: http://www.wblut.com/hemesh/hemesh20170131.zip.
 
 ## License
 

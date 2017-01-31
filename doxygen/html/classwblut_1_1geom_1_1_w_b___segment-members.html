@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1geom_1_1_w_b___segment.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1geom.html">geom</a></li><li class="navelem"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">WB_Segment</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">wblut.geom.WB_Segment Member List</div>  </div>
@@ -96,49 +114,62 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>This is the complete list of members for <a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html#a20c46c8f26e3fc4d0a6c58d0b575c703">a</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html">wblut.geom.WB_Linear</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#ab8a440375ea692e32357fb53ae69f607">a</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a8c7e5c75b758ce54d794bb8815c8ab08">apply</a>(final WB_Transform T)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html#a94a639eb0da50fc3b60ff3a12d713f99">b</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html">wblut.geom.WB_Linear</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html#a562697b6008ed5928c47bb95fc04df1d">c</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html">wblut.geom.WB_Linear</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a775260d60d9d9edd16f833e52242a32f">b</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a086011a587116134e1630b16611c2a01">c</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a2fb90144fa3ae5a96c4ca593d096cfde">curveDerivative</a>(final double u)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html#a102f4f23492f46204bbf7a443f70b8a3">wblut::geom::WB_Curve.curveDerivative</a>(double u)</td><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html">wblut.geom.WB_Curve</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#ae2d472425df5ac951aec2708aacbdaf8">curveDirection</a>(final double u)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html#a6da858dc183bc72a53377e2d3090edfa">wblut::geom::WB_Curve.curveDirection</a>(double u)</td><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html">wblut.geom.WB_Curve</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#aeeb527a75a77613f4a6162c4c2272425">curvePoint</a>(final double u)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html#a7ce9495fbbf71ac6ebb15e1ed9d07082">wblut::geom::WB_Curve.curvePoint</a>(double u)</td><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html">wblut.geom.WB_Curve</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html#a652c4d0550cf8c7c78458d019935e835">direction</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html">wblut.geom.WB_Linear</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a6a4c15ba41a1757084d53f68d8fb18f7">direction</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#aae77265587a6971290ef9e52b473c14c">endpoint</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a90a0552e25a8965d305500122eac57b0">geometryfactory</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#aedb097813eb840960d15baf5c3724921">getCenter</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html#a9293364d33d4d31d4c8e3b692a7dc96d">getDirection</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html">wblut.geom.WB_Linear</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#aa4e7fb859f5635ce023445f5251d69af">getEndpoint</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a19f0f912b49c18c948fd440eb17f7195">getLength</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a1224dbcb12318131ec2ad8cc8008e0b1">getLowerU</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html#a934c0c41e0da3a5b9f0a57d5d2b5ba66">getNormal</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html">wblut.geom.WB_Linear</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html#a53a6499c50edc4f796cd7b8324ac5970">getOrigin</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html">wblut.geom.WB_Linear</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#af9423d8dbd03a981889bacc49c66924b">getParametricPointOnSegment</a>(final double t)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a6c31c0bcda68cc0f0ddbf08dcb727c3c">getParametricPointOnSegmentInto</a>(final double t, final WB_MutableCoord result)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html#a500b24e27c0f35e7a628ce2128994d83">getPointOnLine</a>(final double t)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html">wblut.geom.WB_Linear</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html#a36e239859f2e16876787987568253b56">getPointOnLineInto</a>(final double t, final WB_MutableCoord p)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html">wblut.geom.WB_Linear</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a190e68aa7154dfdb0048e25b77da2e8a">equals</a>(final Object o)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a49b79b69aee48c7546d3d433459c5259">geometryfactory</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#aedb097813eb840960d15baf5c3724921">getCenter</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a1de236de34e71953779481d455a7bd68">getDirection</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#aa4e7fb859f5635ce023445f5251d69af">getEndpoint</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a19f0f912b49c18c948fd440eb17f7195">getLength</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a1224dbcb12318131ec2ad8cc8008e0b1">getLowerU</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a9eced5eb9bf883fd8a2bbdc8bed2956f">getNormal</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a0f44ba1d54cc078a6c33d89f24b56423">getOrigin</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a8e63b2091793f788b402a89e1b5c0750">getParametricPoint</a>(final double t)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a4ee00ec0f78fc2c6167de859c52da62a">getParametricPointInto</a>(final double t, final WB_MutableCoord result)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a0a7c6330169f661772fe21edadd888fe">getPoint</a>(final double t)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a4d9b65e152f072885f1592cacf4fcf26">getPointInto</a>(final double t, final WB_MutableCoord result)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a8f0c5238b8f554c05972499e6f2492b5">getT</a>(final WB_Coord p)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#ac6ea5ce42722638c8c9cfe99c81db654">getUpperU</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a7188f293af6795dcb7e03a2b5213606e">length</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a788a9d303c09c9cbe63742be40996568">negate</a>(final List&lt; WB_Segment &gt; segs)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a32cf455ae1f0faba93c963da3aa6ab7b">negate</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html#aa14324b73d33bad13044f8407c78ba3f">origin</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html">wblut.geom.WB_Linear</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#ad4252c5c02c0bdac30258e5d4b0dabad">reverse</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html#afbda95c4f585438303b71a2390fa0b72">set</a>(final WB_Coord o, final WB_Coord d)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html">wblut.geom.WB_Linear</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html#a2eb262171778e21ec4f9155fefe75cb8">WB_Linear</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html">wblut.geom.WB_Linear</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html#a56f4d09570f06b3a8c2638d88ed51308">WB_Linear</a>(final WB_Coord o, final WB_Coord d)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___linear.html">wblut.geom.WB_Linear</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#aa036852a84c39546b0b340253901eb36">WB_Segment</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a22f1a80f1d91efe5a8c7595956c13265">WB_Segment</a>(final WB_Coord o, final WB_Coord d, final double l)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#ad81e34d2513811a868318abeea1ec2b7">WB_Segment</a>(final WB_Coord p1, final WB_Coord p2)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a722c34e0a580168bf8b7d7a853c3c719">WB_Segment</a>(final double p1x, final double p1y, final double p1z, final double p2x, final double p2y, final double p2z)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#ac34f6a98add94d9b07f625ed9f43c2b4">hashCode</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a7188f293af6795dcb7e03a2b5213606e">length</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a788a9d303c09c9cbe63742be40996568">negate</a>(final List&lt; WB_Segment &gt; segs)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a32cf455ae1f0faba93c963da3aa6ab7b">negate</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#aa544326d6b850a20049ad2bd0798d3af">origin</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#ad4252c5c02c0bdac30258e5d4b0dabad">reverse</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#abfd3c0f384a05d281ac16f886129938b">set</a>(final WB_Coord o, final WB_Coord d)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a0edeb1e6d0c8b17fdf4821475e30974d">setFromPoints</a>(final WB_Coord p1, final WB_Coord p2)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a963313811aedc1e75eb7836bcab0a55a">toString</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a9d367d42eac64ae9c3f9f1e7d556a608">WB_Line</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a8e37820dcc77ca0889c3e9dee5f90391">WB_Line</a>(final WB_Coord o, final WB_Coord d)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a33d9f17340763a6aea45ef6086f88d50">WB_Line</a>(final double ox, final double oy, final double oz, final double dx, final double dy, final double dz)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#af3ab8df444e59ecfccce85c0fd9ced31">WB_Line</a>(final double ox, final double oy, final double dx, final double dy)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___line.html">wblut.geom.WB_Line</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#aa036852a84c39546b0b340253901eb36">WB_Segment</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a22f1a80f1d91efe5a8c7595956c13265">WB_Segment</a>(final WB_Coord o, final WB_Coord d, final double l)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#ad81e34d2513811a868318abeea1ec2b7">WB_Segment</a>(final WB_Coord p1, final WB_Coord p2)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a722c34e0a580168bf8b7d7a853c3c719">WB_Segment</a>(final double p1x, final double p1y, final double p1z, final double p2x, final double p2y, final double p2z)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a12d392a65d80d333ab629518076ef508">X</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#af9d9bbc4aaa7600b3b9ba5c9d7b7ced0">Y</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a557bea54b654dca6e498820bf28eb2ad">Z</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html">wblut.geom.WB_Segment</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:04 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:09 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

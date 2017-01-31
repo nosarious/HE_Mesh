@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1processing_1_1_w_b___debug_render3_d.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1processing.html">processing</a></li><li class="navelem"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html">WB_DebugRender3D</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">wblut.processing.WB_DebugRender3D Member List</div>  </div>
@@ -112,16 +130,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html#ab4540ec0c10bc58c2b6446fb0d937f94">drawHalfedgeSimple</a>(final HE_Halfedge he, final double d, final double s)</td><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html">wblut.processing.WB_DebugRender3D</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html#a04e36c8e51f5f5bad5b586b3ce199f92">drawUnpairedHalfedges</a>(final HE_MeshStructure mesh)</td><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html">wblut.processing.WB_DebugRender3D</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html#a54a6350140f3f46cf32b8d3a13bb7c3b">drawVertexNormals</a>(final HE_MeshStructure mesh, final double d)</td><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html">wblut.processing.WB_DebugRender3D</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html#ad65a84f2f1d698f8d47c65ba9dff190d">geometryfactory</a></td><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html">wblut.processing.WB_DebugRender3D</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html#a3b2bf41fb0f5633ece5f70a4575bf665">geometryfactory</a></td><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html">wblut.processing.WB_DebugRender3D</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html#aea88b393bfa7d8bbec9d261a90843d07">home</a></td><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html">wblut.processing.WB_DebugRender3D</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html#aa8607296760027e30abce5dea7828a07">WB_DebugRender3D</a>(final PApplet home)</td><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html">wblut.processing.WB_DebugRender3D</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html#aadfe3c8c348b016d37e205263006d26b">WB_DebugRender3D</a>(final PGraphics home)</td><td class="entry"><a class="el" href="classwblut_1_1processing_1_1_w_b___debug_render3_d.html">wblut.processing.WB_DebugRender3D</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:17 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:30 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

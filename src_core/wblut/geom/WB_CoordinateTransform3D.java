@@ -13,7 +13,7 @@ package wblut.geom;
 /**
  * Interface for implementing non-mutable transformation operations on 3D
  * coordinates.If the operations should change the calling object use
- * {@link wblut.geom.WB_MutableCoordinateTransformation3D}.
+ * {@link wblut.geom.WB_MutableCoordinateTransform3D}.
  *
  * None of the operators change the calling object. Unlabelled operators, such
  * as "scale",create a new WB_Coord. Operators with the label "Into", such as
@@ -145,9 +145,11 @@ public interface WB_CoordinateTransform3D extends WB_CoordinateTransform2D {
 	public WB_Coord rotateAboutAxis2P(final double angle, final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z);
 
+	
 	/**
 	 * Rotate around axis defined by two points.
 	 *
+	 * @param result
 	 * @param angle
 	 * @param p1x
 	 * @param p1y
@@ -155,14 +157,13 @@ public interface WB_CoordinateTransform3D extends WB_CoordinateTransform2D {
 	 * @param p2x
 	 * @param p2y
 	 * @param p2z
-	 * 
 	 */
 	public void rotateAboutAxis2PInto(WB_MutableCoord result, final double angle, final double p1x, final double p1y,
 			final double p1z, final double p2x, final double p2y, final double p2z);
 
 	/**
 	 * Rotate around axis defined by two points.
-	 *
+	 * 
 	 * @param angle
 	 * @param p1
 	 * @param p2
@@ -173,6 +174,7 @@ public interface WB_CoordinateTransform3D extends WB_CoordinateTransform2D {
 	/**
 	 * Rotate around axis defined by two points.
 	 *
+	 * @param result
 	 * @param angle
 	 * @param p1
 	 * @param p2
@@ -197,6 +199,7 @@ public interface WB_CoordinateTransform3D extends WB_CoordinateTransform2D {
 	/**
 	 * Rotate around axis defined by point and direction.
 	 *
+	 * @param result
 	 * @param angle
 	 * @param px
 	 * @param py
@@ -221,6 +224,7 @@ public interface WB_CoordinateTransform3D extends WB_CoordinateTransform2D {
 	/**
 	 * Rotate around axis defined by point and direction.
 	 *
+	 * @param result
 	 * @param angle
 	 * @param p
 	 * @param a
@@ -242,6 +246,7 @@ public interface WB_CoordinateTransform3D extends WB_CoordinateTransform2D {
 	/**
 	 * Rotate around axis defined by origin and direction.
 	 *
+	 * @param result
 	 * @param angle
 	 * @param x
 	 * @param y
@@ -263,7 +268,7 @@ public interface WB_CoordinateTransform3D extends WB_CoordinateTransform2D {
 	/**
 	 * Rotate around axis defined by origin and direction.
 	 *
-	 *
+	 * @param result
 	 * @param angle
 	 * @param v
 	 */
@@ -274,7 +279,8 @@ public interface WB_CoordinateTransform3D extends WB_CoordinateTransform2D {
 	 *
 	 * @param fx
 	 * @param fy
-	 * @return new WB_Coord
+	 * @param fz
+	 * @return
 	 */
 	public WB_Coord scale(final double fx, final double fy, final double fz);
 
@@ -284,14 +290,15 @@ public interface WB_CoordinateTransform3D extends WB_CoordinateTransform2D {
 	 * @param result
 	 * @param fx
 	 * @param fy
+	 * @param fz
 	 */
 	public void scaleInto(WB_MutableCoord result, final double fx, final double fy, final double fz);
 
 	/**
 	 * Uniform scale.
-	 *
+	 * 
 	 * @param f
-	 * @return new WB_Coord
+	 * @return
 	 */
 	public WB_Coord scale(final double f);
 

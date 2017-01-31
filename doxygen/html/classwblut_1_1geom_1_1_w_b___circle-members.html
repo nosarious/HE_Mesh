@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1geom_1_1_w_b___circle.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1geom.html">geom</a></li><li class="navelem"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">WB_Circle</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">wblut.geom.WB_Circle Member List</div>  </div>
@@ -99,17 +117,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a6b25690904b0fe1f1844243dc4748d31">apply</a>(final WB_Transform T)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a812c70cc460da9157c5e5d01c2f391bf">applySelf</a>(final WB_Transform T)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#ae9a7df30c93b16ad95d2c8e8d7cc9516">center</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#ab8fd8267671f1967e483ae3ff4d8fa15">equals</a>(final Object o)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#acb771b020cf3821397f670fe5c5c48b8">geometryfactory</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a63a155c32ef7067c0238cd0bfc1f4031">getCenter</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a9a362e9f2ff5459c9a8bb43dfe8230fa">contains</a>(final WB_Coord p)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a3b673791637bfb50c3647beaef3199ee">curveDerivative</a>(final double u)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html#a102f4f23492f46204bbf7a443f70b8a3">wblut::geom::WB_Curve.curveDerivative</a>(double u)</td><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html">wblut.geom.WB_Curve</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#aded9c7c599cb1a78c71edb4b99cad49d">curveDirection</a>(final double u)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html#a6da858dc183bc72a53377e2d3090edfa">wblut::geom::WB_Curve.curveDirection</a>(double u)</td><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html">wblut.geom.WB_Curve</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a4ebbd68407738d651d1420ed3fd6e2c0">curvePoint</a>(final double u)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html#a7ce9495fbbf71ac6ebb15e1ed9d07082">wblut::geom::WB_Curve.curvePoint</a>(double u)</td><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html">wblut.geom.WB_Curve</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#ab8fd8267671f1967e483ae3ff4d8fa15">equals</a>(final Object o)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#abb563b5de32cd59a8ce96fa207dfb032">geometryfactory</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a63a155c32ef7067c0238cd0bfc1f4031">getCenter</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#ac025f9a59b1a32a6f91627555a9bfe26">getLowerU</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#ae812954fa0b32245d5eaf89bad44f148">getNormal</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a32c68eacd6cb6ef0e536683d98b0a2ba">getRadius</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a80d717ebc99f5ebeb331185126e2c99b">growCircleByPoint</a>(final WB_Coord p)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#ab7388a88c51d2dc57383befe91abb3d7">getUpperU</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a0009f1c89e5f77e061981cd76926bb00">hashCode</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a03b77c756b660c30864338e444f4bce8">hashCode</a>(final double v)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#afb2b28fc512312d2effc63f42a7cb7c4">isTangent2D</a>(final WB_Circle C)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a74851c1ca670bdc6ba70220230f6e33e">normal</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#ab57364a31f81b035e4d0f4db8c3ed138">projectToCircle</a>(final WB_Coord v)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a74851c1ca670bdc6ba70220230f6e33e">normal</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#ae24db40a99232ebb9107b0c94360c974">radius</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#acacd9bad1d199343918fd0f478e59814">set</a>(final WB_Circle c)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#af7af91d91312bbeaf6d57f34726b4069">setCenter</a>(final double x, final double y)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
@@ -124,11 +148,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a8e7f34b10ce7732843e84769c14d3201">WB_Circle</a>(final WB_Coord center, final WB_Coord normal, final double radius)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#afe71eae956b6d686d881326b876bc944">WB_Circle</a>(final double x, final double y, final double r)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html">wblut.geom.WB_Circle</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:01 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:00 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

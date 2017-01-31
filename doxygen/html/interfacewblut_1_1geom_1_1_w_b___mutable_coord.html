@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('interfacewblut_1_1geom_1_1_w_b___mutable_coord.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1geom.html">geom</a></li><li class="navelem"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -104,22 +122,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <div class="center">
   <img src="interfacewblut_1_1geom_1_1_w_b___mutable_coord.png" usemap="#wblut.geom.WB_MutableCoord_map" alt=""/>
   <map id="wblut.geom.WB_MutableCoord_map" name="wblut.geom.WB_MutableCoord_map">
-<area href="interfacewblut_1_1geom_1_1_w_b___coord.html" alt="wblut.geom.WB_Coord" shape="rect" coords="864,56,1101,80"/>
-<area href="interfacewblut_1_1geom_1_1_w_b___mutable_coordinate_full.html" alt="wblut.geom.WB_MutableCoordinateFull" shape="rect" coords="123,168,360,192"/>
-<area href="classwblut_1_1geom_1_1_w_b___point4_d.html" alt="wblut.geom.WB_Point4D" shape="rect" coords="494,168,731,192"/>
-<area href="classwblut_1_1geom_1_1_w_b___simple_vector.html" alt="wblut.geom.WB_SimpleVector" shape="rect" coords="741,168,978,192"/>
-<area href="classwblut_1_1geom_1_1_w_b___simple_vector4_d.html" alt="wblut.geom.WB_SimpleVector4D" shape="rect" coords="988,168,1225,192"/>
-<area href="classwblut_1_1hemesh_1_1_h_e___texture_coordinate.html" alt="wblut.hemesh.HE_TextureCoordinate" shape="rect" coords="1235,168,1472,192"/>
-<area href="classwblut_1_1processing_1_1_w_b___p_vector.html" alt="wblut.processing.WB_PVector" shape="rect" coords="1482,168,1719,192"/>
-<area href="classwblut_1_1geom_1_1_w_b___vector.html" alt="wblut.geom.WB_Vector" shape="rect" coords="0,224,237,248"/>
-<area href="classwblut_1_1hemesh_1_1_h_e___vertex.html" alt="wblut.hemesh.HE_Vertex" shape="rect" coords="247,224,484,248"/>
-<area href="classwblut_1_1geom_1_1_w_b___point_homogeneous.html" alt="wblut.geom.WB_PointHomogeneous" shape="rect" coords="494,224,731,248"/>
-<area href="classwblut_1_1geom_1_1_w_b___vector.html" alt="wblut.geom.WB_Vector" shape="rect" coords="741,224,978,248"/>
-<area href="classwblut_1_1geom_1_1_w_b___vector4_d.html" alt="wblut.geom.WB_Vector4D" shape="rect" coords="988,224,1225,248"/>
-<area href="classwblut_1_1geom_1_1_w_b___point.html" alt="wblut.geom.WB_Point" shape="rect" coords="0,280,237,304"/>
-<area href="classwblut_1_1geom_1_1_w_b___point.html" alt="wblut.geom.WB_Point" shape="rect" coords="741,280,978,304"/>
-<area href="classwblut_1_1geom_1_1_w_b___frame_1_1_w_b___frame_node.html" alt="wblut.geom.WB_Frame.WB_FrameNode" shape="rect" coords="0,336,237,360"/>
-<area href="classwblut_1_1geom_1_1_w_b___frame_1_1_w_b___frame_node.html" alt="wblut.geom.WB_Frame.WB_FrameNode" shape="rect" coords="741,336,978,360"/>
+<area href="interfacewblut_1_1geom_1_1_w_b___coord.html" alt="wblut.geom.WB_Coord" shape="rect" coords="1036,56,1285,80"/>
+<area href="interfacewblut_1_1geom_1_1_w_b___mutable_coordinate_full2_d.html" alt="wblut.geom.WB_MutableCoordinateFull2D" shape="rect" coords="0,168,249,192"/>
+<area href="interfacewblut_1_1geom_1_1_w_b___mutable_coordinate_full3_d.html" alt="wblut.geom.WB_MutableCoordinateFull3D" shape="rect" coords="388,168,637,192"/>
+<area href="interfacewblut_1_1geom_1_1_w_b___mutable_coordinate_full4_d.html" alt="wblut.geom.WB_MutableCoordinateFull4D" shape="rect" coords="777,168,1026,192"/>
+<area href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html" alt="wblut.geom.WB_SimpleVector2D" shape="rect" coords="1295,168,1544,192"/>
+<area href="classwblut_1_1hemesh_1_1_h_e___texture_coordinate.html" alt="wblut.hemesh.HE_TextureCoordinate" shape="rect" coords="1554,168,1803,192"/>
+<area href="classwblut_1_1processing_1_1_w_b___p_vector.html" alt="wblut.processing.WB_PVector" shape="rect" coords="1813,168,2062,192"/>
+<area href="classwblut_1_1geom_1_1_w_b___vector2_d.html" alt="wblut.geom.WB_Vector2D" shape="rect" coords="0,224,249,248"/>
+<area href="classwblut_1_1geom_1_1_w_b___vector.html" alt="wblut.geom.WB_Vector" shape="rect" coords="259,224,508,248"/>
+<area href="classwblut_1_1hemesh_1_1_h_e___vertex.html" alt="wblut.hemesh.HE_Vertex" shape="rect" coords="518,224,767,248"/>
+<area href="classwblut_1_1geom_1_1_w_b___vector4_d.html" alt="wblut.geom.WB_Vector4D" shape="rect" coords="777,224,1026,248"/>
+<area href="classwblut_1_1geom_1_1_w_b___simple_vector.html" alt="wblut.geom.WB_SimpleVector" shape="rect" coords="1165,224,1414,248"/>
+<area href="classwblut_1_1geom_1_1_w_b___vector2_d.html" alt="wblut.geom.WB_Vector2D" shape="rect" coords="1424,224,1673,248"/>
+<area href="classwblut_1_1geom_1_1_w_b___point.html" alt="wblut.geom.WB_Point" shape="rect" coords="259,280,508,304"/>
+<area href="classwblut_1_1geom_1_1_w_b___point4_d.html" alt="wblut.geom.WB_Point4D" shape="rect" coords="777,280,1026,304"/>
+<area href="classwblut_1_1geom_1_1_w_b___simple_vector4_d.html" alt="wblut.geom.WB_SimpleVector4D" shape="rect" coords="1036,280,1285,304"/>
+<area href="classwblut_1_1geom_1_1_w_b___vector.html" alt="wblut.geom.WB_Vector" shape="rect" coords="1295,280,1544,304"/>
+<area href="classwblut_1_1geom_1_1_w_b___frame_1_1_w_b___frame_node.html" alt="wblut.geom.WB_Frame.WB_FrameNode" shape="rect" coords="259,336,508,360"/>
+<area href="classwblut_1_1geom_1_1_w_b___point_homogeneous.html" alt="wblut.geom.WB_PointHomogeneous" shape="rect" coords="777,336,1026,360"/>
+<area href="classwblut_1_1geom_1_1_w_b___vector4_d.html" alt="wblut.geom.WB_Vector4D" shape="rect" coords="1036,336,1285,360"/>
+<area href="classwblut_1_1geom_1_1_w_b___point.html" alt="wblut.geom.WB_Point" shape="rect" coords="1295,336,1544,360"/>
+<area href="classwblut_1_1geom_1_1_w_b___point4_d.html" alt="wblut.geom.WB_Point4D" shape="rect" coords="1036,392,1285,416"/>
+<area href="classwblut_1_1geom_1_1_w_b___frame_1_1_w_b___frame_node.html" alt="wblut.geom.WB_Frame.WB_FrameNode" shape="rect" coords="1295,392,1544,416"/>
+<area href="classwblut_1_1geom_1_1_w_b___point_homogeneous.html" alt="wblut.geom.WB_PointHomogeneous" shape="rect" coords="1036,448,1285,472"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -166,7 +192,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a59ecca0df2e5c7479f2a27addf2ebf0b inherit pub_methods_interfacewblut_1_1geom_1_1_w_b___coord"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Simple interface for anything that present itself as a mutable 2D or 3D tuple of double.</p>
+<div class="textblock"><p>Simple interface for anything that present itself as a mutable 2D, 3D or 4D tuple of double.</p>
 <dl class="section author"><dt>Author</dt><dd>Frederik Vanhoutte </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="af8bc740e2e2fcb0bb0140be9eb8df642"></a>
@@ -442,14 +468,18 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li>src/wblut/geom/<a class="el" href="_w_b___mutable_coord_8java.html">WB_MutableCoord.java</a></li>
+<li>src_core/wblut/geom/<a class="el" href="_w_b___mutable_coord_8java.html">WB_MutableCoord.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:03 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1geom.html">geom</a></li><li class="navelem"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:06 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

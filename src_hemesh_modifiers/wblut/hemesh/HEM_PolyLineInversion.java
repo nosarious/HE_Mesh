@@ -66,9 +66,8 @@ public class HEM_PolyLineInversion extends HEM_Modifier {
 	}
 
 	/**
-	 *
-	 *
-	 * @param c
+	 * 
+	 * @param poly
 	 * @return
 	 */
 	public HEM_PolyLineInversion setPolyLine(final WB_PolyLine poly) {

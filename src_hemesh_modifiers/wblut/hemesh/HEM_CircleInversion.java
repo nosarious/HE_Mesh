@@ -63,9 +63,8 @@ public class HEM_CircleInversion extends HEM_Modifier {
 	}
 
 	/**
-	 *
-	 *
-	 * @param c
+	 * 
+	 * @param circle
 	 * @return
 	 */
 	public HEM_CircleInversion setCircle(final WB_Circle circle) {

@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1hemesh_1_1_h_e_c___box.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html">HEC_Box</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -123,6 +141,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7fb65810bb74cad5e34ef6d1323cc267"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a534b763768f3ca441054564c1374585e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html">HEC_Box</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#a534b763768f3ca441054564c1374585e">setFromAABB</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___a_a_b_b.html">WB_AABB</a> AABB, final double padding)</td></tr>
 <tr class="separator:a534b763768f3ca441054564c1374585e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1b87a9bc4231cb9300b348df4f8309a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html">HEC_Box</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#ac1b87a9bc4231cb9300b348df4f8309a">setFromAABB</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___a_a_b_b.html">WB_AABB</a> AABB)</td></tr>
+<tr class="separator:ac1b87a9bc4231cb9300b348df4f8309a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad8f6690c4c33fa584eb18b1faf6779f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html">HEC_Box</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#aad8f6690c4c33fa584eb18b1faf6779f">setFromCorners</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> min, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> max)</td></tr>
 <tr class="separator:aad8f6690c4c33fa584eb18b1faf6779f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6c52f426c1ac57184f968eda44517bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html">HEC_Box</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#ad6c52f426c1ac57184f968eda44517bd">setFromCorners</a> (final double minx, final double miny, final double minz, final double maxx, final double maxy, final double maxz)</td></tr>
@@ -135,6 +155,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa9e5ca578cc301463ca1bb0280632d3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af414cb41ea81e9d0555c5a1f696de168"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html">HEC_Box</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#af414cb41ea81e9d0555c5a1f696de168">setDepth</a> (final double <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#a06d2d238c265b2baa2365c96336c6c5c">D</a>)</td></tr>
 <tr class="separator:af414cb41ea81e9d0555c5a1f696de168"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec7c8c4da11446658dc8cdf42be8a01a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html">HEC_Box</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#aec7c8c4da11446658dc8cdf42be8a01a">setSize</a> (final double <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#a2d4a03d609bba0f348fc8c120ec86fb4">W</a>, final double <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#ae3e972faddb8e5c34fa15af793c8cab9">H</a>, final double <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#a06d2d238c265b2baa2365c96336c6c5c">D</a>)</td></tr>
+<tr class="separator:aec7c8c4da11446658dc8cdf42be8a01a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1ef70ed3fa867baf041d5e9fb8ae1aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html">HEC_Box</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#aa1ef70ed3fa867baf041d5e9fb8ae1aa">setWidthSegments</a> (final int <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#a202067903732d92b5e9e12007a0b5e21">L</a>)</td></tr>
 <tr class="separator:aa1ef70ed3fa867baf041d5e9fb8ae1aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af760dc3397e9f10a9078d888ff9532a5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html">HEC_Box</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#af760dc3397e9f10a9078d888ff9532a5">setHeightSegments</a> (final int <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#a7b44959deb1e1134c08159f83393559a">M</a>)</td></tr>
@@ -570,6 +592,22 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ac1b87a9bc4231cb9300b348df4f8309a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html">HEC_Box</a> wblut.hemesh.HEC_Box.setFromAABB </td>
+          <td>(</td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___a_a_b_b.html">WB_AABB</a>&#160;</td>
+          <td class="paramname"><em>AABB</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="aad8f6690c4c33fa584eb18b1faf6779f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -755,6 +793,38 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aec7c8c4da11446658dc8cdf42be8a01a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html">HEC_Box</a> wblut.hemesh.HEC_Box.setSize </td>
+          <td>(</td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>W</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>H</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>D</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="afdadeea159383e9d505201f4b513daca"></a>
 <div class="memitem">
 <div class="memproto">
@@ -931,14 +1001,18 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/wblut/hemesh/<a class="el" href="_h_e_c___box_8java.html">HEC_Box.java</a></li>
+<li>src_hemesh_creators/wblut/hemesh/<a class="el" href="_h_e_c___box_8java.html">HEC_Box.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:07 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html">HEC_Box</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:16 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

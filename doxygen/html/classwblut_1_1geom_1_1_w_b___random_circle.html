@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -39,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -68,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1geom_1_1_w_b___random_circle.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1geom.html">geom</a></li><li class="navelem"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html">WB_RandomCircle</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -118,13 +137,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae425467bdebb10806db712eca2f459b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31d831145b3f3b7cc1f4cf030c58e9a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html">WB_RandomCircle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a31d831145b3f3b7cc1f4cf030c58e9a4">setRadius</a> (double r)</td></tr>
 <tr class="separator:a31d831145b3f3b7cc1f4cf030c58e9a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa91956f34522948223843dc274591361"><td class="memItemLeft" align="right" valign="top">WB_Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#aa91956f34522948223843dc274591361">nextPoint</a> ()</td></tr>
+<tr class="memitem:aa91956f34522948223843dc274591361"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#aa91956f34522948223843dc274591361">nextPoint</a> ()</td></tr>
 <tr class="separator:aa91956f34522948223843dc274591361"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22816f3f0cd9863bf14012989ec27a96"><td class="memItemLeft" align="right" valign="top">WB_Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a22816f3f0cd9863bf14012989ec27a96">nextVector</a> ()</td></tr>
+<tr class="memitem:a22816f3f0cd9863bf14012989ec27a96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a22816f3f0cd9863bf14012989ec27a96">nextVector</a> ()</td></tr>
 <tr class="separator:a22816f3f0cd9863bf14012989ec27a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a215deade3258629ae47a3feeb93e87e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a215deade3258629ae47a3feeb93e87e0">reset</a> ()</td></tr>
 <tr class="separator:a215deade3258629ae47a3feeb93e87e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2abcefe3a8000eb045d3627d21028060"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___random_point.html">WB_RandomPoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a2abcefe3a8000eb045d3627d21028060">setOffset</a> (WB_Coord <a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a4eb49611c826147aa03edad0d7900dbf">offset</a>)</td></tr>
+<tr class="memitem:a2abcefe3a8000eb045d3627d21028060"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___random_point.html">WB_RandomPoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a2abcefe3a8000eb045d3627d21028060">setOffset</a> (<a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> <a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a4eb49611c826147aa03edad0d7900dbf">offset</a>)</td></tr>
 <tr class="separator:a2abcefe3a8000eb045d3627d21028060"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a078b6177ac844662ee5beaf9406a3694"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___random_point.html">WB_RandomPoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a078b6177ac844662ee5beaf9406a3694">setOffset</a> (double x, double y)</td></tr>
 <tr class="separator:a078b6177ac844662ee5beaf9406a3694"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,11 +152,11 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a9970c0c0c5ffa8856edb98f7a28ee86a"><td class="memItemLeft" align="right" valign="top">final WB_MTRandom&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a9970c0c0c5ffa8856edb98f7a28ee86a">randomGen</a></td></tr>
+<tr class="memitem:a9970c0c0c5ffa8856edb98f7a28ee86a"><td class="memItemLeft" align="right" valign="top">final <a class="el" href="classwblut_1_1math_1_1_w_b___m_t_random.html">WB_MTRandom</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a9970c0c0c5ffa8856edb98f7a28ee86a">randomGen</a></td></tr>
 <tr class="separator:a9970c0c0c5ffa8856edb98f7a28ee86a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19b160b94a58bbf6e8d6d8214f6cc5a3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a19b160b94a58bbf6e8d6d8214f6cc5a3">radius</a></td></tr>
 <tr class="separator:a19b160b94a58bbf6e8d6d8214f6cc5a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4eb49611c826147aa03edad0d7900dbf"><td class="memItemLeft" align="right" valign="top">WB_Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a4eb49611c826147aa03edad0d7900dbf">offset</a></td></tr>
+<tr class="memitem:a4eb49611c826147aa03edad0d7900dbf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html#a4eb49611c826147aa03edad0d7900dbf">offset</a></td></tr>
 <tr class="separator:a4eb49611c826147aa03edad0d7900dbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -187,7 +206,7 @@ Private Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">WB_Point wblut.geom.WB_RandomCircle.nextPoint </td>
+          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a> wblut.geom.WB_RandomCircle.nextPoint </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -206,7 +225,7 @@ Private Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">WB_Vector wblut.geom.WB_RandomCircle.nextVector </td>
+          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a> wblut.geom.WB_RandomCircle.nextVector </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -245,7 +264,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___random_point.html">WB_RandomPoint</a> wblut.geom.WB_RandomCircle.setOffset </td>
           <td>(</td>
-          <td class="paramtype">WB_Coord&#160;</td>
+          <td class="paramtype"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
           <td class="paramname"><em>offset</em></td><td>)</td>
           <td></td>
         </tr>
@@ -403,7 +422,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">WB_Vector wblut.geom.WB_RandomCircle.offset</td>
+          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a> wblut.geom.WB_RandomCircle.offset</td>
         </tr>
       </table>
   </td>
@@ -443,7 +462,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">final WB_MTRandom wblut.geom.WB_RandomCircle.randomGen</td>
+          <td class="memname">final <a class="el" href="classwblut_1_1math_1_1_w_b___m_t_random.html">WB_MTRandom</a> wblut.geom.WB_RandomCircle.randomGen</td>
         </tr>
       </table>
   </td>
@@ -459,11 +478,15 @@ Private Attributes</h2></td></tr>
 <li>src/wblut/geom/<a class="el" href="_w_b___random_circle_8java.html">WB_RandomCircle.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 31 2017 20:34:08 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1geom.html">geom</a></li><li class="navelem"><a class="el" href="classwblut_1_1geom_1_1_w_b___random_circle.html">WB_RandomCircle</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:08 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

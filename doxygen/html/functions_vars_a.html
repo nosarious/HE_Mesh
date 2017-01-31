@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -39,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -107,6 +116,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_vars_a.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -127,23 +150,38 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
 <li>a
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___danzer.html#a33713485683e593b52b4b5813c69fabb">wblut.geom.WB_Danzer</a>
-</li>
-<li>A
-: <a class="el" href="enumwblut_1_1geom_1_1_w_b___danzer_1_1_type.html#acfbfa8df3819144433740a12466ce1ef">wblut.geom.WB_Danzer.Type</a>
-</li>
-<li>a
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___triangle.html#a54312b729056ab3c967b1b6cf6ffbabe">wblut.geom.WB_Triangle</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___triangle.html#a54312b729056ab3c967b1b6cf6ffbabe">wblut.geom.WB_Triangle</a>
 </li>
 <li>aabb
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___a_a_b_b_tree_1_1_w_b___a_a_b_b_node.html#a023a61514a63e9eafdb1e35079663519">wblut.geom.WB_AABBTree.WB_AABBNode</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a1fec8599f3d05e2decaad4c8a6d934c3">wblut.geom.WB_Mesh</a>
 </li>
+<li>absolute
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_s___doo_sabin.html#a1bb0b038112e30b529ddb8398e8ad246">wblut.hemesh.HES_DooSabin</a>
+</li>
 <li>alpha
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___alpha_triangulation2_d.html#aec6297b3bc1383d78390264ea510010e">wblut.geom.WB_AlphaTriangulation2D</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___alpha_triangulation3_d.html#aa5c00a4d966d16b8810ebb38154dc649">wblut.geom.WB_AlphaTriangulation3D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___alpha_shape.html#a7680f4e7348423e9f32355d0f706d62e">wblut.hemesh.HEC_AlphaShape</a>
+</li>
+<li>alphaTri
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___alpha_shape.html#a83016f36395b22d7913a3ec485723513">wblut.hemesh.HEC_AlphaShape</a>
+</li>
+<li>angle
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___tube_segment.html#a4161cb2f130a2c39fe9b007ca51f8934">wblut.hemesh.HEC_TubeSegment</a>
+</li>
+<li>angleFactor
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_frame.html#a852856f51b4ff402184f8da24980674c">wblut.hemesh.HEC_FromFrame</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___bend.html#adcd87277900df867b26e8dd092156f98">wblut.hemesh.HEM_Bend</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___twist.html#af2dc092fe7e487730fb4ebc23d06c5cd">wblut.hemesh.HEM_Twist</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___wireframe.html#ab4751c8449114b648f4c851a75204267">wblut.hemesh.HEM_Wireframe</a>
 </li>
 <li>ANTIPARALLEL
 : <a class="el" href="enumwblut_1_1geom_1_1_w_b___classification.html#ab465f2d6122e5945fc3c8b709883a490">wblut.geom.WB_Classification</a>
+</li>
+<li>approx
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a0c6d662fec243be47421f94bca73f989">wblut.hemesh.HEC_VoronoiSphere</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___voronoi_spheres.html#a63d487fbf1a956b8b2676bc74f2757bc">wblut.hemesh.HEMC_VoronoiSpheres</a>
 </li>
 <li>autoPrune
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___octree.html#a9a861a29e05ae8642d102aeaaf61f93c">wblut.geom.WB_Octree&lt; V &gt;</a>
@@ -153,13 +191,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree_double.html#a1301792eaf70ffd26bb3e86ca4f48c6b">wblut.geom.WB_QuadtreeDouble</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree_integer.html#aa7ea344384d673e2c82db578918b193f">wblut.geom.WB_QuadtreeInteger</a>
 </li>
+<li>autoRescale
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___inflate.html#a8810d166fd5bc3e140e8bf116462e4c9">wblut.hemesh.HEM_Inflate</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___mean_curvature_smooth.html#a78302e3f064a2fc737a791d377ef9fc7">wblut.hemesh.HEM_MeanCurvatureSmooth</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___smooth.html#a902f237848e29c1f0f29cf55f246df3e">wblut.hemesh.HEM_Smooth</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___soapfilm.html#acf41eb40581695e46a311480398f6f19">wblut.hemesh.HEM_Soapfilm</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___tangential_smooth.html#a96c3480722d4a9283ba63614394ec8bb">wblut.hemesh.HEM_TangentialSmooth</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___taubin_smooth.html#ac89ef6c39603964ebf93e41512042e4c">wblut.hemesh.HEM_TaubinSmooth</a>
+</li>
+<li>axis
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___revolve_polygon.html#a3a9cf2330450e3776ddb56af4e89eef5">wblut.hemesh.HEC_RevolvePolygon</a>
+</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 31 2017 20:34:18 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:34 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

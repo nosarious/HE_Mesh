@@ -133,11 +133,11 @@ public interface WB_MutableCoordinateMath4D extends WB_CoordinateMath4D {
 	public WB_Coord add3DSelf(final WB_Coord p);
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param x
-	 *
-	 * @return this
+	 * @param y
+	 * @param z
+	 * @return
 	 */
 	public WB_Coord add3DSelf(final double x, final double y, final double z);
 
@@ -150,11 +150,11 @@ public interface WB_MutableCoordinateMath4D extends WB_CoordinateMath4D {
 	public WB_Coord sub3DSelf(final WB_Coord v);
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param x
-	 *
-	 * @return this
+	 * @param y
+	 * @param z
+	 * @return
 	 */
 	public WB_Coord sub3DSelf(final double x, final double y, final double z);
 
@@ -184,12 +184,12 @@ public interface WB_MutableCoordinateMath4D extends WB_CoordinateMath4D {
 	public WB_Coord addMul3DSelf(final double f, final WB_Coord p);
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param f
 	 * @param x
-	 *
-	 * @return this
+	 * @param y
+	 * @param z
+	 * @return
 	 */
 	public WB_Coord addMul3DSelf(final double f, final double x, final double y, final double z);
 
@@ -204,12 +204,13 @@ public interface WB_MutableCoordinateMath4D extends WB_CoordinateMath4D {
 	public WB_Coord mulAddMul3DSelf(final double f, final double g, final WB_Coord p);
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param f
 	 * @param g
 	 * @param x
-	 * @return this
+	 * @param y
+	 * @param z
+	 * @return
 	 */
 	public WB_Coord mulAddMul3DSelf(final double f, final double g, final double x, final double y, final double z);
 }

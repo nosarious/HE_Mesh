@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1nurbs_1_1_w_b___bezier_surface.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1nurbs.html">nurbs</a></li><li class="navelem"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html">WB_BezierSurface</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -115,14 +133,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ad737c9fc57667f2a2681d0aad4f4d18e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#ad737c9fc57667f2a2681d0aad4f4d18e">WB_BezierSurface</a> ()</td></tr>
 <tr class="separator:ad737c9fc57667f2a2681d0aad4f4d18e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a478804460d4f2ab9d32f6ebb75309eec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#a478804460d4f2ab9d32f6ebb75309eec">WB_BezierSurface</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>[][] controlPoints)</td></tr>
-<tr class="separator:a478804460d4f2ab9d32f6ebb75309eec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa756ddc111ea7ef5df1d7d0deb2a253f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#aa756ddc111ea7ef5df1d7d0deb2a253f">WB_BezierSurface</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>[][] controlPoints)</td></tr>
+<tr class="separator:aa756ddc111ea7ef5df1d7d0deb2a253f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5059368f9e8a9570115bf56a93925c66"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#a5059368f9e8a9570115bf56a93925c66">WB_BezierSurface</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___point_homogeneous.html">WB_PointHomogeneous</a>[][] controlPoints)</td></tr>
 <tr class="separator:a5059368f9e8a9570115bf56a93925c66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48d2b23850f169a06e1208e2035fc6f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#a48d2b23850f169a06e1208e2035fc6f5">surfacePoint</a> (final double u, final double v)</td></tr>
 <tr class="separator:a48d2b23850f169a06e1208e2035fc6f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69b4bb03090e6cb65790976855c45be6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>[][]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#a69b4bb03090e6cb65790976855c45be6">points</a> ()</td></tr>
-<tr class="separator:a69b4bb03090e6cb65790976855c45be6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b421893364cc69b7f6276fc0974c015"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>[][]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#a2b421893364cc69b7f6276fc0974c015">points</a> ()</td></tr>
+<tr class="separator:a2b421893364cc69b7f6276fc0974c015"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5649dc13d0104525ef4be44e2ec25678"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#a5649dc13d0104525ef4be44e2ec25678">n</a> ()</td></tr>
 <tr class="separator:a5649dc13d0104525ef4be44e2ec25678"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68f83fd47fdcd14ca6d37ff909cf69e8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#a68f83fd47fdcd14ca6d37ff909cf69e8">m</a> ()</td></tr>
@@ -147,8 +165,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:ad4c7027a043bd2d96a41a23d9ab7f39a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>[][]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#ad4c7027a043bd2d96a41a23d9ab7f39a">points</a></td></tr>
-<tr class="separator:ad4c7027a043bd2d96a41a23d9ab7f39a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a490dbe65e322b43bfe767732c0a0aaef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>[][]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#a490dbe65e322b43bfe767732c0a0aaef">points</a></td></tr>
+<tr class="separator:a490dbe65e322b43bfe767732c0a0aaef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87483367f937ae825bef2634959cf067"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#a87483367f937ae825bef2634959cf067">n</a></td></tr>
 <tr class="separator:a87483367f937ae825bef2634959cf067"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a464db1b0d9217a7fb11721a57a6ddb20"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#a464db1b0d9217a7fb11721a57a6ddb20">m</a></td></tr>
@@ -156,7 +174,7 @@ Protected Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
-<tr class="memitem:a30f0e2eb941bca4e13f4aea64603ae69"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#a30f0e2eb941bca4e13f4aea64603ae69">gf</a> = <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a9ac73262054d19293ae9877b7be63d8e">WB_GeometryFactory.instance</a>()</td></tr>
+<tr class="memitem:a30f0e2eb941bca4e13f4aea64603ae69"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#a30f0e2eb941bca4e13f4aea64603ae69">gf</a> = new <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>()</td></tr>
 <tr class="separator:a30f0e2eb941bca4e13f4aea64603ae69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -175,14 +193,14 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a478804460d4f2ab9d32f6ebb75309eec"></a>
+<a class="anchor" id="aa756ddc111ea7ef5df1d7d0deb2a253f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">wblut.nurbs.WB_BezierSurface.WB_BezierSurface </td>
           <td>(</td>
-          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
           <td class="paramname"><em>controlPoints</em>[][]</td><td>)</td>
           <td></td>
         </tr>
@@ -322,12 +340,12 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a69b4bb03090e6cb65790976855c45be6"></a>
+<a class="anchor" id="a2b421893364cc69b7f6276fc0974c015"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a> [][] wblut.nurbs.WB_BezierSurface.points </td>
+          <td class="memname"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> [][] wblut.nurbs.WB_BezierSurface.points </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -427,7 +445,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a> wblut.nurbs.WB_BezierSurface.gf = <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a9ac73262054d19293ae9877b7be63d8e">WB_GeometryFactory.instance</a>()</td>
+          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a> wblut.nurbs.WB_BezierSurface.gf = new <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>()</td>
         </tr>
       </table>
   </td>
@@ -479,7 +497,7 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad4c7027a043bd2d96a41a23d9ab7f39a"></a>
+<a class="anchor" id="a490dbe65e322b43bfe767732c0a0aaef"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -487,7 +505,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a> [][] wblut.nurbs.WB_BezierSurface.points</td>
+          <td class="memname"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> [][] wblut.nurbs.WB_BezierSurface.points</td>
         </tr>
       </table>
   </td>
@@ -500,14 +518,18 @@ Static Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/wblut/nurbs/<a class="el" href="_w_b___bezier_surface_8java.html">WB_BezierSurface.java</a></li>
+<li>src_nurbs/wblut/nurbs/<a class="el" href="_w_b___bezier_surface_8java.html">WB_BezierSurface.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:16 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1nurbs.html">nurbs</a></li><li class="navelem"><a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier_surface.html">WB_BezierSurface</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:30 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

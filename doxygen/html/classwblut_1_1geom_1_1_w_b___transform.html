@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1geom_1_1_w_b___transform.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1geom.html">geom</a></li><li class="navelem"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -154,89 +172,91 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a66c36d87b1b71baf6b3344b6f49e9d86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b6de649b27e6c41cfcda136f04cabb4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a7b6de649b27e6c41cfcda136f04cabb4">addShear</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___plane.html">WB_Plane</a> P, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> v, final double angle)</td></tr>
 <tr class="separator:a7b6de649b27e6c41cfcda136f04cabb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad04d0023c76ca50d5b84a18dd084ab52"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#ad04d0023c76ca50d5b84a18dd084ab52">addFromCSToCS</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a> CS1, final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a> CS2)</td></tr>
-<tr class="separator:ad04d0023c76ca50d5b84a18dd084ab52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c1c25c7ffec17c654f62420c60ea236"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a9c1c25c7ffec17c654f62420c60ea236">addFromCSToWorld</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a> CS)</td></tr>
-<tr class="separator:a9c1c25c7ffec17c654f62420c60ea236"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8407bc6ef22e6d406565eb07fa776711"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a8407bc6ef22e6d406565eb07fa776711">addFromWorldToCS</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a> CS)</td></tr>
-<tr class="separator:a8407bc6ef22e6d406565eb07fa776711"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63eae94999bf5c631eb8e8c34798599b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a63eae94999bf5c631eb8e8c34798599b">addFromCSToParent</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a> CS)</td></tr>
-<tr class="separator:a63eae94999bf5c631eb8e8c34798599b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c21c18e514c46687c2b8418007cfa68"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a2c21c18e514c46687c2b8418007cfa68">addFromParentToCS</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a> CS)</td></tr>
-<tr class="separator:a2c21c18e514c46687c2b8418007cfa68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc52a73dde970767e84d5f8d25b5fc29"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#acc52a73dde970767e84d5f8d25b5fc29">addFromCSToCS</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a> CS1, final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a> CS2)</td></tr>
+<tr class="separator:acc52a73dde970767e84d5f8d25b5fc29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2d3438e91907a597bfd10f9fa852b8d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#ab2d3438e91907a597bfd10f9fa852b8d">addFromCSToWorld</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a> CS)</td></tr>
+<tr class="separator:ab2d3438e91907a597bfd10f9fa852b8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f82803ffa8e58630cd1e82b78ce96e4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a7f82803ffa8e58630cd1e82b78ce96e4">addFromWorldToCS</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a> CS)</td></tr>
+<tr class="separator:a7f82803ffa8e58630cd1e82b78ce96e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d49c4e6ea828c0a5982ff879fef8409"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a0d49c4e6ea828c0a5982ff879fef8409">addFromCSToParent</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a> CS)</td></tr>
+<tr class="separator:a0d49c4e6ea828c0a5982ff879fef8409"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad938b1a10a3cf639cd000e1596438cfc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#ad938b1a10a3cf639cd000e1596438cfc">addFromParentToCS</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a> CS)</td></tr>
+<tr class="separator:ad938b1a10a3cf639cd000e1596438cfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf2992fac9fec7271ecad310595c6fb3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#aaf2992fac9fec7271ecad310595c6fb3">inverse</a> ()</td></tr>
 <tr class="separator:aaf2992fac9fec7271ecad310595c6fb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf60e687e3a8567a4b680533dad28be4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#acf60e687e3a8567a4b680533dad28be4">clear</a> ()</td></tr>
 <tr class="separator:acf60e687e3a8567a4b680533dad28be4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a143a4bf34637ce8d4bb287deb307658c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a143a4bf34637ce8d4bb287deb307658c">applyAsPoint</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p)</td></tr>
 <tr class="separator:a143a4bf34637ce8d4bb287deb307658c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84528d12e3e51eefe07ffdac50095b49"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a84528d12e3e51eefe07ffdac50095b49">applyAsPoint</a> (final double x, final double y, final double z)</td></tr>
-<tr class="separator:a84528d12e3e51eefe07ffdac50095b49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a811578ec744448765de9ed77a1c9fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a9a811578ec744448765de9ed77a1c9fa">applyAsPointSelf</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> p)</td></tr>
 <tr class="separator:a9a811578ec744448765de9ed77a1c9fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1449927265cb225ff6a32f58d5d84c2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a1449927265cb225ff6a32f58d5d84c2a">applyAsPointInto</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
+<tr class="separator:a1449927265cb225ff6a32f58d5d84c2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84528d12e3e51eefe07ffdac50095b49"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a84528d12e3e51eefe07ffdac50095b49">applyAsPoint</a> (final double x, final double y, final double z)</td></tr>
+<tr class="separator:a84528d12e3e51eefe07ffdac50095b49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5304f0cc1d695fd199ab91901467823"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#ad5304f0cc1d695fd199ab91901467823">applyAsPointInto</a> (final double x, final double y, final double z, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
+<tr class="separator:ad5304f0cc1d695fd199ab91901467823"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af16baae2d7e63fe760b893e5f24cbffb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#af16baae2d7e63fe760b893e5f24cbffb">applyInvAsPoint</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p)</td></tr>
+<tr class="separator:af16baae2d7e63fe760b893e5f24cbffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67dcc2cf09eb34318644567bcd834c90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a67dcc2cf09eb34318644567bcd834c90">applyInvAsPointSelf</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> p)</td></tr>
+<tr class="separator:a67dcc2cf09eb34318644567bcd834c90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a727b1ec18f21716defa3f78ee444917a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a727b1ec18f21716defa3f78ee444917a">applyInvAsPointInto</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p)</td></tr>
+<tr class="separator:a727b1ec18f21716defa3f78ee444917a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a286220ab9e76f7031b51b67878a99cab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a286220ab9e76f7031b51b67878a99cab">applyInvAsPoint</a> (final double x, final double y, final double z)</td></tr>
+<tr class="separator:a286220ab9e76f7031b51b67878a99cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96da82b4f49188ae1270fb2be6d65b7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a96da82b4f49188ae1270fb2be6d65b7f">applyInvAsPointInto</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result, final double x, final double y, final double z)</td></tr>
+<tr class="separator:a96da82b4f49188ae1270fb2be6d65b7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18189ca7998fe64819226e083e079528"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a18189ca7998fe64819226e083e079528">applyAsVector</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p)</td></tr>
 <tr class="separator:a18189ca7998fe64819226e083e079528"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35ca20cecf21758ba5bdb4c56ae19a61"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a35ca20cecf21758ba5bdb4c56ae19a61">applyAsVector</a> (final double x, final double y, final double z)</td></tr>
-<tr class="separator:a35ca20cecf21758ba5bdb4c56ae19a61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42869327f3e72be430ecd0db4702f3a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a42869327f3e72be430ecd0db4702f3a5">applyAsVectorSelf</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> p)</td></tr>
 <tr class="separator:a42869327f3e72be430ecd0db4702f3a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0caabbf264aa01534b3747836a2829f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a0caabbf264aa01534b3747836a2829f7">applyAsVectorInto</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p)</td></tr>
+<tr class="separator:a0caabbf264aa01534b3747836a2829f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35ca20cecf21758ba5bdb4c56ae19a61"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a35ca20cecf21758ba5bdb4c56ae19a61">applyAsVector</a> (final double x, final double y, final double z)</td></tr>
+<tr class="separator:a35ca20cecf21758ba5bdb4c56ae19a61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee42f7516cc28e0286e65082427117eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#aee42f7516cc28e0286e65082427117eb">applyAsVectorInto</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result, final double x, final double y, final double z)</td></tr>
+<tr class="separator:aee42f7516cc28e0286e65082427117eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61631a60bf55dad1b383ca48feea3ce9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a61631a60bf55dad1b383ca48feea3ce9">applyInvAsVector</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p)</td></tr>
+<tr class="separator:a61631a60bf55dad1b383ca48feea3ce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac0bf4fefc8abc470baed763b98b65cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#aac0bf4fefc8abc470baed763b98b65cb">applyInvAsVectorSelf</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> v)</td></tr>
+<tr class="separator:aac0bf4fefc8abc470baed763b98b65cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cfc42d13a3e02c1f0a2d6fae78c9497"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a5cfc42d13a3e02c1f0a2d6fae78c9497">applyInvAsVectorInto</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p)</td></tr>
+<tr class="separator:a5cfc42d13a3e02c1f0a2d6fae78c9497"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a915ea259c0b481c5120e2b185555fa9c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a915ea259c0b481c5120e2b185555fa9c">applyInvAsVector</a> (final double x, final double y, final double z)</td></tr>
+<tr class="separator:a915ea259c0b481c5120e2b185555fa9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ad12a86b17e086708ff8c4509765738"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a1ad12a86b17e086708ff8c4509765738">applyInvAsVectorInto</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result, final double x, final double y, final double z)</td></tr>
+<tr class="separator:a1ad12a86b17e086708ff8c4509765738"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af036a28608a2f93c9fd70f988b5feefb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#af036a28608a2f93c9fd70f988b5feefb">applyAsNormal</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p)</td></tr>
 <tr class="separator:af036a28608a2f93c9fd70f988b5feefb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62553332ee6f1cca8881a8c9e050ce75"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a62553332ee6f1cca8881a8c9e050ce75">applyAsNormal</a> (final double x, final double y, final double z)</td></tr>
-<tr class="separator:a62553332ee6f1cca8881a8c9e050ce75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af25c416f16f58aa314e9da5a29ef78b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#af25c416f16f58aa314e9da5a29ef78b8">applyAsNormalSelf</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> n)</td></tr>
 <tr class="separator:af25c416f16f58aa314e9da5a29ef78b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2045cfdb6ed2d5881bcbbf5bdec78c18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a2045cfdb6ed2d5881bcbbf5bdec78c18">applyAsPoint</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
-<tr class="separator:a2045cfdb6ed2d5881bcbbf5bdec78c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a7b4c3d8e6b48d378d4a226fba8b158"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a5a7b4c3d8e6b48d378d4a226fba8b158">applyAsPoint</a> (final double x, final double y, final double z, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
-<tr class="separator:a5a7b4c3d8e6b48d378d4a226fba8b158"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a759d7d480b6fb72a54ea048704e39108"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a759d7d480b6fb72a54ea048704e39108">applyAsVector</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
-<tr class="separator:a759d7d480b6fb72a54ea048704e39108"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8539c3aa5f0dae827c013227020aa38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#aa8539c3aa5f0dae827c013227020aa38">applyAsVector</a> (final double x, final double y, final double z, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
-<tr class="separator:aa8539c3aa5f0dae827c013227020aa38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f3d7a050dbf7f5bd34f5b02a80c5bb3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a9f3d7a050dbf7f5bd34f5b02a80c5bb3">applyAsNormal</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> n, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
-<tr class="separator:a9f3d7a050dbf7f5bd34f5b02a80c5bb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbc78f4596405f965704cf3212f5fdd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#afbc78f4596405f965704cf3212f5fdd1">applyAsNormal</a> (final double x, final double y, final double z, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
-<tr class="separator:afbc78f4596405f965704cf3212f5fdd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae56c3bf96d41ad209fb44fe62ad0df49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#ae56c3bf96d41ad209fb44fe62ad0df49">applyInvAsPoint</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
-<tr class="separator:ae56c3bf96d41ad209fb44fe62ad0df49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbb2602b7a10b3aab352024327c5599a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#abbb2602b7a10b3aab352024327c5599a">applyInvAsPoint</a> (final double x, final double y, final double z, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
-<tr class="separator:abbb2602b7a10b3aab352024327c5599a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb953ae67ed1d09ddcb7dafb58eeb144"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#aeb953ae67ed1d09ddcb7dafb58eeb144">applyInvAsVector</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
-<tr class="separator:aeb953ae67ed1d09ddcb7dafb58eeb144"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a6aae98badb66945a6a5f3541c20cf1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a8a6aae98badb66945a6a5f3541c20cf1">applyInvAsVector</a> (final double x, final double y, final double z, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
-<tr class="separator:a8a6aae98badb66945a6a5f3541c20cf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca8ba317275eaa973c0bd84f675b5e34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#aca8ba317275eaa973c0bd84f675b5e34">applyInvAsNormal</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> n, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
-<tr class="separator:aca8ba317275eaa973c0bd84f675b5e34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc49b2750d0d15df81324d65cee15292"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#abc49b2750d0d15df81324d65cee15292">applyInvAsNormal</a> (final double x, final double y, final double z, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result)</td></tr>
-<tr class="separator:abc49b2750d0d15df81324d65cee15292"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5348991072c85ba3ce5c99d9b889085"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#ac5348991072c85ba3ce5c99d9b889085">applyAsNormalInto</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> n)</td></tr>
+<tr class="separator:ac5348991072c85ba3ce5c99d9b889085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62553332ee6f1cca8881a8c9e050ce75"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a62553332ee6f1cca8881a8c9e050ce75">applyAsNormal</a> (final double x, final double y, final double z)</td></tr>
+<tr class="separator:a62553332ee6f1cca8881a8c9e050ce75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abaa9b3d0f4c942d3c6a47262148e48db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#abaa9b3d0f4c942d3c6a47262148e48db">applyAsNormalInto</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result, final double x, final double y, final double z)</td></tr>
+<tr class="separator:abaa9b3d0f4c942d3c6a47262148e48db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04c534f9e3d572a004bdfae026db8fd0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a04c534f9e3d572a004bdfae026db8fd0">applyInvAsNormal</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> n)</td></tr>
+<tr class="separator:a04c534f9e3d572a004bdfae026db8fd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39593872c8760af9fa5cf8ba7c241bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a39593872c8760af9fa5cf8ba7c241bca">applyInvAsNormalSelf</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> n)</td></tr>
+<tr class="separator:a39593872c8760af9fa5cf8ba7c241bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a911703ab2892d9544e295451f239f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a3a911703ab2892d9544e295451f239f2">applyInvAsNormalInto</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result, final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> n)</td></tr>
+<tr class="separator:a3a911703ab2892d9544e295451f239f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70dfbcd91f0e991c97896a7e491186a5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a70dfbcd91f0e991c97896a7e491186a5">applyInvAsNormal</a> (final double x, final double y, final double z)</td></tr>
+<tr class="separator:a70dfbcd91f0e991c97896a7e491186a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9a00cd515f033fe9969fdad55fb2eb9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#ae9a00cd515f033fe9969fdad55fb2eb9">applyInvAsNormalInto</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> result, final double x, final double y, final double z)</td></tr>
+<tr class="separator:ae9a00cd515f033fe9969fdad55fb2eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39b991977cc362956f8cfd2082e2adfd"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a39b991977cc362956f8cfd2082e2adfd">toString</a> ()</td></tr>
 <tr class="separator:a39b991977cc362956f8cfd2082e2adfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e9c5815bbae14ff011bf5e901a8d10f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a6e9c5815bbae14ff011bf5e901a8d10f">getEulerAnglesXYZ</a> ()</td></tr>
 <tr class="separator:a6e9c5815bbae14ff011bf5e901a8d10f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70dfbcd91f0e991c97896a7e491186a5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a70dfbcd91f0e991c97896a7e491186a5">applyInvAsNormal</a> (final double x, final double y, final double z)</td></tr>
-<tr class="separator:a70dfbcd91f0e991c97896a7e491186a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04c534f9e3d572a004bdfae026db8fd0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a04c534f9e3d572a004bdfae026db8fd0">applyInvAsNormal</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> n)</td></tr>
-<tr class="separator:a04c534f9e3d572a004bdfae026db8fd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a286220ab9e76f7031b51b67878a99cab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a286220ab9e76f7031b51b67878a99cab">applyInvAsPoint</a> (final double x, final double y, final double z)</td></tr>
-<tr class="separator:a286220ab9e76f7031b51b67878a99cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af16baae2d7e63fe760b893e5f24cbffb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#af16baae2d7e63fe760b893e5f24cbffb">applyInvAsPoint</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p)</td></tr>
-<tr class="separator:af16baae2d7e63fe760b893e5f24cbffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a915ea259c0b481c5120e2b185555fa9c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a915ea259c0b481c5120e2b185555fa9c">applyInvAsVector</a> (final double x, final double y, final double z)</td></tr>
-<tr class="separator:a915ea259c0b481c5120e2b185555fa9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61631a60bf55dad1b383ca48feea3ce9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a61631a60bf55dad1b383ca48feea3ce9">applyInvAsVector</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> p)</td></tr>
-<tr class="separator:a61631a60bf55dad1b383ca48feea3ce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39593872c8760af9fa5cf8ba7c241bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a39593872c8760af9fa5cf8ba7c241bca">applyInvAsNormalSelf</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> n)</td></tr>
-<tr class="separator:a39593872c8760af9fa5cf8ba7c241bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67dcc2cf09eb34318644567bcd834c90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a67dcc2cf09eb34318644567bcd834c90">applyInvAsPointSelf</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> p)</td></tr>
-<tr class="separator:a67dcc2cf09eb34318644567bcd834c90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac0bf4fefc8abc470baed763b98b65cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#aac0bf4fefc8abc470baed763b98b65cb">applyInvAsVectorSelf</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a> v)</td></tr>
-<tr class="separator:aac0bf4fefc8abc470baed763b98b65cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a9d4db1a513cd8c2040a8c94799ba3443"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a9d4db1a513cd8c2040a8c94799ba3443">_xt</a></td></tr>
 <tr class="separator:a9d4db1a513cd8c2040a8c94799ba3443"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8805fca2b10f36e74b4e304ee87fd7da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#a8805fca2b10f36e74b4e304ee87fd7da">geometryfactory</a> = new <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>()</td></tr>
+<tr class="separator:a8805fca2b10f36e74b4e304ee87fd7da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac054ac991b4f2da71f3a0088abf884f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html">WB_M44</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#ac054ac991b4f2da71f3a0088abf884f5">T</a></td></tr>
 <tr class="separator:ac054ac991b4f2da71f3a0088abf884f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa16295ccab8d479793dd6038691fec0f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html">WB_M44</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#aa16295ccab8d479793dd6038691fec0f">invT</a></td></tr>
@@ -362,20 +382,20 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ad04d0023c76ca50d5b84a18dd084ab52"></a>
+<a class="anchor" id="acc52a73dde970767e84d5f8d25b5fc29"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a> wblut.geom.WB_Transform.addFromCSToCS </td>
           <td>(</td>
-          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a>&#160;</td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a>&#160;</td>
           <td class="paramname"><em>CS1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a>&#160;</td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a>&#160;</td>
           <td class="paramname"><em>CS2</em>&#160;</td>
         </tr>
         <tr>
@@ -396,14 +416,14 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a63eae94999bf5c631eb8e8c34798599b"></a>
+<a class="anchor" id="a0d49c4e6ea828c0a5982ff879fef8409"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a> wblut.geom.WB_Transform.addFromCSToParent </td>
           <td>(</td>
-          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a>&#160;</td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a>&#160;</td>
           <td class="paramname"><em>CS</em></td><td>)</td>
           <td></td>
         </tr>
@@ -419,14 +439,14 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9c1c25c7ffec17c654f62420c60ea236"></a>
+<a class="anchor" id="ab2d3438e91907a597bfd10f9fa852b8d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a> wblut.geom.WB_Transform.addFromCSToWorld </td>
           <td>(</td>
-          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a>&#160;</td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a>&#160;</td>
           <td class="paramname"><em>CS</em></td><td>)</td>
           <td></td>
         </tr>
@@ -442,14 +462,14 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2c21c18e514c46687c2b8418007cfa68"></a>
+<a class="anchor" id="ad938b1a10a3cf639cd000e1596438cfc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a> wblut.geom.WB_Transform.addFromParentToCS </td>
           <td>(</td>
-          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a>&#160;</td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a>&#160;</td>
           <td class="paramname"><em>CS</em></td><td>)</td>
           <td></td>
         </tr>
@@ -465,14 +485,14 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a8407bc6ef22e6d406565eb07fa776711"></a>
+<a class="anchor" id="a7f82803ffa8e58630cd1e82b78ce96e4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a> wblut.geom.WB_Transform.addFromWorldToCS </td>
           <td>(</td>
-          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system.html">WB_CoordinateSystem</a>&#160;</td>
+          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html">WB_CoordinateSystem3D</a>&#160;</td>
           <td class="paramname"><em>CS</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1165,21 +1185,21 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9f3d7a050dbf7f5bd34f5b02a80c5bb3"></a>
+<a class="anchor" id="ac5348991072c85ba3ce5c99d9b889085"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void wblut.geom.WB_Transform.applyAsNormal </td>
+          <td class="memname">void wblut.geom.WB_Transform.applyAsNormalInto </td>
           <td>(</td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
-          <td class="paramname"><em>n</em>, </td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1190,21 +1210,27 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td></td></tr>
     <tr><td class="paramname">result</td><td></td></tr>
+    <tr><td class="paramname">n</td><td></td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="afbc78f4596405f965704cf3212f5fdd1"></a>
+<a class="anchor" id="abaa9b3d0f4c942d3c6a47262148e48db"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void wblut.geom.WB_Transform.applyAsNormal </td>
+          <td class="memname">void wblut.geom.WB_Transform.applyAsNormalInto </td>
           <td>(</td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">final double&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
@@ -1218,13 +1244,7 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">final double&#160;</td>
-          <td class="paramname"><em>z</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
+          <td class="paramname"><em>z</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1235,10 +1255,10 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">result</td><td></td></tr>
     <tr><td class="paramname">x</td><td></td></tr>
     <tr><td class="paramname">y</td><td></td></tr>
     <tr><td class="paramname">z</td><td></td></tr>
-    <tr><td class="paramname">result</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -1334,12 +1354,12 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2045cfdb6ed2d5881bcbbf5bdec78c18"></a>
+<a class="anchor" id="a1449927265cb225ff6a32f58d5d84c2a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void wblut.geom.WB_Transform.applyAsPoint </td>
+          <td class="memname">void wblut.geom.WB_Transform.applyAsPointInto </td>
           <td>(</td>
           <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
           <td class="paramname"><em>p</em>, </td>
@@ -1367,12 +1387,12 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5a7b4c3d8e6b48d378d4a226fba8b158"></a>
+<a class="anchor" id="ad5304f0cc1d695fd199ab91901467823"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void wblut.geom.WB_Transform.applyAsPoint </td>
+          <td class="memname">void wblut.geom.WB_Transform.applyAsPointInto </td>
           <td>(</td>
           <td class="paramtype">final double&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -1503,21 +1523,21 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a759d7d480b6fb72a54ea048704e39108"></a>
+<a class="anchor" id="a0caabbf264aa01534b3747836a2829f7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void wblut.geom.WB_Transform.applyAsVector </td>
+          <td class="memname">void wblut.geom.WB_Transform.applyAsVectorInto </td>
           <td>(</td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
+          <td class="paramname"><em>p</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1528,21 +1548,27 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">p</td><td></td></tr>
     <tr><td class="paramname">result</td><td></td></tr>
+    <tr><td class="paramname">p</td><td></td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="aa8539c3aa5f0dae827c013227020aa38"></a>
+<a class="anchor" id="aee42f7516cc28e0286e65082427117eb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void wblut.geom.WB_Transform.applyAsVector </td>
+          <td class="memname">void wblut.geom.WB_Transform.applyAsVectorInto </td>
           <td>(</td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">final double&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
@@ -1556,13 +1582,7 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">final double&#160;</td>
-          <td class="paramname"><em>z</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
+          <td class="paramname"><em>z</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1573,10 +1593,10 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">result</td><td></td></tr>
     <tr><td class="paramname">x</td><td></td></tr>
     <tr><td class="paramname">y</td><td></td></tr>
     <tr><td class="paramname">z</td><td></td></tr>
-    <tr><td class="paramname">result</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -1606,80 +1626,22 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aca8ba317275eaa973c0bd84f675b5e34"></a>
+<a class="anchor" id="a04c534f9e3d572a004bdfae026db8fd0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void wblut.geom.WB_Transform.applyInvAsNormal </td>
+          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a> wblut.geom.WB_Transform.applyInvAsNormal </td>
           <td>(</td>
           <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
-          <td class="paramname"><em>n</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>n</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">n</td><td></td></tr>
-    <tr><td class="paramname">result</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="abc49b2750d0d15df81324d65cee15292"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void wblut.geom.WB_Transform.applyInvAsNormal </td>
-          <td>(</td>
-          <td class="paramtype">final double&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">final double&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">final double&#160;</td>
-          <td class="paramname"><em>z</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x</td><td></td></tr>
-    <tr><td class="paramname">y</td><td></td></tr>
-    <tr><td class="paramname">z</td><td></td></tr>
-    <tr><td class="paramname">result</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -1726,22 +1688,80 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a04c534f9e3d572a004bdfae026db8fd0"></a>
+<a class="anchor" id="a3a911703ab2892d9544e295451f239f2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a> wblut.geom.WB_Transform.applyInvAsNormal </td>
+          <td class="memname">void wblut.geom.WB_Transform.applyInvAsNormalInto </td>
           <td>(</td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
-          <td class="paramname"><em>n</em></td><td>)</td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">result</td><td></td></tr>
     <tr><td class="paramname">n</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ae9a00cd515f033fe9969fdad55fb2eb9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wblut.geom.WB_Transform.applyInvAsNormalInto </td>
+          <td>(</td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td></td></tr>
+    <tr><td class="paramname">x</td><td></td></tr>
+    <tr><td class="paramname">y</td><td></td></tr>
+    <tr><td class="paramname">z</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -1770,83 +1790,26 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae56c3bf96d41ad209fb44fe62ad0df49"></a>
+<a class="anchor" id="af16baae2d7e63fe760b893e5f24cbffb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void wblut.geom.WB_Transform.applyInvAsPoint </td>
+          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a> wblut.geom.WB_Transform.applyInvAsPoint </td>
           <td>(</td>
           <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>p</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p</td><td></td></tr>
-    <tr><td class="paramname">result</td><td></td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a class="anchor" id="abbb2602b7a10b3aab352024327c5599a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void wblut.geom.WB_Transform.applyInvAsPoint </td>
-          <td>(</td>
-          <td class="paramtype">final double&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">final double&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">final double&#160;</td>
-          <td class="paramname"><em>z</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x</td><td></td></tr>
-    <tr><td class="paramname">y</td><td></td></tr>
-    <tr><td class="paramname">z</td><td></td></tr>
-    <tr><td class="paramname">result</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
 </div>
 </div>
@@ -1891,26 +1854,83 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af16baae2d7e63fe760b893e5f24cbffb"></a>
+<a class="anchor" id="a727b1ec18f21716defa3f78ee444917a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a> wblut.geom.WB_Transform.applyInvAsPoint </td>
+          <td class="memname">void wblut.geom.WB_Transform.applyInvAsPointInto </td>
           <td>(</td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
-          <td class="paramname"><em>p</em></td><td>)</td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
+          <td class="paramname"><em>p</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">result</td><td></td></tr>
     <tr><td class="paramname">p</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a96da82b4f49188ae1270fb2be6d65b7f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wblut.geom.WB_Transform.applyInvAsPointInto </td>
+          <td>(</td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td></td></tr>
+    <tr><td class="paramname">x</td><td></td></tr>
+    <tr><td class="paramname">y</td><td></td></tr>
+    <tr><td class="paramname">z</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1936,80 +1956,22 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aeb953ae67ed1d09ddcb7dafb58eeb144"></a>
+<a class="anchor" id="a61631a60bf55dad1b383ca48feea3ce9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void wblut.geom.WB_Transform.applyInvAsVector </td>
+          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a> wblut.geom.WB_Transform.applyInvAsVector </td>
           <td>(</td>
           <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>p</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">p</td><td></td></tr>
-    <tr><td class="paramname">result</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a8a6aae98badb66945a6a5f3541c20cf1"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void wblut.geom.WB_Transform.applyInvAsVector </td>
-          <td>(</td>
-          <td class="paramtype">final double&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">final double&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">final double&#160;</td>
-          <td class="paramname"><em>z</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x</td><td></td></tr>
-    <tr><td class="paramname">y</td><td></td></tr>
-    <tr><td class="paramname">z</td><td></td></tr>
-    <tr><td class="paramname">result</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -2056,22 +2018,80 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a61631a60bf55dad1b383ca48feea3ce9"></a>
+<a class="anchor" id="a5cfc42d13a3e02c1f0a2d6fae78c9497"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a> wblut.geom.WB_Transform.applyInvAsVector </td>
+          <td class="memname">void wblut.geom.WB_Transform.applyInvAsVectorInto </td>
           <td>(</td>
-          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
-          <td class="paramname"><em>p</em></td><td>)</td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td>
+          <td class="paramname"><em>p</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">result</td><td></td></tr>
     <tr><td class="paramname">p</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a1ad12a86b17e086708ff8c4509765738"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wblut.geom.WB_Transform.applyInvAsVectorInto </td>
+          <td>(</td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">WB_MutableCoord</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td></td></tr>
+    <tr><td class="paramname">x</td><td></td></tr>
+    <tr><td class="paramname">y</td><td></td></tr>
+    <tr><td class="paramname">z</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -2201,6 +2221,26 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a8805fca2b10f36e74b4e304ee87fd7da"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a> wblut.geom.WB_Transform.geometryfactory = new <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="aa16295ccab8d479793dd6038691fec0f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -2244,14 +2284,18 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/wblut/geom/<a class="el" href="_w_b___transform_8java.html">WB_Transform.java</a></li>
+<li>src_core/wblut/geom/<a class="el" href="_w_b___transform_8java.html">WB_Transform.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:04 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1geom.html">geom</a></li><li class="navelem"><a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:10 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

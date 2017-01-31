@@ -226,10 +226,9 @@ public class WB_Transform2D {
 	}
 
 	/**
-	 * Adds the reflect.
-	 *
-	 * @param P
-	 *            the p
+	 * 
+	 * @param p1
+	 * @param p2
 	 * @return
 	 */
 	public WB_Transform2D addReflect2D(final WB_Coord p1, final WB_Coord p2) {

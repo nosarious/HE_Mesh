@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -39,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -107,6 +116,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_c.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -125,30 +148,113 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock">Here is a list of all class members with links to the classes they belong to:</div>
 
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
-<li>C
-: <a class="el" href="enumwblut_1_1geom_1_1_w_b___danzer_1_1_type.html#a4afd1bae1ad921e433612b08edf13502">wblut.geom.WB_Danzer.Type</a>
-</li>
 <li>c
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geodesic.html#aeecd01d182b1b363851dc30844446b7f">wblut.geom.WB_Geodesic</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a086011a587116134e1630b16611c2a01">wblut.geom.WB_Line</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___poly_line.html#aeb058a987f62372a4faa727dddfd2322">wblut.geom.WB_PolyLine</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___ring.html#adbd6d41f3343a7a671b3f6e080e1b624">wblut.geom.WB_Ring</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___triangle.html#ad9499f5a7c2a23e809929d70338014ea">wblut.geom.WB_Triangle</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___geodesic.html#abadaf33850c75c9980ae2a4cb3aa890b">wblut.hemesh.HEC_Geodesic</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___center_split.html#a17f47fe29094ab3fcc41acf6e2abec8e">wblut.hemesh.HEM_CenterSplit</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___center_split_hole.html#a99897c56d67f1dcb1a3ff40c24744068">wblut.hemesh.HEM_CenterSplitHole</a>
 </li>
 <li>calculateDirections()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html#a37653e85aeff2a410ae482f02d172be2">wblut.geom.WB_Polygon</a>
+</li>
+<li>calculateHashCode()
+: <a class="el" href="classwblut_1_1core_1_1_w_b___hash_code.html#a2f3e8aa12bf459598d6765d4a73fbc5d">wblut.core.WB_HashCode</a>
+</li>
+<li>caller
+: <a class="el" href="classwblut_1_1core_1_1_w_b___progress_counter.html#a897097723e093ade9718df33afaec3ea">wblut.core.WB_ProgressCounter</a>
+</li>
+<li>cap
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___cone.html#a85d40c5f9c5d876519d1c8dddeb47529">wblut.hemesh.HEC_Cone</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_frame.html#abdfe1579c7beff67416bd29b88078130">wblut.hemesh.HEC_FromFrame</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___hemisphere.html#a0bf10fb00acb7274cec48728c85d42c3">wblut.hemesh.HEC_Hemisphere</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___slice.html#af92d137893935e81c4dbb1d3cb48a308">wblut.hemesh.HEM_Slice</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___wireframe.html#a3ac86028a88ba861e96aa2b06e064183">wblut.hemesh.HEM_Wireframe</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___split_mesh.html#adab88fc95fc0fcce87e699fc8e311c12">wblut.hemesh.HEMC_SplitMesh</a>
 </li>
 <li>capacity
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_query_result.html#a8fda855ceafa1940adb81f9a2e5d40ce">wblut.geom.WB_KDTree&lt; T extends WB_Coord, V &gt;.QueryResult&lt; T extends WB_Coord, V &gt;</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_double_1_1_query_result_double.html#a3dd10944c5b44d742622d8fa23cce830">wblut.geom.WB_KDTreeDouble&lt; T extends WB_Coord &gt;.QueryResultDouble&lt; T extends WB_Coord &gt;</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_integer_1_1_query_result_integer.html#a646cf4ba649024eac95525d906a6bb40">wblut.geom.WB_KDTreeInteger&lt; T extends WB_Coord &gt;.QueryResultInteger&lt; T extends WB_Coord &gt;</a>
 </li>
+<li>capBoundaries
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_voronoi_cells.html#affa1f6ea822f64691e577c609ff9c867">wblut.hemesh.HEC_FromVoronoiCells</a>
+</li>
+<li>capHalfedges()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a7b2f19f2e29fa1c79acbfb7f9a7cbda5">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>capHoles
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___multi_slice.html#a61e716c40fc55219e3b5dceab61f7adb">wblut.hemesh.HEM_MultiSlice</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___slice.html#a8be731a6cb312ad331b6b1003f84b60b">wblut.hemesh.HEM_Slice</a>
+</li>
+<li>caps
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___cap_holes.html#a93f4efa8c2318950e7cc1a98bdce1df4">wblut.hemesh.HEM_CapHoles</a>
+</li>
+<li>CD
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___chamfer_box.html#ad917472d46ef2d638e03192ac92d2b1f">wblut.hemesh.HEC_ChamferBox</a>
+</li>
+<li>ceil()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___double_double.html#aa3e08f51ac09cae9d5d51f0573773e2e">wblut.math.WB_DoubleDouble</a>
+</li>
+<li>cellIndex
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_cell.html#a762f060e7ef3660eaaf31dd712812185">wblut.hemesh.HEC_VoronoiCell</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#af2535bc6920615eb1fd728b7410c2bf0">wblut.hemesh.HEC_VoronoiSphere</a>
+</li>
+<li>cells
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_voronoi_cells.html#ac76771246179d5bbf3750b422d4b73b5">wblut.hemesh.HEC_FromVoronoiCells</a>
+</li>
 <li>center
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___octree.html#aeedf6dbfd2bd8da04258558fb8eb7876">wblut.geom.WB_Octree&lt; V &gt;</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#ae9a7df30c93b16ad95d2c8e8d7cc9516">wblut.geom.WB_Circle</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___octree.html#aeedf6dbfd2bd8da04258558fb8eb7876">wblut.geom.WB_Octree&lt; V &gt;</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___octree_double.html#ae9f6a888924aced1a7a2a0cacb076a17">wblut.geom.WB_OctreeDouble</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___octree_integer.html#adeebb2199092d0527e6f7ccaae51aa19">wblut.geom.WB_OctreeInteger</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree.html#a74bc0a326bf1caa3831fb35c413dea0a">wblut.geom.WB_Quadtree&lt; V &gt;</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree_double.html#a2420445c43bd9604c93d38de70cbbe0f">wblut.geom.WB_QuadtreeDouble</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree_integer.html#a6e978a6cd9207dca132411cad6b61a6d">wblut.geom.WB_QuadtreeInteger</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a78e4dad9ad009b9e1d3a8d7dd11e30eb">wblut.hemesh.HEC_Creator</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___multi_slice.html#aaefa345614924f858faa518fee4073ab">wblut.hemesh.HEM_MultiSlice</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___spherical_inversion.html#a5d3035ab16dd1342748515a574643aa2">wblut.hemesh.HEM_SphericalInversion</a>
+</li>
+<li>CH
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___chamfer_box.html#ad8a4d6d289a4e0d6f354c18006c914f0">wblut.hemesh.HEC_ChamferBox</a>
+</li>
+<li>chamfer
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___data_cylinder.html#a682eef33e5f5348ac371f4b155eb16c1">wblut.hemesh.HEC_DataCylinder</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___crocodile.html#aeac151c4ee2a2455f480a2ea683c23f6">wblut.hemesh.HEM_Crocodile</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___extrude.html#af40ae9237a47b3e621a3696dda958e77">wblut.hemesh.HEM_Extrude</a>
+</li>
+<li>checkFace()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___diagnosis.html#a21b8c99ba0738fa90b63a1f3a5a4f916">wblut.hemesh.HET_Diagnosis</a>
+</li>
+<li>checkHalfedges()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___diagnosis.html#a95099b23099942134077c5efd219e3da">wblut.hemesh.HET_Diagnosis</a>
+</li>
+<li>checkIntersection2DProper()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op2_d.html#a1f8c989e4540da89898fc1fd55e94449">wblut.geom.WB_GeometryOp2D</a>
+</li>
+<li>checkIntersection3D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op3_d.html#aa029cd88a31008bfa9cfee3a95f166b5">wblut.geom.WB_GeometryOp3D</a>
+</li>
+<li>checkNormals
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_polygons.html#a6b3409e8a628176dadac023006d8024d">wblut.hemesh.HEC_FromPolygons</a>
+</li>
+<li>checkSelfIntersection()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___fixer.html#a35b6273b393a9ed561c2f9b75d4a2b50">wblut.hemesh.HET_Fixer</a>
+</li>
+<li>checkValidity()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#ac012ff698bde17185495d17db7420b14">wblut.hemesh.HE_Face</a>
+</li>
+<li>checkVertex()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___diagnosis.html#a4c147cceb334a5b95c97cc2b78728a2b">wblut.hemesh.HET_Diagnosis</a>
+</li>
+<li>circ
+: <a class="el" href="classwblut_1_1math_1_1_w_b___ease.html#aeaf421d812e3838ab288a5d07cef96f6">wblut.math.WB_Ease</a>
+</li>
+<li>circle
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___circle_inversion.html#af8ec05b012b918c69b35b9ef55195f6a">wblut.hemesh.HEM_CircleInversion</a>
 </li>
 <li>circumcenter2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___predicates.html#a80c709aa8f057b8fb040486485b765a9">wblut.geom.WB_Predicates</a>
@@ -168,16 +274,91 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>circumsphere3D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___predicates.html#a5a4a19f89e6b2018ea20ee3938987c27">wblut.geom.WB_Predicates</a>
 </li>
+<li>clamp()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___math.html#aeae4e3cba9620b694564e83c411221d8">wblut.math.WB_Math</a>
+</li>
+<li>clampEpsilon()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___epsilon.html#a7af198393e8d5c6534fb54c9e4e1ffeb">wblut.math.WB_Epsilon</a>
+</li>
 <li>classifyCell()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___iso_surface.html#a170beb4764af30040fcaa1032ae45eea">wblut.geom.WB_IsoSurface</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___iso_surface2_d.html#a8a5dca33bf6bd59e9473b3e1a3352598">wblut.geom.WB_IsoSurface2D</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___iso_surface_v_o_l2_d.html#a9937d6c1501b34b38504bac270bb9afc">wblut.geom.WB_IsoSurfaceVOL2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_grid.html#a5af0d8a65317d589d16c5ccddeca61a9">wblut.hemesh.HEC_IsoGrid</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface.html#a6a398cb8f9e2c4d40f900a7c64635f80">wblut.hemesh.HEC_IsoSurface</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_n_e_p.html#af1678dba26fb97698d8c40e2b9a66f53">wblut.hemesh.HEC_IsoSurfaceNEP</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_n_e_p2_d.html#a04114f10eff945202e3e014ab83d2373">wblut.hemesh.HEC_IsoSurfaceNEP2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_s_n_a_p.html#a36fd8ffb8b88adc0687fa36f7cbf835e">wblut.hemesh.HEC_IsoSurfaceSNAP</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_s_n_a_p2_d.html#a5ac49e3e1207094354aea8b47a0cfc7f">wblut.hemesh.HEC_IsoSurfaceSNAP2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_v_o_l.html#a44b5f75c92eb193a6362f90fc28fd567">wblut.hemesh.HEC_IsoSurfaceVOL</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_v_o_l2_d.html#a331fe020037f05074f93446b0ee897b2">wblut.hemesh.HEC_IsoSurfaceVOL2D</a>
+</li>
+<li>classifyCircleToCircle2D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op2_d.html#ab565c041329d1b5e8e2d6f8064a1be37">wblut.geom.WB_GeometryOp2D</a>
+</li>
+<li>classifyCircleToLine2D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op2_d.html#af8ef8496716d06211a92af61e6571274">wblut.geom.WB_GeometryOp2D</a>
+</li>
+<li>classifyEdgeToPlane3D()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a7f785f521912e970c9ece91416d697da">wblut.hemesh.HET_MeshOp</a>
+</li>
+<li>classifyFaceToPlane3D()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a164d37b51604f6ae8e4d771be240bd64">wblut.hemesh.HET_MeshOp</a>
+</li>
+<li>classifyPointToCircle2D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op2_d.html#a44928132038243e048ca3b3b011b0b04">wblut.geom.WB_GeometryOp2D</a>
+</li>
+<li>classifyPointToLine2D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op2_d.html#ab3ed1055d03fc13a273b2f038ce33481">wblut.geom.WB_GeometryOp2D</a>
+</li>
+<li>classifyPointToPlane3D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op3_d.html#afd135b70f2a27b647ffac43705c3c2c7">wblut.geom.WB_GeometryOp3D</a>
+</li>
+<li>classifyPointToPlaneFast3D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op3_d.html#a2a676f5711caad9da8d16f6fd469dcfb">wblut.geom.WB_GeometryOp3D</a>
+</li>
+<li>classifyPointToTetrahedron3D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op3_d.html#a7a8f73c88c9fb2c41fb0ee63cb6a73d3">wblut.geom.WB_GeometryOp3D</a>
+</li>
+<li>classifyPolygonToLine2D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op2_d.html#a050173c98cb5d3f8d159f78baf3629f0">wblut.geom.WB_GeometryOp2D</a>
+</li>
+<li>classifyPolygonToPlane3D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op3_d.html#aa60c3803ba69bccae1019fbe2d77ccbe">wblut.geom.WB_GeometryOp3D</a>
+</li>
+<li>classifyPolygonToPlaneFast3D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op3_d.html#a99a71a2d8137f34e9befb9dd7011ab72">wblut.geom.WB_GeometryOp3D</a>
+</li>
+<li>classifySegmentToLine2D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op2_d.html#a85d709dd0bc6bb94f523c888c7b24f28">wblut.geom.WB_GeometryOp2D</a>
+</li>
+<li>classifySegmentToPlane3D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op3_d.html#ad1c2a9751c4b35d77b352ea9cf9da702">wblut.geom.WB_GeometryOp3D</a>
+</li>
+<li>classifyVertexToPlane3D()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a2a65231ff3c2c87ba727edf51dca5c84">wblut.hemesh.HET_MeshOp</a>
 </li>
 <li>clean()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___danzer.html#a57ac91e10543b330918abb511c8c320d">wblut.geom.WB_Danzer</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html#a3b8db04c0ff748d5f8fcef1be135a7ff">wblut.hemesh.HE_Mesh</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___fixer.html#af4dc5f2d769d3fcf71a9247b8f62b2ed">wblut.hemesh.HET_Fixer</a>
 </li>
 <li>cleanPointlist()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a596cc9a1d83e2edae896cd58c8a10a81">wblut.geom.WB_GeometryFactory</a>
+</li>
+<li>cleanSelection()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___selection.html#aed14f6a4856f13fb3c9900395a8e8219">wblut.hemesh.HE_Selection</a>
+</li>
+<li>cleanunused
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_facelist.html#acd30600168af6d01a2d3211885eaa3d6">wblut.hemesh.HEC_FromFacelist</a>
+</li>
+<li>cleanUnusedElementsByFace()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#ab9d871cf699d75d4301e1f9f491fa6ad">wblut.hemesh.HE_MeshStructure</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#afdda3865cd4eaa515230d842fbab5cb4">wblut.hemesh.HET_MeshOp</a>
+</li>
+<li>cleanUVW()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a50e9f168324f12eefdd526acd8d3425f">wblut.hemesh.HE_Vertex</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___texture.html#ad6629c29d92f8fe4f1178cf1d1e3d4aa">wblut.hemesh.HET_Texture</a>
 </li>
 <li>clear()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___octree.html#a9d67103c471339d433cfb0461f0e5af0">wblut.geom.WB_Octree&lt; V &gt;</a>
@@ -186,21 +367,94 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree.html#a5dd8409a7ffd952831be6f76d688313b">wblut.geom.WB_Quadtree&lt; V &gt;</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree_double.html#a2ac87cb559bf00dfc257849854da5319">wblut.geom.WB_QuadtreeDouble</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree_integer.html#a9e96cb5bc1144a9ac8dd82a84c4e6afd">wblut.geom.WB_QuadtreeInteger</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html#acf60e687e3a8567a4b680533dad28be4">wblut.geom.WB_Transform</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___transform2_d.html#a1a259275a7fbc8c278e06457553de1f1">wblut.geom.WB_Transform2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#af7d23ca352a5b259c6b59facd23b56d1">wblut.hemesh.HE_Element</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#aad5330a01b0d79c62ea22e9a60dc002f">wblut.hemesh.HE_Face</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#acc0d231d321972dee4888b4f3125b648">wblut.hemesh.HE_Halfedge</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#a2224fa6206127e92cc62e53060992677">wblut.hemesh.HE_MeshElement</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a1cd3a159602811fa7eea807ff059ca8f">wblut.hemesh.HE_MeshStructure</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___path.html#a136a7c003b6a6b873b95e6de9bc3894c">wblut.hemesh.HE_Path</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a5b9f09c91d40111fad8cfc414c3b465c">wblut.hemesh.HE_PathHalfedge</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___texture_coordinate.html#a5c6752b24c95b6b33059fd33b809f634">wblut.hemesh.HE_TextureCoordinate</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#ab363346404079ee00d96dd57f65adb3d">wblut.hemesh.HE_Vertex</a>
 </li>
 <li>clearBoundary()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___iso_surface.html#a68176d72f429e47ab47d5d2a4180dd00">wblut.geom.WB_IsoSurface</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___iso_surface2_d.html#a205411f2766384584320ebcaa2fb4474">wblut.geom.WB_IsoSurface2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_function.html#a9f882500ac43933937bb477503bd3b90">wblut.hemesh.HEC_IsoFunction</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface.html#a00633ee6615d6dfee1e33647441457c4">wblut.hemesh.HEC_IsoSurface</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_n_e_p.html#a512615b3cab03456e7aa4ebeaa98fe28">wblut.hemesh.HEC_IsoSurfaceNEP</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_n_e_p2_d.html#a2106b9729c1902eab09ad3948e32aa76">wblut.hemesh.HEC_IsoSurfaceNEP2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_s_n_a_p.html#a86a3ae2bb05bf9d6605e2b1d24c889aa">wblut.hemesh.HEC_IsoSurfaceSNAP</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_s_n_a_p2_d.html#a0e6432e75e2cb530e44dba4e8a0bb52b">wblut.hemesh.HEC_IsoSurfaceSNAP2D</a>
+</li>
+<li>clearEdges()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a95f1e1cb1b54379f214a5c90f7e91259">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>clearFace()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#aba6e33d78a496f18cab9bbca83debd06">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>clearFaces()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a9f187e8d308b09617ffb185546dc7a51">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>clearHalfedge()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a056b9e8a3029344964c4dd66916aa325">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>clearHalfedges()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#af026f899ca3c07447f0c2b8420415d21">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>clearNext()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a30479e51538e2716f454b0a769efd658">wblut.hemesh.HE_MeshStructure</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#adc05141cce08436cdc746eec3e3de9b4">wblut.hemesh.HE_PathHalfedge</a>
+</li>
+<li>clearPair()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#af02249e319437131a4cb510f1a284a13">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>clearPathHalfedge()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___path.html#a3709bafb6766d5327b30711e3493ad59">wblut.hemesh.HE_Path</a>
+</li>
+<li>clearPrev()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#afa413a8b53ccf0d888fd03d6edce4bb1">wblut.hemesh.HE_MeshStructure</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a0f9c44bbb6fcfb53d3bbb1543152b2e9">wblut.hemesh.HE_PathHalfedge</a>
+</li>
+<li>clearUVW()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#aa45cc0926f6b12f2b6bef1b53e1e6c14">wblut.hemesh.HE_Halfedge</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#ac957804bc1672c35a52c92b943e21b6b">wblut.hemesh.HE_Vertex</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___texture.html#a27d9f86b0a18f602e5e08189bb8fd63c">wblut.hemesh.HET_Texture</a>
 </li>
 <li>clearValue()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___hash_grid_double.html#a99cb16964555bb4101b32cf98ce8f14e">wblut.geom.WB_HashGridDouble</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___hash_grid_integer.html#a38cf5e94d6dcf2c8389139e491df3bc9">wblut.geom.WB_HashGridInteger</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___hash_grid_object.html#ac8079d276615873284c72d4f6de862f7">wblut.geom.WB_HashGridObject</a>
 </li>
+<li>clearVertex()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#ae589ed1ed4af1e126a622d6ec1e6c058">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>clearVertices()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#aaab22752d5ac47ef3ccc54f98f82850d">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>clearVisited()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#ae174a24e288c624b5e9a7e498ae9f64c">wblut.hemesh.HE_MeshElement</a>
+</li>
+<li>clearVisitedElements()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#ac65b91b81c4b99555f8b6d737dd9ae06">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>clearXRange()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface.html#ac7744ad747854af0c19d9655aff05c49">wblut.hemesh.HEC_IsoSurface</a>
+</li>
+<li>clearYRange()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface.html#acedfc6db856bcfd503e7897b35a6b289">wblut.hemesh.HEC_IsoSurface</a>
+</li>
+<li>clearZRange()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface.html#a834bc1a825b99eccc13f98e694450415">wblut.hemesh.HEC_IsoSurface</a>
+</li>
 <li>CLOCKWISE
 : <a class="el" href="enumwblut_1_1geom_1_1_w_b___classification.html#a868995ada160bbb663e47e1ddccca621">wblut.geom.WB_Classification</a>
 </li>
-<li>Closest()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___swizzle_1_1_closest.html#ae74731c554231da5719542e95d15c7e7">wblut.geom.WB_Swizzle.Closest</a>
+<li>clone()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___double_double.html#a748192d7f2a385ca096582fc75ba02e5">wblut.math.WB_DoubleDouble</a>
+, <a class="el" href="classwblut_1_1math_1_1_w_b___m_t_random.html#ab818baf0ac0e385c1a73baa7927a4299">wblut.math.WB_MTRandom</a>
 </li>
 <li>closestIndex()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html#accdde320992caaea6a05f16ac584e634">wblut.geom.WB_Polygon</a>
@@ -208,21 +462,129 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>closestPoint()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html#a7e2783d84e20e7f60d445526d110bf97">wblut.geom.WB_Polygon</a>
 </li>
+<li>col()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___m33.html#abaabd4167501d625daf91b5aa78aee8b">wblut.math.WB_M33</a>
+</li>
+<li>colInto()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___m33.html#a0068c07e917deecf30f666d6e68e463c">wblut.math.WB_M33</a>
+</li>
+<li>collapseDegenerateEdges()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___fixer.html#adcf56f00321c82d487c3233c66e13418">wblut.hemesh.HET_Fixer</a>
+</li>
+<li>collapseEdge()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#ad7e6fa8257c902c524be53f9f20fa269">wblut.hemesh.HET_MeshOp</a>
+</li>
+<li>collapseEdgeBoundaryPreserving()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a89264a98295cc13f58effb046c891b86">wblut.hemesh.HET_MeshOp</a>
+</li>
+<li>collapseHalfedge()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a0b8a0072031027325fdef0c18a99c133">wblut.hemesh.HET_MeshOp</a>
+</li>
+<li>collapseHalfedgeBoundaryPreserving()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a696a11bb4285c282674c6e21bb3cf8f3">wblut.hemesh.HET_MeshOp</a>
+</li>
+<li>collectEdgesByFace()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___selection.html#a541b8f5467251d5e9c2aacf580817dd0">wblut.hemesh.HE_Selection</a>
+</li>
+<li>collectEdgesByVertex()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___selection.html#a7f826bbe79b04ddffbe03307c2d4bb0c">wblut.hemesh.HE_Selection</a>
+</li>
+<li>collectFaces()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___selection.html#a7c0142fd50eb244aba6f39288923b65b">wblut.hemesh.HE_Selection</a>
+</li>
+<li>collectHalfedges()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___selection.html#af9a0ceb8b8f3be0f27a3e8d6364b1ef2">wblut.hemesh.HE_Selection</a>
+</li>
+<li>collectVertices()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___selection.html#abaf62793f221153baf0fd8072b3ef91e">wblut.hemesh.HE_Selection</a>
+</li>
 <li>COLLINEAR
 : <a class="el" href="enumwblut_1_1geom_1_1_w_b___classification.html#a1e5e872a5a81227f2e5dbdad90f41735">wblut.geom.WB_Classification</a>
 </li>
-<li>compare()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon_triangulator_1_1_indexed_double_comparator.html#aa34c22922f6facd7b638ed92a657ae6f">wblut.geom.WB_PolygonTriangulator.IndexedDoubleComparator</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon_triangulator_1_1_indexed_envelope_comparator.html#ae0efddaec7361914256a4fa105c38f12">wblut.geom.WB_PolygonTriangulator.IndexedEnvelopeComparator</a>
+<li>color()
+: <a class="el" href="classwblut_1_1core_1_1_w_b___color.html#a3e18e358237cc4d3e1be4b076b96a6b2">wblut.core.WB_Color</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#ae282fd7d840674bc6212633e8687e132">wblut.hemesh.HE_MeshElement</a>
+, <a class="el" href="classwblut_1_1processing_1_1_w_b___processing.html#af5e8886b74f3fb1e0d6d4e43b355b7ba">wblut.processing.WB_Processing</a>
+</li>
+<li>colorModel
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___writer_s_t_l.html#a31757e47aeb2252f5ec75199b117d6f0">wblut.hemesh.HET_WriterSTL</a>
+</li>
+<li>colors
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___weaire_phelan.html#a2063833ac62d90007f51766656d29a38">wblut.hemesh.HEMC_WeairePhelan</a>
+</li>
+<li>colorToObject
+: <a class="el" href="classwblut_1_1processing_1_1_w_b___select_render3_d.html#a5fd2a320c69d715a3988811fce05e6fc">wblut.processing.WB_SelectRender3D</a>
+</li>
+<li>compareAbs()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___epsilon.html#a635c21abc46300f53a3f1a33fd0a269f">wblut.math.WB_Epsilon</a>
+</li>
+<li>compareHybrid()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___epsilon.html#ab29a1c4ae4baeaf4f4c74b7ac61080e4">wblut.math.WB_Epsilon</a>
+</li>
+<li>compareRel()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___epsilon.html#ab7b867430392487809992c6a99d45f1b">wblut.math.WB_Epsilon</a>
 </li>
 <li>compareTo()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh_graph_1_1_w_b___graph_vertex.html#a40b4d9cb0cfce0dcefa7efbc7e75793d">wblut.geom.WB_MeshGraph.WB_GraphVertex</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a3bef8b42ebcddc4ac65d9575dd803047">wblut.geom.WB_Point</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___point4_d.html#a131e06e5fae0d94db45b4f50a229c3bf">wblut.geom.WB_Point4D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_coordinate.html#a7319da88fca51acd48cf34b54b9b3222">wblut.geom.WB_SimpleCoordinate</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_coordinate2_d.html#aa329758c4a7ce5b06d59f83f005da70b">wblut.geom.WB_SimpleCoordinate2D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_coordinate4_d.html#a6ef7225f686a33b7de7111231f402ea9">wblut.geom.WB_SimpleCoordinate4D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a650a61e5309825f09a73e67c3acc4a58">wblut.geom.WB_SimpleVector</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html#afa13dc3749d3fd4f05e62ffcc1297986">wblut.geom.WB_SimpleVector2D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector4_d.html#a59e3c3e5703b490b4e6d7ac3f071fee5">wblut.geom.WB_SimpleVector4D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#ad1fa0a20f64d4bbc0f8860efa7fb5311">wblut.geom.WB_Vector</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector2_d.html#a0b27c03c5e6bf2fd8fa912da45d1cb15">wblut.geom.WB_Vector2D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector4_d.html#ae9a42dc48c81428294e88907788a90d1">wblut.geom.WB_Vector4D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#a55a3b5354343863b69f4ae22f2384ed7">wblut.hemesh.HE_Face</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#a6f8ebac2648804bf1484b4bedb3567a4">wblut.hemesh.HE_Halfedge</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___texture_coordinate.html#aee7ea96ed7a474473f2988182c289088">wblut.hemesh.HE_TextureCoordinate</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#ad0cfb85bddc1114e7e2a39896137fd78">wblut.hemesh.HE_Vertex</a>
+, <a class="el" href="classwblut_1_1math_1_1_w_b___double_double.html#a0c7cdfcec5b0e8561bad532a0ae03909">wblut.math.WB_DoubleDouble</a>
+, <a class="el" href="classwblut_1_1processing_1_1_w_b___p_vector.html#a9d6e4fc877dfde9d84fadd3ca247b933">wblut.processing.WB_PVector</a>
+</li>
+<li>compareToY1st()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a11ec4a9eabc04b4ab64a464fd16ccaef">wblut.geom.WB_Point</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___point4_d.html#ab52bfd2c719c6787d6e5cd9864432822">wblut.geom.WB_Point4D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_coordinate.html#a677ca2bddbe2898452f428256dc1617d">wblut.geom.WB_SimpleCoordinate</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_coordinate2_d.html#aee5ca65f2660f8dc714b32608405c98c">wblut.geom.WB_SimpleCoordinate2D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_coordinate4_d.html#af9ef09a2d7e2ab7b8301bf1fb3772562">wblut.geom.WB_SimpleCoordinate4D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a95c306af8f7ba79df889e6e51667ebc8">wblut.geom.WB_SimpleVector</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html#aad7fabac3cd6720913bc618b093c0088">wblut.geom.WB_SimpleVector2D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector4_d.html#ade1c693ee3f19ad6eda224abb56874bb">wblut.geom.WB_SimpleVector4D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a93f731f65e1ffff91284f0c05681add6">wblut.geom.WB_Vector</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector2_d.html#ab29d3e01788f15fc6343de77448fe5bb">wblut.geom.WB_Vector2D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector4_d.html#ae5f63d165dd2d2811457d79838891e01">wblut.geom.WB_Vector4D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a7cc1838d1c543bc428dd65eb191d26b0">wblut.hemesh.HE_Vertex</a>
+</li>
+<li>completeFromFaces()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___selection.html#a106a9c7f1bc50f2aae3eda8ec8240209">wblut.hemesh.HE_Selection</a>
+</li>
+<li>compressionFactor
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___stretch.html#ac788f4cb90fdea2589e04e50a3c88115">wblut.hemesh.HEM_Stretch</a>
+</li>
+<li>compute_intervals_isectline()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op3_d.html#a13482ed513538499bb7f23c83da4f106">wblut.geom.WB_GeometryOp3D</a>
+</li>
+<li>computeNormal3D()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#adfb64d4fba0132155a5d4c97029f61bd">wblut.hemesh.HET_MeshOp</a>
 </li>
 <li>computePathsToVertex()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh_graph.html#aebe5ebe0ea79e5aee1ddc542b66c3b0d">wblut.geom.WB_MeshGraph</a>
 </li>
 <li>CONCAVE
 : <a class="el" href="enumwblut_1_1geom_1_1_w_b___classification.html#ac6976cb1be607d7bfdd1f659c953d6e2">wblut.geom.WB_Classification</a>
+</li>
+<li>conjugate()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___complex.html#abdf801dfd78b65714ee498341bdfd383">wblut.math.WB_Complex</a>
+</li>
+<li>conjugateSelf()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___complex.html#af51487bccc6e0f19a7e2a940e65e15d6">wblut.math.WB_Complex</a>
+</li>
+<li>consistentOrder()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_facelist.html#add94535868e1c962965fea2a4d80c3d3">wblut.hemesh.HEC_FromFacelist</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_mesh.html#a0fe7e21e4946981ac68bfbfd2db8d4a5">wblut.hemesh.HEC_FromMesh</a>
 </li>
 <li>constrain()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___voronoi_cell3_d.html#a5bd6d8adac1c1396e5a8c7f9954884c5">wblut.geom.WB_VoronoiCell3D</a>
@@ -233,13 +595,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>constrainPolygons2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#aa87dc861cfb5c8dc595b816f492ceace">wblut.geom.WB_GeometryFactory2D</a>
 </li>
+<li>container
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_cell.html#a9d7495f956117d37afbc88b8937166f8">wblut.hemesh.HEC_VoronoiCell</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___voronoi_cells.html#a50a6d6c457fcdebec5a9e3de761b92a5">wblut.hemesh.HEMC_VoronoiCells</a>
+</li>
 <li>CONTAINING
 : <a class="el" href="enumwblut_1_1geom_1_1_w_b___classification.html#abe7171d3304a1f53c7f46b090fdf64eb">wblut.geom.WB_Classification</a>
 </li>
 <li>contains()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___a_a_b_b.html#aed19ca79b32d1a742128fef34b23e278">wblut.geom.WB_AABB</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___a_a_b_b2_d.html#ad9405d6f30edc6e28536d605e8cd8369">wblut.geom.WB_AABB2D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a9a362e9f2ff5459c9a8bb43dfe8230fa">wblut.geom.WB_Circle</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op3_d.html#ac799f094fc3e39335cb16703a079f2b3">wblut.geom.WB_GeometryOp3D</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___sphere.html#a3b07e4898cfa7600ada115e5c843bef7">wblut.geom.WB_Sphere</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a45357d5525003078058ec1de63ed369e">wblut.hemesh.HE_MeshStructure</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___r_a_s.html#a4e5448579b6612b4dbf800fda15cbce5">wblut.hemesh.HE_RAS&lt; E extends HE_Element &gt;</a>
+</li>
+<li>contains2D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op2_d.html#aec1fc825c083091493ac5da1c600d0b4">wblut.geom.WB_GeometryOp2D</a>
+</li>
+<li>containsEdge()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a65302282762e9122e44a053163c32df3">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>containsFace()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#abb697ddeecdb9b5313b1bd80516427a2">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>containsHalfedge()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a6313b467da048c00e9ef439dfde1ed7d">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>containsKey()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___r_a_s.html#a5ede0baa3e4810e71bdb0954967180bd">wblut.hemesh.HE_RAS&lt; E extends HE_Element &gt;</a>
+</li>
+<li>containsVertex()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#ab6fce98af4157f1610035ed0ab4edb8a">wblut.hemesh.HE_MeshStructure</a>
 </li>
 <li>convert()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___triangulate3_d.html#aef0469ace2a528d1adf6c5e02399d483">wblut.geom.WB_Triangulate3D</a>
@@ -247,19 +635,38 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>CONVEX
 : <a class="el" href="enumwblut_1_1geom_1_1_w_b___classification.html#ad3337a85a47ae61a08c4b39485e364ed">wblut.geom.WB_Classification</a>
 </li>
-<li>coord
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_w_b___k_d_entry.html#acc39a3a7af90828d81022e4a6b668b22">wblut.geom.WB_KDTree&lt; T extends WB_Coord, V &gt;.WB_KDEntry&lt; T extends WB_Coord, V &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_double_1_1_w_b___k_d_entry_double.html#af890b5a83d0ebaa12d74a90ed03f1535">wblut.geom.WB_KDTreeDouble&lt; T extends WB_Coord &gt;.WB_KDEntryDouble&lt; T extends WB_Coord &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___k_d_tree_integer_1_1_w_b___k_d_entry_integer.html#a5293ff297f18ff33cb95d6d461cf3264">wblut.geom.WB_KDTreeInteger&lt; T extends WB_Coord &gt;.WB_KDEntryInteger&lt; T extends WB_Coord &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___octree_1_1_w_b___octree_entry.html#a2127418dbdd204dd706862c09989c073">wblut.geom.WB_Octree&lt; V &gt;.WB_OctreeEntry&lt; V &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___octree_double_1_1_w_b___octree_double_entry.html#a7c6d10a973127feeaf01a89a25d04eef">wblut.geom.WB_OctreeDouble.WB_OctreeDoubleEntry</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___octree_integer_1_1_w_b___octree_integer_entry.html#acdc719bbb0bdb6998427548ddbf278b7">wblut.geom.WB_OctreeInteger.WB_OctreeIntegerEntry</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree_1_1_w_b___quadtree_entry.html#a4ee56fa7e52ca733fc0db295712a02e1">wblut.geom.WB_Quadtree&lt; V &gt;.WB_QuadtreeEntry&lt; V &gt;</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree_double_1_1_w_b___quadtree_double_entry.html#a5248eeb1e1c7ebdd34cb5927532a9f4b">wblut.geom.WB_QuadtreeDouble.WB_QuadtreeDoubleEntry</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___quadtree_integer_1_1_w_b___quadtree_integer_entry.html#a4394dba0c97bf2cb1bcc3a5c8636af95">wblut.geom.WB_QuadtreeInteger.WB_QuadtreeIntegerEntry</a>
+<li>coords()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a95370906c0776bad395e19277ce71ab1">wblut.geom.WB_Point</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a6259b199cccfa954f5a4434982f16136">wblut.geom.WB_Vector</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector2_d.html#a5d414546f04aa54edadc35cd0c70c2d3">wblut.geom.WB_Vector2D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector4_d.html#a6de522d20325a1123d8e01a4a993347d">wblut.geom.WB_Vector4D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a17dee01eb2cccf85d0927610511e722b">wblut.hemesh.HE_Vertex</a>
 </li>
 <li>COPLANAR
 : <a class="el" href="enumwblut_1_1geom_1_1_w_b___classification.html#a204fb3529141099e55be70c290d606fb">wblut.geom.WB_Classification</a>
+</li>
+<li>coplanarTriangles()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op3_d.html#a608968f0ed96b4347b7e797adf69cfcb">wblut.geom.WB_GeometryOp3D</a>
+</li>
+<li>copy()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#ab48fde23493859498ec65434b40182d8">wblut.geom.WB_Point</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___point4_d.html#a61724777b24869bec05532d6f3b9c2ae">wblut.geom.WB_Point4D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a35d7357126f9e6862b3853b076a14f46">wblut.geom.WB_Vector</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector2_d.html#a5b067b7b1665ecb5739172a31d048b3b">wblut.geom.WB_Vector2D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector4_d.html#aa38f4869263fbb9ecc99ada5bacf1e18">wblut.geom.WB_Vector4D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html#a83cce2defba8339f7fe62e1faa77f49b">wblut.hemesh.HE_Mesh</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a4f372b3fe39a2aff22bebbc7bb5aed29">wblut.hemesh.HE_Vertex</a>
+, <a class="el" href="classwblut_1_1math_1_1_w_b___double_double.html#a034946ff9020b3fdb94c358a59c03196">wblut.math.WB_DoubleDouble</a>
+</li>
+<li>copyProperties()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a30739ae3f00b567b9e7386e67aaa977d">wblut.hemesh.HE_Element</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#a772e2180ecc1907145edc863b4aa77e5">wblut.hemesh.HE_Face</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___halfedge.html#aa947ac1117aa2a674259d3181e22eab7">wblut.hemesh.HE_Halfedge</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#a7cc3eaf415a229155d113da8bd1d42d6">wblut.hemesh.HE_MeshElement</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a02f0994bab9275015d3813caf807b477">wblut.hemesh.HE_Vertex</a>
+</li>
+<li>cos()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___complex.html#ad6564a619d12f9e5873d9150b9879dfb">wblut.math.WB_Complex</a>
 </li>
 <li>cosA
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___triangle.html#a74fcdba04845d832eebe11e6416ad2c6">wblut.geom.WB_Triangle</a>
@@ -270,12 +677,33 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>cosC
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___triangle.html#a0f6109cb430d77e4fd9c4934037419ae">wblut.geom.WB_Triangle</a>
 </li>
+<li>cosh()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___complex.html#a8d268ed4b94a750bc9d0193dcc40cdff">wblut.math.WB_Complex</a>
+</li>
+<li>cosLUT
+: <a class="el" href="classwblut_1_1math_1_1_w_b___p_noise.html#aa57599d7e024472ebac86e814dfa96f6">wblut.math.WB_PNoise</a>
+</li>
+<li>cotan()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op3_d.html#a9dae810e3702a12acfb93e929e1343b0">wblut.geom.WB_GeometryOp3D</a>
+</li>
+<li>count
+: <a class="el" href="classwblut_1_1core_1_1_w_b___progress_counter.html#a93e0a7bdcaea1eb55da9061528045284">wblut.core.WB_ProgressCounter</a>
+</li>
+<li>counter
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit.html#aff751522239fc31704dee23839359cf6">wblut.hemesh.HES_TriDecLimit</a>
+</li>
 <li>COUNTERCLOCKWISE
 : <a class="el" href="enumwblut_1_1geom_1_1_w_b___classification.html#a5ac2354b8000ebe12bf1f25d033fb97c">wblut.geom.WB_Classification</a>
+</li>
+<li>covarianceMatrix()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___m33.html#a5f5909ff41b193c5e10e58056865199d">wblut.math.WB_M33</a>
 </li>
 <li>covers()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___a_a_b_b.html#a20fb763af2cf1968d92433dd551ca031">wblut.geom.WB_AABB</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___a_a_b_b2_d.html#a7f4442e1eb5eb664b50c79aca945a621">wblut.geom.WB_AABB2D</a>
+</li>
+<li>Cramer3()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___m33.html#a17f711202b0dcefae1655fcebe04ead0">wblut.math.WB_M33</a>
 </li>
 <li>create()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geodesic.html#abba1f05e90d2a0e8c3b1bde9b66c8e19">wblut.geom.WB_Geodesic</a>
@@ -283,6 +711,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___iso_surface2_d.html#a0323bbe72306db11d6c28b5323781346">wblut.geom.WB_IsoSurface2D</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___iso_surface_v_o_l2_d.html#a526a42db0d322cbfb37254011b9db663">wblut.geom.WB_IsoSurfaceVOL2D</a>
 , <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mesh_creator.html#abea3580b9a8e3c051e9fcfbfe333db9e">wblut.geom.WB_MeshCreator</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#ae1009ccfc21271ed9dabc964458d482d">wblut.hemesh.HEC_Creator</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___explode.html#a7c363469cda70f572931353aaf6ac9d2">wblut.hemesh.HEMC_Explode</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___from_o_b_j_file.html#ac6446c89ce9507b3ca4b9488ecf0165f">wblut.hemesh.HEMC_FromOBJFile</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___multi_creator.html#a743bf9d56d558040ba7efbef30f885af">wblut.hemesh.HEMC_MultiCreator</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html#a22dd85b4a973e85d402d14c81949bf2a">wblut.hemesh.HEMC_Panelizer</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___split_mesh.html#ac379b324da017121c15119282d6d152c">wblut.hemesh.HEMC_SplitMesh</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___voronoi_cells.html#a644db36b58400df72d62ccd74bcee036">wblut.hemesh.HEMC_VoronoiCells</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___voronoi_spheres.html#aa03e4b89469661a750863c8d4e6a92b4">wblut.hemesh.HEMC_VoronoiSpheres</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___weaire_phelan.html#a56976a9161c3c7dae26dbaee630bb133">wblut.hemesh.HEMC_WeairePhelan</a>
 </li>
 <li>createAngleBisector2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a38798aa56001f63ae42b0248135a02ce">wblut.geom.WB_GeometryFactory2D</a>
@@ -295,6 +732,75 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>createArchimedes()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a5bcccc61bb83fafce7ea6bc146eef5cf">wblut.geom.WB_GeometryFactory</a>
+</li>
+<li>createBase()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___alpha_shape.html#a2c3b552678f8ca231249db6bd09c1ab1">wblut.hemesh.HEC_AlphaShape</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___antiprism.html#a7678f022b78a771fb3917b68e25de77d">wblut.hemesh.HEC_Antiprism</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___archimedes.html#a39d42f15e32738d693c13949573b51ce">wblut.hemesh.HEC_Archimedes</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___beethoven.html#a1b4d1c368dc751f461e5fa49e44b507c">wblut.hemesh.HEC_Beethoven</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___box.html#a59dda85c67f2acd6c0d77e269c636baf">wblut.hemesh.HEC_Box</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___capsule.html#aa66d1da525c7406eeea651bcfb556be3">wblut.hemesh.HEC_Capsule</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___catalan.html#ae36d3e080c3e8fa44261e21791f7c437">wblut.hemesh.HEC_Catalan</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___chamfer_box.html#abba7c34855877960c59a67676224b091">wblut.hemesh.HEC_ChamferBox</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___cone.html#aaccba8c33218baacf8bf069276f996c2">wblut.hemesh.HEC_Cone</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___convex_hull.html#ad4883e85149735c78f6b06b7d76f8e36">wblut.hemesh.HEC_ConvexHull</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___copy.html#aabfe67a4b0f4daebb664b28c94ce7097">wblut.hemesh.HEC_Copy</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#a137293ac2a826a2ad335c002f22b8caf">wblut.hemesh.HEC_Creator</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___cube.html#a169635e3c4dda85fbcfa68a534ba9883">wblut.hemesh.HEC_Cube</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___cylinder.html#a28dd4cd918d1989652b17c148203653f">wblut.hemesh.HEC_Cylinder</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___data_cylinder.html#a4c188973dc6a25f698f9c07d08c1b9c5">wblut.hemesh.HEC_DataCylinder</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___dodecahedron.html#ae5bcef6689589725db00b77b7b9c5b35">wblut.hemesh.HEC_Dodecahedron</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___dual.html#a8c1d8152f8e5f8ea2f8e7c8792f9eff9">wblut.hemesh.HEC_Dual</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___ellipsoid.html#a79228eb58fa14ab15dba43b8fd656119">wblut.hemesh.HEC_Ellipsoid</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from3ds_file.html#aaef244e0a05f097d84bcd837f3fd94a0">wblut.hemesh.HEC_From3dsFile</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_binary_hemesh_file.html#acde2a57c74a05d82117573aa43758c13">wblut.hemesh.HEC_FromBinaryHemeshFile</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_binary_s_t_l_file.html#a6f7ba869afa3e43065cc7abe6da616c7">wblut.hemesh.HEC_FromBinarySTLFile</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_facelist.html#ac9d564640091fd45817e4e0756c35cee">wblut.hemesh.HEC_FromFacelist</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_frame.html#a7aed529e92c96074b00c00646077bcb6">wblut.hemesh.HEC_FromFrame</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_hemesh_file.html#a482bf71736f1e48e78f103bafbb14049">wblut.hemesh.HEC_FromHemeshFile</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_mesh.html#a566e56e67fe45da2ca409e31c9ce2797">wblut.hemesh.HEC_FromMesh</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_o_b_j_file.html#aa8f87fb62e878d085306029a4638109d">wblut.hemesh.HEC_FromOBJFile</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_polygons.html#a3db22365117b5136370212ab0a972aeb">wblut.hemesh.HEC_FromPolygons</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_quads.html#aee66dc07059dfd7f2b5563944deebdbe">wblut.hemesh.HEC_FromQuads</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_simple_mesh_file.html#a7a36795f38b9fdd2c86fe49fc46cdb2d">wblut.hemesh.HEC_FromSimpleMeshFile</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_surface.html#a4a61238b6cc90a48fee81bcc86fb6e18">wblut.hemesh.HEC_FromSurface</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_triangles.html#a8001a01eb479ebf4e5ec05c0c31ad45f">wblut.hemesh.HEC_FromTriangles</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_triangulation.html#a99e2cf6f9dca0e9708433d9b7f01b8de">wblut.hemesh.HEC_FromTriangulation</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_voronoi_cells.html#a8fcdf0a296216fecc459d2afce9c4b1b">wblut.hemesh.HEC_FromVoronoiCells</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___geodesic.html#a20fe5bd1cc242b55af1583a78a18cb14">wblut.hemesh.HEC_Geodesic</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___grid.html#a90d9e233fbf368f6f92993289de79f9f">wblut.hemesh.HEC_Grid</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___hemisphere.html#a9d526e60d9d6c978b3b75f49726913ba">wblut.hemesh.HEC_Hemisphere</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___icosahedron.html#aa5dafb6543c09bb1fe1199cb57518e6c">wblut.hemesh.HEC_Icosahedron</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_function.html#a55713580a9ea141bb64f9b46ce5e3016">wblut.hemesh.HEC_IsoFunction</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_grid.html#a50ec6d988174d6ea92db02e5d0e3cdc1">wblut.hemesh.HEC_IsoGrid</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface.html#ae4e6f86c003994f49e99b20b4a819f21">wblut.hemesh.HEC_IsoSurface</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_n_e_p.html#afc82b1ecc40b9e96989b029cfc9a2ae6">wblut.hemesh.HEC_IsoSurfaceNEP</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_n_e_p2_d.html#a26005c84e0ecc386682a64039239c39d">wblut.hemesh.HEC_IsoSurfaceNEP2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_s_n_a_p.html#aa63be0939b53797fd7f951a4299c3321">wblut.hemesh.HEC_IsoSurfaceSNAP</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_s_n_a_p2_d.html#abf836c492354089e07f70253b66fb819">wblut.hemesh.HEC_IsoSurfaceSNAP2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_v_o_l.html#a7c0bebe9a56800f727479bd0724ac922">wblut.hemesh.HEC_IsoSurfaceVOL</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_v_o_l2_d.html#acb97e4a9340e749a5574d17ddccc44ba">wblut.hemesh.HEC_IsoSurfaceVOL2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___johnson.html#aa325bee4f553c6ab65d7ba5cecd631fe">wblut.hemesh.HEC_Johnson</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___machine.html#a01b9d34ad9288a48d8bb0292f217bf74">wblut.hemesh.HEC_Machine</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___misc_polyhedron.html#a971abcc13112744062fe0ab8f017ebc1">wblut.hemesh.HEC_MiscPolyhedron</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___octahedron.html#aa0a0aef4155f9b0fe94578603f5866f6">wblut.hemesh.HEC_Octahedron</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___plato.html#adb264d476d626deef1c018efac9e71e2">wblut.hemesh.HEC_Plato</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___polygon.html#a13a182fde4920b30c1179b80195f22bc">wblut.hemesh.HEC_Polygon</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___prism.html#a3bd99c6a8182aa5980b3d0247e559e6a">wblut.hemesh.HEC_Prism</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___revolve_polygon.html#ad6e92778b735ca7ea9f10c374bd1521c">wblut.hemesh.HEC_RevolvePolygon</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___sea_shell.html#a7f7a000f2c01afeddba92816e4b36679">wblut.hemesh.HEC_SeaShell</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___shrink_wrap.html#ac6f0b5ab298bb290ba9f2c3f171a4c61">wblut.hemesh.HEC_ShrinkWrap</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___sphere.html#a8a093377917c503f5402a5589af7f7a2">wblut.hemesh.HEC_Sphere</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___super_duper.html#aa4340cd74a858d26e470524d90b3be51">wblut.hemesh.HEC_SuperDuper</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___sweep_tube.html#a6ff5461460df73630edeb42d408a66d9">wblut.hemesh.HEC_SweepTube</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___tetrahedron.html#a44ddd1c499d3524e84fa234a7983086b">wblut.hemesh.HEC_Tetrahedron</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___torus.html#a248fdf60959eba28f7277344dbe9a10b">wblut.hemesh.HEC_Torus</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___transform.html#ab264d1f0a624814a0f26cb2162747a9a">wblut.hemesh.HEC_Transform</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___tube.html#ae7816371397d786f97245aae21d14411">wblut.hemesh.HEC_Tube</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___tube_segment.html#add0a3ccab7fb4c15eb825799841dc82f">wblut.hemesh.HEC_TubeSegment</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___u_v_parametric.html#ab0e76826436049f8cf5131ac286b1376">wblut.hemesh.HEC_UVParametric</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_cell.html#a5ec139f3b8de1308ff03f1b57cc5afa4">wblut.hemesh.HEC_VoronoiCell</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ab6e977053da61f3d281e60cdbf9b25a8">wblut.hemesh.HEC_VoronoiSphere</a>
 </li>
 <li>createBisector()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a7fa8326505bd251ae873ed005eb1d323">wblut.geom.WB_GeometryFactory</a>
@@ -396,10 +902,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#adbc394a21646711decebf73beb3d4bdb">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createCircleWithDiameter()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a589876b94dde837d3a94470c5ecdf5d1">wblut.geom.WB_GeometryFactory2D</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#ae215a832d1c82adfe665a5d077f48bda">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createCircleWithRadius()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#aa89b31c40a93f7100f68ea030b19e619">wblut.geom.WB_GeometryFactory2D</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#aa194d516cecc7e9281d2792c7c6a31ca">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createCircumcenter()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a0f46408874ff73896098194bf4188de7">wblut.geom.WB_GeometryFactory</a>
@@ -432,10 +938,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#ab3af549b30a709f6ad425554697a16c9">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createConvexHull()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a172e19cb93cee2102eb0b0e021347850">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a7940676f748e5a49fb1f44ecd808542e">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createConvexHullWithThreshold()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a3d4ed826a6e21517dce68cf4d895ae08">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a881874440ebc10007d2cf04118d22a6a">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createConvexPolygonDecomposition2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a06fc5b61b922099eb6db52aa5f5fbf40">wblut.geom.WB_GeometryFactory2D</a>
@@ -462,7 +968,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a322445730321c39f7a763980e5823d14">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createDipyramidWithAngle()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a90696e05bc48dd8c3e99b4b207dd69d7">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a4611a8c97494605153523a08179296ed">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createDipyramidWithAngleRange()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a1792af29bd95a74019116c9aad8aa242">wblut.geom.WB_GeometryFactory</a>
@@ -470,11 +976,43 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>createDipyramidWithHeight()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a32c25a99cc826bdc0d86dce4adef8b5d">wblut.geom.WB_GeometryFactory</a>
 </li>
+<li>createDirectories()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___writer_binary_hemesh.html#a109b1681932d2cf467c0763eda3a6813">wblut.hemesh.HET_WriterBinaryHemesh</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___writer_hemesh.html#afe8a509f01789edfadc88109996c75c0">wblut.hemesh.HET_WriterHemesh</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___writer_p_l_y.html#aab565580f2369a849f9979608b06dbf7">wblut.hemesh.HET_WriterPLY</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___writer_simple_mesh.html#ad104c30960a5eb23b81ad78a20c60a0e">wblut.hemesh.HET_WriterSimpleMesh</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___writer_s_t_l.html#a70a64d3b26ddea74738e6e514b6ba799">wblut.hemesh.HET_WriterSTL</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___writer_w_r_l.html#a3b5aab830d5ab3062172b01ed213cc4a">wblut.hemesh.HET_WriterWRL</a>
+</li>
 <li>createEmbeddedPlane()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#add10e270257dcd1367d745b26787fd3b">wblut.geom.WB_GeometryFactory</a>
 </li>
+<li>createFaceFromHalfedgeLoop()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___mesh_op.html#a673264a3d22ff8a2a7e69cbf207d73c0">wblut.hemesh.HET_MeshOp</a>
+</li>
+<li>createFacetedPShape()
+: <a class="el" href="classwblut_1_1processing_1_1_w_b___p_shape_factory.html#a2393490dbcfce3b8759460febb945305">wblut.processing.WB_PShapeFactory</a>
+</li>
+<li>createFacetedPShapeWithFaceColor()
+: <a class="el" href="classwblut_1_1processing_1_1_w_b___p_shape_factory.html#a39a9ff18a59a6f1318a31d742651d0e6">wblut.processing.WB_PShapeFactory</a>
+</li>
+<li>createFacetedPShapeWithVertexColor()
+: <a class="el" href="classwblut_1_1processing_1_1_w_b___p_shape_factory.html#a5a42563e7c23eb3a7c80de4a452253e0">wblut.processing.WB_PShapeFactory</a>
+</li>
+<li>createFacettedPShape()
+: <a class="el" href="classwblut_1_1processing_1_1_w_b___p_shape_factory.html#a7ce1fabf750c14f3cb572349528ddcac">wblut.processing.WB_PShapeFactory</a>
+</li>
+<li>createFacettedPShapeWithFaceColor()
+: <a class="el" href="classwblut_1_1processing_1_1_w_b___p_shape_factory.html#accefdcbd04834495f5639556f08973ba">wblut.processing.WB_PShapeFactory</a>
+</li>
+<li>createFacettedPShapeWithVertexColor()
+: <a class="el" href="classwblut_1_1processing_1_1_w_b___p_shape_factory.html#ac799d79fdbe9afe9fb1b34f08e570291">wblut.processing.WB_PShapeFactory</a>
+</li>
 <li>createFlippedPlane()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a59fa3ae71f95727e67a2a664444d5a78">wblut.geom.WB_GeometryFactory</a>
+</li>
+<li>createFromList()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___path.html#a88ae6a62e62c9878e1c6057dccbf4ea7">wblut.hemesh.HE_Path</a>
 </li>
 <li>createIncenter()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ad69a386cfd51d24d7a38837b026df820">wblut.geom.WB_GeometryFactory</a>
@@ -487,6 +1025,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>createIncircle2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a61f140e34919773846ededfeea56de16">wblut.geom.WB_GeometryFactory2D</a>
+</li>
+<li>createInputStream()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_binary_s_t_l_file.html#aa96f96442f94ba875dbf3918f1d03a9f">wblut.hemesh.HEC_FromBinarySTLFile</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_o_b_j_file.html#ae0bf1ea50128ea2f9cb2bc48195dbbde">wblut.hemesh.HEC_FromOBJFile</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___from_o_b_j_file.html#a2872475555c45275a6f8830a84f24789">wblut.hemesh.HEMC_FromOBJFile</a>
 </li>
 <li>createInterpolatedPoint()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a9f3117ba723c3b0c193421f98404a39e">wblut.geom.WB_GeometryFactory</a>
@@ -509,6 +1052,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>createInversionPoint2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a3e3a35affbc2634edb1f604247c939b2">wblut.geom.WB_GeometryFactory2D</a>
 </li>
+<li>createIsolatedNodes
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_frame.html#a835e21bd80e451cfd1633d368b1f80e5">wblut.hemesh.HEC_FromFrame</a>
+</li>
 <li>createJohnson()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a200b57b9382bd786a1305abf56915c0d">wblut.geom.WB_GeometryFactory</a>
 </li>
@@ -525,38 +1071,47 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#abf38ff5c2cdbb015bf7324e9bc35fd9f">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createLineThroughPoints2D()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#afbfac822c2019a84b421f06695daa8cd">wblut.geom.WB_GeometryFactory2D</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a54b6f93d4d48ceb4b4181785e4895a8c">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createLineWithDirection()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a5a973e14c7666d9e3a68f4c015f92b67">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createLineWithDirection2D()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a2f0cae8948f88b293d4db2d55439ef7a">wblut.geom.WB_GeometryFactory2D</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a6b615e9173552d0a9ad80e072176f34a">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createMesh()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geodesic.html#a90ca926d441a7932dc43bbde180dd37e">wblut.geom.WB_Geodesic</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ac76c68a3f915d6442e6d3148f35ca8aa">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createMidpoint()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a4cacbe6158245462795245874cc4d1c3">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a31262d9eec9f28c5eafd4a160e381712">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createMidpoint2D()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#aa5367b351edab45b8e61ade39c5c7e37">wblut.geom.WB_GeometryFactory2D</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a9814d470fbcbb34c59c72389035c1ce2">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createMirrorPoint2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a9b005fa515f1cf9d22e38e6633d5787d">wblut.geom.WB_GeometryFactory2D</a>
+</li>
+<li>createNaN()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___double_double.html#a9bfef0d6284c05c457268cc1ce2eccbe">wblut.math.WB_DoubleDouble</a>
+</li>
+<li>createNodes()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_frame.html#a0b63f3346c5eb6f20a02365571e93320">wblut.hemesh.HEC_FromFrame</a>
+</li>
+<li>createNodeStrutConnection()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_frame.html#af8268d406c31040f925639df987dde19">wblut.hemesh.HEC_FromFrame</a>
 </li>
 <li>createNormalizedPerpendicularVector()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a4bed9bd987e09f6ea03471f582f3fbe1">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createNormalizedPerpendicularVector2D()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a028daeef534c9d94e56ce9a8ce94ee53">wblut.geom.WB_GeometryFactory2D</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#aff80fb369e6f2b9dd81cecc0849b9bbc">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createNormalizedVector()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a0c0a7493778045c4e3d04ea977186e33">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createNormalizedVector2D()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a78b0140dacf61a97944276a4cd3d24ba">wblut.geom.WB_GeometryFactory2D</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a6b97288754d548fe6b43ff75841c3db6">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createNormalizedVectorFromTo()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#afdfd0c799fc0e302583b9b5f6a58aff9">wblut.geom.WB_GeometryFactory</a>
@@ -576,6 +1131,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>createOtherPolyhedron()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ada273c19db886b1f5fcb5170f4347aaa">wblut.geom.WB_GeometryFactory</a>
 </li>
+<li>createOutputStream()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___writer_p_l_y.html#a6bb2fb38708b19f7b8242ca5f717c76f">wblut.hemesh.HET_WriterPLY</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___writer_s_t_l.html#a9e4b07b741d05c8aea7e93e96547ff29">wblut.hemesh.HET_WriterSTL</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_t___writer_w_r_l.html#abdead3b0c5377db6b7b4f43e3243b058">wblut.hemesh.HET_WriterWRL</a>
+</li>
 <li>createParallelLines2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a4f3cd3dbd58d14cf4ffd097016593b86">wblut.geom.WB_GeometryFactory2D</a>
 </li>
@@ -591,6 +1151,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>createParallelRayThroughPoint2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a241ac29b03e36216967ec3fbf4c2fa05">wblut.geom.WB_GeometryFactory2D</a>
 </li>
+<li>createPathFromIndices()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a5f15189201c1439dfe39b409074b08ea">wblut.hemesh.HE_MeshStructure</a>
+</li>
 <li>createPerpendicularLinesTangentToCircle()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#ab142e38c63e4a72c47494ac8cc7aaccb">wblut.geom.WB_GeometryFactory2D</a>
 </li>
@@ -598,13 +1161,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a4a2b5583c9086a2c0d2696c8fbecc164">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createPlane()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a805e2b4aa90f88515d419712331de239">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a2c2ae661103d84d2e968395fd536e433">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createPlato()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a511fb10ec551ee11217f88025a4088c6">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createPoint()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a3de5ecbbb36dd58fedcb09fbcbbff587">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ac4e7896ec0653355bfa6e1e2f856d1b2">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createPoint2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a5d0375b0c458c8e744205128cc1f0c75">wblut.geom.WB_GeometryFactory2D</a>
@@ -687,7 +1250,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a48fce36eb56f40737a38943e13bd7db6">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createPolygonWithHole()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a88625bb6715e1fe7f0c628bdd6424a7c">wblut.geom.WB_GeometryFactory2D</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#af3238737dee1a47895ef2d7bed03a3b1">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createPolygonWithHoles()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a005a9669b2b7826eb3e0b1b549df9ba3">wblut.geom.WB_GeometryFactory2D</a>
@@ -696,10 +1259,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a2f9f178f5fe4850ebc90084c4e4d7966">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createPolyLine()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a2648f4d401b96625485f5abab060c802">wblut.geom.WB_GeometryFactory2D</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#ad5b4f616da8dae4ba4c11f25dbac44cf">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createPrism()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a1482208db72f24761ef0ddf3e1f5c76b">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a421b6b4658b4f1c2bcba562d98766bef">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createPrismFaces()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a9fbabb7ed9952361e5fb9ea81c5f1a0b">wblut.geom.WB_GeometryFactory</a>
@@ -711,25 +1274,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ad502e2e3110fd41e0dcdf0278baf2bcd">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createPyramidWithAngle()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a3ccc89a894e1ce77b9a9f093f7374505">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#adf433740780be6fb9a514602b17724b6">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createPyramidWithAngleRange()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a3173793d764826a4debf74be8f57a585">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a67008a515cd024eaf9d868c11e1d849c">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createPyramidWithAngles()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a75682eb2bb1830fbfbdb63266cd58861">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a8e4d56fc04a598077817b8cabdfeb6ee">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createPyramidWithHeight()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a437027fd4560c8ef786856dd9fc543e1">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a053d437494e679167dca5a859687a5db">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createRayThroughPoints()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ab6a05ad3a3e3aba8b77988717f14a7f6">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ac4f01de099f1dcf3c2d3ffac747eb5b0">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createRayThroughPoints2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#af75e34c3d56eb6fa4b2d68d90c3170b3">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createRayWithDirection()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a153bd52254d10fa2b5efefefbb69f4e4">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ad86fc01ca8367df4bef07b60fc7e74f8">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createRayWithDirection2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a14b5182bf5d0c47244e9325481216069">wblut.geom.WB_GeometryFactory2D</a>
@@ -750,13 +1313,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a395a3ac089a33428f2ad032913da8f92">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createSegment()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a178d609e2ab205f2c0f0bfdf7a140a7d">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ab1c874f2ce9004821d7a9ad69e386b60">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createSegment2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a78f1c2705b747f2e9b0a8d2380691edb">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createSegmentWithLength()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a8670d908fbca362223fd1da2f9afedde">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ab1b45e796d5d34aadf994189cf239aad">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createSegmentWithLength2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a7549f4bf3fe29f142af72ac242a3031b">wblut.geom.WB_GeometryFactory2D</a>
@@ -768,7 +1331,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon_triangulator.html#a5dc47d8d65b62a40ef99d76fd3183cdc">wblut.geom.WB_PolygonTriangulator</a>
 </li>
 <li>createSimplePolygon()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a7b8b0c9f459a1c87ec9ff14519a9ed03">wblut.geom.WB_GeometryFactory2D</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a54a7476976b9ffe205df84c689399b54">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createSimplifiedPolygon()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ad51ef50839ad8ac71c66f3d2b0562130">wblut.geom.WB_GeometryFactory</a>
@@ -776,17 +1339,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>createSimplifiedPolygon2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#acca6cb7401ebf52ff0f0797e1c3bcaf8">wblut.geom.WB_GeometryFactory2D</a>
 </li>
+<li>createSkin
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___voronoi_cells.html#a78d16a4311128ad245d5d6f123d22183">wblut.hemesh.HEMC_VoronoiCells</a>
+</li>
+<li>createSmoothPShape()
+: <a class="el" href="classwblut_1_1processing_1_1_w_b___p_shape_factory.html#a27458ce8d15f15db32a42e38f6c306ef">wblut.processing.WB_PShapeFactory</a>
+</li>
+<li>createSmoothPShapeWithFaceColor()
+: <a class="el" href="classwblut_1_1processing_1_1_w_b___p_shape_factory.html#acf8f9ba0efa2686d3a83f5d8d593476f">wblut.processing.WB_PShapeFactory</a>
+</li>
+<li>createSmoothPShapeWithVertexColor()
+: <a class="el" href="classwblut_1_1processing_1_1_w_b___p_shape_factory.html#a466b1e3b8548b00dcd82b2b3bc37b0ad">wblut.processing.WB_PShapeFactory</a>
+</li>
 <li>createSphereWithDiameter()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a38e2054254b4cf6e4c0f1ef4db5680f7">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createSphereWithRadius()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ab0e1643eae518b70519631a9ae488214">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a8f9d7fe1d84eb07b4baea46ba4951497">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createSpindle()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#abb8efb49aa6e98e87e48c8220776005f">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a777e31ad29ec58fac8912a60a38c54dd">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createStellatedIcosahedron()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a41c05f1a33566977be00f7eea543270a">wblut.geom.WB_GeometryFactory</a>
+</li>
+<li>createStruts()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_frame.html#acaa2c008c0c369cb973b8f8e54c6dbe3">wblut.hemesh.HEC_FromFrame</a>
 </li>
 <li>createTaperWithAngleAndHeight()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a73f4ad1eb73aae5b11a970ecac642d66">wblut.geom.WB_GeometryFactory</a>
@@ -810,7 +1388,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a8ee4ad7a69cc62842022c7fbf917599d">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createTextWithType1Font()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#ac9c676fb4bc45715b6c5bf81441ba577">wblut.geom.WB_GeometryFactory2D</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#abf50e4b8883f61a0584d11c354a5dfa0">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createTransformedCS()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a773cebc04af7ee9e53cca86e2e68ea49">wblut.geom.WB_GeometryFactory2D</a>
@@ -819,22 +1397,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a02dcb5dec2d07c7ed65ab5a3e82b4a55">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createTriangle2D()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a510ad78c2430ae70357591598eb0ab3b">wblut.geom.WB_GeometryFactory2D</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#af10c411fd489c8c035b8ba520b8343ef">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createTriMesh()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#ae79dcb42c083ac9898455f4bca6fbaa9">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#aa1b4383457f11af6cd43cc9b43dbbd91">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createUniqueMesh()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a5a5c5af2fef02919cb455ad5de9fff11">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#aaafaa1b4bde4d256787cda4ad3cabf0a">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createUniquePoints()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#ac1b4a0ca18b17cd89c20181323108f31">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createVector()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#aaf2fddc09a2b7c98a872446318d01f72">wblut.geom.WB_GeometryFactory</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a7c984d79a08e1ca5a87ed814758e3cc8">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createVector2D()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#ae1a0e5e30ee8dd40b30705d944037076">wblut.geom.WB_GeometryFactory2D</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#ac42ec9374b4e41a4dd0c02f06dcb72ec">wblut.geom.WB_GeometryFactory2D</a>
 </li>
 <li>createVectorFromBipolar()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a6614485bd84105c335cf834307e38e6c">wblut.geom.WB_GeometryFactory2D</a>
@@ -890,13 +1468,36 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a6fdbc799af62c4c798c0c6b8da5715a2">wblut.geom.WB_GeometryFactory</a>
 </li>
 <li>createVertices()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#afc72aa9668b3871fd9b83d0f02101321">wblut.geom.WB_Mesh</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a39a6a8d5fec54a228c59242c18fab1e2">wblut.geom.WB_Mesh</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___from_frame.html#ac7007f856666838d1144779111e3d1a4">wblut.hemesh.HEC_FromFrame</a>
 </li>
 <li>createVerticesFromArray()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a3d4202c9b7acce9b86b665f8d532fabe">wblut.geom.WB_GeometryFactory</a>
 </li>
+<li>createWireframePShape()
+: <a class="el" href="classwblut_1_1processing_1_1_w_b___p_shape_factory.html#a7e27185cf9e5241c12fc643207ae775f">wblut.processing.WB_PShapeFactory</a>
+</li>
+<li>createWithQuickHull()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___convex_hull.html#acb9f73448a4c9e1c47435ff12580b7c4">wblut.hemesh.HEC_ConvexHull</a>
+</li>
 <li>createZonohedron()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#abb3c41ae4cd389a69da2b9617245d423">wblut.geom.WB_GeometryFactory</a>
+</li>
+<li>cropUm
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___weaire_phelan.html#aaae7bb9720e7de562f4c72f77d9f6d15">wblut.hemesh.HEMC_WeairePhelan</a>
+</li>
+<li>cropUp
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___weaire_phelan.html#a0c78c2a929f741dd8d659103eb11a497">wblut.hemesh.HEMC_WeairePhelan</a>
+</li>
+<li>cross()
+: <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coordinate_math3_d.html#a8004bd9efaaf5b6348e0991c0b1c5417">wblut.geom.WB_CoordinateMath3D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op3_d.html#aa51ca2c1d9bc1dc92cbea30f4ab5aebf">wblut.geom.WB_GeometryOp3D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a137eb438142d47e51358a3f9e79759fd">wblut.geom.WB_Point</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a80a105ab730f63d87007ecd5a73fa8a3">wblut.geom.WB_Vector</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#ae99c37540f98f46d41b67071035f20a8">wblut.hemesh.HE_Vertex</a>
+</li>
+<li>cross2D()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_op2_d.html#a2bc6b0a2f61192e5ec4c4c33bebee29c">wblut.geom.WB_GeometryOp2D</a>
 </li>
 <li>CROSSING
 : <a class="el" href="enumwblut_1_1geom_1_1_w_b___classification.html#ac069a0017b3957c2d792fca3723ce883">wblut.geom.WB_Classification</a>
@@ -904,31 +1505,121 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>CROSSINGEXCL
 : <a class="el" href="enumwblut_1_1geom_1_1_w_b___classification.html#a977dfce4d87b348d6f048653a6bbf629">wblut.geom.WB_Classification</a>
 </li>
+<li>crossInto()
+: <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coordinate_math3_d.html#ae8fdf13745befc51bad96e9d7d7fc7b0">wblut.geom.WB_CoordinateMath3D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#af0ef2ac8b30b9640f0f866db66ad9e39">wblut.geom.WB_Vector</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a6a87e2a11982a10283c05e81d6ae7287">wblut.hemesh.HE_Vertex</a>
+</li>
+<li>crossSelf()
+: <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coordinate_math3_d.html#a7a66e6d5d9c0473b0ceb424283204367">wblut.geom.WB_MutableCoordinateMath3D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a51571d80b53bd618bfd9383d29599f46">wblut.geom.WB_Point</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#adc4092ee850b12a42bc9bed0a435d668">wblut.geom.WB_Vector</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a0d4f9eaa825251438f9ad1ed1ea86fbf">wblut.hemesh.HE_Vertex</a>
+</li>
 <li>CUBE
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geodesic.html#a6b70afe7a3337ef5c60c6ab2d67215a6">wblut.geom.WB_Geodesic</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___geodesic.html#abd268ceca89c78623bbb245bb97b3de8">wblut.hemesh.HEC_Geodesic</a>
+</li>
+<li>cubic
+: <a class="el" href="classwblut_1_1math_1_1_w_b___ease.html#a08c5c02e2b17992499d594e2d5b43f5e">wblut.math.WB_Ease</a>
+</li>
+<li>CURRENT_DISCLAIMER
+: <a class="el" href="classwblut_1_1core_1_1_w_b___disclaimer.html#a3028c068cb5c8b4bb0100952af065516">wblut.core.WB_Disclaimer</a>
 </li>
 <li>CURRENT_VERSION
 : <a class="el" href="classwblut_1_1core_1_1_w_b___version.html#abe9027a5eedda908384b3db5640f55d5">wblut.core.WB_Version</a>
 </li>
+<li>currentColor
+: <a class="el" href="classwblut_1_1processing_1_1_w_b___select_render3_d.html#ab85bbf7768065b876f4757b48c39012b">wblut.processing.WB_SelectRender3D</a>
+</li>
 <li>currentCS
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a6f3e333be781fe9211b814258268a9a8">wblut.geom.WB_GeometryFactory2D</a>
 </li>
+<li>currentKey
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#ac36ceff2215437dd4961d6203ea4cd0b">wblut.hemesh.HE_Element</a>
+</li>
+<li>currentPercentage
+: <a class="el" href="classwblut_1_1core_1_1_w_b___progress_counter.html#add89664be04fb506e635120cdee8dd69">wblut.core.WB_ProgressCounter</a>
+</li>
 <li>curve
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___random_curve.html#a6477fbcbbc4c096643410063a38f95c5">wblut.geom.WB_RandomCurve</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___sweep_tube.html#a4b373dd9397f286241bf5975e6486e18">wblut.hemesh.HEC_SweepTube</a>
 </li>
 <li>curveDerivative()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___expression_curve.html#a9faf36b47b377e989866dcda9a6b8e1b">wblut.geom.WB_ExpressionCurve</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a3b673791637bfb50c3647beaef3199ee">wblut.geom.WB_Circle</a>
+, <a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html#a102f4f23492f46204bbf7a443f70b8a3">wblut.geom.WB_Curve</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___expression_curve.html#a9faf36b47b377e989866dcda9a6b8e1b">wblut.geom.WB_ExpressionCurve</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a997b9df5773da553814230cf8aed24fb">wblut.geom.WB_Line</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___ray.html#a59ed24e2a24befde6929aa3b9043a94b">wblut.geom.WB_Ray</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#a2fb90144fa3ae5a96c4ca593d096cfde">wblut.geom.WB_Segment</a>
+, <a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier.html#a40e40f32ac0900e967db084fdadba092">wblut.nurbs.WB_Bezier</a>
+, <a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline.html#a2dc928d647f30771d0e6ba4aa86ff388">wblut.nurbs.WB_BSpline</a>
+</li>
+<li>curveDerivCPoints()
+: <a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline.html#afa96145ead37c38ed95da790fc054fff">wblut.nurbs.WB_BSpline</a>
+</li>
+<li>curveDerivs()
+: <a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline.html#a25e42fef0add055129bc3d4827b56906">wblut.nurbs.WB_BSpline</a>
+</li>
+<li>curveDerivsNorm()
+: <a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline.html#a9199949c7547029021fd05924b33e8c7">wblut.nurbs.WB_BSpline</a>
 </li>
 <li>curveDirection()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___expression_curve.html#a4d30c6af0722ed01d8969378ac2d0078">wblut.geom.WB_ExpressionCurve</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#aded9c7c599cb1a78c71edb4b99cad49d">wblut.geom.WB_Circle</a>
+, <a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html#a6da858dc183bc72a53377e2d3090edfa">wblut.geom.WB_Curve</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___expression_curve.html#a4d30c6af0722ed01d8969378ac2d0078">wblut.geom.WB_ExpressionCurve</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a16f58683fe02329fa6be37cd768528d3">wblut.geom.WB_Line</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___ray.html#a0e7dce68a3beb71eeb9b14ffbcbed29a">wblut.geom.WB_Ray</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#ae2d472425df5ac951aec2708aacbdaf8">wblut.geom.WB_Segment</a>
+, <a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier.html#a1ffe00e10975993afdb2e7cb93490620">wblut.nurbs.WB_Bezier</a>
+, <a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline.html#a8031075cdac48ca4ac3901d9f92008af">wblut.nurbs.WB_BSpline</a>
 </li>
 <li>curvePoint()
-: <a class="el" href="classwblut_1_1geom_1_1_w_b___expression_curve.html#afce9cfdd2210b8cda902cd3351c5d46c">wblut.geom.WB_ExpressionCurve</a>
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___circle.html#a4ebbd68407738d651d1420ed3fd6e2c0">wblut.geom.WB_Circle</a>
+, <a class="el" href="interfacewblut_1_1geom_1_1_w_b___curve.html#a7ce9495fbbf71ac6ebb15e1ed9d07082">wblut.geom.WB_Curve</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___expression_curve.html#afce9cfdd2210b8cda902cd3351c5d46c">wblut.geom.WB_ExpressionCurve</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___line.html#a468f8e2071385bb3fa28def1808b0607">wblut.geom.WB_Line</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___ray.html#a50b6b278167e08a4f81d1236ef0c6c8f">wblut.geom.WB_Ray</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___segment.html#aeeb527a75a77613f4a6162c4c2272425">wblut.geom.WB_Segment</a>
+, <a class="el" href="classwblut_1_1nurbs_1_1_w_b___bezier.html#a42623bbbdcf0bcf61c21a683a4915229">wblut.nurbs.WB_Bezier</a>
+, <a class="el" href="classwblut_1_1nurbs_1_1_w_b___b_spline.html#aa59cddd7844505bf936386f4c6bdd1b7">wblut.nurbs.WB_BSpline</a>
+, <a class="el" href="classwblut_1_1nurbs_1_1_w_b___r_bezier.html#afc7433c1a3f1261ca51f961223c19f51">wblut.nurbs.WB_RBezier</a>
+, <a class="el" href="classwblut_1_1nurbs_1_1_w_b___r_b_spline.html#a96310717547176758de0ef90abe7caf6">wblut.nurbs.WB_RBSpline</a>
+</li>
+<li>cut
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___mirror.html#afdd7f8e6251029383a061eec7939cf15">wblut.hemesh.HEM_Mirror</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___multi_slice_surface.html#aff67d298972a964048d1b749f14f54f4">wblut.hemesh.HEM_MultiSliceSurface</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___slice.html#ac3abd260f0496fceaebe0f4a427ac3af">wblut.hemesh.HEM_Slice</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___slice_edges.html#ad9195ede1b4d020782a4195ea61ef651">wblut.hemesh.HEM_SliceEdges</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html#a9135f6c9c174b10c49bd97fa1aed3e4d">wblut.hemesh.HEM_SliceSurface</a>
+</li>
+<li>cutEdges
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___slice_edges.html#adc21f565bef6584cdac29716e28414c8">wblut.hemesh.HEM_SliceEdges</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html#a5374c5ffc221ed269d0edce58ff77b80">wblut.hemesh.HEM_SliceSurface</a>
+</li>
+<li>cutFace()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html#a60c7380f277b3610dbab80a91e396732">wblut.hemesh.HE_Mesh</a>
+</li>
+<li>cutoff
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a70a087af3b483b33cded64023ad34887">wblut.hemesh.HEC_VoronoiSphere</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_m_c___voronoi_spheres.html#a9e01ba59278fa4b36764c275dfdd7535">wblut.hemesh.HEMC_VoronoiSpheres</a>
+</li>
+<li>CW
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___chamfer_box.html#a23f3a2c1b6fbc5e55d42cbd0d6b7b302">wblut.hemesh.HEC_ChamferBox</a>
 </li>
 <li>cx
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___iso_surface.html#a8a20c8beb34922ae07532268a00dcab4">wblut.geom.WB_IsoSurface</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___iso_surface2_d.html#ae710d1c7d7c8a530111238bfeb0401e7">wblut.geom.WB_IsoSurface2D</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___iso_surface_v_o_l2_d.html#a5b8dd90c1a9969d8e5fbc5a152988e41">wblut.geom.WB_IsoSurfaceVOL2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_function.html#a42ec2f50f481a75644d5452f3561bd49">wblut.hemesh.HEC_IsoFunction</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_grid.html#a31c89a5e06268ac34b340e8ca32f7950">wblut.hemesh.HEC_IsoGrid</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface.html#abe9461be0d94c96f60975dc4e741b9c0">wblut.hemesh.HEC_IsoSurface</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_n_e_p.html#a36c4d33f023f1123982880b056d26ebe">wblut.hemesh.HEC_IsoSurfaceNEP</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_n_e_p2_d.html#ac6ab543c4d1f910b15b99013f106b95d">wblut.hemesh.HEC_IsoSurfaceNEP2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_s_n_a_p.html#a92e5a67b7238659d5ece3ab64dc087f1">wblut.hemesh.HEC_IsoSurfaceSNAP</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_s_n_a_p2_d.html#a24e75c5aba06b35cd7e737e4e25ad5d0">wblut.hemesh.HEC_IsoSurfaceSNAP2D</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_v_o_l.html#a6a97262894f0c42a39cf4009ec297e00">wblut.hemesh.HEC_IsoSurfaceVOL</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___iso_surface_v_o_l2_d.html#ae7772366a8401fd6432347fb8deff7ba">wblut.hemesh.HEC_IsoSurfaceVOL2D</a>
 </li>
 <li>cycle()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___hexagon.html#a671b2d9004e3bd9960c470e2023b30a6">wblut.geom.WB_Hexagon</a>
@@ -937,13 +1628,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___quad.html#a4e945447d0070ddb5bfa4ab06566383d">wblut.geom.WB_Quad</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___triangle.html#a17b0dadf18087135f824c524296b607c">wblut.geom.WB_Triangle</a>
 </li>
+<li>cycleHalfedges()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#acb3395f26b840f8069d0d941b21f9220">wblut.hemesh.HE_MeshStructure</a>
+</li>
+<li>cycleHalfedgesReverse()
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a4cfc7c58d17c29349cd18cb626dc97ab">wblut.hemesh.HE_MeshStructure</a>
+</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 31 2017 20:34:17 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:32 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

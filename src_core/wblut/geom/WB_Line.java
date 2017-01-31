@@ -86,14 +86,11 @@ public class WB_Line implements WB_Curve {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param ox
 	 * @param oy
-	 * @param oz
 	 * @param dx
 	 * @param dy
-	 * @param dz
 	 */
 	public WB_Line(final double ox, final double oy, final double dx, final double dy) {
 		this(new WB_Point(ox, oy), new WB_Vector(dx, dy));

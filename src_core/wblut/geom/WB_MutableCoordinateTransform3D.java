@@ -209,12 +209,10 @@ public interface WB_MutableCoordinateTransform3D extends WB_CoordinateTransform3
 	public WB_Coord translate2DSelf(final WB_Coord p);
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param angle
 	 * @param p
-	 * @param a
-	 * @return this
+	 * @return
 	 */
 	public WB_Coord rotateAboutPoint2DSelf(final double angle, final WB_Coord p);
 

@@ -52,9 +52,8 @@ public class WB_SimpleCoordinate2D implements WB_Coord {
 	}
 
 	/**
-	 *
-	 *
-	 * @param v
+	 * 
+	 * @param p
 	 */
 	public WB_SimpleCoordinate2D(final WB_Coord p) {
 		x = p.xd();

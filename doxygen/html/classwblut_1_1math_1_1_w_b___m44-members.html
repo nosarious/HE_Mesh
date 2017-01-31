@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1math_1_1_w_b___m44.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1math.html">math</a></li><li class="navelem"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html">WB_M44</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">wblut.math.WB_M44 Member List</div>  </div>
@@ -107,7 +125,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html#a9ef13915cb0a78681cc0ac8e12bfafb5">m21</a></td><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html">wblut.math.WB_M44</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html#a743b3cafe5f6b04195c5c76e46a91bf5">m31</a></td><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html">wblut.math.WB_M44</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html#aa73c8e7cb33fffe5c331590397e4a606">m41</a></td><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html">wblut.math.WB_M44</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html#a99a3c93596b5270e4ea5c5971966f8b7">mult</a>(final double f)</td><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html">wblut.math.WB_M44</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html#a727b81e406e7d0d5493e89291bc5753f">mul</a>(final double f)</td><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html">wblut.math.WB_M44</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html#a13655693e28f9e91bcda2c6789f3ddb0">mult</a>(final WB_M44 m)</td><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html">wblut.math.WB_M44</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html#a33f10ba370113767fb39bc9cbbc8253e">mult</a>(final WB_M44 n, final WB_M44 m)</td><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html">wblut.math.WB_M44</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html#a37c5ab9d330fe5a64b2980846b482943">multInto</a>(final double f, final WB_M44 result)</td><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html">wblut.math.WB_M44</a></td><td class="entry"></td></tr>
@@ -125,11 +143,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html#acea416606b3018b972d4189951b3e8f8">WB_M44</a>(final double[][] matrix44)</td><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html">wblut.math.WB_M44</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html#a1a3a06f8b0643ee20185957394793235">WB_M44</a>(final double m11, final double m12, final double m13, final double m14, final double m21, final double m22, final double m23, final double m24, final double m31, final double m32, final double m33, final double m34, final double m41, final double m42, final double m43, final double m44)</td><td class="entry"><a class="el" href="classwblut_1_1math_1_1_w_b___m44.html">wblut.math.WB_M44</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:16 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:29 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

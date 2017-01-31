@@ -187,12 +187,10 @@ public class HEC_IsoSurfaceVOL2D extends HEC_Creator {
 	}
 
 	/**
-	 * Size of cell.
-	 *
+	 * 
 	 * @param dx
 	 * @param dy
-	 * @param dz
-	 * @return self
+	 * @return
 	 */
 	public HEC_IsoSurfaceVOL2D setSize(final double dx, final double dy) {
 		this.dx = dx;

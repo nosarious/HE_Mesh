@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -39,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -68,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1geom_1_1_w_b___triangle_mesh.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1geom.html">geom</a></li><li class="navelem"><a class="el" href="classwblut_1_1geom_1_1_w_b___triangle_mesh.html">WB_TriangleMesh</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -133,9 +152,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad0cc493b5a7828739328867d1b24ba3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f7a0409c7406e9f9aa33122d60582f9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___triangle_mesh.html#a1f7a0409c7406e9f9aa33122d60582f9">Kmax</a> ()</td></tr>
 <tr class="separator:a1f7a0409c7406e9f9aa33122d60582f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf3b14c36b5ddbb2f6c480b71f34f07d"><td class="memItemLeft" align="right" valign="top">WB_Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___triangle_mesh.html#abf3b14c36b5ddbb2f6c480b71f34f07d">k1dir</a> (final int i)</td></tr>
+<tr class="memitem:abf3b14c36b5ddbb2f6c480b71f34f07d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___triangle_mesh.html#abf3b14c36b5ddbb2f6c480b71f34f07d">k1dir</a> (final int i)</td></tr>
 <tr class="separator:abf3b14c36b5ddbb2f6c480b71f34f07d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7825bd66b0086709dc53a53bb80119b9"><td class="memItemLeft" align="right" valign="top">WB_Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___triangle_mesh.html#a7825bd66b0086709dc53a53bb80119b9">k2dir</a> (final int i)</td></tr>
+<tr class="memitem:a7825bd66b0086709dc53a53bb80119b9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___triangle_mesh.html#a7825bd66b0086709dc53a53bb80119b9">k2dir</a> (final int i)</td></tr>
 <tr class="separator:a7825bd66b0086709dc53a53bb80119b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a933fa1b42f0b5e0b66b1d7f1f7fe709c"><td class="memItemLeft" align="right" valign="top">double[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___triangle_mesh.html#a933fa1b42f0b5e0b66b1d7f1f7fe709c">DCurv</a> (final int i)</td></tr>
 <tr class="separator:a933fa1b42f0b5e0b66b1d7f1f7fe709c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,7 +181,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa767baf72d45b21866b7a7e68954e6c2 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a456afe3394e4e0ba4eb2d6176005daf1 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a456afe3394e4e0ba4eb2d6176005daf1">getPolygons</a> ()</td></tr>
 <tr class="separator:a456afe3394e4e0ba4eb2d6176005daf1 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a076b7bb935b3a90ecc1b6df90cb463 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">WB_Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a0a076b7bb935b3a90ecc1b6df90cb463">getCenter</a> ()</td></tr>
+<tr class="memitem:a0a076b7bb935b3a90ecc1b6df90cb463 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a0a076b7bb935b3a90ecc1b6df90cb463">getCenter</a> ()</td></tr>
 <tr class="separator:a0a076b7bb935b3a90ecc1b6df90cb463 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5306c26169bfd8e90a2c131c888967c inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___a_a_b_b.html">WB_AABB</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#ae5306c26169bfd8e90a2c131c888967c">getAABB</a> ()</td></tr>
 <tr class="separator:ae5306c26169bfd8e90a2c131c888967c inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -174,25 +193,25 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2ed3c23443a817c24e3fcb61e1901d3b inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4587d5088ba8d4cb06d151cdb614439a inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html">WB_Mesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a4587d5088ba8d4cb06d151cdb614439a">triangulateForceMT</a> ()</td></tr>
 <tr class="separator:a4587d5088ba8d4cb06d151cdb614439a inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af43dc85b155fa45758acfd9c3ab1de7a inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">WB_Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#af43dc85b155fa45758acfd9c3ab1de7a">getFaceNormal</a> (final int id)</td></tr>
+<tr class="memitem:af43dc85b155fa45758acfd9c3ab1de7a inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#af43dc85b155fa45758acfd9c3ab1de7a">getFaceNormal</a> (final int id)</td></tr>
 <tr class="separator:af43dc85b155fa45758acfd9c3ab1de7a inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acad7ad0b5f6b67489ce555fa83960953 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">WB_Point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#acad7ad0b5f6b67489ce555fa83960953">getFaceCenter</a> (final int id)</td></tr>
+<tr class="memitem:acad7ad0b5f6b67489ce555fa83960953 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#acad7ad0b5f6b67489ce555fa83960953">getFaceCenter</a> (final int id)</td></tr>
 <tr class="separator:acad7ad0b5f6b67489ce555fa83960953 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabaed82aa7fb37bbe2417d01cfdf363a inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">WB_Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#aabaed82aa7fb37bbe2417d01cfdf363a">getVertexNormal</a> (final int i)</td></tr>
+<tr class="memitem:aabaed82aa7fb37bbe2417d01cfdf363a inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#aabaed82aa7fb37bbe2417d01cfdf363a">getVertexNormal</a> (final int i)</td></tr>
 <tr class="separator:aabaed82aa7fb37bbe2417d01cfdf363a inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a048181bf58b26f37251d7dd059d3682a inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a048181bf58b26f37251d7dd059d3682a">getNumberOfFaces</a> ()</td></tr>
 <tr class="separator:a048181bf58b26f37251d7dd059d3682a inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e25ab39270ec18df3b9feeb08ee80a8 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a1e25ab39270ec18df3b9feeb08ee80a8">getNumberOfVertices</a> ()</td></tr>
 <tr class="separator:a1e25ab39270ec18df3b9feeb08ee80a8 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2d2a007397f78549dc7babbc4d4222b inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">WB_Coord&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#ab2d2a007397f78549dc7babbc4d4222b">getVertex</a> (final int i)</td></tr>
+<tr class="memitem:ab2d2a007397f78549dc7babbc4d4222b inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#ab2d2a007397f78549dc7babbc4d4222b">getVertex</a> (final int i)</td></tr>
 <tr class="separator:ab2d2a007397f78549dc7babbc4d4222b inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09c799cc92e013a38ef00121609a8a3a inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">List&lt; WB_Coord &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a09c799cc92e013a38ef00121609a8a3a">getPoints</a> ()</td></tr>
+<tr class="memitem:a09c799cc92e013a38ef00121609a8a3a inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a09c799cc92e013a38ef00121609a8a3a">getPoints</a> ()</td></tr>
 <tr class="separator:a09c799cc92e013a38ef00121609a8a3a inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3976eddf8624615b0869bd0b341107ed inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">int[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a3976eddf8624615b0869bd0b341107ed">vfNeighbors</a> (final int i)</td></tr>
 <tr class="separator:a3976eddf8624615b0869bd0b341107ed inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bc18766c5cf0b0fe581e72847a00657 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">int[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a7bc18766c5cf0b0fe581e72847a00657">getFace</a> (final int i)</td></tr>
 <tr class="separator:a7bc18766c5cf0b0fe581e72847a00657 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62a8112b9747d1da6088c6420efd8cf2 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html">WB_Mesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a62a8112b9747d1da6088c6420efd8cf2">apply</a> (final WB_Transform WB_Point)</td></tr>
+<tr class="memitem:a62a8112b9747d1da6088c6420efd8cf2 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html">WB_Mesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a62a8112b9747d1da6088c6420efd8cf2">apply</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___transform.html">WB_Transform</a> <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>)</td></tr>
 <tr class="separator:a62a8112b9747d1da6088c6420efd8cf2 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfd42dbf2ac67e6bd2876db9aff5074f inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#adfd42dbf2ac67e6bd2876db9aff5074f">k1</a> (final int i)</td></tr>
 <tr class="separator:adfd42dbf2ac67e6bd2876db9aff5074f inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -212,9 +231,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a52f75f41151e1d04d9ef8a3186dcaabe inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab45b8d820f275703ec52899f2e7fb0d5 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#ab45b8d820f275703ec52899f2e7fb0d5">Kmax</a> ()</td></tr>
 <tr class="separator:ab45b8d820f275703ec52899f2e7fb0d5 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a444231df8b9e91889e147adba1703c8e inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">WB_Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a444231df8b9e91889e147adba1703c8e">k1dir</a> (final int i)</td></tr>
+<tr class="memitem:a444231df8b9e91889e147adba1703c8e inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a444231df8b9e91889e147adba1703c8e">k1dir</a> (final int i)</td></tr>
 <tr class="separator:a444231df8b9e91889e147adba1703c8e inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ed38132d128c93d829429ab005c5d88 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">WB_Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a3ed38132d128c93d829429ab005c5d88">k2dir</a> (final int i)</td></tr>
+<tr class="memitem:a3ed38132d128c93d829429ab005c5d88 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a3ed38132d128c93d829429ab005c5d88">k2dir</a> (final int i)</td></tr>
 <tr class="separator:a3ed38132d128c93d829429ab005c5d88 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae25cd1dfd3128253995f49955a642854 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">double[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#ae25cd1dfd3128253995f49955a642854">DCurv</a> (final int i)</td></tr>
 <tr class="separator:ae25cd1dfd3128253995f49955a642854 inherit pub_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -223,9 +242,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a4f692587685c753c00571d8166830737"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___triangle_mesh.html#a4f692587685c753c00571d8166830737">WB_TriangleMesh</a> (final Collection&lt;?extends WB_Coord &gt; points, final int[][] <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a9ca3970bd7df4328da8ada9871aa8107">faces</a>)</td></tr>
+<tr class="memitem:a4f692587685c753c00571d8166830737"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___triangle_mesh.html#a4f692587685c753c00571d8166830737">WB_TriangleMesh</a> (final Collection&lt;?extends <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> &gt; points, final int[][] <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a9ca3970bd7df4328da8ada9871aa8107">faces</a>)</td></tr>
 <tr class="separator:a4f692587685c753c00571d8166830737"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a222567de62e7df95198892b9b6abc4a7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___triangle_mesh.html#a222567de62e7df95198892b9b6abc4a7">WB_TriangleMesh</a> (final WB_Coord[] points, final int[][] <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a9ca3970bd7df4328da8ada9871aa8107">faces</a>)</td></tr>
+<tr class="memitem:a222567de62e7df95198892b9b6abc4a7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___triangle_mesh.html#a222567de62e7df95198892b9b6abc4a7">WB_TriangleMesh</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>[] points, final int[][] <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a9ca3970bd7df4328da8ada9871aa8107">faces</a>)</td></tr>
 <tr class="separator:a222567de62e7df95198892b9b6abc4a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a882b731415c109d2b8608f7f289e3d0a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___triangle_mesh.html#a882b731415c109d2b8608f7f289e3d0a">WB_TriangleMesh</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html">WB_Mesh</a> mesh)</td></tr>
 <tr class="separator:a882b731415c109d2b8608f7f289e3d0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -238,9 +257,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a504f78be3af6016e893fa70867bdaf4d inherit pro_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb6f142347491e3eaaa9fdc294946e05 inherit pro_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#adb6f142347491e3eaaa9fdc294946e05">WB_Mesh</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html">WB_Mesh</a> mesh)</td></tr>
 <tr class="separator:adb6f142347491e3eaaa9fdc294946e05 inherit pro_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3b572ea1a918c307d9b0e68bf4b4f79 inherit pro_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#ad3b572ea1a918c307d9b0e68bf4b4f79">WB_Mesh</a> (final Collection&lt;?extends WB_Coord &gt; points, final int[][] <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a9ca3970bd7df4328da8ada9871aa8107">faces</a>)</td></tr>
+<tr class="memitem:ad3b572ea1a918c307d9b0e68bf4b4f79 inherit pro_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#ad3b572ea1a918c307d9b0e68bf4b4f79">WB_Mesh</a> (final Collection&lt;?extends <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> &gt; points, final int[][] <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a9ca3970bd7df4328da8ada9871aa8107">faces</a>)</td></tr>
 <tr class="separator:ad3b572ea1a918c307d9b0e68bf4b4f79 inherit pro_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f54236e0f02ee4d302c0535ad1b0e90 inherit pro_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a6f54236e0f02ee4d302c0535ad1b0e90">WB_Mesh</a> (final WB_Coord[] points, final int[][] <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a9ca3970bd7df4328da8ada9871aa8107">faces</a>)</td></tr>
+<tr class="memitem:a6f54236e0f02ee4d302c0535ad1b0e90 inherit pro_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a6f54236e0f02ee4d302c0535ad1b0e90">WB_Mesh</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>[] points, final int[][] <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a9ca3970bd7df4328da8ada9871aa8107">faces</a>)</td></tr>
 <tr class="separator:a6f54236e0f02ee4d302c0535ad1b0e90 inherit pro_methods_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
@@ -283,7 +302,7 @@ Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_classwblut_1_1geom_1_1_w_b___mesh"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classwblut_1_1geom_1_1_w_b___mesh')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html">wblut.geom.WB_Mesh</a></td></tr>
 <tr class="memitem:a9ca3970bd7df4328da8ada9871aa8107 inherit pro_attribs_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">int[][]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a9ca3970bd7df4328da8ada9871aa8107">faces</a></td></tr>
 <tr class="separator:a9ca3970bd7df4328da8ada9871aa8107 inherit pro_attribs_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2ae5dc4ae5c7cd861e4fdda64099863 inherit pro_attribs_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">List&lt; WB_Coord &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#ad2ae5dc4ae5c7cd861e4fdda64099863">vertices</a></td></tr>
+<tr class="memitem:ad2ae5dc4ae5c7cd861e4fdda64099863 inherit pro_attribs_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#ad2ae5dc4ae5c7cd861e4fdda64099863">vertices</a></td></tr>
 <tr class="separator:ad2ae5dc4ae5c7cd861e4fdda64099863 inherit pro_attribs_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fec8599f3d05e2decaad4c8a6d934c3 inherit pro_attribs_classwblut_1_1geom_1_1_w_b___mesh"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___a_a_b_b.html">WB_AABB</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1geom_1_1_w_b___mesh.html#a1fec8599f3d05e2decaad4c8a6d934c3">aabb</a></td></tr>
 <tr class="separator:a1fec8599f3d05e2decaad4c8a6d934c3 inherit pro_attribs_classwblut_1_1geom_1_1_w_b___mesh"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -299,7 +318,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">wblut.geom.WB_TriangleMesh.WB_TriangleMesh </td>
           <td>(</td>
-          <td class="paramtype">final Collection&lt;?extends WB_Coord &gt;&#160;</td>
+          <td class="paramtype">final Collection&lt;?extends <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> &gt;&#160;</td>
           <td class="paramname"><em>points</em>, </td>
         </tr>
         <tr>
@@ -340,7 +359,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">wblut.geom.WB_TriangleMesh.WB_TriangleMesh </td>
           <td>(</td>
-          <td class="paramtype">final WB_Coord[]&#160;</td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>[]&#160;</td>
           <td class="paramname"><em>points</em>, </td>
         </tr>
         <tr>
@@ -494,7 +513,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">WB_Vector wblut.geom.WB_TriangleMesh.k1dir </td>
+          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a> wblut.geom.WB_TriangleMesh.k1dir </td>
           <td>(</td>
           <td class="paramtype">final int&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
@@ -556,7 +575,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">WB_Vector wblut.geom.WB_TriangleMesh.k2dir </td>
+          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html">WB_Vector</a> wblut.geom.WB_TriangleMesh.k2dir </td>
           <td>(</td>
           <td class="paramtype">final int&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
@@ -987,11 +1006,15 @@ Additional Inherited Members</h2></td></tr>
 <li>src/wblut/geom/<a class="el" href="_w_b___triangle_mesh_8java.html">WB_TriangleMesh.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 31 2017 20:34:15 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1geom.html">geom</a></li><li class="navelem"><a class="el" href="classwblut_1_1geom_1_1_w_b___triangle_mesh.html">WB_TriangleMesh</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:11 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

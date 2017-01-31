@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1geom_1_1_w_b___simple_vector.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1geom.html">geom</a></li><li class="navelem"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">WB_SimpleVector</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">wblut.geom.WB_SimpleVector Member List</div>  </div>
@@ -124,18 +142,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html#adf5082298503c336a9a5c9c2ef7858d6">wblut::geom::WB_MutableCoord.setY</a>(double y)</td><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">wblut.geom.WB_MutableCoord</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a0755f0f01e2117519abb346a1ced5376">setZ</a>(final double z)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html#a445ad7df921efdecc5cd2a38ec43850b">wblut::geom::WB_MutableCoord.setZ</a>(double z)</td><td class="entry"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coord.html">wblut.geom.WB_MutableCoord</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a0cc60e67afc2809c947d1f31427195fd">WB_SimpleVector</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a880cb0eb9d2b3d96da65daec2cbea968">WB_SimpleVector</a>(final double x, final double y)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#adb57fed875e9f26ecb153412088dea48">WB_SimpleVector</a>(final double x, final double y, final double z)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#ab31acb771d889b501ac207445a1b1ec5">WB_SimpleVector</a>(final double[] x)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a8b6069fdfc2c1a4b7c812e383fa7d654">WB_SimpleVector</a>(final double[] fromPoint, final double[] toPoint)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a04bac7f56e2bf8e6aed355ba7c87c507">WB_SimpleVector</a>(final WB_Coord v)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a22101ebe7a23f19b2b107dd9e4541a0a">WB_SimpleVector</a>(final WB_Coord fromPoint, final WB_Coord toPoint)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#adf56ba6f74713353a19d7798fcf8b80e">wd</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#af12cb9c0f9bc2465b11cc8cb61264e1f">wf</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a634799df5e969709eb40c246adae4c0f">X</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a8acc916de89f755b8826580a427004f7">X</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a04cfdf66de7b9848ab80d72b56f522ac">x</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a646eeb0303cd495633f1d35b8c1e1374">toString</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a0cc60e67afc2809c947d1f31427195fd">WB_SimpleVector</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a880cb0eb9d2b3d96da65daec2cbea968">WB_SimpleVector</a>(final double x, final double y)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#adb57fed875e9f26ecb153412088dea48">WB_SimpleVector</a>(final double x, final double y, final double z)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#ab31acb771d889b501ac207445a1b1ec5">WB_SimpleVector</a>(final double[] x)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a8b6069fdfc2c1a4b7c812e383fa7d654">WB_SimpleVector</a>(final double[] fromPoint, final double[] toPoint)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a04bac7f56e2bf8e6aed355ba7c87c507">WB_SimpleVector</a>(final WB_Coord v)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a22101ebe7a23f19b2b107dd9e4541a0a">WB_SimpleVector</a>(final WB_Coord fromPoint, final WB_Coord toPoint)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html#a83f3bf9e9d3f1ad870a50a6ac41f73a1">WB_SimpleVector2D</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html">wblut.geom.WB_SimpleVector2D</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html#a8d84616ee519ff2a0569ef73ceec3af8">WB_SimpleVector2D</a>(final double x, final double y)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html">wblut.geom.WB_SimpleVector2D</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html#a0403d7fdf8fdec4239d24d8189f88953">WB_SimpleVector2D</a>(final double[] x)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html">wblut.geom.WB_SimpleVector2D</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html#afc242b00c25882e890eecf6506e82211">WB_SimpleVector2D</a>(final double[] fromPoint, final double[] toPoint)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html">wblut.geom.WB_SimpleVector2D</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html#aa6d6acdfba6f19ce9b7b3bf7b17127fe">WB_SimpleVector2D</a>(final WB_Coord v)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html">wblut.geom.WB_SimpleVector2D</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html#a3ac39e52a1c2af7dd78c77223698e2d7">WB_SimpleVector2D</a>(final WB_Coord fromPoint, final WB_Coord toPoint)</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector2_d.html">wblut.geom.WB_SimpleVector2D</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#adf56ba6f74713353a19d7798fcf8b80e">wd</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#af12cb9c0f9bc2465b11cc8cb61264e1f">wf</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a634799df5e969709eb40c246adae4c0f">X</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a8acc916de89f755b8826580a427004f7">X</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a225c3f213d0a8831e8ad24307d595a00">xd</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#aadcc0937180d76b608b3ebf47f665b70">xf</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#ae5c9a44d836ca7d090c3d186dd2951b3">Y</a></td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
@@ -149,11 +173,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a72203f175da8302cedbdb86e557f3c6b">ZERO</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html#a4d63969c002f423ce1ac979c25603132">zf</a>()</td><td class="entry"><a class="el" href="classwblut_1_1geom_1_1_w_b___simple_vector.html">wblut.geom.WB_SimpleVector</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:04 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:10 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

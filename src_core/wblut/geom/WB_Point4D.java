@@ -388,6 +388,13 @@ public class WB_Point4D extends WB_Vector4D {
 	 * @see wblut.geom.WB_CoordinateMath#add(double, double, double)
 	 */
 	@Override
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
 	public WB_Point4D add3D(final double x, final double y, final double z) {
 		return new WB_Point4D(this.xd() + x, this.yd() + y, this.zd() + z, this.wd());
 	}
@@ -490,6 +497,13 @@ public class WB_Point4D extends WB_Vector4D {
 	 * @see wblut.geom.WB_MutableCoordinateMath#addSelf(double, double, double)
 	 */
 	@Override
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
 	public WB_Point4D add3DSelf(final double x, final double y, final double z) {
 		set(xd() + x, yd() + y, zd() + z, wd());
 		return this;
@@ -513,6 +527,13 @@ public class WB_Point4D extends WB_Vector4D {
 	 * @see wblut.geom.WB_MutableCoordinateMath#subSelf(double, double, double)
 	 */
 	@Override
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
 	public WB_Point4D sub3DSelf(final double x, final double y, final double z) {
 		set(xd() - x, yd() - y, zd() - z, wd());
 		return this;
@@ -558,6 +579,14 @@ public class WB_Point4D extends WB_Vector4D {
 	 * double, double)
 	 */
 	@Override
+	/**
+	 * 
+	 * @param f
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
 	public WB_Point4D addMul3DSelf(final double f, final double x, final double y, final double z) {
 		set(xd() + f * x, yd() + f * y, zd() + f * z, wd());
 		return this;
@@ -576,6 +605,15 @@ public class WB_Point4D extends WB_Vector4D {
 	}
 
 	@Override
+	/**
+	 * 
+	 * @param f
+	 * @param g
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
 	public WB_Point4D mulAddMul3DSelf(final double f, final double g, final double x, final double y, final double z) {
 		set(f * this.xd() + g * x, f * this.yd() + g * y, f * this.zd() + g * z, this.wd());
 		return this;

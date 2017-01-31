@@ -65,10 +65,8 @@ public class WB_PointHomogeneous extends WB_Point4D {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param v
-	 * @param w
 	 */
 	public WB_PointHomogeneous(final WB_Coord v) {
 		setX(v.xd());

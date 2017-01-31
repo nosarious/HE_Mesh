@@ -13,7 +13,7 @@ package wblut.geom;
 /**
  * Interface for implementing non-mutable transformation operations on 2D
  * coordinates.If the operations should change the calling object use
- * {@link wblut.geom.WB_MutableCoordinateTransformation2D}.
+ * {@link wblut.geom.WB_MutableCoordinateTransform2D}.
  *
  * None of the operators change the calling object. Unlabelled operators, such
  * as "scale2D",create a new WB_Coord. Operators with the label "Into", such as

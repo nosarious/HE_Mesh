@@ -39,21 +39,17 @@ public interface WB_CoordinateMetric3D extends WB_CoordinateMetric2D {
 	public double getSqLength3D();
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param p
 	 * @return
-	 * @deprecated Use {@link #getDistance(WB_Coord)} instead
 	 */
 	@Deprecated
 	public double getDistance3D(final WB_Coord p);
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param p
 	 * @return
-	 * @deprecated Use {@link #getSqDistance(WB_Coord)} instead
 	 */
 	@Deprecated
 	public double getSqDistance3D(final WB_Coord p);

@@ -31,9 +31,9 @@ public class WB_PShapeFactory {
 	private static WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
+	 * @param home
 	 * @return
 	 */
 	public static PShape createFacetedPShape(final HE_Mesh mesh, final PApplet home) {
@@ -59,9 +59,10 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param mesh
 	 * @param img
+	 * @param home
 	 * @return
 	 */
 	public static PShape createFacetedPShape(final HE_Mesh mesh, final PImage img, final PApplet home) {
@@ -86,7 +87,13 @@ public class WB_PShapeFactory {
 		retained.endShape();
 		return retained;
 	}
-
+/**
+ * 
+ * @param mesh
+ * @param img
+ * @param home
+ * @return
+ */
 	public static PShape createFacetedPShape(final HE_Mesh mesh, final PImage[] img, final PApplet home) {
 		final PShape retained = home.createShape();
 		retained.beginShape(PConstants.TRIANGLES);
@@ -112,10 +119,10 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
 	 * @param offset
+	 * @param home
 	 * @return
 	 */
 	public static PShape createFacetedPShape(final HE_MeshStructure mesh, final double offset, final PApplet home) {
@@ -157,9 +164,9 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
+	 * @param home
 	 * @return
 	 */
 	public static PShape createFacetedPShape(final WB_Mesh mesh, final PApplet home) {
@@ -185,9 +192,9 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
+	 * @param home
 	 * @return
 	 */
 	public static PShape createFacetedPShapeWithFaceColor(final HE_Mesh mesh, final PApplet home) {
@@ -214,9 +221,9 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
+	 * @param home
 	 * @return
 	 */
 	public static PShape createFacetedPShapeWithVertexColor(final HE_Mesh mesh, final PApplet home) {
@@ -243,28 +250,40 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
+	 * @param home
 	 * @return
 	 */
 	public static PShape createFacettedPShape(final HE_Mesh mesh, final PApplet home) {
 		return createFacetedPShape(mesh, home);
 	}
-
+/**
+ * 
+ * @param mesh
+ * @param img
+ * @param home
+ * @return
+ */
 	public static PShape createFacettedPShape(final HE_Mesh mesh, final PImage img, final PApplet home) {
 		return createFacetedPShape(mesh, img, home);
 	}
-
+/**
+ * 
+ * @param mesh
+ * @param img
+ * @param home
+ * @return
+ */
 	public static PShape createFacettedPShape(final HE_Mesh mesh, final PImage[] img, final PApplet home) {
 		return createFacetedPShape(mesh, img, home);
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
 	 * @param offset
+	 * @param home
 	 * @return
 	 */
 	public static PShape createFacettedPShape(final HE_MeshStructure mesh, final double offset, final PApplet home) {
@@ -272,9 +291,9 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
+	 * @param home
 	 * @return
 	 */
 	public static PShape createFacettedPShape(final WB_Mesh mesh, final PApplet home) {
@@ -282,9 +301,9 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
+	 * @param home
 	 * @return
 	 */
 	public static PShape createFacettedPShapeWithFaceColor(final HE_Mesh mesh, final PApplet home) {
@@ -292,9 +311,9 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
+	 * @param home
 	 * @return
 	 */
 	public static PShape createFacettedPShapeWithVertexColor(final HE_Mesh mesh, final PApplet home) {
@@ -302,9 +321,9 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
+	 * @param home
 	 * @return
 	 */
 	public static PShape createSmoothPShape(final HE_Mesh mesh, final PApplet home) {
@@ -331,7 +350,13 @@ public class WB_PShapeFactory {
 		retained.endShape();
 		return retained;
 	}
-
+/**
+ * 
+ * @param mesh
+ * @param img
+ * @param home
+ * @return
+ */
 	public static PShape createSmoothPShape(final HE_Mesh mesh, final PImage img, final PApplet home) {
 		final PShape retained = home.createShape();
 		retained.beginShape(PConstants.TRIANGLES);
@@ -357,7 +382,13 @@ public class WB_PShapeFactory {
 		retained.endShape();
 		return retained;
 	}
-
+/**
+ * 
+ * @param mesh
+ * @param img
+ * @param home
+ * @return
+ */
 	public static PShape createSmoothPShape(final HE_Mesh mesh, final PImage[] img, final PApplet home) {
 		final PShape retained = home.createShape();
 		retained.beginShape(PConstants.TRIANGLES);
@@ -385,9 +416,9 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
+	 * @param home
 	 * @return
 	 */
 	public static PShape createSmoothPShape(final WB_Mesh mesh, final PApplet home) {
@@ -419,9 +450,9 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
+	 * @param home
 	 * @return
 	 */
 	public static PShape createSmoothPShapeWithFaceColor(final HE_Mesh mesh, final PApplet home) {
@@ -451,9 +482,9 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
+	 * @param home
 	 * @return
 	 */
 	public static PShape createSmoothPShapeWithVertexColor(final HE_Mesh mesh, final PApplet home) {
@@ -483,9 +514,9 @@ public class WB_PShapeFactory {
 	}
 
 	/**
-	 *
-	 *
+	 * 
 	 * @param mesh
+	 * @param home
 	 * @return
 	 */
 	public static PShape createWireframePShape(final HE_MeshStructure mesh, final PApplet home) {

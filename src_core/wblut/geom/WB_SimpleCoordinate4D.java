@@ -84,9 +84,8 @@ public class WB_SimpleCoordinate4D extends WB_SimpleCoordinate {
 	}
 
 	/**
-	 *
-	 *
-	 * @param v
+	 * 
+	 * @param p
 	 */
 	public WB_SimpleCoordinate4D(final WB_Coord p) {
 		x = p.xd();

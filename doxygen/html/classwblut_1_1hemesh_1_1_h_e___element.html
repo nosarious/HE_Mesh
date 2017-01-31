@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1hemesh_1_1_h_e___element.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html">HE_Element</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -117,7 +135,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <area href="classwblut_1_1hemesh_1_1_h_e___vertex.html" alt="wblut.hemesh.HE_Vertex" shape="rect" coords="1045,112,1244,136"/>
 <area href="classwblut_1_1hemesh_1_1_h_e___mesh.html" alt="wblut.hemesh.HE_Mesh" shape="rect" coords="313,168,512,192"/>
 <area href="classwblut_1_1hemesh_1_1_h_e___selection.html" alt="wblut.hemesh.HE_Selection" shape="rect" coords="522,168,721,192"/>
-<area href="classwblut_1_1hemesh_1_1_h_e___dynamic_mesh.html" alt="wblut.hemesh.HE_DynamicMesh" shape="rect" coords="313,224,512,248"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -149,15 +166,15 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a1c10940133de1e8f8d7092ef7117df81"><td class="memItemLeft" align="right" valign="top">final long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a1c10940133de1e8f8d7092ef7117df81">_key</a></td></tr>
-<tr class="separator:a1c10940133de1e8f8d7092ef7117df81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a463de6227429d15dd15bb4641e4a1ecc"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a463de6227429d15dd15bb4641e4a1ecc">labels</a></td></tr>
-<tr class="separator:a463de6227429d15dd15bb4641e4a1ecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a520e1cd043363dcaa59c976663f0eabc"><td class="memItemLeft" align="right" valign="top">final long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a520e1cd043363dcaa59c976663f0eabc">key</a></td></tr>
+<tr class="separator:a520e1cd043363dcaa59c976663f0eabc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99eede04ec24dc381750f3c75adb2db8"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a99eede04ec24dc381750f3c75adb2db8">labels</a></td></tr>
+<tr class="separator:a99eede04ec24dc381750f3c75adb2db8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
 Static Protected Attributes</h2></td></tr>
-<tr class="memitem:adb8f77c5890a72348f4ecb45714eb8a5"><td class="memItemLeft" align="right" valign="top">static AtomicLong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#adb8f77c5890a72348f4ecb45714eb8a5">_currentKey</a> = new AtomicLong(0)</td></tr>
-<tr class="separator:adb8f77c5890a72348f4ecb45714eb8a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac36ceff2215437dd4961d6203ea4cd0b"><td class="memItemLeft" align="right" valign="top">static AtomicLong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#ac36ceff2215437dd4961d6203ea4cd0b">currentKey</a> = new AtomicLong(0)</td></tr>
+<tr class="separator:ac36ceff2215437dd4961d6203ea4cd0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
@@ -386,7 +403,7 @@ Static Private Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="adb8f77c5890a72348f4ecb45714eb8a5"></a>
+<a class="anchor" id="ac36ceff2215437dd4961d6203ea4cd0b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -394,7 +411,7 @@ Static Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">AtomicLong wblut.hemesh.HE_Element._currentKey = new AtomicLong(0)</td>
+          <td class="memname">AtomicLong wblut.hemesh.HE_Element.currentKey = new AtomicLong(0)</td>
         </tr>
       </table>
   </td>
@@ -406,7 +423,7 @@ Static Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1c10940133de1e8f8d7092ef7117df81"></a>
+<a class="anchor" id="a520e1cd043363dcaa59c976663f0eabc"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -414,7 +431,7 @@ Static Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">final long wblut.hemesh.HE_Element._key</td>
+          <td class="memname">final long wblut.hemesh.HE_Element.key</td>
         </tr>
       </table>
   </td>
@@ -426,7 +443,7 @@ Static Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a463de6227429d15dd15bb4641e4a1ecc"></a>
+<a class="anchor" id="a99eede04ec24dc381750f3c75adb2db8"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -447,14 +464,18 @@ Static Private Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/wblut/hemesh/<a class="el" href="_h_e___element_8java.html">HE_Element.java</a></li>
+<li>src_core/wblut/hemesh/<a class="el" href="_h_e___element_8java.html">HE_Element.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:05 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html">HE_Element</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:12 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

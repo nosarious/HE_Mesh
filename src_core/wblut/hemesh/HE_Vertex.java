@@ -1890,6 +1890,12 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 	}
 
 	@Override
+	/**
+	 * 
+	 * @param angle
+	 * @param p
+	 * @return
+	 */
 	public HE_Vertex rotateAboutPoint2DSelf(final double angle, final WB_Coord p) {
 		final WB_Transform2D raa = new WB_Transform2D();
 		raa.addRotateAboutPoint(angle, p);
@@ -2087,6 +2093,13 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 	 * wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
 	 */
 	@Override
+	/**
+	 * 
+	 * @param angle
+	 * @param p1
+	 * @param p2
+	 * @return
+	 */
 	public WB_Point rotateAboutAxis2P(final double angle, final WB_Coord p1, final WB_Coord p2) {
 		final WB_Point result = new WB_Point(this);
 		final WB_Transform raa = new WB_Transform();
@@ -2243,6 +2256,11 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 	 * @see wblut.geom.WB_CoordinateTransform#scale(double)
 	 */
 	@Override
+	/**
+	 * 
+	 * @param f
+	 * @return
+	 */
 	public WB_Point scale(final double f) {
 		return mul(f);
 	}
@@ -2265,6 +2283,13 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 	 * @see wblut.geom.WB_CoordinateTransform#scale(double, double, double)
 	 */
 	@Override
+	/**
+	 * 
+	 * @param fx
+	 * @param fy
+	 * @param fz
+	 * @return
+	 */
 	public WB_Point scale(final double fx, final double fy, final double fz) {
 		return new WB_Point(xd() * fx, yd() * fy, zd() * fz);
 	}
@@ -2641,11 +2666,14 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 	 * @see
 	 * wblut.geom.WB_CoordinateMetric#getDistance3D(wblut.geom.WB_Coordinate)
 	 */
-	/**
-	 * @deprecated Use {@link #getDistance(WB_Coord)} instead
-	 */
+	
 	@Deprecated
 	@Override
+	/**
+	 * 
+	 * @param p
+	 * @return
+	 */
 	public double getDistance3D(final WB_Coord p) {
 		return getDistance(p);
 	}
@@ -2667,11 +2695,14 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 	 * @see
 	 * wblut.geom.WB_CoordinateMetric#getSqDistance3D(wblut.geom.WB_Coordinate)
 	 */
-	/**
-	 * @deprecated Use {@link #getSqDistance(WB_Coord)} instead
-	 */
+	
 	@Deprecated
 	@Override
+	/**
+	 * 
+	 * @param p
+	 * @return
+	 */
 	public double getSqDistance3D(final WB_Coord p) {
 		return getSqDistance(p);
 	}

@@ -933,6 +933,12 @@ public class WB_Point extends WB_Vector {
 	}
 
 	@Override
+	/**
+	 * 
+	 * @param angle
+	 * @param p
+	 * @return
+	 */
 	public WB_Point rotateAboutPoint2DSelf(final double angle, final WB_Coord p) {
 		final WB_Transform2D raa = new WB_Transform2D();
 		raa.addRotateAboutPoint(angle, p);
@@ -1129,6 +1135,13 @@ public class WB_Point extends WB_Vector {
 	 * wblut.geom.WB_Coordinate, wblut.geom.WB_Coordinate)
 	 */
 	@Override
+	/**
+	 * 
+	 * @param angle
+	 * @param p1
+	 * @param p2
+	 * @return
+	 */
 	public WB_Point rotateAboutAxis2P(final double angle, final WB_Coord p1, final WB_Coord p2) {
 		final WB_Point result = new WB_Point(this);
 		final WB_Transform raa = new WB_Transform();
@@ -1280,6 +1293,11 @@ public class WB_Point extends WB_Vector {
 	 * @see wblut.geom.WB_CoordinateTransform#scale(double)
 	 */
 	@Override
+	/**
+	 * 
+	 * @param f
+	 * @return
+	 */
 	public WB_Point scale(final double f) {
 		return mul(f);
 	}
@@ -1302,6 +1320,13 @@ public class WB_Point extends WB_Vector {
 	 * @see wblut.geom.WB_CoordinateTransform#scale(double, double, double)
 	 */
 	@Override
+	/**
+	 * 
+	 * @param fx
+	 * @param fy
+	 * @param fz
+	 * @return
+	 */
 	public WB_Point scale(final double fx, final double fy, final double fz) {
 		return new WB_Point(xd() * fx, yd() * fy, zd() * fz);
 	}

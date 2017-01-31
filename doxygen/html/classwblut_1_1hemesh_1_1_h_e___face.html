@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1hemesh_1_1_h_e___face.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html">HE_Face</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -125,6 +143,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a064923e37fb91b4376b7d35d5d03d81c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad070785dee7902001a133e30ae0f7da1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face_halfedge_outer_circulator.html">HE_FaceHalfedgeOuterCirculator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#ad070785dee7902001a133e30ae0f7da1">fheoCrc</a> ()</td></tr>
 <tr class="separator:ad070785dee7902001a133e30ae0f7da1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39463242aaaf03ade4ab32dafc45f5e7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face_edge_rev_circulator.html">HE_FaceEdgeRevCirculator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#a39463242aaaf03ade4ab32dafc45f5e7">feRevCrc</a> ()</td></tr>
+<tr class="separator:a39463242aaaf03ade4ab32dafc45f5e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0bcf48ed9392aa348c668145c214e8b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face_face_rev_circulator.html">HE_FaceFaceRevCirculator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#ae0bcf48ed9392aa348c668145c214e8b">ffRevCrc</a> ()</td></tr>
+<tr class="separator:ae0bcf48ed9392aa348c668145c214e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a907eced35ea87858394265459513c5fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face_halfedge_inner_rev_circulator.html">HE_FaceHalfedgeInnerRevCirculator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#a907eced35ea87858394265459513c5fc">fheiRevCrc</a> ()</td></tr>
+<tr class="separator:a907eced35ea87858394265459513c5fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af098dcf458b506f0b37e54c45b9c03bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face_halfedge_outer_rev_circulator.html">HE_FaceHalfedgeOuterRevCirculator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#af098dcf458b506f0b37e54c45b9c03bd">fheoRevCrc</a> ()</td></tr>
+<tr class="separator:af098dcf458b506f0b37e54c45b9c03bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0be1dbd40ad49d29762f90ad5740fa3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face_vertex_rev_circulator.html">HE_FaceVertexRevCirculator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#ac0be1dbd40ad49d29762f90ad5740fa3">fvRevCrc</a> ()</td></tr>
+<tr class="separator:ac0be1dbd40ad49d29762f90ad5740fa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7e3ba5c37ed98297d9fac3345ca5f05"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#aa7e3ba5c37ed98297d9fac3345ca5f05">key</a> ()</td></tr>
 <tr class="separator:aa7e3ba5c37ed98297d9fac3345ca5f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb5d44b6828291282b23f85ac843e219"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#aeb5d44b6828291282b23f85ac843e219">getFaceCenter</a> ()</td></tr>
@@ -179,6 +207,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aac0438d33a65ce422568d7ea94942361"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e4e346746622f75de59992c22f492c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#a3e4e346746622f75de59992c22f492c4">toPolygon</a> ()</td></tr>
 <tr class="separator:a3e4e346746622f75de59992c22f492c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8c9449441be29a868b93e6380a06fc0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#ad8c9449441be29a868b93e6380a06fc0">toOrthoPolygon</a> ()</td></tr>
+<tr class="separator:ad8c9449441be29a868b93e6380a06fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade01238c0d66b677e2ee5f4bf2d35f08"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#ade01238c0d66b677e2ee5f4bf2d35f08">toPlanarPolygon</a> ()</td></tr>
 <tr class="separator:ade01238c0d66b677e2ee5f4bf2d35f08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7edaee43c9ca4381a8276f2c0cb28cd"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html">HE_Face</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#af7edaee43c9ca4381a8276f2c0cb28cd">getNeighborFaces</a> ()</td></tr>
@@ -278,18 +308,18 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:ae282fd7d840674bc6212633e8687e132 inherit pro_attribs_classwblut_1_1hemesh_1_1_h_e___mesh_element"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#ae282fd7d840674bc6212633e8687e132">color</a></td></tr>
 <tr class="separator:ae282fd7d840674bc6212633e8687e132 inherit pro_attribs_classwblut_1_1hemesh_1_1_h_e___mesh_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classwblut_1_1hemesh_1_1_h_e___element')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html">wblut.hemesh.HE_Element</a></td></tr>
-<tr class="memitem:a1c10940133de1e8f8d7092ef7117df81 inherit pro_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td class="memItemLeft" align="right" valign="top">final long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a1c10940133de1e8f8d7092ef7117df81">_key</a></td></tr>
-<tr class="separator:a1c10940133de1e8f8d7092ef7117df81 inherit pro_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a463de6227429d15dd15bb4641e4a1ecc inherit pro_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a463de6227429d15dd15bb4641e4a1ecc">labels</a></td></tr>
-<tr class="separator:a463de6227429d15dd15bb4641e4a1ecc inherit pro_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a520e1cd043363dcaa59c976663f0eabc inherit pro_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td class="memItemLeft" align="right" valign="top">final long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a520e1cd043363dcaa59c976663f0eabc">key</a></td></tr>
+<tr class="separator:a520e1cd043363dcaa59c976663f0eabc inherit pro_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99eede04ec24dc381750f3c75adb2db8 inherit pro_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#a99eede04ec24dc381750f3c75adb2db8">labels</a></td></tr>
+<tr class="separator:a99eede04ec24dc381750f3c75adb2db8 inherit pro_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_static_attribs_classwblut_1_1hemesh_1_1_h_e___mesh_element"><td colspan="2" onclick="javascript:toggleInherit('pro_static_attribs_classwblut_1_1hemesh_1_1_h_e___mesh_element')"><img src="closed.png" alt="-"/>&#160;Static Protected Attributes inherited from <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html">wblut.hemesh.HE_MeshElement</a></td></tr>
-<tr class="memitem:a738958d431825629708b1449ac408ea9 inherit pro_static_attribs_classwblut_1_1hemesh_1_1_h_e___mesh_element"><td class="memItemLeft" align="right" valign="top">static final <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#a738958d431825629708b1449ac408ea9">gf</a> = <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html#a9ac73262054d19293ae9877b7be63d8e">WB_GeometryFactory.instance</a>()</td></tr>
+<tr class="memitem:a738958d431825629708b1449ac408ea9 inherit pro_static_attribs_classwblut_1_1hemesh_1_1_h_e___mesh_element"><td class="memItemLeft" align="right" valign="top">static final <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#a738958d431825629708b1449ac408ea9">gf</a> = new <a class="el" href="classwblut_1_1geom_1_1_w_b___geometry_factory.html">WB_GeometryFactory</a>()</td></tr>
 <tr class="separator:a738958d431825629708b1449ac408ea9 inherit pro_static_attribs_classwblut_1_1hemesh_1_1_h_e___mesh_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fa8c30eeeeb0894e7c222a81ea1a2f2 inherit pro_static_attribs_classwblut_1_1hemesh_1_1_h_e___mesh_element"><td class="memItemLeft" align="right" valign="top">static final <a class="el" href="classwblut_1_1core_1_1_w_b___progress_tracker.html">WB_ProgressTracker</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh_element.html#a4fa8c30eeeeb0894e7c222a81ea1a2f2">tracker</a> = <a class="el" href="classwblut_1_1core_1_1_w_b___progress_tracker.html#a27a0bd0ea5cce309e1eaf719ba945e40">WB_ProgressTracker.instance</a>()</td></tr>
 <tr class="separator:a4fa8c30eeeeb0894e7c222a81ea1a2f2 inherit pro_static_attribs_classwblut_1_1hemesh_1_1_h_e___mesh_element"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_static_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td colspan="2" onclick="javascript:toggleInherit('pro_static_attribs_classwblut_1_1hemesh_1_1_h_e___element')"><img src="closed.png" alt="-"/>&#160;Static Protected Attributes inherited from <a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html">wblut.hemesh.HE_Element</a></td></tr>
-<tr class="memitem:adb8f77c5890a72348f4ecb45714eb8a5 inherit pro_static_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td class="memItemLeft" align="right" valign="top">static AtomicLong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#adb8f77c5890a72348f4ecb45714eb8a5">_currentKey</a> = new AtomicLong(0)</td></tr>
-<tr class="separator:adb8f77c5890a72348f4ecb45714eb8a5 inherit pro_static_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac36ceff2215437dd4961d6203ea4cd0b inherit pro_static_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td class="memItemLeft" align="right" valign="top">static AtomicLong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___element.html#ac36ceff2215437dd4961d6203ea4cd0b">currentKey</a> = new AtomicLong(0)</td></tr>
+<tr class="separator:ac36ceff2215437dd4961d6203ea4cd0b inherit pro_static_attribs_classwblut_1_1hemesh_1_1_h_e___element"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Face element of half-edge data structure.</p>
@@ -456,12 +486,44 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a39463242aaaf03ade4ab32dafc45f5e7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face_edge_rev_circulator.html">HE_FaceEdgeRevCirculator</a> wblut.hemesh.HE_Face.feRevCrc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="af7a52a485838af54d95d2edaadd48943"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face_face_circulator.html">HE_FaceFaceCirculator</a> wblut.hemesh.HE_Face.ffCrc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae0bcf48ed9392aa348c668145c214e8b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face_face_rev_circulator.html">HE_FaceFaceRevCirculator</a> wblut.hemesh.HE_Face.ffRevCrc </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -488,6 +550,22 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a907eced35ea87858394265459513c5fc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face_halfedge_inner_rev_circulator.html">HE_FaceHalfedgeInnerRevCirculator</a> wblut.hemesh.HE_Face.fheiRevCrc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ad070785dee7902001a133e30ae0f7da1"></a>
 <div class="memitem">
 <div class="memproto">
@@ -504,12 +582,44 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="af098dcf458b506f0b37e54c45b9c03bd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face_halfedge_outer_rev_circulator.html">HE_FaceHalfedgeOuterRevCirculator</a> wblut.hemesh.HE_Face.fheoRevCrc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="aa2c0d72a8dd7de99dc778d6e44910486"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face_vertex_circulator.html">HE_FaceVertexCirculator</a> wblut.hemesh.HE_Face.fvCrc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac0be1dbd40ad49d29762f90ad5740fa3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face_vertex_rev_circulator.html">HE_FaceVertexRevCirculator</a> wblut.hemesh.HE_Face.fvRevCrc </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1023,6 +1133,22 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ad8c9449441be29a868b93e6380a06fc0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___polygon.html">WB_Polygon</a> wblut.hemesh.HE_Face.toOrthoPolygon </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ade01238c0d66b677e2ee5f4bf2d35f08"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1052,7 +1178,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000005">Deprecated:</a></b></dt><dd>Use <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#ab0f832a6b66dddc93ebb8e3b3a6d18e3">getPlane()</a> instead </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000007">Deprecated:</a></b></dt><dd>Use <a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html#ab0f832a6b66dddc93ebb8e3b3a6d18e3">getPlane()</a> instead </dd></dl>
 
 </div>
 </div>
@@ -1161,14 +1287,18 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/wblut/hemesh/<a class="el" href="_h_e___face_8java.html">HE_Face.java</a></li>
+<li>src_core/wblut/hemesh/<a class="el" href="_h_e___face_8java.html">HE_Face.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:05 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___face.html">HE_Face</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:12 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>

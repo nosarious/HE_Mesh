@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -69,6 +77,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -83,11 +106,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -115,12 +133,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aee16e8890ca207b8acbf630f770f1650"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#aee16e8890ca207b8acbf630f770f1650">HEC_VoronoiSphere</a> ()</td></tr>
 <tr class="separator:aee16e8890ca207b8acbf630f770f1650"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3049973073f0b99428dd1a8d5f1f763"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ab3049973073f0b99428dd1a8d5f1f763">setPoints</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>[] <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#aa3c09131ec19efa8f091bdcf1cbb8d08">points</a>)</td></tr>
-<tr class="separator:ab3049973073f0b99428dd1a8d5f1f763"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3df52c69305cf23bc1c1d60224d4e95f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a3df52c69305cf23bc1c1d60224d4e95f">setPoints</a> (final double[][] <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#aa3c09131ec19efa8f091bdcf1cbb8d08">points</a>)</td></tr>
-<tr class="separator:a3df52c69305cf23bc1c1d60224d4e95f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6b3da9af5e6ee885b08eaf062a76862"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ac6b3da9af5e6ee885b08eaf062a76862">setPoints</a> (final float[][] <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#aa3c09131ec19efa8f091bdcf1cbb8d08">points</a>)</td></tr>
-<tr class="separator:ac6b3da9af5e6ee885b08eaf062a76862"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e2005f1aad16d16936ca36276648d9b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a7e2005f1aad16d16936ca36276648d9b">setN</a> (final int N)</td></tr>
 <tr class="separator:a7e2005f1aad16d16936ca36276648d9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4943a149c1089d864b5e0a28f03f0edd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a4943a149c1089d864b5e0a28f03f0edd">setCellIndex</a> (final int i)</td></tr>
@@ -137,8 +149,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a54975bbb3a711e030e81d79dadeea3f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a756722726a6f2b8fb7d81025a407129a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a756722726a6f2b8fb7d81025a407129a">setSeed</a> (final long seed)</td></tr>
 <tr class="separator:a756722726a6f2b8fb7d81025a407129a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf13260f5e590e247cb6bab9aa7f26c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#abf13260f5e590e247cb6bab9aa7f26c5">setOffset</a> (final double o)</td></tr>
+<tr class="separator:abf13260f5e590e247cb6bab9aa7f26c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6e977053da61f3d281e60cdbf9b25a8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html">HE_Mesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ab6e977053da61f3d281e60cdbf9b25a8">createBase</a> ()</td></tr>
 <tr class="separator:ab6e977053da61f3d281e60cdbf9b25a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d39f5dc583e1c58c974d245d301fb9a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a7d39f5dc583e1c58c974d245d301fb9a">setPoints</a> (final Collection&lt;?extends <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> &gt; <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a72f343d3833b89dd4e2ced40d1c12b29">points</a>)</td></tr>
+<tr class="separator:a7d39f5dc583e1c58c974d245d301fb9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3df52c69305cf23bc1c1d60224d4e95f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a3df52c69305cf23bc1c1d60224d4e95f">setPoints</a> (final double[][] <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a72f343d3833b89dd4e2ced40d1c12b29">points</a>)</td></tr>
+<tr class="separator:a3df52c69305cf23bc1c1d60224d4e95f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6b3da9af5e6ee885b08eaf062a76862"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ac6b3da9af5e6ee885b08eaf062a76862">setPoints</a> (final float[][] <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a72f343d3833b89dd4e2ced40d1c12b29">points</a>)</td></tr>
+<tr class="separator:ac6b3da9af5e6ee885b08eaf062a76862"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1640669c8052ccca2b715c0e1c8d59fe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a1640669c8052ccca2b715c0e1c8d59fe">setPoints</a> (final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>[] <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a72f343d3833b89dd4e2ced40d1c12b29">points</a>)</td></tr>
+<tr class="separator:a1640669c8052ccca2b715c0e1c8d59fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classwblut_1_1hemesh_1_1_h_e_c___creator"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classwblut_1_1hemesh_1_1_h_e_c___creator')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html">wblut.hemesh.HEC_Creator</a></td></tr>
 <tr class="memitem:aeed3502a415a3500be9d38e3857a0a9d inherit pub_methods_classwblut_1_1hemesh_1_1_h_e_c___creator"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___creator.html#aeed3502a415a3500be9d38e3857a0a9d">HEC_Creator</a> ()</td></tr>
 <tr class="separator:aeed3502a415a3500be9d38e3857a0a9d inherit pub_methods_classwblut_1_1hemesh_1_1_h_e_c___creator"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -180,13 +202,13 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:ab28ae1ff1a298ade1661ebce0c269541"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ab28ae1ff1a298ade1661ebce0c269541">grow</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>[] tracers, final int index)</td></tr>
-<tr class="separator:ab28ae1ff1a298ade1661ebce0c269541"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34c7b7e426b9242cbcd1eac82b0ad2fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a34c7b7e426b9242cbcd1eac82b0ad2fa">grow</a> (final <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>[] tracers, final int index, final double <a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ac8039abee1a6ab9d73dcbfdc25433012">offset</a>)</td></tr>
+<tr class="separator:a34c7b7e426b9242cbcd1eac82b0ad2fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:aa3c09131ec19efa8f091bdcf1cbb8d08"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#aa3c09131ec19efa8f091bdcf1cbb8d08">points</a></td></tr>
-<tr class="separator:aa3c09131ec19efa8f091bdcf1cbb8d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72f343d3833b89dd4e2ced40d1c12b29"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a72f343d3833b89dd4e2ced40d1c12b29">points</a></td></tr>
+<tr class="separator:a72f343d3833b89dd4e2ced40d1c12b29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04dc6125ac0f400a365c715e3273cf90"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a04dc6125ac0f400a365c715e3273cf90">numberOfPoints</a></td></tr>
 <tr class="separator:a04dc6125ac0f400a365c715e3273cf90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2535bc6920615eb1fd728b7410c2bf0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#af2535bc6920615eb1fd728b7410c2bf0">cellIndex</a></td></tr>
@@ -205,6 +227,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a312bfdbaba545b7318c9ed64662612e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a905a84179b5628634f20fb8905e2fc30"><td class="memItemLeft" align="right" valign="top">final <a class="el" href="classwblut_1_1geom_1_1_w_b___random_on_sphere.html">WB_RandomOnSphere</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#a905a84179b5628634f20fb8905e2fc30">randomGen</a></td></tr>
 <tr class="separator:a905a84179b5628634f20fb8905e2fc30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8039abee1a6ab9d73dcbfdc25433012"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html#ac8039abee1a6ab9d73dcbfdc25433012">offset</a></td></tr>
+<tr class="separator:ac8039abee1a6ab9d73dcbfdc25433012"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -271,7 +295,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab28ae1ff1a298ade1661ebce0c269541"></a>
+<a class="anchor" id="a34c7b7e426b9242cbcd1eac82b0ad2fa"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -288,7 +312,13 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">final int&#160;</td>
-          <td class="paramname"><em>index</em>&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>offset</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -302,11 +332,11 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Grow the tracers.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">tracers</td><td>the tracers </td></tr>
-    <tr><td class="paramname">index</td><td>the index </td></tr>
+    <tr><td class="paramname">tracers</td><td></td></tr>
+    <tr><td class="paramname">index</td><td></td></tr>
+    <tr><td class="paramname">offset</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -457,14 +487,30 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab3049973073f0b99428dd1a8d5f1f763"></a>
+<a class="anchor" id="abf13260f5e590e247cb6bab9aa7f26c5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a> wblut.hemesh.HEC_VoronoiSphere.setOffset </td>
+          <td>(</td>
+          <td class="paramtype">final double&#160;</td>
+          <td class="paramname"><em>o</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a7d39f5dc583e1c58c974d245d301fb9a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a> wblut.hemesh.HEC_VoronoiSphere.setPoints </td>
           <td>(</td>
-          <td class="paramtype">final <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a>[]&#160;</td>
+          <td class="paramtype">final Collection&lt;?extends <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a> &gt;&#160;</td>
           <td class="paramname"><em>points</em></td><td>)</td>
           <td></td>
         </tr>
@@ -473,7 +519,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Set points that define cell centers.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">points</td><td>array of vertex positions </td></tr>
+    <tr><td class="paramname">points</td><td>collection of vertex positions </td></tr>
   </table>
   </dd>
 </dl>
@@ -522,6 +568,30 @@ Additional Inherited Members</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">points</td><td>2D array of float of vertex positions </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>self </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1640669c8052ccca2b715c0e1c8d59fe"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a> wblut.hemesh.HEC_VoronoiSphere.setPoints </td>
+          <td>(</td>
+          <td class="paramtype">final <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>[]&#160;</td>
+          <td class="paramname"><em>points</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set points that define cell centers.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">points</td><td>array of vertex positions </td></tr>
   </table>
   </dd>
 </dl>
@@ -725,7 +795,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa3c09131ec19efa8f091bdcf1cbb8d08"></a>
+<a class="anchor" id="ac8039abee1a6ab9d73dcbfdc25433012"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -733,7 +803,27 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classwblut_1_1geom_1_1_w_b___point.html">WB_Point</a> [] wblut.hemesh.HEC_VoronoiSphere.points</td>
+          <td class="memname">double wblut.hemesh.HEC_VoronoiSphere.offset</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a72f343d3833b89dd4e2ced40d1c12b29"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt;<a class="el" href="interfacewblut_1_1geom_1_1_w_b___coord.html">WB_Coord</a>&gt; wblut.hemesh.HEC_VoronoiSphere.points</td>
         </tr>
       </table>
   </td>
@@ -789,14 +879,18 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/wblut/hemesh/<a class="el" href="_h_e_c___voronoi_sphere_8java.html">HEC_VoronoiSphere.java</a></li>
+<li>src_hemesh_creators/wblut/hemesh/<a class="el" href="_h_e_c___voronoi_sphere_8java.html">HEC_VoronoiSphere.java</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 23 2016 12:41:11 for HE_Mesh2014 by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.10
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacewblut.html">wblut</a></li><li class="navelem"><a class="el" href="namespacewblut_1_1hemesh.html">hemesh</a></li><li class="navelem"><a class="el" href="classwblut_1_1hemesh_1_1_h_e_c___voronoi_sphere.html">HEC_VoronoiSphere</a></li>
+    <li class="footer">Generated on Tue Jan 31 2017 22:35:21 for HE_Mesh2014 by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
+  </ul>
+</div>
 </body>
 </html>
