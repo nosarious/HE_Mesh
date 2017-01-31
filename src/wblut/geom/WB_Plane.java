@@ -21,19 +21,8 @@ public class WB_Plane {
 	 *
 	 *
 	 * @return
-	 * @deprecated Use {@link #Z()} instead
 	 */
-	@Deprecated
 	public static final WB_Plane XY() {
-		return Z();
-	}
-
-	/**
-	 *
-	 *
-	 * @return
-	 */
-	public static final WB_Plane Z() {
 		return new WB_Plane(0, 0, 0, 0, 0, 1);
 	}
 
@@ -41,19 +30,8 @@ public class WB_Plane {
 	 *
 	 *
 	 * @return
-	 * @deprecated Use {@link #Y()} instead
 	 */
-	@Deprecated
 	public static final WB_Plane XZ() {
-		return Y();
-	}
-
-	/**
-	 *
-	 *
-	 * @return
-	 */
-	public static final WB_Plane Y() {
 		return new WB_Plane(0, 0, 0, 0, 1, 0);
 	}
 
@@ -61,19 +39,8 @@ public class WB_Plane {
 	 *
 	 *
 	 * @return
-	 * @deprecated Use {@link #X()} instead
 	 */
-	@Deprecated
 	public static final WB_Plane YZ() {
-		return X();
-	}
-
-	/**
-	 *
-	 *
-	 * @return
-	 */
-	public static final WB_Plane X() {
 		return new WB_Plane(0, 0, 0, 1, 0, 0);
 	}
 
@@ -338,7 +305,7 @@ public class WB_Plane {
 	 * @return
 	 */
 	public WB_Point mirrorPoint(final WB_Coord p) {
-		if (WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(p, this))) {
+		if (WB_Epsilon.isZero(WB_GeometryOp3D.getDistance3D(p, this))) {
 			return new WB_Point(p);
 		}
 		return extractPoint2D(localPoint(p).scaleSelf(1, 1, -1));

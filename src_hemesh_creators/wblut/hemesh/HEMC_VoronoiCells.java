@@ -101,7 +101,7 @@ public class HEMC_VoronoiCells extends HEMC_MultiCreator {
 	 *            collection of vertex positions
 	 * @return self
 	 */
-	public HEMC_VoronoiCells setPoints(final Collection<WB_Point> points) {
+	public HEMC_VoronoiCells setPoints(final Collection<? extends WB_Coord> points) {
 		this.points = new FastTable<WB_Coord>();
 		this.points.addAll(points);
 		return this;

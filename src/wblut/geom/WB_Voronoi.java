@@ -382,7 +382,7 @@ public class WB_Voronoi {
 				unique = true;
 				for (int k = 0; k < j; k++) {
 					final WB_Plane Pj = cutPlanes.get(j);
-					if (WB_GeometryOp.isEqual(P, Pj)) {
+					if (WB_GeometryOp3D.isEqual(P, Pj)) {
 						unique = false;
 						break;
 					}
@@ -454,7 +454,7 @@ public class WB_Voronoi {
 				unique = true;
 				for (int k = 0; k < j; k++) {
 					final WB_Plane Pj = cutPlanes.get(j);
-					if (WB_GeometryOp.isEqual(P, Pj)) {
+					if (WB_GeometryOp3D.isEqual(P, Pj)) {
 						unique = false;
 						break;
 					}

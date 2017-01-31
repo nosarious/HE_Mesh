@@ -3,12 +3,17 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
+import java.util.Collection;
+import java.util.List;
+
+import javolution.util.FastTable;
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_Point;
 
 /**
@@ -20,7 +25,7 @@ import wblut.geom.WB_Point;
  */
 public class HEMC_VoronoiSpheres extends HEMC_MultiCreator {
 	/** Points. */
-	private WB_Point[] points;
+	private List<WB_Coord> points;
 	/** Number of points. */
 	private int numberOfPoints;
 	/** Level of geodesic sphere in exact mode. */
@@ -33,6 +38,7 @@ public class HEMC_VoronoiSpheres extends HEMC_MultiCreator {
 	private double cutoff;
 	/** Approximate mode?. */
 	private boolean approx;
+	private double offset;
 
 	/**
 	 * Instantiates a new HEMC_VoronoiSpheres.
@@ -43,50 +49,6 @@ public class HEMC_VoronoiSpheres extends HEMC_MultiCreator {
 		level = 1;
 		traceStep = 10;
 		numTracers = 100;
-	}
-
-	/**
-	 * Set points that define cell centers.
-	 *
-	 * @param points
-	 *            array of vertex positions
-	 * @return self
-	 */
-	public HEMC_VoronoiSpheres setPoints(final WB_Point[] points) {
-		this.points = points;
-		return this;
-	}
-
-	/**
-	 * Set points that define cell centers.
-	 *
-	 * @param points
-	 *            2D array of double of vertex positions
-	 * @return self
-	 */
-	public HEMC_VoronoiSpheres setPoints(final double[][] points) {
-		final int n = points.length;
-		this.points = new WB_Point[n];
-		for (int i = 0; i < n; i++) {
-			this.points[i] = new WB_Point(points[i][0], points[i][1], points[i][2]);
-		}
-		return this;
-	}
-
-	/**
-	 * Set points that define cell centers.
-	 *
-	 * @param points
-	 *            2D array of float of vertex positions
-	 * @return self
-	 */
-	public HEMC_VoronoiSpheres setPoints(final float[][] points) {
-		final int n = points.length;
-		this.points = new WB_Point[n];
-		for (int i = 0; i < n; i++) {
-			this.points[i] = new WB_Point(points[i][0], points[i][1], points[i][2]);
-		}
-		return this;
 	}
 
 	/**
@@ -161,9 +123,14 @@ public class HEMC_VoronoiSpheres extends HEMC_MultiCreator {
 		return this;
 	}
 
+	public HEMC_VoronoiSpheres setOffset(final double o) {
+		offset = o;
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_MultiCreator#create()
 	 */
 	@Override
@@ -174,11 +141,11 @@ public class HEMC_VoronoiSpheres extends HEMC_MultiCreator {
 			return result;
 		}
 		if (numberOfPoints == 0) {
-			numberOfPoints = points.length;
+			numberOfPoints = points.size();
 		}
 		final HEC_VoronoiSphere cvc = new HEC_VoronoiSphere();
 		cvc.setPoints(points).setN(numberOfPoints).setLevel(level).setCutoff(cutoff).setApprox(approx)
-				.setNumTracers(numTracers).setTraceStep(traceStep);
+				.setNumTracers(numTracers).setTraceStep(traceStep).setOffset(offset);
 		for (int i = 0; i < numberOfPoints; i++) {
 			// System.out.println("HEMC_VoronoiSpheres: creating cell " + (i +
 			// 1)
@@ -191,5 +158,65 @@ public class HEMC_VoronoiSpheres extends HEMC_MultiCreator {
 		}
 		_numberOfMeshes = result.size();
 		return result;
+	}
+
+	/**
+	 * Set points that define cell centers.
+	 *
+	 * @param points
+	 *            collection of vertex positions
+	 * @return self
+	 */
+	public HEMC_VoronoiSpheres setPoints(final Collection<? extends WB_Coord> points) {
+		this.points = new FastTable<WB_Coord>();
+		this.points.addAll(points);
+		return this;
+	}
+
+	/**
+	 * Set points that define cell centers.
+	 *
+	 * @param points
+	 *            2D array of double of vertex positions
+	 * @return self
+	 */
+	public HEMC_VoronoiSpheres setPoints(final double[][] points) {
+		final int n = points.length;
+		this.points = new FastTable<WB_Coord>();
+		for (int i = 0; i < n; i++) {
+			this.points.add(new WB_Point(points[i][0], points[i][1], points[i][2]));
+		}
+		return this;
+	}
+
+	/**
+	 * Set points that define cell centers.
+	 *
+	 * @param points
+	 *            2D array of float of vertex positions
+	 * @return self
+	 */
+	public HEMC_VoronoiSpheres setPoints(final float[][] points) {
+		final int n = points.length;
+		this.points = new FastTable<WB_Coord>();
+		for (int i = 0; i < n; i++) {
+			this.points.add(new WB_Point(points[i][0], points[i][1], points[i][2]));
+		}
+		return this;
+	}
+
+	/**
+	 * Set points that define cell centers.
+	 *
+	 * @param points
+	 *            array of vertex positions
+	 * @return self
+	 */
+	public HEMC_VoronoiSpheres setPoints(final WB_Coord[] points) {
+		this.points = new FastTable<WB_Coord>();
+		for (WB_Coord p : points) {
+			this.points.add(p);
+		}
+		return this;
 	}
 }

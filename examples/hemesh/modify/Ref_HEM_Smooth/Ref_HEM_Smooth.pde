@@ -1,44 +1,57 @@
-import wblut.core.*;
-import wblut.geom.*;
-import wblut.hemesh.*;
 import wblut.math.*;
 import wblut.processing.*;
-import java.util.List;
+import wblut.core.*;
+import wblut.hemesh.*;
+import wblut.geom.*;
 
 HE_Mesh mesh;
-WB_Render3D render;
-int counter;
-
+WB_Render render;
 
 void setup() {
-  size(1000, 1000, P3D);  
+  size(1000,1000,P3D);
   smooth(8);
-  textAlign(CENTER);
-  render=new WB_Render3D(this);
- counter=0;
-  mesh=new HE_Mesh(new HEC_Beethoven());
-  mesh.scaleSelf(10);
-
+  createMesh();
+  
+  //Laplacian modifier without adding vertices
+  HEM_Smooth modifier=new HEM_Smooth();
+  modifier.setIterations(4);
+  modifier.setAutoRescale(true);// rescale mesh to original extents
+  
+  mesh.modify(modifier);
+  
+  render=new WB_Render(this);
 }
 
 void draw() {
-  background(0);
+  background(120);
+  directionalLight(255, 255, 255, 1, 1, -1);
+  directionalLight(127, 127, 127, -1, -1, 1);
   translate(width/2, height/2);
-  pointLight(204, 204, 204, 1000, 1000, 1000);
-  text("Click for Laplacian smooth ("+counter+").",0,450);
   rotateY(mouseX*1.0f/width*TWO_PI);
   rotateX(mouseY*1.0f/height*TWO_PI);
-  noFill();
-  stroke(255, 0, 0);
- render.drawEdges(mesh);
   fill(255);
   noStroke();
   render.drawFaces(mesh);
+  stroke(0);
+  render.drawEdges(mesh);
+}
+
+
+void createMesh(){
+  HEC_SuperDuper creator=new HEC_SuperDuper();
+  creator.setU(16).setV(8).setRadius(50);
+  creator.setDonutParameters(0, 10, 10, 10, 3, 6, 12, 12, 3, 1);
+  mesh=new HE_Mesh(creator);
+  mesh.modify(new HEM_Extrude().setDistance(100).setChamfer(1));
+mesh.subdivide(new HES_Planar().setRandom(true).setRange(0.8));
   
 }
 
 void mousePressed(){
- HEM_Smooth smooth= new HEM_Smooth();
- mesh.modify(smooth);
- counter++;
+    HEM_Smooth modifier=new HEM_Smooth();
+  modifier.setIterations(4);
+  modifier.setAutoRescale(true);// rescale mesh to original extents
+  
+  mesh.modify(modifier);
+  
 }

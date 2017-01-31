@@ -65,7 +65,7 @@ public class WB_Transform {
 		final WB_Vector v1 = geometryfactory.createNormalizedVector(sourceDirection);
 		final WB_Vector v2 = geometryfactory.createNormalizedVector(targetDirection);
 		WB_Vector axis = v1.cross(v2);
-		final double l = axis.getLength3D();
+		final double l = axis.getLength();
 		if (WB_Epsilon.isZero(l)) {
 			if (v1.dot(v2) < 0.0) {
 				axis = geometryfactory.createNormalizedPerpendicularVector(sourceDirection);
@@ -91,7 +91,7 @@ public class WB_Transform {
 		final WB_Vector v1 = geometryfactory.createNormalizedVector(sourceDirection);
 		final WB_Vector v2 = geometryfactory.createNormalizedVector(targetDirection);
 		WB_Vector axis = v1.cross(v2);
-		final double l = axis.getLength3D();
+		final double l = axis.getLength();
 		if (WB_Epsilon.isZero(l)) {
 			if (v1.dot(v2) < 0.0) {
 				axis = geometryfactory.createNormalizedPerpendicularVector(sourceDirection);
@@ -466,7 +466,7 @@ public class WB_Transform {
 	 *
 	 * @return
 	 */
-	public WB_Transform addFromCSToCS(final WB_CoordinateSystem CS1, final WB_CoordinateSystem CS2) {
+	public WB_Transform addFromCSToCS(final WB_CoordinateSystem3D CS1, final WB_CoordinateSystem3D CS2) {
 		addFromCSToWorld(CS1);
 		addFromWorldToCS(CS2);
 		return this;
@@ -479,8 +479,8 @@ public class WB_Transform {
 	 *
 	 * @return
 	 */
-	public WB_Transform addFromCSToWorld(final WB_CoordinateSystem CS) {
-		WB_CoordinateSystem current = CS;
+	public WB_Transform addFromCSToWorld(final WB_CoordinateSystem3D CS) {
+		WB_CoordinateSystem3D current = CS;
 		while (!current.isWorld()) {
 			addFromCSToParent(current);
 			current = current.getParent();
@@ -494,7 +494,7 @@ public class WB_Transform {
 	 *
 	 * @return
 	 */
-	public WB_Transform addFromWorldToCS(final WB_CoordinateSystem CS) {
+	public WB_Transform addFromWorldToCS(final WB_CoordinateSystem3D CS) {
 		final WB_Transform tmp = new WB_Transform();
 		tmp.addFromCSToWorld(CS);
 		T = tmp.invT.mult(T);
@@ -508,8 +508,8 @@ public class WB_Transform {
 	 *
 	 * @return
 	 */
-	public WB_Transform addFromCSToParent(final WB_CoordinateSystem CS) {
-		final WB_CoordinateSystem WCS = WB_CoordinateSystem.WORLD();
+	public WB_Transform addFromCSToParent(final WB_CoordinateSystem3D CS) {
+		final WB_CoordinateSystem3D WCS = WB_CoordinateSystem3D.WORLD();
 		if (CS.isWorld()) {
 			return this;
 		}
@@ -540,7 +540,7 @@ public class WB_Transform {
 	 *
 	 * @return
 	 */
-	public WB_Transform addFromParentToCS(final WB_CoordinateSystem CS) {
+	public WB_Transform addFromParentToCS(final WB_CoordinateSystem3D CS) {
 		if (CS.isWorld()) {
 			return this;
 		}
@@ -589,6 +589,36 @@ public class WB_Transform {
 	}
 
 	/**
+	 * Apply transform to point.
+	 *
+	 * @param p
+	 *            point
+	 */
+	public void applyAsPointSelf(final WB_MutableCoord p) {
+		final double x = T.m11 * p.xd() + T.m12 * p.yd() + T.m13 * p.zd() + T.m14;
+		final double y = T.m21 * p.xd() + T.m22 * p.yd() + T.m23 * p.zd() + T.m24;
+		final double z = T.m31 * p.xd() + T.m32 * p.yd() + T.m33 * p.zd() + T.m34;
+		double wp = T.m41 * p.xd() + T.m42 * p.yd() + T.m43 * p.zd() + T.m44;
+		wp = 1.0 / wp;
+		p.set(x * wp, y * wp, z * wp);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param result
+	 */
+	public void applyAsPointInto(final WB_Coord p, final WB_MutableCoord result) {
+		_xt = T.m11 * p.xd() + T.m12 * p.yd() + T.m13 * p.zd() + T.m14;
+		_yt = T.m21 * p.xd() + T.m22 * p.yd() + T.m23 * p.zd() + T.m24;
+		_zt = T.m31 * p.xd() + T.m32 * p.yd() + T.m33 * p.zd() + T.m34;
+		double wp = T.m41 * p.xd() + T.m42 * p.yd() + T.m43 * p.zd() + T.m44;
+		wp = 1.0 / wp;
+		result.set(_xt * wp, _yt * wp, _zt * wp);
+	}
+
+	/**
 	 * Apply as point.
 	 *
 	 * @param x
@@ -612,18 +642,96 @@ public class WB_Transform {
 	}
 
 	/**
-	 * Apply transform to point.
+	 *
+	 *
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param result
+	 */
+	public void applyAsPointInto(final double x, final double y, final double z, final WB_MutableCoord result) {
+		_xt = T.m11 * x + T.m12 * y + T.m13 * z + T.m14;
+		_yt = T.m21 * x + T.m22 * y + T.m23 * z + T.m24;
+		_zt = T.m31 * x + T.m32 * y + T.m33 * z + T.m34;
+		double wp = T.m41 * x + T.m42 * y + T.m43 * z + T.m44;
+		wp = 1.0 / wp;
+		result.set(_xt * wp, _yt * wp, _zt * wp);
+	}
+
+	/**
 	 *
 	 * @param p
-	 *            point
+	 * @return
 	 */
-	public void applyAsPointSelf(final WB_MutableCoord p) {
-		final double x = T.m11 * p.xd() + T.m12 * p.yd() + T.m13 * p.zd() + T.m14;
-		final double y = T.m21 * p.xd() + T.m22 * p.yd() + T.m23 * p.zd() + T.m24;
-		final double z = T.m31 * p.xd() + T.m32 * p.yd() + T.m33 * p.zd() + T.m34;
-		double wp = T.m41 * p.xd() + T.m42 * p.yd() + T.m43 * p.zd() + T.m44;
+	public WB_Point applyInvAsPoint(final WB_Coord p) {
+		_xt = invT.m11 * p.xd() + invT.m12 * p.yd() + invT.m13 * p.zd() + invT.m14;
+		_yt = invT.m21 * p.xd() + invT.m22 * p.yd() + invT.m23 * p.zd() + invT.m24;
+		_zt = invT.m31 * p.xd() + invT.m32 * p.yd() + invT.m33 * p.zd() + invT.m34;
+		double wp = invT.m41 * p.xd() + invT.m42 * p.yd() + invT.m43 * p.zd() + invT.m44;
 		wp = 1.0 / wp;
-		p.set(x * wp, y * wp, z * wp);
+		return new WB_Point(_xt * wp, _yt * wp, _zt * wp);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 */
+	public void applyInvAsPointSelf(final WB_MutableCoord p) {
+		_xt = invT.m11 * p.xd() + invT.m12 * p.yd() + invT.m13 * p.zd() + invT.m14;
+		_yt = invT.m21 * p.xd() + invT.m22 * p.yd() + invT.m23 * p.zd() + invT.m24;
+		_zt = invT.m31 * p.xd() + invT.m32 * p.yd() + invT.m33 * p.zd() + invT.m34;
+		double wp = invT.m41 * p.xd() + invT.m42 * p.yd() + invT.m43 * p.zd() + invT.m44;
+		wp = 1.0 / wp;
+		p.set(_xt * wp, _yt * wp, _zt * wp);
+	}
+
+	/**
+	 *
+	 *
+	 * @param result
+	 * @param p
+	 */
+	public void applyInvAsPointInto(final WB_MutableCoord result, final WB_Coord p) {
+		_xt = invT.m11 * p.xd() + invT.m12 * p.yd() + invT.m13 * p.zd() + invT.m14;
+		_yt = invT.m21 * p.xd() + invT.m22 * p.yd() + invT.m23 * p.zd() + invT.m24;
+		_zt = invT.m31 * p.xd() + invT.m32 * p.yd() + invT.m33 * p.zd() + invT.m34;
+		double wp = invT.m41 * p.xd() + invT.m42 * p.yd() + invT.m43 * p.zd() + invT.m44;
+		wp = 1.0 / wp;
+		result.set(_xt * wp, _yt * wp, _zt * wp);
+	}
+
+	/**
+	 *
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
+	public WB_Point applyInvAsPoint(final double x, final double y, final double z) {
+		_xt = invT.m11 * x + invT.m12 * y + invT.m13 * z + invT.m14;
+		_yt = invT.m21 * x + invT.m22 * y + invT.m23 * z + invT.m24;
+		_zt = invT.m31 * x + invT.m32 * y + invT.m33 * z + invT.m34;
+		double wp = invT.m41 * x + invT.m42 * y + invT.m43 * z + invT.m44;
+		wp = 1.0 / wp;
+		return new WB_Point(_xt * wp, _yt * wp, _zt * wp);
+	}
+
+	/**
+	 *
+	 *
+	 * @param result
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public void applyInvAsPointInto(final WB_MutableCoord result, final double x, final double y, final double z) {
+		_xt = invT.m11 * x + invT.m12 * y + invT.m13 * z + invT.m14;
+		_yt = invT.m21 * x + invT.m22 * y + invT.m23 * z + invT.m24;
+		_zt = invT.m31 * x + invT.m32 * y + invT.m33 * z + invT.m34;
+		double wp = invT.m41 * x + invT.m42 * y + invT.m43 * z + invT.m44;
+		wp = 1.0 / wp;
+		result.set(_xt * wp, _yt * wp, _zt * wp);
 	}
 
 	/**
@@ -638,6 +746,32 @@ public class WB_Transform {
 		final double yp = T.m21 * p.xd() + T.m22 * p.yd() + T.m23 * p.zd();
 		final double zp = T.m31 * p.xd() + T.m32 * p.yd() + T.m33 * p.zd();
 		return new WB_Vector(xp, yp, zp);
+	}
+
+	/**
+	 * Apply transform to vector.
+	 *
+	 * @param p
+	 *            vector
+	 */
+	public void applyAsVectorSelf(final WB_MutableCoord p) {
+		final double x = T.m11 * p.xd() + T.m12 * p.yd() + T.m13 * p.zd();
+		final double y = T.m21 * p.xd() + T.m22 * p.yd() + T.m23 * p.zd();
+		final double z = T.m31 * p.xd() + T.m32 * p.yd() + T.m33 * p.zd();
+		p.set(x, y, z);
+	}
+
+	/**
+	 *
+	 *
+	 * @param result
+	 * @param p
+	 */
+	public void applyAsVectorInto(final WB_MutableCoord result, final WB_Coord p) {
+		_xt = T.m11 * p.xd() + T.m12 * p.yd() + T.m13 * p.zd();
+		_yt = T.m21 * p.xd() + T.m22 * p.yd() + T.m23 * p.zd();
+		_zt = T.m31 * p.xd() + T.m32 * p.yd() + T.m33 * p.zd();
+		result.set(_xt, _yt, _zt);
 	}
 
 	/**
@@ -659,16 +793,83 @@ public class WB_Transform {
 	}
 
 	/**
-	 * Apply transform to vector.
+	 *
+	 *
+	 * @param result
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public void applyAsVectorInto(final WB_MutableCoord result, final double x, final double y, final double z) {
+		_xt = T.m11 * x + T.m12 * y + T.m13 * z;
+		_yt = T.m21 * x + T.m22 * y + T.m23 * z;
+		_zt = T.m31 * x + T.m32 * y + T.m33 * z;
+		result.set(_xt, _yt, _zt);
+	}
+
+	/**
+	 *
 	 *
 	 * @param p
-	 *            vector
 	 */
-	public void applyAsVectorSelf(final WB_MutableCoord p) {
-		final double x = T.m11 * p.xd() + T.m12 * p.yd() + T.m13 * p.zd();
-		final double y = T.m21 * p.xd() + T.m22 * p.yd() + T.m23 * p.zd();
-		final double z = T.m31 * p.xd() + T.m32 * p.yd() + T.m33 * p.zd();
-		p.set(x, y, z);
+	public WB_Vector applyInvAsVector(final WB_Coord p) {
+		_xt = invT.m11 * p.xd() + invT.m12 * p.yd() + invT.m13 * p.zd();
+		_yt = invT.m21 * p.xd() + invT.m22 * p.yd() + invT.m23 * p.zd();
+		_zt = invT.m31 * p.xd() + invT.m32 * p.yd() + invT.m33 * p.zd();
+		return new WB_Vector(_xt, _yt, _zt);
+	}
+
+	/**
+	 *
+	 * @param v
+	 */
+	public void applyInvAsVectorSelf(final WB_MutableCoord v) {
+		_xt = invT.m11 * v.xd() + invT.m12 * v.yd() + invT.m13 * v.zd();
+		_yt = invT.m21 * v.xd() + invT.m22 * v.yd() + invT.m23 * v.zd();
+		_zt = invT.m31 * v.xd() + invT.m32 * v.yd() + invT.m33 * v.zd();
+		v.set(_xt, _yt, _zt);
+	}
+
+	/**
+	 *
+	 *
+	 * @param result
+	 * @param p
+	 */
+	public void applyInvAsVectorInto(final WB_MutableCoord result, final WB_Coord p) {
+		_xt = invT.m11 * p.xd() + invT.m12 * p.yd() + invT.m13 * p.zd();
+		_yt = invT.m21 * p.xd() + invT.m22 * p.yd() + invT.m23 * p.zd();
+		_zt = invT.m31 * p.xd() + invT.m32 * p.yd() + invT.m33 * p.zd();
+		result.set(_xt, _yt, _zt);
+	}
+
+	/**
+	 *
+	 *
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public WB_Vector applyInvAsVector(final double x, final double y, final double z) {
+		_xt = invT.m11 * x + invT.m12 * y + invT.m13 * z;
+		_yt = invT.m21 * x + invT.m22 * y + invT.m23 * z;
+		_zt = invT.m31 * x + invT.m32 * y + invT.m33 * z;
+		return new WB_Vector(_xt, _yt, _zt);
+	}
+
+	/**
+	 *
+	 *
+	 * @param result
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public void applyInvAsVectorInto(final WB_MutableCoord result, final double x, final double y, final double z) {
+		_xt = invT.m11 * x + invT.m12 * y + invT.m13 * z;
+		_yt = invT.m21 * x + invT.m22 * y + invT.m23 * z;
+		_zt = invT.m31 * x + invT.m32 * y + invT.m33 * z;
+		result.set(_xt, _yt, _zt);
 	}
 
 	/**
@@ -683,6 +884,32 @@ public class WB_Transform {
 		final double ny = invT.m12 * p.xd() + invT.m22 * p.yd() + invT.m32 * p.zd();
 		final double nz = invT.m13 * p.xd() + invT.m23 * p.yd() + invT.m33 * p.zd();
 		return new WB_Vector(nx, ny, nz);
+	}
+
+	/**
+	 * Apply transform to normal.
+	 *
+	 * @param n
+	 *            normal
+	 */
+	public void applyAsNormalSelf(final WB_MutableCoord n) {
+		final double x = invT.m11 * n.xd() + invT.m21 * n.yd() + invT.m31 * n.zd();
+		final double y = invT.m12 * n.xd() + invT.m22 * n.yd() + invT.m32 * n.zd();
+		final double z = invT.m13 * n.xd() + invT.m23 * n.yd() + invT.m33 * n.zd();
+		n.set(x, y, z);
+	}
+
+	/**
+	 *
+	 *
+	 * @param result
+	 * @param n
+	 */
+	public void applyAsNormalInto(final WB_MutableCoord result, final WB_Coord n) {
+		_xt = invT.m11 * n.xd() + invT.m21 * n.yd() + invT.m31 * n.zd();
+		_yt = invT.m12 * n.xd() + invT.m22 * n.yd() + invT.m32 * n.zd();
+		_zt = invT.m13 * n.xd() + invT.m23 * n.yd() + invT.m33 * n.zd();
+		result.set(_xt, _yt, _zt);
 	}
 
 	/**
@@ -704,100 +931,14 @@ public class WB_Transform {
 	}
 
 	/**
-	 * Apply transform to normal.
-	 *
-	 * @param n
-	 *            normal
-	 */
-	public void applyAsNormalSelf(final WB_MutableCoord n) {
-		final double x = invT.m11 * n.xd() + invT.m21 * n.yd() + invT.m31 * n.zd();
-		final double y = invT.m12 * n.xd() + invT.m22 * n.yd() + invT.m32 * n.zd();
-		final double z = invT.m13 * n.xd() + invT.m23 * n.yd() + invT.m33 * n.zd();
-		n.set(x, y, z);
-	}
-
-	/**
 	 *
 	 *
-	 * @param p
 	 * @param result
-	 */
-	public void applyAsPoint(final WB_Coord p, final WB_MutableCoord result) {
-		_xt = T.m11 * p.xd() + T.m12 * p.yd() + T.m13 * p.zd() + T.m14;
-		_yt = T.m21 * p.xd() + T.m22 * p.yd() + T.m23 * p.zd() + T.m24;
-		_zt = T.m31 * p.xd() + T.m32 * p.yd() + T.m33 * p.zd() + T.m34;
-		double wp = T.m41 * p.xd() + T.m42 * p.yd() + T.m43 * p.zd() + T.m44;
-		wp = 1.0 / wp;
-		result.set(_xt * wp, _yt * wp, _zt * wp);
-	}
-
-	/**
-	 *
-	 *
 	 * @param x
 	 * @param y
 	 * @param z
-	 * @param result
 	 */
-	public void applyAsPoint(final double x, final double y, final double z, final WB_MutableCoord result) {
-		_xt = T.m11 * x + T.m12 * y + T.m13 * z + T.m14;
-		_yt = T.m21 * x + T.m22 * y + T.m23 * z + T.m24;
-		_zt = T.m31 * x + T.m32 * y + T.m33 * z + T.m34;
-		double wp = T.m41 * x + T.m42 * y + T.m43 * z + T.m44;
-		wp = 1.0 / wp;
-		result.set(_xt * wp, _yt * wp, _zt * wp);
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @param result
-	 */
-	public void applyAsVector(final WB_Coord p, final WB_MutableCoord result) {
-		_xt = T.m11 * p.xd() + T.m12 * p.yd() + T.m13 * p.zd();
-		_yt = T.m21 * p.xd() + T.m22 * p.yd() + T.m23 * p.zd();
-		_zt = T.m31 * p.xd() + T.m32 * p.yd() + T.m33 * p.zd();
-		result.set(_xt, _yt, _zt);
-	}
-
-	/**
-	 *
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param result
-	 */
-	public void applyAsVector(final double x, final double y, final double z, final WB_MutableCoord result) {
-		_xt = T.m11 * x + T.m12 * y + T.m13 * z;
-		_yt = T.m21 * x + T.m22 * y + T.m23 * z;
-		_zt = T.m31 * x + T.m32 * y + T.m33 * z;
-		result.set(_xt, _yt, _zt);
-	}
-
-	/**
-	 *
-	 *
-	 * @param n
-	 * @param result
-	 */
-	public void applyAsNormal(final WB_Coord n, final WB_MutableCoord result) {
-		_xt = invT.m11 * n.xd() + invT.m21 * n.yd() + invT.m31 * n.zd();
-		_yt = invT.m12 * n.xd() + invT.m22 * n.yd() + invT.m32 * n.zd();
-		_zt = invT.m13 * n.xd() + invT.m23 * n.yd() + invT.m33 * n.zd();
-		result.set(_xt, _yt, _zt);
-	}
-
-	/**
-	 *
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param result
-	 */
-	public void applyAsNormal(final double x, final double y, final double z, final WB_MutableCoord result) {
+	public void applyAsNormalInto(final WB_MutableCoord result, final double x, final double y, final double z) {
 		_xt = invT.m11 * x + invT.m21 * y + invT.m31 * z;
 		_yt = invT.m12 * x + invT.m22 * y + invT.m32 * z;
 		_zt = invT.m13 * x + invT.m23 * y + invT.m33 * z;
@@ -807,70 +948,34 @@ public class WB_Transform {
 	/**
 	 *
 	 *
-	 * @param p
-	 * @param result
+	 * @param n
 	 */
-	public void applyInvAsPoint(final WB_Coord p, final WB_MutableCoord result) {
-		_xt = invT.m11 * p.xd() + invT.m12 * p.yd() + invT.m13 * p.zd() + invT.m14;
-		_yt = invT.m21 * p.xd() + invT.m22 * p.yd() + invT.m23 * p.zd() + invT.m24;
-		_zt = invT.m31 * p.xd() + invT.m32 * p.yd() + invT.m33 * p.zd() + invT.m34;
-		double wp = invT.m41 * p.xd() + invT.m42 * p.yd() + invT.m43 * p.zd() + invT.m44;
-		wp = 1.0 / wp;
-		result.set(_xt * wp, _yt * wp, _zt * wp);
-	}
-
-	/**
-	 *
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param result
-	 */
-	public void applyInvAsPoint(final double x, final double y, final double z, final WB_MutableCoord result) {
-		_xt = invT.m11 * x + invT.m12 * y + invT.m13 * z + invT.m14;
-		_yt = invT.m21 * x + invT.m22 * y + invT.m23 * z + invT.m24;
-		_zt = invT.m31 * x + invT.m32 * y + invT.m33 * z + invT.m34;
-		double wp = invT.m41 * x + invT.m42 * y + invT.m43 * z + invT.m44;
-		wp = 1.0 / wp;
-		result.set(_xt * wp, _yt * wp, _zt * wp);
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 * @param result
-	 */
-	public void applyInvAsVector(final WB_Coord p, final WB_MutableCoord result) {
-		_xt = invT.m11 * p.xd() + invT.m12 * p.yd() + invT.m13 * p.zd();
-		_yt = invT.m21 * p.xd() + invT.m22 * p.yd() + invT.m23 * p.zd();
-		_zt = invT.m31 * p.xd() + invT.m32 * p.yd() + invT.m33 * p.zd();
-		result.set(_xt, _yt, _zt);
-	}
-
-	/**
-	 *
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param result
-	 */
-	public void applyInvAsVector(final double x, final double y, final double z, final WB_MutableCoord result) {
-		_xt = invT.m11 * x + invT.m12 * y + invT.m13 * z;
-		_yt = invT.m21 * x + invT.m22 * y + invT.m23 * z;
-		_zt = invT.m31 * x + invT.m32 * y + invT.m33 * z;
-		result.set(_xt, _yt, _zt);
+	public WB_Vector applyInvAsNormal(final WB_Coord n) {
+		_xt = T.m11 * n.xd() + T.m21 * n.yd() + T.m31 * n.zd();
+		_yt = T.m12 * n.xd() + T.m22 * n.yd() + T.m32 * n.zd();
+		_zt = T.m13 * n.xd() + T.m23 * n.yd() + T.m33 * n.zd();
+		return new WB_Vector(_xt, _yt, _zt);
 	}
 
 	/**
 	 *
 	 *
 	 * @param n
-	 * @param result
 	 */
-	public void applyInvAsNormal(final WB_Coord n, final WB_MutableCoord result) {
+	public void applyInvAsNormalSelf(final WB_MutableCoord n) {
+		_xt = T.m11 * n.xd() + T.m21 * n.yd() + T.m31 * n.zd();
+		_yt = T.m12 * n.xd() + T.m22 * n.yd() + T.m32 * n.zd();
+		_zt = T.m13 * n.xd() + T.m23 * n.yd() + T.m33 * n.zd();
+		n.set(_xt, _yt, _zt);
+	}
+
+	/**
+	 *
+	 *
+	 * @param result
+	 * @param n
+	 */
+	public void applyInvAsNormalInto(final WB_MutableCoord result, final WB_Coord n) {
 		_xt = T.m11 * n.xd() + T.m21 * n.yd() + T.m31 * n.zd();
 		_yt = T.m12 * n.xd() + T.m22 * n.yd() + T.m32 * n.zd();
 		_zt = T.m13 * n.xd() + T.m23 * n.yd() + T.m33 * n.zd();
@@ -883,9 +988,23 @@ public class WB_Transform {
 	 * @param x
 	 * @param y
 	 * @param z
-	 * @param result
 	 */
-	public void applyInvAsNormal(final double x, final double y, final double z, final WB_MutableCoord result) {
+	public WB_Vector applyInvAsNormal(final double x, final double y, final double z) {
+		_xt = T.m11 * x + T.m21 * y + T.m31 * z;
+		_yt = T.m12 * x + T.m22 * y + T.m32 * z;
+		_zt = T.m13 * x + T.m23 * y + T.m33 * z;
+		return new WB_Vector(_xt, _yt, _zt);
+	}
+
+	/**
+	 *
+	 *
+	 * @param result
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public void applyInvAsNormalInto(final WB_MutableCoord result, final double x, final double y, final double z) {
 		_xt = T.m11 * x + T.m21 * y + T.m31 * z;
 		_yt = T.m12 * x + T.m22 * y + T.m32 * z;
 		_zt = T.m13 * x + T.m23 * y + T.m33 * z;
@@ -932,124 +1051,5 @@ public class WB_Transform {
 			phi = Math.atan2(T.m21 * ic, T.m11 * ic);
 		}
 		return geometryfactory.createVector(psi, theta, phi);
-	}
-
-	/**
-	 *
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 */
-	public WB_Vector applyInvAsNormal(final double x, final double y, final double z) {
-		_xt = T.m11 * x + T.m21 * y + T.m31 * z;
-		_yt = T.m12 * x + T.m22 * y + T.m32 * z;
-		_zt = T.m13 * x + T.m23 * y + T.m33 * z;
-		return new WB_Vector(_xt, _yt, _zt);
-	}
-
-	/**
-	 *
-	 *
-	 * @param n
-	 */
-	public WB_Vector applyInvAsNormal(final WB_Coord n) {
-		_xt = T.m11 * n.xd() + T.m21 * n.yd() + T.m31 * n.zd();
-		_yt = T.m12 * n.xd() + T.m22 * n.yd() + T.m32 * n.zd();
-		_zt = T.m13 * n.xd() + T.m23 * n.yd() + T.m33 * n.zd();
-		return new WB_Vector(_xt, _yt, _zt);
-	}
-
-	/**
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
-	 */
-	public WB_Point applyInvAsPoint(final double x, final double y, final double z) {
-		_xt = invT.m11 * x + invT.m12 * y + invT.m13 * z + invT.m14;
-		_yt = invT.m21 * x + invT.m22 * y + invT.m23 * z + invT.m24;
-		_zt = invT.m31 * x + invT.m32 * y + invT.m33 * z + invT.m34;
-		double wp = invT.m41 * x + invT.m42 * y + invT.m43 * z + invT.m44;
-		wp = 1.0 / wp;
-		return new WB_Point(_xt * wp, _yt * wp, _zt * wp);
-	}
-
-	/**
-	 *
-	 * @param p
-	 * @return
-	 */
-	public WB_Point applyInvAsPoint(final WB_Coord p) {
-		_xt = invT.m11 * p.xd() + invT.m12 * p.yd() + invT.m13 * p.zd() + invT.m14;
-		_yt = invT.m21 * p.xd() + invT.m22 * p.yd() + invT.m23 * p.zd() + invT.m24;
-		_zt = invT.m31 * p.xd() + invT.m32 * p.yd() + invT.m33 * p.zd() + invT.m34;
-		double wp = invT.m41 * p.xd() + invT.m42 * p.yd() + invT.m43 * p.zd() + invT.m44;
-		wp = 1.0 / wp;
-		return new WB_Point(_xt * wp, _yt * wp, _zt * wp);
-	}
-
-	/**
-	 *
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 */
-	public WB_Vector applyInvAsVector(final double x, final double y, final double z) {
-		_xt = invT.m11 * x + invT.m12 * y + invT.m13 * z;
-		_yt = invT.m21 * x + invT.m22 * y + invT.m23 * z;
-		_zt = invT.m31 * x + invT.m32 * y + invT.m33 * z;
-		return new WB_Vector(_xt, _yt, _zt);
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 */
-	public WB_Vector applyInvAsVector(final WB_Coord p) {
-		_xt = invT.m11 * p.xd() + invT.m12 * p.yd() + invT.m13 * p.zd();
-		_yt = invT.m21 * p.xd() + invT.m22 * p.yd() + invT.m23 * p.zd();
-		_zt = invT.m31 * p.xd() + invT.m32 * p.yd() + invT.m33 * p.zd();
-		return new WB_Vector(_xt, _yt, _zt);
-	}
-
-	/**
-	 *
-	 *
-	 * @param n
-	 */
-	public void applyInvAsNormalSelf(final WB_MutableCoord n) {
-		_xt = T.m11 * n.xd() + T.m21 * n.yd() + T.m31 * n.zd();
-		_yt = T.m12 * n.xd() + T.m22 * n.yd() + T.m32 * n.zd();
-		_zt = T.m13 * n.xd() + T.m23 * n.yd() + T.m33 * n.zd();
-		n.set(_xt, _yt, _zt);
-	}
-
-	/**
-	 *
-	 *
-	 * @param p
-	 */
-	public void applyInvAsPointSelf(final WB_MutableCoord p) {
-		_xt = invT.m11 * p.xd() + invT.m12 * p.yd() + invT.m13 * p.zd() + invT.m14;
-		_yt = invT.m21 * p.xd() + invT.m22 * p.yd() + invT.m23 * p.zd() + invT.m24;
-		_zt = invT.m31 * p.xd() + invT.m32 * p.yd() + invT.m33 * p.zd() + invT.m34;
-		double wp = invT.m41 * p.xd() + invT.m42 * p.yd() + invT.m43 * p.zd() + invT.m44;
-		wp = 1.0 / wp;
-		p.set(_xt * wp, _yt * wp, _zt * wp);
-	}
-
-	/**
-	 *
-	 * @param v
-	 */
-	public void applyInvAsVectorSelf(final WB_MutableCoord v) {
-		_xt = invT.m11 * v.xd() + invT.m12 * v.yd() + invT.m13 * v.zd();
-		_yt = invT.m21 * v.xd() + invT.m22 * v.yd() + invT.m23 * v.zd();
-		_zt = invT.m31 * v.xd() + invT.m32 * v.yd() + invT.m33 * v.zd();
-		v.set(_xt, _yt, _zt);
 	}
 }

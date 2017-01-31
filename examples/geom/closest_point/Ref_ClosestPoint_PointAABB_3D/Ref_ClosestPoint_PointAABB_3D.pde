@@ -6,15 +6,15 @@ WB_AABB AABB;
 int numPoints;
 WB_Render3D render;
 void setup() {
-  size(800, 800, P3D);
-  background(255);
+  size(1000, 1000, P3D);
+  background(55);
   render=new WB_Render3D(this);
   noFill();
   create();
 }
 
 void draw() {
-  background(255); 
+  background(55); 
   translate(width/2, height/2);
   rotateY(mouseX*1.0/width*TWO_PI-PI);
   rotateX(mouseY*1.0/height*TWO_PI-PI);

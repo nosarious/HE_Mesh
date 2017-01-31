@@ -18,7 +18,7 @@ import javolution.util.FastTable;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_Frame;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_KDTree;
 import wblut.geom.WB_KDTree.WB_KDEntry;
 import wblut.geom.WB_Mesh;
@@ -136,9 +136,9 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * @return self
 	 */
 	public HE_Mesh modify(final HEM_Modifier modifier) {
-
-		updateFaces();
-		return modifier.apply(this);
+		modifier.apply(this);
+		update();
+		return this;
 	}
 
 	/**
@@ -149,9 +149,9 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * @return self
 	 */
 	public HE_Mesh subdivide(final HES_Subdividor subdividor) {
-
-		updateFaces();
-		return subdividor.apply(this);
+		subdividor.apply(this);
+		update();
+		return this;
 	}
 
 	/**
@@ -166,9 +166,9 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh subdivide(final HES_Subdividor subdividor, final int rep) {
 
-		updateFaces();
 		for (int i = 0; i < rep; i++) {
 			subdividor.apply(this);
+			update();
 		}
 		return this;
 	}
@@ -177,7 +177,9 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * Smooth.
 	 */
 	public void smooth() {
+
 		subdivide(new HES_CatmullClark());
+		update();
 	}
 
 	/**
@@ -186,7 +188,9 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * @param rep
 	 */
 	public void smooth(final int rep) {
+
 		subdivide(new HES_CatmullClark(), rep);
+		update();
 	}
 
 	/**
@@ -197,9 +201,9 @@ public class HE_Mesh extends HE_MeshStructure {
 	 * @return the h e_ mesh
 	 */
 	public HE_Mesh simplify(final HES_Simplifier simplifier) {
-
-		updateFaces();
-		return simplifier.apply(this);
+		simplifier.apply(this);
+		update();
+		return this;
 	}
 
 	/**
@@ -255,7 +259,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh applySelf(final WB_Transform T) {
 
-		updateFaces();
+		update();
 		return modify(new HEM_Transform(T));
 	}
 
@@ -269,7 +273,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh transformSelf(final WB_Transform T) {
 
-		updateFaces();
+		update();
 		return modify(new HEM_Transform(T));
 	}
 
@@ -298,7 +302,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh moveSelf(final double x, final double y, final double z) {
 
-		updateFaces();
+		update();
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
 			vItr.next().addSelf(x, y, z);
@@ -335,7 +339,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh moveSelf(final WB_Coord v) {
 
-		updateFaces();
+		update();
 		return moveSelf(v.xd(), v.yd(), v.zd());
 	}
 
@@ -363,7 +367,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh moveToSelf(final double x, final double y, final double z) {
 
-		updateFaces();
+		update();
 		WB_Point center = getCenter();
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
@@ -402,7 +406,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh moveToSelf(final WB_Coord v) {
 
-		updateFaces();
+		update();
 		return moveToSelf(v.xd(), v.yd(), v.zd());
 	}
 
@@ -439,7 +443,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	public HE_Mesh rotateAboutAxis2PSelf(final double angle, final double p1x, final double p1y, final double p1z,
 			final double p2x, final double p2y, final double p2z) {
 
-		updateFaces();
+		update();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -497,7 +501,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh rotateAboutAxis2PSelf(final double angle, final WB_Coord p1, final WB_Coord p2) {
 
-		updateFaces();
+		update();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -547,7 +551,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh rotateAboutAxisSelf(final double angle, final WB_Coord p, final WB_Coord a) {
 
-		updateFaces();
+		update();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -600,7 +604,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	public HE_Mesh rotateAboutAxisSelf(final double angle, final double px, final double py, final double pz,
 			final double ax, final double ay, final double az) {
 
-		updateFaces();
+		update();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -650,7 +654,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh rotateAboutOriginSelf(final double angle, final WB_Coord a) {
 
-		updateFaces();
+		update();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -696,7 +700,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh rotateAboutOriginSelf(final double angle, final double ax, final double ay, final double az) {
 
-		updateFaces();
+		update();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		final WB_Transform raa = new WB_Transform();
@@ -742,7 +746,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh rotateAboutCenterSelf(final double angle, final WB_Coord a) {
 
-		updateFaces();
+		update();
 		return rotateAboutAxisSelf(angle, getCenter(), a);
 	}
 
@@ -771,7 +775,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh rotateAboutCenterSelf(final double angle, final double ax, final double ay, final double az) {
 
-		updateFaces();
+		update();
 		return rotateAboutAxisSelf(angle, getCenter(), new WB_Vector(ax, ay, az));
 	}
 
@@ -804,7 +808,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	public HE_Mesh scaleSelf(final double scaleFactorx, final double scaleFactory, final double scaleFactorz,
 			final WB_Coord c) {
 
-		updateFaces();
+		update();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
 		while (vItr.hasNext()) {
@@ -854,7 +858,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh scaleSelf(final double scaleFactor, final WB_Coord c) {
 
-		updateFaces();
+		update();
 		return scaleSelf(scaleFactor, scaleFactor, scaleFactor, c);
 	}
 
@@ -884,7 +888,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh scaleSelf(final double scaleFactorx, final double scaleFactory, final double scaleFactorz) {
 
-		updateFaces();
+		update();
 		WB_Point center = getCenter();
 		HE_Vertex v;
 		final Iterator<HE_Vertex> vItr = vItr();
@@ -931,7 +935,7 @@ public class HE_Mesh extends HE_MeshStructure {
 	 */
 	public HE_Mesh scaleSelf(final double scaleFactor) {
 
-		updateFaces();
+		update();
 		return scaleSelf(scaleFactor, scaleFactor, scaleFactor);
 	}
 
@@ -1347,8 +1351,8 @@ public class HE_Mesh extends HE_MeshStructure {
 		WB_Coord result = new WB_Point();
 		for (int i = 0; i < faces.size(); i++) {
 			final WB_Polygon poly = faces.get(i).toPolygon();
-			final WB_Coord tmp = WB_GeometryOp.getClosestPoint3D(p, poly);
-			d = WB_GeometryOp.getSqDistance3D(tmp, p);
+			final WB_Coord tmp = WB_GeometryOp3D.getClosestPoint3D(p, poly);
+			d = WB_GeometryOp3D.getSqDistance3D(tmp, p);
 			if (d < dmin) {
 				dmin = d;
 				result = tmp;
@@ -1374,8 +1378,8 @@ public class HE_Mesh extends HE_MeshStructure {
 		HE_Face face = new HE_Face();
 		for (int i = 0; i < faces.size(); i++) {
 			final WB_Polygon poly = faces.get(i).toPolygon();
-			final WB_Coord tmp = WB_GeometryOp.getClosestPoint3D(p, poly);
-			d = WB_GeometryOp.getSqDistance3D(tmp, p);
+			final WB_Coord tmp = WB_GeometryOp3D.getClosestPoint3D(p, poly);
+			d = WB_GeometryOp3D.getSqDistance3D(tmp, p);
 			if (d < dmin) {
 				dmin = d;
 				face = faces.get(i);
@@ -1488,7 +1492,7 @@ public class HE_Mesh extends HE_MeshStructure {
 			v.set(values[i][0], values[i][1], values[i][2]);
 			i++;
 		}
-		updateFaces();
+		update();
 	}
 
 	/**
@@ -1510,7 +1514,7 @@ public class HE_Mesh extends HE_MeshStructure {
 			v.set(values[i], values[i + 1], values[i + 2]);
 			i += 3;
 		}
-		updateFaces();
+		update();
 	}
 
 	/**
@@ -1532,7 +1536,7 @@ public class HE_Mesh extends HE_MeshStructure {
 			v.set(values[i]);
 			i++;
 		}
-		updateFaces();
+		update();
 	}
 
 	/**
@@ -1554,7 +1558,7 @@ public class HE_Mesh extends HE_MeshStructure {
 			v.set(values.get(i));
 			i++;
 		}
-		updateFaces();
+		update();
 	}
 
 	/**
@@ -1577,7 +1581,7 @@ public class HE_Mesh extends HE_MeshStructure {
 			v.set(values[i][0], values[i][1], values[i][2]);
 			i++;
 		}
-		updateFaces();
+		update();
 	}
 
 	/**
@@ -1599,7 +1603,7 @@ public class HE_Mesh extends HE_MeshStructure {
 			v.set(values[i], values[i + 1], values[i + 2]);
 			i += 3;
 		}
-		updateFaces();
+		update();
 	}
 
 	/**
@@ -1622,7 +1626,7 @@ public class HE_Mesh extends HE_MeshStructure {
 			v.set(values[i][0], values[i][1], values[i][2]);
 			i++;
 		}
-		updateFaces();
+		update();
 	}
 
 	/**
@@ -1644,7 +1648,7 @@ public class HE_Mesh extends HE_MeshStructure {
 			v.set(values[i], values[i + 1], values[i + 2]);
 			i += 3;
 		}
-		updateFaces();
+		update();
 	}
 
 	public WB_Coord getFaceNormal(final int id) {

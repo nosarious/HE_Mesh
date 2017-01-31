@@ -9,7 +9,7 @@
  */
 package wblut.hemesh;
 
-import static wblut.geom.WB_GeometryOp.projectOnPlane;
+import static wblut.geom.WB_GeometryOp3D.projectOnPlane;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import javolution.util.FastTable;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Map2D;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
@@ -710,7 +710,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 		final WB_Plane P = getPlane();
 		HE_Halfedge he = getHalfedge();
 		do {
-			if (!WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(he.getVertex(), P))) {
+			if (!WB_Epsilon.isZero(WB_GeometryOp3D.getDistance3D(he.getVertex(), P))) {
 				return false;
 			}
 			he = he.getNextInFace();

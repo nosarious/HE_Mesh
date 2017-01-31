@@ -11,7 +11,7 @@ ArrayList<WB_Point>[] holes;
 WB_Polygon polygon;
 List<WB_Polygon> buffer;
 void setup() {
-  size(800, 800,P3D);
+  size(1000, 1000,P3D);
   smooth(8);
   render=new WB_Render2D(this);
   shell= new ArrayList<WB_Point>();
@@ -39,11 +39,11 @@ void setup() {
   for (int i=2; i<16; i++) {
     buffer.addAll(gf.createBufferedPolygons(polygon, 10*i));
   }
-  background(255);
+  background(55);
 }
 
 void draw() {
-  background(255);
+  background(55);
   translate(width/2, height/2);
   scale(1, -1);
   fill(255, 0, 0);

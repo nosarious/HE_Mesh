@@ -16,7 +16,7 @@ import javolution.util.FastTable;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryFactory;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_IntersectionResult;
 import wblut.geom.WB_Line;
 import wblut.geom.WB_Plane;
@@ -46,7 +46,7 @@ class HET_FaceSplitter {
 	List<HE_Vertex[]> splitFace(final HE_Face f, final WB_Plane P) {
 		List<HE_Vertex[]> subfaces = new ArrayList<HE_Vertex[]>();
 		WB_Plane Q = f.getPlane();
-		WB_IntersectionResult intersection = WB_GeometryOp.getIntersection3D(P, Q);
+		WB_IntersectionResult intersection = WB_GeometryOp3D.getIntersection3D(P, Q);
 		if (!intersection.intersection) {
 
 			return null;
@@ -66,9 +66,9 @@ class HET_FaceSplitter {
 		edgesOnLine = new FastTable<PolyEdge>();
 		for (int i = 0; i < coords.size(); i++) {
 
-			WB_Classification edgeStartSide = WB_GeometryOp.classifyPointToPlane3D(coords.get(i), P);
+			WB_Classification edgeStartSide = WB_GeometryOp3D.classifyPointToPlane3D(coords.get(i), P);
 			splitPoly.add(new PolyEdge(coords.get(i), edgeStartSide));
-			if (WB_GeometryOp.classifyPointToPlane3D(coords.get(i), P) == ON) {
+			if (WB_GeometryOp3D.classifyPointToPlane3D(coords.get(i), P) == ON) {
 				edgesOnLine.add(splitPoly.get(splitPoly.size() - 1));
 			}
 			// all split are dealt with before calling HET_FaceSplitter
@@ -248,7 +248,7 @@ class HET_FaceSplitter {
 
 		@Override
 		public int compare(final PolyEdge e0, final PolyEdge e1) {
-			double d = WB_GeometryOp.getParameterOfPointOnLine3D(e0.pos, L) - WB_GeometryOp.getParameterOfPointOnLine3D(e1.pos, L);
+			double d = WB_GeometryOp3D.getParameterOfPointOnLine3D(e0.pos, L) - WB_GeometryOp3D.getParameterOfPointOnLine3D(e1.pos, L);
 			return WB_Epsilon.isZero(d) ? 0 : d > 0 ? 1 : -1;
 		}
 	}

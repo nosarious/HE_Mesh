@@ -15,7 +15,7 @@ String fontname;
 WB_AABB AABB;
 
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
   render=new WB_Render2D(this);
   
@@ -30,11 +30,11 @@ void setup() {
   
   createAABB();
   textAlign(CENTER); // no effect on HE_Mesh
-  background(255);
+  background(55);
 }
 
 void draw() {
-  background(255);
+  background(55);
   translate(width/2, height/2);
   fill(0);
   text("click" , 0,350);

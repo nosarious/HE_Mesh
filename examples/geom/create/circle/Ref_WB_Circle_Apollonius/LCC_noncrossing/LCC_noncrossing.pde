@@ -17,7 +17,7 @@ void setup() {
 }
 
 void create() {
-  L= factory.createLineWithDirection(width/2, height/2-130, 1, 0);
+  L= factory.createLineWithDirection2D(width/2, height/2-130, 1, 0);
   C1= factory.createCircleWithRadius( width/2, height/2, 100);
   C2= factory.createCircleWithRadius( mouseX, mouseY,80);
   circles=factory.createCircleLCC(L, C1, C2);

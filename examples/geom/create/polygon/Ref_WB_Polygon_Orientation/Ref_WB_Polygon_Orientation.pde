@@ -10,7 +10,7 @@ WB_Polygon polygon;
 boolean flip;
 
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
   render=new WB_Render2D(this);
   shell= new ArrayList<WB_Point>();
@@ -20,12 +20,12 @@ void setup() {
   } 
   polygon=gf.createSimplePolygon(shell);
 
-  background(255);
+  background(55);
   textAlign(CENTER);
 }
 
 void draw() {
-  background(255);
+  background(55);
   translate(width/2, height/2);
   if (flip) scale(1, -1);
   fill(255, 0, 0);

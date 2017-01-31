@@ -144,7 +144,7 @@ public class WB_Sphere {
 	 */
 	public void growSpherebyPoint(final WB_Coord p) {
 		final WB_Vector d = WB_Point.subToVector3D(p, center);
-		final double dist2 = d.getSqLength3D();
+		final double dist2 = d.getSqLength();
 		if (dist2 > radius * radius) {
 			final double dist = Math.sqrt(dist2);
 			final double newRadius = (radius + dist) * 0.5;
@@ -171,7 +171,7 @@ public class WB_Sphere {
 	}
 
 	public boolean contains(final WB_Coord p) {
-		return center.getSqDistance3D(p) <= r2;
+		return center.getSqDistance(p) <= r2;
 
 	}
 }

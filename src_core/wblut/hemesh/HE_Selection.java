@@ -15,7 +15,7 @@ import java.util.List;
 import javolution.util.FastTable;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Vector;
 import wblut.hemesh.HE_RAS.HE_RASTrove;
@@ -52,8 +52,9 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return self
 	 */
 	public HE_Mesh modify(final HEM_Modifier modifier) {
-		updateFaces();
-		return modifier.apply(this);
+		modifier.apply(this);
+		update();
+		return this.parent;
 	}
 
 	/**
@@ -64,9 +65,9 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return self
 	 */
 	public HE_Mesh subdivide(final HES_Subdividor subdividor) {
-
-		updateFaces();
-		return subdividor.apply(this);
+		subdividor.apply(this);
+		update();
+		return this.parent;
 	}
 
 	/**
@@ -80,10 +81,12 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return self
 	 */
 	public HE_Mesh subdivide(final HES_Subdividor subdividor, final int rep) {
-		for (int i = 0; i < rep - 1; i++) {
+
+		for (int i = 0; i < rep; i++) {
 			subdividor.apply(this);
+			update();
 		}
-		return subdivide(subdividor);
+		return this.parent;
 	}
 
 	/**
@@ -94,8 +97,9 @@ public class HE_Selection extends HE_MeshStructure {
 	 * @return the h e_ mesh
 	 */
 	public HE_Mesh simplify(final HES_Simplifier simplifier) {
-		updateFaces();
-		return simplifier.apply(this);
+		simplifier.apply(this);
+		update();
+		return this.parent;
 	}
 
 	/**
@@ -1512,7 +1516,7 @@ public class HE_Selection extends HE_MeshStructure {
 		HE_Vertex v;
 		while (vitr.hasNext()) {
 			v = vitr.next();
-			if (WB_GeometryOp.classifyPointToPlane3D(v, P) == WB_Classification.FRONT) {
+			if (WB_GeometryOp3D.classifyPointToPlane3D(v, P) == WB_Classification.FRONT) {
 				_selection.add(v);
 			}
 		}
@@ -1531,7 +1535,7 @@ public class HE_Selection extends HE_MeshStructure {
 		HE_Vertex v;
 		while (vitr.hasNext()) {
 			v = vitr.next();
-			if (WB_GeometryOp.classifyPointToPlane3D(v, P) == WB_Classification.BACK) {
+			if (WB_GeometryOp3D.classifyPointToPlane3D(v, P) == WB_Classification.BACK) {
 				_selection.add(v);
 			}
 		}
@@ -1550,7 +1554,7 @@ public class HE_Selection extends HE_MeshStructure {
 		HE_Vertex v;
 		while (vitr.hasNext()) {
 			v = vitr.next();
-			if (WB_GeometryOp.classifyPointToPlane3D(v, P) == WB_Classification.ON) {
+			if (WB_GeometryOp3D.classifyPointToPlane3D(v, P) == WB_Classification.ON) {
 				_selection.add(v);
 			}
 		}

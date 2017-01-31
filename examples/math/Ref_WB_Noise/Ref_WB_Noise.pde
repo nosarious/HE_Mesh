@@ -22,7 +22,7 @@ void setup() {
 }
 
 void draw() {
-  background(255);
+  background(55);
   stroke(0);
   for (int i=0; i<width; i++) {
     point(i, 200-100*(float)n1.value1D(i+frameCount));

@@ -55,15 +55,101 @@ public abstract class WB_Swizzle {
 
 	public abstract double zd(WB_Coord p);
 
-	public abstract double xf(WB_Coord p);
+	public abstract float xf(WB_Coord p);
 
-	public abstract double yf(WB_Coord p);
+	public abstract float yf(WB_Coord p);
 
-	public abstract double zf(WB_Coord p);
+	public abstract float zf(WB_Coord p);
 
-	public abstract void swizzle(WB_MutableCoord p);
+	public abstract void swizzleSelf(WB_MutableCoord p);
 
 	private WB_Swizzle() {
+	}
+
+	public static class Closest extends WB_Swizzle {
+
+		WB_Swizzle internal = null;
+
+		public Closest(final WB_Coord p) {
+			if (Math.abs(p.xd()) > Math.abs(p.yd())) {
+				internal = Math.abs(p.xd()) > Math.abs(p.zd()) ? YZ : XY;
+			} else {
+				internal = Math.abs(p.yd()) > Math.abs(p.zd()) ? XZ : XY;
+			}
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see wblut.geom.WB_Swizzle#xd(wblut.geom.WB_Coord)
+		 */
+		@Override
+		public double xd(final WB_Coord p) {
+
+			return internal.xd(p);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see wblut.geom.WB_Swizzle#yd(wblut.geom.WB_Coord)
+		 */
+		@Override
+		public double yd(final WB_Coord p) {
+			return internal.yd(p);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see wblut.geom.WB_Swizzle#zd(wblut.geom.WB_Coord)
+		 */
+		@Override
+		public double zd(final WB_Coord p) {
+			return internal.zd(p);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see wblut.geom.WB_Swizzle#xf(wblut.geom.WB_Coord)
+		 */
+		@Override
+		public float xf(final WB_Coord p) {
+			return internal.xf(p);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see wblut.geom.WB_Swizzle#yf(wblut.geom.WB_Coord)
+		 */
+		@Override
+		public float yf(final WB_Coord p) {
+			return internal.yf(p);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see wblut.geom.WB_Swizzle#zf(wblut.geom.WB_Coord)
+		 */
+		@Override
+		public float zf(final WB_Coord p) {
+			return internal.zf(p);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see wblut.geom.WB_Swizzle#swizzle(wblut.geom.WB_MutableCoord)
+		 */
+		@Override
+		public void swizzleSelf(final WB_MutableCoord p) {
+			internal.swizzleSelf(p);
+
+		}
+
 	}
 
 	private static class XXX extends WB_Swizzle {
@@ -84,22 +170,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.xd(), p.xd(), p.xd());
 		}
 
@@ -123,22 +209,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.xd(), p.xd(), p.yd());
 		}
 
@@ -162,22 +248,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.xd(), p.xd(), p.zd());
 		}
 
@@ -201,22 +287,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.xd(), p.yd(), p.xd());
 		}
 
@@ -240,22 +326,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.xd(), p.yd(), p.yd());
 		}
 
@@ -279,22 +365,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 
 		}
 
@@ -318,22 +404,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.xd(), p.zd(), p.xd());
 		}
 
@@ -357,22 +443,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.xd(), p.zd(), p.yd());
 
 		}
@@ -397,22 +483,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.xd(), p.zd(), p.zd());
 		}
 
@@ -436,22 +522,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.yd(), p.xd(), p.xd());
 		}
 
@@ -475,22 +561,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.yd(), p.xd(), p.yd());
 		}
 
@@ -514,22 +600,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.yd(), p.xd(), p.zd());
 		}
 
@@ -553,22 +639,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.yd(), p.yd(), p.xd());
 		}
 
@@ -592,22 +678,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.yd(), p.yd(), p.yd());
 		}
 
@@ -631,22 +717,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.yd(), p.yd(), p.zd());
 		}
 
@@ -670,22 +756,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.yd(), p.zd(), p.xd());
 		}
 
@@ -709,22 +795,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.yd(), p.zd(), p.yd());
 
 		}
@@ -749,22 +835,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.yd(), p.zd(), p.zd());
 		}
 
@@ -788,22 +874,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.zd(), p.xd(), p.xd());
 		}
 
@@ -827,22 +913,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.zd(), p.xd(), p.yd());
 		}
 
@@ -866,22 +952,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.zd(), p.xd(), p.zd());
 		}
 
@@ -905,22 +991,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.zd(), p.yd(), p.xd());
 		}
 
@@ -944,22 +1030,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.zd(), p.yd(), p.yd());
 		}
 
@@ -983,22 +1069,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.zd(), p.yd(), p.zd());
 		}
 
@@ -1022,22 +1108,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.zd(), p.zd(), p.xd());
 		}
 
@@ -1061,22 +1147,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.zd(), p.zd(), p.yd());
 
 		}
@@ -1101,22 +1187,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.zd(), p.zd(), p.zd());
 		}
 
@@ -1140,22 +1226,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return 0.f;
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.xd(), p.xd(), 0);
 		}
 
@@ -1179,22 +1265,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return 0.f;
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.xd(), p.yd(), 0);
 		}
 
@@ -1218,22 +1304,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return 0.f;
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.xd(), p.zd(), 0);
 		}
 
@@ -1257,22 +1343,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return 0.f;
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.yd(), p.xd(), 0);
 		}
 
@@ -1296,22 +1382,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return 0.f;
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.yd(), p.yd(), 0);
 		}
 
@@ -1335,22 +1421,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return 0.f;
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.yd(), p.zd(), 0);
 		}
 
@@ -1374,22 +1460,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return 0.f;
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.zd(), p.xd(), 0);
 		}
 
@@ -1413,22 +1499,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return 0.f;
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.zd(), p.yd(), 0);
 		}
 
@@ -1452,22 +1538,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return 0.f;
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.zd(), p.zd(), 0);
 		}
 
@@ -1491,22 +1577,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.xf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return 0;
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return 0.f;
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.xd(), 0, 0);
 		}
 
@@ -1530,22 +1616,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.yf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return 0;
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return 0.f;
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.yd(), 0, 0);
 		}
 
@@ -1569,22 +1655,22 @@ public abstract class WB_Swizzle {
 		}
 
 		@Override
-		public double xf(final WB_Coord p) {
+		public float xf(final WB_Coord p) {
 			return p.zf();
 		}
 
 		@Override
-		public double yf(final WB_Coord p) {
+		public float yf(final WB_Coord p) {
 			return 0;
 		}
 
 		@Override
-		public double zf(final WB_Coord p) {
+		public float zf(final WB_Coord p) {
 			return 0.f;
 		}
 
 		@Override
-		public void swizzle(final WB_MutableCoord p) {
+		public void swizzleSelf(final WB_MutableCoord p) {
 			p.set(p.zd(), 0, 0);
 		}
 

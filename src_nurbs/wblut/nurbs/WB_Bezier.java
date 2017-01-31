@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.nurbs;
 
@@ -37,7 +37,7 @@ public class WB_Bezier implements WB_Curve {
 	/**
 	 * n+1 controlpoint.
 	 *
-	 * @param controlPoints 
+	 * @param controlPoints
 	 */
 	public WB_Bezier(final WB_Coord[] controlPoints) {
 		points = controlPoints;
@@ -52,14 +52,14 @@ public class WB_Bezier implements WB_Curve {
 	public WB_Bezier(final WB_PointHomogeneous[] controlPoints) {
 		n = controlPoints.length - 1;
 		points = new WB_Point[n + 1];
-		for (int i = 0; i < (n + 1); i++) {
+		for (int i = 0; i < n + 1; i++) {
 			points[i] = new WB_Point(controlPoints[i].project());
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.nurbs.WB_Curve#curvePoint(double)
 	 */
 	@Override
@@ -76,10 +76,10 @@ public class WB_Bezier implements WB_Curve {
 	}
 
 	/**
-	 * 
 	 *
-	 * @param u 
-	 * @return 
+	 *
+	 * @param u
+	 * @return
 	 */
 	public WB_Vector firstDerivative(final double u) {
 		final WB_Vector Cp = new WB_Vector();
@@ -94,28 +94,32 @@ public class WB_Bezier implements WB_Curve {
 		return Cp;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.geom.WB_Curve#curveDirection(double)
 	 */
 	@Override
-	public WB_Vector curveDirection(double u) {
+	public WB_Vector curveDirection(final double u) {
 		WB_Vector v = firstDerivative(u);
 		v.normalizeSelf();
 		return v;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see wblut.geom.WB_Curve#curveDerivative(double)
 	 */
 	@Override
-	public WB_Vector curveDerivative(double u) {
+	public WB_Vector curveDerivative(final double u) {
 		return firstDerivative(u);
 	}
 
 	/**
 	 * Get degree.
 	 *
-	 * @return 
+	 * @return
 	 */
 	public double n() {
 		return n;
@@ -123,7 +127,7 @@ public class WB_Bezier implements WB_Curve {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.nurbs.WB_Curve#loweru()
 	 */
 	@Override
@@ -133,7 +137,7 @@ public class WB_Bezier implements WB_Curve {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.nurbs.WB_Curve#upperu()
 	 */
 	@Override
@@ -161,9 +165,9 @@ public class WB_Bezier implements WB_Curve {
 	}
 
 	/**
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 */
 	public WB_Bezier derivative() {
 		if (n <= 0) {

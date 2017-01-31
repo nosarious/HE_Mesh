@@ -27,11 +27,11 @@ void setup() {
   WB_Triangulation2DWithPoints tri=WB_Triangulate.triangulateConforming2D(polygon);
   triangles=tri.getTriangles();
   pointsAfterTriangulation=tri.getPoints();
-  background(255);
+  background(55);
 }
 
 void draw() {
-  background(255);
+  background(55);
   translate(width/2, height/2);
   stroke(0);
   strokeWeight(1);

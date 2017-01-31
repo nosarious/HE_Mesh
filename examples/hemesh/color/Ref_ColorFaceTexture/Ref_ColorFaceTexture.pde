@@ -11,11 +11,11 @@ WB_Render render;
 PImage img;
 PImage[] imgs;
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
   textureMode(NORMAL);
   mesh=new HE_Mesh(new HEC_Torus(80, 200, 6, 12).setTwist(4)); 
-  mesh.smooth();
+  mesh.smooth(2);
   img=loadImage("texture.jpg");
   render=new WB_Render(this);
   imgs=new PImage[] {
@@ -28,7 +28,7 @@ void setup() {
 void draw() {
   background(55);
   lights();
-  translate(400, 400, 0);
+  translate(width/2, height/2);
   rotateY(mouseX*1.0f/width*TWO_PI);
   rotateX(mouseY*1.0f/height*TWO_PI);
   noStroke();

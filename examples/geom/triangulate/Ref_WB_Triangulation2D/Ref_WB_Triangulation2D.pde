@@ -8,7 +8,7 @@ int numPoints;
 int[] triangles;
 int[] edges;
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   source=new WB_RandomDisk().setRadius(250);
   render=new WB_Render2D(this);
   numPoints=5000;
@@ -26,7 +26,7 @@ void setup() {
 
 
 void draw() {
-  background(255);
+  background(55);
   directionalLight(255, 255, 255, 1, 1, -1);
   directionalLight(127, 127, 127, -1, -1, 1);
   translate(width/2, height/2);

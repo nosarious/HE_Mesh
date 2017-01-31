@@ -14,7 +14,7 @@ import java.util.List;
 
 import javolution.util.FastTable;
 import wblut.geom.WB_AABBTree;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_PolyLine;
 import wblut.geom.WB_Segment;
@@ -149,7 +149,7 @@ public class HEM_PolyLineInversion extends HEM_Modifier {
 		double ri, rf;
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			q = WB_GeometryOp.getClosestPoint3D(v, polyLine);
+			q = WB_GeometryOp3D.getClosestPoint3D(v, polyLine);
 			if (linear) {
 
 				d = WB_Vector.subToVector3D(v, q);
@@ -213,7 +213,7 @@ public class HEM_PolyLineInversion extends HEM_Modifier {
 		double ri, rf;
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			q = WB_GeometryOp.getClosestPoint3D(v, polyLine);
+			q = WB_GeometryOp3D.getClosestPoint3D(v, polyLine);
 			if (linear) {
 
 				d = WB_Vector.subToVector3D(v, q);

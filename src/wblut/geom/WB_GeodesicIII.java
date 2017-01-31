@@ -127,16 +127,16 @@ class WB_GeodesicIII {
 			WB_Vector zshift = new WB_Vector(0, 0, 1);
 			switch (type) {
 			case TETRAHEDRON:
-				scalefactor = Math.sqrt(8.0 / 3.0) / p1.getLength3D();
+				scalefactor = Math.sqrt(8.0 / 3.0) / p1.getLength();
 				zshift = new WB_Vector(0, 0, 1.0 / 3.0);
 				break;
 			case OCTAHEDRON:
-				scalefactor = Math.sqrt(2.0) / p1.getLength3D();
+				scalefactor = Math.sqrt(2.0) / p1.getLength();
 				zshift = new WB_Vector(0, 0, Math.sqrt(3.0) / 3.0);
 				break;
 			case ICOSAHEDRON:
 			default:
-				scalefactor = 1.0 / Math.sin(0.4 * Math.PI) / p1.getLength3D();
+				scalefactor = 1.0 / Math.sin(0.4 * Math.PI) / p1.getLength();
 				zshift = new WB_Vector(0, 0, ((Math.sqrt(3) / 12.0) * (3 + Math.sqrt(5))) / Math.sin(0.4 * Math.PI));
 			}
 			p0.mulSelf(scalefactor);
@@ -147,8 +147,8 @@ class WB_GeodesicIII {
 			for (int i = -v; i <= v; i++) {
 				for (int j = -v; j <= v; j++) {
 					p = trigrid.getPoint(i, j);
-					cp = WB_GeometryOp.getClosestPointToTriangle3D(p, p0, p1, p2);
-					if (WB_Epsilon.isZeroSq(cp.getSqDistance3D(p))) {
+					cp = WB_GeometryOp3D.getClosestPointToTriangle3D(p, p0, p1, p2);
+					if (WB_Epsilon.isZeroSq(cp.getSqDistance(p))) {
 						PPT.add(p);
 					}
 				}
@@ -166,7 +166,7 @@ class WB_GeodesicIII {
 				PPT.get(i).applyAsPointSelf(T);
 				PPT.get(i).mulSelf(radius);
 			}
-			final double threshold = zeropoints.get(0).getDistance3D(zeropoints.get(1)) / (2 * v);
+			final double threshold = zeropoints.get(0).getDistance(zeropoints.get(1)) / (2 * v);
 
 			points = new FastTable<WB_Point>();
 			points.addAll(zeropoints);

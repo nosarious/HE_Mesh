@@ -50,7 +50,7 @@ public class WB_MeshGraph {
 			if (meshedges[i][0] != meshedges[i][1]) {
 				p0 = mesh.getVertex(meshedges[i][0]);
 				p1 = mesh.getVertex(meshedges[i][1]);
-				d = WB_GeometryOp.getDistance3D(p0, p1);
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
 				v0 = vertices[meshedges[i][0]];
 				v1 = vertices[meshedges[i][1]];
 				v0.neighbors.add(new WB_GraphEdge(v1, d));
@@ -82,7 +82,7 @@ public class WB_MeshGraph {
 			if (meshedges[i][0] != meshedges[i][1]) {
 				p0 = mesh.getVertex(meshedges[i][0]);
 				p1 = mesh.getVertex(meshedges[i][1]);
-				d = WB_GeometryOp.getDistance3D(p0, p1);
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
 				v0 = vertices[meshedges[i][0]];
 				v1 = vertices[meshedges[i][1]];
 				v0.neighbors.add(new WB_GraphEdge(v1, d));
@@ -112,7 +112,7 @@ public class WB_MeshGraph {
 			if (meshedges[i][0] != meshedges[i][1]) {
 				p0 = mesh.getVertex(meshedges[i][0]);
 				p1 = mesh.getVertex(meshedges[i][1]);
-				d = WB_GeometryOp.getDistance3D(p0, p1);
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
 				v0 = vertices[meshedges[i][0]];
 				v1 = vertices[meshedges[i][1]];
 				v0.neighbors.add(new WB_GraphEdge(v1, d));
@@ -144,9 +144,84 @@ public class WB_MeshGraph {
 			if (meshedges[i][0] != meshedges[i][1]) {
 				p0 = mesh.getVertex(meshedges[i][0]);
 				p1 = mesh.getVertex(meshedges[i][1]);
-				d = WB_GeometryOp.getDistance3D(p0, p1);
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
 				v0 = vertices[meshedges[i][0]];
 				v1 = vertices[meshedges[i][1]];
+				v0.neighbors.add(new WB_GraphEdge(v1, d));
+				v1.neighbors.add(new WB_GraphEdge(v0, d));
+			}
+		}
+		lastSource = -1;
+	}
+
+	public WB_MeshGraph(final List<? extends WB_Coord> points, final WB_Triangulation3D triangulation) {
+		vertices = new WB_GraphVertex[points.size()];
+		for (int i = 0; i < points.size(); i++) {
+			vertices[i] = new WB_GraphVertex(i, points.get(i));
+		}
+		final int[] meshedges = triangulation.getEdges();
+		WB_Coord p0;
+		WB_Coord p1;
+		WB_GraphVertex v0;
+		WB_GraphVertex v1;
+		double d;
+		for (int i = 0; i < meshedges.length; i += 2) {
+			if (meshedges[i] != meshedges[i + 1]) {
+				p0 = points.get(meshedges[i]);
+				p1 = points.get(meshedges[i + 1]);
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
+				v0 = vertices[meshedges[i]];
+				v1 = vertices[meshedges[i + 1]];
+				v0.neighbors.add(new WB_GraphEdge(v1, d));
+				v1.neighbors.add(new WB_GraphEdge(v0, d));
+			}
+		}
+		lastSource = -1;
+	}
+
+	public WB_MeshGraph(final WB_Coord[] points, final WB_Triangulation3D triangulation) {
+		vertices = new WB_GraphVertex[points.length];
+		for (int i = 0; i < points.length; i++) {
+			vertices[i] = new WB_GraphVertex(i, points[i]);
+		}
+		final int[] meshedges = triangulation.getEdges();
+		WB_Coord p0;
+		WB_Coord p1;
+		WB_GraphVertex v0;
+		WB_GraphVertex v1;
+		double d;
+		for (int i = 0; i < meshedges.length; i += 2) {
+			if (meshedges[i] != meshedges[i + 1]) {
+				p0 = points[meshedges[i]];
+				p1 = points[meshedges[i + 1]];
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
+				v0 = vertices[meshedges[i]];
+				v1 = vertices[meshedges[i + 1]];
+				v0.neighbors.add(new WB_GraphEdge(v1, d));
+				v1.neighbors.add(new WB_GraphEdge(v0, d));
+			}
+		}
+		lastSource = -1;
+	}
+
+	public WB_MeshGraph(final WB_Coord[] points, final WB_Triangulation2D triangulation) {
+		vertices = new WB_GraphVertex[points.length];
+		for (int i = 0; i < points.length; i++) {
+			vertices[i] = new WB_GraphVertex(i, points[i]);
+		}
+		final int[] meshedges = triangulation.getEdges();
+		WB_Coord p0;
+		WB_Coord p1;
+		WB_GraphVertex v0;
+		WB_GraphVertex v1;
+		double d;
+		for (int i = 0; i < meshedges.length; i += 2) {
+			if (meshedges[i] != meshedges[i + 1]) {
+				p0 = points[meshedges[i]];
+				p1 = points[meshedges[i + 1]];
+				d = WB_GeometryOp3D.getDistance3D(p0, p1);
+				v0 = vertices[meshedges[i]];
+				v1 = vertices[meshedges[i + 1]];
 				v0.neighbors.add(new WB_GraphEdge(v1, d));
 				v1.neighbors.add(new WB_GraphEdge(v0, d));
 			}

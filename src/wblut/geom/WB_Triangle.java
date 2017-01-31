@@ -84,9 +84,9 @@ public class WB_Triangle {
 	 * Update side lengths and corner angles.
 	 */
 	protected void update() {
-		a = p2.getDistance3D(p3);
-		b = p1.getDistance3D(p3);
-		c = p1.getDistance3D(p2);
+		a = p2.getDistance(p3);
+		b = p1.getDistance(p3);
+		c = p1.getDistance(p2);
 		WB_Plane P = this.getPlane();
 		if (P == null) {
 			cosA = cosB = cosC = Double.NaN;
@@ -218,7 +218,7 @@ public class WB_Triangle {
 	 */
 	public WB_Plane getPlane() {
 		final WB_Plane P = new WB_Plane(p1, p2, p3);
-		if (P.getNormal().getSqLength3D() < WB_Epsilon.SQEPSILON) {
+		if (P.getNormal().getSqLength() < WB_Epsilon.SQEPSILON) {
 			return null;
 		}
 		return P;
@@ -314,8 +314,8 @@ public class WB_Triangle {
 	public double[] getBarycentricCoordinates(final WB_Coord p) {
 		final double m = (p3.xd() - p1.xd()) * (p2.yd() - p1.yd()) - (p3.yd() - p1.yd()) * (p2.xd() - p1.xd());
 		double nu, nv, ood;
-		nu = WB_GeometryOp.twiceSignedTriArea2D(p.xd(), p.yd(), p2.xd(), p2.yd(), p3.xd(), p3.yd());
-		nv = WB_GeometryOp.twiceSignedTriArea2D(p.xd(), p.yd(), p3.xd(), p3.yd(), p1.xd(), p1.yd());
+		nu = WB_GeometryOp3D.twiceSignedTriArea2D(p.xd(), p.yd(), p2.xd(), p2.yd(), p3.xd(), p3.yd());
+		nv = WB_GeometryOp3D.twiceSignedTriArea2D(p.xd(), p.yd(), p3.xd(), p3.yd(), p1.xd(), p1.yd());
 		ood = -1.0 / m;
 		nu *= ood;
 		nv *= ood;
@@ -336,16 +336,16 @@ public class WB_Triangle {
 		final double y = WB_Math.fastAbs(m.yd());
 		final double z = WB_Math.fastAbs(m.zd());
 		if (x >= y && x >= z) {
-			nu = WB_GeometryOp.twiceSignedTriArea2D(p.yd(), p.zd(), p2.yd(), p2.zd(), p3.yd(), p3.zd());
-			nv = WB_GeometryOp.twiceSignedTriArea2D(p.yd(), p.zd(), p3.yd(), p3.zd(), p1.yd(), p1.zd());
+			nu = WB_GeometryOp3D.twiceSignedTriArea2D(p.yd(), p.zd(), p2.yd(), p2.zd(), p3.yd(), p3.zd());
+			nv = WB_GeometryOp3D.twiceSignedTriArea2D(p.yd(), p.zd(), p3.yd(), p3.zd(), p1.yd(), p1.zd());
 			ood = 1.0 / m.xd();
 		} else if (y >= x && y >= z) {
-			nu = WB_GeometryOp.twiceSignedTriArea2D(p.xd(), p.zd(), p2.xd(), p2.zd(), p3.xd(), p3.zd());
-			nv = WB_GeometryOp.twiceSignedTriArea2D(p.xd(), p.zd(), p3.xd(), p3.zd(), p1.xd(), p1.zd());
+			nu = WB_GeometryOp3D.twiceSignedTriArea2D(p.xd(), p.zd(), p2.xd(), p2.zd(), p3.xd(), p3.zd());
+			nv = WB_GeometryOp3D.twiceSignedTriArea2D(p.xd(), p.zd(), p3.xd(), p3.zd(), p1.xd(), p1.zd());
 			ood = -1.0 / m.yd();
 		} else {
-			nu = WB_GeometryOp.twiceSignedTriArea2D(p.xd(), p.yd(), p2.xd(), p2.yd(), p3.xd(), p3.yd());
-			nv = WB_GeometryOp.twiceSignedTriArea2D(p.xd(), p.yd(), p3.xd(), p3.yd(), p1.xd(), p1.yd());
+			nu = WB_GeometryOp3D.twiceSignedTriArea2D(p.xd(), p.yd(), p2.xd(), p2.yd(), p3.xd(), p3.yd());
+			nv = WB_GeometryOp3D.twiceSignedTriArea2D(p.xd(), p.yd(), p3.xd(), p3.yd(), p1.xd(), p1.yd());
 			ood = -1.0 / m.zd();
 		}
 		nu *= ood;

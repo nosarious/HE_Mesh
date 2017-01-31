@@ -265,7 +265,7 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 	 *
 	 * @return coordinate
 	 */
-	public WB_CoordinateSystem createCSFromOX(final WB_Coord origin, final WB_Coord X) {
+	public WB_CoordinateSystem3D createCSFromOX(final WB_Coord origin, final WB_Coord X) {
 		final WB_Point lOrigin = createPoint(origin.xd(), origin.yd(), 0);
 		final WB_Vector lX = createNormalizedVector(X.xd(), X.yd(), 0);
 		final WB_Vector lY = createVector(-lX.yd(), lX.xd());
@@ -282,8 +282,8 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 	 *            parent coordinate system
 	 * @return coordinate system
 	 */
-	public WB_CoordinateSystem createCSFromOX(final WB_Coord origin, final WB_Coord X,
-			final WB_CoordinateSystem parent) {
+	public WB_CoordinateSystem3D createCSFromOX(final WB_Coord origin, final WB_Coord X,
+			final WB_CoordinateSystem3D parent) {
 		final WB_Point lOrigin = createPoint(origin.xd(), origin.yd());
 		final WB_Vector lX = createNormalizedVector(X.xd(), X.yd(), 0);
 		final WB_Vector lY = createVector(-lX.yd(), lX.xd());
@@ -301,16 +301,16 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 	 *
 	 * @return coordinate system
 	 */
-	public WB_CoordinateSystem createCSFromOXY(final WB_Coord origin, final WB_Coord X, final WB_Coord Y) {
+	public WB_CoordinateSystem3D createCSFromOXY(final WB_Coord origin, final WB_Coord X, final WB_Coord Y) {
 		final WB_Vector lX = createNormalizedVector(X);
 		WB_Vector lY = createNormalizedVector(Y);
 		final WB_Vector lZ = lX.cross(lY);
-		if (WB_Epsilon.isZeroSq(lZ.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(lZ.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		lZ.normalizeSelf();
 		lY = createNormalizedVector(lZ.cross(lX));
-		return new WB_CoordinateSystem(origin, lX, lY, lZ, WORLD());
+		return new WB_CoordinateSystem3D(origin, lX, lY, lZ, WORLD());
 	}
 
 	/**
@@ -326,17 +326,17 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 	 *
 	 * @return coordinate system
 	 */
-	public WB_CoordinateSystem createCSFromOXY(final WB_Coord origin, final WB_Coord X, final WB_Coord Y,
-			final WB_CoordinateSystem parent) {
+	public WB_CoordinateSystem3D createCSFromOXY(final WB_Coord origin, final WB_Coord X, final WB_Coord Y,
+			final WB_CoordinateSystem3D parent) {
 		final WB_Vector lX = createNormalizedVector(X);
 		WB_Vector lY = createNormalizedVector(Y);
 		final WB_Vector lZ = lX.cross(lY);
-		if (WB_Epsilon.isZeroSq(lZ.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(lZ.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		lZ.normalizeSelf();
 		lY = createNormalizedVector(lZ.cross(lX));
-		return new WB_CoordinateSystem(origin, lX, lY, lZ, parent);
+		return new WB_CoordinateSystem3D(origin, lX, lY, lZ, parent);
 	}
 
 	/**
@@ -349,9 +349,9 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 	 * @param parent
 	 * @return
 	 */
-	public WB_CoordinateSystem createCSFromOXYZ(final WB_Coord origin, final WB_Coord X, final WB_Coord Y,
-			final WB_Coord Z, final WB_CoordinateSystem parent) {
-		return new WB_CoordinateSystem(origin, X, Y, Z, parent);
+	public WB_CoordinateSystem3D createCSFromOXYZ(final WB_Coord origin, final WB_Coord X, final WB_Coord Y,
+			final WB_Coord Z, final WB_CoordinateSystem3D parent) {
+		return new WB_CoordinateSystem3D(origin, X, Y, Z, parent);
 	}
 
 	/**
@@ -363,9 +363,9 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 	 * @param Z
 	 * @return
 	 */
-	public WB_CoordinateSystem createCSFromOXYZ(final WB_Coord origin, final WB_Coord X, final WB_Coord Y,
+	public WB_CoordinateSystem3D createCSFromOXYZ(final WB_Coord origin, final WB_Coord X, final WB_Coord Y,
 			final WB_Coord Z) {
-		return new WB_CoordinateSystem(origin, X, Y, Z, WORLD());
+		return new WB_CoordinateSystem3D(origin, X, Y, Z, WORLD());
 	}
 
 	/**
@@ -484,10 +484,6 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 	 */
 	public WB_Point createPoint(final double _x, final double _y, final double _z) {
 		return new WB_Point(_x, _y, _z);
-	}
-
-	public WB_Coord createCoord(final double _x, final double _y, final double _z, final double _w) {
-		return new WB_SimpleCoordinate(_x, _y, _z, _w);
 	}
 
 	/**
@@ -1697,13 +1693,13 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 		final WB_Polygon[] polys = new WB_Polygon[2];
 		if (numVerts > 0) {
 			WB_Point a = new WB_Point(poly.getPoint(numVerts - 1));
-			WB_Classification aSide = WB_GeometryOp.classifyPointToPlane3D(a, P);
+			WB_Classification aSide = WB_GeometryOp3D.classifyPointToPlane3D(a, P);
 			WB_Point b;
 			WB_Classification bSide;
 			for (int n = 0; n < numVerts; n++) {
 				WB_Point intersection;
 				b = new WB_Point(poly.getPoint(n));
-				bSide = WB_GeometryOp.classifyPointToPlane3D(b, P);
+				bSide = WB_GeometryOp3D.classifyPointToPlane3D(b, P);
 				if (bSide == WB_Classification.FRONT) {
 					if (aSide == WB_Classification.BACK) {
 						intersection = getIntersection(b, a, P);
@@ -1804,14 +1800,14 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 	 *         inversionCircle
 	 */
 	public WB_Circle createInversionCircle(final WB_Circle C, final WB_Circle inversionCircle) {
-		if (WB_GeometryOp.classifyPointToCircle2D(inversionCircle.getCenter(), C) == WB_Classification.ON) {
+		if (WB_GeometryOp3D.classifyPointToCircle2D(inversionCircle.getCenter(), C) == WB_Classification.ON) {
 			return null;
 		}
 		final double x0 = inversionCircle.getCenter().xd();
 		final double y0 = inversionCircle.getCenter().yd();
 		final double k = inversionCircle.getRadius();
 		final double k2 = k * k;
-		final double s = k2 / (WB_GeometryOp.getSqDistance3D(C.getCenter(), inversionCircle.getCenter())
+		final double s = k2 / (WB_GeometryOp3D.getSqDistance3D(C.getCenter(), inversionCircle.getCenter())
 				- C.getRadius() * C.getRadius());
 		return createCircleWithRadius(x0 + s * (C.getCenter().xd() - x0), y0 + s * (C.getCenter().yd() - y0),
 				Math.abs(s) * C.getRadius());
@@ -2463,7 +2459,7 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 		faces = WB_PolyhedraData.Afaces[type];
 		final WB_Point p0 = vertices.get(faces[0][0]);
 		final WB_Point p1 = vertices.get(faces[0][1]);
-		final double el = p0.getDistance3D(p1);
+		final double el = p0.getDistance(p1);
 		final double scale = edgeLength / el;
 		final WB_Point cog = createPoint();
 		for (final WB_Point p : vertices) {
@@ -2491,7 +2487,7 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 		faces = WB_PolyhedraData.Cfaces[type];
 		final WB_Point p0 = vertices.get(faces[0][0]);
 		final WB_Point p1 = vertices.get(faces[0][1]);
-		final double el = p0.getDistance3D(p1);
+		final double el = p0.getDistance(p1);
 		final double scale = edgeLength / el;
 		final WB_Point cog = createPoint();
 		for (final WB_Point p : vertices) {
@@ -2547,7 +2543,7 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 		}
 		final WB_Point p0 = vertices.get(faces[0][0]);
 		final WB_Point p1 = vertices.get(faces[0][1]);
-		final double el = p0.getDistance3D(p1);
+		final double el = p0.getDistance(p1);
 		final double scale = edgeLength / el;
 		final WB_Point cog = createPoint();
 		for (final WB_Point p : vertices) {
@@ -2575,7 +2571,7 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 		faces = WB_PolyhedraData.Ofaces[type];
 		final WB_Point p0 = vertices.get(faces[0][0]);
 		final WB_Point p1 = vertices.get(faces[0][1]);
-		final double el = p0.getDistance3D(p1);
+		final double el = p0.getDistance(p1);
 		final double scale = edgeLength / el;
 		final WB_Point cog = createPoint();
 		for (final WB_Point p : vertices) {
@@ -2603,7 +2599,7 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 		faces = WB_PolyhedraData.Pfaces[type];
 		final WB_Point p0 = vertices.get(faces[0][0]);
 		final WB_Point p1 = vertices.get(faces[0][1]);
-		final double el = p0.getDistance3D(p1);
+		final double el = p0.getDistance(p1);
 		final double scale = edgeLength / el;
 		final WB_Point cog = createPoint();
 		for (final WB_Point p : vertices) {
@@ -2673,7 +2669,7 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 		}
 		double d2 = 0;
 		for (final WB_Point p : points) {
-			d2 = Math.max(d2, p.getSqLength3D());
+			d2 = Math.max(d2, p.getSqLength());
 		}
 		d2 = radius / Math.sqrt(d2);
 		for (final WB_Point p : points) {
@@ -2766,7 +2762,7 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 		}
 		double d2 = 0;
 		for (final WB_Point p : points) {
-			d2 = Math.max(d2, p.getSqLength3D());
+			d2 = Math.max(d2, p.getSqLength());
 		}
 		d2 = radius / Math.sqrt(d2);
 		for (final WB_Point p : points) {
@@ -5544,7 +5540,7 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 		for (int i = 0; i < n; i += 3) {
 			tmp = createClosestPointOnTriangle(p, poly.getPoint(triangles[i]), poly.getPoint(triangles[i + 1]),
 					poly.getPoint(triangles[i + 2]));
-			final double d2 = tmp.getSqDistance3D(p);
+			final double d2 = tmp.getSqDistance(p);
 			if (d2 < dmax2) {
 				closest = tmp;
 				dmax2 = d2;
@@ -5631,7 +5627,7 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 	 * @return
 	 */
 	public WB_Point getIntersection(final WB_Coord a, final WB_Coord b, final WB_Plane P) {
-		Object o = WB_GeometryOp.getIntersection3D(a, b, P).object;
+		Object o = WB_GeometryOp3D.getIntersection3D(a, b, P).object;
 		return o == null ? null : (WB_Point) o;
 	}
 

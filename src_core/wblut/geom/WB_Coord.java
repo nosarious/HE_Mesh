@@ -92,6 +92,4 @@ public interface WB_Coord extends Comparable<WB_Coord> {
 	 */
 	public float getf(int i);
 
-	;
-
 }

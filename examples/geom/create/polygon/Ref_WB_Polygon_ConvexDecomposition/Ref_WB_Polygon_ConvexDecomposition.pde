@@ -34,7 +34,7 @@ void setup() {
   holes[1]=hole;
   polygon=gf.createPolygonWithHoles(shell, holes);
   convexDecomposition=gf.createConvexPolygonDecomposition2D(polygon);
-  background(255);
+  background(55);
 }
 
 void draw() {

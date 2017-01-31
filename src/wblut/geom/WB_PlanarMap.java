@@ -17,7 +17,7 @@ package wblut.geom;
  * {@link wblut.geom.WB_Plane}
  *
  */
-public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
+public class WB_PlanarMap extends WB_CoordinateSystem3D implements WB_Map2D {
 	/**
 	 *
 	 */
@@ -37,27 +37,27 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	/**
 	 *
 	 */
-	public static final int X = 0;
+	public static final int YZ = 0;
 	/**
 	 *
 	 */
-	public static final int Y = 1;
+	public static final int XZ = 1;
 	/**
 	 *
 	 */
-	public static final int Z = 2;
+	public static final int XY = 2;
 	/**
 	 *
 	 */
-	public static final int Xrev = 3;
+	public static final int YZrev = 3;
 	/**
 	 *
 	 */
-	public static final int Yrev = 4;
+	public static final int XZrev = 4;
 	/**
 	 *
 	 */
-	public static final int Zrev = 5;
+	public static final int XYrev = 5;
 	/**
 	 *
 	 */
@@ -71,7 +71,46 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	 *
 	 */
 	public WB_PlanarMap() {
-		this(Z, 0);
+		this(XY, 0);
+	}
+
+	public WB_PlanarMap(final WB_Coord c) {
+		if (Math.abs(c.xd()) > Math.abs(c.yd())) {
+			mode = Math.abs(c.xd()) > Math.abs(c.zd()) ? YZ : XY;
+		} else {
+			mode = Math.abs(c.yd()) > Math.abs(c.zd()) ? XZ : XY;
+		}
+
+		if (mode < 0 || mode > 5) {
+			throw new IndexOutOfBoundsException();
+		}
+		if (mode == YZ) {
+			set(geometryfactory.createPoint(offset, 0, 0), geometryfactory.Y(), geometryfactory.Z(),
+					geometryfactory.X(), geometryfactory.WORLD());
+			this.mode = YZ;
+		} else if (mode == XZ) {
+			set(geometryfactory.createPoint(0, offset, 0), geometryfactory.Z(), geometryfactory.X(),
+					geometryfactory.Y(), geometryfactory.WORLD());
+			this.mode = XZ;
+		} else if (mode == YZrev) {
+			set(geometryfactory.createPoint(0, offset, 0), geometryfactory.Z(), geometryfactory.Y(),
+					geometryfactory.minX(), geometryfactory.WORLD());
+			this.mode = YZrev;
+		} else if (mode == XZrev) {
+			set(geometryfactory.createPoint(0, offset, 0), geometryfactory.X(), geometryfactory.Z(),
+					geometryfactory.minY(), geometryfactory.WORLD());
+			this.mode = XZrev;
+		} else if (mode == XYrev) {
+			set(geometryfactory.createPoint(0, offset, 0), geometryfactory.Y(), geometryfactory.X(),
+					geometryfactory.minZ(), geometryfactory.WORLD());
+			this.mode = XYrev;
+		} else {// XY
+			set(geometryfactory.createPoint(0, 0, offset), geometryfactory.X(), geometryfactory.Y(),
+					geometryfactory.Z(), geometryfactory.WORLD());
+			this.mode = XY;
+		}
+		T2D3D = getTransformToWorld();
+
 	}
 
 	/**
@@ -87,30 +126,30 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 		if (mode < 0 || mode > 5) {
 			throw new IndexOutOfBoundsException();
 		}
-		if (mode == X) {
+		if (mode == YZ) {
 			set(geometryfactory.createPoint(offset, 0, 0), geometryfactory.Y(), geometryfactory.Z(),
 					geometryfactory.X(), geometryfactory.WORLD());
-			this.mode = X;
-		} else if (mode == Y) {
+			this.mode = YZ;
+		} else if (mode == XZ) {
 			set(geometryfactory.createPoint(0, offset, 0), geometryfactory.Z(), geometryfactory.X(),
 					geometryfactory.Y(), geometryfactory.WORLD());
-			this.mode = Y;
-		} else if (mode == Xrev) {
+			this.mode = XZ;
+		} else if (mode == YZrev) {
 			set(geometryfactory.createPoint(0, offset, 0), geometryfactory.Z(), geometryfactory.Y(),
 					geometryfactory.minX(), geometryfactory.WORLD());
-			this.mode = Xrev;
-		} else if (mode == Yrev) {
+			this.mode = YZrev;
+		} else if (mode == XZrev) {
 			set(geometryfactory.createPoint(0, offset, 0), geometryfactory.X(), geometryfactory.Z(),
 					geometryfactory.minY(), geometryfactory.WORLD());
-			this.mode = Yrev;
-		} else if (mode == Zrev) {
+			this.mode = XZrev;
+		} else if (mode == XYrev) {
 			set(geometryfactory.createPoint(0, offset, 0), geometryfactory.Y(), geometryfactory.X(),
 					geometryfactory.minZ(), geometryfactory.WORLD());
-			this.mode = Zrev;
+			this.mode = XYrev;
 		} else {// XY
 			set(geometryfactory.createPoint(0, 0, offset), geometryfactory.X(), geometryfactory.Y(),
 					geometryfactory.Z(), geometryfactory.WORLD());
-			this.mode = Z;
+			this.mode = XY;
 		}
 		T2D3D = getTransformToWorld();
 	}
@@ -130,7 +169,7 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	 * @param P
 	 */
 	public WB_PlanarMap(final WB_Plane P) {
-		super(P.getOrigin(), P.getU(), P.getV(), P.getW(), new WB_CoordinateSystem());
+		super(P.getOrigin(), P.getU(), P.getV(), P.getW(), new WB_CoordinateSystem3D());
 		mode = PLANE;
 		T2D3D = getTransformToWorld();
 	}
@@ -142,7 +181,7 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	 * @param offset
 	 */
 	public WB_PlanarMap(final WB_Plane P, final double offset) {
-		super(P.getOrigin().addMul(offset, P.getNormal()), P.getU(), P.getV(), P.getW(), new WB_CoordinateSystem());
+		super(P.getOrigin().addMul(offset, P.getNormal()), P.getU(), P.getV(), P.getW(), new WB_CoordinateSystem3D());
 		mode = PLANE;
 		T2D3D = getTransformToWorld();
 	}
@@ -156,26 +195,26 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	@Override
 	public void mapPoint3D(final WB_Coord p, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(p.xd(), p.yd(), p.zd() - offset);
 			break;
-		case X:
+		case YZ:
 			result.set(p.yd(), p.zd(), p.xd() - offset);
 			break;
-		case Y:
+		case XZ:
 			result.set(p.zd(), p.xd(), p.yd() - offset);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(p.yd(), p.xd(), offset - p.zd());
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(p.zd(), p.yd(), offset - p.xd());
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(p.xd(), p.zd(), offset - p.yd());
 			break;
 		default:
-			T2D3D.applyInvAsPoint(p, result);
+			T2D3D.applyInvAsPointInto(result, p);
 		}
 	}
 
@@ -188,26 +227,26 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	@Override
 	public void mapPoint3D(final double x, final double y, final double z, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(x, y, z - offset);
 			break;
-		case X:
+		case YZ:
 			result.set(y, z, x - offset);
 			break;
-		case Y:
+		case XZ:
 			result.set(z, x, y - offset);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(y, x, offset - z);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(z, y, offset - x);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(x, z, offset - y);
 			break;
 		default:
-			T2D3D.applyInvAsPoint(x, y, z, result);
+			T2D3D.applyInvAsPointInto(result, x, y, z);
 		}
 	}
 
@@ -220,26 +259,26 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	@Override
 	public void unmapPoint3D(final WB_Coord p, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(p.xd(), p.yd(), p.zd() + offset);
 			break;
-		case X:
+		case YZ:
 			result.set(p.zd() + offset, p.xd(), p.yd());
 			break;
-		case Y:
+		case XZ:
 			result.set(p.yd(), p.zd() + offset, p.xd());
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(p.yd(), p.xd(), offset - p.zd());
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(offset - p.zd(), p.yd(), p.xd());
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(p.xd(), offset - p.zd(), p.yd());
 			break;
 		default:
-			T2D3D.applyAsPoint(p, result);
+			T2D3D.applyAsPointInto(p, result);
 		}
 	}
 
@@ -252,26 +291,26 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	@Override
 	public void unmapPoint3D(final double u, final double v, final double w, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(u, v, w + offset);
 			break;
-		case X:
+		case YZ:
 			result.set(w + offset, u, v);
 			break;
-		case Y:
+		case XZ:
 			result.set(v, w + offset, u);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v, u, offset - w);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(offset - w, v, u);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(u, offset - w, v);
 			break;
 		default:
-			T2D3D.applyAsPoint(u, v, w, result);
+			T2D3D.applyAsPointInto(u, v, w, result);
 		}
 	}
 
@@ -284,58 +323,58 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	@Override
 	public void unmapPoint2D(final double u, final double v, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(u, v, offset);
 			break;
-		case X:
+		case YZ:
 			result.set(offset, u, v);
 			break;
-		case Y:
+		case XZ:
 			result.set(v, offset, u);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v, u, offset);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(offset, v, u);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(u, offset, v);
 			break;
 		default:
-			T2D3D.applyAsPoint(u, v, 0, result);
+			T2D3D.applyAsPointInto(u, v, 0, result);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Map2D#unmapPoint2D(wblut.geom.WB_Coord,
 	 * wblut.geom.WB_MutableCoord)
 	 */
 	@Override
 	public void unmapPoint2D(final WB_Coord p, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(p.xf(), p.yf(), offset);
 			break;
-		case X:
+		case YZ:
 			result.set(offset, p.xf(), p.yf());
 			break;
-		case Y:
+		case XZ:
 			result.set(p.yf(), offset, p.xf());
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(p.yf(), p.xf(), offset);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(offset, p.yf(), p.xf());
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(p.xf(), offset, p.yf());
 			break;
 		default:
-			T2D3D.applyAsPoint(p.xf(), p.yf(), 0, result);
+			T2D3D.applyAsPointInto(p.xf(), p.yf(), 0, result);
 		}
 	}
 
@@ -348,26 +387,26 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	@Override
 	public void mapVector3D(final WB_Coord v, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(v.xd(), v.yd(), v.zd() - offset);
 			break;
-		case X:
+		case YZ:
 			result.set(v.yd(), v.zd(), v.xd() - offset);
 			break;
-		case Y:
+		case XZ:
 			result.set(v.zd(), v.xd(), v.yd() - offset);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v.yd(), v.xd(), offset - v.zd());
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(v.zd(), v.yd(), offset - v.xd());
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(v.xd(), v.zd(), offset - v.yd());
 			break;
 		default:
-			T2D3D.applyInvAsVector(v, result);
+			T2D3D.applyInvAsVectorInto(result, v);
 		}
 	}
 
@@ -380,26 +419,26 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	@Override
 	public void mapVector3D(final double x, final double y, final double z, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(x, y, z - offset);
 			break;
-		case X:
+		case YZ:
 			result.set(y, z, x - offset);
 			break;
-		case Y:
+		case XZ:
 			result.set(z, x, y - offset);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(y, x, offset - z);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(z, y, offset - x);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(x, z, offset - y);
 			break;
 		default:
-			T2D3D.applyInvAsVector(x, y, z, result);
+			T2D3D.applyInvAsVectorInto(result, x, y, z);
 		}
 	}
 
@@ -412,26 +451,26 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	@Override
 	public void unmapVector3D(final WB_Coord v, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(v.xd(), v.yd(), v.zd() + offset);
 			break;
-		case X:
+		case YZ:
 			result.set(v.zd() + offset, v.xd(), v.yd());
 			break;
-		case Y:
+		case XZ:
 			result.set(v.yd(), v.zd() + offset, v.xd());
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v.yd(), v.xd(), offset - v.zd());
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(offset - v.zd(), v.yd(), v.xd());
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(v.xd(), offset - v.zd(), v.yd());
 			break;
 		default:
-			T2D3D.applyAsVector(v, result);
+			T2D3D.applyAsVectorInto(result, v);
 		}
 	}
 
@@ -444,26 +483,26 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	@Override
 	public void unmapVector3D(final double u, final double v, final double w, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(u, v, w + offset);
 			break;
-		case X:
+		case YZ:
 			result.set(w + offset, u, v);
 			break;
-		case Y:
+		case XZ:
 			result.set(v, w + offset, u);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v, u, offset - w);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(offset - w, v, u);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(u, offset - w, v);
 			break;
 		default:
-			T2D3D.applyAsVector(u, v, w, result);
+			T2D3D.applyAsVectorInto(result, u, v, w);
 		}
 	}
 
@@ -476,58 +515,58 @@ public class WB_PlanarMap extends WB_CoordinateSystem implements WB_Map2D {
 	@Override
 	public void unmapVector2D(final double u, final double v, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(u, v, offset);
 			break;
-		case X:
+		case YZ:
 			result.set(0, u, v + offset);
 			break;
-		case Y:
+		case XZ:
 			result.set(v, 0, u + offset);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v, u, offset);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(offset, v, u);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(u, offset, v);
 			break;
 		default:
-			T2D3D.applyAsVector(u, v, 0, result);
+			T2D3D.applyAsVectorInto(result, u, v, 0);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.geom.WB_Map2D#unmapVector2D(wblut.geom.WB_Coord,
 	 * wblut.geom.WB_MutableCoord)
 	 */
 	@Override
 	public void unmapVector2D(final WB_Coord v, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(v.xf(), v.yf(), offset);
 			break;
-		case X:
+		case YZ:
 			result.set(offset, v.xf(), v.yf());
 			break;
-		case Y:
+		case XZ:
 			result.set(v.yf(), offset, v.xf());
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v.yf(), v.xf(), offset);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(offset, v.yf(), v.xf());
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(v.xf(), offset, v.yf());
 			break;
 		default:
-			T2D3D.applyAsVector(v.xf(), v.yf(), 0, result);
+			T2D3D.applyAsVectorInto(result, v.xf(), v.yf(), 0);
 		}
 	}
 }

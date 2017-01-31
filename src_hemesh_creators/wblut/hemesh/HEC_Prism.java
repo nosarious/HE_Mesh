@@ -16,7 +16,6 @@ import wblut.geom.WB_Polygon;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class HEC_Prism.
  *

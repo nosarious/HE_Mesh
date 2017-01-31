@@ -63,7 +63,7 @@ public class WB_GeometryFactory2D {
 	 */
 	private final WB_Vector mY2D;
 
-	private WB_CoordinateSystem currentCS;
+	private WB_CoordinateSystem3D currentCS;
 	/**
 	 *
 	 */
@@ -71,7 +71,7 @@ public class WB_GeometryFactory2D {
 	/**
 	 *
 	 */
-	private WB_CoordinateSystem world;
+	private WB_CoordinateSystem3D world;
 	/**
 	 *
 	 */
@@ -107,7 +107,7 @@ public class WB_GeometryFactory2D {
 	 *
 	 * @param CS
 	 */
-	public void setCurrentCS(final WB_CoordinateSystem CS) {
+	public void setCurrentCS(final WB_CoordinateSystem3D CS) {
 		if (currentCS == null) {
 			currentCS = WORLD();
 		}
@@ -120,7 +120,7 @@ public class WB_GeometryFactory2D {
 	 *
 	 * @return
 	 */
-	public WB_CoordinateSystem getCurrentCS() {
+	public WB_CoordinateSystem3D getCurrentCS() {
 		if (currentCS == null) {
 			currentCS = WORLD();
 		}
@@ -192,9 +192,9 @@ public class WB_GeometryFactory2D {
 	 *
 	 * @return WORLD coordinate system
 	 */
-	public WB_CoordinateSystem WORLD() {
+	public WB_CoordinateSystem3D WORLD() {
 		if (world == null) {
-			world = new WB_CoordinateSystem();
+			world = new WB_CoordinateSystem3D();
 		}
 		return world;
 	}
@@ -209,7 +209,7 @@ public class WB_GeometryFactory2D {
 	 *
 	 * @return coordinate
 	 */
-	public WB_CoordinateSystem createCSFromOX2D(final WB_Coord origin, final WB_Coord X) {
+	public WB_CoordinateSystem3D createCSFromOX2D(final WB_Coord origin, final WB_Coord X) {
 		final WB_Point lOrigin = createPoint2D(origin.xd(), origin.yd());
 		final WB_Vector lX = createNormalizedVector2D(X.xd(), X.yd());
 		final WB_Vector lY = createVector2D(-lX.yd(), lX.xd());
@@ -226,8 +226,8 @@ public class WB_GeometryFactory2D {
 	 *            parent coordinate system
 	 * @return coordinate system
 	 */
-	public WB_CoordinateSystem createCSFromOX2D(final WB_Coord origin, final WB_Coord X,
-			final WB_CoordinateSystem parent) {
+	public WB_CoordinateSystem3D createCSFromOX2D(final WB_Coord origin, final WB_Coord X,
+			final WB_CoordinateSystem3D parent) {
 		final WB_Point lOrigin = createPoint2D(origin.xd(), origin.yd());
 		final WB_Vector lX = createNormalizedVector2D(X.xd(), X.yd());
 		final WB_Vector lY = createVector2D(-lX.yd(), lX.xd());
@@ -245,15 +245,15 @@ public class WB_GeometryFactory2D {
 	 *
 	 * @return coordinate system
 	 */
-	public WB_CoordinateSystem createCSFromOXY2D(final WB_Coord origin, final WB_Coord X, final WB_Coord Y) {
+	public WB_CoordinateSystem3D createCSFromOXY2D(final WB_Coord origin, final WB_Coord X, final WB_Coord Y) {
 		final WB_Vector lX = createNormalizedVector2D(X);
 		WB_Vector lY = createNormalizedVector2D(Y);
 		final WB_Vector lZ = new WB_Vector(0, 0, 1);
-		if (WB_Epsilon.isZeroSq(lX.cross(lY).getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(lX.cross(lY).getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		lY = createNormalizedVector2D(lZ.cross(lX));
-		return new WB_CoordinateSystem(origin, lX, lY, lZ, WORLD());
+		return new WB_CoordinateSystem3D(origin, lX, lY, lZ, WORLD());
 	}
 
 	/**
@@ -269,16 +269,16 @@ public class WB_GeometryFactory2D {
 	 *
 	 * @return coordinate system
 	 */
-	public WB_CoordinateSystem createCSFromOXY2D(final WB_Coord origin, final WB_Coord X, final WB_Coord Y,
-			final WB_CoordinateSystem parent) {
+	public WB_CoordinateSystem3D createCSFromOXY2D(final WB_Coord origin, final WB_Coord X, final WB_Coord Y,
+			final WB_CoordinateSystem3D parent) {
 		final WB_Vector lX = createNormalizedVector2D(X);
 		WB_Vector lY = createNormalizedVector2D(Y);
 		final WB_Vector lZ = new WB_Vector(0, 0, 1);
-		if (WB_Epsilon.isZeroSq(lX.cross(lY).getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(lX.cross(lY).getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		lY = createNormalizedVector2D(lZ.cross(lX));
-		return new WB_CoordinateSystem(origin, lX, lY, lZ, parent);
+		return new WB_CoordinateSystem3D(origin, lX, lY, lZ, parent);
 	}
 
 	/**
@@ -289,8 +289,8 @@ public class WB_GeometryFactory2D {
 	 * @param parent
 	 * @return
 	 */
-	public WB_CoordinateSystem createTransformedCS(final WB_CoordinateSystem CS, final WB_Transform T,
-			final WB_CoordinateSystem parent) {
+	public WB_CoordinateSystem3D createTransformedCS(final WB_CoordinateSystem3D CS, final WB_Transform T,
+			final WB_CoordinateSystem3D parent) {
 		return CS.apply(T, parent);
 	}
 
@@ -301,7 +301,7 @@ public class WB_GeometryFactory2D {
 	 * @param T
 	 * @return
 	 */
-	public WB_CoordinateSystem createTransformedCS(final WB_CoordinateSystem CS, final WB_Transform T) {
+	public WB_CoordinateSystem3D createTransformedCS(final WB_CoordinateSystem3D CS, final WB_Transform T) {
 		return CS.apply(T);
 	}
 
@@ -515,7 +515,7 @@ public class WB_GeometryFactory2D {
 	public List<WB_Point> createIntersectionPoints2D(final WB_Circle C0, final WB_Circle C1) {
 		final List<WB_Point> result = new ArrayList<WB_Point>();
 		final WB_Vector u = createVector2D(C1.getCenter()).sub(C0.getCenter());
-		final double d2 = u.getSqLength3D();
+		final double d2 = u.getSqLength();
 		final double d = Math.sqrt(d2);
 		if (WB_Epsilon.isEqualAbs(d, C0.getRadius() + C1.getRadius())) {
 			result.add(createInterpolatedPoint2D(C0.getCenter(), C1.getCenter(),
@@ -537,7 +537,7 @@ public class WB_GeometryFactory2D {
 		final WB_Point p0 = createPoint2D(p0x, p0y);
 		result.add(p0);
 		final WB_Point p1 = createPoint2D(p1x, p1y);
-		if (!WB_Epsilon.isZeroSq(p0.getSqDistance3D(p1))) {
+		if (!WB_Epsilon.isZeroSq(p0.getSqDistance(p1))) {
 			result.add(p1);
 		}
 		return result;
@@ -670,7 +670,7 @@ public class WB_GeometryFactory2D {
 	 */
 	public WB_Point createInversionPoint2D(final WB_Coord p, final WB_Circle inversionCircle) {
 		final double r2 = inversionCircle.getRadius() * inversionCircle.getRadius();
-		final double OP = WB_GeometryOp.getDistance2D(inversionCircle.getCenter(), p);
+		final double OP = WB_GeometryOp2D.getDistance2D(inversionCircle.getCenter(), p);
 		if (WB_Epsilon.isZero(OP)) {
 			return null;
 		}
@@ -1137,7 +1137,7 @@ public class WB_GeometryFactory2D {
 	 */
 	public List<WB_Line> createLinesTangentToCircleThroughPoint(final WB_Circle C, final WB_Coord p) {
 		final List<WB_Line> result = new ArrayList<WB_Line>(2);
-		final double dcp = WB_GeometryOp.getDistance2D(C.getCenter(), p);
+		final double dcp = WB_GeometryOp2D.getDistance2D(C.getCenter(), p);
 		final WB_Vector u = createVector2D(p).sub(C.getCenter());
 		if (WB_Epsilon.isZero(dcp - C.getRadius())) {
 			result.add(createLineWithDirection2D(p, createVector2D(-u.yd(), u.xd())));
@@ -1185,7 +1185,7 @@ public class WB_GeometryFactory2D {
 	public List<WB_Line> createLinesTangentTo2Circles(final WB_Circle C0, final WB_Circle C1) {
 		final List<WB_Line> result = new ArrayList<WB_Line>(4);
 		final WB_Vector w = createVector2D(C1.getCenter()).sub(C0.getCenter());
-		final double wlensqr = w.getSqLength3D();
+		final double wlensqr = w.getSqLength();
 		final double rsum = C0.getRadius() + C1.getRadius();
 		final double rdiff = C1.getRadius() - C0.getRadius();
 		if (wlensqr < rdiff * rdiff) {
@@ -2610,7 +2610,7 @@ public class WB_GeometryFactory2D {
 	 * @param diameter
 	 * @return circle
 	 */
-	public WB_Circle createCircleWithDiametet(final WB_Coord center, final WB_Coord normal, final double diameter) {
+	public WB_Circle createCircleWithDiameter(final WB_Coord center, final WB_Coord normal, final double diameter) {
 		return new WB_Circle(center, normal, 0.5 * diameter);
 	}
 
@@ -2685,14 +2685,14 @@ public class WB_GeometryFactory2D {
 	 *         inversionCircle
 	 */
 	public WB_Circle createInversionCircle2D(final WB_Circle C, final WB_Circle inversionCircle) {
-		if (WB_GeometryOp.classifyPointToCircle2D(inversionCircle.getCenter(), C) == WB_Classification.ON) {
+		if (WB_GeometryOp2D.classifyPointToCircle2D(inversionCircle.getCenter(), C) == WB_Classification.ON) {
 			return null;
 		}
 		final double x0 = inversionCircle.getCenter().xd();
 		final double y0 = inversionCircle.getCenter().yd();
 		final double k = inversionCircle.getRadius();
 		final double k2 = k * k;
-		final double s = k2 / (WB_GeometryOp.getSqDistance3D(C.getCenter(), inversionCircle.getCenter())
+		final double s = k2 / (WB_GeometryOp3D.getSqDistance3D(C.getCenter(), inversionCircle.getCenter())
 				- C.getRadius() * C.getRadius());
 		return createCircleWithRadius(x0 + s * (C.getCenter().xd() - x0), y0 + s * (C.getCenter().yd() - y0),
 				Math.abs(s) * C.getRadius());
@@ -2770,35 +2770,35 @@ public class WB_GeometryFactory2D {
 	 */
 	public List<WB_Circle> createCirclePPL(final WB_Coord p, final WB_Coord q, final WB_Line L) {
 		final List<WB_Circle> result = new ArrayList<WB_Circle>();
-		if (!WB_GeometryOp.sameSideOfLine2D(p, q, L)) {
+		if (!WB_GeometryOp2D.sameSideOfLine2D(p, q, L)) {
 			return result;
 		}
-		if (WB_GeometryOp.classifyPointToLine2D(p, L) == WB_Classification.ON
-				&& WB_GeometryOp.classifyPointToLine2D(q, L) == WB_Classification.ON) {
+		if (WB_GeometryOp2D.classifyPointToLine2D(p, L) == WB_Classification.ON
+				&& WB_GeometryOp2D.classifyPointToLine2D(q, L) == WB_Classification.ON) {
 			return result;
 		}
 		final WB_Line PQ = createLineThroughPoints2D(p, q);
-		if (WB_GeometryOp.classifyPointToLine2D(p, L) == WB_Classification.ON) {
-			if (WB_Epsilon.isZeroSq(createClosestPointOnLine2D(q, L).getSqDistance3D(p))) {
+		if (WB_GeometryOp2D.classifyPointToLine2D(p, L) == WB_Classification.ON) {
+			if (WB_Epsilon.isZeroSq(createClosestPointOnLine2D(q, L).getSqDistance(p))) {
 				result.add(createCircleWithRadius(createPoint2D(p).mulAddMul(0.5, 0.5, q),
-						0.5 * WB_GeometryOp.getDistanceToPoint2D(p, q)));
+						0.5 * WB_GeometryOp2D.getDistanceToPoint2D(p, q)));
 			} else {
 				final WB_Line perp = createPerpendicularLineThroughPoint2D(L, p);
 				final WB_Line PQbis = createBisector2D(p, q);
 				final WB_Point intersect = createIntersectionPoint2D(perp, PQbis);
-				result.add(createCircleWithRadius(intersect, WB_GeometryOp.getDistanceToPoint2D(p, intersect)));
+				result.add(createCircleWithRadius(intersect, WB_GeometryOp2D.getDistanceToPoint2D(p, intersect)));
 			}
 			return result;
 		}
-		if (WB_GeometryOp.classifyPointToLine2D(q, L) == WB_Classification.ON) {
-			if (WB_Epsilon.isZeroSq(createClosestPointOnLine2D(p, L).getSqDistance3D(q))) {
+		if (WB_GeometryOp2D.classifyPointToLine2D(q, L) == WB_Classification.ON) {
+			if (WB_Epsilon.isZeroSq(createClosestPointOnLine2D(p, L).getSqDistance(q))) {
 				result.add(createCircleWithRadius(createPoint2D(p).mulAddMulSelf(0.5, 0.5, q),
-						0.5 * WB_GeometryOp.getDistanceToPoint2D(p, q)));
+						0.5 * WB_GeometryOp2D.getDistanceToPoint2D(p, q)));
 			} else {
 				final WB_Line perp = createPerpendicularLineThroughPoint2D(L, q);
 				final WB_Line PQbis = createBisector2D(p, q);
 				final WB_Point intersect = createIntersectionPoint2D(perp, PQbis);
-				result.add(createCircleWithRadius(intersect, WB_GeometryOp.getDistanceToPoint2D(p, intersect)));
+				result.add(createCircleWithRadius(intersect, WB_GeometryOp2D.getDistanceToPoint2D(p, intersect)));
 			}
 			return result;
 		}
@@ -2808,7 +2808,7 @@ public class WB_GeometryFactory2D {
 					createPoint2D(0.5 * p.xd() + 0.5 * q.xd(), 0.5 * p.yd() + 0.5 * q.yd()), L);
 			result.add(createCirclePPP(p, q, r));
 		} else {
-			double d = WB_GeometryOp.getDistanceToPoint2D(p, q);
+			double d = WB_GeometryOp2D.getDistanceToPoint2D(p, q);
 			final WB_Circle OPQ = createCircleThrough2Points(p, q, d).get(0);
 			final WB_Point center = F.mulAddMul(0.5, 0.5, OPQ.getCenter());
 			final WB_Circle STF = createCircleWithRadius(center, center.getDistance2D(F));
@@ -2839,7 +2839,7 @@ public class WB_GeometryFactory2D {
 		final WB_Point A = createIntersectionPoint2D(L1, L2);
 		final List<WB_Line> bis = createAngleBisector2D(L1, L2);
 		if (A == null) {
-			final double r = WB_GeometryOp.getDistanceToLine2D(L1.getOrigin(), bis.get(0));
+			final double r = WB_GeometryOp2D.getDistanceToLine2D(L1.getOrigin(), bis.get(0));
 			final WB_Circle C = createCircleWithRadius(p, r);
 			final List<WB_Point> intersections = createIntersectionPoints2D(bis.get(0), C);
 			for (final WB_Point point : intersections) {
@@ -2849,8 +2849,8 @@ public class WB_GeometryFactory2D {
 			final List<WB_Circle> circles = createCircleTangentTo2Lines(L1, L2, 100.0);
 			final List<WB_Circle> selcircles = new ArrayList<WB_Circle>();
 			for (final WB_Circle C : circles) {
-				if (WB_GeometryOp.sameSideOfLine2D(p, C.getCenter(), L1)
-						&& WB_GeometryOp.sameSideOfLine2D(p, C.getCenter(), L2)) {
+				if (WB_GeometryOp2D.sameSideOfLine2D(p, C.getCenter(), L1)
+						&& WB_GeometryOp2D.sameSideOfLine2D(p, C.getCenter(), L2)) {
 					selcircles.add(C);
 				}
 			}
@@ -2866,7 +2866,7 @@ public class WB_GeometryFactory2D {
 					final double AK = AD / AG * AE;
 					final WB_Vector v = createNormalizedVector2D(E.sub(A));
 					final WB_Point K = createPoint2D(A.addMul(AK, v));
-					result.add(createCircleWithRadius(K, WB_GeometryOp.getDistanceToLine2D(K, L1)));
+					result.add(createCircleWithRadius(K, WB_GeometryOp2D.getDistanceToLine2D(K, L1)));
 				} else if (intersections.size() == 2) {
 					final WB_Point G = intersections.get(0);
 					final WB_Point H = intersections.get(1);
@@ -2879,8 +2879,8 @@ public class WB_GeometryFactory2D {
 					final WB_Vector v = createNormalizedVector2D(E.sub(A));
 					final WB_Point I = createPoint2D(A.addMul(AI, v));
 					final WB_Point K = createPoint2D(A.addMul(AK, v));
-					result.add(createCircleWithRadius(I, WB_GeometryOp.getDistanceToLine2D(I, L1)));
-					result.add(createCircleWithRadius(K, WB_GeometryOp.getDistanceToLine2D(K, L1)));
+					result.add(createCircleWithRadius(I, WB_GeometryOp2D.getDistanceToLine2D(I, L1)));
+					result.add(createCircleWithRadius(K, WB_GeometryOp2D.getDistanceToLine2D(K, L1)));
 				}
 			}
 		}
@@ -2901,9 +2901,9 @@ public class WB_GeometryFactory2D {
 	 */
 	public List<WB_Circle> createCirclePPC(final WB_Coord p, final WB_Coord q, final WB_Circle C) {
 		final List<WB_Circle> result = new ArrayList<WB_Circle>();
-		final WB_Classification pType = WB_GeometryOp.classifyPointToCircle2D(p, C);
-		final WB_Classification qType = WB_GeometryOp.classifyPointToCircle2D(q, C);
-		if (WB_Epsilon.isZero(WB_GeometryOp.getDistanceToPoint2D(p, q))) {
+		final WB_Classification pType = WB_GeometryOp2D.classifyPointToCircle2D(p, C);
+		final WB_Classification qType = WB_GeometryOp2D.classifyPointToCircle2D(q, C);
+		if (WB_Epsilon.isZero(WB_GeometryOp2D.getDistanceToPoint2D(p, q))) {
 			return result;
 		}
 		// Both points on circle: only solution is circle itself
@@ -2973,14 +2973,14 @@ public class WB_GeometryFactory2D {
 			final WB_Circle iC;
 			final WB_Circle iC2;
 			final double k2;
-			final boolean dp = WB_Epsilon.isZero(WB_GeometryOp.getDistance2D(C.getCenter(), p));
-			final boolean dq = WB_Epsilon.isZero(WB_GeometryOp.getDistance2D(C.getCenter(), q));
+			final boolean dp = WB_Epsilon.isZero(WB_GeometryOp2D.getDistance2D(C.getCenter(), p));
+			final boolean dq = WB_Epsilon.isZero(WB_GeometryOp2D.getDistance2D(C.getCenter(), q));
 			if (dp || dq) {
 				final WB_Vector v = createNormalizedVector2D(-p.yd() - q.yd(), p.xd() + q.xd());
 				iC = createCircleWithRadius(WB_Point.addMul(C.getCenter(), 0.5 * C.getRadius(), v), C.getRadius() * 3);
 				k2 = iC.getRadius() * iC.getRadius();
-				final double s = k2
-						/ (WB_GeometryOp.getDistance2D(C.getCenter(), iC.getCenter()) - C.getRadius() * C.getRadius());
+				final double s = k2 / (WB_GeometryOp2D.getDistance2D(C.getCenter(), iC.getCenter())
+						- C.getRadius() * C.getRadius());
 				iC2 = createCircleWithRadius(iC.getCenter().xd() + s * (C.getCenter().xd() - iC.getCenter().xd()),
 						iC.getCenter().yd() + s * (C.getCenter().yd() - iC.getCenter().yd()),
 						Math.abs(s) * C.getRadius());
@@ -3024,7 +3024,7 @@ public class WB_GeometryFactory2D {
 				}
 			}
 			for (final WB_Circle circle : iresult) {
-				final double s = k2 / (WB_GeometryOp.getSqDistance3D(circle.getCenter(), iC.getCenter())
+				final double s = k2 / (WB_GeometryOp3D.getSqDistance3D(circle.getCenter(), iC.getCenter())
 						- circle.getRadius() * circle.getRadius());
 				result.add(createCircleWithRadius(
 						iC.getCenter().xd() + s * (circle.getCenter().xd() - iC.getCenter().xd()),
@@ -3050,26 +3050,26 @@ public class WB_GeometryFactory2D {
 			return result;
 		}
 		// p on C1
-		if (WB_GeometryOp.classifyPointToCircle2D(p, C1) == WB_Classification.ON) {
+		if (WB_GeometryOp2D.classifyPointToCircle2D(p, C1) == WB_Classification.ON) {
 			final WB_Line tangent = createLineTangentToCircleInPoint(C1, p);
 			return createCirclePLC(p, tangent, C2);
 		}
 		// p on C2
-		if (WB_GeometryOp.classifyPointToCircle2D(p, C2) == WB_Classification.ON) {
+		if (WB_GeometryOp2D.classifyPointToCircle2D(p, C2) == WB_Classification.ON) {
 			final WB_Line tangent = createLineTangentToCircleInPoint(C2, p);
 			return createCirclePLC(p, tangent, C1);
 		}
-		final WB_Classification C1toC2 = WB_GeometryOp.classifyCircleToCircle2D(C1, C2);
+		final WB_Classification C1toC2 = WB_GeometryOp2D.classifyCircleToCircle2D(C1, C2);
 		// C1 tangent to C2
-		if (WB_GeometryOp.isTangent2D(C1, C2)) {
+		if (WB_GeometryOp2D.isTangent2D(C1, C2)) {
 			final WB_Point q = createIntersectionPoints2D(C1, C2).get(0);
 			result.addAll(createCirclePPC(p, q, C1));
 			// C1 inside C2, transform to outside case
 		} else if (C1toC2 == WB_Classification.INSIDE) {
-			if (WB_GeometryOp.classifyPointToCircle2D(p, C1) == WB_Classification.INSIDE) {
+			if (WB_GeometryOp2D.classifyPointToCircle2D(p, C1) == WB_Classification.INSIDE) {
 				return result;
 			}
-			final WB_Vector v = !WB_Epsilon.isZero(WB_GeometryOp.getDistance2D(C1.getCenter(), C2.getCenter()))
+			final WB_Vector v = !WB_Epsilon.isZero(WB_GeometryOp2D.getDistance2D(C1.getCenter(), C2.getCenter()))
 					? createNormalizedVectorFromTo2D(C1.getCenter(), C2.getCenter()) : new WB_Vector(X2D());
 			WB_Point invcenter = WB_Point.addMul(C1.getCenter(), 0.5 * (C1.getRadius() + C2.getRadius()), v);
 			if (WB_Epsilon.isZero(invcenter.getDistance2D(p))) {
@@ -3088,10 +3088,10 @@ public class WB_GeometryFactory2D {
 			}
 			// C2 inside C1, transfrom to outside case
 		} else if (C1toC2 == WB_Classification.CONTAINING) {
-			if (WB_GeometryOp.classifyPointToCircle2D(p, C2) == WB_Classification.INSIDE) {
+			if (WB_GeometryOp2D.classifyPointToCircle2D(p, C2) == WB_Classification.INSIDE) {
 				return result;
 			}
-			final WB_Vector v = !WB_Epsilon.isZero(WB_GeometryOp.getDistance2D(C1.getCenter(), C2.getCenter()))
+			final WB_Vector v = !WB_Epsilon.isZero(WB_GeometryOp2D.getDistance2D(C1.getCenter(), C2.getCenter()))
 					? createNormalizedVectorFromTo2D(C2.getCenter(), C1.getCenter()) : new WB_Vector(X2D());
 			WB_Point invcenter = WB_Point.addMul(C2.getCenter(), 0.5 * (C1.getRadius() + C2.getRadius()), v);
 			if (WB_Epsilon.isZero(invcenter.getDistance2D(p))) {
@@ -3112,8 +3112,8 @@ public class WB_GeometryFactory2D {
 		// C1 and C2 outside or C1 and C2 crossing with p in intersection or
 		// completely outside
 		else if (C1toC2 == WB_Classification.OUTSIDE || C1toC2 == WB_Classification.CROSSING
-				&& !(WB_GeometryOp.classifyPointToCircle2D(p, C1) == WB_Classification.OUTSIDE)
-						^ WB_GeometryOp.classifyPointToCircle2D(p, C2) == WB_Classification.OUTSIDE) {
+				&& !(WB_GeometryOp2D.classifyPointToCircle2D(p, C1) == WB_Classification.OUTSIDE)
+						^ WB_GeometryOp2D.classifyPointToCircle2D(p, C2) == WB_Classification.OUTSIDE) {
 			final List<WB_Line> tangents = createLinesTangentTo2Circles(C1, C2);
 			// if ((WB_Classify.classifyPointToCircle2D(p, C1) ==
 			// WB_Classification.INSIDE)
@@ -3121,11 +3121,11 @@ public class WB_GeometryFactory2D {
 			// WB_Classification.INSIDE)) {
 			// return result;
 			// }
-			if (WB_GeometryOp.classifyPointToCircle2D(p, C1) == WB_Classification.ON) {
+			if (WB_GeometryOp2D.classifyPointToCircle2D(p, C1) == WB_Classification.ON) {
 				final WB_Line L = createLineTangentToCircleInPoint(C1, p);
 				return createCirclePLC(p, L, C2);
 			}
-			if (WB_GeometryOp.classifyPointToCircle2D(p, C2) == WB_Classification.ON) {
+			if (WB_GeometryOp2D.classifyPointToCircle2D(p, C2) == WB_Classification.ON) {
 				final WB_Line L = createLineTangentToCircleInPoint(C2, p);
 				return createCirclePLC(p, L, C1);
 			}
@@ -3173,8 +3173,8 @@ public class WB_GeometryFactory2D {
 						final List<WB_Circle> filter = new ArrayList<WB_Circle>();
 						for (int i = 0; i < result.size(); i++) {
 							final WB_Circle C = result.get(i);
-							if (WB_GeometryOp.isTangent2D(C, C1) && WB_GeometryOp.isTangent2D(C, C2)
-									&& WB_GeometryOp.classifyPointToCircle2D(p, C) == WB_Classification.ON) {
+							if (WB_GeometryOp2D.isTangent2D(C, C1) && WB_GeometryOp2D.isTangent2D(C, C2)
+									&& WB_GeometryOp2D.classifyPointToCircle2D(p, C) == WB_Classification.ON) {
 								filter.add(C);
 							}
 						}
@@ -3206,9 +3206,9 @@ public class WB_GeometryFactory2D {
 		}
 		// C1 and C2 crossing and p in only one of the two circles
 		else {
-			if (WB_GeometryOp.classifyPointToCircle2D(p, C1) == WB_Classification.INSIDE) {
-				final double r1 = C1.getRadius() - WB_GeometryOp.getDistance2D(C1.getCenter(), p);
-				final double r2 = WB_GeometryOp.getDistance2D(C2.getCenter(), p) - C2.getRadius();
+			if (WB_GeometryOp2D.classifyPointToCircle2D(p, C1) == WB_Classification.INSIDE) {
+				final double r1 = C1.getRadius() - WB_GeometryOp2D.getDistance2D(C1.getCenter(), p);
+				final double r2 = WB_GeometryOp2D.getDistance2D(C2.getCenter(), p) - C2.getRadius();
 				WB_Circle invC;
 				if (r1 <= r2) {
 					final WB_Coord v = createLineThroughPoints2D(C1.getCenter(), p).getDirection();
@@ -3228,8 +3228,8 @@ public class WB_GeometryFactory2D {
 					}
 				}
 			} else {
-				final double r1 = -C1.getRadius() + WB_GeometryOp.getDistance2D(C1.getCenter(), p);
-				final double r2 = -WB_GeometryOp.getDistance2D(C2.getCenter(), p) + C2.getRadius();
+				final double r1 = -C1.getRadius() + WB_GeometryOp2D.getDistance2D(C1.getCenter(), p);
+				final double r2 = -WB_GeometryOp2D.getDistance2D(C2.getCenter(), p) + C2.getRadius();
 				WB_Circle invC;
 				if (r1 <= r2) {
 					final WB_Coord v = createLineThroughPoints2D(C1.getCenter(), p).getDirection();
@@ -3269,22 +3269,22 @@ public class WB_GeometryFactory2D {
 		final List<WB_Circle> result = new ArrayList<WB_Circle>();
 		createIntersectionPoints2D(L, C).size();
 		WB_Line Lperp = createPerpendicularLineThroughPoint2D(L, C.getCenter());
-		if (WB_GeometryOp.classifyPointToCircle2D(p, C) == WB_Classification.ON) {
+		if (WB_GeometryOp2D.classifyPointToCircle2D(p, C) == WB_Classification.ON) {
 			final WB_Line tangent = createLineTangentToCircleInPoint(C, p);
 			result.addAll(createCirclePLL(p, tangent, L));
-		} else if (WB_GeometryOp.classifyPointToLine2D(p, L) == WB_Classification.ON) {
+		} else if (WB_GeometryOp2D.classifyPointToLine2D(p, L) == WB_Classification.ON) {
 			List<WB_Point> points = createIntersectionPoints2D(Lperp, C);
 			final WB_Point A1 = points.get(0);
 			final WB_Point A2 = points.get(1);
-			if (WB_GeometryOp.classifyPointToLine2D(p, Lperp) != WB_Classification.ON) {
+			if (WB_GeometryOp2D.classifyPointToLine2D(p, Lperp) != WB_Classification.ON) {
 				final WB_Point B = createIntersectionPoint2D(L, Lperp);
 				if (WB_Epsilon.isZero(A2.getDistance2D(B))) {
 					final WB_Line A1P = createLineThroughPoints2D(A1, p);
 					points = createIntersectionPoints2D(A1P, C);
 					WB_Point Q1 = null;
-					if (!WB_Epsilon.isZeroSq(points.get(0).getSqDistance3D(A1))) {
+					if (!WB_Epsilon.isZeroSq(points.get(0).getSqDistance(A1))) {
 						Q1 = points.get(0);
-					} else if (!WB_Epsilon.isZeroSq(points.get(1).getSqDistance3D(A1))) {
+					} else if (!WB_Epsilon.isZeroSq(points.get(1).getSqDistance(A1))) {
 						Q1 = points.get(1);
 					}
 					if (Q1 != null) {
@@ -3298,9 +3298,9 @@ public class WB_GeometryFactory2D {
 					final WB_Circle BA2P = createCirclePPP(B, A2, p);
 					points = createIntersectionPoints2D(A1P, BA2P);
 					WB_Point Q1 = null;
-					if (!WB_Epsilon.isZeroSq(points.get(0).getSqDistance3D(p))) {
+					if (!WB_Epsilon.isZeroSq(points.get(0).getSqDistance(p))) {
 						Q1 = points.get(0);
-					} else if (!WB_Epsilon.isZeroSq(points.get(1).getSqDistance3D(p))) {
+					} else if (!WB_Epsilon.isZeroSq(points.get(1).getSqDistance(p))) {
 						Q1 = points.get(1);
 					}
 					if (Q1 != null) {
@@ -3311,9 +3311,9 @@ public class WB_GeometryFactory2D {
 					final WB_Line A2P = createLineThroughPoints2D(A2, p);
 					points = createIntersectionPoints2D(A2P, C);
 					WB_Point Q1 = null;
-					if (!WB_Epsilon.isZeroSq(points.get(0).getSqDistance3D(A2))) {
+					if (!WB_Epsilon.isZeroSq(points.get(0).getSqDistance(A2))) {
 						Q1 = points.get(0);
-					} else if (!WB_Epsilon.isZeroSq(points.get(1).getSqDistance3D(A1))) {
+					} else if (!WB_Epsilon.isZeroSq(points.get(1).getSqDistance(A1))) {
 						Q1 = points.get(1);
 					}
 					if (Q1 != null) {
@@ -3327,9 +3327,9 @@ public class WB_GeometryFactory2D {
 					final WB_Circle BA1P = createCirclePPP(B, A1, p);
 					points = createIntersectionPoints2D(A2P, BA1P);
 					WB_Point Q2 = null;
-					if (!WB_Epsilon.isZeroSq(points.get(0).getSqDistance3D(p))) {
+					if (!WB_Epsilon.isZeroSq(points.get(0).getSqDistance(p))) {
 						Q2 = points.get(0);
-					} else if (!WB_Epsilon.isZeroSq(points.get(1).getSqDistance3D(p))) {
+					} else if (!WB_Epsilon.isZeroSq(points.get(1).getSqDistance(p))) {
 						Q2 = points.get(1);
 					}
 					if (Q2 != null) {
@@ -3337,21 +3337,21 @@ public class WB_GeometryFactory2D {
 					}
 				}
 			} else {
-				double d = WB_GeometryOp.getDistanceToLine2D(A1, L);
+				double d = WB_GeometryOp2D.getDistanceToLine2D(A1, L);
 				if (!WB_Epsilon.isZero(d)) {
 					result.add(createCircleWithRadius(createInterpolatedPoint2D(p, A1, 0.5), 0.5 * d));
 				}
-				d = WB_GeometryOp.getDistanceToLine2D(A2, L);
+				d = WB_GeometryOp2D.getDistanceToLine2D(A2, L);
 				if (!WB_Epsilon.isZero(d)) {
 					result.add(createCircleWithRadius(createInterpolatedPoint2D(p, A2, 0.5), 0.5 * d));
 				}
 			}
 		} else {
-			final boolean tangentcircle = WB_GeometryOp.classifyCircleToLine2D(C, L) == WB_Classification.TANGENT;
+			final boolean tangentcircle = WB_GeometryOp2D.classifyCircleToLine2D(C, L) == WB_Classification.TANGENT;
 			if (tangentcircle) {
 				result.addAll(createCirclePPL(p, createClosestPointOnLine2D(C.getCenter(), L), L));
-				if (WB_GeometryOp.classifyPointToLine2D(p, L) == WB_GeometryOp.classifyPointToLine2D(C.getCenter(), L)
-						&& WB_GeometryOp.classifyPointToCircle2D(p, C) != WB_Classification.INSIDE) {
+				if (WB_GeometryOp2D.classifyPointToLine2D(p, L) == WB_GeometryOp2D.classifyPointToLine2D(C.getCenter(),
+						L) && WB_GeometryOp2D.classifyPointToCircle2D(p, C) != WB_Classification.INSIDE) {
 					final WB_Circle inversion = createCircleWithRadius(p, 100.0);
 					WB_Point p1 = createInversionPoint2D(L.getOrigin(), inversion);
 					WB_Point p2 = createInversionPoint2D(L.getPoint(100.0), inversion);
@@ -3462,7 +3462,7 @@ public class WB_GeometryFactory2D {
 		final List<WB_Line> bis = createAngleBisector2D(L1, L2);
 		if (A == null) {
 			final WB_Line bisec = bis.get(0);
-			final double d = 0.5 * WB_GeometryOp.getDistanceToLine2D(L1.getOrigin(), L2);
+			final double d = 0.5 * WB_GeometryOp2D.getDistanceToLine2D(L1.getOrigin(), L2);
 			final WB_Circle C1 = createCircleWithRadius(C.getCenter(), d + C.getRadius());
 			final WB_Circle C2 = createCircleWithRadius(C.getCenter(), d - C.getRadius());
 			final List<WB_Point> points = createIntersectionPoints2D(bisec, C1);
@@ -3470,7 +3470,7 @@ public class WB_GeometryFactory2D {
 			for (final WB_Point point : points) {
 				result.add(createCircleWithRadius(point, d));
 			}
-		} else if (WB_Epsilon.isZeroSq(A.getSqDistance3D(p))) {
+		} else if (WB_Epsilon.isZeroSq(A.getSqDistance(p))) {
 			final List<WB_Point> points = createIntersectionPoints2D(bis.get(0), C);
 			points.addAll(createIntersectionPoints2D(bis.get(1), C));
 			for (final WB_Point point : points) {
@@ -3486,7 +3486,7 @@ public class WB_GeometryFactory2D {
 			List<WB_Circle> tmp = createCirclePLL(p, L1s, L2s);
 			for (final WB_Circle circle : tmp) {
 				result.add(createCircleWithRadius(circle.getCenter(),
-						WB_GeometryOp.getDistanceToLine2D(circle.getCenter(), L1)));
+						WB_GeometryOp2D.getDistanceToLine2D(circle.getCenter(), L1)));
 			}
 			L1s = createLineWithDirection2D(new WB_Point(L1.getOrigin()).addMulSelf(C.getRadius(), v1),
 					L1.getDirection());
@@ -3495,7 +3495,7 @@ public class WB_GeometryFactory2D {
 			tmp = createCirclePLL(p, L1s, L2s);
 			for (final WB_Circle circle : tmp) {
 				result.add(createCircleWithRadius(circle.getCenter(),
-						WB_GeometryOp.getDistanceToLine2D(circle.getCenter(), L1)));
+						WB_GeometryOp2D.getDistanceToLine2D(circle.getCenter(), L1)));
 			}
 			L1s = createLineWithDirection2D(new WB_Point(L1.getOrigin()).addMulSelf(-C.getRadius(), v1),
 					L1.getDirection());
@@ -3504,7 +3504,7 @@ public class WB_GeometryFactory2D {
 			tmp = createCirclePLL(p, L1s, L2s);
 			for (final WB_Circle circle : tmp) {
 				result.add(createCircleWithRadius(circle.getCenter(),
-						WB_GeometryOp.getDistanceToLine2D(circle.getCenter(), L1)));
+						WB_GeometryOp2D.getDistanceToLine2D(circle.getCenter(), L1)));
 			}
 			L1s = createLineWithDirection2D(new WB_Point(L1.getOrigin()).addMulSelf(C.getRadius(), v1),
 					L1.getDirection());
@@ -3513,16 +3513,16 @@ public class WB_GeometryFactory2D {
 			tmp = createCirclePLL(p, L1s, L2s);
 			for (final WB_Circle circle : tmp) {
 				result.add(createCircleWithRadius(circle.getCenter(),
-						WB_GeometryOp.getDistanceToLine2D(circle.getCenter(), L1)));
+						WB_GeometryOp2D.getDistanceToLine2D(circle.getCenter(), L1)));
 			}
 		}
 		final List<WB_Circle> filter = new ArrayList<WB_Circle>();
 		for (int i = 0; i < result.size(); i++) {
 			if (!result.get(i).equals(C)
 					&& WB_Epsilon.isEqualAbs(result.get(i).getRadius(),
-							WB_GeometryOp.getDistanceToLine2D(result.get(i).getCenter(), L1))
+							WB_GeometryOp2D.getDistanceToLine2D(result.get(i).getCenter(), L1))
 					&& WB_Epsilon.isEqualAbs(result.get(i).getRadius(),
-							WB_GeometryOp.getDistanceToLine2D(result.get(i).getCenter(), L2))) {
+							WB_GeometryOp2D.getDistanceToLine2D(result.get(i).getCenter(), L2))) {
 				filter.add(result.get(i));
 			}
 		}
@@ -3584,8 +3584,8 @@ public class WB_GeometryFactory2D {
 		}
 		for (final WB_Circle circle : tmp) {
 			final WB_Circle newC = createCircleWithRadius(circle.getCenter(),
-					WB_GeometryOp.getDistanceToLine2D(circle.getCenter(), L));
-			if (WB_GeometryOp.isTangent2D(newC, C1) && WB_GeometryOp.isTangent2D(newC, C2)) {
+					WB_GeometryOp2D.getDistanceToLine2D(circle.getCenter(), L));
+			if (WB_GeometryOp2D.isTangent2D(newC, C1) && WB_GeometryOp2D.isTangent2D(newC, C2)) {
 				result.add(newC);
 			}
 		}
@@ -3716,8 +3716,8 @@ public class WB_GeometryFactory2D {
 		for (int i = 0; i < result.size(); i++) {
 			C = result.get(i);
 			if (!C.equals(C1) && !C.equals(C2) && !C.equals(C3)) {
-				if (WB_GeometryOp.isTangent2D(C, C1) && WB_GeometryOp.isTangent2D(C, C2)
-						&& WB_GeometryOp.isTangent2D(C, C3)) {
+				if (WB_GeometryOp2D.isTangent2D(C, C1) && WB_GeometryOp2D.isTangent2D(C, C2)
+						&& WB_GeometryOp2D.isTangent2D(C, C3)) {
 					filter.add(result.get(i));
 				}
 			}
@@ -3904,7 +3904,7 @@ public class WB_GeometryFactory2D {
 	 */
 	public List<WB_Circle> createCircleTangentToLineAndCircle(final WB_Line L, final WB_Circle C, final double r) {
 		final List<WB_Circle> result = new ArrayList<WB_Circle>(8);
-		final double d = WB_GeometryOp.getDistanceToLine2D(C.getCenter(), L);
+		final double d = WB_GeometryOp2D.getDistanceToLine2D(C.getCenter(), L);
 		if (d > 2 * r + C.getRadius()) {
 			return result;
 		}
@@ -3943,7 +3943,7 @@ public class WB_GeometryFactory2D {
 	public List<WB_Circle> createCircleTangentTo2CirclesNonCollinear(final WB_Circle C0, final WB_Circle C1,
 			final double r) {
 		final List<WB_Circle> result = new ArrayList<WB_Circle>(2);
-		final double d = WB_GeometryOp.getDistance2D(C0.getCenter(), C1.getCenter());
+		final double d = WB_GeometryOp2D.getDistance2D(C0.getCenter(), C1.getCenter());
 		if (WB_Epsilon.isZero(d)) {
 			return result;
 		}
@@ -3979,7 +3979,7 @@ public class WB_GeometryFactory2D {
 	 */
 	public List<WB_Circle> createCircleTangentTo2CirclesCollinear(final WB_Circle C0, final WB_Circle C1) {
 		final List<WB_Circle> result = new ArrayList<WB_Circle>(2);
-		final double d = WB_GeometryOp.getDistance2D(C0.getCenter(), C1.getCenter());
+		final double d = WB_GeometryOp2D.getDistance2D(C0.getCenter(), C1.getCenter());
 		if (WB_Epsilon.isZero(d)) {
 			return result;
 		}

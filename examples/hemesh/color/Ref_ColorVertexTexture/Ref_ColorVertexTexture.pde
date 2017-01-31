@@ -9,10 +9,10 @@ WB_Render render;
 PImage img;
 
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
   textureMode(NORMAL);
-  mesh=new HE_Mesh(new HEC_Grid(25,25, 500,500)); 
+  mesh=new HE_Mesh(new HEC_Grid(50,50, 500,500)); 
   img=loadImage("texture.jpg");
   render=new WB_Render(this);
   render.setVertexColorFromTexture(mesh,img);
@@ -21,7 +21,7 @@ void setup() {
 void draw() {
   background(55);
   lights();
-  translate(400, 400, 0);
+  translate(width/2, height/2);
   rotateY(mouseX*1.0f/width*TWO_PI);
   rotateX(mouseY*1.0f/height*TWO_PI);
   noStroke();

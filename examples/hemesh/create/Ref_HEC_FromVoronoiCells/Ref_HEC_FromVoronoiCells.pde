@@ -12,15 +12,14 @@ int numcells;
 HE_Mesh fusedcells;
 
 WB_Render3D render;
-WB_DebugRender3D drender;
+
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
   createContainer();
   numpoints=100;
   createMesh();
   render=new WB_Render(this);
-  drender=new WB_DebugRender3D(this);
 }
 
 void createContainer() {
@@ -51,7 +50,6 @@ void createMesh() {
   while (mItr.hasNext()) {
     m= mItr.next();
     m.setFaceColorWithOtherInternalLabel(color(255-2*counter, 220, 2*counter), -1);
-
     counter++;
   }
 
@@ -90,9 +88,6 @@ void draw() {
   translate(width/2, height/2, 0);
   rotateY(mouseX*1.0f/width*TWO_PI);
   rotateX(mouseY*1.0f/height*TWO_PI);
-  strokeWeight(3);
-  stroke(255, 0, 0);
-  drender.drawBoundaryEdges(fusedcells);
   strokeWeight(1);
   stroke(0);
   render.drawEdges(fusedcells);

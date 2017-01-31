@@ -12,7 +12,7 @@ PImage img;
 int MODE=0;
 
 void setup() {
-  size(800, 800, OPENGL);
+  size(1000, 1000, P3D);
   smooth(8);
   textureMode(NORMAL);
   create();
@@ -32,11 +32,10 @@ void create() {
     HEC_Grid creator0=new HEC_Grid();
     creator0.setU(20);
     creator0.setV(20);
-    creator0.setUSize(500);
-    creator0.setVSize(500);
+    creator0.setUSize(600);
+    creator0.setVSize(600);
     creator0.setWValues(values);
     mesh=new HE_Mesh(creator0);
-  
     break;
   case 1:
     HEC_Cylinder creator1=new HEC_Cylinder();
@@ -45,7 +44,7 @@ void create() {
     creator1.setFacets(14).setSteps(1);
     creator1.setCap(true, true);
     mesh=new HE_Mesh(creator1); 
-     HET_MeshOp.flipFaces(mesh);
+    HET_MeshOp.flipFaces(mesh);
     break;
   case 2:
     HEC_Cone creator2=new HEC_Cone();
@@ -58,18 +57,13 @@ void create() {
   case 3:
     mesh=new HE_Mesh(new HEC_Torus(80, 200, 6, 12).setTwist(4)); 
     break;
-     case 4:
+  case 4:
     mesh=new HE_Mesh(new HEC_Hemisphere().setCap(false).setRadius(200).setUFacets(16).setVFacets(8));
     mesh.modify(new HEM_Shell().setThickness(10));
-   
-   
     break;
- 
   case 5:
     mesh=new HE_Mesh(new HEC_Sphere().setRadius(2000).setUFacets(64).setVFacets(32));
-
-   break;
- 
+    break;
   case 6:
     HEC_SuperDuper creator6=new HEC_SuperDuper();
     creator6.setU(64);
@@ -84,23 +78,17 @@ void create() {
 }
 
 void draw() {
-  background(120);
-  //lights();
-  translate(400, 400, 0);
- 
-  rotateX(map(mouseY,0,height,-PI,0));
-   rotateZ(map(mouseX,0,width,-PI,PI));
+  background(55);
+  translate(width/2, height/2);
+  rotateX(map(mouseY, 0, height, -PI, 0));
+  rotateZ(map(mouseX, 0, width, -PI, PI));
   noStroke();
   render.drawFaces(mesh, img);
   stroke(0);
   render.drawEdges(mesh);
 }
 
-void mousePressed(){
- MODE=(MODE+1)%7;
-create(); 
-}
-
-void keyPressed(){
- mesh.smooth(); 
+void mousePressed() {
+  MODE=(MODE+1)%7;
+  create();
 }

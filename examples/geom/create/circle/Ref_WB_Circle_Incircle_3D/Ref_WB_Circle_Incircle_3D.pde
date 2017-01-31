@@ -26,7 +26,7 @@ void setup() {
   while (fItr.hasNext()) {
     f=fItr.next();
     T=new WB_Triangle(f.getHalfedge().getVertex(), f.getHalfedge().getNextInFace().getVertex(), f.getHalfedge().getPrevInFace().getVertex());
-    circles.add(gf.createIncircle3D(T));
+    circles.add(gf.createIncircle(T));
   }
 }
 

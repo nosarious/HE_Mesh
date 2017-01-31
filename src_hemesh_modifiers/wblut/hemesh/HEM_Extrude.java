@@ -19,8 +19,9 @@ import javolution.util.FastTable;
 import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_GeometryFactory;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_IntersectionResult;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Polygon;
@@ -874,7 +875,7 @@ public class HEM_Extrude extends HEM_Modifier {
 				final HE_Face f2 = e.getPair().getFace();
 				if (f1 != null && f2 != null) {
 					if (f1.getInternalLabel() == 2 && f2.getInternalLabel() == 2) {
-						if (WB_Vector.cross(f1.getFaceNormal(), f2.getFaceNormal()).getSqLength3D() < sin2FA) {
+						if (WB_Vector.cross(f1.getFaceNormal(), f2.getFaceNormal()).getSqLength() < sin2FA) {
 							final HE_Face f = mesh.deleteEdge(e);
 							if (f != null) {
 								f.setInternalLabel(3);
@@ -963,7 +964,7 @@ public class HEM_Extrude extends HEM_Modifier {
 					final WB_Coord v3 = faceVertices.get((i + 1) % n);
 					final WB_Segment S1 = new WB_Segment(WB_Point.addMul(v1, d[j], n1), WB_Point.addMul(v2, d[j], n1));
 					final WB_Segment S2 = new WB_Segment(WB_Point.addMul(v2, d[i], n2), WB_Point.addMul(v3, d[i], n2));
-					final WB_IntersectionResult ir = WB_GeometryOp.getIntersection3D(S1, S2);
+					final WB_IntersectionResult ir = WB_GeometryOp3D.getIntersection3D(S1, S2);
 					final WB_Coord p = ir.dimension == 0 ? (WB_Point) ir.object : ((WB_Segment) ir.object).getCenter();
 					extFaceVertices.get(i).set(p);
 					v1 = v2;
@@ -1031,7 +1032,7 @@ public class HEM_Extrude extends HEM_Modifier {
 			for (int i = 0; i < newhes.size(); i++) {
 				final HE_Halfedge e = newhes.get(i);
 				if (e.isEdge()) {
-					if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistance3D(e.getStartVertex(), e.getEndVertex()))) {
+					if (WB_Epsilon.isZeroSq(WB_GeometryOp3D.getSqDistance3D(e.getStartVertex(), e.getEndVertex()))) {
 						edgesToRemove.add(e);
 					}
 				}

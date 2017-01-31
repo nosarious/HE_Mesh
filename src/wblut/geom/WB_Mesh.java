@@ -762,7 +762,7 @@ public class WB_Mesh {
 		WB_Point point;
 		for (int i = 0; i < vertices.size(); i++) {
 			point = geometryfactory.createPoint();
-			WB_Point.applyAsPoint(vertices.get(i), point);
+			WB_Point.applyAsPointInto(vertices.get(i), point);
 			newvertices.add(point);
 
 		}

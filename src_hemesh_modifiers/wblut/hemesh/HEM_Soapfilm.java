@@ -16,7 +16,7 @@ import gnu.trove.map.TLongObjectMap;
 import gnu.trove.map.hash.TLongObjectHashMap;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Point;
 import wblut.math.WB_Epsilon;
 
@@ -168,11 +168,11 @@ public class HEM_Soapfilm extends HEM_Modifier {
 			neighbor = he.getEndVertex();
 			{
 				corner = he.getPrevInFace().getVertex();
-				cota = WB_GeometryOp.getCosAngleBetween(corner.xd(), corner.yd(), corner.zd(), neighbor.xd(),
+				cota = WB_GeometryOp3D.getCosAngleBetween(corner.xd(), corner.yd(), corner.zd(), neighbor.xd(),
 						neighbor.yd(), neighbor.zd(), v.xd(), v.yd(), v.zd());
 				cotsum += cota / Math.sqrt(1 - cota * cota);
 				corner = he.getPair().getPrevInFace().getVertex();
-				cotb = WB_GeometryOp.getCosAngleBetween(corner.xd(), corner.yd(), corner.zd(), neighbor.xd(),
+				cotb = WB_GeometryOp3D.getCosAngleBetween(corner.xd(), corner.yd(), corner.zd(), neighbor.xd(),
 						neighbor.yd(), neighbor.zd(), v.xd(), v.yd(), v.zd());
 				cotsum += cotb / Math.sqrt(1 - cotb * cotb);
 			}

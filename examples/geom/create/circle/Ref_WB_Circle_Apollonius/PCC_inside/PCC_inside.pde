@@ -25,7 +25,7 @@ void create() {
 }
 
 void draw() {
-  background(255);
+  background(55);
   create();
   noFill();
   stroke(0, 120);

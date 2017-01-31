@@ -1396,13 +1396,13 @@ public class WB_VectorTest {
 	}
 
 	/**
-	 * Test method for {@link wblut.geom.WB_Vector#getDistance3D(wblut.geom.WB_Coord)}.
+	 * Test method for {@link wblut.geom.WB_Vector#getDistance(wblut.geom.WB_Coord)}.
 	 */
 	@Test
 	public void testGetDistance3DWB_Coord() {
 		v1.set(1,0,-2);
 		v2.set(1,3,2);
-		assertEquals("getDistance3D gives unexpected result.", 5.0,v1.getDistance3D(v2), WB_Epsilon.EPSILON);
+		assertEquals("getDistance3D gives unexpected result.", 5.0,v1.getDistance(v2), WB_Epsilon.EPSILON);
 		expectedResult=new WB_Vector(1,0,-2);
 		assertEquals("getDistance3D modifies argument WB_Vector.", expectedResult,v1);
 		expectedResult=new WB_Vector(1,3,2);
@@ -1452,12 +1452,12 @@ public class WB_VectorTest {
 	}
 
 	/**
-	 * Test method for {@link wblut.geom.WB_Vector#getLength3D()}.
+	 * Test method for {@link wblut.geom.WB_Vector#getLength()}.
 	 */
 	@Test
 	public void testGetLength3D() {
 		v1.set(3,0,-4);
-		assertEquals("getLength3D gives unexpected result.", 5.0,v1.getLength3D(), WB_Epsilon.EPSILON);
+		assertEquals("getLength3D gives unexpected result.", 5.0,v1.getLength(), WB_Epsilon.EPSILON);
 		expectedResult=new WB_Vector(3,0,-4);
 		assertEquals("getLength3D modifies argument WB_Vector.", expectedResult,v1);
 	}
@@ -1496,13 +1496,13 @@ public class WB_VectorTest {
 	}
 
 	/**
-	 * Test method for {@link wblut.geom.WB_Vector#getSqDistance3D(wblut.geom.WB_Coord)}.
+	 * Test method for {@link wblut.geom.WB_Vector#getSqDistance(wblut.geom.WB_Coord)}.
 	 */
 	@Test
 	public void testGetSqDistance3DWB_Coord() {
 		v1.set(1,0,-2);
 		v2.set(1,3,2);
-		assertEquals("getSqDistance3D gives unexpected result.", 25.0,v1.getSqDistance3D(v2), WB_Epsilon.EPSILON);
+		assertEquals("getSqDistance3D gives unexpected result.", 25.0,v1.getSqDistance(v2), WB_Epsilon.EPSILON);
 		expectedResult=new WB_Vector(1,0,-2);
 		assertEquals("getSqDistance3D modifies argument WB_Vector.", expectedResult,v1);
 		expectedResult=new WB_Vector(1,3,2);
@@ -1549,12 +1549,12 @@ public class WB_VectorTest {
 	}
 
 	/**
-	 * Test method for {@link wblut.geom.WB_Vector#getSqLength3D()}.
+	 * Test method for {@link wblut.geom.WB_Vector#getSqLength()}.
 	 */
 	@Test
 	public void testGetSqLength3D() {
 		v1.set(3,0,-4);
-		assertEquals("getSqLength3D gives unexpected result.", 25.0,v1.getSqLength3D(), WB_Epsilon.EPSILON);
+		assertEquals("getSqLength3D gives unexpected result.", 25.0,v1.getSqLength(), WB_Epsilon.EPSILON);
 		expectedResult=new WB_Vector(3,0,-4);
 		assertEquals("getSqLength3D modifies argument WB_Vector.", expectedResult,v1);
 	}
@@ -1861,7 +1861,7 @@ public class WB_VectorTest {
 	}
 
 	/**
-	 * Test method for {@link wblut.geom.WB_Vector#getOrthoNormal3D()}.
+	 * Test method for {@link wblut.geom.WB_Vector#getOrthoNormal()}.
 	 */
 	@Test
 	public void testGetOrthoNormal3D() {

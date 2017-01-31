@@ -11,7 +11,7 @@ WB_AABB box;
 
 int currentType;
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8); 
   box=new WB_AABB(-220,-220,-220,220,220,220);
   creator=new HEC_Plato();

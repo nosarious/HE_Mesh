@@ -11,7 +11,7 @@ HE_Mesh trimesh, hexmesh;
 float scale;
 
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
   strokeWeight(1.4);
   render=new WB_Render3D(this);
@@ -25,7 +25,7 @@ void setup() {
 }
 
 void draw() {
-  background(255);
+  background(55);
   lights();
   translate(width/2, height/2);
   stroke(255,0,0,100);

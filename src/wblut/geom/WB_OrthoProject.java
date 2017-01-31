@@ -28,33 +28,33 @@ public class WB_OrthoProject implements WB_Map2D {
 	/**
 	 *
 	 */
-	public static final int X = 0;
+	public static final int YZ = 0;
 	/**
 	 *
 	 */
-	public static final int Y = 1;
+	public static final int XZ = 1;
 	/**
 	 *
 	 */
-	public static final int Z = 2;
+	public static final int XY = 2;
 	/**
 	 *
 	 */
-	public static final int Xrev = 3;
+	public static final int YZrev = 3;
 	/**
 	 *
 	 */
-	public static final int Yrev = 4;
+	public static final int XZrev = 4;
 	/**
 	 *
 	 */
-	public static final int Zrev = 5;
+	public static final int XYrev = 5;
 
 	/**
 	 *
 	 */
 	public WB_OrthoProject() {
-		this(Z);
+		this(XY);
 	}
 
 	/**
@@ -95,9 +95,9 @@ public class WB_OrthoProject implements WB_Map2D {
 	 */
 	public void set(final WB_Coord c) {
 		if (Math.abs(c.xd()) > Math.abs(c.yd())) {
-			mode = Math.abs(c.xd()) > Math.abs(c.zd()) ? X : Z;
+			mode = Math.abs(c.xd()) > Math.abs(c.zd()) ? YZ : XY;
 		} else {
-			mode = Math.abs(c.yd()) > Math.abs(c.zd()) ? Y : Z;
+			mode = Math.abs(c.yd()) > Math.abs(c.zd()) ? XZ : XY;
 		}
 	}
 
@@ -110,22 +110,22 @@ public class WB_OrthoProject implements WB_Map2D {
 	@Override
 	public void mapPoint3D(final WB_Coord p, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(p.xd(), p.yd(), 0);
 			break;
-		case X:
+		case YZ:
 			result.set(p.yd(), p.zd(), 0);
 			break;
-		case Y:
+		case XZ:
 			result.set(p.zd(), p.xd(), 0);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(p.yd(), p.xd(), 0);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(p.zd(), p.yd(), 0);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(p.xd(), p.zd(), 0);
 			break;
 		}
@@ -140,22 +140,22 @@ public class WB_OrthoProject implements WB_Map2D {
 	@Override
 	public void mapPoint3D(final double x, final double y, final double z, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(x, y, 0);
 			break;
-		case X:
+		case YZ:
 			result.set(y, z, 0);
 			break;
-		case Y:
+		case XZ:
 			result.set(z, x, 0);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(y, x, 0);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(z, y, 0);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(x, z, 0);
 			break;
 		}
@@ -170,22 +170,22 @@ public class WB_OrthoProject implements WB_Map2D {
 	@Override
 	public void unmapPoint3D(final WB_Coord p, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(p.xd(), p.yd(), 0);
 			break;
-		case X:
+		case YZ:
 			result.set(0, p.xd(), p.yd());
 			break;
-		case Y:
+		case XZ:
 			result.set(p.yd(), 0, p.xd());
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(p.yd(), p.xd(), 0);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(0, p.yd(), p.xd());
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(p.xd(), 0, p.yd());
 			break;
 		}
@@ -200,22 +200,22 @@ public class WB_OrthoProject implements WB_Map2D {
 	@Override
 	public void unmapPoint3D(final double u, final double v, final double w, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(u, v, w);
 			break;
-		case X:
+		case YZ:
 			result.set(w, u, v);
 			break;
-		case Y:
+		case XZ:
 			result.set(v, w, u);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v, u, -w);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(-w, v, u);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(u, -w, v);
 			break;
 		}
@@ -230,22 +230,22 @@ public class WB_OrthoProject implements WB_Map2D {
 	@Override
 	public void unmapPoint2D(final double u, final double v, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(u, v, 0);
 			break;
-		case X:
+		case YZ:
 			result.set(0, u, v);
 			break;
-		case Y:
+		case XZ:
 			result.set(v, 0, u);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v, u, 0);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(0, v, u);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(u, 0, v);
 			break;
 		}
@@ -260,22 +260,22 @@ public class WB_OrthoProject implements WB_Map2D {
 	@Override
 	public void unmapPoint2D(final WB_Coord p, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(p.xf(), p.yf(), 0);
 			break;
-		case X:
+		case YZ:
 			result.set(0, p.xf(), p.yf());
 			break;
-		case Y:
+		case XZ:
 			result.set(p.yf(), 0, p.xf());
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(p.yf(), p.xf(), 0);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(0, p.yf(), p.xf());
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(p.xf(), 0, p.yf());
 			break;
 		}
@@ -290,22 +290,22 @@ public class WB_OrthoProject implements WB_Map2D {
 	@Override
 	public void mapVector3D(final WB_Coord v, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(v.xd(), v.yd(), 0);
 			break;
-		case X:
+		case YZ:
 			result.set(v.yd(), v.zd(), 0);
 			break;
-		case Y:
+		case XZ:
 			result.set(v.zd(), v.xd(), 0);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v.yd(), v.xd(), 0);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(v.zd(), v.yd(), 0);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(v.xd(), v.zd(), 0);
 			break;
 		}
@@ -320,22 +320,22 @@ public class WB_OrthoProject implements WB_Map2D {
 	@Override
 	public void mapVector3D(final double x, final double y, final double z, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(x, y, 0);
 			break;
-		case X:
+		case YZ:
 			result.set(y, z, 0);
 			break;
-		case Y:
+		case XZ:
 			result.set(z, x, 0);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(y, x, 0);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(z, y, 0);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(x, z, 0);
 			break;
 		}
@@ -350,22 +350,22 @@ public class WB_OrthoProject implements WB_Map2D {
 	@Override
 	public void unmapVector3D(final WB_Coord v, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(v.xd(), v.yd(), 0);
 			break;
-		case X:
+		case YZ:
 			result.set(0, v.xd(), v.yd());
 			break;
-		case Y:
+		case XZ:
 			result.set(v.yd(), 0, v.xd());
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v.yd(), v.xd(), 0);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(0, v.yd(), v.xd());
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(v.xd(), 0, v.yd());
 			break;
 		}
@@ -380,22 +380,22 @@ public class WB_OrthoProject implements WB_Map2D {
 	@Override
 	public void unmapVector3D(final double u, final double v, final double w, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(u, v, w);
 			break;
-		case X:
+		case YZ:
 			result.set(w, u, v);
 			break;
-		case Y:
+		case XZ:
 			result.set(v, w, u);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v, u, -w);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(-w, v, u);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(u, -w, v);
 			break;
 		}
@@ -410,22 +410,22 @@ public class WB_OrthoProject implements WB_Map2D {
 	@Override
 	public void unmapVector2D(final double u, final double v, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(u, v, 0);
 			break;
-		case X:
+		case YZ:
 			result.set(0, u, v);
 			break;
-		case Y:
+		case XZ:
 			result.set(v, 0, u);
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v, u, 0);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(0, v, u);
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(u, 0, v);
 			break;
 		}
@@ -440,22 +440,22 @@ public class WB_OrthoProject implements WB_Map2D {
 	@Override
 	public void unmapVector2D(final WB_Coord v, final WB_MutableCoord result) {
 		switch (mode) {
-		case Z:
+		case XY:
 			result.set(v.xf(), v.yf(), 0);
 			break;
-		case X:
+		case YZ:
 			result.set(0, v.xf(), v.yf());
 			break;
-		case Y:
+		case XZ:
 			result.set(v.yf(), 0, v.xf());
 			break;
-		case Zrev:
+		case XYrev:
 			result.set(v.yf(), v.xf(), 0);
 			break;
-		case Xrev:
+		case YZrev:
 			result.set(0, v.yf(), v.xf());
 			break;
-		case Yrev:
+		case XZrev:
 			result.set(v.xf(), 0, v.yf());
 			break;
 		}

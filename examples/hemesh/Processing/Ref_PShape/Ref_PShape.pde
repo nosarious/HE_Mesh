@@ -11,14 +11,14 @@ PImage img;
 PShape shape1,shape2;
 
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
    render=new WB_Render(this);
   textureMode(NORMAL);
   create();
   img=loadImage("sky.png");//texture.jpg");
-  shape1=WB_PShape.toSmoothPShape(meshes.getMesh(0),img,this);
-  shape2=WB_PShape.toSmoothPShape(meshes.getMesh(1),img,this); 
+  shape1=WB_PShapeFactory.createSmoothPShape(meshes.getMesh(0),img,this);
+  shape2=WB_PShapeFactory.createSmoothPShape(meshes.getMesh(1),img,this); 
 }
 
 void create() {
@@ -30,10 +30,10 @@ void create() {
 void draw() {
   background(55);
   lights();
-  translate(400, 400, 0);
+  translate(width/2, height/2);
   rotateX(map(mouseY,0,height,-PI,0));
   rotateZ(map(mouseX,0,width,-PI,PI));
-  shape1.disableStyle();
+  //shape1.disableStyle();
   shape2.disableStyle();
   noStroke();
   shape(shape1);

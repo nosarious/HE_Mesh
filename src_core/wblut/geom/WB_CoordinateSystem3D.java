@@ -14,10 +14,10 @@ import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
 
 
-public class WB_CoordinateSystem {
+public class WB_CoordinateSystem3D {
 
 
-	private WB_CoordinateSystem _parent;
+	private WB_CoordinateSystem3D _parent;
 
 
 	/**
@@ -25,8 +25,8 @@ public class WB_CoordinateSystem {
 	 *
 	 * @return
 	 */
-	protected final static WB_CoordinateSystem WORLD() {
-		return new WB_CoordinateSystem(true);
+	protected final static WB_CoordinateSystem3D WORLD() {
+		return new WB_CoordinateSystem3D(true);
 	}
 
 
@@ -54,9 +54,9 @@ public class WB_CoordinateSystem {
 	 * @param z
 	 * @param parent
 	 */
-	protected WB_CoordinateSystem(final WB_Coord origin,
+	protected WB_CoordinateSystem3D(final WB_Coord origin,
 			final WB_Coord x, final WB_Coord y,
-			final WB_Coord z, final WB_CoordinateSystem parent) {
+			final WB_Coord z, final WB_CoordinateSystem3D parent) {
 		_origin = new WB_Point(origin);
 		_X = new WB_Vector(x);
 		_Y = new WB_Vector(y);
@@ -71,7 +71,7 @@ public class WB_CoordinateSystem {
 	 *
 	 * @param world
 	 */
-	protected WB_CoordinateSystem(final boolean world) {
+	protected WB_CoordinateSystem3D(final boolean world) {
 		_origin = new WB_Point(WB_Point.ZERO());
 		_X = new WB_Vector(WB_Vector.X());
 		_Y = new WB_Vector(WB_Vector.Y());
@@ -84,7 +84,7 @@ public class WB_CoordinateSystem {
 	/**
 	 *
 	 */
-	public WB_CoordinateSystem() {
+	public WB_CoordinateSystem3D() {
 		this(false);
 	}
 
@@ -94,7 +94,7 @@ public class WB_CoordinateSystem {
 	 *
 	 * @param parent
 	 */
-	public WB_CoordinateSystem(final WB_CoordinateSystem parent) {
+	public WB_CoordinateSystem3D(final WB_CoordinateSystem3D parent) {
 		_origin = new WB_Point(WB_Point.ZERO());
 		_X = new WB_Vector(WB_Vector.X());
 		_Y = new WB_Vector(WB_Vector.Y());
@@ -109,8 +109,8 @@ public class WB_CoordinateSystem {
 	 *
 	 * @return
 	 */
-	public WB_CoordinateSystem get() {
-		return new WB_CoordinateSystem(_origin, _X, _Y, _Z, _parent);
+	public WB_CoordinateSystem3D get() {
+		return new WB_CoordinateSystem3D(_origin, _X, _Y, _Z, _parent);
 	}
 
 
@@ -142,7 +142,7 @@ public class WB_CoordinateSystem {
 	 */
 	protected void set(final WB_Coord origin, final WB_Coord x,
 			final WB_Coord y, final WB_Coord z,
-			final WB_CoordinateSystem CS) {
+			final WB_CoordinateSystem3D CS) {
 		_origin = new WB_Point(origin);
 		_X = new WB_Vector(x);
 		_Y = new WB_Vector(y);
@@ -157,7 +157,7 @@ public class WB_CoordinateSystem {
 	 * @param parent
 	 * @return
 	 */
-	public WB_CoordinateSystem setParent(final WB_CoordinateSystem parent) {
+	public WB_CoordinateSystem3D setParent(final WB_CoordinateSystem3D parent) {
 		_parent = parent;
 		_isWorld = (_parent == null);
 		return this;
@@ -170,7 +170,7 @@ public class WB_CoordinateSystem {
 	 * @param o
 	 * @return
 	 */
-	public WB_CoordinateSystem setOrigin(final WB_Point o) {
+	public WB_CoordinateSystem3D setOrigin(final WB_Point o) {
 		_origin.set(o);
 		return this;
 	}
@@ -184,7 +184,7 @@ public class WB_CoordinateSystem {
 	 * @param oz
 	 * @return
 	 */
-	public WB_CoordinateSystem setOrigin(final double ox, final double oy,
+	public WB_CoordinateSystem3D setOrigin(final double ox, final double oy,
 			final double oz) {
 		_origin.set(ox, oy, oz);
 		return this;
@@ -198,14 +198,14 @@ public class WB_CoordinateSystem {
 	 * @param Y
 	 * @return
 	 */
-	public WB_CoordinateSystem setXY(final WB_Coord X,
+	public WB_CoordinateSystem3D setXY(final WB_Coord X,
 			final WB_Coord Y) {
 		_X.set(X);
 		_X.normalizeSelf();
 		_Y.set(Y);
 		_Y.normalizeSelf();
 		_Z.set(_X.cross(_Y));
-		if (WB_Epsilon.isZeroSq(_Z.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(_Z.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		_Z.normalizeSelf();
@@ -222,14 +222,14 @@ public class WB_CoordinateSystem {
 	 * @param X
 	 * @return
 	 */
-	public WB_CoordinateSystem setYX(final WB_Coord Y,
+	public WB_CoordinateSystem3D setYX(final WB_Coord Y,
 			final WB_Coord X) {
 		_X.set(X);
 		_X.normalizeSelf();
 		_Y.set(Y);
 		_Y.normalizeSelf();
 		_Z.set(_X.cross(_Y));
-		if (WB_Epsilon.isZeroSq(_Z.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(_Z.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		_Z.normalizeSelf();
@@ -246,14 +246,14 @@ public class WB_CoordinateSystem {
 	 * @param Z
 	 * @return
 	 */
-	public WB_CoordinateSystem setXZ(final WB_Coord X,
+	public WB_CoordinateSystem3D setXZ(final WB_Coord X,
 			final WB_Coord Z) {
 		_X.set(X);
 		_X.normalizeSelf();
 		_Z.set(Z);
 		_Z.normalizeSelf();
 		_Y.set(_Z.cross(_X));
-		if (WB_Epsilon.isZeroSq(_Y.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(_Y.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		_Y.normalizeSelf();
@@ -270,14 +270,14 @@ public class WB_CoordinateSystem {
 	 * @param X
 	 * @return
 	 */
-	public WB_CoordinateSystem setZX(final WB_Coord Z,
+	public WB_CoordinateSystem3D setZX(final WB_Coord Z,
 			final WB_Coord X) {
 		_X.set(X);
 		_X.normalizeSelf();
 		_Z.set(Z);
 		_Z.normalizeSelf();
 		_Y.set(_Z.cross(_X));
-		if (WB_Epsilon.isZeroSq(_Y.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(_Y.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		_Y.normalizeSelf();
@@ -294,14 +294,14 @@ public class WB_CoordinateSystem {
 	 * @param Z
 	 * @return
 	 */
-	public WB_CoordinateSystem setYZ(final WB_Coord Y,
+	public WB_CoordinateSystem3D setYZ(final WB_Coord Y,
 			final WB_Coord Z) {
 		_Y.set(Y);
 		_Y.normalizeSelf();
 		_Z.set(Z);
 		_Z.normalizeSelf();
 		_X.set(_Y.cross(_Z));
-		if (WB_Epsilon.isZeroSq(_X.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(_X.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		_X.normalizeSelf();
@@ -318,14 +318,14 @@ public class WB_CoordinateSystem {
 	 * @param Y
 	 * @return
 	 */
-	public WB_CoordinateSystem setZY(final WB_Coord Z,
+	public WB_CoordinateSystem3D setZY(final WB_Coord Z,
 			final WB_Coord Y) {
 		_Y.set(Y);
 		_Y.normalizeSelf();
 		_Z.set(Z);
 		_Z.normalizeSelf();
 		_X.set(_Y.cross(_Z));
-		if (WB_Epsilon.isZeroSq(_X.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(_X.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		_X.normalizeSelf();
@@ -380,7 +380,7 @@ public class WB_CoordinateSystem {
 	 *
 	 * @return
 	 */
-	public WB_CoordinateSystem getParent() {
+	public WB_CoordinateSystem3D getParent() {
 		return _parent;
 	}
 
@@ -406,14 +406,14 @@ public class WB_CoordinateSystem {
 	 * @param yz
 	 * @return
 	 */
-	public WB_CoordinateSystem setXY(final double xx, final double xy,
+	public WB_CoordinateSystem3D setXY(final double xx, final double xy,
 			final double xz, final double yx, final double yy, final double yz) {
 		_X.set(xx, xy, xz);
 		_X.normalizeSelf();
 		_Y.set(yx, yy, yz);
 		_Y.normalizeSelf();
 		_Z.set(_X.cross(_Y));
-		if (WB_Epsilon.isZeroSq(_Z.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(_Z.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		_Z.normalizeSelf();
@@ -434,14 +434,14 @@ public class WB_CoordinateSystem {
 	 * @param xz
 	 * @return
 	 */
-	public WB_CoordinateSystem setYX(final double yx, final double yy,
+	public WB_CoordinateSystem3D setYX(final double yx, final double yy,
 			final double yz, final double xx, final double xy, final double xz) {
 		_X.set(xx, xy, xz);
 		_X.normalizeSelf();
 		_Y.set(yx, yy, yz);
 		_Y.normalizeSelf();
 		_Z.set(_X.cross(_Y));
-		if (WB_Epsilon.isZeroSq(_Z.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(_Z.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		_Z.normalizeSelf();
@@ -462,14 +462,14 @@ public class WB_CoordinateSystem {
 	 * @param zz
 	 * @return
 	 */
-	public WB_CoordinateSystem setXZ(final double xx, final double xy,
+	public WB_CoordinateSystem3D setXZ(final double xx, final double xy,
 			final double xz, final double zx, final double zy, final double zz) {
 		_X.set(xx, xy, xz);
 		_X.normalizeSelf();
 		_Z.set(zx, zy, zz);
 		_Z.normalizeSelf();
 		_Y.set(_Z.cross(_X));
-		if (WB_Epsilon.isZeroSq(_Y.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(_Y.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		_Y.normalizeSelf();
@@ -490,14 +490,14 @@ public class WB_CoordinateSystem {
 	 * @param xz
 	 * @return
 	 */
-	public WB_CoordinateSystem setZX(final double zx, final double zy,
+	public WB_CoordinateSystem3D setZX(final double zx, final double zy,
 			final double zz, final double xx, final double xy, final double xz) {
 		_X.set(xx, xy, xz);
 		_X.normalizeSelf();
 		_Z.set(zx, zy, zz);
 		_Z.normalizeSelf();
 		_Y.set(_Z.cross(_X));
-		if (WB_Epsilon.isZeroSq(_Y.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(_Y.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		_Y.normalizeSelf();
@@ -518,14 +518,14 @@ public class WB_CoordinateSystem {
 	 * @param zz
 	 * @return
 	 */
-	public WB_CoordinateSystem setYZ(final double yx, final double yy,
+	public WB_CoordinateSystem3D setYZ(final double yx, final double yy,
 			final double yz, final double zx, final double zy, final double zz) {
 		_Y.set(yx, yy, yz);
 		_Y.normalizeSelf();
 		_Z.set(zx, zy, zz);
 		_Z.normalizeSelf();
 		_X.set(_Y.cross(_Z));
-		if (WB_Epsilon.isZeroSq(_X.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(_X.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		_X.normalizeSelf();
@@ -546,14 +546,14 @@ public class WB_CoordinateSystem {
 	 * @param yz
 	 * @return
 	 */
-	public WB_CoordinateSystem setZY(final double zx, final double zy,
+	public WB_CoordinateSystem3D setZY(final double zx, final double zy,
 			final double zz, final double yx, final double yy, final double yz) {
 		_Y.set(yx, yy, yz);
 		_Y.normalizeSelf();
 		_Z.set(zx, zy, zz);
 		_Z.normalizeSelf();
 		_X.set(_Y.cross(_Z));
-		if (WB_Epsilon.isZeroSq(_X.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(_X.getSqLength())) {
 			throw new IllegalArgumentException("Vectors can not be parallel.");
 		}
 		_X.normalizeSelf();
@@ -569,11 +569,11 @@ public class WB_CoordinateSystem {
 	 * @param X
 	 * @return
 	 */
-	public WB_CoordinateSystem setX(final WB_Coord X) {
+	public WB_CoordinateSystem3D setX(final WB_Coord X) {
 		final WB_Vector lX = new WB_Vector(X);
 		lX.normalizeSelf();
 		final WB_Vector tmp = lX.cross(_X);
-		if (!WB_Epsilon.isZeroSq(tmp.getSqLength3D())) {
+		if (!WB_Epsilon.isZeroSq(tmp.getSqLength())) {
 			rotate(-Math.acos(WB_Math.clamp(_X.dot(lX), -1, 1)), tmp);
 		} else if (_X.dot(lX) < (-1 + WB_Epsilon.EPSILON)) {
 			flipX();
@@ -588,11 +588,11 @@ public class WB_CoordinateSystem {
 	 * @param Y
 	 * @return
 	 */
-	public WB_CoordinateSystem setY(final WB_Coord Y) {
+	public WB_CoordinateSystem3D setY(final WB_Coord Y) {
 		final WB_Vector lY = new WB_Vector(Y);
 		lY.normalizeSelf();
 		final WB_Vector tmp = lY.cross(_Y);
-		if (!WB_Epsilon.isZeroSq(tmp.getSqLength3D())) {
+		if (!WB_Epsilon.isZeroSq(tmp.getSqLength())) {
 			rotate(-Math.acos(WB_Math.clamp(_Y.dot(lY), -1, 1)), tmp);
 		} else if (_Y.dot(lY) < (-1 + WB_Epsilon.EPSILON)) {
 			flipY();
@@ -607,11 +607,11 @@ public class WB_CoordinateSystem {
 	 * @param Z
 	 * @return
 	 */
-	public WB_CoordinateSystem setZ(final WB_Coord Z) {
+	public WB_CoordinateSystem3D setZ(final WB_Coord Z) {
 		final WB_Vector lZ = new WB_Vector(Z);
 		lZ.normalizeSelf();
 		final WB_Vector tmp = lZ.cross(_Z);
-		if (!WB_Epsilon.isZeroSq(tmp.getSqLength3D())) {
+		if (!WB_Epsilon.isZeroSq(tmp.getSqLength())) {
 			rotate(-Math.acos(WB_Math.clamp(_Z.dot(lZ), -1, 1)), tmp);
 		} else if (_Z.dot(lZ) < (-1 + WB_Epsilon.EPSILON)) {
 			flipZ();
@@ -626,7 +626,7 @@ public class WB_CoordinateSystem {
 	 * @param a
 	 * @return
 	 */
-	public WB_CoordinateSystem rotateX(final double a) {
+	public WB_CoordinateSystem3D rotateX(final double a) {
 		_Y.rotateAboutAxisSelf(a, _origin, _X);
 		_Z.rotateAboutAxisSelf(a, _origin, _X);
 		return this;
@@ -639,7 +639,7 @@ public class WB_CoordinateSystem {
 	 * @param a
 	 * @return
 	 */
-	public WB_CoordinateSystem rotateY(final double a) {
+	public WB_CoordinateSystem3D rotateY(final double a) {
 		_X.rotateAboutAxisSelf(a, _origin, _Y);
 		_Z.rotateAboutAxisSelf(a, _origin, _Y);
 		return this;
@@ -652,7 +652,7 @@ public class WB_CoordinateSystem {
 	 * @param a
 	 * @return
 	 */
-	public WB_CoordinateSystem rotateZ(final double a) {
+	public WB_CoordinateSystem3D rotateZ(final double a) {
 		_X.rotateAboutAxisSelf(a, _origin, _Z);
 		_Y.rotateAboutAxisSelf(a, _origin, _Z);
 		return this;
@@ -666,7 +666,7 @@ public class WB_CoordinateSystem {
 	 * @param v
 	 * @return
 	 */
-	public WB_CoordinateSystem rotate(final double a, final WB_Vector v) {
+	public WB_CoordinateSystem3D rotate(final double a, final WB_Vector v) {
 		final WB_Vector lv = v.copy();
 		lv.normalizeSelf();
 		_X.rotateAboutAxisSelf(a, _origin, lv);
@@ -730,7 +730,7 @@ public class WB_CoordinateSystem {
 	 * @param CS
 	 * @return
 	 */
-	public WB_Transform getTransformFrom(final WB_CoordinateSystem CS) {
+	public WB_Transform getTransformFrom(final WB_CoordinateSystem3D CS) {
 		final WB_Transform result = new WB_Transform();
 		result.addFromCSToCS(CS, this);
 		return result;
@@ -743,7 +743,7 @@ public class WB_CoordinateSystem {
 	 * @param CS
 	 * @return
 	 */
-	public WB_Transform getTransformTo(final WB_CoordinateSystem CS) {
+	public WB_Transform getTransformTo(final WB_CoordinateSystem3D CS) {
 		final WB_Transform result = new WB_Transform();
 		result.addFromCSToCS(this, CS);
 		return result;
@@ -758,12 +758,12 @@ public class WB_CoordinateSystem {
 	 * @param xz
 	 * @return
 	 */
-	public WB_CoordinateSystem setX(final double xx, final double xy,
+	public WB_CoordinateSystem3D setX(final double xx, final double xy,
 			final double xz) {
 		final WB_Vector lX = new WB_Vector(xx, xy, xz);
 		lX.normalizeSelf();
 		final WB_Vector tmp = lX.cross(_X);
-		if (!WB_Epsilon.isZeroSq(tmp.getSqLength3D())) {
+		if (!WB_Epsilon.isZeroSq(tmp.getSqLength())) {
 			rotate(-Math.acos(WB_Math.clamp(_X.dot(lX), -1, 1)), tmp);
 		} else if (_X.dot(lX) < (-1 + WB_Epsilon.EPSILON)) {
 			flipX();
@@ -780,12 +780,12 @@ public class WB_CoordinateSystem {
 	 * @param yz
 	 * @return
 	 */
-	public WB_CoordinateSystem setY(final double yx, final double yy,
+	public WB_CoordinateSystem3D setY(final double yx, final double yy,
 			final double yz) {
 		final WB_Vector lY = new WB_Vector(yx, yy, yz);
 		lY.normalizeSelf();
 		final WB_Vector tmp = lY.cross(_Y);
-		if (!WB_Epsilon.isZeroSq(tmp.getSqLength3D())) {
+		if (!WB_Epsilon.isZeroSq(tmp.getSqLength())) {
 			rotate(-Math.acos(WB_Math.clamp(_Y.dot(lY), -1, 1)), tmp);
 		} else if (_Y.dot(lY) < (-1 + WB_Epsilon.EPSILON)) {
 			flipY();
@@ -802,12 +802,12 @@ public class WB_CoordinateSystem {
 	 * @param zz
 	 * @return
 	 */
-	public WB_CoordinateSystem setZ(final double zx, final double zy,
+	public WB_CoordinateSystem3D setZ(final double zx, final double zy,
 			final double zz) {
 		final WB_Vector lZ = new WB_Vector(zx, zy, zz);
 		lZ.normalizeSelf();
 		final WB_Vector tmp = lZ.cross(_Z);
-		if (!WB_Epsilon.isZeroSq(tmp.getSqLength3D())) {
+		if (!WB_Epsilon.isZeroSq(tmp.getSqLength())) {
 			rotate(-Math.acos(WB_Math.clamp(_Z.dot(lZ), -1, 1)), tmp);
 		} else if (_Z.dot(lZ) < (-1 + WB_Epsilon.EPSILON)) {
 			flipZ();
@@ -859,8 +859,8 @@ public class WB_CoordinateSystem {
 	 * @param T
 	 * @return
 	 */
-	WB_CoordinateSystem apply(final WB_Transform T) {
-		return new WB_CoordinateSystem(T.applyAsPoint(_origin),
+	WB_CoordinateSystem3D apply(final WB_Transform T) {
+		return new WB_CoordinateSystem3D(T.applyAsPoint(_origin),
 				T.applyAsVector(_X), T.applyAsVector(_Y), T.applyAsVector(_Z),
 				(_parent == null) ? WORLD() : _parent);
 	}
@@ -873,9 +873,9 @@ public class WB_CoordinateSystem {
 	 * @param parent
 	 * @return
 	 */
-	WB_CoordinateSystem apply(final WB_Transform T,
-			final WB_CoordinateSystem parent) {
-		return new WB_CoordinateSystem(T.applyAsPoint(_origin),
+	WB_CoordinateSystem3D apply(final WB_Transform T,
+			final WB_CoordinateSystem3D parent) {
+		return new WB_CoordinateSystem3D(T.applyAsPoint(_origin),
 				T.applyAsVector(_X), T.applyAsVector(_Y), T.applyAsVector(_Z),
 				_parent);
 	}

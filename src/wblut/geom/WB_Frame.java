@@ -510,7 +510,7 @@ public class WB_Frame {
 		for (int i = 0; i < struts.size(); i++) {
 			final WB_FrameStrut strut = struts.get(i);
 			final WB_Segment S = new WB_Segment(strut.start(), strut.end());
-			d = Math.min(d, WB_GeometryOp.getDistance3D(p, S));
+			d = Math.min(d, WB_GeometryOp3D.getDistance3D(p, S));
 		}
 		return d;
 	}
@@ -525,7 +525,7 @@ public class WB_Frame {
 		double mind = Double.POSITIVE_INFINITY;
 		int q = -1;
 		for (int i = 0; i < nodes.size(); i++) {
-			final double d = WB_GeometryOp.getSqDistance3D(p, nodes.get(i));
+			final double d = WB_GeometryOp3D.getSqDistance3D(p, nodes.get(i));
 			if (d < mind) {
 				mind = d;
 				q = i;
@@ -546,10 +546,10 @@ public class WB_Frame {
 		for (int i = 0; i < struts.size(); i++) {
 			final WB_FrameStrut strut = struts.get(i);
 			final WB_Segment S = new WB_Segment(strut.start(), strut.end());
-			final double d = WB_GeometryOp.getDistance3D(p, S);
+			final double d = WB_GeometryOp3D.getDistance3D(p, S);
 			if (d < mind) {
 				mind = d;
-				q = WB_GeometryOp.getClosestPoint3D(S, p);
+				q = WB_GeometryOp3D.getClosestPoint3D(S, p);
 			}
 		}
 		return q;
@@ -568,7 +568,7 @@ public class WB_Frame {
 		for (int i = 0; i < struts.size(); i++) {
 			final WB_FrameStrut strut = struts.get(i);
 			final WB_Segment S = new WB_Segment(strut.start(), strut.end());
-			d = Math.min(d, WB_GeometryOp.getDistance3D(new WB_Point(x, y, z), S));
+			d = Math.min(d, WB_GeometryOp3D.getDistance3D(new WB_Point(x, y, z), S));
 		}
 		return d;
 	}
@@ -587,10 +587,10 @@ public class WB_Frame {
 		for (int i = 0; i < struts.size(); i++) {
 			final WB_FrameStrut strut = struts.get(i);
 			final WB_Segment S = new WB_Segment(strut.start(), strut.end());
-			final double d = WB_GeometryOp.getDistance3D(new WB_Point(x, y, z), S);
+			final double d = WB_GeometryOp3D.getDistance3D(new WB_Point(x, y, z), S);
 			if (d < mind) {
 				mind = d;
-				q = WB_GeometryOp.getClosestPoint3D(S, new WB_Point(x, y, z));
+				q = WB_GeometryOp3D.getClosestPoint3D(S, new WB_Point(x, y, z));
 			}
 		}
 		return q;
@@ -619,6 +619,13 @@ public class WB_Frame {
 				node.set(newPos[id]);
 			}
 			id++;
+		}
+		return this;
+	}
+
+	public WB_Frame smoothBiNodes(final int r) {
+		for (int i = 0; i < r; i++) {
+			smoothBiNodes();
 		}
 		return this;
 	}
@@ -654,13 +661,35 @@ public class WB_Frame {
 		return this;
 	}
 
+	public WB_Frame smoothNodes(final int r) {
+		for (int i = 0; i < r; i++) {
+			smoothNodes();
+		}
+		return this;
+	}
+
+	public WB_Frame refine(final double threshold) {
+		WB_Frame result = refineOnePass(threshold);
+		if (result.getNumberOfNodes() == this.getNumberOfNodes()) {
+			return result;
+		}
+		int n = 0;
+		do {
+			n = result.getNumberOfNodes();
+			result = result.refine(threshold);
+		} while (n != result.getNumberOfNodes());
+
+		return result;
+	}
+
 	/**
 	 *
 	 *
 	 * @param threshold
 	 * @return
 	 */
-	public WB_Frame refine(final double threshold) {
+	public WB_Frame refineOnePass(final double threshold) {
+
 		final WB_Frame result = new WB_Frame();
 		for (final WB_FrameNode node : nodes) {
 			result.addNode(node, node.getValue());
@@ -1123,7 +1152,7 @@ public class WB_Frame {
 		 * @return
 		 */
 		public double getSqLength() {
-			return WB_GeometryOp.getSqDistance3D(end(), start());
+			return WB_GeometryOp3D.getSqDistance3D(end(), start());
 		}
 
 		/**
@@ -1132,7 +1161,7 @@ public class WB_Frame {
 		 * @return
 		 */
 		public double getLength() {
-			return WB_GeometryOp.getDistance3D(end(), start());
+			return WB_GeometryOp3D.getDistance3D(end(), start());
 		}
 
 		/**

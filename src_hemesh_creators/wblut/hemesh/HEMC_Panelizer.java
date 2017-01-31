@@ -23,8 +23,16 @@ public class HEMC_Panelizer extends HEMC_MultiCreator {
 	/** The thickness. */
 	private double thickness;
 	/** The range. */
-	private double range;
+	private double trange;
 	private WB_MTRandom random;
+	private double offset;
+	/** The range. */
+	private double orange;
+
+	public HEMC_Panelizer() {
+		super();
+		random = new WB_MTRandom();
+	}
 
 	/**
 	 * Set thickness.
@@ -35,8 +43,15 @@ public class HEMC_Panelizer extends HEMC_MultiCreator {
 	 */
 	public HEMC_Panelizer setThickness(final double d) {
 		thickness = d;
-		range = 0;
-		random = new WB_MTRandom();
+		trange = 0;
+
+		return this;
+	}
+
+	public HEMC_Panelizer setOffset(final double d) {
+		offset = d;
+		orange = 0;
+
 		return this;
 	}
 
@@ -51,21 +66,18 @@ public class HEMC_Panelizer extends HEMC_MultiCreator {
 	 */
 	public HEMC_Panelizer setThickness(final double dmin, final double dmax) {
 		thickness = dmin;
-		range = dmax - dmin;
+		trange = dmax - dmin;
 		return this;
 	}
 
-	/**
-	 *
-	 *
-	 * @param dmin
-	 * @param dmax
-	 * @param seed
-	 * @return
-	 */
-	public HEMC_Panelizer setThickness(final double dmin, final double dmax, final long seed) {
-		thickness = dmin;
-		range = dmax - dmin;
+	public HEMC_Panelizer setOffset(final double dmin, final double dmax) {
+		offset = dmin;
+		orange = dmax - dmin;
+		return this;
+	}
+
+	public HEMC_Panelizer setSeed(final long seed) {
+
 		random.setSeed(seed);
 		return this;
 	}
@@ -98,7 +110,8 @@ public class HEMC_Panelizer extends HEMC_MultiCreator {
 		int id = 0;
 		final HEC_Polygon pc = new HEC_Polygon().setThickness(thickness);
 		for (final HE_Face f : mesh.getFaces()) {
-			pc.setThickness(thickness + range > 0 ? thickness + random.nextDouble() * range : 0);
+			pc.setThickness(thickness + trange > 0 ? thickness + random.nextDouble() * trange : 0);
+			pc.setOffset(offset + random.nextDouble() * orange);
 			pc.setPolygon(f.toPolygon());
 			result.add(new HE_Mesh(pc));
 			id++;

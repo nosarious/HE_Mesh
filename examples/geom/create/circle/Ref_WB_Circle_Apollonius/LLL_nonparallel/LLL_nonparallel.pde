@@ -17,9 +17,9 @@ void setup() {
 }
 
 void create() {
-  L1= factory.createLineWithDirection( width/2,height/2, 0.2,1);
-   L2= factory.createLineWithDirection( width/2,height/2, 1,0.2);
-   L3= factory.createLineWithDirection( mouseX,mouseY, 1,1);
+  L1= factory.createLineWithDirection2D( width/2,height/2, 0.2,1);
+   L2= factory.createLineWithDirection2D( width/2,height/2, 1,0.2);
+   L3= factory.createLineWithDirection2D( mouseX,mouseY, 1,1);
    circles=factory.createCircleLLL(L1,L2,L3);
 }
 

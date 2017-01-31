@@ -15,7 +15,7 @@ import java.util.Iterator;
 import gnu.trove.map.TLongIntMap;
 import gnu.trove.map.hash.TLongIntHashMap;
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_IntersectionResult;
 import wblut.geom.WB_Line;
 import wblut.geom.WB_Plane;
@@ -89,7 +89,7 @@ public class HEM_FaceExpand extends HEM_Modifier {
 					p.addMulSelf(d, fn);
 				} else {
 					final WB_Plane planef2 = he.getPair().getFace().getPlane(d);
-					final WB_IntersectionResult ir = WB_GeometryOp
+					final WB_IntersectionResult ir = WB_GeometryOp3D
 							.getIntersection3D(planef, planef2);
 					final WB_Line lineff;
 					if (ir.dimension == 1) {
@@ -99,7 +99,7 @@ public class HEM_FaceExpand extends HEM_Modifier {
 						lineff = new WB_Line(v.addMul(d, en),
 								he.getHalfedgeTangent());
 					}
-					p = WB_GeometryOp.getClosestPoint3D(v, lineff);
+					p = WB_GeometryOp3D.getClosestPoint3D(v, lineff);
 				}
 				halfedgeCorrelation.put(he.key(), vertexCount);
 				vertexCount++;

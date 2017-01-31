@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
@@ -123,8 +123,7 @@ public class WB_KDTree<T extends WB_Coord, V> {
 	 * @param radius
 	 * @return
 	 */
-	public WB_KDEntry<T, V>[] getRange(final WB_Coord center,
-			final double radius) {
+	public WB_KDEntry<T, V>[] getRange(final WB_Coord center, final double radius) {
 		final double r2 = radius * radius;
 		return root.range(center, r2);
 	}
@@ -137,8 +136,7 @@ public class WB_KDTree<T extends WB_Coord, V> {
 	 * @param upper
 	 * @return
 	 */
-	public WB_KDEntry<T, V>[] getRange(final WB_Coord center,
-			final double lower, final double upper) {
+	public WB_KDEntry<T, V>[] getRange(final WB_Coord center, final double lower, final double upper) {
 		final double lower2 = lower * lower;
 		final double upper2 = upper * upper;
 		return root.range(center, lower2, upper2);
@@ -151,8 +149,7 @@ public class WB_KDTree<T extends WB_Coord, V> {
 	 * @param num
 	 * @return
 	 */
-	public WB_KDEntry<T, V>[] getNearestNeighbors(final WB_Coord coord,
-			final int num) {
+	public WB_KDEntry<T, V>[] getNearestNeighbors(final WB_Coord coord, final int num) {
 		final QueryResult<T, V> heap = new QueryResult<T, V>(num);
 		root.findNearest(heap, coord);
 		return heap.entries;
@@ -180,7 +177,7 @@ public class WB_KDTree<T extends WB_Coord, V> {
 	 */
 	public WB_KDEntry<T, V> getNearestNeighbor(final double x, final double y, final double z) {
 		final QueryResult<T, V> heap = new QueryResult<T, V>(1);
-		root.findNearest(heap, new WB_Point(x,y,z));
+		root.findNearest(heap, new WB_Point(x, y, z));
 		return heap.entries[0];
 	}
 
@@ -386,7 +383,7 @@ public class WB_KDTree<T extends WB_Coord, V> {
 			final V lookup = lookup(entry.coord);
 			if (lookup == null) {
 				extendBounds(entry.coord);
-				if ((_binSize + 1) > _maximumBinSize) {
+				if (_binSize + 1 > _maximumBinSize) {
 					addLevel();
 					add(entry);
 					return null;
@@ -406,8 +403,7 @@ public class WB_KDTree<T extends WB_Coord, V> {
 		 */
 		private V lookup(final WB_Coord point) {
 			for (int i = 0; i < _binSize; i++) {
-				if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistance3D(point,
-						_bin[i].coord))) {
+				if (WB_Epsilon.isZeroSq(WB_GeometryOp3D.getSqDistance3D(point, _bin[i].coord))) {
 					return _bin[i].value;
 				}
 			}
@@ -420,15 +416,13 @@ public class WB_KDTree<T extends WB_Coord, V> {
 		 * @param heap
 		 * @param data
 		 */
-		private void findNearest(final QueryResult<T, V> heap,
-				final WB_Coord data) {
+		private void findNearest(final QueryResult<T, V> heap, final WB_Coord data) {
 			if (_binSize == 0) {
 				return;
 			}
 			if (_isLeaf) {
 				for (int i = 0; i < _binSize; i++) {
-					final double dist = WB_GeometryOp.getSqDistance3D(
-							_bin[i].coord, data);
+					final double dist = WB_GeometryOp3D.getSqDistance3D(_bin[i].coord, data);
 					heap.tryToAdd(dist, _bin[i]);
 				}
 			} else {
@@ -437,9 +431,8 @@ public class WB_KDTree<T extends WB_Coord, V> {
 					if (_negative._binSize == 0) {
 						return;
 					}
-					if ((heap.size < heap.capacity)
-							|| (_negative._limits.getDistanceSquare(data) < heap
-									.getDistanceSquare(heap.size - 1))) {
+					if (heap.size < heap.capacity
+							|| _negative._limits.getDistanceSquare(data) < heap.getDistanceSquare(heap.size - 1)) {
 						_negative.findNearest(heap, data);
 					}
 				} else {
@@ -447,9 +440,8 @@ public class WB_KDTree<T extends WB_Coord, V> {
 					if (_positive._binSize == 0) {
 						return;
 					}
-					if ((heap.size < heap.capacity)
-							|| (_positive._limits.getDistanceSquare(data) < heap
-									.getDistanceSquare(heap.size - 1))) {
+					if (heap.size < heap.capacity
+							|| _positive._limits.getDistanceSquare(data) < heap.getDistanceSquare(heap.size - 1)) {
 						_positive.findNearest(heap, data);
 					}
 				}
@@ -478,8 +470,7 @@ public class WB_KDTree<T extends WB_Coord, V> {
 						tmp = tmpr;
 					} else if (0 < tmpr.length) {
 						@SuppressWarnings("unchecked")
-						final WB_KDEntry<T, V>[] tmp2 = new WB_KDEntry[tmp.length
-						                                               + tmpr.length];
+						final WB_KDEntry<T, V>[] tmp2 = new WB_KDEntry[tmp.length + tmpr.length];
 						System.arraycopy(tmp, 0, tmp2, 0, tmp.length);
 						System.arraycopy(tmpr, 0, tmp2, tmp.length, tmpr.length);
 						tmp = tmp2;
@@ -508,8 +499,7 @@ public class WB_KDTree<T extends WB_Coord, V> {
 		 * @param r2
 		 * @return
 		 */
-		private WB_KDEntry<T, V>[] range(final WB_Coord center,
-				final double r2) {
+		private WB_KDEntry<T, V>[] range(final WB_Coord center, final double r2) {
 			if (_bin == null) {
 				@SuppressWarnings("unchecked")
 				WB_KDEntry<T, V>[] tmp = new WB_KDEntry[0];
@@ -525,8 +515,7 @@ public class WB_KDTree<T extends WB_Coord, V> {
 						tmp = tmpr;
 					} else if (0 < tmpr.length) {
 						@SuppressWarnings("unchecked")
-						final WB_KDEntry<T, V>[] tmp2 = new WB_KDEntry[tmp.length
-						                                               + tmpr.length];
+						final WB_KDEntry<T, V>[] tmp2 = new WB_KDEntry[tmp.length + tmpr.length];
 						System.arraycopy(tmp, 0, tmp2, 0, tmp.length);
 						System.arraycopy(tmpr, 0, tmp2, tmp.length, tmpr.length);
 						tmp = tmp2;
@@ -538,8 +527,7 @@ public class WB_KDTree<T extends WB_Coord, V> {
 			final WB_KDEntry<T, V>[] tmp = new WB_KDEntry[_binSize];
 			int n = 0;
 			for (int i = 0; i < _binSize; i++) {
-				final double d2 = WB_GeometryOp.getSqDistance3D(center,
-						_bin[i].coord);
+				final double d2 = WB_GeometryOp3D.getSqDistance3D(center, _bin[i].coord);
 				if (d2 <= r2) {
 					_bin[i].d2 = d2;
 					tmp[n++] = _bin[i];
@@ -559,27 +547,23 @@ public class WB_KDTree<T extends WB_Coord, V> {
 		 * @param upper2
 		 * @return
 		 */
-		private WB_KDEntry<T, V>[] range(final WB_Coord center,
-				final double lower2, final double upper2) {
+		private WB_KDEntry<T, V>[] range(final WB_Coord center, final double lower2, final double upper2) {
 			if (_bin == null) {
 				@SuppressWarnings("unchecked")
 				WB_KDEntry<T, V>[] tmp = new WB_KDEntry[0];
 				if (_negative._limits.getDistanceSquare(center) <= upper2) {
-					final WB_KDEntry<T, V>[] tmpl = _negative.range(center,
-							lower2, upper2);
+					final WB_KDEntry<T, V>[] tmpl = _negative.range(center, lower2, upper2);
 					if (tmp.length == 0) {
 						tmp = tmpl;
 					}
 				}
 				if (_positive._limits.getDistanceSquare(center) <= upper2) {
-					final WB_KDEntry<T, V>[] tmpr = _positive.range(center,
-							lower2, upper2);
+					final WB_KDEntry<T, V>[] tmpr = _positive.range(center, lower2, upper2);
 					if (tmp.length == 0) {
 						tmp = tmpr;
 					} else if (0 < tmpr.length) {
 						@SuppressWarnings("unchecked")
-						final WB_KDEntry<T, V>[] tmp2 = new WB_KDEntry[tmp.length
-						                                               + tmpr.length];
+						final WB_KDEntry<T, V>[] tmp2 = new WB_KDEntry[tmp.length + tmpr.length];
 						System.arraycopy(tmp, 0, tmp2, 0, tmp.length);
 						System.arraycopy(tmpr, 0, tmp2, tmp.length, tmpr.length);
 						tmp = tmp2;
@@ -591,9 +575,8 @@ public class WB_KDTree<T extends WB_Coord, V> {
 			final WB_KDEntry<T, V>[] tmp = new WB_KDEntry[_binSize];
 			int n = 0;
 			for (int i = 0; i < _binSize; i++) {
-				final double d2 = WB_GeometryOp.getSqDistance3D(center,
-						_bin[i].coord);
-				if ((d2 <= upper2) && (d2 >= lower2)) {
+				final double d2 = WB_GeometryOp3D.getSqDistance3D(center, _bin[i].coord);
+				if (d2 <= upper2 && d2 >= lower2) {
 					_bin[i].d2 = d2;
 					tmp[n++] = _bin[i];
 				}
@@ -612,9 +595,8 @@ public class WB_KDTree<T extends WB_Coord, V> {
 			_negative = new WB_KDNode<T, V>();
 			_positive = new WB_KDNode<T, V>();
 			_negative._id = 2 * _id;
-			_positive._id = (2 * _id) + 1;
-			_sliceValue = (_limits.getMax(_discriminator) + _limits
-					.getMin(_discriminator)) * 0.5;
+			_positive._id = 2 * _id + 1;
+			_sliceValue = (_limits.getMax(_discriminator) + _limits.getMin(_discriminator)) * 0.5;
 			for (int i = 0; i < _dim; i++) {
 				_negative._region._min[i] = _region._min[i];
 				_positive._region._max[i] = _region._max[i];
@@ -689,7 +671,7 @@ public class WB_KDTree<T extends WB_Coord, V> {
 		 */
 		protected void tryToAdd(final double dist, final WB_KDEntry<T, V> entry) {
 			int i = size;
-			for (; (i > 0) && (distSqs[i - 1] > dist); --i) {
+			for (; i > 0 && distSqs[i - 1] > dist; --i) {
 				;
 			}
 			if (i >= capacity) {

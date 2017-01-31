@@ -17,7 +17,7 @@ int numCircles;
 float radius;
 
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   ortho();
   smooth(8);
   strokeWeight(2);
@@ -42,7 +42,7 @@ void setup() {
 }
 
 void draw() {
-  background(255);
+  background(55);
   translate(width/2, height/2, 0);
   strokeWeight(4);
   stroke(255,0,0);

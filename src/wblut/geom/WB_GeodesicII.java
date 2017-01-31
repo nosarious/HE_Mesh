@@ -529,7 +529,7 @@ class WB_GeodesicII {
 				p.applyAsPointSelf(T);
 			}
 			final double threshold = LCDPoints[0][0]
-					.getDistance3D(LCDPoints[0][hv]) / (2 * v);
+					.getDistance(LCDPoints[0][hv]) / (2 * v);
 			mesh = gf.createUniqueMesh(gf.createMesh(points, faces), threshold);
 		}
 

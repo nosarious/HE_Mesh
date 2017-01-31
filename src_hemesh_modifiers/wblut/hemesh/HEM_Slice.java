@@ -8,7 +8,7 @@ import java.util.List;
 
 import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_Classification;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Plane;
 
 /**
@@ -169,7 +169,7 @@ public class HEM_Slice extends HEM_Modifier {
 		final Iterator<HE_Face> fItr = mesh.fItr();
 		while (fItr.hasNext()) {
 			face = fItr.next();
-			final WB_Classification cptp = WB_GeometryOp.classifyPointToPlane3D(face.getFaceCenter(), lP);
+			final WB_Classification cptp = WB_GeometryOp3D.classifyPointToPlane3D(face.getFaceCenter(), lP);
 			if (cptp == WB_Classification.FRONT || cptp == WB_Classification.ON) {
 				if (face.isDegenerate()) {
 

@@ -22,11 +22,11 @@ shell= new ArrayList<WB_Point>();
     hole.add(gf.createPointFromPolar(40*(i%2+1), -TWO_PI/10.*i));
   } 
   polygon=gf.createPolygonWithHole(shell, hole);
-  background(255);
+  background(55);
 }
 
 void draw(){
- background(255);
+ background(55);
  translate(width/2,height/2);
  scale(1,-1);
  fill(255,0,0);

@@ -11,7 +11,7 @@ WB_Render3D render;
 WB_GeometryFactory gf=new WB_GeometryFactory();
 
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
   render= new WB_Render3D(this);
 
@@ -34,10 +34,10 @@ void setup() {
 }
 
 void draw() {
-  background(255);
+  background(55);
    directionalLight(255, 255, 255, 1, 1, -1);
   directionalLight(127, 127, 127, -1, -1, 1);
-  translate(400, 400, 0);
+  translate(width/2, height/2);
   fill(0);
   text("click",0,350);
   rotateY(mouseX*1.0f/width*TWO_PI);

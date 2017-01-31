@@ -364,7 +364,7 @@ public class HES_TriDec extends HES_Simplifier {
 			// "HES_TriDec: can't simplify meshes with degenerate faces.");
 		}
 		nom.divSelf(denom);
-		final double result = 1.0 - nom.getLength3D();
+		final double result = 1.0 - nom.getLength();
 		if (Double.isNaN(result)) {
 			return Double.POSITIVE_INFINITY;
 		}

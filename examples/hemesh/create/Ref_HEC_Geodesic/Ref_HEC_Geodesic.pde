@@ -8,9 +8,9 @@ HE_Mesh mesh;
 WB_Render render;
 int B, C;
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
-  B=1;
+  B=0;
   C=0;
   HEC_Geodesic creator=new HEC_Geodesic();
   creator.setRadius(200); 
@@ -19,7 +19,7 @@ void setup() {
   // B=N and C=0 or B=0 and C=N: class I
   // B=C=N/2: class II
   // Other: class III 
-  creator.setB(B);
+  creator.setB(B+1);
   creator.setC(C);
 
   // class I, II and III: TETRAHEDRON,OCTAHEDRON,ICOSAHEDRON
@@ -33,7 +33,8 @@ void draw() {
   background(55);
   directionalLight(255, 255, 255, 1, 1, -1);
   directionalLight(127, 127, 127, -1, -1, 1);
-  text("B="+B+" C="+C,50,750);
+  text("B="+(B+1)+" C="+C,50,950);
+    text("click left half to increment B, click right half to increment C.",50,975);
   translate(width/2, height/2, 0);
   rotateY(map(mouseX, 0, width, -PI/2, PI/2));
   rotateX(map(mouseY, 0, height, PI/2, -PI/2));
@@ -47,12 +48,12 @@ void draw() {
 }
 
 void mousePressed() {
-  if (mouseX<width/2) B++;
-  if (mouseX>width/2) C++;
+  if (mouseX<width/2) B=(B+1)%10;
+  if (mouseX>width/2) C=(C+1)%11;
 
   HEC_Geodesic creator=new HEC_Geodesic();
   creator.setRadius(200); 
-  creator.setB(B);
+  creator.setB(B+1);
   creator.setC(C);
   creator.setType(HEC_Geodesic.ICOSAHEDRON);
   mesh=new HE_Mesh(creator);

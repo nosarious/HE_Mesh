@@ -41,7 +41,7 @@ void setup() {
 }
 
 void draw() {
-  background(255);
+  background(55);
   translate(width/2, height/2);
   stroke(255,0,0);
   ellipse(0,0,2*radius,2*radius);

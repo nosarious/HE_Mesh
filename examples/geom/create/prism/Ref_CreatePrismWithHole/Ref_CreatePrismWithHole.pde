@@ -9,7 +9,7 @@ ArrayList<WB_Point> shell, hole;
 WB_Polygon polygon;
 HE_Mesh mesh;
 void setup() {
-  size(800, 800, OPENGL);
+  size(1000,1000,P3D);
   smooth(8);
   render=new WB_Render3D(this);
   shell= new ArrayList<WB_Point>();

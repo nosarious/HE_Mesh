@@ -9,10 +9,10 @@
  */
 package wblut.hemesh;
 
+import wblut.core.WB_HashCode;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_GeometryOp;
-import wblut.geom.WB_HashCode;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
@@ -483,7 +483,7 @@ public class HE_Halfedge extends HE_MeshElement implements Comparable<HE_Halfedg
 	 * @return
 	 */
 	public double getLength() {
-		return WB_GeometryOp.getDistance3D(getVertex(), getEndVertex());
+		return WB_GeometryOp3D.getDistance3D(getVertex(), getEndVertex());
 	}
 
 	/**
@@ -492,7 +492,7 @@ public class HE_Halfedge extends HE_MeshElement implements Comparable<HE_Halfedg
 	 * @return
 	 */
 	public double getSqLength() {
-		return WB_GeometryOp.getSqDistance3D(getVertex(), getEndVertex());
+		return WB_GeometryOp3D.getSqDistance3D(getVertex(), getEndVertex());
 	}
 
 	/**
@@ -660,7 +660,7 @@ public class HE_Halfedge extends HE_MeshElement implements Comparable<HE_Halfedg
 		if (c == null) {
 			return Double.NaN;
 		}
-		return WB_GeometryOp.getAngleBetween(c.xd(), c.yd(), c.zd(), p1.xd(), p1.yd(), p1.zd(), p2.xd(), p2.yd(),
+		return WB_GeometryOp3D.getAngleBetween(c.xd(), c.yd(), c.zd(), p1.xd(), p1.yd(), p1.zd(), p2.xd(), p2.yd(),
 				p2.zd());
 	}
 
@@ -676,7 +676,7 @@ public class HE_Halfedge extends HE_MeshElement implements Comparable<HE_Halfedg
 		if (c == null) {
 			return Double.NaN;
 		}
-		return WB_GeometryOp.cotan(c, p1, p2);
+		return WB_GeometryOp3D.cotan(c, p1, p2);
 	}
 
 	// TEXTURE COORDINATES

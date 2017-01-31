@@ -16,7 +16,7 @@ import java.util.List;
 import javolution.util.FastTable;
 import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_Classification;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Vector;
@@ -144,7 +144,7 @@ public class HEM_Mirror extends HEM_Modifier {
 		int back = 0;
 		while (fItr.hasNext()) {
 			face = fItr.next();
-			final WB_Classification cptp = WB_GeometryOp.classifyPolygonToPlane3D(face.toPolygon(), lP);
+			final WB_Classification cptp = WB_GeometryOp3D.classifyPolygonToPlane3D(face.toPolygon(), lP);
 			sides.add(cptp);
 			if (cptp == WB_Classification.FRONT) {
 				front++;
@@ -198,9 +198,9 @@ public class HEM_Mirror extends HEM_Modifier {
 		HE_Vertex v, origv;
 		for (int i = 0; i < vertices.size(); i++) {
 			v = vertices.get(i);
-			final WB_Point p = WB_GeometryOp.getClosestPoint3D(v, lP);
+			final WB_Point p = WB_GeometryOp3D.getClosestPoint3D(v, lP);
 			final WB_Vector dv = WB_Vector.subToVector3D(v, p);
-			if (dv.getLength3D() <= WB_Epsilon.EPSILON) {
+			if (dv.getLength() <= WB_Epsilon.EPSILON) {
 				final List<HE_Halfedge> star = v.getHalfedgeStar();
 				origv = origvertices.get(i);
 				for (final HE_Halfedge he : star) {

@@ -9,7 +9,7 @@
  */
 package wblut.hemesh;
 
-import static wblut.geom.WB_GeometryOp.projectOnPlane;
+import static wblut.geom.WB_GeometryOp3D.projectOnPlane;
 
 import java.util.Iterator;
 import java.util.List;

@@ -12,7 +12,7 @@ void setup(){
 
 
 void draw(){
- background(255);
+ background(55);
  directionalLight(255, 255, 255, 1, 1, -1);
  directionalLight(127, 127, 127, -1, -1, 1);
  translate(width/2, height/2, 0);

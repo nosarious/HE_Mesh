@@ -17,7 +17,7 @@ WB_Triangulation2D triangulationXZ;
 WB_Triangulation2D triangulationP;
 
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   source=new WB_RandomOnSphere().setRadius(250);
   render=new WB_Render3D(this);
   numPoints=500;
@@ -46,7 +46,7 @@ void setup() {
 
 
 void draw() {
-  background(255);
+  background(55);
   directionalLight(255, 255, 255, 1, 1, -1);
   directionalLight(127, 127, 127, -1, -1, 1);
   translate(width/2, height/2-50);

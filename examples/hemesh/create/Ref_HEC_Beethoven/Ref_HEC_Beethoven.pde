@@ -13,14 +13,12 @@ int counter;
 void setup() {
   size(1000, 1000, P3D);  
   smooth(8);
-
   render=new WB_Render3D(this);
-  mesh=new HE_Mesh(new HEC_Beethoven().setScale(10));
- 
+  mesh=new HE_Mesh(new HEC_Beethoven().setScale(10).setZAxis(0,1,0).setZAngle(PI));
 }
 
   void draw() {
-  background(0);
+  background(55);
   translate(width/2, height/2);
   pointLight(204, 204, 204, 1000, 1000, 1000);
   rotateY(mouseX*1.0f/width*TWO_PI);

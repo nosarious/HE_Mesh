@@ -195,7 +195,7 @@ public class WB_Polygon extends WB_Ring {
 			for (int i = 0; i < n; i++) {
 				final int in = offset + (i + 1) % n;
 				final WB_Vector v = new WB_Vector(points.get(offset + i), points.get(in));
-				incLengths[offset + i] = i == 0 ? v.getLength3D() : incLengths[offset + i - 1] + v.getLength3D();
+				incLengths[offset + i] = i == 0 ? v.getLength() : incLengths[offset + i - 1] + v.getLength();
 				v.normalizeSelf();
 				directions.add(v);
 			}
@@ -313,7 +313,7 @@ public class WB_Polygon extends WB_Ring {
 	 */
 	public WB_Plane getPlane(final double d) {
 		final WB_Vector normal = getNormal();
-		if (normal.getSqLength3D() < 0.5) {
+		if (normal.getSqLength() < 0.5) {
 			return null;
 		}
 		return gf.createPlane(points.get(0).addMul(d, normal), normal);
@@ -495,14 +495,14 @@ public class WB_Polygon extends WB_Ring {
 	public boolean isPlanar() {
 		final WB_Plane P = getPlane(0);
 		for (int i = 0; i < numberOfShellPoints; i++) {
-			if (!WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(points.get(i), P))) {
+			if (!WB_Epsilon.isZero(WB_GeometryOp3D.getDistance3D(points.get(i), P))) {
 				return false;
 			}
 		}
 		int index = numberOfShellPoints;
 		for (int i = 0; i < numberOfContours - 1; i++) {
 			for (int j = 0; j < numberOfPointsPerContour[i + 1]; j++) {
-				if (!WB_Epsilon.isZero(WB_GeometryOp.getDistance3D(points.get(index++), P))) {
+				if (!WB_Epsilon.isZero(WB_GeometryOp3D.getDistance3D(points.get(index++), P))) {
 					return false;
 				}
 			}
@@ -601,7 +601,7 @@ public class WB_Polygon extends WB_Ring {
 	 * @return
 	 */
 	public WB_Polygon[] splitPolygon(final WB_Plane P) {
-		return WB_GeometryOp.splitPolygon(this, P);
+		return WB_GeometryOp3D.splitPolygon(this, P);
 	}
 
 	/**
@@ -611,7 +611,7 @@ public class WB_Polygon extends WB_Ring {
 	 * @return
 	 */
 	public WB_Polygon trimConvexPolygon(final double d) {
-		return WB_GeometryOp.trimConvexPolygon(this, d);
+		return WB_GeometryOp3D.trimConvexPolygon(this, d);
 	}
 
 	/**
@@ -621,7 +621,7 @@ public class WB_Polygon extends WB_Ring {
 	 * @return
 	 */
 	public WB_Polygon trimConvexPolygon(final double[] d) {
-		return WB_GeometryOp.trimConvexPolygon(this, d);
+		return WB_GeometryOp3D.trimConvexPolygon(this, d);
 	}
 
 	/**
@@ -644,7 +644,7 @@ public class WB_Polygon extends WB_Ring {
 		double d = Double.POSITIVE_INFINITY;
 		int id = -1;
 		for (int i = 0; i < this.numberOfShellPoints; i++) {
-			final double cd = WB_GeometryOp.getSqDistance3D(p, getPoint(i));
+			final double cd = WB_GeometryOp3D.getSqDistance3D(p, getPoint(i));
 			if (cd < d) {
 				id = i;
 				d = cd;
@@ -663,7 +663,7 @@ public class WB_Polygon extends WB_Ring {
 		double d = Double.POSITIVE_INFINITY;
 		int id = -1;
 		for (int i = 0; i < this.numberOfShellPoints; i++) {
-			final double cd = WB_GeometryOp.getSqDistance3D(p, getPoint(i));
+			final double cd = WB_GeometryOp3D.getSqDistance3D(p, getPoint(i));
 			if (cd < d) {
 				id = i;
 				d = cd;
@@ -714,7 +714,7 @@ public class WB_Polygon extends WB_Ring {
 		double area = 0;
 		for (int i = 1; i < n - 1; i++) {
 			p3 = getPoint(i + 1);
-			area += WB_GeometryOp.getSignedArea(p1, p2, p3);
+			area += WB_GeometryOp3D.getSignedArea(p1, p2, p3);
 			p2 = p3;
 		}
 
@@ -730,7 +730,7 @@ public class WB_Polygon extends WB_Ring {
 			p2 = getPoint(offset + 1);
 			for (int j = 1; j < npc[i + 1] - 1; j++) {
 				p3 = getPoint(offset + j + 1);
-				area += WB_GeometryOp.getSignedArea(p1, p2, p3);
+				area += WB_GeometryOp3D.getSignedArea(p1, p2, p3);
 				p2 = p3;
 			}
 

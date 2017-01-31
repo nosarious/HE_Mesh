@@ -36,7 +36,7 @@ void setup() {
 }
 
 void draw() {
-  background(255);
+  background(55);
   translate(width/2, height/2);
   scale(1, -1);
   fill(255, 0, 0);

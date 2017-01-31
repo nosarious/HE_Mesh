@@ -187,7 +187,7 @@ public class HEC_SweepTube extends HEC_Creator {
 			final WB_Vector axis = oldderiv.cross(deriv);
 			final double angle = Math.acos(WB_Math.clamp(oldderiv.dot(deriv), -1, 1));
 			for (int j = 0; j < facets; j++) {
-				if (!WB_Epsilon.isZeroSq(axis.getSqLength3D())) {
+				if (!WB_Epsilon.isZeroSq(axis.getSqLength())) {
 					basevertices[j].rotateAboutAxisSelf(angle, origin, axis);
 				}
 				vertices[j + (i * facets)] = new WB_Point(basevertices[j]);

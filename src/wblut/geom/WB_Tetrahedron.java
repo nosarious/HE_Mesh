@@ -150,7 +150,7 @@ public class WB_Tetrahedron {
 		O.addSelf(c.cross(a).mulSelf(b.dot(b)));
 		O.addSelf(a.cross(b).mulSelf(c.dot(c)));
 		O.mulSelf(1.0 / (2 * a.dot(b.crossSelf(c))));
-		return O.getLength3D();
+		return O.getLength();
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class WB_Tetrahedron {
 		O.addSelf(c.cross(a).mulSelf(b.dot(b)));
 		O.addSelf(a.cross(b).mulSelf(c.dot(c)));
 		O.mulSelf(1.0 / (2 * a.dot(b.crossSelf(c))));
-		return geometryfactory.createSphereWithRadius(p4.add(O), O.getLength3D());
+		return geometryfactory.createSphereWithRadius(p4.add(O), O.getLength());
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class WB_Tetrahedron {
 		final double sixV = Math.abs(a.dot(bXc));
 		c.crossSelf(a);
 		a.crossSelf(b);
-		final double denom = bXc.getLength3D() + c.getLength3D() + a.getLength3D() + bXc.addMulSelf(2, a).getLength3D();
+		final double denom = bXc.getLength() + c.getLength() + a.getLength() + bXc.addMulSelf(2, a).getLength();
 		return sixV / denom;
 	}
 
@@ -214,10 +214,10 @@ public class WB_Tetrahedron {
 		final WB_Vector bXc = b.cross(c);
 		final WB_Vector cXa = c.cross(a);
 		final WB_Vector aXb = a.cross(b);
-		final double bXcLength = bXc.getLength3D();
-		final double cXaLength = cXa.getLength3D();
-		final double aXbLength = aXb.getLength3D();
-		final double dLength = bXc.addSelf(cXa).addSelf(aXb).getLength3D();
+		final double bXcLength = bXc.getLength();
+		final double cXaLength = cXa.getLength();
+		final double aXbLength = aXb.getLength();
+		final double dLength = bXc.addSelf(cXa).addSelf(aXb).getLength();
 		final WB_Vector O = a.mulSelf(bXcLength);
 		O.addSelf(b.mulSelf(cXaLength));
 		O.addSelf(c.mulSelf(aXbLength));
@@ -237,15 +237,15 @@ public class WB_Tetrahedron {
 		final WB_Vector bXc = b.cross(c);
 		final WB_Vector cXa = c.cross(a);
 		final WB_Vector aXb = a.cross(b);
-		final double bXcLength = bXc.getLength3D();
-		final double cXaLength = cXa.getLength3D();
-		final double aXbLength = aXb.getLength3D();
-		final double dLength = bXc.addSelf(cXa).addSelf(aXb).getLength3D();
+		final double bXcLength = bXc.getLength();
+		final double cXaLength = cXa.getLength();
+		final double aXbLength = aXb.getLength();
+		final double dLength = bXc.addSelf(cXa).addSelf(aXb).getLength();
 		final WB_Vector O = a.mulSelf(bXcLength);
 		O.addSelf(b.mulSelf(cXaLength));
 		O.addSelf(c.mulSelf(aXbLength));
 		O.divSelf(bXcLength + cXaLength + aXbLength + dLength);
-		return geometryfactory.createSphereWithRadius(p4.add(O), O.getLength3D());
+		return geometryfactory.createSphereWithRadius(p4.add(O), O.getLength());
 	}
 
 	/**
@@ -254,12 +254,12 @@ public class WB_Tetrahedron {
 	 * @return
 	 */
 	public boolean isAcute() {
-		return WB_GeometryOp.getCosDihedralAngle(p1, p2, p3, p4) > 0.0
-				&& WB_GeometryOp.getCosDihedralAngle(p1, p2, p4, p3) > 0.0
-				&& WB_GeometryOp.getCosDihedralAngle(p1, p3, p4, p2) > 0.0
-				&& WB_GeometryOp.getCosDihedralAngle(p3, p1, p2, p4) > 0.0
-				&& WB_GeometryOp.getCosDihedralAngle(p2, p1, p3, p4) > 0.0
-				&& WB_GeometryOp.getCosDihedralAngle(p2, p1, p4, p3) > 0.0;
+		return WB_GeometryOp3D.getCosDihedralAngle(p1, p2, p3, p4) > 0.0
+				&& WB_GeometryOp3D.getCosDihedralAngle(p1, p2, p4, p3) > 0.0
+				&& WB_GeometryOp3D.getCosDihedralAngle(p1, p3, p4, p2) > 0.0
+				&& WB_GeometryOp3D.getCosDihedralAngle(p3, p1, p2, p4) > 0.0
+				&& WB_GeometryOp3D.getCosDihedralAngle(p2, p1, p3, p4) > 0.0
+				&& WB_GeometryOp3D.getCosDihedralAngle(p2, p1, p4, p3) > 0.0;
 	}
 
 	public WB_Tetrahedron apply(final WB_Transform T) {

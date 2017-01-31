@@ -3,12 +3,13 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.nurbs;
 
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_PointHomogeneous;
 import wblut.math.WB_Bernstein;
@@ -31,7 +32,7 @@ public class WB_RBezierSurface extends WB_BezierSurface {
 	 *
 	 * @param controlPoints
 	 */
-	public WB_RBezierSurface(final WB_Point[][] controlPoints) {
+	public WB_RBezierSurface(final WB_Coord[][] controlPoints) {
 		super(controlPoints);
 		weights = new double[n + 1][m + 1];
 		for (int i = 0; i <= n; i++) {
@@ -40,8 +41,8 @@ public class WB_RBezierSurface extends WB_BezierSurface {
 			}
 		}
 		wpoints = new WB_PointHomogeneous[n + 1][m + 1];
-		for (int i = 0; i < (n + 1); i++) {
-			for (int j = 0; j < (m + 1); j++) {
+		for (int i = 0; i < n + 1; i++) {
+			for (int j = 0; j < m + 1; j++) {
 				wpoints[i][j] = new WB_PointHomogeneous(points[i][j], weights[i][j]);
 			}
 		}
@@ -53,12 +54,12 @@ public class WB_RBezierSurface extends WB_BezierSurface {
 	 * @param controlPoints
 	 * @param weights
 	 */
-	public WB_RBezierSurface(final WB_Point[][] controlPoints, final double[][] weights) {
+	public WB_RBezierSurface(final WB_Coord[][] controlPoints, final double[][] weights) {
 		super(controlPoints);
 		this.weights = weights;
 		wpoints = new WB_PointHomogeneous[n + 1][m + 1];
-		for (int i = 0; i < (n + 1); i++) {
-			for (int j = 0; j < (m + 1); j++) {
+		for (int i = 0; i < n + 1; i++) {
+			for (int j = 0; j < m + 1; j++) {
 				wpoints[i][j] = new WB_PointHomogeneous(points[i][j], weights[i][j]);
 			}
 		}
@@ -73,8 +74,8 @@ public class WB_RBezierSurface extends WB_BezierSurface {
 		super(controlPoints);
 		weights = new double[n + 1][m + 1];
 		wpoints = new WB_PointHomogeneous[n + 1][m + 1];
-		for (int i = 0; i < (n + 1); i++) {
-			for (int j = 0; j < (m + 1); j++) {
+		for (int i = 0; i < n + 1; i++) {
+			for (int j = 0; j < m + 1; j++) {
 				wpoints[i][j] = new WB_PointHomogeneous(controlPoints[i][j]);
 				weights[i][j] = controlPoints[i][j].wd();
 			}
@@ -88,34 +89,34 @@ public class WB_RBezierSurface extends WB_BezierSurface {
 	 */
 	@Override
 	public WB_Point surfacePoint(final double u, final double v) {
-		final WB_PointHomogeneous S = new WB_PointHomogeneous();
+		final WB_PointHomogeneous S = new WB_PointHomogeneous(0, 0, 0, 0);
 		if (n <= m) {
 			final WB_PointHomogeneous[] Q = new WB_PointHomogeneous[m + 1];
 			double[] B;
 			for (int j = 0; j <= m; j++) {
 				B = WB_Bernstein.getBernsteinCoefficientsOfOrderN(u, n);
-				Q[j] = new WB_PointHomogeneous();
+				Q[j] = new WB_PointHomogeneous(0, 0, 0, 0);
 				for (int k = 0; k <= n; k++) {
-					Q[j].add(wpoints[k][j], B[k]);
+					Q[j].addMulSelf(B[k], wpoints[k][j]);
 				}
 			}
 			B = WB_Bernstein.getBernsteinCoefficientsOfOrderN(v, m);
 			for (int k = 0; k <= m; k++) {
-				S.add(Q[k], B[k]);
+				S.addMulSelf(B[k], Q[k]);
 			}
 		} else {
 			final WB_PointHomogeneous[] Q = new WB_PointHomogeneous[n + 1];
 			double[] B;
 			for (int i = 0; i <= n; i++) {
 				B = WB_Bernstein.getBernsteinCoefficientsOfOrderN(v, m);
-				Q[i] = new WB_PointHomogeneous();
+				Q[i] = new WB_PointHomogeneous(0, 0, 0, 0);
 				for (int k = 0; k <= m; k++) {
-					Q[i].add(wpoints[i][k], B[k]);
+					Q[i].addMulSelf(B[k], wpoints[i][k]);
 				}
 			}
 			B = WB_Bernstein.getBernsteinCoefficientsOfOrderN(u, n);
 			for (int k = 0; k <= n; k++) {
-				S.add(Q[k], B[k]);
+				S.addMulSelf(B[k], Q[k]);
 			}
 		}
 		return new WB_Point(S.project());
@@ -127,7 +128,7 @@ public class WB_RBezierSurface extends WB_BezierSurface {
 	 * @see wblut.geom.WB_BezierSurface#points()
 	 */
 	@Override
-	public WB_Point[][] points() {
+	public WB_Coord[][] points() {
 		return points;
 	}
 

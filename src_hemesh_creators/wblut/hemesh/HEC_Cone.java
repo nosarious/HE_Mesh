@@ -10,7 +10,7 @@
 package wblut.hemesh;
 
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Segment;
 import wblut.geom.WB_Vector;
@@ -166,7 +166,7 @@ public class HEC_Cone extends HEC_Creator {
 	 * @return
 	 */
 	public HEC_Cone align(final WB_Coord origin, final WB_Coord endpoint) {
-		setHeight(WB_GeometryOp.getDistance3D(origin, endpoint));
+		setHeight(WB_GeometryOp3D.getDistance3D(origin, endpoint));
 		setCenter(WB_Point.mulAddMul(0.5, origin, 0.5, endpoint));
 		setZAxis(new WB_Vector(origin, endpoint));
 		return this;
@@ -198,7 +198,7 @@ public class HEC_Cone extends HEC_Creator {
 	}
 
 	public HEC_Cone setPhase(final double p) {
-		phase=p;
+		phase = p;
 		return this;
 	}
 
@@ -209,23 +209,23 @@ public class HEC_Cone extends HEC_Creator {
 	 */
 	@Override
 	protected HE_Mesh createBase() {
-		final double[][] vertices = new double[((facets + 1) * steps) + facets + ((cap) ? facets : 0)][3];
-		final double[][] uvws = new double[((facets + 1) * steps) + facets + ((cap) ? facets : 0)][3];
-		final int[][] faces = new int[(cap) ? (facets * steps) + facets : facets * steps][];
-		final int[] faceTextureIds = new int[(cap) ? (facets * steps) + facets : facets * steps];
+		final double[][] vertices = new double[(facets + 1) * steps + facets + (cap ? facets : 0)][3];
+		final double[][] uvws = new double[(facets + 1) * steps + facets + (cap ? facets : 0)][3];
+		final int[][] faces = new int[cap ? facets * steps + facets : facets * steps][];
+		final int[] faceTextureIds = new int[cap ? facets * steps + facets : facets * steps];
 		double Ri;
 		double Hj;
 		final double invs = 1.0 / steps;
 		int id = 0;
 		for (int i = 0; i < steps; i++) {
-			Ri = R - (Math.pow(i * invs, taper) * R);
-			Hj = (reverse) ? H - ((i * H) / steps) : (i * H) / steps;
-			for (int j = 0; j < (facets + 1); j++) {
-				vertices[id][0] = Ri * Math.cos((((2 * Math.PI) / facets) * j)+phase);
-				vertices[id][2] = Ri * Math.sin((((2 * Math.PI) / facets) * j)+phase);
+			Ri = R - Math.pow(i * invs, taper) * R;
+			Hj = reverse ? H - i * H / steps : i * H / steps;
+			for (int j = 0; j < facets + 1; j++) {
+				vertices[id][0] = Ri * Math.cos(2 * Math.PI / facets * j + phase);
+				vertices[id][2] = Ri * Math.sin(2 * Math.PI / facets * j + phase);
 				vertices[id][1] = Hj;
-				uvws[id][0] = (j * 1.0) / facets;
-				uvws[id][1] = (i * 1.0) / steps;
+				uvws[id][0] = j * 1.0 / facets;
+				uvws[id][1] = i * 1.0 / steps;
 				uvws[id][2] = 0;
 				id++;
 			}
@@ -234,7 +234,7 @@ public class HEC_Cone extends HEC_Creator {
 		for (int j = 0; j < facets; j++) {
 			vertices[id][0] = 0;
 			vertices[id][2] = 0;
-			vertices[id][1] = (reverse) ? 0 : H;
+			vertices[id][1] = reverse ? 0 : H;
 			uvws[id][0] = 0.5;
 			uvws[id][1] = 1;
 			uvws[id][2] = 0;
@@ -245,7 +245,7 @@ public class HEC_Cone extends HEC_Creator {
 			for (int j = 0; j < facets; j++) {
 				vertices[id][0] = 0;
 				vertices[id][2] = 0;
-				vertices[id][1] = (reverse) ? H : 0;
+				vertices[id][1] = reverse ? H : 0;
 				uvws[id][0] = 0.5;
 				uvws[id][1] = 1;
 				uvws[id][2] = 0;
@@ -254,27 +254,27 @@ public class HEC_Cone extends HEC_Creator {
 		}
 		id = 0;
 		for (int j = 0; j < facets; j++) {
-			for (int i = 0; i < (steps - 1); i++) {
+			for (int i = 0; i < steps - 1; i++) {
 				faces[id] = new int[4];
 				faceTextureIds[id] = 0;
-				faces[id][0] = j + (i * (facets + 1));
-				faces[id][1] = j + ((i + 1) * (facets + 1));
-				faces[id][2] = j + 1 + ((i + 1) * (facets + 1));
-				faces[id][3] = j + 1 + (i * (facets + 1));
+				faces[id][0] = j + i * (facets + 1);
+				faces[id][1] = j + (i + 1) * (facets + 1);
+				faces[id][2] = j + 1 + (i + 1) * (facets + 1);
+				faces[id][3] = j + 1 + i * (facets + 1);
 				id++;
 			}
 			faces[id] = new int[3];
 			faceTextureIds[id] = 0;
 			faces[id][0] = tipoffset + j;
-			faces[id][2] = j + ((steps - 1) * (facets + 1));
-			faces[id][1] = j + 1 + ((steps - 1) * (facets + 1));
+			faces[id][2] = j + (steps - 1) * (facets + 1);
+			faces[id][1] = j + 1 + (steps - 1) * (facets + 1);
 			id++;
 			if (cap) {
 				faces[id] = new int[3];
 				faceTextureIds[id] = 1;
 				faces[id][0] = j;
 				faces[id][2] = j + capoffset;
-				faces[id][1] = (j + 1);
+				faces[id][1] = j + 1;
 				id++;
 			}
 		}

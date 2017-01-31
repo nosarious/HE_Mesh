@@ -12,7 +12,7 @@ package wblut.hemesh;
 import java.util.Iterator;
 
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Vector;
 
@@ -143,7 +143,7 @@ public class HEM_Skew extends HEM_Modifier {
 			final Iterator<HE_Vertex> vItr = mesh.vItr();
 			while (vItr.hasNext()) {
 				v = vItr.next();
-				final double d = WB_GeometryOp.getDistance3D(v, groundPlane);
+				final double d = WB_GeometryOp3D.getDistance3D(v, groundPlane);
 				if (!posOnly || (d > 0)) {
 					v.addSelf(skewDirection.mul(d * skewFactor));
 				}
@@ -168,7 +168,7 @@ public class HEM_Skew extends HEM_Modifier {
 			final Iterator<HE_Vertex> vItr = selection.vItr();
 			while (vItr.hasNext()) {
 				v = vItr.next();
-				final double d = WB_GeometryOp.getDistance3D(v, groundPlane);
+				final double d = WB_GeometryOp3D.getDistance3D(v, groundPlane);
 				if (!posOnly || (d > 0)) {
 					v.addSelf(skewDirection.mul(d * skewFactor));
 				}

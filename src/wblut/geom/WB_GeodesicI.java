@@ -221,7 +221,7 @@ class WB_GeodesicI {
 			p.normalizeSelf();
 			p.mulSelf(radius);
 		}
-		final double threshold = apices[0].getDistance3D(apices[1]) / (10 * v);
+		final double threshold = apices[0].getDistance(apices[1]) / (10 * v);
 		zeropoints.addAll(points);
 		WB_Transform T = new WB_Transform();
 		switch (type) {
@@ -361,7 +361,7 @@ class WB_GeodesicI {
 	 */
 	private WB_Point selectPoint(final WB_GreatCircleIntersection gci, final WB_Point[] apices, final int type) {
 		if (type == TETRAHEDRON) {
-			return Math.abs(WB_GeometryOp.getDistance3D(gci.p0, P)) < Math.abs(WB_GeometryOp.getDistance3D(gci.p1, P))
+			return Math.abs(WB_GeometryOp3D.getDistance3D(gci.p0, P)) < Math.abs(WB_GeometryOp3D.getDistance3D(gci.p1, P))
 					? gf.createPoint(gci.p0) : gf.createPoint(gci.p1);
 		}
 		return gci.p0[2] > 0 ? gf.createPoint(gci.p0) : gf.createPoint(gci.p1);
@@ -454,13 +454,13 @@ class WB_GeodesicI {
 		final WB_Vector r1 = vnor(v1, origin, v2);
 		final WB_Vector r2 = vnor(v3, origin, v4);
 		final WB_Vector r3 = vnor(r1, origin, r2);
-		if (WB_Epsilon.isZeroSq(r3.getSqLength3D())) {
+		if (WB_Epsilon.isZeroSq(r3.getSqLength())) {
 			return null;
 		}
 		r3.normalizeSelf();
 		final WB_Point p0 = gf.createPoint(r3);
 		final WB_Point p1 = p0.mul(-1);
-		final double dihedral = Math.acos(Math.abs(r1.dot(r2)) / (r1.getLength3D() * r2.getLength3D()));
+		final double dihedral = Math.acos(Math.abs(r1.dot(r2)) / (r1.getLength() * r2.getLength()));
 		p0.addSelf(origin);
 		p1.addSelf(origin);
 		return new WB_GreatCircleIntersection(p0.coords(), p1.coords(), dihedral);
@@ -510,7 +510,7 @@ class WB_GeodesicI {
 	private static double vcos(final WB_Coord v1, final WB_Coord v2, final WB_Coord v3) {
 		final WB_Vector r0 = new WB_Vector(v2, v1);
 		final WB_Vector r1 = new WB_Vector(v2, v3);
-		return r0.dot(r1) / (r0.getLength3D() * r1.getLength3D());
+		return r0.dot(r1) / (r0.getLength() * r1.getLength());
 	}
 
 }

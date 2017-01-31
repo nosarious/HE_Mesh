@@ -21,8 +21,11 @@ import wblut.core.WB_ProgressTracker;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_AABBTree;
 import wblut.geom.WB_AABBTree.WB_AABBNode;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_IntersectionResult;
+import wblut.geom.WB_Point;
+import wblut.geom.WB_RandomOnSphere;
 import wblut.geom.WB_Segment;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
@@ -139,7 +142,7 @@ public class HET_Fixer {
 		HE_Halfedge e;
 		while (eItr.hasNext()) {
 			e = eItr.next();
-			if (WB_Epsilon.isZeroSq(WB_GeometryOp.getSqDistance3D(e.getVertex(), e.getEndVertex()))) {
+			if (WB_Epsilon.isZeroSq(WB_GeometryOp3D.getSqDistance3D(e.getVertex(), e.getEndVertex()))) {
 				edgesToRemove.add(e);
 			}
 		}
@@ -160,7 +163,7 @@ public class HET_Fixer {
 		final double d2 = d * d;
 		while (eItr.hasNext()) {
 			e = eItr.next();
-			if (WB_GeometryOp.getSqDistance3D(e.getVertex(), e.getEndVertex()) < d2) {
+			if (WB_GeometryOp3D.getSqDistance3D(e.getVertex(), e.getEndVertex()) < d2) {
 				edgesToRemove.add(e);
 			}
 		}
@@ -392,7 +395,7 @@ public class HET_Fixer {
 		final List<HET_SelfIntersectionResult> selfints = new FastTable<HET_SelfIntersectionResult>();
 		final HE_RAS.HE_RASTrove<HE_Face> candidates = new HE_RAS.HE_RASTrove<HE_Face>();
 		final WB_AABB aabb = tri.toAABB();
-		final List<WB_AABBNode> nodes = WB_GeometryOp.getIntersection3D(aabb, tree);
+		final List<WB_AABBNode> nodes = WB_GeometryOp3D.getIntersection3D(aabb, tree);
 		for (final WB_AABBNode n : nodes) {
 			candidates.addAll(n.getFaces());
 		}
@@ -402,7 +405,7 @@ public class HET_Fixer {
 		for (final HE_Face candidate : candidates) {
 			if (candidate.getKey() > tri.getKey()) {// Check each face pair only
 				// once
-				final WB_IntersectionResult ir = WB_GeometryOp.getIntersection3D(tri.getHalfedge().getVertex(),
+				final WB_IntersectionResult ir = WB_GeometryOp3D.getIntersection3D(tri.getHalfedge().getVertex(),
 						tri.getHalfedge().getEndVertex(), tri.getHalfedge().getNextInFace().getEndVertex(),
 						candidate.getHalfedge().getVertex(), candidate.getHalfedge().getEndVertex(),
 						candidate.getHalfedge().getNextInFace().getEndVertex());
@@ -422,6 +425,7 @@ public class HET_Fixer {
 	 * @return
 	 */
 	public static List<HET_SelfIntersectionResult> checkSelfIntersection(final HE_Mesh mesh) {
+
 		mesh.triangulate();
 		mesh.resetFaceInternalLabels();
 		final WB_AABBTree tree = new WB_AABBTree(mesh, 1);
@@ -433,6 +437,8 @@ public class HET_Fixer {
 		 * (fitr.hasNext()) { f = fitr.next(); selfints =
 		 * checkSelfIntersection(f, tree); if (selfints.size() > 0) {
 		 * f.setInternalLabel(1); } result.addAll(selfints); }
+		 *
+		 * return result;
 		 */
 		return checkSelfIntersection(mesh.faces.getObjects(), tree);
 	}
@@ -585,6 +591,33 @@ public class HET_Fixer {
 		public WB_Segment getSegment() {
 			return segment;
 		}
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args) {
+		WB_RandomOnSphere rs = new WB_RandomOnSphere().setRadius(400);
+		HEC_ConvexHull creator = new HEC_ConvexHull();
+
+		int num = (int) (Math.random() * 17 + 8);
+		WB_Point[] points = new WB_Point[num];
+		for (int i = 0; i < num; i++) {
+			points[i] = rs.nextPoint();
+		}
+		creator.setPoints(points);
+		creator.setN(num);
+		HE_Mesh mesh = new HE_Mesh(creator);
+
+		mesh = new HE_Mesh(new HEC_Dual(mesh).setFixNonPlanarFaces(false));
+
+		HEM_Extrude ext = new HEM_Extrude().setChamfer(25).setRelative(false);
+		mesh.modify(ext);
+		HE_Selection sel = ext.extruded;
+		ext = new HEM_Extrude().setDistance(-10);
+		sel.modify(ext);
+		System.out.println(checkSelfIntersection(mesh.get()).size());
+
 	}
 
 }

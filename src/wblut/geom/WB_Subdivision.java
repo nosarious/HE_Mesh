@@ -2548,8 +2548,8 @@ public class WB_Subdivision {
 			if (quad.isConvex()) {
 				quads.add(quad);
 			} else {
-				final boolean p0inside = WB_GeometryOp.pointInTriangleBary3D(quad.p1, quad.p2, quad.p3, quad.p4);
-				final boolean p2inside = WB_GeometryOp.pointInTriangleBary3D(quad.p3, quad.p1, quad.p2, quad.p4);
+				final boolean p0inside = WB_GeometryOp3D.pointInTriangleBary3D(quad.p1, quad.p2, quad.p3, quad.p4);
+				final boolean p2inside = WB_GeometryOp3D.pointInTriangleBary3D(quad.p3, quad.p1, quad.p2, quad.p4);
 				if (p0inside || p2inside) {
 					addTriangle(quad.p1, quad.p2, quad.p3);
 					addTriangle(quad.p1, quad.p3, quad.p4);

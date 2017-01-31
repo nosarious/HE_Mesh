@@ -8,9 +8,9 @@ HE_Mesh[] cylinders;
 
 WB_Render3D render;
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
-  background(255); 
+  background(55); 
   render=new WB_Render3D(this);
   create();
 }

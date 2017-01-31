@@ -24,7 +24,7 @@ void create() {
 }
 
 void draw() {
-  background(255);
+  background(55);
   translate(400,400);
   create();
   noFill();

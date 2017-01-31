@@ -243,7 +243,7 @@ public abstract class HEC_Creator extends HE_Machine {
 				base.rotateAboutAxis2PSelf(zangle, ctr.xd(), ctr.yd(), ctr.zd(), ctr.xd(), ctr.yd(), ctr.zd() + 1);
 			}
 			final WB_Vector tmp = zaxis.cross(Z);
-			if (!WB_Epsilon.isZeroSq(tmp.getSqLength3D())) {
+			if (!WB_Epsilon.isZeroSq(tmp.getSqLength())) {
 				base.rotateAboutAxis2PSelf(-Math.acos(WB_Math.clamp(zaxis.dot(Z), -1, 1)), ctr.xd(), ctr.yd(), ctr.zd(),
 						ctr.xd() + tmp.xd(), ctr.yd() + tmp.yd(), ctr.zd() + tmp.zd());
 			} else if (zaxis.dot(Z) < -1 + WB_Epsilon.EPSILON) {

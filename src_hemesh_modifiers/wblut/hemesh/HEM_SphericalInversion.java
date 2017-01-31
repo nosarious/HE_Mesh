@@ -190,7 +190,7 @@ public class HEM_SphericalInversion extends HEM_Modifier {
 				v.addSelf(d);
 			} else {
 				d = WB_Vector.subToVector3D(v, center);
-				ri = d.getLength3D();
+				ri = d.getLength();
 				d.normalizeSelf();
 				rf = r2 * Math.max(icutoff, 1.0 / ri);
 				v.set(center);

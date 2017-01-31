@@ -10,8 +10,8 @@
 package wblut.processing;
 
 import processing.core.PVector;
+import wblut.core.WB_HashCode;
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_HashCode;
 import wblut.geom.WB_MutableCoord;
 import wblut.math.WB_Epsilon;
 

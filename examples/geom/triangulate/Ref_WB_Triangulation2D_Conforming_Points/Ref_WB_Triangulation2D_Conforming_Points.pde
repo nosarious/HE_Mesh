@@ -37,11 +37,11 @@ void setup() {
   confTri=WB_Triangulate.triangulateConforming2D(points, constraints,5);
   triangles=confTri.getTriangles();
   pointsAfterTriangulation=confTri.getPoints();
-  background(255);
+  background(55);
 }
 
 void draw() {
-  background(255);
+  background(55);
   translate(width/2, height/2);
   stroke(0);
   strokeWeight(1);

@@ -10,7 +10,7 @@ WB_Polygon polygon;
 HE_Mesh mesh;
 
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
   render=new WB_Render3D(this);
   shell= new ArrayList<WB_Point>();

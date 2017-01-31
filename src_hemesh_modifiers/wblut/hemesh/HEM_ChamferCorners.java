@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -28,6 +28,9 @@ import wblut.math.WB_ScalarParameter;
 public class HEM_ChamferCorners extends HEM_Modifier {
 	/** Chamfer distance. */
 	private WB_ScalarParameter distance;
+	public HE_Selection origFaces;
+	/** New faces?. */
+	public HE_Selection newFaces;
 
 	/**
 	 * Instantiates a new HEM_ChamferCorners.
@@ -62,7 +65,7 @@ public class HEM_ChamferCorners extends HEM_Modifier {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.modifiers.HEB_Modifier#modify(wblut.hemesh.HE_Mesh)
 	 */
 	@Override
@@ -87,12 +90,14 @@ public class HEM_ChamferCorners extends HEM_Modifier {
 		final HEM_MultiSlice msm = new HEM_MultiSlice();
 		msm.setPlanes(cutPlanes).setSimpleCap(true);
 		mesh.modify(msm);
+		origFaces = msm.origFaces;
+		newFaces = msm.newFaces;
 		return mesh;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * wblut.hemesh.modifiers.HEB_Modifier#modifySelected(wblut.hemesh.HE_Mesh)
 	 */
@@ -119,6 +124,8 @@ public class HEM_ChamferCorners extends HEM_Modifier {
 		final HEM_MultiSlice msm = new HEM_MultiSlice();
 		msm.setPlanes(cutPlanes).setSimpleCap(true);
 		selection.parent.modify(msm);
+		origFaces = msm.origFaces;
+		newFaces = msm.newFaces;
 		return selection.parent;
 	}
 }

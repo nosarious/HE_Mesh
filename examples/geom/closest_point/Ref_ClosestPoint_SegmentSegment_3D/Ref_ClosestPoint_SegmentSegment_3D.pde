@@ -13,7 +13,7 @@ void setup() {
   size(800,800,P3D);
   smooth(8);
   render=new WB_Render3D(this);
-  background(255); 
+  background(55); 
   n=15;
   S=new WB_Segment[n];
   V=new WB_Vector[2*n];

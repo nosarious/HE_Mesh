@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.nurbs;
 
@@ -67,12 +67,11 @@ public class WB_BSplineSurface implements WB_Surface {
 	 * @param uknot
 	 * @param vknot
 	 */
-	public WB_BSplineSurface(final WB_Coord[][] controlPoints, final WB_NurbsKnot uknot,
-			final WB_NurbsKnot vknot) {
-		if (uknot.n != (controlPoints.length - 1)) {
+	public WB_BSplineSurface(final WB_Coord[][] controlPoints, final WB_NurbsKnot uknot, final WB_NurbsKnot vknot) {
+		if (uknot.n != controlPoints.length - 1) {
 			throw new IllegalArgumentException("U knot size and/or degree doesn't match number of control points.");
 		}
-		if (vknot.n != (controlPoints[0].length - 1)) {
+		if (vknot.n != controlPoints[0].length - 1) {
 			throw new IllegalArgumentException("V knot size and/or degree doesn't match number of control points.");
 		}
 		p = uknot.p();
@@ -82,6 +81,10 @@ public class WB_BSplineSurface implements WB_Surface {
 		this.uknot = uknot;
 		this.vknot = vknot;
 		points = controlPoints;
+		// for (int i = 0; i < points.length; i++) {
+		// System.out.println(i + " " + points[i][0]);
+		// System.out.println(i + " " + points[i][1]);
+		// }
 	}
 
 	/**
@@ -93,10 +96,10 @@ public class WB_BSplineSurface implements WB_Surface {
 	 */
 	public WB_BSplineSurface(final WB_PointHomogeneous[][] controlPoints, final WB_NurbsKnot uknot,
 			final WB_NurbsKnot vknot) {
-		if (uknot.n != (controlPoints.length - 1)) {
+		if (uknot.n != controlPoints.length - 1) {
 			throw new IllegalArgumentException("U knot size and/or degree doesn't match number of control points.");
 		}
-		if (vknot.n != (controlPoints[0].length - 1)) {
+		if (vknot.n != controlPoints[0].length - 1) {
 			throw new IllegalArgumentException("V knot size and/or degree doesn't match number of control points.");
 		}
 		p = uknot.p();
@@ -120,7 +123,7 @@ public class WB_BSplineSurface implements WB_Surface {
 	 * @param udegree
 	 * @param vdegree
 	 */
-	public WB_BSplineSurface(final WB_Point[][] controlPoints, final int udegree, final int vdegree) {
+	public WB_BSplineSurface(final WB_Coord[][] controlPoints, final int udegree, final int vdegree) {
 		uknot = new WB_NurbsKnot(controlPoints.length, udegree);
 		vknot = new WB_NurbsKnot(controlPoints[0].length, vdegree);
 		p = uknot.p();
@@ -138,8 +141,8 @@ public class WB_BSplineSurface implements WB_Surface {
 	 * @param point01
 	 * @param point11
 	 */
-	public WB_BSplineSurface(final WB_Point point00, final WB_Point point10, final WB_Point point01,
-			final WB_Point point11) {
+	public WB_BSplineSurface(final WB_Coord point00, final WB_Coord point10, final WB_Coord point01,
+			final WB_Coord point11) {
 		uknot = new WB_NurbsKnot(2, 1);
 		vknot = new WB_NurbsKnot(2, 1);
 		p = uknot.p();
@@ -155,7 +158,7 @@ public class WB_BSplineSurface implements WB_Surface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.nurbs.WB_Surface#surfacePoint(double, double)
 	 */
 	@Override
@@ -169,13 +172,14 @@ public class WB_BSplineSurface implements WB_Surface {
 		WB_Point tmp;
 		for (int el = 0; el <= q; el++) {
 			tmp = new WB_Point();
-			final int vind = (vspan - q) + el;
+			final int vind = vspan - q + el;
 			for (int k = 0; k <= p; k++) {
 				tmp.addSelf(Nu[k] * points[uind + k][vind].xd(), Nu[k] * points[uind + k][vind].yd(),
 						Nu[k] * points[uind + k][vind].zd());
 			}
 			S.addSelf(tmp.mulSelf(Nv[el]));
 		}
+
 		return S;
 	}
 
@@ -188,16 +192,16 @@ public class WB_BSplineSurface implements WB_Surface {
 		final WB_Coord[] cpoints = new WB_Point[(n + 1) * (m + 1)];
 		for (int i = 0; i <= n; i++) {
 			for (int j = 0; j <= m; j++) {
-				cpoints[i + ((n + 1) * j)] = points[i][j];
+				cpoints[i + (n + 1) * j] = points[i][j];
 			}
 		}
 		final int[][] faces = new int[n * m][4];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				faces[i + (n * j)][0] = i + ((n + 1) * j);
-				faces[i + (n * j)][1] = i + 1 + ((n + 1) * j);
-				faces[i + (n * j)][2] = i + 1 + ((n + 1) * (j + 1));
-				faces[i + (n * j)][3] = i + ((n + 1) * (j + 1));
+				faces[i + n * j][0] = i + (n + 1) * j;
+				faces[i + n * j][1] = i + 1 + (n + 1) * j;
+				faces[i + n * j][2] = i + 1 + (n + 1) * (j + 1);
+				faces[i + n * j][3] = i + (n + 1) * (j + 1);
 			}
 		}
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
@@ -237,7 +241,7 @@ public class WB_BSplineSurface implements WB_Surface {
 		final int nq = n + r;
 		final int k = uknot.span(u);
 		final int s = uknot.multiplicity(u, k);
-		if ((r + s) > p) {
+		if (r + s > p) {
 			throw new IllegalArgumentException("Attempting to increase knot multiplicity above curve degree.");
 		}
 		final WB_NurbsKnot UQ = new WB_NurbsKnot(n + 1 + r, p);
@@ -247,38 +251,38 @@ public class WB_BSplineSurface implements WB_Surface {
 		for (int i = 1; i <= r; i++) {
 			UQ.setValue(k + i, u);
 		}
-		for (int i = k + 1; i <= (n + p + 1); i++) {
+		for (int i = k + 1; i <= n + p + 1; i++) {
 			UQ.setValue(i + r, uknot.value(i));
 		}
 		int L = 0;
-		final double[][] alpha = new double[(p - s) + 1][r + 1];
+		final double[][] alpha = new double[p - s + 1][r + 1];
 		for (int j = 1; j <= r; j++) {
-			L = (k - p) + j;
-			for (int i = 0; i <= (p - j - s); i++) {
+			L = k - p + j;
+			for (int i = 0; i <= p - j - s; i++) {
 				alpha[i][j] = (u - uknot.value(L + i)) / (uknot.value(i + k + 1) - uknot.value(L + i));
 			}
 		}
 		final WB_Point[][] Q = new WB_Point[nq + 1][m + 1];
-		final WB_Point[] RW = new WB_Point[(p - s) + 1];
+		final WB_Point[] RW = new WB_Point[p - s + 1];
 		for (int row = 0; row <= m; row++) {
-			for (int i = 0; i <= (k - p); i++) {
+			for (int i = 0; i <= k - p; i++) {
 				Q[i][row] = new WB_Point(points[i][row]);
 			}
 			for (int i = k - s; i <= n; i++) {
 				Q[i + r][row] = new WB_Point(points[i][row]);
 			}
-			for (int i = 0; i <= (p - s); i++) {
-				RW[i] = new WB_Point(points[(k - p) + i][row]);
+			for (int i = 0; i <= p - s; i++) {
+				RW[i] = new WB_Point(points[k - p + i][row]);
 			}
 			for (int j = 1; j <= r; j++) {
-				L = (k - p) + j;
-				for (int i = 0; i <= (p - j - s); i++) {
+				L = k - p + j;
+				for (int i = 0; i <= p - j - s; i++) {
 					RW[i] = gf.createInterpolatedPoint(RW[i], RW[i + 1], alpha[i][j]);
 				}
 				Q[L][row] = RW[0];
-				Q[(k + r) - j - s][row] = RW[p - j - s];
+				Q[k + r - j - s][row] = RW[p - j - s];
 			}
-			for (int i = L + 1; i < (k - s); i++) {
+			for (int i = L + 1; i < k - s; i++) {
 				Q[i][row] = RW[i - L];
 			}
 		}
@@ -317,7 +321,7 @@ public class WB_BSplineSurface implements WB_Surface {
 		final int mq = m + r;
 		final int k = vknot.span(v);
 		final int s = vknot.multiplicity(v, k);
-		if ((r + s) > q) {
+		if (r + s > q) {
 			throw new IllegalArgumentException("Attempting to increase knot multiplicity above curve degree.");
 		}
 		final WB_NurbsKnot VQ = new WB_NurbsKnot(m + 1 + r, q);
@@ -327,38 +331,38 @@ public class WB_BSplineSurface implements WB_Surface {
 		for (int i = 1; i <= r; i++) {
 			VQ.setValue(k + i, v);
 		}
-		for (int i = k + 1; i <= (m + q + 1); i++) {
+		for (int i = k + 1; i <= m + q + 1; i++) {
 			VQ.setValue(i + r, vknot.value(i));
 		}
 		int L = 0;
-		final double[][] alpha = new double[(q - s) + 1][r + 1];
+		final double[][] alpha = new double[q - s + 1][r + 1];
 		for (int j = 1; j <= r; j++) {
-			L = (k - q) + j;
-			for (int i = 0; i <= (q - j - s); i++) {
+			L = k - q + j;
+			for (int i = 0; i <= q - j - s; i++) {
 				alpha[i][j] = (v - vknot.value(L + i)) / (vknot.value(i + k + 1) - vknot.value(L + i));
 			}
 		}
 		final WB_Point[][] Q = new WB_Point[n + 1][mq + 1];
-		final WB_Point[] RW = new WB_Point[(q - s) + 1];
+		final WB_Point[] RW = new WB_Point[q - s + 1];
 		for (int col = 0; col <= n; col++) {
-			for (int i = 0; i <= (k - q); i++) {
+			for (int i = 0; i <= k - q; i++) {
 				Q[col][i] = new WB_Point(points[col][i]);
 			}
 			for (int i = k - s; i <= m; i++) {
 				Q[col][i + r] = new WB_Point(points[col][i]);
 			}
-			for (int i = 0; i <= (q - s); i++) {
-				RW[i] = new WB_Point(points[col][(k - q) + i]);
+			for (int i = 0; i <= q - s; i++) {
+				RW[i] = new WB_Point(points[col][k - q + i]);
 			}
 			for (int j = 1; j <= r; j++) {
-				L = (k - q) + j;
-				for (int i = 0; i <= (q - j - s); i++) {
+				L = k - q + j;
+				for (int i = 0; i <= q - j - s; i++) {
 					RW[i] = gf.createInterpolatedPoint(RW[i], RW[i + 1], alpha[i][j]);
 				}
 				Q[col][L] = RW[0];
-				Q[col][(k + r) - j - s] = RW[q - j - s];
+				Q[col][k + r - j - s] = RW[q - j - s];
 			}
-			for (int i = L + 1; i < (k - s); i++) {
+			for (int i = L + 1; i < k - s; i++) {
 				Q[col][i] = RW[i - L];
 			}
 		}
@@ -379,7 +383,7 @@ public class WB_BSplineSurface implements WB_Surface {
 			N = uknot.basisFunctions(span, u);
 			cpoints[j] = new WB_Point();
 			for (int i = 0; i <= p; i++) {
-				final WB_Coord tmp = points[(span - p) + i][j];
+				final WB_Coord tmp = points[span - p + i][j];
 				cpoints[j].addSelf(N[i] * tmp.xd(), N[i] * tmp.yd(), N[i] * tmp.zd());
 			}
 		}
@@ -400,7 +404,7 @@ public class WB_BSplineSurface implements WB_Surface {
 			N = vknot.basisFunctions(span, v);
 			cpoints[i] = new WB_Point();
 			for (int j = 0; j <= q; j++) {
-				final WB_Coord tmp = points[i][(span - q) + j];
+				final WB_Coord tmp = points[i][span - q + j];
 				cpoints[i].addSelf(N[j] * tmp.xd(), N[j] * tmp.yd(), N[j] * tmp.zd());
 			}
 		}
@@ -480,15 +484,15 @@ public class WB_BSplineSurface implements WB_Surface {
 		final WB_BSplineSurface newBSplineSurface = insertUKnotMax(u);
 		final int k = newBSplineSurface.uknot().span(u);
 		final int km = newBSplineSurface.uknot().m;
-		final WB_NurbsKnot knot1 = new WB_NurbsKnot((k + 1) - p, p);
+		final WB_NurbsKnot knot1 = new WB_NurbsKnot(k + 1 - p, p);
 		for (int i = 0; i < knot1.m; i++) {
 			knot1.setValue(i, newBSplineSurface.uknot().value(i));
 		}
 		knot1.setValue(knot1.m, u);
 		knot1.normalize();
-		final WB_Coord[][] points1 = new WB_Coord[(k + 1) - p][m + 1];
+		final WB_Coord[][] points1 = new WB_Coord[k + 1 - p][m + 1];
 		for (int j = 0; j <= m; j++) {
-			for (int i = 0; i < ((k + 1) - p); i++) {
+			for (int i = 0; i < k + 1 - p; i++) {
 				points1[i][j] = newBSplineSurface.points[i][j];
 			}
 		}
@@ -497,13 +501,13 @@ public class WB_BSplineSurface implements WB_Surface {
 			knot2.setValue(i, u);
 		}
 		for (int i = k + 1; i <= km; i++) {
-			knot2.setValue((i - k) + p, newBSplineSurface.uknot().value(i));
+			knot2.setValue(i - k + p, newBSplineSurface.uknot().value(i));
 		}
 		knot2.normalize();
 		final WB_Coord[][] points2 = new WB_Coord[km - k][m + 1];
 		for (int j = 0; j <= m; j++) {
-			for (int i = 0; i < (km - k); i++) {
-				points2[i][j] = newBSplineSurface.points[(k - p) + i][j];
+			for (int i = 0; i < km - k; i++) {
+				points2[i][j] = newBSplineSurface.points[k - p + i][j];
 			}
 		}
 		final WB_BSplineSurface[] splitSurfaces = new WB_BSplineSurface[2];
@@ -522,15 +526,15 @@ public class WB_BSplineSurface implements WB_Surface {
 		final WB_BSplineSurface newBSplineSurface = insertVKnotMax(v);
 		final int k = newBSplineSurface.vknot().span(v);
 		final int km = newBSplineSurface.vknot().m;
-		final WB_NurbsKnot knot1 = new WB_NurbsKnot((k + 1) - q, q);
+		final WB_NurbsKnot knot1 = new WB_NurbsKnot(k + 1 - q, q);
 		for (int i = 0; i < knot1.m; i++) {
 			knot1.setValue(i, newBSplineSurface.vknot().value(i));
 		}
 		knot1.setValue(knot1.m, v);
 		knot1.normalize();
-		final WB_Coord[][] points1 = new WB_Coord[n + 1][(k + 1) - q];
+		final WB_Coord[][] points1 = new WB_Coord[n + 1][k + 1 - q];
 		for (int j = 0; j <= n; j++) {
-			for (int i = 0; i < ((k + 1) - q); i++) {
+			for (int i = 0; i < k + 1 - q; i++) {
 				points1[j][i] = newBSplineSurface.points[j][i];
 			}
 		}
@@ -539,13 +543,13 @@ public class WB_BSplineSurface implements WB_Surface {
 			knot2.setValue(i, v);
 		}
 		for (int i = k + 1; i <= km; i++) {
-			knot2.setValue((i - k) + q, newBSplineSurface.vknot().value(i));
+			knot2.setValue(i - k + q, newBSplineSurface.vknot().value(i));
 		}
 		knot2.normalize();
 		final WB_Coord[][] points2 = new WB_Coord[n + 1][km - k];
 		for (int j = 0; j <= n; j++) {
-			for (int i = 0; i < (km - k); i++) {
-				points2[j][i] = newBSplineSurface.points[j][(k - q) + i];
+			for (int i = 0; i < km - k; i++) {
+				points2[j][i] = newBSplineSurface.points[j][k - q + i];
 			}
 		}
 		final WB_BSplineSurface[] splitSurfaces = new WB_BSplineSurface[2];
@@ -578,7 +582,7 @@ public class WB_BSplineSurface implements WB_Surface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.nurbs.WB_Curve#loweru()
 	 */
 	@Override
@@ -588,7 +592,7 @@ public class WB_BSplineSurface implements WB_Surface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.nurbs.WB_Curve#upperu()
 	 */
 	@Override
@@ -598,7 +602,7 @@ public class WB_BSplineSurface implements WB_Surface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.nurbs.WB_Curve#loweru()
 	 */
 	@Override
@@ -608,7 +612,7 @@ public class WB_BSplineSurface implements WB_Surface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.nurbs.WB_Curve#upperu()
 	 */
 	@Override

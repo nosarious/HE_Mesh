@@ -32,7 +32,7 @@ import wblut.geom.WB_Frame;
 import wblut.geom.WB_Frame.WB_FrameNode;
 import wblut.geom.WB_Frame.WB_FrameStrut;
 import wblut.geom.WB_GeometryFactory;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Hexagon;
 import wblut.geom.WB_Line;
 import wblut.geom.WB_Map;
@@ -221,10 +221,22 @@ public class WB_Render3D extends WB_Render2D {
 	 *
 	 * @param circles
 	 */
-	public void drawCircles(final Collection<WB_Circle> circles) {
+	public void drawCircle(final Collection<WB_Circle> circles) {
 		final Iterator<WB_Circle> citr = circles.iterator();
 		while (citr.hasNext()) {
 			drawCircle(citr.next());
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param circles
+	 */
+	public void drawCircle(final WB_Circle[] circles) {
+
+		for (WB_Circle circle : circles) {
+			drawCircle(circle);
 		}
 	}
 
@@ -312,6 +324,13 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 	public void drawEdges(final Collection<? extends HE_MeshStructure> meshes) {
 		final Iterator<? extends HE_MeshStructure> mItr = meshes.iterator();
+		while (mItr.hasNext()) {
+			drawEdges(mItr.next());
+		}
+	}
+
+	public void drawEdges(final HE_MeshCollection meshes) {
+		final Iterator<? extends HE_MeshStructure> mItr = meshes.mItr();
 		while (mItr.hasNext()) {
 			drawEdges(mItr.next());
 		}
@@ -4290,7 +4309,7 @@ public class WB_Render3D extends WB_Render2D {
 		double d2min = Double.MAX_VALUE;
 		while (fec.hasNext()) {
 			trial = fec.next();
-			d2 = WB_GeometryOp.getDistanceToSegment3D(p.point, trial.getStartVertex(), trial.getEndVertex());
+			d2 = WB_GeometryOp3D.getDistanceToSegment3D(p.point, trial.getStartVertex(), trial.getEndVertex());
 			if (d2 < d2min) {
 				d2min = d2;
 				closest = trial;
@@ -4321,7 +4340,7 @@ public class WB_Render3D extends WB_Render2D {
 		double d2min = Double.MAX_VALUE;
 		while (fec.hasNext()) {
 			trial = fec.next();
-			d2 = WB_GeometryOp.getDistanceToSegment3D(p.point, trial.getStartVertex(), trial.getEndVertex());
+			d2 = WB_GeometryOp3D.getDistanceToSegment3D(p.point, trial.getStartVertex(), trial.getEndVertex());
 			if (d2 < d2min) {
 				d2min = d2;
 				closest = trial;
@@ -4416,7 +4435,7 @@ public class WB_Render3D extends WB_Render2D {
 		double d2min = Double.MAX_VALUE;
 		while (fvc.hasNext()) {
 			trial = fvc.next();
-			d2 = trial.getSqDistance3D(p.point);
+			d2 = trial.getSqDistance(p.point);
 			if (d2 < d2min) {
 				d2min = d2;
 				closest = trial;
@@ -4447,7 +4466,7 @@ public class WB_Render3D extends WB_Render2D {
 		double d2min = Double.MAX_VALUE;
 		while (fvc.hasNext()) {
 			trial = fvc.next();
-			d2 = trial.getSqDistance3D(p.point);
+			d2 = trial.getSqDistance(p.point);
 			if (d2 < d2min) {
 				d2min = d2;
 				closest = trial;

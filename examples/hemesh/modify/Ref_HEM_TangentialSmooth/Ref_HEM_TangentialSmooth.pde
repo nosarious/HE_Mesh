@@ -26,9 +26,8 @@ void draw() {
   translate(width/2, height/2);
   pointLight(204, 204, 204, 1000, 1000, 1000);
   text("Click for tangential smooth ("+counter+").",0,450);
-  rotateY(mouseX*1.0f/width*TWO_PI);
-  rotateX(mouseY*1.0f/height*TWO_PI);
-  noFill();
+  rotateY(map(mouseX,0,width,-PI,PI));
+  rotateX(map(mouseY,0,height,-PI,PI));
   stroke(255, 0, 0);
  render.drawEdges(mesh);
   fill(255);

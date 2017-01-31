@@ -24,11 +24,11 @@ void setup() {
   createPolygon(); 
   WB_Triangulation2D tri=WB_Triangulate.triangulateConstrained2D(polygon);
   triangles=tri.getTriangles();
-  background(255);
+  background(55);
 }
 
 void draw() {
-  background(255);
+  background(55);
   translate(width/2, height/2);
   stroke(0);
   strokeWeight(1);

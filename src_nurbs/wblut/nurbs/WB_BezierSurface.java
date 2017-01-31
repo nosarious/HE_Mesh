@@ -3,12 +3,13 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.nurbs;
 
+import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_PointHomogeneous;
@@ -18,49 +19,49 @@ import wblut.hemesh.HE_Mesh;
 import wblut.math.WB_Bernstein;
 
 /**
- * 
+ *
  */
 public class WB_BezierSurface implements WB_Surface {
 
 	/**
-	 * 
+	 *
 	 */
 	private static WB_GeometryFactory gf = new WB_GeometryFactory();
 
 	/**
-	 * 
+	 *
 	 */
-	protected WB_Point[][] points;
+	protected WB_Coord[][] points;
 
 	/**
-	 * 
+	 *
 	 */
 	protected int n;
 
 	/**
-	 * 
+	 *
 	 */
 	protected int m;
 
 	/**
-	 * 
+	 *
 	 */
 	public WB_BezierSurface() {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param controlPoints
 	 */
-	public WB_BezierSurface(final WB_Point[][] controlPoints) {
+	public WB_BezierSurface(final WB_Coord[][] controlPoints) {
 		n = controlPoints.length - 1;
 		m = controlPoints[0].length - 1;
 		points = controlPoints;
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param controlPoints
 	 */
@@ -77,7 +78,7 @@ public class WB_BezierSurface implements WB_Surface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.nurbs.WB_Surface#surfacePoint(double, double)
 	 */
 	@Override
@@ -116,16 +117,16 @@ public class WB_BezierSurface implements WB_Surface {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
-	public WB_Point[][] points() {
+	public WB_Coord[][] points() {
 		return points;
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -134,7 +135,7 @@ public class WB_BezierSurface implements WB_Surface {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -144,7 +145,7 @@ public class WB_BezierSurface implements WB_Surface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.nurbs.WB_Curve#loweru()
 	 */
 	@Override
@@ -154,7 +155,7 @@ public class WB_BezierSurface implements WB_Surface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.nurbs.WB_Curve#upperu()
 	 */
 	@Override
@@ -164,7 +165,7 @@ public class WB_BezierSurface implements WB_Surface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.nurbs.WB_Curve#loweru()
 	 */
 	@Override
@@ -174,7 +175,7 @@ public class WB_BezierSurface implements WB_Surface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.nurbs.WB_Curve#upperu()
 	 */
 	@Override
@@ -183,12 +184,12 @@ public class WB_BezierSurface implements WB_Surface {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
 	public WB_BezierSurface elevateUDegree() {
-		final WB_Point[][] npoints = new WB_Point[n + 2][m + 1];
+		final WB_Coord[][] npoints = new WB_Point[n + 2][m + 1];
 		for (int j = 0; j <= m; j++) {
 			npoints[0][j] = points[0][j];
 			npoints[n + 1][j] = points[n][j];
@@ -201,12 +202,12 @@ public class WB_BezierSurface implements WB_Surface {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
 	public WB_BezierSurface elevateVDegree() {
-		final WB_Point[][] npoints = new WB_Point[n + 1][m + 2];
+		final WB_Coord[][] npoints = new WB_Point[n + 1][m + 2];
 		for (int i = 0; i <= n; i++) {
 			npoints[i][0] = points[i][0];
 			npoints[i][m + 1] = points[i][m];
@@ -219,24 +220,24 @@ public class WB_BezierSurface implements WB_Surface {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
 	public HE_Mesh toControlHemesh() {
-		final WB_Point[] cpoints = new WB_Point[(n + 1) * (m + 1)];
+		final WB_Coord[] cpoints = new WB_Point[(n + 1) * (m + 1)];
 		for (int i = 0; i <= n; i++) {
 			for (int j = 0; j <= m; j++) {
-				cpoints[i + ((n + 1) * j)] = points[i][j];
+				cpoints[i + (n + 1) * j] = points[i][j];
 			}
 		}
 		final int[][] faces = new int[n * m][4];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				faces[i + (n * j)][0] = i + ((n + 1) * j);
-				faces[i + (n * j)][1] = i + 1 + ((n + 1) * j);
-				faces[i + (n * j)][2] = i + 1 + ((n + 1) * (j + 1));
-				faces[i + (n * j)][3] = i + ((n + 1) * (j + 1));
+				faces[i + n * j][0] = i + (n + 1) * j;
+				faces[i + n * j][1] = i + 1 + (n + 1) * j;
+				faces[i + n * j][2] = i + 1 + (n + 1) * (j + 1);
+				faces[i + n * j][3] = i + (n + 1) * (j + 1);
 			}
 		}
 		final HEC_FromFacelist fl = new HEC_FromFacelist();

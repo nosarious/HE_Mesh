@@ -8,10 +8,10 @@ HE_Mesh mesh;
 WB_Render render;
 
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
   HEC_Ellipsoid creator=new HEC_Ellipsoid();
-  creator.setRadius(200,100,50); 
+  creator.setRadius(300,200,100); 
   creator.setUFacets(16);
   creator.setVFacets(16);
   mesh=new HE_Mesh(creator); 

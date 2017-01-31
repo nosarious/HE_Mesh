@@ -158,9 +158,9 @@ public class WB_TriangleMesh extends WB_Mesh {
 			final WB_Vector a = geometryfactory.createNormalizedVectorFromTo(p0, p1);
 			final WB_Vector b = geometryfactory.createNormalizedVectorFromTo(p1, p2);
 			final WB_Vector c = geometryfactory.createNormalizedVectorFromTo(p2, p0);
-			final double l2a = a.getSqLength3D();
-			final double l2b = b.getSqLength3D();
-			final double l2c = c.getSqLength3D();
+			final double l2a = a.getSqLength();
+			final double l2b = b.getSqLength();
+			final double l2c = c.getSqLength();
 			final WB_Vector facenormal = a.cross(b);
 			vertexNormals[face[0]].addMulSelf(1.0 / (l2a * l2c), facenormal);
 			vertexNormals[face[1]].addMulSelf(1.0 / (l2b * l2a), facenormal);
@@ -301,8 +301,8 @@ public class WB_TriangleMesh extends WB_Mesh {
 			// Compute corner weights
 			final WB_Vector c = e0.cross(e1);
 			double x, y, z;
-			final double area = 0.5 * c.getLength3D();
-			final double[] l2 = new double[] { e0.getSqLength3D(), e1.getSqLength3D(), e2.getSqLength3D() };
+			final double area = 0.5 * c.getLength();
+			final double[] l2 = new double[] { e0.getSqLength(), e1.getSqLength(), e2.getSqLength() };
 			final double[] ew = new double[] { l2[0] * (l2[1] + l2[2] - l2[0]), l2[1] * (l2[2] + l2[0] - l2[1]),
 					l2[2] * (l2[0] + l2[1] - l2[2]) };
 			if (ew[0] <= 0.0f) {

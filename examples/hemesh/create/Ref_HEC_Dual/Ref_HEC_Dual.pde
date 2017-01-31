@@ -9,13 +9,14 @@ HE_Mesh dual;
 WB_Render render;
 
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
-  mesh=new HE_Mesh(new HEC_Octahedron().setEdge(500)); 
+  mesh=new HE_Mesh(new HEC_Cube().setEdge(500)); 
   mesh.smooth();
   HEC_Dual creator=new HEC_Dual();
   creator.setSource(mesh);
   dual=new HE_Mesh(creator);
+ 
   render=new WB_Render(this);
 }
 

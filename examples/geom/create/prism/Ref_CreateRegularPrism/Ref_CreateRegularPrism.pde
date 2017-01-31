@@ -7,7 +7,7 @@ WB_GeometryFactory gf=new WB_GeometryFactory();
 WB_Render3D render;
 HE_Mesh mesh;
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
   render=new WB_Render3D(this);
   mesh=new HE_Mesh(gf.createRegularPrism(12,200, 100));

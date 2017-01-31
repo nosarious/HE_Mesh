@@ -3,11 +3,15 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.nurbs;
+
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import gnu.trove.list.TDoubleList;
 import gnu.trove.list.array.TDoubleArrayList;
@@ -16,38 +20,38 @@ import gnu.trove.map.hash.TDoubleIntHashMap;
 import wblut.math.WB_Epsilon;
 
 /**
- * 
+ *
  */
 public class WB_NurbsKnot {
 
 	/**
-	 * 
+	 *
 	 */
 	protected final double[] values;
 
 	/**
-	 * 
+	 *
 	 */
 	protected final int degree;
 
 	/**
-	 * 
+	 *
 	 */
 	protected final int n;
 
 	/**
-	 * 
+	 *
 	 */
 	protected final int m;
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param ncp
 	 * @param degree
 	 */
 	public WB_NurbsKnot(final int ncp, final int degree) {
-		if ((degree > (ncp - 1)) || (degree < 1)) {
+		if (degree > ncp - 1 || degree < 1) {
 			throw new IllegalArgumentException("Degree too high for number of control points or smaller than 1.");
 		}
 		this.degree = degree;
@@ -58,13 +62,13 @@ public class WB_NurbsKnot {
 			values[i] = 0;
 			values[m - i] = 1;
 		}
-		for (int i = 0; i < (n - this.degree); i++) {
-			values[this.degree + 1 + i] = (i + 1.0) / ((n - this.degree) + 1);
+		for (int i = 0; i < n - this.degree; i++) {
+			values[this.degree + 1 + i] = (i + 1.0) / (n - this.degree + 1);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param ncp
 	 * @param degree
@@ -72,7 +76,7 @@ public class WB_NurbsKnot {
 	 */
 	public WB_NurbsKnot(final int ncp, final int degree, final double[] val) {
 		this(ncp, degree);
-		if (val.length != (ncp - 1 - degree)) {
+		if (val.length != ncp - 1 - degree) {
 			throw new IllegalArgumentException("Number of provided values doesn't match knot size and/or degree.");
 		}
 		if (val[ncp - 2 - degree] > 1.0) {
@@ -82,7 +86,7 @@ public class WB_NurbsKnot {
 			values[i] = 0;
 			values[m - i] = 1;
 		}
-		for (int i = 0; i < (n - degree); i++) {
+		for (int i = 0; i < n - degree; i++) {
 			if (val[i] < values[degree + i]) {
 				throw new IllegalArgumentException(
 						"Provided values are not non-decreasing or first value is smaller than 0.");
@@ -92,7 +96,7 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param degree
 	 * @param val
@@ -108,7 +112,7 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param knot
 	 */
@@ -123,7 +127,7 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -132,7 +136,7 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -141,7 +145,7 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -150,7 +154,7 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -170,7 +174,7 @@ public class WB_NurbsKnot {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -185,7 +189,7 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @return
 	 */
@@ -194,39 +198,39 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @return
 	 */
 	public double value(final int i) {
-		if ((i < 0) || (i > m)) {
+		if (i < 0 || i > m) {
 			throw new IllegalArgumentException("Index " + i + " doesn't exist in knot.");
 		}
 		return values[i];
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param i
 	 * @param k
 	 */
 	public void setValue(final int i, final double k) {
-		if ((i < 0) || (i > m)) {
+		if (i < 0 || i > m) {
 			throw new IllegalArgumentException("Index " + i + " doesn't exist in knot.");
 		}
 		values[i] = k;
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param u
 	 * @return
 	 */
 	public int span(final double u) {
-		if ((u < values[0]) || (u > values[n + 1])) {
+		if (u < values[0] || u > values[n + 1]) {
 			throw new IllegalArgumentException("Value outside of knot range.");
 		}
 		if (u == values[n + 1]) {
@@ -235,7 +239,7 @@ public class WB_NurbsKnot {
 		int low = degree;
 		int high = n + 1;
 		int mid = (low + high) / 2;
-		while ((u < values[mid]) || (u >= values[mid + 1])) {
+		while (u < values[mid] || u >= values[mid + 1]) {
 			if (u < values[mid]) {
 				high = mid;
 			} else {
@@ -247,24 +251,24 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param u
 	 * @return
 	 */
 	public int multiplicity(final double u) {
-		if ((u < values[0]) || (u > values[n + 1])) {
+		if (u < values[0] || u > values[n + 1]) {
 			throw new IllegalArgumentException("Value outside of knot range.");
 		}
 		int mult = 0;
 		final int i = span(u);
 		int li = i;
 		int ui = i + 1;
-		while ((li >= 0) && (WB_Epsilon.isEqualAbs(values[li], u))) {
+		while (li >= 0 && WB_Epsilon.isEqualAbs(values[li], u)) {
 			mult++;
 			li--;
 		}
-		while ((ui < (m + 1)) && (WB_Epsilon.isEqualAbs(values[ui], u))) {
+		while (ui < m + 1 && WB_Epsilon.isEqualAbs(values[ui], u)) {
 			mult++;
 			ui++;
 		}
@@ -272,24 +276,24 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param u
 	 * @param span
 	 * @return
 	 */
 	public int multiplicity(final double u, final int span) {
-		if ((u < values[0]) || (u > values[n + 1])) {
+		if (u < values[0] || u > values[n + 1]) {
 			throw new IllegalArgumentException("Value outside of knot range.");
 		}
 		int mult = 0;
 		int li = span;
 		int ui = span + 1;
-		while ((li >= 0) && (values[li] == u)) {
+		while (li >= 0 && values[li] == u) {
 			mult++;
 			li--;
 		}
-		while ((ui < (m + 1)) && (values[ui] == u)) {
+		while (ui < m + 1 && values[ui] == u) {
 			mult++;
 			ui++;
 		}
@@ -297,7 +301,7 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param span
 	 * @param u
@@ -310,12 +314,12 @@ public class WB_NurbsKnot {
 		double saved, temp;
 		N[0] = 1.0;
 		for (int j = 1; j <= degree; j++) {
-			left[j] = u - values[(span + 1) - j];
+			left[j] = u - values[span + 1 - j];
 			right[j] = values[span + j] - u;
 			saved = 0.0;
 			for (int r = 0; r < j; r++) {
 				temp = N[r] / (right[r + 1] + left[j - r]);
-				N[r] = saved + (right[r + 1] * temp);
+				N[r] = saved + right[r + 1] * temp;
 				saved = left[j - r] * temp;
 			}
 			N[j] = saved;
@@ -324,7 +328,7 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param span
 	 * @param u
@@ -339,12 +343,12 @@ public class WB_NurbsKnot {
 			double saved, temp;
 			N[0][i] = 1.0;
 			for (int j = 1; j <= i; j++) {
-				left[j] = u - values[(span + 1) - j];
+				left[j] = u - values[span + 1 - j];
 				right[j] = values[span + j] - u;
 				saved = 0.0;
 				for (int r = 0; r < j; r++) {
 					temp = N[r][i] / (right[r + 1] + left[j - r]);
-					N[r][i] = saved + (right[r + 1] * temp);
+					N[r][i] = saved + right[r + 1] * temp;
 					saved = left[j - r] * temp;
 				}
 				N[j][i] = saved;
@@ -354,12 +358,12 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void normalize() {
 		final double low = values[0];
 		final double high = values[m];
-		double denom = (high - low);
+		double denom = high - low;
 		if (WB_Epsilon.isZero(denom)) {
 			throw new IllegalArgumentException("Knot value range too small to normalize.");
 		}
@@ -377,7 +381,7 @@ public class WB_NurbsKnot {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param UA
 	 * @param UB
@@ -428,5 +432,22 @@ public class WB_NurbsKnot {
 			offset += mul;
 		}
 		return new WB_NurbsKnot(UA.degree, allValues);
+	}
+
+	public double[][] multVal() {
+		Set<Double> uniqValues = new LinkedHashSet<Double>();
+		for (int i = 0; i < values.length; i++) {
+			uniqValues.add(values[i]);
+		}
+
+		double[][] multVal = new double[uniqValues.size()][2];
+		Iterator<Double> itr = uniqValues.iterator();
+		for (int i = 0; i < uniqValues.size(); i++) {
+			multVal[i][0] = itr.next();
+			multVal[i][1] = multiplicity(multVal[i][0]);
+
+		}
+		return multVal;
+
 	}
 }

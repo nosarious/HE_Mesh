@@ -8,7 +8,7 @@ WB_Segment S;
 
 void setup() {
   size(800, 800);
-  background(255); 
+  background(55); 
   p1 = new WB_Point(0, 0, 0);
   p2 = new WB_Point(100, 200, 0);
   p3 = new WB_Point(600, 500, 0);
@@ -16,7 +16,7 @@ void setup() {
 }
 
 void draw() {
-  background(255); 
+  background(55); 
   stroke(0);
   line(p2.xf(), p2.yf(), p3.xf(), p3.yf());
   p1.set(mouseX, mouseY, 0);

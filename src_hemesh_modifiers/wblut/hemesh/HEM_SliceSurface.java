@@ -20,7 +20,7 @@ import javolution.util.FastTable;
 import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_AABBTree;
 import wblut.geom.WB_Classification;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Plane;
 import wblut.math.WB_Epsilon;
 
@@ -132,7 +132,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		}
 		// check if plane intersects mesh
 		final WB_Plane lP = new WB_Plane(P.getNormal(), P.d() + offset);
-		if (!WB_GeometryOp.checkIntersection3D(mesh.getAABB(), lP)) {
+		if (!WB_GeometryOp3D.checkIntersection3D(mesh.getAABB(), lP)) {
 			tracker.setStatus(this, "Plane doesn't intersect bounding box. Exiting HEM_SliceSurface.", -1);
 			return mesh;
 		}
@@ -152,7 +152,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		final Iterator<HE_Vertex> vItr = faces.vItr();
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			tmp = WB_GeometryOp.classifyPointToPlane3D(v, lP);
+			tmp = WB_GeometryOp3D.classifyPointToPlane3D(v, lP);
 			if (tmp == WB_Classification.ON) {
 				v.setInternalLabel(ON);
 			} else if (tmp == WB_Classification.BACK) {
@@ -302,7 +302,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		final Iterator<HE_Vertex> vItr = lsel.vItr();
 		while (vItr.hasNext()) {
 			v = vItr.next();
-			tmp = WB_GeometryOp.classifyPointToPlane3D(v, lP);
+			tmp = WB_GeometryOp3D.classifyPointToPlane3D(v, lP);
 			vertexClass.put(v.key(), tmp);
 			if (tmp == WB_Classification.FRONT) {
 				positiveVertexExists = true;
@@ -404,7 +404,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		for (final HE_Halfedge he : cutEdges.getEdges()) {
 			final HE_Face f = he.getFace();
 			if (f != null) {
-				if (WB_GeometryOp.classifyPointToPlane3D(f.getFaceCenter(), P) == WB_Classification.FRONT) {
+				if (WB_GeometryOp3D.classifyPointToPlane3D(f.getFaceCenter(), P) == WB_Classification.FRONT) {
 					edges.add(he.getPair());
 				} else {
 					edges.add(he);
@@ -476,14 +476,14 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			e = feCrc.next();
 			if (e.getVertex().getInternalLabel() == FRONT && e.getEndVertex().getInternalLabel() == BACK
 					|| e.getVertex().getInternalLabel() == BACK && e.getEndVertex().getInternalLabel() == FRONT) {
-				double e0 = WB_GeometryOp.getDistanceToPlane3D(e.getVertex(), P);
-				double e1 = WB_GeometryOp.getDistanceToPlane3D(e.getEndVertex(), P);
+				double e0 = WB_GeometryOp3D.getDistanceToPlane3D(e.getVertex(), P);
+				double e1 = WB_GeometryOp3D.getDistanceToPlane3D(e.getEndVertex(), P);
 				if (e0 < e1) {
 					e.getVertex().setInternalLabel(ON);
-					e.getVertex().set(WB_GeometryOp.projectOnPlane(e.getVertex(), P));
+					e.getVertex().set(WB_GeometryOp3D.projectOnPlane(e.getVertex(), P));
 				} else {
 					e.getEndVertex().setInternalLabel(ON);
-					e.getEndVertex().set(WB_GeometryOp.projectOnPlane(e.getEndVertex(), P));
+					e.getEndVertex().set(WB_GeometryOp3D.projectOnPlane(e.getEndVertex(), P));
 				}
 			}
 		}

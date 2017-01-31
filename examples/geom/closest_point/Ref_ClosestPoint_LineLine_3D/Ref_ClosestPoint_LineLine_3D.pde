@@ -9,9 +9,9 @@ WB_IntersectionResult i;
 WB_Render3D render;
 
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
-  background(255); 
+  background(55); 
   create(); 
   render=new WB_Render3D(this);
   strokeWeight(2);
@@ -24,8 +24,8 @@ void create() {
 }
 
 void draw() {
-  background(255); 
-  translate(400, 400);
+  background(55); 
+  translate(width/2,height/2);
   rotateX(mouseY*1.0/height*TWO_PI-PI);
   rotateY(mouseX*1.0/width*TWO_PI-PI);
   stroke(0);

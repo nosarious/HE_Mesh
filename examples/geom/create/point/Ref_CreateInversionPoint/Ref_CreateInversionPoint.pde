@@ -10,7 +10,7 @@ WB_Circle C;
 
 void setup() {
   size(1280, 720);
-  background(255);
+  background(55);
   smooth(8);
   stroke(0, 50);
 

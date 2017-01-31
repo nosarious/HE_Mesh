@@ -10,7 +10,7 @@
 package wblut.hemesh;
 
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Segment;
 import wblut.geom.WB_Vector;
@@ -175,7 +175,7 @@ public class HEC_Cylinder extends HEC_Creator {
 	}
 
 	public HEC_Cylinder setPhase(final double p) {
-		phase= p;
+		phase = p;
 		return this;
 	}
 
@@ -198,7 +198,7 @@ public class HEC_Cylinder extends HEC_Creator {
 	 * @return
 	 */
 	public HEC_Cylinder align(final WB_Coord origin, final WB_Coord endpoint) {
-		setHeight(WB_GeometryOp.getDistance3D(origin, endpoint));
+		setHeight(WB_GeometryOp3D.getDistance3D(origin, endpoint));
 		setCenter(WB_Point.mulAddMul(0.5, origin, 0.5, endpoint));
 		setZAxis(new WB_Vector(origin, endpoint));
 		return this;
@@ -235,21 +235,21 @@ public class HEC_Cylinder extends HEC_Creator {
 			cone.setReverse(true);
 			return cone.createBase();
 		}
-		final double[][] vertices = new double[((steps + 1) * (facets + 1)) + ((bottomcap) ? facets : 0)
-		                                       + ((topcap) ? facets : 0)][3];
-		final double[][] uvw = new double[((steps + 1) * (facets + 1)) + ((bottomcap) ? facets : 0)
-		                                  + ((topcap) ? facets : 0)][3];
+		final double[][] vertices = new double[(steps + 1) * (facets + 1) + (bottomcap ? facets : 0)
+				+ (topcap ? facets : 0)][3];
+		final double[][] uvw = new double[(steps + 1) * (facets + 1) + (bottomcap ? facets : 0)
+				+ (topcap ? facets : 0)][3];
 		final double invs = 1.0 / steps;
 		int id = 0;
-		for (int i = 0; i < (steps + 1); i++) {
-			final double R = Ri + (Math.pow(i * invs, taper) * (Ro - Ri));
+		for (int i = 0; i < steps + 1; i++) {
+			final double R = Ri + Math.pow(i * invs, taper) * (Ro - Ri);
 			final double Hj = i * H * invs;
-			for (int j = 0; j < (facets + 1); j++) {
-				vertices[id][0] = R * Math.cos((((2 * Math.PI) / facets) * j)+phase);
-				vertices[id][2] = R * Math.sin((((2 * Math.PI) / facets) * j)+phase);
+			for (int j = 0; j < facets + 1; j++) {
+				vertices[id][0] = R * Math.cos(2 * Math.PI / facets * j + phase);
+				vertices[id][2] = R * Math.sin(2 * Math.PI / facets * j + phase);
 				vertices[id][1] = Hj;
-				uvw[id][0] = ((j * 1.0) / facets);
-				uvw[id][1] = (i * 1.0) / steps;
+				uvw[id][0] = j * 1.0 / facets;
+				uvw[id][1] = i * 1.0 / steps;
 				uvw[id][2] = 0.0;
 				id++;
 			}
@@ -295,12 +295,12 @@ public class HEC_Cylinder extends HEC_Creator {
 		final int[] faceTextureIds = new int[nfaces];
 		for (int j = 0; j < facets; j++) {
 			for (int i = 0; i < steps; i++) {
-				faces[j + (i * facets)] = new int[4];
-				faces[j + (i * facets)][0] = j + (i * (facets + 1));
-				faces[j + (i * facets)][1] = j + (i * (facets + 1)) + facets + 1;
-				faces[j + (i * facets)][2] = (j + 1) + facets + 1 + (i * (facets + 1));
-				faces[j + (i * facets)][3] = (j + 1) + (i * (facets + 1));
-				faceTextureIds[j + (i * facets)] = 0;
+				faces[j + i * facets] = new int[4];
+				faces[j + i * facets][0] = j + i * (facets + 1);
+				faces[j + i * facets][1] = j + i * (facets + 1) + facets + 1;
+				faces[j + i * facets][2] = j + 1 + facets + 1 + i * (facets + 1);
+				faces[j + i * facets][3] = j + 1 + i * (facets + 1);
+				faceTextureIds[j + i * facets] = 0;
 			}
 		}
 		if (bottomcap) {
@@ -315,8 +315,8 @@ public class HEC_Cylinder extends HEC_Creator {
 		if (topcap) {
 			for (int i = 0; i < facets; i++) {
 				faces[tc + i] = new int[3];
-				faces[tc + i][1] = (steps * (facets + 1)) + i;
-				faces[tc + i][0] = (steps * (facets + 1)) + i + 1;
+				faces[tc + i][1] = steps * (facets + 1) + i;
+				faces[tc + i][0] = steps * (facets + 1) + i + 1;
 				faces[tc + i][2] = tv + i;
 				faceTextureIds[tc + i] = 2;
 			}

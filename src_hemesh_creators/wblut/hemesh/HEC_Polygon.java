@@ -21,17 +21,18 @@ import wblut.math.WB_Epsilon;
 public class HEC_Polygon extends HEC_Creator {
 
 	/**
-	 * 
+	 *
 	 */
 	private WB_Polygon polygon;
 
 	/**
-	 * 
+	 *
 	 */
 	private double thickness;
+	private double offset;
 
 	/**
-	 * 
+	 *
 	 */
 	public HEC_Polygon() {
 		super();
@@ -39,7 +40,7 @@ public class HEC_Polygon extends HEC_Creator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param poly
 	 * @param d
@@ -49,10 +50,11 @@ public class HEC_Polygon extends HEC_Creator {
 		override = true;
 		polygon = poly;
 		thickness = d;
+		offset = 0;
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param poly
 	 * @return
@@ -63,7 +65,7 @@ public class HEC_Polygon extends HEC_Creator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param d
 	 * @return
@@ -73,9 +75,14 @@ public class HEC_Polygon extends HEC_Creator {
 		return this;
 	}
 
+	public HEC_Polygon setOffset(final double d) {
+		offset = d;
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.creators.HEC_Creator#createBase()
 	 */
 	@Override
@@ -88,7 +95,8 @@ public class HEC_Polygon extends HEC_Creator {
 		final boolean surf = WB_Epsilon.isZero(thickness);
 		final WB_Coord[] points = new WB_Coord[surf ? n : 2 * n];
 		for (int i = 0; i < n; i++) {
-			points[i] = polygon.getPoint(i);
+			points[i] = polygon.getPoint(i).addMulSelf(offset, norm);
+			;
 		}
 		if (!surf) {
 			for (int i = 0; i < n; i++) {

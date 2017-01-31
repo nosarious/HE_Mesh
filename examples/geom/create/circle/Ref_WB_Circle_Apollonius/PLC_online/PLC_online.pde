@@ -19,7 +19,7 @@ void setup() {
 
 void create() {
   p= factory.createPoint(width/2, height/2);
-  L= factory.createLineWithDirection(width/2, height/2, 1, 0);
+  L= factory.createLineWithDirection2D(width/2, height/2, 1, 0);
   C= factory.createCircleWithRadius( mouseX, mouseY, 100);
   circles=factory.createCirclePLC(p, L, C);
 }

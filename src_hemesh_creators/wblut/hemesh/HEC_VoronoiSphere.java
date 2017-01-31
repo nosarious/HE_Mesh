@@ -10,8 +10,12 @@
 package wblut.hemesh;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import wblut.geom.WB_GeometryOp;
+import javolution.util.FastTable;
+import wblut.geom.WB_Coord;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_KDTreeInteger;
 import wblut.geom.WB_KDTreeInteger.WB_KDEntryInteger;
 import wblut.geom.WB_Plane;
@@ -29,7 +33,7 @@ import wblut.math.WB_Epsilon;
  */
 public class HEC_VoronoiSphere extends HEC_Creator {
 	/** points. */
-	private WB_Point[] points;
+	private List<WB_Coord> points;
 	/** Number of points. */
 	private int numberOfPoints;
 	/** Cell index. */
@@ -48,6 +52,7 @@ public class HEC_VoronoiSphere extends HEC_Creator {
 	private double traceStep;
 	/** The random gen. */
 	private final WB_RandomOnSphere randomGen;
+	private double offset;
 
 	/**
 	 * Instantiates a new HEC_VoronoiSphere.
@@ -60,50 +65,6 @@ public class HEC_VoronoiSphere extends HEC_Creator {
 		numTracers = 100;
 		override = true;
 		randomGen = new WB_RandomOnSphere();
-	}
-
-	/**
-	 * Set points that define cell centers.
-	 *
-	 * @param points
-	 *            array of vertex positions
-	 * @return self
-	 */
-	public HEC_VoronoiSphere setPoints(final WB_Point[] points) {
-		this.points = points;
-		return this;
-	}
-
-	/**
-	 * Set points that define cell centers.
-	 *
-	 * @param points
-	 *            2D array of double of vertex positions
-	 * @return self
-	 */
-	public HEC_VoronoiSphere setPoints(final double[][] points) {
-		final int n = points.length;
-		this.points = new WB_Point[n];
-		for (int i = 0; i < n; i++) {
-			this.points[i] = new WB_Point(points[i][0], points[i][1], points[i][2]);
-		}
-		return this;
-	}
-
-	/**
-	 * Set points that define cell centers.
-	 *
-	 * @param points
-	 *            2D array of float of vertex positions
-	 * @return self
-	 */
-	public HEC_VoronoiSphere setPoints(final float[][] points) {
-		final int n = points.length;
-		this.points = new WB_Point[n];
-		for (int i = 0; i < n; i++) {
-			this.points[i] = new WB_Point(points[i][0], points[i][1], points[i][2]);
-		}
-		return this;
 	}
 
 	/**
@@ -202,6 +163,11 @@ public class HEC_VoronoiSphere extends HEC_Creator {
 		return this;
 	}
 
+	public HEC_VoronoiSphere setOffset(final double o) {
+		offset = o;
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -217,7 +183,7 @@ public class HEC_VoronoiSphere extends HEC_Creator {
 			return new HE_Mesh();
 		}
 		if (numberOfPoints == 0) {
-			numberOfPoints = points.length;
+			numberOfPoints = points.size();
 		}
 		if (cellIndex < 0 || cellIndex >= numberOfPoints) {
 			return new HE_Mesh();
@@ -232,34 +198,37 @@ public class HEC_VoronoiSphere extends HEC_Creator {
 			for (int i = 0; i < numTracers; i++) {
 				dir[i] = new WB_Vector(tracers[i]);
 				dir[i].normalizeSelf();
-				tracers[i].addSelf(points[cellIndex]);
+				tracers[i].addSelf(points.get(cellIndex));
 			}
-			grow(tracers, cellIndex);
+			grow(tracers, cellIndex, offset);
 			final HEC_ConvexHull ch = new HEC_ConvexHull().setPoints(tracers).setN(numTracers);
 			result = new HE_Mesh(ch);
 		} else {
 			final HEC_Geodesic gc = new HEC_Geodesic().setB(level).setC(0);
-			gc.setCenter(points[cellIndex]);
+			gc.setCenter(points.get(cellIndex));
 			gc.setRadius(cutoff);
 			result = new HE_Mesh(gc);
 			final ArrayList<WB_Plane> cutPlanes = new ArrayList<WB_Plane>();
 			for (int j = 0; j < numberOfPoints; j++) {
 				if (cellIndex != j) {
-					final WB_Vector N = new WB_Vector(points[cellIndex]);
-					N.subSelf(points[j]);
+					final WB_Vector N = new WB_Vector(points.get(cellIndex));
+					N.subSelf(points.get(j));
 					N.normalizeSelf();
-					final WB_Point O = new WB_Point(points[cellIndex]); // plane
+					final WB_Point O = new WB_Point(points.get(cellIndex)); // plane
 					// origin=point
 					// halfway
 					// between point i and point j
-					O.addSelf(points[j]);
+					O.addSelf(points.get(j));
 					O.mulSelf(0.5);
+					if (offset != 0) {
+						O.addSelf(N.mul(offset));
+					}
 					final WB_Plane P = new WB_Plane(O, N);
 					cutPlanes.add(P);
 				}
 			}
 			final HEM_MultiSlice msm = new HEM_MultiSlice();
-			msm.setPlanes(cutPlanes).setSimpleCap(true).setCenter(new WB_Point(points[cellIndex]));
+			msm.setPlanes(cutPlanes).setSimpleCap(true).setCenter(new WB_Point(points.get(cellIndex)));
 			result.modify(msm);
 		}
 		return result;
@@ -273,12 +242,12 @@ public class HEC_VoronoiSphere extends HEC_Creator {
 	 * @param index
 	 *            the index
 	 */
-	private void grow(final WB_Point[] tracers, final int index) {
-		final WB_KDTreeInteger<WB_Point> kdtree = new WB_KDTreeInteger<WB_Point>();
+	private void grow(final WB_Point[] tracers, final int index, final double offset) {
+		final WB_KDTreeInteger<WB_Coord> kdtree = new WB_KDTreeInteger<WB_Coord>();
 		for (int i = 0; i < numberOfPoints; i++) {
-			kdtree.add(points[i], i);
+			kdtree.add(points.get(i), i);
 		}
-		final WB_Point c = new WB_Point(points[index]);
+		final WB_Point c = new WB_Point(points.get(index));
 		WB_Point p;
 		WB_Vector r;
 		double d2self = 0;
@@ -291,8 +260,8 @@ public class HEC_VoronoiSphere extends HEC_Creator {
 			while (stepSize > WB_Epsilon.EPSILON) {
 				while (j == index && d2self < cutoff * cutoff) {
 					p.addSelf(stepSize * r.xd(), stepSize * r.yd(), stepSize * r.zd());
-					d2self = WB_GeometryOp.getSqDistance3D(p, c);
-					final WB_KDEntryInteger<WB_Point>[] closest = kdtree.getNearestNeighbors(p, 1);
+					d2self = WB_GeometryOp3D.getSqDistance3D(p, c);
+					final WB_KDEntryInteger<WB_Coord>[] closest = kdtree.getNearestNeighbors(p, 1);
 					j = closest[0].value;
 				}
 				if (j != index) {
@@ -304,6 +273,67 @@ public class HEC_VoronoiSphere extends HEC_Creator {
 					stepSize = -1;
 				}
 			}
+			p.addSelf(-offset * r.xd(), -offset * r.yd(), -offset * r.zd());
 		}
+	}
+
+	/**
+	 * Set points that define cell centers.
+	 *
+	 * @param points
+	 *            collection of vertex positions
+	 * @return self
+	 */
+	public HEC_VoronoiSphere setPoints(final Collection<? extends WB_Coord> points) {
+		this.points = new FastTable<WB_Coord>();
+		this.points.addAll(points);
+		return this;
+	}
+
+	/**
+	 * Set points that define cell centers.
+	 *
+	 * @param points
+	 *            2D array of double of vertex positions
+	 * @return self
+	 */
+	public HEC_VoronoiSphere setPoints(final double[][] points) {
+		final int n = points.length;
+		this.points = new FastTable<WB_Coord>();
+		for (int i = 0; i < n; i++) {
+			this.points.add(new WB_Point(points[i][0], points[i][1], points[i][2]));
+		}
+		return this;
+	}
+
+	/**
+	 * Set points that define cell centers.
+	 *
+	 * @param points
+	 *            2D array of float of vertex positions
+	 * @return self
+	 */
+	public HEC_VoronoiSphere setPoints(final float[][] points) {
+		final int n = points.length;
+		this.points = new FastTable<WB_Coord>();
+		for (int i = 0; i < n; i++) {
+			this.points.add(new WB_Point(points[i][0], points[i][1], points[i][2]));
+		}
+		return this;
+	}
+
+	/**
+	 * Set points that define cell centers.
+	 *
+	 * @param points
+	 *            array of vertex positions
+	 * @return self
+	 */
+	public HEC_VoronoiSphere setPoints(final WB_Coord[] points) {
+		this.points = new FastTable<WB_Coord>();
+		for (WB_Coord p : points) {
+			this.points.add(p);
+		}
+		return this;
 	}
 }

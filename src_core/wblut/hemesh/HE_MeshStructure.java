@@ -26,7 +26,7 @@ import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_AABB;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryFactory;
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Polygon;
 import wblut.geom.WB_Segment;
@@ -604,7 +604,7 @@ public class HE_MeshStructure extends HE_MeshElement {
 	 */
 	public final WB_Sphere getBoundingSphere() {
 
-		return WB_GeometryOp.getBoundingSphere(vertices);
+		return WB_GeometryOp3D.getBoundingSphere(vertices);
 	}
 
 	/**
@@ -2525,6 +2525,10 @@ public class HE_MeshStructure extends HE_MeshElement {
 		while (heitr.hasNext()) {
 			heitr.next().clearVisited();
 		}
+	}
+
+	public void update() {
+		updateFaces();
 	}
 
 	public void updateFaces() {

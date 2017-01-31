@@ -51,7 +51,7 @@ public class WB_Ring extends WB_PolyLine {
 		}
 		WB_Vector n = geometryfactory.createVector(0, 0, 1);
 		n = n.cross(directions.get(i));
-		final double d = n.getLength3D();
+		final double d = n.getLength();
 		n = n.div(d);
 		if (WB_Epsilon.isZero(d)) {
 			n = geometryfactory.createVector(1, 0, 0);
@@ -149,7 +149,7 @@ public class WB_Ring extends WB_PolyLine {
 		for (int i = 0; i < numberOfPoints; i++) {
 			final int in = (i + 1) % numberOfPoints;
 			final WB_Vector v = new WB_Vector(points.get(i), points.get(in));
-			incLengths[i] = i == 0 ? v.getLength3D() : incLengths[i - 1] + v.getLength3D();
+			incLengths[i] = i == 0 ? v.getLength() : incLengths[i - 1] + v.getLength();
 			v.normalizeSelf();
 			directions.add(v);
 		}

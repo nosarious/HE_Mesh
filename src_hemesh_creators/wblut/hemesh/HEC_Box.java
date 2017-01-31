@@ -151,6 +151,14 @@ public class HEC_Box extends HEC_Creator {
 		return this;
 	}
 
+	public HEC_Box setFromAABB(final WB_AABB AABB) {
+		W = AABB.getWidth();
+		H = AABB.getHeight();
+		D = AABB.getDepth();
+		setCenter(AABB.getCenter());
+		return this;
+	}
+
 	/**
 	 *
 	 * @param min

@@ -11,7 +11,7 @@ WB_AABB box;
 
 int currentType;
 void setup() {
-  size(800, 800, P3D);
+  size(1000, 1000, P3D);
   smooth(8); 
   box=new WB_AABB(-250,-250,-250,250,250,250);
   creator=new HEC_Archimedes();
@@ -26,13 +26,14 @@ void setup() {
 
 void draw() {
   background(55);
-  directionalLight(255, 255, 255, 1, 1, -1);
-  directionalLight(127, 127, 127, -1, -1, 1);
+  
   translate(width/2, height/2, 0);
   fill(255);
   noStroke();
   text("Current Archimedean solid: "+creator.getName()+" ("+(currentType+1)+")",0,350);
   text("Left-click for next.",0,370);
+  directionalLight(255, 255, 255, 1, 1, -1);
+  directionalLight(127, 127, 127, -1, -1, 1);
   rotateY(map(mouseX, 0, width, -PI/2, PI/2));
   rotateX(map(mouseY, 0, height, PI/2, -PI/2));
   noStroke();

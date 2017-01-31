@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import wblut.geom.WB_GeometryOp;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Plane;
 
 /**
@@ -101,7 +101,7 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 			unique = true;
 			for (int j = 0; j < i; j++) {
 				Pj = planes.get(j);
-				if (WB_GeometryOp.isEqual(Pi, Pj)) {
+				if (WB_GeometryOp3D.isEqual(Pi, Pj)) {
 					unique = false;
 					break;
 				}
@@ -146,7 +146,7 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 			unique = true;
 			for (int j = 0; j < i; j++) {
 				Pj = planes.get(j);
-				if (WB_GeometryOp.isEqual(Pi, Pj)) {
+				if (WB_GeometryOp3D.isEqual(Pi, Pj)) {
 					unique = false;
 					break;
 				}

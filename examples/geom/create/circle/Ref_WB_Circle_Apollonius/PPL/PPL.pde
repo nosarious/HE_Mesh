@@ -17,7 +17,7 @@ void setup() {
 }
 
 void create() {
-  L= factory.createLineWithDirection( width/2,height/2+200, 1,0);
+  L= factory.createLineWithDirection2D( width/2,height/2+200, 1,0);
   p=factory.createPoint(400,400);
   q= factory.createPoint( mouseX,mouseY);
   circles=factory.createCirclePPL(p,q,L);

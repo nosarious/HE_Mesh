@@ -316,7 +316,7 @@ public class WB_M44 {
      * @param f
      *            factor
      */
-    public void mult(final double f) {
+    public void mul(final double f) {
 	m11 *= f;
 	m12 *= f;
 	m13 *= f;
