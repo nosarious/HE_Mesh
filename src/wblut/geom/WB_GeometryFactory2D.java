@@ -1840,9 +1840,9 @@ public class WB_GeometryFactory2D {
 
 	/**
 	 *
-	 *
 	 * @param poly
-	 * @param d
+	 * @param o
+	 * @param i
 	 * @return
 	 */
 	public List<WB_Polygon> createRibbonPolygons2D(final WB_Polygon poly, final double o, final double i) {
@@ -1855,9 +1855,9 @@ public class WB_GeometryFactory2D {
 
 	/**
 	 *
-	 *
 	 * @param poly
-	 * @param d
+	 * @param o
+	 * @param i
 	 * @return
 	 */
 	public List<WB_Polygon> createRibbonPolygons2D(final Collection<? extends WB_Polygon> poly, final double o,

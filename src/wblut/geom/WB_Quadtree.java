@@ -48,6 +48,7 @@ public class WB_Quadtree<V> {
 		this.numNodes = 0;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void addPoint(final WB_Coord p, final V value) {
 		if (box.contains(p)) {
 			if (hsize <= minNodeSize) {

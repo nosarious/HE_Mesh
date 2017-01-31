@@ -1207,7 +1207,6 @@ public class WB_AABB2D {
 	 *
 	 * @param x
 	 * @param y
-	 * @param z
 	 */
 	public void translate(final double x, final double y) {
 		if (isNull()) {

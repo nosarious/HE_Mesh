@@ -5704,8 +5704,8 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 
 	/**
 	 *
-	 *
 	 * @param geometry
+	 * @param map
 	 * @return
 	 */
 	private List<WB_Polygon> createPolygonsFromJTSGeometry(final Geometry geometry, final WB_Map2D map) {
@@ -5871,9 +5871,9 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 
 	/**
 	 *
-	 *
 	 * @param poly
-	 * @param d
+	 * @param o
+	 * @param i
 	 * @return
 	 */
 	public List<WB_Polygon> createRibbonPolygons(final WB_Polygon poly, final double o, final double i) {
@@ -5887,9 +5887,9 @@ public class WB_GeometryFactory extends WB_GeometryFactory2D {
 
 	/**
 	 *
-	 *
 	 * @param poly
-	 * @param d
+	 * @param o
+	 * @param i
 	 * @return
 	 */
 	public List<WB_Polygon> createRibbonPolygons(final Collection<? extends WB_Polygon> poly, final double o,

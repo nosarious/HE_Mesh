@@ -205,7 +205,6 @@ public class WB_IsoSurface2D {
 	 *
 	 * @param dx
 	 * @param dy
-	 * @param dz
 	 * @return self
 	 */
 	public WB_IsoSurface2D setSize(final double dx, final double dy) {
@@ -445,15 +444,10 @@ public class WB_IsoSurface2D {
 	}
 
 	/**
-	 * Classify cell.
 	 *
 	 * @param i
-	 *            the i
 	 * @param j
-	 *            the j
-	 * @param k
-	 *            the k
-	 * @return the int
+	 * @return
 	 */
 	private int classifyCell(final int i, final int j) {
 		if (Double.isNaN(boundary)) {
@@ -792,10 +786,8 @@ public class WB_IsoSurface2D {
 
 	/**
 	 *
-	 *
 	 * @param i
 	 * @param j
-	 * @param k
 	 * @return
 	 */
 	private int index(final int i, final int j) {
@@ -806,12 +798,10 @@ public class WB_IsoSurface2D {
 	 * Value.
 	 *
 	 * @param i
-	 *            the i
+	 *            i
 	 * @param j
-	 *            the j
-	 * @param k
-	 *            the k
-	 * @return the double
+	 *            j
+	 * @return double
 	 */
 	private double value(final int i, final int j) {
 		if (Double.isNaN(boundary)) { // if no boundary is set i,j,k should

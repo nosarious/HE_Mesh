@@ -189,7 +189,6 @@ public class WB_IsoSurfaceVOL2D {
 	 *
 	 * @param dx
 	 * @param dy
-	 * @param dz
 	 * @return self
 	 */
 	public WB_IsoSurfaceVOL2D setSize(final double dx, final double dy) {

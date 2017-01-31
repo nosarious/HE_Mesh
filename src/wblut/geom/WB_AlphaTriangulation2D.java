@@ -45,8 +45,8 @@ public class WB_AlphaTriangulation2D {
 	}
 
 	/**
-	 *
-	 * @param v
+	 * 
+	 * @param tris
 	 * @param points
 	 */
 	public WB_AlphaTriangulation2D(final int[][] tris, final Collection<? extends WB_Coord> points) {
