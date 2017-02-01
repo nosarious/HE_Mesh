@@ -16,7 +16,7 @@ WB_Render3D render;
 WB_Point[] points;
 int num;
 void setup() {
-  size(1920, 1080, P3D);
+  size(1000, 1000, P3D);
   smooth(8);
   WB_RandomOnSphere rs=new WB_RandomOnSphere();
   HEC_ConvexHull creator=new HEC_ConvexHull();

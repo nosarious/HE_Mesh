@@ -15,7 +15,7 @@ void setup() {
   render=new WB_Render2D(this);
   // http://osp.kitchen/foundry/belgica-belgika/
   // License: http://scripts.sil.org/OFL
-  text=gf.createTextWithOpenTypeFont("hemesh 2014", sketchPath("Belgika-5th.otf"),0, 64.0,1.0);//text; font; style: REGULAR:0, BOLD:1, ITALIC:2, BOLD-ITALIC:3 ; font size; flatness
+  text=gf.createTextWithOpenTypeFont("hemesh 2016", sketchPath("Belgika-5th.otf"),0, 64.0,1.0);//text; font; style: REGULAR:0, BOLD:1, ITALIC:2, BOLD-ITALIC:3 ; font size; flatness
   
   //also createTextWithTTFFont
   //     createTextWithType1Font (untested)
