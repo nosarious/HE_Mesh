@@ -23,7 +23,7 @@ void setup(){
 
 void draw(){
  background(55);
- fill(0);
+ fill(255);
  text("Black=minimal bounding sphere",width/2, height-24);
  text("Blue=minimal bounding sphere in centroid",width/2, height-10);
  noFill();

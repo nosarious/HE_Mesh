@@ -14,7 +14,7 @@ void setup() {
   smooth(8);
   stroke(0, 50);
   render=new WB_Render2D(this);
-  L=gf.createLineWithDirection(0,0,cos(PI/6),sin(PI/6));
+  L=gf.createLineWithDirection2D(0,0,cos(PI/6),sin(PI/6));
  
 }
 
@@ -31,11 +31,11 @@ void draw() {
   for (int i=0; i<201; i++) {
     p=gf.createPoint(x,(i-100)*2);
     render.drawPoint2D(p);
-    p=gf.createMirrorPoint(p,L);
+    p=gf.createMirrorPoint2D(p,L);
     render.drawPoint2D(p);
      p=gf.createPoint(-x,(i-100)*2);
     render.drawPoint2D(p);
-    p=gf.createMirrorPoint(p,L);
+    p=gf.createMirrorPoint2D(p,L);
     render.drawPoint2D(p);
   }
 }

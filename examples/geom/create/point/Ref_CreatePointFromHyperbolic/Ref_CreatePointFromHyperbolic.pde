@@ -12,7 +12,7 @@ void setup() {
   size(1280, 720);
   background(55);
   smooth(8);
-  stroke(0);
+  stroke(255,200);
   render=new WB_Render2D(this);
 }
 

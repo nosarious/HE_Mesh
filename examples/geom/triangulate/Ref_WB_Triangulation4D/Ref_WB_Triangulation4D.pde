@@ -44,7 +44,7 @@ void draw() {
     drawHyperTetrahedron(points.get(triangulation[i]), points.get(triangulation[i+1]), points.get(triangulation[i+2]), points.get(triangulation[i+3]), points.get(triangulation[i+4]));
   }
   for (WB_Point4D p : points) {
-    p.rotateZW(0.02);
+    p.rotateZWSelf(0.02);
   }
 }
 

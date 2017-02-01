@@ -5,7 +5,7 @@ WB_RandomPoint source;
 WB_Render3D render;
 void setup(){
  size(800,800,P3D);
- source=new WB_RandomLine(new WB_Point(-250,-250,-250),new WB_Point(250,250,250));
+ source=new WB_RandomSegment(new WB_Point(-250,-250,-250),new WB_Point(250,250,250));
  render=new WB_Render3D(this);
   
 }

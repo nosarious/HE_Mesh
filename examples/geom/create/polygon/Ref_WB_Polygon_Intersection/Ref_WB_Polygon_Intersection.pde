@@ -34,7 +34,7 @@ void setup() {
   }
   polygon2=gf.createPolygonWithHole(shell, hole);
 
-  booleanResult=gf.intersectPolygons(polygon1, polygon2);
+  booleanResult=gf.intersectPolygons2D(polygon1, polygon2);
   strokeWeight(2);
 }
 

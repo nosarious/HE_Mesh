@@ -26,9 +26,9 @@ void setup() {
     points[i]=source.nextPoint();
   }
 
-  XY=new WB_PlanarMap(WB_PlanarMap.Z, 270);
-  YZ=new WB_PlanarMap(WB_PlanarMap.X, 270);
-  XZ=new WB_PlanarMap(WB_PlanarMap.Y, 270);
+  XY=new WB_PlanarMap(WB_PlanarMap.XY, 270);
+  YZ=new WB_PlanarMap(WB_PlanarMap.YZ, 270);
+  XZ=new WB_PlanarMap(WB_PlanarMap.XZ, 270);
   WB_Plane plane=new WB_Plane(0, 0, 0, 1, 1, 1);
   P=new WB_PlanarMap(plane);
   

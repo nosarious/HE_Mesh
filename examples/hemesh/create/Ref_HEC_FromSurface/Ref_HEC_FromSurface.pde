@@ -26,8 +26,8 @@ smooth(8);
   }
   
   P=new WB_RBSpline(points,4);
- // WB_RBSplineSurface surface=WB_NurbsFactory.getSurfaceOfRevolution(P, new WB_Point(0,0,0),new WB_Vector(0,0,1),PI/1.5);
-   WB_RBSplineSurface surface=WB_NurbsFactory.getLineSweep(P, new WB_Point(0,1,0),200);
+ WB_RBSplineSurface surface=WB_NurbsFactory.getSurfaceOfRevolution(P, new WB_Point(0,0,0),new WB_Vector(0,0,1),PI/1.5);
+   //WB_RBSplineSurface surface=WB_NurbsFactory.getLineSweep(P, new WB_Point(0,1,0),200);
   HEC_FromSurface creator=new HEC_FromSurface();
   creator.setSurface(surface);//surface can be any implementation of the WB_Surface interface
   creator.setU(21);// steps in U direction
