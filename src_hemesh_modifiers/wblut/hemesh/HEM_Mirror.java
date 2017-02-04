@@ -9,17 +9,10 @@
  */
 package wblut.hemesh;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import javolution.util.FastTable;
-import wblut.core.WB_ProgressCounter;
-import wblut.geom.WB_Classification;
 import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Plane;
-import wblut.geom.WB_Point;
-import wblut.geom.WB_Vector;
 import wblut.math.WB_Epsilon;
 
 /**
@@ -112,116 +105,40 @@ public class HEM_Mirror extends HEM_Modifier {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
-		tracker.setStatus(this, "Starting HEM_Mirror.", +1);
-		cut = new HE_Selection(mesh);
-		// no plane defined
 		if (P == null) {
-			tracker.setStatus(this, "No mirror plane defined. Exiting HEM_Mirror.", -1);
 			return mesh;
 		}
-		// empty mesh
-		if (mesh.getNumberOfVertices() == 0) {
-			tracker.setStatus(this, "No vertices in mesh. Exiting HEM_Mirror.", -1);
-			return mesh;
-		}
-		WB_Plane lP = P.get();
-		if (reverse) {
-			lP.flipNormal();
-		}
-		lP = new WB_Plane(lP.getNormal(), lP.d() + offset);
-		HEM_SliceEdges ss;
-		ss = new HEM_SliceEdges().setPlane(lP);
-		mesh.modify(ss);
-		cut = ss.cut;
-		final HE_Selection newFaces = new HE_Selection(mesh);
-		HE_Face face;
-		WB_ProgressCounter counter = new WB_ProgressCounter(mesh.getNumberOfFaces(), 10);
-		tracker.setStatus(this, "Classifying mesh faces.", counter);
-		Iterator<HE_Face> fItr = mesh.fItr();
-		List<WB_Classification> sides = new FastTable<WB_Classification>();
+		HEM_Slice slice = new HEM_Slice();
+		slice.setPlane(P);
+		slice.setOffset(offset);
+		slice.setReverse(reverse);
+		slice.setCap(false);
+		mesh.modify(slice);
 
-		int front = 0;
-		int back = 0;
-		while (fItr.hasNext()) {
-			face = fItr.next();
-			final WB_Classification cptp = WB_GeometryOp3D.classifyPolygonToPlane3D(face.toPolygon(), lP);
-			sides.add(cptp);
-			if (cptp == WB_Classification.FRONT) {
-				front++;
-			} else {
-				back++;
-			}
-
-		}
-		boolean flip = false;
-		if (keepLargest) {
-			if (back > front) {
-				flip = true;
-			}
-		}
-		fItr = mesh.fItr();
-		int id = 0;
-		while (fItr.hasNext()) {
-			face = fItr.next();
-			final WB_Classification cptp = sides.get(id++);
-			if (cptp == (flip ? WB_Classification.BACK : WB_Classification.FRONT) || cptp == WB_Classification.ON) {
-				newFaces.add(face);
-			} else {
-				if (cut.contains(face)) {
-					cut.remove(face);
-				}
-			}
-			counter.increment();
-		}
-		mesh.replaceFaces(newFaces.getFacesAsArray());
-
-		cut.cleanSelection();
-
-		final ArrayList<HE_Face> facesToRemove = new ArrayList<HE_Face>();
-		fItr = mesh.fItr();
-		while (fItr.hasNext()) {
-			face = fItr.next();
-			if (face.getFaceOrder() < 3) {
-				facesToRemove.add(face);
-			}
-		}
-
-		mesh.removeFaces(facesToRemove);
-		mesh.cleanUnusedElementsByFace();
-		mesh.capHalfedges();
-
-		final HE_Mesh mirrormesh = mesh.copy();
-		counter = new WB_ProgressCounter(mesh.getNumberOfVertices(), 10);
-		tracker.setStatus(this, "Mirroring vertices.", counter);
-		final List<HE_Vertex> origvertices = mesh.getVertices();
-		final List<HE_Vertex> vertices = mirrormesh.getVertices();
+		HE_Mesh mirrormesh = mesh.get();
+		mirrormesh.vItr();
 		HE_Vertex v, origv;
-		for (int i = 0; i < vertices.size(); i++) {
-			v = vertices.get(i);
-			final WB_Point p = WB_GeometryOp3D.getClosestPoint3D(v, lP);
-			final WB_Vector dv = WB_Vector.subToVector3D(v, p);
-			if (dv.getLength() <= WB_Epsilon.EPSILON) {
-				final List<HE_Halfedge> star = v.getHalfedgeStar();
-				origv = origvertices.get(i);
-				for (final HE_Halfedge he : star) {
-					mesh.setVertex(he, origv);
+		for (int i = 0; i < mirrormesh.getNumberOfVertices(); i++) {
+			v = mirrormesh.getVertexWithIndex(i);
+			if (WB_Epsilon.isZero(WB_GeometryOp3D.getDistance3D(v, P))) {
+				origv = mesh.getVertexWithIndex(i);
+				List<HE_Halfedge> star = v.getHalfedgeStar();
+				for (HE_Halfedge he : star) {
+					mirrormesh.setVertex(he, origv);
 				}
-				mirrormesh.remove(v);
 			} else {
-				v.addMulSelf(-2, dv);
+				v.set(P.extractPoint2D(P.localPoint(v).scaleSelf(1, 1, -1)));
 			}
-			// v.addMulSelf(-2, dv);
-			counter.increment();
-		}
-		HET_MeshOp.flipFaces(mirrormesh);
-		mesh.uncapBoundaryHalfedges();
-		mirrormesh.uncapBoundaryHalfedges();
-		tracker.setStatus(this, "Adding Mirrored mesh.", 0);
-		mesh.add(mirrormesh);
-		mesh.pairHalfedges();
-		mesh.capHalfedges();
 
-		tracker.setStatus(this, "Exiting HEM_Mirror.", -1);
+		}
+
+		HET_MeshOp.flipFaces(mirrormesh);
+
+		mesh.add(mirrormesh);
+
+		mesh.cleanUnusedElementsByFace();
+		mesh.pairHalfedges();
+
 		return mesh;
 	}
 
@@ -234,5 +151,19 @@ public class HEM_Mirror extends HEM_Modifier {
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
 		return apply(selection.parent);
+	}
+
+	public static void main(final String[] args) {
+
+		HEC_Cylinder creator = new HEC_Cylinder();
+		creator.setFacets(32).setSteps(16).setRadius(50).setHeight(400);
+		HE_Mesh mesh = new HE_Mesh(creator);
+		HEM_Mirror modifier = new HEM_Mirror();
+		WB_Plane P = new WB_Plane(0, 0, 0, 0, 1, 1);
+		modifier.setPlane(P);
+		modifier.setOffset(0);
+		modifier.setReverse(false);
+		mesh.modify(modifier);
+
 	}
 }

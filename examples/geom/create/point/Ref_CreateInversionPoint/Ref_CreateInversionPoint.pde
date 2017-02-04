@@ -12,8 +12,8 @@ void setup() {
   size(1280, 720);
   background(55);
   smooth(8);
-  stroke(0, 50);
-
+  stroke(255, 50);
+noFill();
   render=new WB_Render2D(this);
   C=gf.createCircleWithRadius(0, 0, 200);
 }

@@ -6,10 +6,10 @@ import wblut.geom.*;
 
 HE_Mesh mesh;
 WB_Render render;
-WB_Plane P,P2,P3;
+WB_Plane P, P2, P3;
 
 void setup() {
-  size(1000,1000,P3D);
+  size(1000, 1000, P3D);
   smooth(8);
   createMesh();
 
@@ -25,9 +25,10 @@ void setup() {
   P2=new WB_Plane(0, 0, 0, 1, -1, 1); 
   modifier.setPlane(P2);// mirror plane 
   mesh.modify(modifier);
-P3=new WB_Plane(-80, 0, 0, 1, 0, 0); 
+  P3=new WB_Plane(-80, 0, 0, 1, 0, 0); 
   modifier.setPlane(P3);// mirror plane 
   mesh.modify(modifier);
+  mesh.validate();
   render=new WB_Render(this);
 }
 
@@ -52,8 +53,6 @@ void draw() {
 
 
 void createMesh() {
-  HEC_Cylinder creator=new HEC_Cylinder();
-  creator.setFacets(32).setSteps(16).setRadius(50).setHeight(400);
-  mesh=new HE_Mesh(creator);
-}
 
+  mesh=new HE_Mesh(new HEC_Beethoven().setScale(10));
+}
