@@ -18,7 +18,7 @@ public class WB_Version {
 
 	public static final int MINOR = 0;
 
-	public static final int PATCH = 1;
+	public static final int PATCH = 2;
 
 	private static final String releaseInfo = "Reboot";
 
@@ -66,7 +66,7 @@ public class WB_Version {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
