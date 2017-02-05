@@ -11,6 +11,7 @@ package wblut.hemesh;
 
 import java.util.List;
 
+import javolution.util.FastTable;
 import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Plane;
 import wblut.math.WB_Epsilon;
@@ -22,13 +23,17 @@ public class HEM_Mirror extends HEM_Modifier {
 
 	private WB_Plane P;
 
-	private boolean keepLargest;
-
 	private boolean reverse = false;
 
-	public HE_Selection cut;
-
 	private double offset;
+	// 1D array of vertex pairs, each vertex retained form original mesh is
+	// followed by corresponding mirrored vertex. If the vertex lies on the
+	// mirror plane, the original vertex is repeated.
+	public HE_Vertex[] pairs;
+
+	// 1D array of original-mirrored vertex pairs on the boundary of the
+	// resulting mesh.
+	public HE_Vertex[] boundaryPairs;
 
 	/**
 	 *
@@ -87,17 +92,6 @@ public class HEM_Mirror extends HEM_Modifier {
 		return this;
 	}
 
-	/**
-	 * Mirror the largest part? Ignores the reverse setting.
-	 *
-	 * @param b
-	 * @return
-	 */
-	public HEM_Mirror setKeepLargest(final Boolean b) {
-		keepLargest = b;
-		return this;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 *
@@ -105,7 +99,9 @@ public class HEM_Mirror extends HEM_Modifier {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
+
 		if (P == null) {
+			pairs = new HE_Vertex[0];
 			return mesh;
 		}
 		HEM_Slice slice = new HEM_Slice();
@@ -118,16 +114,24 @@ public class HEM_Mirror extends HEM_Modifier {
 		HE_Mesh mirrormesh = mesh.get();
 		mirrormesh.vItr();
 		HE_Vertex v, origv;
+		pairs = new HE_Vertex[2 * mirrormesh.getNumberOfVertices()];
+		List<HE_Vertex> boundary = new FastTable<HE_Vertex>();
 		for (int i = 0; i < mirrormesh.getNumberOfVertices(); i++) {
 			v = mirrormesh.getVertexWithIndex(i);
+			origv = mesh.getVertexWithIndex(i);
 			if (WB_Epsilon.isZero(WB_GeometryOp3D.getDistance3D(v, P))) {
-				origv = mesh.getVertexWithIndex(i);
 				List<HE_Halfedge> star = v.getHalfedgeStar();
 				for (HE_Halfedge he : star) {
 					mirrormesh.setVertex(he, origv);
 				}
+				pairs[2 * i] = origv;
+				pairs[2 * i + 1] = origv;
+
 			} else {
 				v.set(P.extractPoint2D(P.localPoint(v).scaleSelf(1, 1, -1)));
+				pairs[2 * i] = origv;
+				pairs[2 * i + 1] = v;
+
 			}
 
 		}
@@ -138,7 +142,17 @@ public class HEM_Mirror extends HEM_Modifier {
 
 		mesh.cleanUnusedElementsByFace();
 		mesh.pairHalfedges();
+		mesh.capHalfedges();
 
+		for (int i = 0; i < pairs.length; i += 2) {
+			v = pairs[i];
+			if (v.isBoundary()) {
+				boundary.add(pairs[i]);
+				boundary.add(pairs[i + 1]);
+			}
+		}
+		boundaryPairs = new HE_Vertex[boundary.size()];
+		boundaryPairs = boundary.toArray(boundaryPairs);
 		return mesh;
 	}
 

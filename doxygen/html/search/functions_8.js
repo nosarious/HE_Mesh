@@ -117,6 +117,7 @@ var searchData=
   ['hem_5ffaceexpand',['HEM_FaceExpand',['../classwblut_1_1hemesh_1_1_h_e_m___face_expand.html#a9a9007689e24b125faed7a9c96664446',1,'wblut::hemesh::HEM_FaceExpand']]],
   ['hem_5fhybridsplit',['HEM_HybridSplit',['../classwblut_1_1hemesh_1_1_h_e_m___hybrid_split.html#ae212d326a7df7d86516e6bbbf4b25ebf',1,'wblut::hemesh::HEM_HybridSplit']]],
   ['hem_5finflate',['HEM_Inflate',['../classwblut_1_1hemesh_1_1_h_e_m___inflate.html#a7e8443949470e047c4d716cdedfa4bbb',1,'wblut::hemesh::HEM_Inflate']]],
+  ['hem_5fkaleidoscope',['HEM_Kaleidoscope',['../classwblut_1_1hemesh_1_1_h_e_m___kaleidoscope.html#aaa001e4132d36fba264fab08a555fa3e',1,'wblut::hemesh::HEM_Kaleidoscope']]],
   ['hem_5fkeeplargestparts',['HEM_KeepLargestParts',['../classwblut_1_1hemesh_1_1_h_e_m___keep_largest_parts.html#a0097833a7b21060202d7b89e703dbc98',1,'wblut.hemesh.HEM_KeepLargestParts.HEM_KeepLargestParts()'],['../classwblut_1_1hemesh_1_1_h_e_m___keep_largest_parts.html#a8ab816cc77c17abfc4297abe24078c2a',1,'wblut.hemesh.HEM_KeepLargestParts.HEM_KeepLargestParts(final int number)']]],
   ['hem_5flattice',['HEM_Lattice',['../classwblut_1_1hemesh_1_1_h_e_m___lattice.html#a1b2d7003080e153ce9198cb0e909b776',1,'wblut::hemesh::HEM_Lattice']]],
   ['hem_5fmeancurvaturesmooth',['HEM_MeanCurvatureSmooth',['../classwblut_1_1hemesh_1_1_h_e_m___mean_curvature_smooth.html#a4e86c08dcb362be3b0ce7117dce3c43e',1,'wblut::hemesh::HEM_MeanCurvatureSmooth']]],

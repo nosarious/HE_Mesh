@@ -32,7 +32,7 @@ public class HEM_Clean extends HEM_Modifier {
 	public HE_Mesh apply(final HE_Mesh mesh) {
 		final WB_Polygon[] polygons = mesh.getPolygons();
 		final HEC_FromPolygons creator = new HEC_FromPolygons();
-		creator.setPolygons(polygons);
+		creator.setPolygons(polygons).setCheckNormals(true);
 		mesh.setNoCopy(creator.create());
 		return mesh;
 	}

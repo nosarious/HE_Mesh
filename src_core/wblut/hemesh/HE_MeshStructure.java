@@ -2001,6 +2001,24 @@ public class HE_MeshStructure extends HE_MeshElement {
 	}
 
 	/**
+	 * Collect all boundary vertices.
+	 *
+	 * @return boundary vertices
+	 */
+	public List<HE_Vertex> getBoundaryVertices() {
+		final List<HE_Vertex> boundaryVertices = new FastTable<HE_Vertex>();
+		HE_Halfedge he;
+		final Iterator<HE_Halfedge> heItr = heItr();
+		while (heItr.hasNext()) {
+			he = heItr.next();
+			if (he.getFace() == null) {
+				boundaryVertices.add(he.getVertex());
+			}
+		}
+		return boundaryVertices;
+	}
+
+	/**
 	 *
 	 *
 	 * @return

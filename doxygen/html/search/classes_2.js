@@ -137,6 +137,7 @@ var searchData=
   ['hem_5ffaceexpand',['HEM_FaceExpand',['../classwblut_1_1hemesh_1_1_h_e_m___face_expand.html',1,'wblut::hemesh']]],
   ['hem_5fhybridsplit',['HEM_HybridSplit',['../classwblut_1_1hemesh_1_1_h_e_m___hybrid_split.html',1,'wblut::hemesh']]],
   ['hem_5finflate',['HEM_Inflate',['../classwblut_1_1hemesh_1_1_h_e_m___inflate.html',1,'wblut::hemesh']]],
+  ['hem_5fkaleidoscope',['HEM_Kaleidoscope',['../classwblut_1_1hemesh_1_1_h_e_m___kaleidoscope.html',1,'wblut::hemesh']]],
   ['hem_5fkeeplargestparts',['HEM_KeepLargestParts',['../classwblut_1_1hemesh_1_1_h_e_m___keep_largest_parts.html',1,'wblut::hemesh']]],
   ['hem_5flattice',['HEM_Lattice',['../classwblut_1_1hemesh_1_1_h_e_m___lattice.html',1,'wblut::hemesh']]],
   ['hem_5fmeancurvaturesmooth',['HEM_MeanCurvatureSmooth',['../classwblut_1_1hemesh_1_1_h_e_m___mean_curvature_smooth.html',1,'wblut::hemesh']]],

@@ -16,8 +16,8 @@ import javolution.util.FastTable;
 import wblut.core.WB_HashCode;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_CoordinateSystem3D;
+import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_MutableCoord;
 import wblut.geom.WB_MutableCoordinateFull3D;
 import wblut.geom.WB_Point;
@@ -276,6 +276,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 			return vhe;
 		}
 		HE_Halfedge he = getHalfedge();
+
 		do {
 			if (!vhe.contains(he)) {
 				vhe.add(he);
@@ -1891,7 +1892,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 
 	@Override
 	/**
-	 * 
+	 *
 	 * @param angle
 	 * @param p
 	 * @return
@@ -2094,7 +2095,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 	 */
 	@Override
 	/**
-	 * 
+	 *
 	 * @param angle
 	 * @param p1
 	 * @param p2
@@ -2257,7 +2258,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 	 */
 	@Override
 	/**
-	 * 
+	 *
 	 * @param f
 	 * @return
 	 */
@@ -2284,7 +2285,7 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 	 */
 	@Override
 	/**
-	 * 
+	 *
 	 * @param fx
 	 * @param fy
 	 * @param fz
@@ -2666,11 +2667,11 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 	 * @see
 	 * wblut.geom.WB_CoordinateMetric#getDistance3D(wblut.geom.WB_Coordinate)
 	 */
-	
+
 	@Deprecated
 	@Override
 	/**
-	 * 
+	 *
 	 * @param p
 	 * @return
 	 */
@@ -2695,11 +2696,11 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 	 * @see
 	 * wblut.geom.WB_CoordinateMetric#getSqDistance3D(wblut.geom.WB_Coordinate)
 	 */
-	
+
 	@Deprecated
 	@Override
 	/**
-	 * 
+	 *
 	 * @param p
 	 * @return
 	 */

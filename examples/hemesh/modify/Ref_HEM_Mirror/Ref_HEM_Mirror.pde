@@ -12,15 +12,11 @@ void setup() {
   size(1000, 1000, P3D);
   smooth(8);
   createMesh();
-
-
   HEM_Mirror modifier=new HEM_Mirror();
-
   P=new WB_Plane(0, 0, 0, 0, 1, 1); 
-  modifier.setPlane(P);// mirror plane 
-  //you can also pass directly as origin and normal:  modifier.setPlane(0,0,-200,0,0,1)
-  modifier.setOffset(0);// shift cut plane along normal
-  modifier.setReverse(false);// keep other side of plane
+  modifier.setPlane(P); 
+  modifier.setOffset(0);
+  modifier.setReverse(false);
   mesh.modify(modifier);
   P2=new WB_Plane(0, 0, 0, 1, -1, 1); 
   modifier.setPlane(P2);// mirror plane 
