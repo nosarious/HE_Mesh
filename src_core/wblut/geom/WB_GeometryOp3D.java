@@ -38,19 +38,23 @@ public class WB_GeometryOp3D extends WB_GeometryOp2D {
 	 */
 	public static WB_IntersectionResult getIntersection3D(final WB_Segment S, final WB_Plane P) {
 		final WB_Vector ab = WB_Vector.subToVector3D(S.getEndpoint(), S.getOrigin());
-		double t = (P.d() - P.getNormal().dot(S.getOrigin())) / P.getNormal().dot(ab);
-		if (t >= -WB_Epsilon.EPSILON && t <= 1.0 + WB_Epsilon.EPSILON) {
-			t = WB_Epsilon.clampEpsilon(t, 0, 1);
-			final WB_IntersectionResult i = new WB_IntersectionResult();
-			i.intersection = true;
-			i.t1 = t;
-			i.t2 = t;
-			i.object = S.getParametricPoint(t);
-			i.dimension = 0;
-			i.sqDist = 0;
-			return i;
+		final double denom = P.getNormal().dot(ab);
+		if (!WB_Epsilon.isZero(denom)) {
+			double t = (P.d() - P.getNormal().dot(S.getOrigin())) / P.getNormal().dot(ab);
+			if (t >= -WB_Epsilon.EPSILON && t <= 1.0 + WB_Epsilon.EPSILON) {
+				t = WB_Epsilon.clampEpsilon(t, 0, 1);
+				final WB_IntersectionResult i = new WB_IntersectionResult();
+				i.intersection = true;
+				i.t1 = t;
+				i.t2 = t;
+				i.object = S.getParametricPoint(t);
+				i.dimension = 0;
+				i.sqDist = 0;
+				return i;
+			}
+			return NOINTERSECTION(t, t);
 		}
-		return NOINTERSECTION(t, t);
+		return NOINTERSECTION();
 	}
 
 	/**
@@ -90,19 +94,23 @@ public class WB_GeometryOp3D extends WB_GeometryOp2D {
 	 */
 	public static WB_IntersectionResult getIntersection3D(final WB_Ray R, final WB_Plane P) {
 		final WB_Coord ab = R.getDirection();
-		double t = (P.d() - P.getNormal().dot(R.getOrigin())) / P.getNormal().dot(ab);
-		if (t >= -WB_Epsilon.EPSILON) {
-			t = WB_Epsilon.clampEpsilon(t, 0, Double.POSITIVE_INFINITY);
-			final WB_IntersectionResult i = new WB_IntersectionResult();
-			i.intersection = true;
-			i.t1 = t;
-			i.t2 = t;
-			i.object = R.getPoint(t);
-			i.dimension = 0;
-			i.sqDist = 0;
-			return i;
+		final double denom = P.getNormal().dot(ab);
+		if (!WB_Epsilon.isZero(denom)) {
+			double t = (P.d() - P.getNormal().dot(R.getOrigin())) / denom;
+			if (t >= -WB_Epsilon.EPSILON) {
+				t = WB_Epsilon.clampEpsilon(t, 0, Double.POSITIVE_INFINITY);
+				final WB_IntersectionResult i = new WB_IntersectionResult();
+				i.intersection = true;
+				i.t1 = t;
+				i.t2 = t;
+				i.object = R.getPoint(t);
+				i.dimension = 0;
+				i.sqDist = 0;
+				return i;
+			}
+			return NOINTERSECTION(t, t);
 		}
-		return NOINTERSECTION(t, t);
+		return NOINTERSECTION();
 	}
 
 	/**

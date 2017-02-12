@@ -83,22 +83,20 @@ public class HEC_Icosahedron extends HEC_Creator {
 	}
 
 	/*
-	 * Code adapted from http://www.cs.umbc.edu/~squire/ (non-Javadoc)
-	 *
 	 * @see wblut.hemesh.HE_Creator#create()
 	 */
 	@Override
 	protected HE_Mesh createBase() {
 		final double[][] vertices = new double[12][3]; /*
-		 * 12 vertices with x,
-		 * y, z coordinates
-		 */
+														 * 12 vertices with x,
+														 * y, z coordinates
+														 */
 		final double Pi = 3.141592653589793238462643383279502884197;
 		final double phiaa = 26.56505; /* phi needed for generation */
-		final double phia = (Pi * phiaa) / 180.0; /* 2 sets of four points */
-		final double theb = (Pi * 36.0)
+		final double phia = Pi * phiaa / 180.0; /* 2 sets of four points */
+		final double theb = Pi * 36.0
 				/ 180.0; /* offset second set 36 degrees */
-		final double the72 = (Pi * 72.0) / 180; /* step 72 degrees */
+		final double the72 = Pi * 72.0 / 180; /* step 72 degrees */
 		vertices[0][0] = 0;
 		vertices[0][1] = 0;
 		vertices[0][2] = R;
@@ -107,15 +105,15 @@ public class HEC_Icosahedron extends HEC_Creator {
 		vertices[11][2] = -R;
 		double the = 0.0;
 		for (int i = 1; i < 6; i++) {
-			vertices[i][0] = R * Math.cos(the + (Math.PI / 5.0)) * Math.cos(phia);
-			vertices[i][1] = R * Math.sin(the + (Math.PI / 5.0)) * Math.cos(phia);
+			vertices[i][0] = R * Math.cos(the + Math.PI / 5.0) * Math.cos(phia);
+			vertices[i][1] = R * Math.sin(the + Math.PI / 5.0) * Math.cos(phia);
 			vertices[i][2] = R * Math.sin(phia);
 			the = the + the72;
 		}
 		the = theb;
 		for (int i = 6; i < 11; i++) {
-			vertices[i][0] = R * Math.cos(the + (Math.PI / 5.0)) * Math.cos(-phia);
-			vertices[i][1] = R * Math.sin(the + (Math.PI / 5.0)) * Math.cos(-phia);
+			vertices[i][0] = R * Math.cos(the + Math.PI / 5.0) * Math.cos(-phia);
+			vertices[i][1] = R * Math.sin(the + Math.PI / 5.0) * Math.cos(-phia);
 			vertices[i][2] = R * Math.sin(-phia);
 			the = the + the72;
 		}

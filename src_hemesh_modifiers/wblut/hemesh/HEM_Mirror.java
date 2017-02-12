@@ -25,6 +25,8 @@ public class HEM_Mirror extends HEM_Modifier {
 
 	private boolean reverse = false;
 
+	private boolean keepLargest = false;
+
 	private double offset;
 	// 1D array of vertex pairs, each vertex retained form original mesh is
 	// followed by corresponding mirrored vertex. If the vertex lies on the
@@ -92,6 +94,11 @@ public class HEM_Mirror extends HEM_Modifier {
 		return this;
 	}
 
+	public HEM_Mirror setKeepLargest(final Boolean b) {
+		keepLargest = b;
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -103,6 +110,12 @@ public class HEM_Mirror extends HEM_Modifier {
 		if (P == null) {
 			pairs = new HE_Vertex[0];
 			return mesh;
+		}
+		if (keepLargest) {
+			HE_Selection selF = HE_Selection.selectFrontVertices(mesh, P);
+			HE_Selection selB = HE_Selection.selectBackVertices(mesh, P);
+			reverse = selF.getNumberOfVertices() < selB.getNumberOfVertices();
+
 		}
 		HEM_Slice slice = new HEM_Slice();
 		slice.setPlane(P);
@@ -177,6 +190,7 @@ public class HEM_Mirror extends HEM_Modifier {
 		modifier.setPlane(P);
 		modifier.setOffset(0);
 		modifier.setReverse(false);
+		modifier.setKeepLargest(true);
 		mesh.modify(modifier);
 
 	}

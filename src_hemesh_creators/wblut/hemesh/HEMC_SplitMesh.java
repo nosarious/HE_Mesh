@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -13,9 +13,9 @@ import wblut.geom.WB_Plane;
 
 /**
  * Planar cut of a mesh. Both parts are returned as separate meshes.
- * 
+ *
  * @author Frederik Vanhoutte (W:Blut)
- * 
+ *
  */
 public class HEMC_SplitMesh extends HEMC_MultiCreator {
 	/** Cutting plane. */
@@ -26,10 +26,11 @@ public class HEMC_SplitMesh extends HEMC_MultiCreator {
 	private boolean cap = true;;
 	/** The offset. */
 	private double offset;
+	private boolean simpleCap = true;
 
 	/**
 	 * Set offset.
-	 * 
+	 *
 	 * @param d
 	 *            offset
 	 * @return self
@@ -41,7 +42,7 @@ public class HEMC_SplitMesh extends HEMC_MultiCreator {
 
 	/**
 	 * Instantiates a new HEMC_SplitMesh.
-	 * 
+	 *
 	 */
 	public HEMC_SplitMesh() {
 		super();
@@ -49,7 +50,7 @@ public class HEMC_SplitMesh extends HEMC_MultiCreator {
 
 	/**
 	 * Set split plane.
-	 * 
+	 *
 	 * @param P
 	 *            plane
 	 * @return self
@@ -61,7 +62,7 @@ public class HEMC_SplitMesh extends HEMC_MultiCreator {
 
 	/**
 	 * Set source mesh.
-	 * 
+	 *
 	 * @param mesh
 	 *            mesh to split
 	 * @return self
@@ -73,7 +74,7 @@ public class HEMC_SplitMesh extends HEMC_MultiCreator {
 
 	/**
 	 * Set option to cap holes.
-	 * 
+	 *
 	 * @param b
 	 *            true, false;
 	 * @return self
@@ -83,9 +84,14 @@ public class HEMC_SplitMesh extends HEMC_MultiCreator {
 		return this;
 	}
 
+	public HEMC_SplitMesh setSimpleCap(final Boolean b) {
+		simpleCap = b;
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.HE_MultiCreator#create()
 	 */
 	@Override
@@ -101,10 +107,10 @@ public class HEMC_SplitMesh extends HEMC_MultiCreator {
 			return result;
 		}
 		final HEM_Slice sm = new HEM_Slice();
-		sm.setPlane(P).setReverse(false).setCap(cap).setOffset(offset);
+		sm.setPlane(P).setReverse(false).setCap(cap).setOffset(offset).setSimpleCap(simpleCap);
 		sm.apply(result.getMesh(0));
 		P.flipNormal();
-		sm.setPlane(P).setReverse(false).setCap(cap).setOffset(offset);
+		sm.setPlane(P).setReverse(false).setCap(cap).setOffset(offset).setSimpleCap(simpleCap);
 		result.add(mesh.copy());
 		sm.apply(result.getMesh(1));
 		_numberOfMeshes = 2;

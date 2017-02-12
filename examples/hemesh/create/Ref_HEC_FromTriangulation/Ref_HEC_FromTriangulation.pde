@@ -27,6 +27,7 @@ void setup() {
   triangles=triangulation.getTriangles();// 1D array of indices of triangles, 3 indices per triangle
   mesh=new HE_Mesh(new HEC_FromTriangulation().setTriangulation(triangulation).setPoints(points));
   mesh.smooth();
+  println(WB_Version.version());
 }
 
 
