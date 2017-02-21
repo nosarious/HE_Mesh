@@ -1519,6 +1519,10 @@ public class WB_GeometryOp2D extends WB_GeometryOpGLU {
 		return WB_Epsilon.isZeroSq(WB_Point.getSqDistance2D(p, getClosestPoint2D(p, tris)));
 	}
 
+	public static final boolean contains2D(final WB_Coord p, final WB_Triangle tris) {
+		return WB_Epsilon.isZeroSq(WB_Point.getSqDistance2D(p, getClosestPoint2D(p, tris)));
+	}
+
 	/**
 	 * Check the intersection of two intervals [u0,u1] and [v0,v1]. The result
 	 * is an array of double, the first value gives the number of values needed
@@ -2543,7 +2547,7 @@ public class WB_GeometryOp2D extends WB_GeometryOpGLU {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param C1
 	 * @param C2
 	 * @return
@@ -3057,7 +3061,7 @@ public class WB_GeometryOp2D extends WB_GeometryOpGLU {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ux
 	 * @param uy
 	 * @return

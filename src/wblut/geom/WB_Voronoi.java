@@ -519,12 +519,12 @@ public class WB_Voronoi {
 	 * @param context
 	 * @return
 	 */
-	public static List<WB_VoronoiCell2D> getVoronoi2D(final Collection<? extends WB_Point> points,
+	public static List<WB_VoronoiCell2D> getVoronoi2D(final Collection<? extends WB_Coord> points,
 			final WB_Map2D context) {
 		final int n = points.size();
 		final ArrayList<Coordinate> coords = new ArrayList<Coordinate>(n);
 		int id = 0;
-		for (final WB_Point p : points) {
+		for (final WB_Coord p : points) {
 			coords.add(toCoordinate(p, id, context));
 			id++;
 		}
@@ -633,11 +633,11 @@ public class WB_Voronoi {
 	 * @param points
 	 * @return
 	 */
-	public static List<WB_VoronoiCell2D> getVoronoi2D(final Collection<? extends WB_Point> points) {
+	public static List<WB_VoronoiCell2D> getVoronoi2D(final Collection<? extends WB_Coord> points) {
 		final int n = points.size();
 		final ArrayList<Coordinate> coords = new ArrayList<Coordinate>(n);
 		int id = 0;
-		for (final WB_Point p : points) {
+		for (final WB_Coord p : points) {
 			coords.add(toCoordinate(p, id, XY));
 			id++;
 		}
@@ -1675,8 +1675,7 @@ public class WB_Voronoi {
 	 * @param context
 	 * @return
 	 */
-	private static List<WB_VoronoiCell2D> clippedVoronoi2D(final ArrayList<Coordinate> coords,
-			final WB_Map2D context) {
+	private static List<WB_VoronoiCell2D> clippedVoronoi2D(final ArrayList<Coordinate> coords, final WB_Map2D context) {
 		final DelaunayTriangulationBuilder dtb = new DelaunayTriangulationBuilder();
 		dtb.setSites(coords);
 		final QuadEdgeSubdivision qes = dtb.getSubdivision();
