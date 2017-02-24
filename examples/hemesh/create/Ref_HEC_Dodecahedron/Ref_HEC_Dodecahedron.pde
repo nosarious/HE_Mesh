@@ -31,7 +31,7 @@ void draw() {
   rotateX(mouseY*1.0f/height*TWO_PI);
   stroke(0);
   render.drawEdges(mesh);
+   
   noStroke();
   render.drawFaces(mesh);
 }
-

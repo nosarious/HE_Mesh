@@ -109,66 +109,7 @@ public class HEC_Dodecahedron extends HEC_Creator {
 	 */
 	@Override
 	public HE_Mesh createBase() {
-		final double[][] vertices = new double[20][3]; /*
-		 * 20 vertices with x, y,
-		 * z coordinate
-		 */
-		final double Pi = 3.141592653589793238462643383279502884197;
-		final double phiaa = 52.62263590; /*
-		 * the two phi angles needed for
-		 * generation
-		 */
-		final double phibb = 10.81231754;
-		final double phia = (Pi * phiaa) / 180.0; /* 4 sets of five points each */
-		final double phib = (Pi * phibb) / 180.0;
-		final double phic = (Pi * (-phibb)) / 180.0;
-		final double phid = (Pi * (-phiaa)) / 180.0;
-		final double the72 = (Pi * 72.0) / 180;
-		final double theb = the72 / 2.0; /* pairs of layers offset 36 degrees */
-		double the = 0.0;
-		for (int i = 0; i < 5; i++) {
-			vertices[i][0] = R * Math.cos(the + (Math.PI / 2.5))
-					* Math.cos(phia);
-			vertices[i][1] = R * Math.sin(the + (Math.PI / 2.5))
-					* Math.cos(phia);
-			vertices[i][2] = R * Math.sin(phia);
-			the = the + the72;
-		}
-		the = 0.0;
-		for (int i = 5; i < 10; i++) {
-			vertices[i][0] = R * Math.cos(the + (Math.PI / 2.5))
-					* Math.cos(phib);
-			vertices[i][1] = R * Math.sin(the + (Math.PI / 2.5))
-					* Math.cos(phib);
-			vertices[i][2] = R * Math.sin(phib);
-			the = the + the72;
-		}
-		the = theb;
-		for (int i = 10; i < 15; i++) {
-			vertices[i][0] = R * Math.cos(the + (Math.PI / 2.5))
-					* Math.cos(phic);
-			vertices[i][1] = R * Math.sin(the + (Math.PI / 2.5))
-					* Math.cos(phic);
-			vertices[i][2] = R * Math.sin(phic);
-			the = the + the72;
-		}
-		the = theb;
-		for (int i = 15; i < 20; i++) {
-			vertices[i][0] = R * Math.cos(the + (Math.PI / 2.5))
-					* Math.cos(phid);
-			vertices[i][1] = R * Math.sin(the + (Math.PI / 2.5))
-					* Math.cos(phid);
-			vertices[i][2] = R * Math.sin(phid);
-			the = the + the72;
-		}
-		final int[][] faces = { { 0, 1, 2, 3, 4 }, { 5, 10, 6, 1, 0 },
-				{ 6, 11, 7, 2, 1 }, { 7, 12, 8, 3, 2 }, { 8, 13, 9, 4, 3 },
-				{ 9, 14, 5, 0, 4 }, { 15, 16, 11, 6, 10 },
-				{ 16, 17, 12, 7, 11 }, { 17, 18, 13, 8, 12 },
-				{ 18, 19, 14, 9, 13 }, { 19, 15, 10, 5, 14 },
-				{ 19, 18, 17, 16, 15 } };
-		final HEC_FromFacelist fl = new HEC_FromFacelist();
-		fl.setVertices(vertices).setFaces(faces);
-		return fl.create();
+		HEC_Creator dode = new HEC_Plato().setType(2).setEdge(R / 1.40126);
+		return dode.createBase();
 	}
 }
