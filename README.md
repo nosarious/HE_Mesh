@@ -19,9 +19,9 @@ You need to add some other external *.jar files to the properties of your Eclips
 * `objparser.jar`: A simple OBJ file parser for Java: https://github.com/momchil-atanasov/java-data-front  Download a built version here:http://www.wblut.com/hemesh/objparser.zip
 * `EJML`: some functions use least-square approximations and other linear algebra approaches: http://ejml.org/
 
-## Build-of-the-day HE_Mesh (2017/02/08)
+## Build-of-the-day HE_Mesh (2017/03/04)
 
-Download a recent built here: http://www.wblut.com/hemesh/hemesh20170208.zip.
+Download a recent built here: http://www.wblut.com/hemesh/hemesh20170304.zip.
 
 ## License
 
