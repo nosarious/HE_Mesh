@@ -362,6 +362,10 @@ public class WB_Triangle {
 		return WB_Math.fastAbs(getSignedArea());
 	}
 
+	public WB_AABB getAABB() {
+		return new WB_AABB(minX(), minY(), minZ(), maxX(), maxY(), maxZ());
+	}
+
 	/**
 	 *
 	 *
@@ -457,5 +461,29 @@ public class WB_Triangle {
 	 */
 	public WB_Point getIncenter() {
 		return getPointFromTrilinear(1, 1, 1);
+	}
+
+	public double minX() {
+		return Math.min(Math.min(p1.xd(), p2.xd()), p3.xd());
+	}
+
+	public double minY() {
+		return Math.min(Math.min(p1.yd(), p2.yd()), p3.yd());
+	}
+
+	public double minZ() {
+		return Math.min(Math.min(p1.zd(), p2.zd()), p3.zd());
+	}
+
+	public double maxX() {
+		return Math.max(Math.max(p1.xd(), p2.xd()), p3.xd());
+	}
+
+	public double maxY() {
+		return Math.max(Math.max(p1.yd(), p2.yd()), p3.yd());
+	}
+
+	public double maxZ() {
+		return Math.max(Math.max(p1.zd(), p2.zd()), p3.zd());
 	}
 }

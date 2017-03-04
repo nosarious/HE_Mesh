@@ -865,6 +865,7 @@ public class WB_Predicates {
 		ycrossbc = zba * xca - zca * xba;
 		zcrossbc = xba * yca - xca * yba;
 		denominator = 0.5 / (xba * xcrosscd + yba * ycrosscd + zba * zcrosscd);// Inexact
+
 		// denominator = 0.5 / orient3d(b,c,d,a);//Exact
 		xcirca = (balength * xcrosscd + calength * xcrossdb + dalength * xcrossbc) * denominator;
 		ycirca = (balength * ycrosscd + calength * ycrossdb + dalength * ycrossbc) * denominator;
@@ -962,6 +963,7 @@ public class WB_Predicates {
 		t2 = t2 * t2;
 		t3 = circumcenter[2] - p0.zd();
 		t3 = t3 * t3;
+
 		return Math.sqrt(t1 + t2 + t3);
 	}
 

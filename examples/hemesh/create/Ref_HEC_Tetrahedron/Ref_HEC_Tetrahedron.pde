@@ -34,4 +34,3 @@ void draw() {
   noStroke();
   render.drawFaces(mesh);
 }
-

@@ -754,6 +754,32 @@ public class WB_GeometryOp3D extends WB_GeometryOp2D {
 		return result;
 	}
 
+	public static ArrayList<WB_AABBNode> getIntersection3D(final WB_Coord p, final WB_AABBTree tree) {
+		final ArrayList<WB_AABBNode> result = new ArrayList<WB_AABBNode>();
+		final LinkedList<WB_AABBNode> queue = new LinkedList<WB_AABBNode>();
+		queue.add(tree.getRoot());
+		WB_AABBNode current;
+		while (!queue.isEmpty()) {
+			current = queue.pop();
+			if (contains(p, current.getAABB())) {
+				if (current.isLeaf()) {
+					result.add(current);
+				} else {
+					if (current.getPosChild() != null) {
+						queue.add(current.getPosChild());
+					}
+					if (current.getNegChild() != null) {
+						queue.add(current.getNegChild());
+					}
+					if (current.getMidChild() != null) {
+						queue.add(current.getMidChild());
+					}
+				}
+			}
+		}
+		return result;
+	}
+
 	/**
 	 *
 	 *

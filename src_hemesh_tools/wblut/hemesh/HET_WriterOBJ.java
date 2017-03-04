@@ -299,7 +299,7 @@ class HET_WriterOBJ {
 	 */
 	public static void saveMeshWithFaceColor(final HE_Mesh mesh, final String path, final String name) {
 		beginSave(path, name);
-		addMeshWithFaceColor(mesh, name);
+		addMeshWithFaceColor(mesh, name, 0);
 		endSave();
 	}
 
@@ -312,7 +312,8 @@ class HET_WriterOBJ {
 	 */
 	public static void saveMeshWithVertexColor(final HE_Mesh mesh, final String path, final String name) {
 		beginSave(path, name);
-		addMeshWithVertexColor(mesh, name);
+		addMeshWithVertexColor(mesh, name, 0);
+
 		endSave();
 	}
 
@@ -327,6 +328,7 @@ class HET_WriterOBJ {
 		beginSave(path, name);
 		for (final HE_Mesh mesh : meshes) {
 			addMesh(mesh);
+
 		}
 		endSave();
 	}
@@ -372,16 +374,20 @@ class HET_WriterOBJ {
 	public static void saveMeshWithFaceColor(final Collection<? extends HE_Mesh> meshes, final String path,
 			final String name) {
 		beginSave(path, name);
+		int offset = 0;
 		for (final HE_Mesh mesh : meshes) {
-			addMeshWithFaceColor(mesh, name);
+			addMeshWithFaceColor(mesh, name, offset);
+			offset += mesh.getNumberOfFaces();
 		}
 		endSave();
 	}
 
 	public static void saveMeshWithFaceColor(final HE_MeshCollection meshes, final String path, final String name) {
 		beginSave(path, name);
+		int offset = 0;
 		for (int i = 0; i < meshes.getNumberOfMeshes(); i++) {
-			addMeshWithFaceColor(meshes.getMesh(i), name);
+			addMeshWithFaceColor(meshes.getMesh(i), name, offset);
+			offset += meshes.getMesh(i).getNumberOfFaces();
 		}
 		endSave();
 	}
@@ -396,16 +402,20 @@ class HET_WriterOBJ {
 	public static void saveMeshWithVertexColor(final Collection<? extends HE_Mesh> meshes, final String path,
 			final String name) {
 		beginSave(path, name);
+		int offset = 0;
 		for (final HE_Mesh mesh : meshes) {
-			addMeshWithVertexColor(mesh, name);
+			addMeshWithVertexColor(mesh, name, offset);
+			offset += mesh.getNumberOfVertices();
 		}
 		endSave();
 	}
 
 	public static void saveMeshWithVertexColor(final HE_MeshCollection meshes, final String path, final String name) {
 		beginSave(path, name);
+		int offset = 0;
 		for (int i = 0; i < meshes.getNumberOfMeshes(); i++) {
-			addMeshWithVertexColor(meshes.getMesh(i), name);
+			addMeshWithVertexColor(meshes.getMesh(i), name, offset);
+			offset += meshes.getMesh(i).getNumberOfVertices();
 		}
 		endSave();
 	}
@@ -449,8 +459,10 @@ class HET_WriterOBJ {
 	 */
 	public static void saveMeshWithFaceColor(final HE_Mesh[] meshes, final String path, final String name) {
 		beginSave(path, name);
+		int offset = 0;
 		for (final HE_Mesh mesh : meshes) {
-			addMeshWithFaceColor(mesh, name);
+			addMeshWithFaceColor(mesh, name, offset);
+			offset += mesh.getNumberOfFaces();
 		}
 		endSave();
 	}
@@ -465,7 +477,9 @@ class HET_WriterOBJ {
 	public static void saveMeshWithVertexColor(final HE_Mesh[] meshes, final String path, final String name) {
 		beginSave(path, name);
 		for (final HE_Mesh mesh : meshes) {
-			addMeshWithVertexColor(mesh, name);
+			addMeshWithVertexColor(mesh, name, 0);
+			mesh.getNumberOfVertices();
+
 		}
 		endSave();
 	}
@@ -555,7 +569,7 @@ class HET_WriterOBJ {
 	 * @param mesh
 	 * @param name
 	 */
-	private static void addMeshWithFaceColor(final HE_Mesh mesh, final String name) {
+	private static void addMeshWithFaceColor(final HE_Mesh mesh, final String name, final int offset) {
 		final int vOffset = getCurrVertexOffset() + 1;
 		final int nOffset = getCurrNormalOffset() + 1;
 		objWriter.println("mtllib " + name + ".mtl");
@@ -579,7 +593,7 @@ class HET_WriterOBJ {
 		final Iterator<HE_Face> fItr = mesh.fItr();
 		HE_Face f;
 		HE_Halfedge he;
-		int fi = 0;
+		int fi = offset;
 		while (fItr.hasNext()) {
 			f = fItr.next();
 			he = f.getHalfedge();
@@ -603,7 +617,7 @@ class HET_WriterOBJ {
 	 * @param mesh
 	 * @param name
 	 */
-	private static void addMeshWithVertexColor(final HE_Mesh mesh, final String name) {
+	private static void addMeshWithVertexColor(final HE_Mesh mesh, final String name, final int offset) {
 		final int vOffset = getCurrVertexOffset() + 1;
 		final int nOffset = getCurrNormalOffset() + 1;
 		objWriter.println("mtllib " + name + ".mtl");
@@ -612,7 +626,7 @@ class HET_WriterOBJ {
 		final TLongIntMap keyToIndex = new TLongIntHashMap(10, 0.5f, -1L, -1);
 		Iterator<HE_Vertex> vItr = mesh.vItr();
 		HE_Vertex v;
-		int i = 0;
+		int i = offset;
 		while (vItr.hasNext()) {
 			v = vItr.next();
 			writeVertexColor(i, v.getColor());

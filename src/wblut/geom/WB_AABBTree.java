@@ -87,7 +87,8 @@ public class WB_AABBTree {
 			}
 			node.separator = new WB_Plane(new WB_Point(node.aabb.getCenter()), dir);
 			for (final HE_Face face : faces.getFaces()) {
-				final WB_Classification cptp = WB_GeometryOp3D.classifyPolygonToPlane3D(face.toPolygon(), node.separator);
+				final WB_Classification cptp = WB_GeometryOp3D.classifyPolygonToPlane3D(face.toPolygon(),
+						node.separator);
 				if (cptp == WB_Classification.CROSSING) {
 					mid.add(face);
 				} else if (cptp == WB_Classification.BACK) {
@@ -122,6 +123,10 @@ public class WB_AABBTree {
 	 */
 	public WB_AABBNode getRoot() {
 		return root;
+	}
+
+	public void expandBy(final double d) {
+		root.expandBy(d);
 	}
 
 	public class WB_AABBNode {
@@ -220,6 +225,19 @@ public class WB_AABBTree {
 		 */
 		public WB_AABBNode getMidChild() {
 			return mid;
+		}
+
+		public void expandBy(final double d) {
+			aabb.expandBy(d);
+			if (negative != null) {
+				negative.expandBy(d);
+			}
+			if (positive != null) {
+				positive.expandBy(d);
+			}
+			if (mid != null) {
+				mid.expandBy(d);
+			}
 		}
 	}
 }

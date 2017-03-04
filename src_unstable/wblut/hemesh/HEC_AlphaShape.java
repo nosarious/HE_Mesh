@@ -20,6 +20,7 @@ public class HEC_AlphaShape extends HEC_Creator {
 	public HEC_AlphaShape() {
 		alphaTri = null;
 		alpha = 10;
+		override = true;
 	}
 
 	public HEC_AlphaShape setTriangulation(final WB_AlphaTriangulation3D alphaTri) {

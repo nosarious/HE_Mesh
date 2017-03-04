@@ -17,11 +17,11 @@ import java.util.List;
 import javolution.util.FastTable;
 import wblut.core.WB_ProgressCounter;
 import wblut.core.WB_ProgressTracker;
+import wblut.geom.WB_AABB;
 import wblut.geom.WB_AABBTree;
 import wblut.geom.WB_AABBTree.WB_AABBNode;
 import wblut.geom.WB_Classification;
 import wblut.geom.WB_Coord;
-import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_CoordinateSystem3D;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_GeometryOp3D;
@@ -2167,6 +2167,24 @@ public class HET_MeshOp {
 		return candidates;
 	}
 
+	public static List<HE_Face> getPotentialIntersectedFaces(final WB_AABBTree tree, final WB_AABB AABB) {
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp3D.getIntersection3D(AABB, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		return candidates;
+	}
+
+	public static List<HE_Face> getPotentialIntersectedFaces(final WB_AABBTree tree, final WB_Coord p) {
+		final List<HE_Face> candidates = new FastTable<HE_Face>();
+		final List<WB_AABBNode> nodes = WB_GeometryOp3D.getIntersection3D(p, tree);
+		for (final WB_AABBNode n : nodes) {
+			candidates.addAll(n.getFaces());
+		}
+		return candidates;
+	}
+
 	/**
 	 *
 	 *
@@ -3393,8 +3411,8 @@ public class HET_MeshOp {
 		if (!WB_Epsilon.isZeroSq(WB_GeometryOp3D.getSqDistance3D(p, WB_GeometryOp3D.getClosestPoint3D(p, poly)))) {
 			return false;
 		}
-		if (!WB_Epsilon.isZeroSq(
-				WB_GeometryOp3D.getSqDistance3D(p, WB_GeometryOp3D.getClosestPointOnPeriphery3D(p, poly)))) {
+		if (!WB_Epsilon
+				.isZeroSq(WB_GeometryOp3D.getSqDistance3D(p, WB_GeometryOp3D.getClosestPointOnPeriphery3D(p, poly)))) {
 			return false;
 		}
 		return true;
@@ -3477,6 +3495,57 @@ public class HET_MeshOp {
 		return 1.0 / 6.0 * (-p3.xd() * p2.yd() * p1.zd() + p2.xd() * p3.yd() * p1.zd() + p3.xd() * p1.yd() * p2.zd()
 				- p1.xd() * p3.yd() * p2.zd() - p2.xd() * p1.yd() * p3.zd() + p1.xd() * p2.yd() * p3.zd());
 
+	}
+
+	public static WB_Coord[] getClosestPointToTriangleFace(final WB_Coord p, final HE_Face T) {
+		WB_Coord p1 = T.getHalfedge().getVertex();
+		WB_Coord p2 = T.getHalfedge().getNextInFace().getVertex();
+		WB_Coord p3 = T.getHalfedge().getNextInFace().getNextInFace().getVertex();
+
+		final WB_Vector ab = new WB_Point(p2).subToVector3D(p1);
+		final WB_Vector ac = new WB_Point(p3).subToVector3D(p1);
+		final WB_Vector ap = new WB_Vector(p1, p);
+		final double d1 = ab.dot(ap);
+		final double d2 = ac.dot(ap);
+		if (d1 <= 0 && d2 <= 0) {
+			return new WB_Coord[] { new WB_Point(p1), T.getHalfedge().getVertex().getVertexNormal() };
+		}
+		final WB_Vector bp = new WB_Vector(p2, p);
+		final double d3 = ab.dot(bp);
+		final double d4 = ac.dot(bp);
+		if (d3 >= 0 && d4 <= d3) {
+			return new WB_Coord[] { new WB_Point(p2), T.getHalfedge().getNextInFace().getVertex().getVertexNormal() };
+		}
+
+		final double vc = d1 * d4 - d3 * d2;
+		if (vc <= 0 && d1 >= 0 && d3 <= 0) {
+			final double v = d1 / (d1 - d3);
+			return new WB_Coord[] { new WB_Point(p1).addSelf(ab.mulSelf(v)),
+					T.getHalfedge().getEdge().getEdgeNormal() };
+		}
+		final WB_Vector cp = new WB_Vector(p3, p);
+		final double d5 = ab.dot(cp);
+		final double d6 = ac.dot(cp);
+		if (d6 >= 0 && d5 <= d6) {
+			return new WB_Coord[] { new WB_Point(p3),
+					T.getHalfedge().getNextInFace().getNextInFace().getVertex().getVertexNormal() };
+		}
+		final double vb = d5 * d2 - d1 * d6;
+		if (vb <= 0 && d2 >= 0 && d6 <= 0) {
+			final double w = d2 / (d2 - d6);
+			return new WB_Coord[] { new WB_Point(p1).addSelf(ac.mulSelf(w)),
+					T.getHalfedge().getNextInFace().getNextInFace().getEdge().getEdgeNormal() };
+		}
+		final double va = d3 * d6 - d5 * d4;
+		if (va <= 0 && d4 - d3 >= 0 && d5 - d6 >= 0) {
+			final double w = (d4 - d3) / (d4 - d3 + (d5 - d6));
+			return new WB_Coord[] { new WB_Point(p2).addSelf(new WB_Point(p3).subToVector3D(p2).mulSelf(w)),
+					T.getHalfedge().getNextInFace().getEdge().getEdgeNormal() };
+		}
+		final double denom = 1.0 / (va + vb + vc);
+		final double v = vb * denom;
+		final double w = vc * denom;
+		return new WB_Coord[] { new WB_Point(p1).addSelf(ab.mulSelf(v).addSelf(ac.mulSelf(w))), T.getFaceNormal() };
 	}
 
 }

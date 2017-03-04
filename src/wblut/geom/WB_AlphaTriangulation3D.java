@@ -177,7 +177,7 @@ public class WB_AlphaTriangulation3D {
 
 		FastMap<Key, Triple> tris = new FastMap<Key, Triple>();
 		for (int i = 0; i < tetrahedra.length; i += 4) {
-			if (alpha[i / 4] <= a) {
+			if (alpha[i / 4] <= a || Double.isNaN(alpha[i / 4])) {
 				Key key = new Key(tetrahedra[i], tetrahedra[i + 1], tetrahedra[i + 2]);
 				Triple triple = new Triple(tetrahedra[i], tetrahedra[i + 1], tetrahedra[i + 2]);
 				if (tris.get(key) == null) {
