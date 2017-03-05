@@ -669,6 +669,7 @@ public class HE_MeshStructure extends HE_MeshElement {
 		halfedges.addAll(this.halfedges);
 		halfedges.addAll(this.edges);
 		halfedges.addAll(this.unpairedHalfedges);
+		Collections.sort(halfedges);
 		return halfedges;
 	}
 
@@ -678,23 +679,14 @@ public class HE_MeshStructure extends HE_MeshElement {
 	 * @return all halfedges as HE_Halfedge[]
 	 */
 	public final HE_Halfedge[] getHalfedgesAsArray() {
-		final HE_Halfedge[] halfedges = new HE_Halfedge[getNumberOfHalfedges()];
-		final Iterator<HE_Halfedge> heItr = this.halfedges.iterator();
+		List<HE_Halfedge> hes = getHalfedges();
+		final HE_Halfedge[] halfedges = new HE_Halfedge[hes.size()];
 		int i = 0;
-		while (heItr.hasNext()) {
-			halfedges[i] = heItr.next();
+		for (HE_Halfedge he : hes) {
+			halfedges[i] = he;
 			i++;
 		}
-		final Iterator<HE_Halfedge> eItr = this.edges.iterator();
-		while (eItr.hasNext()) {
-			halfedges[i] = eItr.next();
-			i++;
-		}
-		final Iterator<HE_Halfedge> uheItr = this.unpairedHalfedges.iterator();
-		while (uheItr.hasNext()) {
-			halfedges[i] = uheItr.next();
-			i++;
-		}
+
 		return halfedges;
 	}
 
@@ -1122,12 +1114,14 @@ public class HE_MeshStructure extends HE_MeshElement {
 			fItr.next().sort();
 		}
 
-		List<HE_Face> sortedFaces = getFaces();
+		List<HE_Face> sortedFaces = new FastTable<HE_Face>();
+		sortedFaces.addAll(getFaces());
 		Collections.sort(sortedFaces);
 		clearFaces();
 		addFaces(sortedFaces);
 
-		List<HE_Vertex> sortedVertices = getVertices();
+		List<HE_Vertex> sortedVertices = new FastTable<HE_Vertex>();
+		sortedVertices.addAll(getVertices());
 		Collections.sort(sortedVertices);
 		clearVertices();
 		addVertices(sortedVertices);

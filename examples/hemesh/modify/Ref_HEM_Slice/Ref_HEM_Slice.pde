@@ -7,20 +7,16 @@ import wblut.geom.*;
 HE_Mesh mesh;
 WB_Render render;
 WB_Plane P;
-
+HEM_Slice modifier;
 void setup() {
   size(1000, 1000, P3D);
   createMesh();
-  
-  
-  HEM_Slice modifier=new HEM_Slice();
-  
+  modifier=new HEM_Slice();
   P=new WB_Plane(0,0,0,1,1,1); 
   modifier.setPlane(P);// Cut plane 
   //you can also pass directly as origin and normal:  modifier.setPlane(0,0,-200,0,0,1)
   modifier.setOffset(0);// shift cut plane along normal
-  modifier.setCap(true);// cap holes, hemesh doesn't handle nested faces yet (e.g. when slicing a donut along its equator)
- 
+  modifier.setCap(true);// cap holes
   modifier.setReverse(false);// keep other side of plane
   mesh.modify(modifier);
   
@@ -37,6 +33,10 @@ void draw() {
   fill(255);
   noStroke();
   render.drawFaces(mesh);
+  fill(255,0,0);
+  render.drawFaces(modifier.capFaces);
+  fill(0,0,255);
+  render.drawFaces(modifier.cutFaces);
   noFill();
   stroke(0);
   render.drawEdges(mesh);

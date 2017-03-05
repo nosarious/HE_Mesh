@@ -35,17 +35,17 @@ public class HEM_SliceSurface extends HEM_Modifier {
 	/** Cut plane. */
 	private WB_Plane P;
 	/** Stores cut faces. */
-	public HE_Selection cut;
+	public HE_Selection cutFaces;
 	/**
 	 *
 	 */
-	public HE_Selection front;
+	public HE_Selection frontFaces;
 	/**
 	 *
 	 */
-	public HE_Selection back;
+	public HE_Selection backFaces;
 	/** Stores new edges. */
-	public HE_Selection cutEdges;
+	public HE_Selection newEdges;
 	/**
 	 *
 	 */
@@ -112,10 +112,11 @@ public class HEM_SliceSurface extends HEM_Modifier {
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
 		tracker.setStatus(this, "Starting HEM_SliceSurface.", +1);
-		cut = new HE_Selection(mesh);
-		front = new HE_Selection(mesh);
-		back = new HE_Selection(mesh);
-		cutEdges = new HE_Selection(mesh);
+		cutFaces = new HE_Selection(mesh);
+		frontFaces = new HE_Selection(mesh);
+		backFaces = new HE_Selection(mesh);
+		newEdges = new HE_Selection(mesh);
+
 		mesh.resetEdgeInternalLabels();
 		mesh.resetVertexInternalLabels();
 
@@ -175,7 +176,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			e = eItr.next();
 			if (vertexClass.get(e.getStartVertex().key()) == WB_Classification.ON) {
 				if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.ON) {
-					cutEdges.add(e);
+					newEdges.add(e);
 					e.setInternalLabel(1);
 					e.getPair().setInternalLabel(1);
 				} else {
@@ -236,8 +237,8 @@ public class HEM_SliceSurface extends HEM_Modifier {
 
 		tracker.setStatus(this, "Exiting HEM_SliceSurface.", -1);
 		// mesh.fixDegenerateTriangles();
-		cutEdges.cleanSelection();
-		buildPaths(cutEdges);
+		newEdges.cleanSelection();
+		buildPaths(newEdges);
 		fItr = mesh.fItr();
 		while (fItr.hasNext()) {
 			f = fItr.next();
@@ -257,13 +258,15 @@ public class HEM_SliceSurface extends HEM_Modifier {
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
 		tracker.setStatus(this, "Starting HEM_SliceSurface.", +1);
+
 		selection.parent.resetEdgeInternalLabels();
 
 		selection.parent.resetVertexInternalLabels();
-		cut = new HE_Selection(selection.parent);
-		front = new HE_Selection(selection.parent);
-		back = new HE_Selection(selection.parent);
-		cutEdges = new HE_Selection(selection.parent);
+
+		cutFaces = new HE_Selection(selection.parent);
+		frontFaces = new HE_Selection(selection.parent);
+		backFaces = new HE_Selection(selection.parent);
+		newEdges = new HE_Selection(selection.parent);
 		paths = new FastTable<HE_Path>();
 		// no plane defined
 		if (P == null) {
@@ -325,7 +328,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 				e = eItr.next();
 				if (vertexClass.get(e.getStartVertex().key()) == WB_Classification.ON) {
 					if (vertexClass.get(e.getEndVertex().key()) == WB_Classification.ON) {
-						cutEdges.add(e);
+						newEdges.add(e);
 						e.setInternalLabel(1);
 					} else {
 						edgeInt.put(e.key(), 0.0);
@@ -382,8 +385,8 @@ public class HEM_SliceSurface extends HEM_Modifier {
 			paths = new FastTable<HE_Path>();
 
 		}
-		if (cutEdges.getNumberOfEdges() > 1) {
-			buildPaths(cutEdges);
+		if (newEdges.getNumberOfEdges() > 1) {
+			buildPaths(newEdges);
 		}
 		tracker.setStatus(this, "Exiting HEM_SliceSurface.", -1);
 		return lsel.parent;
@@ -531,9 +534,10 @@ public class HEM_SliceSurface extends HEM_Modifier {
 					if (halfedges.size() > 2) {
 						for (HE_Halfedge fhe : halfedges) {
 							if (fhe.getVertex().getInternalLabel() == FRONT) {
-								front.add(subFace);
+								frontFaces.add(subFace);
+
 							} else if (fhe.getVertex().getInternalLabel() == BACK) {
-								back.add(subFace);
+								backFaces.add(subFace);
 
 							}
 
@@ -543,7 +547,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 							mesh.setNext(halfedges.get(k), halfedges.get(j));
 						}
 						mesh.add(subFace);
-
+						cutFaces.add(subFace);
 						mesh.addHalfedges(halfedges);
 					}
 
@@ -553,7 +557,7 @@ public class HEM_SliceSurface extends HEM_Modifier {
 				for (HE_Halfedge he : allhalfedges) {
 					if (he.isEdge()) {
 						if (he.getVertex().getInternalLabel() == ON && he.getEndVertex().getInternalLabel() == ON) {
-							cutEdges.add(he);
+							newEdges.add(he);
 							he.setInternalLabel(1);
 						}
 					}

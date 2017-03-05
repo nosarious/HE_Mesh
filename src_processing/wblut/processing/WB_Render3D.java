@@ -375,21 +375,22 @@ public class WB_Render3D extends WB_Render2D {
 	 *            selection to draw
 	 */
 	public void drawEdges(final HE_Selection selection) {
-		final Iterator<HE_Face> fItr = selection.fItr();
+		final Iterator<HE_Halfedge> eItr = selection.eItr();
 		HE_Halfedge e;
-		HE_Face f;
-		while (fItr.hasNext()) {
-			f = fItr.next();
-			e = f.getHalfedge();
-			do {
-				if (e.isVisible()) {
-					if (e.isEdge() || e.isInnerBoundary() || !selection.contains(e.getPair().getFace())) {
-						line(e.getVertex(), e.getEndVertex());
-					}
-				}
-				e = e.getNextInFace();
-			} while (e != f.getHalfedge());
+		while (eItr.hasNext()) {
+			e = eItr.next();
+			if (e.isVisible()) {
+				line(e.getVertex(), e.getEndVertex());
+			}
 		}
+		/*
+		 * final Iterator<HE_Face> fItr = selection.fItr(); HE_Halfedge e;
+		 * HE_Face f; while (fItr.hasNext()) { f = fItr.next(); e =
+		 * f.getHalfedge(); do { if (e.isVisible()) { if (e.isEdge() ||
+		 * e.isInnerBoundary() || !selection.contains(e.getPair().getFace())) {
+		 * line(e.getVertex(), e.getEndVertex()); } } e = e.getNextInFace(); }
+		 * while (e != f.getHalfedge()); }
+		 */
 	}
 
 	/**

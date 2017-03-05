@@ -113,7 +113,7 @@ public class HEC_Copy extends HEC_Creator {
 			counter = new WB_ProgressCounter(mesh.getNumberOfHalfedges(), 10);
 			tracker.setStatus(this, "Creating halfedges.", counter);
 			HE_RAS<HE_Halfedge> copyHalfedges = new HE_RAS.HE_RASTrove<HE_Halfedge>();
-			final Iterator<HE_Halfedge> heItr = mesh.heItr();
+			final Iterator<HE_Halfedge> heItr = mesh.getHalfedges().iterator();
 			while (heItr.hasNext()) {
 				he = heItr.next();
 				rhe = new HE_Halfedge();
@@ -165,7 +165,7 @@ public class HEC_Copy extends HEC_Creator {
 			tracker.setStatus(this, "Setting halfedge properties.", counter);
 			HE_Halfedge she;
 			HE_Halfedge the;
-			final Iterator<HE_Halfedge> sheItr = mesh.heItr();
+			final Iterator<HE_Halfedge> sheItr = mesh.getHalfedges().iterator();
 			final Iterator<HE_Halfedge> theItr = copyHalfedges.iterator();
 			while (sheItr.hasNext()) {
 				she = sheItr.next();

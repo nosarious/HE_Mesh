@@ -474,7 +474,8 @@ public class HE_Halfedge extends HE_MeshElement implements Comparable<HE_Halfedg
 	@Override
 	public String toString() {
 		return "HE_Halfedge key: " + key() + ", paired with halfedge " + getPair().key() + ". Vertex: "
-				+ getVertex().key() + ". Is this an edge: " + isEdge() + ".";
+				+ getVertex().key() + ". Is this an edge: " + isEdge() + "." + " (" + getLabel() + ","
+				+ getInternalLabel() + ")";
 	}
 
 	/**
@@ -816,18 +817,18 @@ public class HE_Halfedge extends HE_MeshElement implements Comparable<HE_Halfedg
 	 */
 	@Override
 	public int compareTo(final HE_Halfedge he) {
+
 		if (he.getVertex() == null) {
 			if (getVertex() == null) {
-
-				return 0;
+				return Long.compare(key(), he.key());
 			} else {
 				return 1;
 			}
 		} else if (getVertex() == null) {
 			return -1;
 		}
-
 		return getVertex().compareTo(he.getVertex());
+		// return cmp == 0 ? Long.compare(key(), he.key()) : 0;
 	}
 
 	@Override

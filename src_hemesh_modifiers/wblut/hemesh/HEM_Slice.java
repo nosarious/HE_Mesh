@@ -34,9 +34,9 @@ public class HEM_Slice extends HEM_Modifier {
 	private boolean simpleCap = true;
 
 	/** Store cut faces. */
-	public HE_Selection cut;
+	public HE_Selection cutFaces;
 	/** Store cap faces. */
-	public HE_Selection cap;
+	public HE_Selection capFaces;
 	/** The offset. */
 	private double offset;
 	/**
@@ -142,8 +142,8 @@ public class HEM_Slice extends HEM_Modifier {
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
 		tracker.setStatus(this, "Starting HEM_Slice.", +1);
-		cut = new HE_Selection(mesh);
-		cap = new HE_Selection(mesh);
+		cutFaces = new HE_Selection(mesh);
+		capFaces = new HE_Selection(mesh);
 		// no plane defined
 		if (P == null) {
 			tracker.setStatus(this, "No cutplane defined. Exiting HEM_Slice.", -1);
@@ -161,7 +161,7 @@ public class HEM_Slice extends HEM_Modifier {
 		lP = new WB_Plane(lP.getNormal(), lP.d() + offset);
 		ss = new HEM_SliceSurface().setPlane(lP);
 		mesh.modify(ss);
-		cut = ss.cut;
+		cutFaces = ss.cutFaces;
 		final HE_Selection newFaces = new HE_Selection(mesh);
 		HE_Face face;
 		WB_ProgressCounter counter = new WB_ProgressCounter(mesh.getNumberOfFaces(), 10);
@@ -177,28 +177,28 @@ public class HEM_Slice extends HEM_Modifier {
 				newFaces.add(face);
 
 			} else {
-				if (cut.contains(face)) {
-					cut.remove(face);
+				if (cutFaces.contains(face)) {
+					cutFaces.remove(face);
 				}
 			}
 			counter.increment();
 		}
 		tracker.setStatus(this, "Removing unwanted faces.", 0);
 		mesh.replaceFaces(newFaces.getFacesAsArray());
-		cut.cleanSelection();
+		cutFaces.cleanSelection();
 		mesh.cleanUnusedElementsByFace();
 		if (capHoles) {
 			tracker.setStatus(this, "Capping holes.", 0);
 			if (simpleCap) {
 				HEM_CapHoles ch = new HEM_CapHoles();
 				mesh.modify(ch);
-				cap.addFaces(ch.caps);
+				capFaces.addFaces(ch.caps);
 			} else {
 				final List<HE_Path> cutpaths = ss.getPaths();
 				if (cutpaths.size() == 1) {
 					HEM_CapHoles ch = new HEM_CapHoles();
 					mesh.modify(ch);
-					cap.addFaces(ch.caps);
+					capFaces.addFaces(ch.caps);
 
 				} else {
 					tracker.setStatus(this, "Triangulating cut paths.", 0);
@@ -224,7 +224,7 @@ public class HEM_Slice extends HEM_Modifier {
 						mesh.setFace(he0, tri);
 						mesh.setFace(he1, tri);
 						mesh.setFace(he2, tri);
-						cap.add(tri);
+						capFaces.add(tri);
 						mesh.add(tri);
 						mesh.add(he0);
 						mesh.add(he1);

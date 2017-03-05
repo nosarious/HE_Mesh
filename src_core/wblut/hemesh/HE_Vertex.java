@@ -3032,7 +3032,8 @@ public class HE_Vertex extends HE_MeshElement implements WB_MutableCoordinateFul
 	 */
 	@Override
 	public String toString() {
-		return "HE_Vertex key: " + key() + " [x=" + xd() + ", y=" + yd() + ", z=" + zd() + "]";
+		return "HE_Vertex key: " + key() + " [x=" + xd() + ", y=" + yd() + ", z=" + zd() + "]" + " (" + getLabel() + ","
+				+ getInternalLabel() + ")";
 	}
 
 }

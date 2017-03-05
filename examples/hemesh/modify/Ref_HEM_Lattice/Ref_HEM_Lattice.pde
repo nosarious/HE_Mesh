@@ -18,10 +18,9 @@ void setup() {
   modifier.setWidth(10);// desired width of struts
   modifier.setDepth(10);// depth of struts
   modifier.setThresholdAngle(1.5*HALF_PI);// treat edges sharper than this angle as hard edges
-  modifier.setFuse(true);// try to fuse planar adjacent planar faces created by the extrude
-  modifier.setFuseAngle(0.1*HALF_PI);// threshold angle to be considered coplanar
+  
   mesh.modify(modifier);
-  //mesh.smooth(2);
+ // mesh.smooth(2);
 
   render=new WB_Render(this);
 }
@@ -42,7 +41,8 @@ void draw() {
 
 
 void createMesh(){
-  HEC_Geodesic creator=new HEC_Geodesic().setC(2).setB(4).setRadius(300);
+  HEC_Geodesic creator=new HEC_Geodesic().setC(2).setB(2).setRadius(300);
   mesh=new HE_Mesh(creator); 
+  mesh.add(new HE_Mesh(new HEC_Grid(10,10,700,700).setCenter(0,0,-350)));
   
 }

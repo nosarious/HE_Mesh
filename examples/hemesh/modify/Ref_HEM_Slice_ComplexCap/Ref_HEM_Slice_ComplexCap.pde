@@ -31,9 +31,11 @@ void draw() {
   noStroke();
   fill(255);
   render.drawFaces(mesh);
+  fill(255,0,0);
+  render.drawFaces(modifier.capFaces);
   noFill();
   strokeWeight(1);
- stroke(255, 0, 0,128);
+  stroke(255, 0, 0,128);
   render.drawEdges(wire);
   
   render.drawPlane(P, 500);

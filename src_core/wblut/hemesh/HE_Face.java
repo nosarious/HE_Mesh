@@ -509,6 +509,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 	 */
 	@Override
 	public int compareTo(final HE_Face f) {
+
 		if (f.getHalfedge() == null) {
 			if (getHalfedge() == null) {
 
@@ -697,7 +698,7 @@ public class HE_Face extends HE_MeshElement implements Comparable<HE_Face> {
 			s += he.getVertex().key + "-";
 			he = he.getNextInFace();
 		}
-		s += he.getVertex().key + ".";
+		s += he.getVertex().key + "." + " (" + getLabel() + "," + getInternalLabel() + ")";
 		return s;
 	}
 

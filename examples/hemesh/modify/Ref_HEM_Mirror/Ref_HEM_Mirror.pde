@@ -24,6 +24,8 @@ void setup() {
   P3=new WB_Plane(-80, 0, 0, 1, 0, 0); 
   modifier.setPlane(P3);// mirror plane 
   mesh.modify(modifier);
+ 
+ 
   mesh.validate();
   render=new WB_Render(this);
 }

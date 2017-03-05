@@ -91,7 +91,7 @@ public class HEM_ChamferCorners extends HEM_Modifier {
 		msm.setPlanes(cutPlanes).setSimpleCap(true);
 		mesh.modify(msm);
 		origFaces = msm.origFaces;
-		newFaces = msm.newFaces;
+		newFaces = msm.capFaces;
 		return mesh;
 	}
 
@@ -125,7 +125,7 @@ public class HEM_ChamferCorners extends HEM_Modifier {
 		msm.setPlanes(cutPlanes).setSimpleCap(true);
 		selection.parent.modify(msm);
 		origFaces = msm.origFaces;
-		newFaces = msm.newFaces;
+		newFaces = msm.capFaces;
 		return selection.parent;
 	}
 }

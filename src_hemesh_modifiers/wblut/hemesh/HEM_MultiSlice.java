@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import wblut.geom.WB_GeometryOp3D;
-import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
 
@@ -45,7 +44,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 	/** Original faces?. */
 	public HE_Selection origFaces;
 	/** New faces?. */
-	public HE_Selection newFaces;
+	public HE_Selection capFaces;
 	/** The offset. */
 	private double offset;
 
@@ -175,7 +174,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
 		origFaces = new HE_Selection(mesh);
-		newFaces = new HE_Selection(mesh);
+		capFaces = new HE_Selection(mesh);
 		if (planes == null) {
 			return mesh;
 		}
@@ -226,7 +225,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 			if (unique) {
 				slice.setPlane(Pi);
 				slice.apply(mesh);
-				fItr = slice.cap.fItr();
+				fItr = slice.capFaces.fItr();
 				// System.out.println(slice.cap.getNumberOfFaces());
 				HE_Face f;
 				while (fItr.hasNext()) {
@@ -245,7 +244,7 @@ public class HEM_MultiSlice extends HEM_Modifier {
 			if (f.getInternalLabel() == -1) {
 				origFaces.add(f);
 			} else {
-				newFaces.add(f);
+				capFaces.add(f);
 			}
 		}
 

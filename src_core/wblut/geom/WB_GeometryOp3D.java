@@ -3649,6 +3649,42 @@ public class WB_GeometryOp3D extends WB_GeometryOp2D {
 		return WB_Classification.ON;
 	}
 
+	public static WB_Classification classifySegmentToPlane3D(final WB_Coord p, final WB_Coord q, final WB_Plane P) {
+		int numInFront = 0;
+		int numBehind = 0;
+
+		switch (classifyPointToPlane3D(p, P)) {
+		case FRONT:
+			numInFront++;
+			break;
+		case BACK:
+			numBehind++;
+			break;
+		default:
+		}
+		switch (classifyPointToPlane3D(q, P)) {
+		case FRONT:
+			numInFront++;
+			break;
+		case BACK:
+			numBehind++;
+			break;
+		default:
+		}
+
+		if (numBehind != 0 && numInFront != 0) {
+			return WB_Classification.CROSSING;
+		}
+
+		if (numInFront != 0) {
+			return WB_Classification.FRONT;
+		}
+		if (numBehind != 0) {
+			return WB_Classification.BACK;
+		}
+		return WB_Classification.ON;
+	}
+
 	/**
 	 *
 	 *

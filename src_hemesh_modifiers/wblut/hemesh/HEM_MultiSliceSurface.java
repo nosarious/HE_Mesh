@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import wblut.geom.WB_Classification;
+import wblut.geom.WB_GeometryOp;
 import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Plane;
 
@@ -26,7 +28,7 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 	/** Cut planes. */
 	private ArrayList<WB_Plane> planes;
 	/** Store cut faces. */
-	public HE_Selection cut;
+	public HE_Selection cutFaces;
 	/** The new edges. */
 	public HE_Selection newEdges;
 	/** The offset. */
@@ -86,14 +88,15 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
-		cut = new HE_Selection(mesh);
+		cutFaces = new HE_Selection(mesh);
 		newEdges = new HE_Selection(mesh);
 		mesh.resetFaceInternalLabels();
 		mesh.resetEdgeInternalLabels();
 		if (planes == null) {
 			return mesh;
 		}
-		final HEM_SliceEdges slice = new HEM_SliceEdges();
+		final HEM_SliceSurface slice = new HEM_SliceSurface();
+
 		boolean unique = true;
 		WB_Plane Pi, Pj;
 		for (int i = 0; i < planes.size(); i++) {
@@ -110,15 +113,28 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 
 				slice.setPlane(Pi).setOffset(offset);
 				slice.apply(mesh);
-				cut.add(slice.cut);
-				newEdges.add(slice.cutEdges);
+				cutFaces.add(slice.cutFaces);
+
+				newEdges.add(slice.newEdges);
+
 			}
 		}
-		cut.cleanSelection();
-		newEdges.cleanSelection();
-		final Iterator<HE_Halfedge> eItr = newEdges.eItr();
+		System.out.println(newEdges.getNumberOfEdges());
+		mesh.resetEdgeInternalLabels();
+		cutFaces.cleanSelection();
+		cutFaces.collectEdgesByFace();
+		final Iterator<HE_Halfedge> eItr = cutFaces.eItr();
+		HE_Halfedge he;
 		while (eItr.hasNext()) {
-			eItr.next().setInternalLabel(1);
+			he = eItr.next();
+			for (int i = 0; i < planes.size(); i++) {
+				if (WB_GeometryOp.classifySegmentToPlane3D(he.getVertex(), he.getEndVertex(),
+						planes.get(i)) == WB_Classification.ON) {
+					he.setInternalLabel(1);
+					newEdges.add(he);
+					break;
+				}
+			}
 		}
 		return mesh;
 	}
@@ -133,12 +149,12 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 	public HE_Mesh apply(final HE_Selection selection) {
 		selection.parent.resetFaceInternalLabels();
 		selection.parent.resetEdgeInternalLabels();
-		cut = new HE_Selection(selection.parent);
+		cutFaces = new HE_Selection(selection.parent);
 		newEdges = new HE_Selection(selection.parent);
 		if (planes == null) {
 			return selection.parent;
 		}
-		final HEM_SliceEdges slice = new HEM_SliceEdges();
+		final HEM_SliceSurface slice = new HEM_SliceSurface();
 		boolean unique = true;
 		WB_Plane Pi, Pj;
 		for (int i = 0; i < planes.size(); i++) {
@@ -155,15 +171,24 @@ public class HEM_MultiSliceSurface extends HEM_Modifier {
 
 				slice.setPlane(Pi).setOffset(offset);
 				slice.apply(selection);
-				cut.add(slice.cut);
-				newEdges.add(slice.cutEdges);
+				cutFaces.add(slice.cutFaces);
 			}
 		}
-		cut.cleanSelection();
-		newEdges.cleanSelection();
-		final Iterator<HE_Halfedge> eItr = newEdges.eItr();
+		selection.parent.resetEdgeInternalLabels();
+		cutFaces.cleanSelection();
+		cutFaces.collectEdgesByFace();
+		final Iterator<HE_Halfedge> eItr = cutFaces.eItr();
+		HE_Halfedge he;
 		while (eItr.hasNext()) {
-			eItr.next().setInternalLabel(1);
+			he = eItr.next();
+			for (int i = 0; i < planes.size(); i++) {
+				if (WB_GeometryOp.classifySegmentToPlane3D(he.getVertex(), he.getEndVertex(),
+						planes.get(i)) == WB_Classification.ON) {
+					he.setInternalLabel(1);
+					newEdges.add(he);
+					break;
+				}
+			}
 		}
 		return selection.parent;
 	}

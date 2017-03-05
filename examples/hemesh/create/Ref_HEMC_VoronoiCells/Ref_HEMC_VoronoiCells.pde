@@ -20,7 +20,7 @@ void setup() {
 
   //create a container mesh
   container=new HE_Mesh(new HEC_Geodesic().setRadius(280));
-  container.modify(new HEM_Crocodile().setDistance(10));
+ // container.modify(new HEM_Crocodile().setDistance(10));
 
   //generate points
   numpoints=100;

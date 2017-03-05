@@ -14,6 +14,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import gnu.trove.iterator.TLongLongIterator;
+import gnu.trove.map.TLongLongMap;
 import wblut.core.WB_ProgressCounter;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryFactory;
@@ -184,11 +186,14 @@ public class HEM_Lattice extends HEM_Modifier {
 		final HEM_Extrude extm = new HEM_Extrude().setDistance(0).setRelative(false).setChamfer(sew).setFuse(fuse)
 				.setHardEdgeChamfer(hew).setFuseAngle(fuseAngle).setThresholdAngle(thresholdAngle);
 		mesh.modify(extm);
+
 		tracker.setStatus(this, "Creating inner mesh.", 0);
-		final HE_Mesh innerMesh = mesh.copy();
-		tracker.setStatus(this, "Shrinking inner mesh.", 0);
-		final HEM_VertexExpand expm = new HEM_VertexExpand().setDistance(-d);
-		innerMesh.modify(expm);
+
+		HEC_Copy cc = new HEC_Copy().setMesh(mesh);
+		final HE_Mesh innerMesh = cc.create();
+
+		TLongLongMap allheCorrelation = cc.halfedgeCorrelation;
+
 		WB_ProgressCounter counter = new WB_ProgressCounter(mesh.getNumberOfFaces(), 10);
 		tracker.setStatus(this, "Creating face correlations.", counter);
 		final HashMap<Long, Long> faceCorrelation = new HashMap<Long, Long>();
@@ -205,18 +210,21 @@ public class HEM_Lattice extends HEM_Modifier {
 		counter = new WB_ProgressCounter(mesh.getNumberOfHalfedges(), 10);
 		tracker.setStatus(this, "Creating boundary halfedge correlations.", counter);
 		final HashMap<Long, Long> heCorrelation = new HashMap<Long, Long>();
-		final Iterator<HE_Halfedge> heItr1 = mesh.heItr();
-		final Iterator<HE_Halfedge> heItr2 = innerMesh.heItr();
 		HE_Halfedge he1;
 		HE_Halfedge he2;
-		while (heItr1.hasNext()) {
-			he1 = heItr1.next();
-			he2 = heItr2.next();
+		for (TLongLongIterator it = allheCorrelation.iterator(); it.hasNext();) {
+			it.advance();
+			he1 = mesh.getHalfedgeWithKey(it.key());
+
 			if (he1.getFace() == null) {
+				he2 = innerMesh.getHalfedgeWithKey(it.value());
 				heCorrelation.put(he1.key(), he2.key());
 			}
 			counter.increment();
 		}
+		tracker.setStatus(this, "Shrinking inner mesh.", 0);
+		final HEM_VertexExpand expm = new HEM_VertexExpand().setDistance(-d);
+		innerMesh.modify(expm);
 		HET_MeshOp.flipFaces(innerMesh);
 		final int nf = mesh.getNumberOfFaces();
 		final HE_Face[] origFaces = mesh.getFacesAsArray();
@@ -350,10 +358,10 @@ public class HEM_Lattice extends HEM_Modifier {
 				.setHardEdgeChamfer(hew).setFuseAngle(fuseAngle).setThresholdAngle(thresholdAngle);
 		selection.modify(extm);
 		tracker.setStatus(this, "Creating inner mesh.", 0);
-		final HE_Mesh innerMesh = selection.parent.copy();
-		tracker.setStatus(this, "Shrinking inner mesh.", 0);
-		final HEM_VertexExpand expm = new HEM_VertexExpand().setDistance(-d);
-		innerMesh.modify(expm);
+		HEC_Copy cc = new HEC_Copy().setMesh(selection.parent);
+		final HE_Mesh innerMesh = cc.create();
+		TLongLongMap allheCorrelation = cc.halfedgeCorrelation;
+
 		WB_ProgressCounter counter = new WB_ProgressCounter(selection.parent.getNumberOfFaces(), 10);
 
 		tracker.setStatus(this, "Creating face correlations.", counter);
@@ -372,18 +380,21 @@ public class HEM_Lattice extends HEM_Modifier {
 
 		tracker.setStatus(this, "Creating boundary halfedge correlations.", counter);
 		final HashMap<Long, Long> heCorrelation = new HashMap<Long, Long>();
-		final Iterator<HE_Halfedge> heItr1 = selection.parent.heItr();
-		final Iterator<HE_Halfedge> heItr2 = innerMesh.heItr();
 		HE_Halfedge he1;
 		HE_Halfedge he2;
-		while (heItr1.hasNext()) {
-			he1 = heItr1.next();
-			he2 = heItr2.next();
+		for (TLongLongIterator it = allheCorrelation.iterator(); it.hasNext();) {
+			it.advance();
+			he1 = selection.parent.getHalfedgeWithKey(it.key());
+
 			if (he1.getFace() == null) {
+				he2 = innerMesh.getHalfedgeWithKey(it.value());
 				heCorrelation.put(he1.key(), he2.key());
 			}
 			counter.increment();
 		}
+		tracker.setStatus(this, "Shrinking inner mesh.", 0);
+		final HEM_VertexExpand expm = new HEM_VertexExpand().setDistance(-d);
+		innerMesh.modify(expm);
 		HET_MeshOp.flipFaces(innerMesh);
 		final int nf = selection.parent.getNumberOfFaces();
 		final HE_Face[] origFaces = selection.parent.getFacesAsArray();
