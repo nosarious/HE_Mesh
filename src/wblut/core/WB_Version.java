@@ -18,7 +18,7 @@ public class WB_Version {
 
 	public static final int MINOR = 0;
 
-	public static final int PATCH = 2;
+	public static final int PATCH = 3;
 
 	private static final String releaseInfo = "Reboot";
 
