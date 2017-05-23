@@ -22,7 +22,6 @@ import wblut.geom.WB_AABB;
 import wblut.geom.WB_AABBTree;
 import wblut.geom.WB_AABBTree.WB_AABBNode;
 import wblut.geom.WB_GeometryOp3D;
-import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_IntersectionResult;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_RandomOnSphere;
@@ -394,7 +393,7 @@ public class HET_Fixer {
 	static List<HET_SelfIntersectionResult> checkSelfIntersection(final HE_Face tri, final WB_AABBTree tree) {
 		final List<HET_SelfIntersectionResult> selfints = new FastTable<HET_SelfIntersectionResult>();
 		final HE_RAS.HE_RASTrove<HE_Face> candidates = new HE_RAS.HE_RASTrove<HE_Face>();
-		final WB_AABB aabb = tri.toAABB();
+		final WB_AABB aabb = tri.getAABB();
 		final List<WB_AABBNode> nodes = WB_GeometryOp3D.getIntersection3D(aabb, tree);
 		for (final WB_AABBNode n : nodes) {
 			candidates.addAll(n.getFaces());

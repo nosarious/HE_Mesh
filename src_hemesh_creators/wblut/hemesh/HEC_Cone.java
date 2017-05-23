@@ -14,6 +14,11 @@ import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Segment;
 import wblut.geom.WB_Vector;
+import wblut.math.WB_ConstantScalarParameter;
+import wblut.math.WB_Ease;
+import wblut.math.WB_EaseScalarParameter;
+import wblut.math.WB_LinearScalarParameter;
+import wblut.math.WB_ScalarParameter;
 
 /**
  * Cone.
@@ -34,8 +39,10 @@ public class HEC_Cone extends HEC_Creator {
 	private boolean cap;
 	/** The reverse. */
 	private boolean reverse;
-	/** The taper. */
-	private double taper;
+	/** The profile. */
+	private WB_ScalarParameter profile;
+	private WB_ScalarParameter taper;
+	private WB_ScalarParameter heightTaper;
 	private double phase;
 
 	/**
@@ -50,8 +57,9 @@ public class HEC_Cone extends HEC_Creator {
 		steps = 1;
 		Z = new WB_Vector(WB_Vector.Y());
 		cap = true;
-		taper = 1.0;
-
+		profile = new WB_ConstantScalarParameter(1.0);
+		taper = new WB_LinearScalarParameter(0.0, 1.0, 0.0, 1.0);
+		heightTaper = new WB_LinearScalarParameter(0.0, 1.0, 0.0, 1.0);
 	}
 
 	/**
@@ -72,7 +80,9 @@ public class HEC_Cone extends HEC_Creator {
 		this.H = H;
 		this.facets = facets;
 		this.steps = steps;
-		taper = 1.0;
+		profile = new WB_ConstantScalarParameter(1.0);
+		taper = new WB_LinearScalarParameter(0.0, 1.0, 0.0, 1.0);
+		heightTaper = new WB_LinearScalarParameter(0.0, 1.0, 0.0, 1.0);
 	}
 
 	/**
@@ -186,19 +196,41 @@ public class HEC_Cone extends HEC_Creator {
 	}
 
 	/**
-	 * Sets the taper.
+	 * Sets the profile. Parameter should be a WB_ScalarParameter on the domain
+	 * [0,1]. The radius at fractional height x is multiplied by the profile
+	 * value at x.
 	 *
 	 * @param t
 	 *            the t
-	 * @return the hE c_ cone
+	 * @return self
 	 */
-	public HEC_Cone setTaper(final double t) {
+	public HEC_Cone setProfile(final WB_ScalarParameter t) {
+		profile = t;
+		return this;
+	}
+
+	public HEC_Cone setTaper(final WB_ScalarParameter t) {
 		taper = t;
+		return this;
+	}
+
+	public HEC_Cone setTaper(final WB_Ease.Ease E, final WB_Ease.EaseType type) {
+		taper = new WB_EaseScalarParameter(0, 1, 0, 1, true, E, type);
 		return this;
 	}
 
 	public HEC_Cone setPhase(final double p) {
 		phase = p;
+		return this;
+	}
+
+	public HEC_Cone setHeightTaper(final WB_ScalarParameter t) {
+		heightTaper = t;
+		return this;
+	}
+
+	public HEC_Cone setHeigthTaper(final WB_Ease.Ease E, final WB_Ease.EaseType type) {
+		heightTaper = new WB_EaseScalarParameter(0, 1, 0, 1, true, E, type);
 		return this;
 	}
 
@@ -218,8 +250,8 @@ public class HEC_Cone extends HEC_Creator {
 		final double invs = 1.0 / steps;
 		int id = 0;
 		for (int i = 0; i < steps; i++) {
-			Ri = R - Math.pow(i * invs, taper) * R;
-			Hj = reverse ? H - i * H / steps : i * H / steps;
+			Ri = profile.evaluate(i * invs) * (R - taper.evaluate(i * invs) * R);
+			Hj = reverse ? H - heightTaper.evaluate(i * invs) * H : heightTaper.evaluate(i * invs) * H;
 			for (int j = 0; j < facets + 1; j++) {
 				vertices[id][0] = Ri * Math.cos(2 * Math.PI / facets * j + phase);
 				vertices[id][2] = Ri * Math.sin(2 * Math.PI / facets * j + phase);

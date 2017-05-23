@@ -13,9 +13,9 @@ void setup() {
   size(1000, 1000, P3D);
   smooth(8);
   createMesh();
-  
+
   modifier=new HEM_MultiSlice();
-  numPlanes=10;
+  numPlanes=5;
   planes=new WB_Plane[numPlanes];
   for(int i=0;i<numPlanes;i++){
     int pol=(random(100)<50)?-1:1;
@@ -25,8 +25,11 @@ void setup() {
   //planes can also be any Collection<WB_Plane>
   modifier.setOffset(0);// shift cut plane along normal
   modifier.setSimpleCap(false);
+  modifier.setOptimizeCap(true);
   slicedMesh.modify(modifier);
-  
+  slicedMesh.validate();
+  modifier.capFaces.collectEdgesByFace();
+
   render=new WB_Render(this);
 }
 
@@ -44,26 +47,31 @@ void draw() {
  HE_Selection faces=HE_Selection.selectFacesWithInternalLabel(slicedMesh,i);
     render.drawFaces(faces);//Multislice internally labels all faces with the index of the corresponding cutplane, -1 for part of an original face
   }
-  fill(255,0,0);
-  render.drawFaces(modifier.capFaces);
   
   noFill();
+    strokeWeight(1);
   stroke(0);
   render.drawEdges(mesh);
   stroke(255,0,0);
   for(int i=0;i<numPlanes;i++){
-  render.drawPlane(planes[i],400);
+  render.drawPlane(planes[i],600);
   }
+  strokeWeight(1.5);
+  render.drawEdges(modifier.capFaces);
+  
 
 }
 
 
 void createMesh(){
-  HEC_Torus creator=new HEC_Torus(80, 200, 6, 16);
+  HEC_Torus creator=new HEC_Torus(120, 300, 6, 16);
   mesh=new HE_Mesh(creator);
-  creator=new HEC_Torus(40, 200, 6, 16);
+  creator=new HEC_Torus(60, 300, 6, 16);
   HE_Mesh inner=new HE_Mesh(creator);
+  inner.modify(new HEM_Extrude().setDistance(48).setChamfer(0.8));
   HET_MeshOp.flipFaces(inner);
   mesh.add(inner);
+  mesh.smooth(2);
   slicedMesh=mesh.get();
+  
 }

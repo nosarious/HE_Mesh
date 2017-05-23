@@ -10,10 +10,10 @@
 package wblut.hemesh;
 
 import processing.core.PImage;
-import wblut.core.WB_Color;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_Point;
 import wblut.math.WB_MTRandom;
+import wblut.processing.WB_Color;
 import wblut.processing.WB_Render3D;
 
 public class HET_Texture {

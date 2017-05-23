@@ -17,10 +17,11 @@ void setup() {
   container=new HE_Mesh(creator);
   creator=new HEC_Torus(40, 200, 6, 16);
   HE_Mesh inner=new HE_Mesh(creator);
+   inner.modify(new HEM_Extrude().setDistance(32).setChamfer(0.8));
   HET_MeshOp.flipFaces(inner);
   container.add(inner);
 
-  container.smooth(2);
+  container.smooth();
 
   HE_FaceIterator fitr=container.fItr();
   while (fitr.hasNext()) {
@@ -39,9 +40,10 @@ void setup() {
   multiCreator.setPoints(points);
   multiCreator.setN(numpoints);
   multiCreator.setContainer(container);
-  multiCreator.setOffset(7.5);
+  multiCreator.setOffset(15);
   multiCreator.setSimpleCap(false);
   cells=multiCreator.create();
+
   render=new WB_Render(this);
 }
 

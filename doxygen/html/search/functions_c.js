@@ -3,7 +3,6 @@ var searchData=
   ['l',['l',['../classwblut_1_1hemesh_1_1_h_e_c___sea_shell.html#af0c914a323fb1205a39d76c070443d91',1,'wblut::hemesh::HEC_SeaShell']]],
   ['le',['le',['../classwblut_1_1hemesh_1_1_h_e_t___writer_p_l_y.html#a0b9fbeedfd17cacb2e2967f4022135a0',1,'wblut.hemesh.HET_WriterPLY.le(final float f)'],['../classwblut_1_1hemesh_1_1_h_e_t___writer_p_l_y.html#abb62c07b8642fdab5b2f144e15f92302',1,'wblut.hemesh.HET_WriterPLY.le(final int i)'],['../classwblut_1_1math_1_1_w_b___double_double.html#a4a5c192b133db45d306ade1723cbe795',1,'wblut.math.WB_DoubleDouble.le()']]],
   ['left',['left',['../classwblut_1_1hemesh_1_1_h_e_s___tri_dec_1_1_heap.html#a85fa4d31fc4147563f9ffaef7c614e6b',1,'wblut.hemesh.HES_TriDec.Heap.left()'],['../classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit_1_1_heap.html#ae60d89f479c956cab8a1d75019a79206',1,'wblut.hemesh.HES_TriDecLimit.Heap.left()']]],
-  ['legendre',['legendre',['../classwblut_1_1math_1_1_w_b___spherical_harmonics.html#ab9278e8647dbaae459de8057d1714065',1,'wblut::math::WB_SphericalHarmonics']]],
   ['lerp',['lerp',['../classwblut_1_1hemesh_1_1_h_e_c___super_duper.html#aff3f450b11cf4a254026368a4b08e509',1,'wblut::hemesh::HEC_SuperDuper']]],
   ['line',['line',['../classwblut_1_1processing_1_1_w_b___render3_d.html#a3af49d55e5f9206eb886cf45dec45510',1,'wblut::processing::WB_Render3D']]],
   ['line2d',['line2D',['../classwblut_1_1processing_1_1_w_b___render2_d.html#aeaffa99630ebcba48d84fb92f90f12bc',1,'wblut::processing::WB_Render2D']]],

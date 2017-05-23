@@ -10,7 +10,7 @@
 package wblut.hemesh;
 
 import wblut.geom.WB_Point;
-import wblut.geom.WB_PolygonTriangulator;
+import wblut.geom.WB_PolygonTriangulatorJTS;
 import wblut.geom.WB_Vector;
 import wblut.math.WB_Math;
 
@@ -180,9 +180,9 @@ public interface HET_InfoFace<E extends Object> {
 					he = he.getNextInFace();
 					i++;
 				} while (he != f.getHalfedge());
-				return WB_PolygonTriangulator.triangulateQuad(points[0], points[1], points[2], points[3]);
+				return WB_PolygonTriangulatorJTS.triangulateQuad(points[0], points[1], points[2], points[3]);
 			} else {
-				triangles = new WB_PolygonTriangulator().triangulatePolygon2D(f.toPolygon(), true).getTriangles();
+				triangles = new WB_PolygonTriangulatorJTS().triangulatePolygon2D(f.toPolygon(), true).getTriangles();
 			}
 			return triangles;
 		}

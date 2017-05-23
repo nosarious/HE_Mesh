@@ -26,6 +26,7 @@ import wblut.geom.WB_Coord;
 import wblut.geom.WB_GeometryFactory;
 import wblut.geom.WB_KDTree;
 import wblut.geom.WB_Map2D;
+import wblut.geom.WB_OrthoProject;
 import wblut.geom.WB_Plane;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Polygon;
@@ -62,10 +63,10 @@ class HET_PlanarPathTriangulator {
 	 * @param P
 	 * @return
 	 */
-	public static long[][] getTriangleKeys(final List<? extends HE_Path> paths, final WB_Plane P) {
+	public static long[] getTriangleKeys(final List<? extends HE_Path> paths, final WB_Plane P) {
 
 		tracker.setStatus("HET_PlanarPathTriangulator", "Starting planar path triangulation.", +1);
-		final WB_Map2D emb = geometryfactory.createEmbeddedPlane(P);
+		final WB_Map2D emb = new WB_OrthoProject(P);
 		final RingTree ringtree = new RingTree();
 		List<HE_Vertex> vertices;
 		Coordinate[] pts;
@@ -101,14 +102,16 @@ class HET_PlanarPathTriangulator {
 			}
 			counter.increment();
 		}
-		final long[][] trianglekeys = new long[triangles.size()][3];
+		final long[] trianglekeys = new long[3 * triangles.size()];
 		for (int i = 0; i < triangles.size(); i++) {
 			final WB_Coord[] tri = triangles.get(i);
 			final long key0 = vertextree.getNearestNeighbor(tri[0]).value;
 			final long key1 = vertextree.getNearestNeighbor(tri[1]).value;
 			final long key2 = vertextree.getNearestNeighbor(tri[2]).value;
 			// reverse triangles
-			trianglekeys[i] = new long[] { key0, key2, key1 };
+			trianglekeys[3 * i] = key0;
+			trianglekeys[3 * i + 1] = key2;
+			trianglekeys[3 * i + 2] = key1;
 		}
 		tracker.setStatus("HET_PlanarPathTriangulator", "All paths triangulated.", -1);
 		return trianglekeys;

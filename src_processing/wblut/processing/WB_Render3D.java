@@ -131,6 +131,82 @@ public class WB_Render3D extends WB_Render2D {
 		home.popMatrix();
 	}
 
+	/**
+	 * Draw WB_AABBTree node.
+	 *
+	 *
+	 * @param node
+	 *            the node
+	 */
+	public void drawAABBNode(final WB_AABBNode node) {
+		drawAABB(node.getAABB());
+		if (node.getChildA() != null) {
+			drawAABBNode(node.getChildA());
+		}
+		if (node.getChildB() != null) {
+			drawAABBNode(node.getChildB());
+		}
+	}
+
+	/**
+	 * Draw WB_AABBTree node.
+	 *
+	 * @param node
+	 *            the node
+	 * @param level
+	 *            the level
+	 */
+	private void drawAABBNode(final WB_AABBNode node, final int level) {
+		if (node.getLevel() == level) {
+			drawAABB(node.getAABB());
+		}
+		if (node.getLevel() < level) {
+			if (node.getChildA() != null) {
+				drawAABBNode(node.getChildA(), level);
+			}
+			if (node.getChildB() != null) {
+				drawAABBNode(node.getChildB(), level);
+			}
+		}
+	}
+
+	/**
+	 * Draw leaf node.
+	 *
+	 * @param node
+	 *            the node
+	 */
+	private void drawAABBLeafNode(final WB_AABBNode node) {
+		if (node.isLeaf()) {
+			drawAABB(node.getAABB());
+		} else {
+			if (node.getChildA() != null) {
+				drawAABBLeafNode(node.getChildA());
+			}
+			if (node.getChildB() != null) {
+				drawAABBLeafNode(node.getChildB());
+			}
+		}
+	}
+
+	/**
+	 * Draw leafs.
+	 *
+	 * @param tree
+	 *            the tree
+	 */
+	public void drawAABBLeafNodes(final WB_AABBTree tree) {
+		drawAABBLeafNode(tree.getRoot());
+	}
+
+	public void drawAABBTree(final WB_AABBTree tree) {
+		drawAABBNode(tree.getRoot());
+	}
+
+	public void drawAABBTree(final WB_AABBTree tree, final int level) {
+		drawAABBNode(tree.getRoot(), level);
+	}
+
 	public void drawAABB2D(final WB_AABB2D AABB) {
 		home.rect((float) AABB.getMinX(), (float) AABB.getMinY(), (float) AABB.getWidth(), (float) AABB.getHeight());
 	}
@@ -1946,38 +2022,6 @@ public class WB_Render3D extends WB_Render2D {
 	}
 
 	/**
-	 * Draw leaf node.
-	 *
-	 * @param node
-	 *            the node
-	 */
-	private void drawLeafNode(final WB_AABBNode node) {
-		if (node.isLeaf()) {
-			drawAABB(node.getAABB());
-		} else {
-			if (node.getPosChild() != null) {
-				drawLeafNode(node.getPosChild());
-			}
-			if (node.getNegChild() != null) {
-				drawLeafNode(node.getNegChild());
-			}
-			if (node.getMidChild() != null) {
-				drawLeafNode(node.getMidChild());
-			}
-		}
-	}
-
-	/**
-	 * Draw leafs.
-	 *
-	 * @param tree
-	 *            the tree
-	 */
-	public void drawLeafs(final WB_AABBTree tree) {
-		drawLeafNode(tree.getRoot());
-	}
-
-	/**
 	 *
 	 *
 	 * @param L
@@ -2038,6 +2082,9 @@ public class WB_Render3D extends WB_Render2D {
 		if (mesh == null) {
 			return;
 		}
+		if (mesh.getNumberOfVertices() == 0) {
+			return;
+		}
 		for (final int[] face : mesh.getFacesAsInt()) {
 			drawPolygon(face, mesh.getPoints());
 		}
@@ -2050,6 +2097,9 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 	public void drawMeshEdges(final WB_Mesh mesh) {
 		if (mesh == null) {
+			return;
+		}
+		if (mesh.getNumberOfVertices() == 0) {
 			return;
 		}
 		for (final int[] face : mesh.getFacesAsInt()) {
@@ -2066,52 +2116,11 @@ public class WB_Render3D extends WB_Render2D {
 		if (mesh == null) {
 			return;
 		}
+		if (mesh.getNumberOfVertices() == 0) {
+			return;
+		}
 		for (final int[] face : mesh.getFacesAsInt()) {
 			drawPolygon(face, mesh.getPoints());
-		}
-	}
-
-	/**
-	 * Draw node.
-	 *
-	 * @param node
-	 *            the node
-	 */
-	public void drawNode(final WB_AABBNode node) {
-		drawAABB(node.getAABB());
-		if (node.getPosChild() != null) {
-			drawNode(node.getPosChild());
-		}
-		if (node.getNegChild() != null) {
-			drawNode(node.getNegChild());
-		}
-		if (node.getMidChild() != null) {
-			drawNode(node.getMidChild());
-		}
-	}
-
-	/**
-	 * Draw node.
-	 *
-	 * @param node
-	 *            the node
-	 * @param level
-	 *            the level
-	 */
-	private void drawNode(final WB_AABBNode node, final int level) {
-		if (node.getLevel() == level) {
-			drawAABB(node.getAABB());
-		}
-		if (node.getLevel() < level) {
-			if (node.getPosChild() != null) {
-				drawNode(node.getPosChild(), level);
-			}
-			if (node.getNegChild() != null) {
-				drawNode(node.getNegChild(), level);
-			}
-			if (node.getMidChild() != null) {
-				drawNode(node.getMidChild(), level);
-			}
 		}
 	}
 
@@ -2123,7 +2132,7 @@ public class WB_Render3D extends WB_Render2D {
 	 * @param s
 	 *            the s
 	 */
-	public void drawNodes(final WB_Frame frame, final double s) {
+	public void drawFrameNodes(final WB_Frame frame, final double s) {
 		final ArrayList<WB_FrameNode> nodes = frame.getNodes();
 		for (int i = 0; i < frame.getNumberOfNodes(); i++) {
 			drawFrameNode(nodes.get(i), s);
@@ -2205,6 +2214,12 @@ public class WB_Render3D extends WB_Render2D {
 	 */
 
 	public void drawPoint(final WB_Coord[] points) {
+		for (final WB_Coord v : points) {
+			drawPoint(v);
+		}
+	}
+
+	public void drawPoint(final Collection<? extends WB_Coord> points) {
 		for (final WB_Coord v : points) {
 			drawPoint(v);
 		}
@@ -3214,15 +3229,6 @@ public class WB_Render3D extends WB_Render2D {
 		}
 	}
 
-	/**
-	 *
-	 *
-	 * @param tree
-	 */
-	public void drawTree(final WB_AABBTree tree) {
-		drawNode(tree.getRoot());
-	}
-
 	public void drawTree(final WB_OctreeInteger tree) {
 		if (tree.getNumNodes() == 0) {
 			drawAABB(tree.getBox());
@@ -3245,16 +3251,6 @@ public class WB_Render3D extends WB_Render2D {
 			}
 
 		}
-	}
-
-	/**
-	 *
-	 *
-	 * @param tree
-	 * @param level
-	 */
-	public void drawTree(final WB_AABBTree tree, final int level) {
-		drawNode(tree.getRoot(), level);
 	}
 
 	/**

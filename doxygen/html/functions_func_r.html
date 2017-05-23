@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">HE_Mesh
-   &#160;<span id="projectnumber">5.0.0</span>
+   &#160;<span id="projectnumber">5.1.0</span>
    </div>
   </td>
  </tr>
@@ -318,6 +318,9 @@ $(document).ready(function(){initNavTree('functions_func_r.html','');});
 <li>refineOnePass()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___frame.html#aaf6a427b00e561258e2d5883e11587d1">wblut.geom.WB_Frame</a>
 </li>
+<li>reinsertCollinearPoints()
+: <a class="el" href="classwblut_1_1geom_1_1_w_b___earcut.html#ab11e524386a2ae655e5e0a2fe12e9397">wblut.geom.WB_Earcut</a>
+</li>
 <li>relativeSideOfLine2D()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___predicates.html#af7a38c11b9ea3de6bdb9530969ffa81d">wblut.geom.WB_Predicates</a>
 </li>
@@ -418,6 +421,7 @@ $(document).ready(function(){initNavTree('functions_func_r.html','');});
 , <a class="el" href="interfacewblut_1_1geom_1_1_w_b___random_point.html#a6a30abda0d28a65879afc9441a84a3b1">wblut.geom.WB_RandomPoint</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___random_rectangle.html#a54f8c8973553ec0373ffdd106be5e3e9">wblut.geom.WB_RandomRectangle</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___random_segment.html#a12bc96a7a45bb1e26c56da9611b67d30">wblut.geom.WB_RandomSegment</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___random_spherical.html#a348d75d11f4e1f4cf8d1c11620d2ef56">wblut.geom.WB_RandomSpherical</a>
 , <a class="el" href="classwblut_1_1math_1_1_w_b___m_t_random.html#a08c06297d9056862bdf0789cc7ac394f">wblut.math.WB_MTRandom</a>
 </li>
 <li>resetCenter()
@@ -504,19 +508,19 @@ $(document).ready(function(){initNavTree('functions_func_r.html','');});
 </li>
 <li>rotateAboutAxisInto()
 : <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coordinate_transform3_d.html#a404337dcde236af281a9a618382d12fa">wblut.geom.WB_CoordinateTransform3D</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a7562e3c9ba925b52bb1598034a9ce80e">wblut.geom.WB_Point</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a0bfa8c797e4a79681e8f1c7ab124dcb5">wblut.geom.WB_Vector</a>
-, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a4a5880b15b449c4e422790cd37336b4a">wblut.hemesh.HE_Vertex</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a90bbcd7836ff38e6ce83f539c092ebcb">wblut.geom.WB_Point</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#ad8d31944c5123d1f28c2cfa7c492eb12">wblut.geom.WB_Vector</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a44dec53676ebc14b0a2f87d739120ed2">wblut.hemesh.HE_Vertex</a>
 </li>
 <li>rotateAboutAxisSelf()
-: <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coordinate_transform3_d.html#a36f741f27c940799635da3c91fa38c85">wblut.geom.WB_MutableCoordinateTransform3D</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a03beeabe2bc656259b8c9e1b8762e1f8">wblut.geom.WB_Point</a>
+: <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coordinate_transform3_d.html#aca5700fa6b9a8037c5658d2384020973">wblut.geom.WB_MutableCoordinateTransform3D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a4497520bfb129b0526b5b528d802b9d5">wblut.geom.WB_Point</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a6f0340bf6e6d3602b1fd650037a2712c">wblut.geom.WB_Vector</a>
 , <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html#a63387dcc81f8c5bd21a50178d9b5d251">wblut.hemesh.HE_Mesh</a>
 , <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a1a0b5024005ca5c091c09c1ff8f3b75d">wblut.hemesh.HE_Vertex</a>
 </li>
 <li>rotateAboutCenter()
-: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html#a433280afa40e868fc4122ef3ed342f33">wblut.hemesh.HE_Mesh</a>
+: <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html#aa6375c2f7ed5c1323caa2db3908991a9">wblut.hemesh.HE_Mesh</a>
 </li>
 <li>rotateAboutCenterSelf()
 : <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html#a01ce5a49fdc9cd28c6992d16547e867c">wblut.hemesh.HE_Mesh</a>
@@ -526,7 +530,7 @@ $(document).ready(function(){initNavTree('functions_func_r.html','');});
 , <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coordinate_transform3_d.html#af9ed16b0d267a4a712311c8d33377f48">wblut.geom.WB_CoordinateTransform3D</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a1bd840262900a767025f361ab8a553dd">wblut.geom.WB_Point</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a91b978ba25f5d690d7cd3231962106e3">wblut.geom.WB_Vector</a>
-, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html#a288343d9ffbadec34406f54de6582057">wblut.hemesh.HE_Mesh</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html#ad0693eb58c93607678aba72227857d61">wblut.hemesh.HE_Mesh</a>
 , <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#ae51861763c3ad8db8d7700c1d830e9fd">wblut.hemesh.HE_Vertex</a>
 </li>
 <li>rotateAboutOrigin2D()
@@ -553,38 +557,41 @@ $(document).ready(function(){initNavTree('functions_func_r.html','');});
 </li>
 <li>rotateAboutOriginInto()
 : <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coordinate_transform3_d.html#a0d3f63a7823e0b341dd7f69ea1028ad2">wblut.geom.WB_CoordinateTransform3D</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a39569fd57db45ab35c6da32947a2e014">wblut.geom.WB_Point</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a0e5e36760d3164482c142cc463f9c43f">wblut.geom.WB_Point</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a01d1721501fbb15dd309f45fdb255323">wblut.geom.WB_Vector</a>
 , <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a5b45ef2d879a8a29be59fa652dc0a28d">wblut.hemesh.HE_Vertex</a>
 </li>
 <li>rotateAboutOriginSelf()
 : <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coordinate_transform3_d.html#a5d431f2662c0693dd184f88a38a9a7bf">wblut.geom.WB_MutableCoordinateTransform3D</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#ab8a32b127e97160c93cbfa0d1bb7d474">wblut.geom.WB_Point</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#afb5c6a9107c56747999ab7af60a054ad">wblut.geom.WB_Vector</a>
-, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html#a9564fbfa183eeb03df522d16e394b509">wblut.hemesh.HE_Mesh</a>
-, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a0fb86afb1076d35e2f4f84688d9f7a38">wblut.hemesh.HE_Vertex</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a935416f9d52002354b302902e3b46aac">wblut.geom.WB_Vector</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___mesh.html#ae436d7818eed444603e42da27e89baa6">wblut.hemesh.HE_Mesh</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a939c3703ecb87d22697759063b7d0ea8">wblut.hemesh.HE_Vertex</a>
 </li>
 <li>rotateAboutPoint2D()
-: <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coordinate_transform2_d.html#adef432934c93ef86306308f1cb77bd2c">wblut.geom.WB_CoordinateTransform2D</a>
+: <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coordinate_transform2_d.html#ac1bb79c516878bfd63dcaf76b4f86f3f">wblut.geom.WB_CoordinateTransform2D</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a0541f8227693185fd6089ae8ee9b762d">wblut.geom.WB_Point</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a013c4e4e9065736971abab5724f9d63c">wblut.geom.WB_Vector</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector2_d.html#ac5156c663982d885e964fa37e9d8295d">wblut.geom.WB_Vector2D</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector2_d.html#ad83290c3d97d5231c5a04fc67f1009d8">wblut.geom.WB_Vector2D</a>
 , <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#aad4ac337127f109fd40a68a4b2e64b00">wblut.hemesh.HE_Vertex</a>
 </li>
 <li>rotateAboutPoint2DInto()
-: <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coordinate_transform2_d.html#a0318ba5b9f785fe127a39d24e9ba3a4f">wblut.geom.WB_CoordinateTransform2D</a>
+: <a class="el" href="interfacewblut_1_1geom_1_1_w_b___coordinate_transform2_d.html#ac834226fc0845312105ab0050db66ce1">wblut.geom.WB_CoordinateTransform2D</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#a2f8a6c5c04eb548c9bf8817543ac88ed">wblut.geom.WB_Point</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a20225d797d2f68a1da9a0a7f6b4dad3d">wblut.geom.WB_Vector</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a26e85eaf8a2fcfb2b0f56f559ad55af1">wblut.geom.WB_Vector</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___vector2_d.html#a54dbc65ac8572e2bf5f21ce79de0a40f">wblut.geom.WB_Vector2D</a>
-, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#af9e1b5bb8c3466813231ed023a96314b">wblut.hemesh.HE_Vertex</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#a3aafc1d48b1761f411778f7457a8d128">wblut.hemesh.HE_Vertex</a>
 </li>
 <li>rotateAboutPoint2DSelf()
-: <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coordinate_transform2_d.html#af96a7bde237b52f33be31c5093774d9e">wblut.geom.WB_MutableCoordinateTransform2D</a>
+: <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coordinate_transform2_d.html#a9c9209df4dcdf700bf7b4e1d1ebf2e02">wblut.geom.WB_MutableCoordinateTransform2D</a>
 , <a class="el" href="interfacewblut_1_1geom_1_1_w_b___mutable_coordinate_transform3_d.html#af76508cb958484652759469b7d96217d">wblut.geom.WB_MutableCoordinateTransform3D</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#ae0bec3dff150bc44d6695a39cb0f08ce">wblut.geom.WB_Point</a>
-, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a05b9a1c65342f5613d7d69ae5647bb92">wblut.geom.WB_Vector</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___point.html#ad62e5c322f3ab090c7532e005618b228">wblut.geom.WB_Point</a>
+, <a class="el" href="classwblut_1_1geom_1_1_w_b___vector.html#a0d4eda1904aab56d13f3271621500fc9">wblut.geom.WB_Vector</a>
 , <a class="el" href="classwblut_1_1geom_1_1_w_b___vector2_d.html#aa4676c753aacc5f52dd405d8c0031983">wblut.geom.WB_Vector2D</a>
-, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#ab64dcbc6ce15321e2dc4da642bec17e0">wblut.hemesh.HE_Vertex</a>
+, <a class="el" href="classwblut_1_1hemesh_1_1_h_e___vertex.html#ada326582e10114afea4841447e40bf86">wblut.hemesh.HE_Vertex</a>
+</li>
+<li>rotateSpherical()
+: <a class="el" href="classwblut_1_1math_1_1_w_b___spherical_harmonics.html#aea51142c0d4325a7c7bf692c5c5ebc64">wblut.math.WB_SphericalHarmonics</a>
 </li>
 <li>rotateX()
 : <a class="el" href="classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html#a5631b4ece0e1dbf24ed5cdd9675cbfdf">wblut.geom.WB_CoordinateSystem3D</a>
@@ -640,7 +647,7 @@ $(document).ready(function(){initNavTree('functions_func_r.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Mar 6 2017 00:10:14 for HE_Mesh by
+    <li class="footer">Generated on Tue May 23 2017 18:38:26 for HE_Mesh by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
   </ul>

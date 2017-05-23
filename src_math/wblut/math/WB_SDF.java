@@ -656,7 +656,7 @@ public class WB_SDF {
 			double columnradius = r * sqrt(2) / ((n - 1) * 2 + sqrt(2));
 			pR45(p);
 			p.subSelf(sqrt(2) / 2 * r, 0, 0);
-			p.addSelf(columnradius * sqrt(2));
+			p.addSelf(columnradius * sqrt(2), columnradius * sqrt(2), columnradius * sqrt(2));
 			if (n % 2 == 1) {
 				p.addSelf(0, columnradius, 0);
 			}

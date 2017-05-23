@@ -34,7 +34,7 @@ var searchData=
   ['vheirevcrc',['vheiRevCrc',['../classwblut_1_1hemesh_1_1_h_e___vertex.html#af83e52cce52570fc630ac9ba3245bb4f',1,'wblut::hemesh::HE_Vertex']]],
   ['vheocrc',['vheoCrc',['../classwblut_1_1hemesh_1_1_h_e___vertex.html#a51b1baa25d1276b7899bfe7a2a09f091',1,'wblut::hemesh::HE_Vertex']]],
   ['vheorevcrc',['vheoRevCrc',['../classwblut_1_1hemesh_1_1_h_e___vertex.html#a0d7952d801b01bbcae2f6309474b8abb',1,'wblut::hemesh::HE_Vertex']]],
-  ['viridis',['VIRIDIS',['../classwblut_1_1core_1_1_w_b___color.html#acbe4ab06cb7095b337775fd85a657543',1,'wblut::core::WB_Color']]],
+  ['viridis',['VIRIDIS',['../classwblut_1_1processing_1_1_w_b___color.html#af989e8ecd275b1ab9aa81f5f7cc1a690',1,'wblut::processing::WB_Color']]],
   ['visible',['visible',['../classwblut_1_1hemesh_1_1_h_e___mesh_element.html#ab9157b45a0cc43a978498d94a39545b6',1,'wblut::hemesh::HE_MeshElement']]],
   ['visit',['visit',['../classwblut_1_1hemesh_1_1_h_e_t___m_t_visitor_edge.html#a608f5b2e5948bc29f34a3e86b4fe1109',1,'wblut.hemesh.HET_MTVisitorEdge.visit()'],['../classwblut_1_1hemesh_1_1_h_e_t___m_t_visitor_face.html#afc0eca6794f3289dea99d01ca32695c0',1,'wblut.hemesh.HET_MTVisitorFace.visit()'],['../classwblut_1_1hemesh_1_1_h_e_t___m_t_visitor_vertex.html#a328111dfd5a15fa3e456c7b2065fc538',1,'wblut.hemesh.HET_MTVisitorVertex.visit()']]],
   ['visited',['visited',['../classwblut_1_1hemesh_1_1_h_e___mesh_element.html#a6bd72ae7ae541d9408df397a41964d84',1,'wblut::hemesh::HE_MeshElement']]],

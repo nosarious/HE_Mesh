@@ -167,7 +167,6 @@ public class HEM_SliceSurface extends HEM_Modifier {
 		counter = new WB_ProgressCounter(faces.getNumberOfEdges(), 10);
 
 		tracker.setStatus(this, "Classifying edges.", counter);
-		new ArrayList<HE_Vertex>();
 		final HE_Selection split = new HE_Selection(mesh);
 		final FastMap<Long, Double> edgeInt = new FastMap<Long, Double>();
 		final Iterator<HE_Halfedge> eItr = faces.eItr();

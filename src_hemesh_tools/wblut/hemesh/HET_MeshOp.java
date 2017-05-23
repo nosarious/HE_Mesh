@@ -1716,62 +1716,7 @@ public class HET_MeshOp {
 	 * @return
 	 */
 	public static HE_Mesh flipFaces(final HE_Mesh mesh) {
-		tracker.setStatusByString("HET_MeshOp", "Flipping faces.", +1);
-		WB_ProgressCounter counter = new WB_ProgressCounter(mesh.getNumberOfEdges(), 10);
-		tracker.setStatusByString("HET_MeshOp", "Reversing edges.", counter);
-		HE_Halfedge he1;
-		HE_Halfedge he2;
-		HE_Vertex tmp;
-		HE_Halfedge[] prevHe;
-		HE_TextureCoordinate[] nextHeUVW;
-		HE_Halfedge he;
-		mesh.clearVisitedElements();
-		prevHe = new HE_Halfedge[mesh.getNumberOfHalfedges()];
-		nextHeUVW = new HE_TextureCoordinate[mesh.getNumberOfHalfedges()];
-		int i = 0;
-		HE_HalfedgeIterator heItr = mesh.heItr();
-		counter = new WB_ProgressCounter(2 * mesh.getNumberOfHalfedges(), 10);
-		tracker.setStatusByString("HET_MeshOp", "Reordering halfedges.", counter);
-		while (heItr.hasNext()) {
-			he = heItr.next();
-			prevHe[i] = he.getPrevInFace();
-			nextHeUVW[i] = he.getNextInFace().hasHalfedgeUVW() ? he.getNextInFace().getHalfedgeUVW() : null;
-			i++;
-			counter.increment();
-		}
-		i = 0;
-		heItr = mesh.heItr();
-		while (heItr.hasNext()) {
-			he = heItr.next();
-			mesh.setNext(he, prevHe[i]);
-			if (nextHeUVW[i] == null) {
-				he.clearUVW();
-			} else {
-				he.setUVW(nextHeUVW[i]);
-			}
-			i++;
-			counter.increment();
-		}
-		counter = new WB_ProgressCounter(2 * mesh.getNumberOfEdges(), 10);
-		tracker.setStatusByString("HET_MeshOp", "Flipping edges.", counter);
-
-		final HE_EdgeIterator eItr = mesh.eItr();
-		while (eItr.hasNext()) {
-			he1 = eItr.next();
-			he2 = he1.getPair();
-			tmp = he1.getVertex();
-			mesh.setVertex(he1, he2.getVertex());
-
-			mesh.setVertex(he2, tmp);
-
-			mesh.setHalfedge(he1.getVertex(), he1);
-
-			mesh.setHalfedge(he2.getVertex(), he2);
-
-			counter.increment();
-		}
-
-		tracker.setStatusByString("HET_MeshOp", "Faces flipped.", -1);
+		mesh.modify(new HEM_FlipFaces());
 		return mesh;
 	}
 
@@ -1834,6 +1779,11 @@ public class HET_MeshOp {
 			return false;
 		}
 
+		// not planar
+		if (Math.PI - he.getEdgeDihedralAngle() > WB_Epsilon.EPSILON) {
+			return false;
+		}
+
 		// flip would result in overlapping triangles, this detected by
 		// comparing the areas of the two triangles before and after.
 		WB_Plane P = new WB_Plane(he.getHalfedgeCenter(), he.getEdgeNormal());
@@ -1859,6 +1809,7 @@ public class HET_MeshOp {
 		final HE_Halfedge he2t2 = he1t2.getNextInFace();
 		final HE_Halfedge he3t1 = he2t1.getNextInFace();
 		final HE_Halfedge he3t2 = he2t2.getNextInFace();
+
 		final HE_Face t1 = he1t1.getFace();
 		final HE_Face t2 = he1t2.getFace();
 		// Fix vertex assignment
@@ -1882,6 +1833,111 @@ public class HET_MeshOp {
 		mesh.setHalfedge(t2, he1t2);
 
 		return true;
+	}
+
+	public static boolean flipEdgeConditional(final HE_Mesh mesh, final HE_Halfedge he) {
+
+		// boundary edge
+		if (he.getFace() == null) {
+			return false;
+		}
+		// not a triangle
+		if (he.getFace().getFaceOrder() != 3) {
+			return false;
+		}
+		// unpaired edge
+		if (he.getPair() == null) {
+			return false;
+		}
+		// boundary edge
+		if (he.getPair().getFace() == null) {
+			return false;
+		}
+		// not a triangle
+		if (he.getPair().getFace().getFaceOrder() != 3) {
+			return false;
+		}
+
+		// flip would result in overlapping triangles, this detected by
+		// comparing the areas of the two triangles before and after.
+		WB_Plane P = new WB_Plane(he.getHalfedgeCenter(), he.getEdgeNormal());
+		final WB_Coord a = WB_GeometryOp3D.projectOnPlane(he.getVertex(), P);
+		final WB_Coord b = WB_GeometryOp3D.projectOnPlane(he.getNextInFace().getVertex(), P);
+		final WB_Coord c = WB_GeometryOp3D.projectOnPlane(he.getNextInFace().getNextInFace().getVertex(), P);
+		final WB_Coord d = WB_GeometryOp3D.projectOnPlane(he.getPair().getNextInFace().getNextInFace().getVertex(), P);
+
+		double Ai = WB_GeometryOp3D.getArea(a, b, c);
+		Ai += WB_GeometryOp3D.getArea(a, d, b);
+		double Af = WB_GeometryOp3D.getArea(a, d, c);
+		Af += WB_GeometryOp3D.getArea(c, d, b);
+		final double ratio = Ai / Af;
+		if (ratio > 1.000001 || ratio < 0.99999) {
+			return false;
+		}
+
+		// get the 3 edges of triangle t1 and t2, he1t1 and he1t2 is the edge to
+		// be flipped
+		final HE_Halfedge he1t1 = he;
+		final HE_Halfedge he1t2 = he.getPair();
+		final HE_Halfedge he2t1 = he1t1.getNextInFace();
+		final HE_Halfedge he2t2 = he1t2.getNextInFace();
+		final HE_Halfedge he3t1 = he2t1.getNextInFace();
+		final HE_Halfedge he3t2 = he2t2.getNextInFace();
+
+		// Don't flip if the new triangle edge is equal or longer than the
+		// current one.
+		if (he1t1.getSqLength() <= he2t1.getEndVertex().getSqDistance(he2t2.getEndVertex())) {
+			return false;
+		}
+
+		final HE_Face t1 = he1t1.getFace();
+		final HE_Face t2 = he1t2.getFace();
+		// Fix vertex assignment
+		// First make sure the original vertices get assigned another halfedge
+		mesh.setHalfedge(he1t1.getVertex(), he2t2);
+		mesh.setHalfedge(he1t2.getVertex(), he2t1);
+		// Now assign the new vertices to the flipped edges
+		mesh.setVertex(he1t1, he3t1.getVertex());
+		mesh.setVertex(he1t2, he3t2.getVertex());
+		// Reconstruct triangle t1
+		mesh.setNext(he2t1, he1t1);
+		mesh.setNext(he1t1, he3t2);
+		mesh.setNext(he3t2, he2t1);
+		mesh.setFace(he3t2, t1);
+		mesh.setHalfedge(t1, he1t1);
+		// reconstruct triangle t2
+		mesh.setNext(he2t2, he1t2);
+		mesh.setNext(he1t2, he3t1);
+		mesh.setNext(he3t1, he2t2);
+		mesh.setFace(he3t1, t2);
+		mesh.setHalfedge(t2, he1t2);
+
+		return true;
+	}
+
+	public static void improvePlanarTriangulation(final HE_Mesh mesh, final HE_Selection triangles) {
+		if (mesh != triangles.parent) {
+			return;
+		}
+		HE_Selection sel = new HE_Selection(mesh);
+		sel.addFaces(triangles.faces);
+		int flip;
+		do {
+			sel.clearEdges();
+			sel.collectEdgesByFace();
+			List<HE_Halfedge> check = sel.getInnerEdges();
+			flip = 0;
+			boolean flipped;
+			for (HE_Halfedge e : check) {
+				flipped = HET_MeshOp.flipEdgeConditional(mesh, e);
+				if (flipped) {
+					flip++;
+				}
+
+			}
+
+		} while (flip > 0);
+
 	}
 
 	/**
@@ -3475,10 +3531,8 @@ public class HET_MeshOp {
 
 	public static double getVolume(final HE_Mesh mesh) {
 		WB_Coord c = mesh.getCenter();
-		HE_Mesh trimesh = mesh.get();
-		trimesh.triangulate();
 		double volume = 0.0;
-		HE_FaceIterator fItr = trimesh.fItr();
+		HE_FaceIterator fItr = mesh.fItr();
 		while (fItr.hasNext()) {
 			volume += signedVolume(fItr.next(), c);
 		}
@@ -3486,17 +3540,33 @@ public class HET_MeshOp {
 	}
 
 	private static double signedVolume(final HE_Face f, final WB_Coord center) {
-		HE_Halfedge he = f.getHalfedge();
-		WB_Coord p1 = he.getVertex().sub(center);
-		he = he.getNextInFace();
-		WB_Coord p2 = he.getVertex().sub(center);
-		he = he.getNextInFace();
-		WB_Coord p3 = he.getVertex().sub(center);
-		return 1.0 / 6.0 * (-p3.xd() * p2.yd() * p1.zd() + p2.xd() * p3.yd() * p1.zd() + p3.xd() * p1.yd() * p2.zd()
-				- p1.xd() * p3.yd() * p2.zd() - p2.xd() * p1.yd() * p3.zd() + p1.xd() * p2.yd() * p3.zd());
+		int[] triangles = f.getTriangles();
+		List<HE_Vertex> vertices = f.getFaceVertices();
+		double sgnvol = 0;
+		for (int i = 0; i < triangles.length; i += 3) {
+			WB_Coord p1 = vertices.get(triangles[i]).sub(center);
 
+			WB_Coord p2 = vertices.get(triangles[i + 1]).sub(center);
+
+			WB_Coord p3 = vertices.get(triangles[i + 2]).sub(center);
+
+			sgnvol += 1.0 / 6.0
+					* (-p3.xd() * p2.yd() * p1.zd() + p2.xd() * p3.yd() * p1.zd() + p3.xd() * p1.yd() * p2.zd()
+							- p1.xd() * p3.yd() * p2.zd() - p2.xd() * p1.yd() * p3.zd() + p1.xd() * p2.yd() * p3.zd());
+
+		}
+		return sgnvol;
 	}
 
+	/**
+	 * Get the closest point to triangle face and its normal.
+	 *
+	 * @param p
+	 *            point
+	 * @param T
+	 * @return WB_Coord[2], first WB_Coord is the closest point, second WB_Coord
+	 *         is the normal
+	 */
 	public static WB_Coord[] getClosestPointToTriangleFace(final WB_Coord p, final HE_Face T) {
 		WB_Coord p1 = T.getHalfedge().getVertex();
 		WB_Coord p2 = T.getHalfedge().getNextInFace().getVertex();
@@ -3546,6 +3616,27 @@ public class HET_MeshOp {
 		final double v = vb * denom;
 		final double w = vc * denom;
 		return new WB_Coord[] { new WB_Point(p1).addSelf(ab.mulSelf(v).addSelf(ac.mulSelf(w))), T.getFaceNormal() };
+	}
+
+	public static WB_Coord[] getClosestPointToTriangleMesh(final WB_Coord p, final HE_Mesh mesh) {
+		HE_Mesh tris = mesh.get();
+		tris.triangulate();
+		double d2;
+		double d2max = Double.POSITIVE_INFINITY;
+		WB_Coord[] resultmax = null;
+		WB_Coord[] result;
+		HE_FaceIterator fItr = tris.fItr();
+		HE_Face tri;
+		while (fItr.hasNext()) {
+			tri = fItr.next();
+			result = getClosestPointToTriangleFace(p, tri);
+			d2 = WB_Point.getSqDistance3D(p, result[0]);
+			if (d2 < d2max) {
+				d2max = d2;
+				resultmax = result;
+			}
+		}
+		return resultmax;
 	}
 
 }

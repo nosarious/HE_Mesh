@@ -33,6 +33,8 @@ public class HEM_Slice extends HEM_Modifier {
 	/** The simple cap. */
 	private boolean simpleCap = true;
 
+	private boolean optimizeCap = false;
+
 	/** Store cut faces. */
 	public HE_Selection cutFaces;
 	/** Store cap faces. */
@@ -134,6 +136,11 @@ public class HEM_Slice extends HEM_Modifier {
 		return this;
 	}
 
+	public HEM_Slice setOptimizeCap(final boolean b) {
+		optimizeCap = b;
+		return this;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -202,15 +209,15 @@ public class HEM_Slice extends HEM_Modifier {
 
 				} else {
 					tracker.setStatus(this, "Triangulating cut paths.", 0);
-					final long[][] triKeys = HET_PlanarPathTriangulator.getTriangleKeys(cutpaths, lP);
+					final long[] triKeys = HET_PlanarPathTriangulator.getTriangleKeys(cutpaths, lP);
 					HE_Face tri = null;
 					HE_Vertex v0, v1, v2;
 					HE_Halfedge he0, he1, he2;
-					for (int i = 0; i < triKeys.length; i++) {
+					for (int i = 0; i < triKeys.length; i += 3) {
 						tri = new HE_Face();
-						v0 = mesh.getVertexWithKey(triKeys[i][0]);
-						v1 = mesh.getVertexWithKey(triKeys[i][1]);
-						v2 = mesh.getVertexWithKey(triKeys[i][2]);
+						v0 = mesh.getVertexWithKey(triKeys[i]);
+						v1 = mesh.getVertexWithKey(triKeys[i + 1]);
+						v2 = mesh.getVertexWithKey(triKeys[i + 2]);
 						he0 = new HE_Halfedge();
 						he1 = new HE_Halfedge();
 						he2 = new HE_Halfedge();
@@ -236,7 +243,10 @@ public class HEM_Slice extends HEM_Modifier {
 		}
 		mesh.pairHalfedges();
 		mesh.capHalfedges();
+		if (optimizeCap) {
+			HET_MeshOp.improvePlanarTriangulation(mesh, capFaces);
 
+		}
 		tracker.setStatus(this, "Ending HEM_Slice.", -1);
 		return mesh;
 	}

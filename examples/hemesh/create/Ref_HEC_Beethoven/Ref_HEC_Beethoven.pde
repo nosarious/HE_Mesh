@@ -7,7 +7,6 @@ import wblut.processing.*;
 
 HE_Mesh mesh;
 WB_Render3D render;
-int counter;
 
 
 void setup() {

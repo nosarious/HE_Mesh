@@ -18,6 +18,63 @@ import wblut.geom.WB_Segment;
  */
 public class HET_Contours {
 
+	public static List<List<WB_Coord>> contoursAsPaths(final HE_Mesh mesh, final WB_Plane P) {
+		HE_Mesh lmesh = mesh;
+		lmesh.triangulate();
+		HE_Mesh slmesh = lmesh.get();
+
+		HEM_SliceSurface ss = new HEM_SliceSurface().setPlane(P);
+		slmesh.modify(ss);
+		List<HE_Path> paths = ss.getPaths();
+		List<List<WB_Coord>> contours = new FastTable<List<WB_Coord>>();
+		for (HE_Path path : paths) {
+			List<WB_Coord> contour = new FastTable<WB_Coord>();
+			contour.addAll(path.getPathVertices());
+			if (path.isLoop()) {
+				contour.add(path.getPathVertices().get(0));
+			}
+			contours.add(contour);
+		}
+
+		return contours;
+
+	}
+
+	public static List<List<WB_Coord>> contoursAsPaths(final HE_Mesh mesh, final WB_Plane P, final double min,
+			final double max, final double step) {
+		double start = Math.min(min, max);
+		double end = Math.max(min, max);
+		double inc = Math.abs(step);
+
+		HE_Mesh lmesh = mesh;
+		lmesh.triangulate();
+
+		List<List<WB_Coord>> contours = new FastTable<List<WB_Coord>>();
+		for (double offset = start; offset <= end; offset += inc) {
+			WB_Plane offsetP = new WB_Plane(P.getOrigin().addMul(offset, P.getNormal()), P.getNormal());
+			HE_Mesh slmesh = lmesh.get();
+
+			HEM_SliceSurface ss = new HEM_SliceSurface().setPlane(offsetP);
+			slmesh.modify(ss);
+			List<HE_Path> paths = ss.getPaths();
+
+			for (HE_Path path : paths) {
+				List<WB_Coord> contour = new FastTable<WB_Coord>();
+				for (WB_Coord p : path.getPathVertices()) {
+					contour.add(new WB_Point(p));
+				}
+				if (path.isLoop()) {
+					contour.add(new WB_Point(path.getPathVertices().get(0)));
+				}
+				contours.add(contour);
+			}
+			paths = null;
+			slmesh = null;
+		}
+		return contours;
+
+	}
+
 	public static List<WB_Segment> contours(final HE_Mesh mesh, final WB_Plane P) {
 		double A, B, C, D;
 		double[] side = new double[3];

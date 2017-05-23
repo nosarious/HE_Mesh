@@ -61,17 +61,7 @@ public class HEM_CapHoles extends HEM_Modifier {
 				for (int i = 0; i < unpairedEdges.size(); i++) {
 					hen = unpairedEdges.get(i);
 					if (hen.getVertex() == he.getNextInFace().getVertex()) {
-						if (i > 0 && loopedHalfedges.contains(hen)) {// loop
-																		// found
-																		// but
-																		// not
-																		// in
-																		// start,
-																		// throw
-																		// start
-																		// out
-																		// and
-																		// redo
+						if (i > 0 && loopedHalfedges.contains(hen)) {
 							abort = true;
 							unpairedEdges.remove(start);
 						}

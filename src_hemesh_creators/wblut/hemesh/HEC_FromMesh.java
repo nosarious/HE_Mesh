@@ -105,6 +105,9 @@ public class HEC_FromMesh extends HEC_Creator {
 		if (source == null) {
 			return mesh;
 		}
+		if (source.getNumberOfVertices() == 0) {
+			return mesh;
+		}
 		final int[][] faces = source.getFacesAsInt();
 		final List<HE_Vertex> uniqueVertices = getUniqueVertices(mesh);
 		if (normalcheck) {

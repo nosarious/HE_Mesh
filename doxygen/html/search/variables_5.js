@@ -3,7 +3,7 @@ var searchData=
   ['e',['E',['../classwblut_1_1math_1_1_w_b___double_double.html#a2392b41cb46ed186d3280d71a1fbf6a6',1,'wblut::math::WB_DoubleDouble']]],
   ['edgefaces',['edgeFaces',['../classwblut_1_1hemesh_1_1_h_e_s___doo_sabin.html#a13a9f759e0b74c97a5606088b892e4e0',1,'wblut::hemesh::HES_DooSabin']]],
   ['edgefactor',['edgeFactor',['../classwblut_1_1hemesh_1_1_h_e_s___doo_sabin.html#a7748fdf036620ffe4149591dcd21539f',1,'wblut::hemesh::HES_DooSabin']]],
-  ['edges',['edges',['../classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#ad418173dd9b5546c4be714c12a8dd272',1,'wblut::hemesh::HE_MeshStructure']]],
+  ['edges',['edges',['../classwblut_1_1geom_1_1_w_b___triangulation2_d.html#a226d2a7b196f847ac3ebd7cdd0c9623d',1,'wblut.geom.WB_Triangulation2D.edges()'],['../classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#ad418173dd9b5546c4be714c12a8dd272',1,'wblut.hemesh.HE_MeshStructure.edges()']]],
   ['elastic',['elastic',['../classwblut_1_1math_1_1_w_b___ease.html#ac97f1a01dc557dee7c99097e829d9570',1,'wblut::math::WB_Ease']]],
   ['end',['end',['../classwblut_1_1geom_1_1_w_b___frame_1_1_w_b___frame_strut.html#a733f66f083dc84f5d4c0a78b6f633b11',1,'wblut::geom::WB_Frame::WB_FrameStrut']]],
   ['endpoint',['endpoint',['../classwblut_1_1geom_1_1_w_b___segment.html#aae77265587a6971290ef9e52b473c14c',1,'wblut::geom::WB_Segment']]],

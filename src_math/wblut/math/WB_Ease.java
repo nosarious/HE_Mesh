@@ -47,12 +47,20 @@ public class WB_Ease {
 
 	private static final double pmn = 1.70158; // Penner’s Magic Number.
 
+	public static enum EaseType {
+		IN, OUT, INOUT
+	};// 0= in, 1=out, 2=inout
+
 	public static interface Ease {
+		public double ease(EaseType type, double t, double... parameters);
+
 		public double easeIn(double t, double... parameters);
 
 		public double easeOut(double t, double... parameters);
 
 		public double easeInOut(double t, double... parameters);
+
+		public double ease(EaseType type, double t);
 
 		public double easeIn(double t);
 
@@ -75,7 +83,38 @@ public class WB_Ease {
 
 	// simple linear tweening - no easing, no acceleration
 
-	public static class EaseLinear implements Ease {
+	static abstract class EaseAbstract implements Ease {
+
+		@Override
+		public double ease(final EaseType type, final double t, final double... params) {
+			switch (type) {
+			case IN:
+				return easeIn(t, params);
+			case OUT:
+				return easeOut(t, params);
+			default:
+				return easeInOut(t, params);
+
+			}
+		};
+
+		@Override
+		public double ease(final EaseType type, final double t) {
+			switch (type) {
+			case IN:
+				return easeIn(t);
+			case OUT:
+				return easeOut(t);
+			default:
+				return easeInOut(t);
+
+			}
+		};
+
+	}
+
+	public static class EaseLinear extends EaseAbstract {
+
 		@Override
 		public double easeIn(final double t, final double... params) {
 			return params[1] * t / params[2] + params[20];
@@ -107,7 +146,7 @@ public class WB_Ease {
 		};
 	}
 
-	public static class EaseQuad implements Ease {
+	public static class EaseQuad extends EaseAbstract {
 		@Override
 		public double easeIn(double t, final double... params) {
 			t /= params[2];
@@ -157,7 +196,7 @@ public class WB_Ease {
 
 	}
 
-	public static class EaseCubic implements Ease {
+	public static class EaseCubic extends EaseAbstract {
 		@Override
 		public double easeIn(double t, final double... params) {
 			t /= params[2];
@@ -207,7 +246,7 @@ public class WB_Ease {
 		};
 	}
 
-	public static class EaseQuart implements Ease {
+	public static class EaseQuart extends EaseAbstract {
 
 		@Override
 		public double easeIn(double t, final double... params) {
@@ -254,7 +293,7 @@ public class WB_Ease {
 		};
 	}
 
-	public static class EaseQuint implements Ease {
+	public static class EaseQuint extends EaseAbstract {
 
 		@Override
 		public double easeIn(double t, final double... params) {
@@ -301,7 +340,7 @@ public class WB_Ease {
 		};
 	}
 
-	public static class EaseSine implements Ease {
+	public static class EaseSine extends EaseAbstract {
 
 		@Override
 		public double easeIn(final double t, final double... params) {
@@ -334,7 +373,7 @@ public class WB_Ease {
 		};
 	}
 
-	public static class EaseExpo implements Ease {
+	public static class EaseExpo extends EaseAbstract {
 
 		@Override
 		public double easeIn(final double t, final double... params) {
@@ -377,7 +416,7 @@ public class WB_Ease {
 		};
 	}
 
-	public static class EaseCirc implements Ease {
+	public static class EaseCirc extends EaseAbstract {
 
 		@Override
 		public double easeIn(double t, final double... params) {
@@ -424,7 +463,7 @@ public class WB_Ease {
 		};
 	}
 
-	public static class EaseBack implements Ease {
+	public static class EaseBack extends EaseAbstract {
 		double s;
 
 		public EaseBack() {
@@ -482,7 +521,7 @@ public class WB_Ease {
 
 	}
 
-	public static class EaseBounce implements Ease {
+	public static class EaseBounce extends EaseAbstract {
 
 		@Override
 		public double easeIn(final double t, final double... params) {
@@ -543,7 +582,7 @@ public class WB_Ease {
 		}
 	}
 
-	public static class EaseElastic implements Ease {
+	public static class EaseElastic extends EaseAbstract {
 
 		double a;
 		double p;

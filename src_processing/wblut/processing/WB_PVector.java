@@ -10,10 +10,10 @@
 package wblut.processing;
 
 import processing.core.PVector;
-import wblut.core.WB_HashCode;
 import wblut.geom.WB_Coord;
 import wblut.geom.WB_MutableCoord;
 import wblut.math.WB_Epsilon;
+import wblut.math.WB_HashCode;
 
 public class WB_PVector extends PVector implements WB_MutableCoord {
 	/**

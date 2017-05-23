@@ -14,7 +14,12 @@ import wblut.geom.WB_GeometryOp3D;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Segment;
 import wblut.geom.WB_Vector;
+import wblut.math.WB_ConstantScalarParameter;
+import wblut.math.WB_Ease;
+import wblut.math.WB_EaseScalarParameter;
 import wblut.math.WB_Epsilon;
+import wblut.math.WB_LinearScalarParameter;
+import wblut.math.WB_ScalarParameter;
 
 /**
  * Cylinder.
@@ -38,8 +43,9 @@ public class HEC_Cylinder extends HEC_Creator {
 
 	private boolean bottomcap;
 
-	private double taper;
-
+	private WB_ScalarParameter profile;
+	private WB_ScalarParameter taper;
+	private WB_ScalarParameter heightTaper;
 	private double phase;
 
 	/**
@@ -56,7 +62,9 @@ public class HEC_Cylinder extends HEC_Creator {
 		Z = new WB_Vector(WB_Vector.Y());
 		topcap = true;
 		bottomcap = true;
-		taper = 1.0;
+		profile = new WB_ConstantScalarParameter(1.0);
+		taper = new WB_LinearScalarParameter(0.0, 1.0, 0.0, 1.0);
+		heightTaper = new WB_LinearScalarParameter(0.0, 1.0, 0.0, 1.0);
 	}
 
 	/**
@@ -80,7 +88,9 @@ public class HEC_Cylinder extends HEC_Creator {
 		this.H = H;
 		this.facets = facets;
 		this.steps = steps;
-		taper = 1.0;
+		profile = new WB_ConstantScalarParameter(1.0);
+		taper = new WB_LinearScalarParameter(0.0, 1.0, 0.0, 1.0);
+		heightTaper = new WB_LinearScalarParameter(0.0, 1.0, 0.0, 1.0);
 	}
 
 	/**
@@ -163,19 +173,41 @@ public class HEC_Cylinder extends HEC_Creator {
 	}
 
 	/**
-	 * Sets the taper.
+	 * Sets the profile. Parameter should be a WB_ScalarParameter on the domain
+	 * [0,1]. The radius at fractional height x is multiplied by the profile
+	 * value at x.
 	 *
 	 * @param t
 	 *            the t
 	 * @return self
 	 */
-	public HEC_Cylinder setTaper(final double t) {
+	public HEC_Cylinder setProfile(final WB_ScalarParameter t) {
+		profile = t;
+		return this;
+	}
+
+	public HEC_Cylinder setTaper(final WB_ScalarParameter t) {
 		taper = t;
+		return this;
+	}
+
+	public HEC_Cylinder setTaper(final WB_Ease.Ease E, final WB_Ease.EaseType type) {
+		taper = new WB_EaseScalarParameter(0, 1, 0, 1, true, E, type);
 		return this;
 	}
 
 	public HEC_Cylinder setPhase(final double p) {
 		phase = p;
+		return this;
+	}
+
+	public HEC_Cylinder setHeightTaper(final WB_ScalarParameter t) {
+		heightTaper = t;
+		return this;
+	}
+
+	public HEC_Cylinder setHeightTaper(final WB_Ease.Ease E, final WB_Ease.EaseType type) {
+		heightTaper = new WB_EaseScalarParameter(0, 1, 0, 1, true, E, type);
 		return this;
 	}
 
@@ -226,12 +258,12 @@ public class HEC_Cylinder extends HEC_Creator {
 	protected HE_Mesh createBase() {
 		if (WB_Epsilon.isZero(Ro)) {
 			final HEC_Cone cone = new HEC_Cone(Ri, H, facets, steps);
-			cone.setCap(bottomcap).setTaper(taper);
+			cone.setCap(bottomcap).setProfile(profile).setTaper(taper).setHeightTaper(heightTaper);
 			return cone.createBase();
 		}
 		if (WB_Epsilon.isZero(Ri)) {
 			final HEC_Cone cone = new HEC_Cone(Ro, H, facets, steps);
-			cone.setCap(topcap).setTaper(taper);
+			cone.setCap(topcap).setProfile(profile).setTaper(taper).setHeightTaper(heightTaper);
 			cone.setReverse(true);
 			return cone.createBase();
 		}
@@ -242,8 +274,8 @@ public class HEC_Cylinder extends HEC_Creator {
 		final double invs = 1.0 / steps;
 		int id = 0;
 		for (int i = 0; i < steps + 1; i++) {
-			final double R = Ri + Math.pow(i * invs, taper) * (Ro - Ri);
-			final double Hj = i * H * invs;
+			final double R = profile.evaluate(i * invs) * (Ri + taper.evaluate(i * invs) * (Ro - Ri));
+			final double Hj = heightTaper.evaluate(i * invs) * H;
 			for (int j = 0; j < facets + 1; j++) {
 				vertices[id][0] = R * Math.cos(2 * Math.PI / facets * j + phase);
 				vertices[id][2] = R * Math.sin(2 * Math.PI / facets * j + phase);

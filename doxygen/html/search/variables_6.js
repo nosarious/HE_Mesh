@@ -20,7 +20,7 @@ var searchData=
   ['fillfactor',['fillfactor',['../classwblut_1_1hemesh_1_1_h_e_c___from_frame.html#a63169a1323efc9df8a6165d7e7f0e9fa',1,'wblut.hemesh.HEC_FromFrame.fillfactor()'],['../classwblut_1_1hemesh_1_1_h_e_m___wireframe.html#a1f01c0783662d000236b208d2e5ff682',1,'wblut.hemesh.HEM_Wireframe.fillFactor()']]],
   ['fixduplicatedvertices',['fixDuplicatedVertices',['../classwblut_1_1hemesh_1_1_h_e_c___u_v_parametric.html#aabf3e632a66831c2e3517b9a1ab7fb5d',1,'wblut::hemesh::HEC_UVParametric']]],
   ['fixnonplanarfaces',['fixNonPlanarFaces',['../classwblut_1_1hemesh_1_1_h_e_c___dual.html#a48ab8ccf538ec691a0a910e56d8c563a',1,'wblut::hemesh::HEC_Dual']]],
-  ['flat',['FLAT',['../enumwblut_1_1geom_1_1_w_b___classification.html#a333f61eeade21e004129e4d53f0f9c6c',1,'wblut.geom.WB_Classification.FLAT()'],['../classwblut_1_1hemesh_1_1_h_e_m___extrude.html#a428264f076591282bdddc588885d06d8',1,'wblut.hemesh.HEM_Extrude.flat()']]],
+  ['flat',['flat',['../classwblut_1_1hemesh_1_1_h_e_m___extrude.html#a428264f076591282bdddc588885d06d8',1,'wblut.hemesh.HEM_Extrude.flat()'],['../enumwblut_1_1geom_1_1_w_b___classification.html#a333f61eeade21e004129e4d53f0f9c6c',1,'wblut.geom.WB_Classification.FLAT()']]],
   ['flatconcave',['FLATCONCAVE',['../enumwblut_1_1geom_1_1_w_b___classification.html#a4f2559f3de3e6aff2206bd5f6cae02bb',1,'wblut::geom::WB_Classification']]],
   ['flatconvex',['FLATCONVEX',['../enumwblut_1_1geom_1_1_w_b___classification.html#a054ed813b2af842d40e1a3026f3270f3',1,'wblut::geom::WB_Classification']]],
   ['fraction',['fraction',['../classwblut_1_1hemesh_1_1_h_e_s___tri_dec.html#a84736083ec6b14c13f84d8ca8812dda4',1,'wblut::hemesh::HES_TriDec']]],

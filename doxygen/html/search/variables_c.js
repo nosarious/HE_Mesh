@@ -10,7 +10,7 @@ var searchData=
   ['limitangle',['limitAngle',['../classwblut_1_1hemesh_1_1_h_e_m___diagrid.html#a7fa9927e819f2f7beb973669360bdd84',1,'wblut::hemesh::HEM_Diagrid']]],
   ['limitpoints',['limitPoints',['../classwblut_1_1hemesh_1_1_h_e_c___voronoi_cell.html#a43d7440d105f6a9029955928114639f6',1,'wblut::hemesh::HEC_VoronoiCell']]],
   ['linear',['linear',['../classwblut_1_1hemesh_1_1_h_e_m___circle_inversion.html#af88daa6701375b73415fd1b3826e4c9f',1,'wblut.hemesh.HEM_CircleInversion.linear()'],['../classwblut_1_1hemesh_1_1_h_e_m___poly_line_inversion.html#ade82de196d81d5a475a9d4a20409392a',1,'wblut.hemesh.HEM_PolyLineInversion.linear()'],['../classwblut_1_1hemesh_1_1_h_e_m___spherical_inversion.html#a725c73c2380ba85c68ba16c5067784a9',1,'wblut.hemesh.HEM_SphericalInversion.linear()'],['../classwblut_1_1hemesh_1_1_h_e_m___triangle_inversion.html#a352c5befaa3e6d001fd83926e3f687a4',1,'wblut.hemesh.HEM_TriangleInversion.linear()'],['../classwblut_1_1math_1_1_w_b___ease.html#a06cdd1875535bab715d46a380e781bfa',1,'wblut.math.WB_Ease.linear()']]],
-  ['lingray',['LINGRAY',['../classwblut_1_1core_1_1_w_b___color.html#a33c1ef02ff4886d3bf1c621c87f6fa7c',1,'wblut::core::WB_Color']]],
+  ['lingray',['LINGRAY',['../classwblut_1_1processing_1_1_w_b___color.html#ad787ce9ed3f2881dd5b5c442a2757444',1,'wblut::processing::WB_Color']]],
   ['lo',['lo',['../classwblut_1_1math_1_1_w_b___double_double.html#aaeb3f22caf82c75519f1c9156a146036',1,'wblut::math::WB_DoubleDouble']]],
   ['lower_5fmask',['LOWER_MASK',['../classwblut_1_1math_1_1_w_b___m_t_random.html#a44a59789edb3917515231dea38998873',1,'wblut::math::WB_MTRandom']]]
 ];
