@@ -5,15 +5,12 @@ import wblut.hemesh.*;
 import wblut.geom.*;
 
 
-import processing.opengl.*;
-
-
 HE_Mesh box;
 HE_Mesh modifiedBox;
 WB_Render render;
 
 void setup(){
-    size(600,600,OPENGL);
+    size(800,800,P3D);
  
    
     //Create the box
@@ -46,18 +43,14 @@ void setup(){
 }
 
   void draw(){
-    background(120);
+    background(25);
     lights();
-    translate(300,300,0);
+    translate(width/2,height/2,0);
     rotateY(mouseX*1.0f/width*TWO_PI);
     rotateX(mouseY*1.0f/height*TWO_PI);
     noStroke();
     render.drawFaces(box);
-    stroke(0);
+    stroke(160,0,0);
     render.drawEdges(box);
     render.drawEdges(modifiedBox);
   }
-
-
-
-

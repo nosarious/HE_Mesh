@@ -17,11 +17,11 @@ import wblut.math.WB_Math;
  */
 public class WB_Triangle {
 	/** First point. */
-	WB_Point p1;
+	WB_Coord p1;
 	/** Second point. */
-	WB_Point p2;
+	WB_Coord p2;
 	/** Third point. */
-	WB_Point p3;
+	WB_Coord p3;
 	/** Length of side a. */
 	private double a;
 	/** Length of side b. */
@@ -34,6 +34,8 @@ public class WB_Triangle {
 	private double cosB;
 	/** Cosine of angle C. */
 	private double cosC;
+
+	int index;
 
 	/**
 	 *
@@ -54,14 +56,14 @@ public class WB_Triangle {
 	 * @param p3
 	 */
 	public WB_Triangle(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3) {
-		this.p1 = new WB_Point(p1);
-		this.p2 = new WB_Point(p2);
-		this.p3 = new WB_Point(p3);
+		this.p1 = p1;
+		this.p2 = p2;
+		this.p3 = p3;
 		update();
 	}
 
 	public void cycle() {
-		WB_Point tmp = p1;
+		WB_Coord tmp = p1;
 		p1 = p2;
 		p2 = p3;
 		p3 = tmp;
@@ -84,9 +86,9 @@ public class WB_Triangle {
 	 * Update side lengths and corner angles.
 	 */
 	protected void update() {
-		a = p2.getDistance(p3);
-		b = p1.getDistance(p3);
-		c = p1.getDistance(p2);
+		a = WB_Point.getDistance3D(p2, p3);
+		b = WB_Point.getDistance3D(p1, p3);
+		c = WB_Point.getDistance3D(p1, p2);
 		WB_Plane P = this.getPlane();
 		if (P == null) {
 			cosA = cosB = cosC = Double.NaN;
@@ -208,7 +210,7 @@ public class WB_Triangle {
 	}
 
 	public WB_Triangle apply(final WB_Transform T) {
-		return geometryfactory.createTriangle(p1.applyAsPoint(T), p2.applyAsPoint(T), p3.applyAsPoint(T));
+		return geometryfactory.createTriangle(T.applyAsPoint(p1), T.applyAsPoint(p2), T.applyAsPoint(p3));
 	}
 
 	/**
@@ -280,8 +282,8 @@ public class WB_Triangle {
 	 */
 	public WB_Point getPointFromTrilinear(final double x, final double y, final double z) {
 		final double abc = a * x + b * y + c * z;
-		final WB_Point ea = p2.sub(p3);
-		final WB_Point eb = p1.sub(p3);
+		final WB_Point ea = WB_Point.sub(p2, p3);
+		final WB_Point eb = WB_Point.sub(p1, p3);
 		ea.mulSelf(b * y);
 		eb.mulSelf(a * x);
 		ea.addSelf(eb);
@@ -330,7 +332,7 @@ public class WB_Triangle {
 	 * @return the w b_ point
 	 */
 	public WB_Point getBarycentric(final WB_Coord p) {
-		final WB_Vector m = p3.subToVector3D(p1).cross(p2.subToVector3D(p1));
+		final WB_Vector m = WB_Vector.subToVector3D(p3, p1).cross(WB_Vector.subToVector3D(p2, p1));
 		double nu, nv, ood;
 		final double x = WB_Math.fastAbs(m.xd());
 		final double y = WB_Math.fastAbs(m.yd());
@@ -364,6 +366,10 @@ public class WB_Triangle {
 
 	public WB_AABB getAABB() {
 		return new WB_AABB(minX(), minY(), minZ(), maxX(), maxY(), maxZ());
+	}
+
+	public WB_AABB2D getAABB2D() {
+		return new WB_AABB2D(minX(), minY(), maxX(), maxY());
 	}
 
 	/**
@@ -446,9 +452,9 @@ public class WB_Triangle {
 		final WB_Circle result = new WB_Circle();
 		final double abc = a + b + c;
 		result.setRadius(0.5 * Math.sqrt((b + c - a) * (c + a - b) * (a + b - c) / abc));
-		final WB_Point ta = p1.mul(a);
-		final WB_Point tb = p2.mul(b);
-		final WB_Point tc = p3.mul(c);
+		final WB_Point ta = WB_Point.mul(p1, a);
+		final WB_Point tb = WB_Point.mul(p2, b);
+		final WB_Point tc = WB_Point.mul(p3, c);
 		tc.addSelf(ta).addSelf(tb).divSelf(abc);
 		result.setCenter(tc);
 		return result;

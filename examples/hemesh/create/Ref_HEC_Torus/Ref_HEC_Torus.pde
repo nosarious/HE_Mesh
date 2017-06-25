@@ -25,11 +25,10 @@ void draw() {
   directionalLight(255, 255, 255, 1, 1, -1);
   directionalLight(127, 127, 127, -1, -1, 1);
   translate(width/2,height/2);
-  rotateY(mouseX*1.0f/width*TWO_PI);
-  rotateX(mouseY*1.0f/height*TWO_PI);
+  rotateY(map(mouseX,0,width,-PI,PI));
+  rotateX(map(mouseY,0,height,PI,-PI));
   stroke(0);
   render.drawEdges(mesh);
   noStroke();
   render.drawFaces(mesh);
 }
-

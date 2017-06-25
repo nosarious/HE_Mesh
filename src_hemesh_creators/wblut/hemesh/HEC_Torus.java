@@ -284,7 +284,7 @@ public class HEC_Torus extends HEC_Creator {
 		}
 
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
-		fl.setVertices(vertices).setFaces(faces).setUVW(uvws);
+		fl.setVertices(vertices).setFaces(faces).setVertexUVW(uvws);
 		return fl.createBase();
 	}
 }

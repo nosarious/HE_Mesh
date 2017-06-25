@@ -15,7 +15,6 @@ public class WB_IndexedSegment extends WB_Segment {
 	private int i1;
 
 	private int i2;
-	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	// private final WB_Coordinate[] points;
 
@@ -91,9 +90,4 @@ public class WB_IndexedSegment extends WB_Segment {
 		i1 = tmp;
 	}
 
-	@Override
-	public WB_Segment apply(final WB_Transform T) {
-		return geometryfactory.createSegment(new WB_Point(getOrigin()).applyAsPoint(T),
-				new WB_Point(getEndpoint()).applyAsPoint(T));
-	}
 }

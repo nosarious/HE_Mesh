@@ -16,10 +16,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import gnu.trove.map.TIntDoubleMap;
 import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntDoubleHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import javolution.util.FastTable;
 import wblut.math.WB_Epsilon;
+import wblut.math.WB_ScalarParameter;
 
 /**
  *
@@ -48,7 +51,7 @@ public class WB_IsoSurface {
 	/**
 	 *
 	 */
-	int[] digits = new int[8];
+	private int[] digits = new int[8];
 	/*
 	 * VERTICES 000 ijk=0 100 Ijk=1 010 iJk=2 110 IJk=3 001 ijK=4 101 IjK=5 011
 	 * iJK=6 111 IJK=7
@@ -88,11 +91,11 @@ public class WB_IsoSurface {
 	/**
 	 *
 	 */
-	int[][] entries;
+	private int[][] entries;
 	/**
 	 *
 	 */
-	private double[][][] values;
+	private WB_IsoValues3D values;
 	/**
 	 *
 	 */
@@ -133,16 +136,22 @@ public class WB_IsoSurface {
 	 *
 	 */
 	private TIntObjectMap<VertexRemap> vertexremaps;
+
 	/**
 	 *
 	 */
-	double gamma;
+	private TIntDoubleMap valueremaps;
+
+	/**
+	 *
+	 */
+	private double gamma;
 
 	/**
 	 *
 	 */
 	private boolean invert;
-	FastTable<WB_Point> tris;
+	private FastTable<WB_Triangle> tris;
 
 	/**
 	 *
@@ -239,14 +248,10 @@ public class WB_IsoSurface {
 	 * @return self
 	 */
 	public WB_IsoSurface setValues(final double[][][] values) {
-		this.values = new double[resx + 1][resy + 1][resz + 1];
-		for (int i = 0; i <= resx; i++) {
-			for (int j = 0; j <= resy; j++) {
-				for (int k = 0; k <= resz; k++) {
-					this.values[i][j][k] = values[i][j][k];
-				}
-			}
-		}
+		this.values = new WB_IsoValues3D.GridRaw3D(values);
+		resx = values.length - 1;
+		resy = resx > 0 ? values[0].length - 1 : 0;
+		resz = resy > 0 ? values[0][0].length - 1 : 0;
 		return this;
 	}
 
@@ -258,14 +263,42 @@ public class WB_IsoSurface {
 	 * @return self
 	 */
 	public WB_IsoSurface setValues(final float[][][] values) {
-		this.values = new double[resx + 1][resy + 1][resz + 1];
-		for (int i = 0; i <= resx; i++) {
-			for (int j = 0; j <= resy; j++) {
-				for (int k = 0; k <= resz; k++) {
-					this.values[i][j][k] = values[i][j][k];
-				}
-			}
-		}
+		this.values = new WB_IsoValues3D.Grid3D(values);
+		resx = values.length - 1;
+		resy = resx > 0 ? values[0].length - 1 : 0;
+		resz = resy > 0 ? values[0][0].length - 1 : 0;
+		return this;
+	}
+
+	/**
+	 *
+	 *
+	 * @param function
+	 * @param xi
+	 * @param yi
+	 * @param zi
+	 * @param dx
+	 * @param dy
+	 * @param dz
+	 * @return
+	 */
+	public WB_IsoSurface setValues(final WB_ScalarParameter function, final double xi, final double yi, final double zi,
+			final double dx, final double dy, final double dz) {
+		this.values = new WB_IsoValues3D.Function3D(function, xi, yi, zi, dx, dy, dz);
+
+		return this;
+	}
+
+	/**
+	 *
+	 * @param values
+	 * @return
+	 */
+	public WB_IsoSurface setValues(final WB_HashGridDouble values) {
+		this.values = new WB_IsoValues3D.HashGrid3D(values);
+		resx = values.getWidth() - 1;
+		resy = values.getHeight() - 1;
+		resz = values.getDepth() - 1;
 		return this;
 	}
 
@@ -322,17 +355,17 @@ public class WB_IsoSurface {
 		return this;
 	}
 
-	public List<WB_Point> create() {
+	public List<WB_Triangle> getTriangles() {
 		vertices = new TIntObjectHashMap<WB_Point>(1024, 0.5f, -1);
 		xedges = new TIntObjectHashMap<WB_Point>(1024, 0.5f, -1);
 		yedges = new TIntObjectHashMap<WB_Point>(1024, 0.5f, -1);
 		zedges = new TIntObjectHashMap<WB_Point>(1024, 0.5f, -1);
+		valueremaps = null;
 		if (gamma > 0) {
 			mapvertices();
 			setvalues();
 			polygonise();
 			snapvertices();
-			resetvalues();
 		} else {
 			polygonise();
 
@@ -346,6 +379,7 @@ public class WB_IsoSurface {
 	private void mapvertices() {
 
 		vertexremaps = new TIntObjectHashMap<VertexRemap>(1024, 0.5f, -1);
+		valueremaps = new TIntDoubleHashMap(1024, 0.5f, -1, Double.NaN);
 		final WB_Point offset = new WB_Point(cx - 0.5 * resx * dx, cy - 0.5 * resy * dy, cz - 0.5 * resz * dz);
 		if (Double.isNaN(boundary)) {
 			for (int i = 0; i < resx; i++) {
@@ -373,12 +407,12 @@ public class WB_IsoSurface {
 	/**
 	 *
 	 */
-	void setvalues() {
+	private void setvalues() {
 		VertexRemap vr;
 		for (final Object o : vertexremaps.values()) {
 			vr = (VertexRemap) o;
 			vr.snapvertex.set(vr.p);
-			values[vr.i][vr.j][vr.k] = isolevel;
+			valueremaps.put(index(vr.i, vr.j, vr.k), vr.originalvalue);
 		}
 	}
 
@@ -387,7 +421,7 @@ public class WB_IsoSurface {
 	 */
 	private void polygonise() {
 
-		tris = new FastTable<WB_Point>();
+		tris = new FastTable<WB_Triangle>();
 		final WB_Point offset = new WB_Point(cx - 0.5 * resx * dx, cy - 0.5 * resy * dy, cz - 0.5 * resz * dz);
 		if (Double.isNaN(boundary)) {
 			for (int i = 0; i < resx; i++) {
@@ -415,22 +449,11 @@ public class WB_IsoSurface {
 	/**
 	 *
 	 */
-	void snapvertices() {
+	private void snapvertices() {
 		VertexRemap vr;
 		for (final Object o : vertexremaps.values()) {
 			vr = (VertexRemap) o;
 			vr.snapvertex.set(vr.p);
-		}
-	}
-
-	/**
-	 *
-	 */
-	void resetvalues() {
-		VertexRemap vr;
-		for (final Object o : vertexremaps.values()) {
-			vr = (VertexRemap) o;
-			values[vr.i][vr.j][vr.k] = vr.originalvalue;
 		}
 	}
 
@@ -449,7 +472,7 @@ public class WB_IsoSurface {
 	 * @param dummyrun
 	 * @return the polygons
 	 */
-	private List<WB_Point> getPolygons(final int i, final int j, final int k, final int cubeindex,
+	private List<WB_Triangle> getPolygons(final int i, final int j, final int k, final int cubeindex,
 			final WB_Point offset, final boolean dummyrun) {
 		final int[] indices = entries[cubeindex];
 		final int numtris = indices[0];
@@ -459,9 +482,8 @@ public class WB_IsoSurface {
 			final WB_Point v1 = getIsoVertex(indices[currentindex++], i, j, k, offset, dummyrun);
 			final WB_Point v3 = getIsoVertex(indices[currentindex++], i, j, k, offset, dummyrun);
 			if (!dummyrun) {
-				tris.add(v2);
-				tris.add(v1);
-				tris.add(v3);
+				tris.add(new WB_Triangle(v2, v1, v3));
+
 			}
 		}
 		return tris;
@@ -630,7 +652,7 @@ public class WB_IsoSurface {
 	 * @param dummyrun
 	 * @return
 	 */
-	WB_Point getIsoVertex(final int isopointindex, final int i, final int j, final int k, final WB_Point offset,
+	private WB_Point getIsoVertex(final int isopointindex, final int i, final int j, final int k, final WB_Point offset,
 			final boolean dummyrun) {
 		if (isovertices[isopointindex][0] == ONVERTEX) {
 			switch (isovertices[isopointindex][1]) {
@@ -727,50 +749,52 @@ public class WB_IsoSurface {
 		double mu;
 		if (dummyrun) {
 			mu = (isolevel - val0) / (val1 - val0);
-			if (mu < gamma) {
-				VertexRemap vr = vertexremaps.get(index(i, j, k));
-				if (vr == null) {
-					vr = new VertexRemap();
-					vr.closestd = mu * dx;
-					vr.i = i;
-					vr.j = j;
-					vr.k = k;
-					vr.originalvalue = values[i][j][k];
-					vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
-					vr.snapvertex = vertex(i, j, k, offset);
-					vertexremaps.put(index(i, j, k), vr);
-				} else {
-					if (vr.closestd > mu * dx) {
+			if (i > 0 && j > 0 && k > 0 && i < resx && j < resy && k < resz) {
+				if (mu < gamma) {
+					VertexRemap vr = vertexremaps.get(index(i, j, k));
+					if (vr == null) {
+						vr = new VertexRemap();
 						vr.closestd = mu * dx;
 						vr.i = i;
 						vr.j = j;
 						vr.k = k;
-						vr.originalvalue = values[i][j][k];
+						vr.originalvalue = value(i, j, k);
 						vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
 						vr.snapvertex = vertex(i, j, k, offset);
+						vertexremaps.put(index(i, j, k), vr);
+					} else {
+						if (vr.closestd > mu * dx) {
+							vr.closestd = mu * dx;
+							vr.i = i;
+							vr.j = j;
+							vr.k = k;
+							vr.originalvalue = value(i, j, k);
+							vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
+							vr.snapvertex = vertex(i, j, k, offset);
+						}
 					}
-				}
-			} else if (mu > 1 - gamma) {
-				VertexRemap vr = vertexremaps.get(index(i + 1, j, k));
-				if (vr == null) {
-					vr = new VertexRemap();
-					vr.closestd = (1 - mu) * dx;
-					vr.i = i + 1;
-					vr.j = j;
-					vr.k = k;
-					vr.originalvalue = values[i + 1][j][k];
-					vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
-					vr.snapvertex = vertex(i + 1, j, k, offset);
-					vertexremaps.put(index(i + 1, j, k), vr);
-				} else {
-					if (vr.closestd > (1 - mu) * dx) {
+				} else if (mu > 1 - gamma) {
+					VertexRemap vr = vertexremaps.get(index(i + 1, j, k));
+					if (vr == null) {
+						vr = new VertexRemap();
 						vr.closestd = (1 - mu) * dx;
 						vr.i = i + 1;
 						vr.j = j;
 						vr.k = k;
-						vr.originalvalue = values[i + 1][j][k];
+						vr.originalvalue = value(i + 1, j, k);
 						vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
 						vr.snapvertex = vertex(i + 1, j, k, offset);
+						vertexremaps.put(index(i + 1, j, k), vr);
+					} else {
+						if (vr.closestd > (1 - mu) * dx) {
+							vr.closestd = (1 - mu) * dx;
+							vr.i = i + 1;
+							vr.j = j;
+							vr.k = k;
+							vr.originalvalue = value(i + 1, j, k);
+							vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
+							vr.snapvertex = vertex(i + 1, j, k, offset);
+						}
 					}
 				}
 			}
@@ -811,50 +835,52 @@ public class WB_IsoSurface {
 		double mu;
 		if (dummyrun) {
 			mu = (isolevel - val0) / (val1 - val0);
-			if (mu < gamma) {
-				VertexRemap vr = vertexremaps.get(index(i, j, k));
-				if (vr == null) {
-					vr = new VertexRemap();
-					vr.closestd = mu * dy;
-					vr.i = i;
-					vr.j = j;
-					vr.k = k;
-					vr.originalvalue = values[i][j][k];
-					vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
-					vr.snapvertex = vertex(i, j, k, offset);
-					vertexremaps.put(index(i, j, k), vr);
-				} else {
-					if (vr.closestd > mu * dy) {
+			if (i > 0 && j > 0 && k > 0 && i < resx && j < resy && k < resz) {
+				if (mu < gamma) {
+					VertexRemap vr = vertexremaps.get(index(i, j, k));
+					if (vr == null) {
+						vr = new VertexRemap();
 						vr.closestd = mu * dy;
 						vr.i = i;
 						vr.j = j;
 						vr.k = k;
-						vr.originalvalue = values[i][j][k];
+						vr.originalvalue = value(i, j, k);
 						vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
 						vr.snapvertex = vertex(i, j, k, offset);
+						vertexremaps.put(index(i, j, k), vr);
+					} else {
+						if (vr.closestd > mu * dy) {
+							vr.closestd = mu * dy;
+							vr.i = i;
+							vr.j = j;
+							vr.k = k;
+							vr.originalvalue = value(i, j, k);
+							vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
+							vr.snapvertex = vertex(i, j, k, offset);
+						}
 					}
-				}
-			} else if (mu > 1 - gamma) {
-				VertexRemap vr = vertexremaps.get(index(i, j + 1, k));
-				if (vr == null) {
-					vr = new VertexRemap();
-					vr.closestd = (1 - mu) * dy;
-					vr.i = i;
-					vr.j = j + 1;
-					vr.k = k;
-					vr.originalvalue = values[i][j + 1][k];
-					vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
-					vr.snapvertex = vertex(i, j + 1, k, offset);
-					vertexremaps.put(index(i, j + 1, k), vr);
-				} else {
-					if (vr.closestd > (1 - mu) * dy) {
+				} else if (mu > 1 - gamma) {
+					VertexRemap vr = vertexremaps.get(index(i, j + 1, k));
+					if (vr == null) {
+						vr = new VertexRemap();
 						vr.closestd = (1 - mu) * dy;
 						vr.i = i;
 						vr.j = j + 1;
 						vr.k = k;
-						vr.originalvalue = values[i][j + 1][k];
+						vr.originalvalue = value(i, j + 1, k);
 						vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
 						vr.snapvertex = vertex(i, j + 1, k, offset);
+						vertexremaps.put(index(i, j + 1, k), vr);
+					} else {
+						if (vr.closestd > (1 - mu) * dy) {
+							vr.closestd = (1 - mu) * dy;
+							vr.i = i;
+							vr.j = j + 1;
+							vr.k = k;
+							vr.originalvalue = value(i, j + 1, k);
+							vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
+							vr.snapvertex = vertex(i, j + 1, k, offset);
+						}
 					}
 				}
 			}
@@ -891,50 +917,52 @@ public class WB_IsoSurface {
 		double mu;
 		if (dummyrun) {
 			mu = (isolevel - val0) / (val1 - val0);
-			if (mu < gamma) {
-				VertexRemap vr = vertexremaps.get(index(i, j, k));
-				if (vr == null) {
-					vr = new VertexRemap();
-					vr.closestd = mu * dz;
-					vr.i = i;
-					vr.j = j;
-					vr.k = k;
-					vr.originalvalue = values[i][j][k];
-					vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
-					vr.snapvertex = vertex(i, j, k, offset);
-					vertexremaps.put(index(i, j, k), vr);
-				} else {
-					if (vr.closestd > mu * dz) {
+			if (i > 0 && j > 0 && k > 0 && i < resx && j < resy && k < resz) {
+				if (mu < gamma) {
+					VertexRemap vr = vertexremaps.get(index(i, j, k));
+					if (vr == null) {
+						vr = new VertexRemap();
 						vr.closestd = mu * dz;
 						vr.i = i;
 						vr.j = j;
 						vr.k = k;
-						vr.originalvalue = values[i][j][k];
+						vr.originalvalue = value(i, j, k);
 						vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
 						vr.snapvertex = vertex(i, j, k, offset);
+						vertexremaps.put(index(i, j, k), vr);
+					} else {
+						if (vr.closestd > mu * dz) {
+							vr.closestd = mu * dz;
+							vr.i = i;
+							vr.j = j;
+							vr.k = k;
+							vr.originalvalue = value(i, j, k);
+							vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
+							vr.snapvertex = vertex(i, j, k, offset);
+						}
 					}
-				}
-			} else if (mu > 1 - gamma) {
-				VertexRemap vr = vertexremaps.get(index(i, j, k + 1));
-				if (vr == null) {
-					vr = new VertexRemap();
-					vr.closestd = (1 - mu) * dz;
-					vr.i = i;
-					vr.j = j;
-					vr.k = k + 1;
-					vr.originalvalue = values[i][j][k + 1];
-					vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
-					vr.snapvertex = vertex(i, j, k + 1, offset);
-					vertexremaps.put(index(i, j, k + 1), vr);
-				} else {
-					if (vr.closestd > (1 - mu) * dz) {
+				} else if (mu > 1 - gamma) {
+					VertexRemap vr = vertexremaps.get(index(i, j, k + 1));
+					if (vr == null) {
+						vr = new VertexRemap();
 						vr.closestd = (1 - mu) * dz;
 						vr.i = i;
 						vr.j = j;
 						vr.k = k + 1;
-						vr.originalvalue = values[i][j][k + 1];
+						vr.originalvalue = value(i, j, k + 1);
 						vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
 						vr.snapvertex = vertex(i, j, k + 1, offset);
+						vertexremaps.put(index(i, j, k + 1), vr);
+					} else {
+						if (vr.closestd > (1 - mu) * dz) {
+							vr.closestd = (1 - mu) * dz;
+							vr.i = i;
+							vr.j = j;
+							vr.k = k + 1;
+							vr.originalvalue = value(i, j, k + 1);
+							vr.p = interp(isolevel, p0, p1, val0, val1).addSelf(offset);
+							vr.snapvertex = vertex(i, j, k + 1, offset);
+						}
 					}
 				}
 			}
@@ -1006,14 +1034,22 @@ public class WB_IsoSurface {
 	 * @return the double
 	 */
 	private double value(final int i, final int j, final int k) {
+		if (valueremaps != null) {
+			double val = valueremaps.get(index(i, j, k));
+			if (!Double.isNaN(val)) {
+				return isolevel;
+			}
+
+		}
+
 		if (Double.isNaN(boundary)) { // if no boundary is set i,j,k should
 			// always be between o and resx,rey,resz
-			return values[i][j][k];
+			return values.value(i, j, k);
 		}
 		if (i < 0 || j < 0 || k < 0 || i > resx || j > resy || k > resz) {
 			return invert ? -boundary : boundary;
 		}
-		return values[i][j][k];
+		return values.value(i, j, k);
 	}
 
 	/**
@@ -1042,7 +1078,4 @@ public class WB_IsoSurface {
 		WB_Point snapvertex;
 	}
 
-	static double random(final double xi, final double xj) {
-		return Math.random() * (xj - xi) + xi;
-	}
 }

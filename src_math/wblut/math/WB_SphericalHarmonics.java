@@ -17,7 +17,7 @@ public class WB_SphericalHarmonics {
 	final static double SQRT2 = Math.sqrt(2.0);
 
 	private static double[][] initNormalization() {
-		double[][] norms = new double[40][41];
+		double[][] norms = new double[41][42];
 		for (int L = 0; L < 40; L++) {
 			for (int M = 0; M <= L; M++) {
 				norms[L][M] = getNormalization(L, M);

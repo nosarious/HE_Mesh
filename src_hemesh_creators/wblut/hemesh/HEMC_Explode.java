@@ -29,6 +29,11 @@ public class HEMC_Explode extends HEMC_MultiCreator {
 		super();
 	}
 
+	public HEMC_Explode(final HE_Mesh mesh) {
+		super();
+		setMesh(mesh);
+	}
+
 	/**
 	 * Set source mesh.
 	 *

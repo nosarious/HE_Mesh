@@ -282,7 +282,7 @@ public class HEC_Grid extends HEC_Creator {
 			}
 		}
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
-		fl.setVertices(points).setUVW(uvw).setFaces(faces).setDuplicate(false).setCheckNormals(false);
+		fl.setVertices(points).setVertexUVW(uvw).setFaces(faces).setDuplicate(false).setCheckNormals(false);
 		return fl.createBase();
 	}
 }

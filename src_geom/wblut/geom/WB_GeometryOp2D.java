@@ -629,45 +629,45 @@ public class WB_GeometryOp2D extends WB_GeometryOpGLU {
 	 * @return
 	 */
 	public static final WB_Point getClosestPoint2D(final WB_Coord p, final WB_Triangle T) {
-		final WB_Vector ab = T.p2.subToVector3D(T.p1);
-		final WB_Vector ac = T.p3.subToVector3D(T.p1);
+		final WB_Vector ab = WB_Vector.subToVector3D(T.p2, T.p1);
+		final WB_Vector ac = WB_Vector.subToVector3D(T.p3, T.p1);
 		final WB_Vector ap = new WB_Vector(T.p1, p);
 		final double d1 = ab.dot(ap);
 		final double d2 = ac.dot(ap);
 		if (d1 <= 0 && d2 <= 0) {
-			return T.p1.copy();
+			return new WB_Point(T.p1);
 		}
 		final WB_Vector bp = new WB_Vector(T.p2, p);
 		final double d3 = ab.dot(bp);
 		final double d4 = ac.dot(bp);
 		if (d3 >= 0 && d4 <= d3) {
-			return T.p2.copy();
+			return new WB_Point(T.p2);
 		}
 		final double vc = d1 * d4 - d3 * d2;
 		if (vc <= 0 && d1 >= 0 && d3 <= 0) {
 			final double v = d1 / (d1 - d3);
-			return T.p1.add(ab.mulSelf(v));
+			return new WB_Point(T.p1).addMulSelf(v, ab);
 		}
 		final WB_Vector cp = new WB_Vector(T.p3, p);
 		final double d5 = ab.dot(cp);
 		final double d6 = ac.dot(cp);
 		if (d6 >= 0 && d5 <= d6) {
-			return T.p3.copy();
+			return new WB_Point(T.p3);
 		}
 		final double vb = d5 * d2 - d1 * d6;
 		if (vb <= 0 && d2 >= 0 && d6 <= 0) {
 			final double w = d2 / (d2 - d6);
-			return T.p1.add(ac.mulSelf(w));
+			return new WB_Point(T.p1).addMulSelf(w, ac);
 		}
 		final double va = d3 * d6 - d5 * d4;
 		if (va <= 0 && d4 - d3 >= 0 && d5 - d6 >= 0) {
 			final double w = (d4 - d3) / (d4 - d3 + (d5 - d6));
-			return T.p2.add(T.p3.sub(T.p2).mulSelf(w));
+			return new WB_Point(T.p2).addMulSelf(w, WB_Point.sub(T.p3, T.p2));
 		}
 		final double denom = 1.0 / (va + vb + vc);
 		final double v = vb * denom;
 		final double w = vc * denom;
-		return T.p1.add(ab.mulSelf(v).addSelf(ac.mulSelf(w)));
+		return new WB_Point(T.p1).addSelf(ab.mulSelf(v).addSelf(ac.mulSelf(w)));
 	}
 
 	/**
@@ -730,54 +730,54 @@ public class WB_GeometryOp2D extends WB_GeometryOpGLU {
 	 * @return
 	 */
 	public static final WB_Point getClosestPointOnPeriphery2D(final WB_Coord p, final WB_Triangle T) {
-		final WB_Vector ab = T.p2.subToVector3D(T.p1);
-		final WB_Vector ac = T.p3.subToVector3D(T.p1);
+		final WB_Vector ab = WB_Vector.subToVector3D(T.p2, T.p1);
+		final WB_Vector ac = WB_Vector.subToVector3D(T.p3, T.p1);
 		final WB_Vector ap = new WB_Vector(T.p1, p);
 		final double d1 = ab.dot(ap);
 		final double d2 = ac.dot(ap);
 		if (d1 <= 0 && d2 <= 0) {
-			return T.p1.copy();
+			return new WB_Point(T.p1);
 		}
 		final WB_Vector bp = new WB_Vector(T.p2, p);
 		final double d3 = ab.dot(bp);
 		final double d4 = ac.dot(bp);
 		if (d3 >= 0 && d4 <= d3) {
-			return T.p2.copy();
+			return new WB_Point(T.p2);
 		}
 		final double vc = d1 * d4 - d3 * d2;
 		if (vc <= 0 && d1 >= 0 && d3 <= 0) {
 			final double v = d1 / (d1 - d3);
-			return T.p1.add(ab.mulSelf(v));
+			return new WB_Point(T.p1).addMulSelf(v, ab);
 		}
 		final WB_Vector cp = new WB_Vector(T.p3, p);
 		final double d5 = ab.dot(cp);
 		final double d6 = ac.dot(cp);
 		if (d6 >= 0 && d5 <= d6) {
-			return T.p3.copy();
+			return new WB_Point(T.p3);
 		}
 		final double vb = d5 * d2 - d1 * d6;
 		if (vb <= 0 && d2 >= 0 && d6 <= 0) {
 			final double w = d2 / (d2 - d6);
-			return T.p1.add(ac.mulSelf(w));
+			return new WB_Point(T.p1).addMulSelf(w, ac);
 		}
 		final double va = d3 * d6 - d5 * d4;
 		if (va <= 0 && d4 - d3 >= 0 && d5 - d6 >= 0) {
 			final double w = (d4 - d3) / (d4 - d3 + (d5 - d6));
-			return T.p2.add(T.p3.sub(T.p2).mulSelf(w));
+			return new WB_Point(T.p2).addMulSelf(w, WB_Point.sub(T.p3, T.p2));
 		}
 		final double denom = 1.0 / (va + vb + vc);
 		final double v = vb * denom;
 		final double w = vc * denom;
 		final double u = 1 - v - w;
-		T.p3.sub(T.p2);
+
 		if (WB_Epsilon.isZero(u - 1)) {
-			return T.p1.copy();
+			return new WB_Point(T.p1);
 		}
 		if (WB_Epsilon.isZero(v - 1)) {
-			return T.p2.copy();
+			return new WB_Point(T.p2);
 		}
 		if (WB_Epsilon.isZero(w - 1)) {
-			return T.p3.copy();
+			return new WB_Point(T.p3);
 		}
 		final WB_Point A = getClosestPointToSegment2D(p, T.p2, T.p3);
 		final double dA2 = WB_GeometryOp2D.getSqDistance2D(p, A);
@@ -3081,6 +3081,44 @@ public class WB_GeometryOp2D extends WB_GeometryOpGLU {
 	 */
 	public static final boolean isZero2D(final double ux, final double uy) {
 		return getSqLength2D(ux, uy) < WB_Epsilon.SQEPSILON;
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param AABB
+	 * @return
+	 */
+	public static double getDistance2D(final WB_Coord p, final WB_AABB2D AABB) {
+		return Math.sqrt(getSqDistance2D(p, AABB));
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param AABB
+	 * @return
+	 */
+	public static double getSqDistance2D(final WB_Coord p, final WB_AABB2D AABB) {
+		double sqDist = 0;
+		double v = p.xd();
+		if (v < AABB.getMinX()) {
+			sqDist += (AABB.getMinX() - v) * (AABB.getMinX() - v);
+		}
+		if (v > AABB.getMaxX()) {
+			sqDist += (v - AABB.getMaxX()) * (v - AABB.getMaxX());
+		}
+		v = p.yd();
+		if (v < AABB.getMinY()) {
+			sqDist += (AABB.getMinY() - v) * (AABB.getMinY() - v);
+		}
+		if (v > AABB.getMaxY()) {
+			sqDist += (v - AABB.getMaxY()) * (v - AABB.getMaxY());
+		}
+
+		return sqDist;
 	}
 
 }

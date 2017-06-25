@@ -20,6 +20,7 @@ import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import javolution.util.FastTable;
 import wblut.math.WB_Epsilon;
+import wblut.math.WB_ScalarParameter;
 
 /**
  *
@@ -48,7 +49,7 @@ public class WB_IsoSurfaceVOL2D {
 	/**
 	 *
 	 */
-	int[] digits = new int[4];
+	private int[] digits = new int[4];
 	/*
 	 * VERTICES 00 ij=0 10 Ij=1 01 iJ=2 11 IJ=3
 	 */
@@ -68,11 +69,11 @@ public class WB_IsoSurfaceVOL2D {
 	/**
 	 *
 	 */
-	int[][] entries;
+	private int[][] entries;
 	/**
 	 *
 	 */
-	private double[][] values;
+	private WB_IsoValues2D values;
 
 	// type=ONVERTEX iso vertex on vertex, index in vertex list
 	// type=ONEDGE iso vertex on edge, index in edge list, 0=lower
@@ -112,15 +113,13 @@ public class WB_IsoSurfaceVOL2D {
 	 *
 	 */
 	private TIntObjectMap<WB_Point> vertices;
-	/**
-	 *
-	 */
-	List<WB_Point> tris;
 
 	/**
 	 *
 	 */
-	double zFactor;
+	private double zFactor;
+
+	private List<WB_Triangle> triangles;
 
 	/**
 	 *
@@ -162,7 +161,6 @@ public class WB_IsoSurfaceVOL2D {
 				}
 			}
 		}
-
 		zFactor = 0.0;
 
 	}
@@ -185,11 +183,10 @@ public class WB_IsoSurfaceVOL2D {
 	}
 
 	/**
-	 * Size of cell.
 	 *
 	 * @param dx
 	 * @param dy
-	 * @return self
+	 * @return
 	 */
 	public WB_IsoSurfaceVOL2D setSize(final double dx, final double dy) {
 		this.dx = dx;
@@ -212,26 +209,54 @@ public class WB_IsoSurfaceVOL2D {
 	 * @return self
 	 */
 	public WB_IsoSurfaceVOL2D setValues(final double[][] values) {
-		this.values = values;
+		this.values = new WB_IsoValues2D.GridRaw2D(values);
+		resx = values.length - 1;
+		resy = resx > 0 ? values[0].length - 1 : 0;
+
 		return this;
 	}
 
 	/**
-	 * Sets the values.
+	 * Values at grid points.
 	 *
 	 * @param values
-	 *            float[resx+1][resy+1][resz+1]
+	 *            float[resx+1][resy+1]
 	 * @return self
 	 */
 	public WB_IsoSurfaceVOL2D setValues(final float[][] values) {
-		this.values = new double[resx + 1][resy + 1];
-		for (int i = 0; i <= resx; i++) {
-			for (int j = 0; j <= resy; j++) {
+		this.values = new WB_IsoValues2D.Grid2D(values);
+		resx = values.length - 1;
+		resy = resx > 0 ? values[0].length - 1 : 0;
 
-				this.values[i][j] = values[i][j];
+		return this;
+	}
 
-			}
-		}
+	/**
+	 *
+	 *
+	 * @param function
+	 * @param xi
+	 * @param yi
+	 * @param dx
+	 * @param dy
+	 * @return
+	 */
+	public WB_IsoSurfaceVOL2D setValues(final WB_ScalarParameter function, final double xi, final double yi,
+			final double dx, final double dy) {
+		this.values = new WB_IsoValues2D.Function2D(function, xi, yi, dx, dy);
+
+		return this;
+	}
+
+	/**
+	 *
+	 * @param values
+	 * @return
+	 */
+	public WB_IsoSurfaceVOL2D setValues(final WB_HashGridDouble2D values) {
+		this.values = new WB_IsoValues2D.HashGrid2D(values);
+		resx = values.getWidth() - 1;
+		resy = values.getHeight() - 1;
 		return this;
 	}
 
@@ -278,7 +303,7 @@ public class WB_IsoSurfaceVOL2D {
 	 */
 	private double value(final int i, final int j) {
 
-		return values[i][j];
+		return values.value(i, j);
 
 	}
 
@@ -352,6 +377,7 @@ public class WB_IsoSurfaceVOL2D {
 		final double val1 = value(i, j + 1);
 		yedge = new WB_Point(interp(isolevel, p0, p1, val0, val1));
 		yedge.addSelf(offset);
+
 		yedges.put(index(i, j), yedge);
 		return yedge;
 	}
@@ -450,13 +476,13 @@ public class WB_IsoSurfaceVOL2D {
 	 * Polygonise.
 	 */
 	private void polygonise() {
-
-		tris = new FastTable<WB_Point>();
+		xedges = new TIntObjectHashMap<WB_Point>(1024, 0.5f, -1);
+		yedges = new TIntObjectHashMap<WB_Point>(1024, 0.5f, -1);
+		vertices = new TIntObjectHashMap<WB_Point>(1024, 0.5f, -1);
 		final WB_Point offset = new WB_Point(cx - 0.5 * resx * dx, cy - 0.5 * resy * dy);
-
+		triangles = new FastTable<WB_Triangle>();
 		for (int i = 0; i < resx; i++) {
-			// System.out.println("HEC_IsoSurface: " + (i + 1) + " of " +
-			// resx);
+
 			for (int j = 0; j < resy; j++) {
 
 				getPolygons(i, j, classifyCell(i, j), offset);
@@ -484,24 +510,19 @@ public class WB_IsoSurfaceVOL2D {
 		final int numtris = indices[0];
 		int currentindex = 1;
 		for (int t = 0; t < numtris; t++) {
-
 			final WB_Point v2 = getIsoVertex(indices[currentindex++], i, j, offset);
 			final WB_Point v1 = getIsoVertex(indices[currentindex++], i, j, offset);
 			final WB_Point v3 = getIsoVertex(indices[currentindex++], i, j, offset);
-			tris.add(v2);
-			tris.add(v1);
-			tris.add(v3);
+			triangles.add(new WB_Triangle(v1, v2, v3));
 
 		}
 	}
 
-	public List<WB_Point> create() {
-		xedges = new TIntObjectHashMap<WB_Point>(1024, 0.5f, -1);
-		yedges = new TIntObjectHashMap<WB_Point>(1024, 0.5f, -1);
-		vertices = new TIntObjectHashMap<WB_Point>(1024, 0.5f, -1);
+	public List<WB_Triangle> getTriangles() {
+
 		polygonise();
 
-		return tris;
+		return triangles;
 	}
 
 	/**
@@ -513,7 +534,7 @@ public class WB_IsoSurfaceVOL2D {
 	 * @param offset
 	 * @return
 	 */
-	WB_Point getIsoVertex(final int isopointindex, final int i, final int j, final WB_Point offset) {
+	private WB_Point getIsoVertex(final int isopointindex, final int i, final int j, final WB_Point offset) {
 		if (isovertices[isopointindex][0] == ONVERTEX) {
 			switch (isovertices[isopointindex][1]) {
 			case 0:

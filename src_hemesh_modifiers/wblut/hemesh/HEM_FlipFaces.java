@@ -33,9 +33,9 @@ public class HEM_FlipFaces extends HEM_Modifier {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Mesh mesh) {
-		tracker.setStatusByString("HEM_FlipFacesMeshOp", "Flipping faces.", +1);
+		tracker.setStatusStr("HEM_FlipFacesMeshOp", "Flipping faces.", +1);
 		WB_ProgressCounter counter = new WB_ProgressCounter(mesh.getNumberOfEdges(), 10);
-		tracker.setStatusByString("HEM_FlipFacesMeshOp", "Reversing edges.", counter);
+		tracker.setStatusStr("HEM_FlipFacesMeshOp", "Reversing edges.", counter);
 		HE_Halfedge he1;
 		HE_Halfedge he2;
 		HE_Vertex tmp;
@@ -48,7 +48,7 @@ public class HEM_FlipFaces extends HEM_Modifier {
 		int i = 0;
 		HE_HalfedgeIterator heItr = mesh.heItr();
 		counter = new WB_ProgressCounter(2 * mesh.getNumberOfHalfedges(), 10);
-		tracker.setStatusByString("HEM_FlipFacesMeshOp", "Reordering halfedges.", counter);
+		tracker.setStatusStr("HEM_FlipFacesMeshOp", "Reordering halfedges.", counter);
 		while (heItr.hasNext()) {
 			he = heItr.next();
 			prevHe[i] = he.getPrevInFace();
@@ -70,7 +70,7 @@ public class HEM_FlipFaces extends HEM_Modifier {
 			counter.increment();
 		}
 		counter = new WB_ProgressCounter(2 * mesh.getNumberOfEdges(), 10);
-		tracker.setStatusByString("HET_MeshOp", "Flipping edges.", counter);
+		tracker.setStatusStr("HET_MeshOp", "Flipping edges.", counter);
 
 		final HE_EdgeIterator eItr = mesh.eItr();
 		while (eItr.hasNext()) {
@@ -88,7 +88,7 @@ public class HEM_FlipFaces extends HEM_Modifier {
 			counter.increment();
 		}
 
-		tracker.setStatusByString("HET_MeshOp", "Faces flipped.", -1);
+		tracker.setStatusStr("HET_MeshOp", "Faces flipped.", -1);
 		return mesh;
 	}
 
@@ -100,9 +100,9 @@ public class HEM_FlipFaces extends HEM_Modifier {
 	 */
 	@Override
 	public HE_Mesh apply(final HE_Selection selection) {
-		tracker.setStatusByString("HEM_FlipFacesMeshOp", "Flipping faces.", +1);
+		tracker.setStatusStr("HEM_FlipFacesMeshOp", "Flipping faces.", +1);
 		WB_ProgressCounter counter = new WB_ProgressCounter(selection.getNumberOfEdges(), 10);
-		tracker.setStatusByString("HEM_FlipFacesMeshOp", "Reversing edges.", counter);
+		tracker.setStatusStr("HEM_FlipFacesMeshOp", "Reversing edges.", counter);
 		HE_Halfedge he1;
 		HE_Halfedge he2;
 		HE_Vertex tmp;
@@ -115,7 +115,7 @@ public class HEM_FlipFaces extends HEM_Modifier {
 		int i = 0;
 		HE_HalfedgeIterator heItr = selection.heItr();
 		counter = new WB_ProgressCounter(2 * selection.getNumberOfHalfedges(), 10);
-		tracker.setStatusByString("HEM_FlipFacesMeshOp", "Reordering halfedges.", counter);
+		tracker.setStatusStr("HEM_FlipFacesMeshOp", "Reordering halfedges.", counter);
 		while (heItr.hasNext()) {
 			he = heItr.next();
 			prevHe[i] = he.getPrevInFace();
@@ -137,7 +137,7 @@ public class HEM_FlipFaces extends HEM_Modifier {
 			counter.increment();
 		}
 		counter = new WB_ProgressCounter(2 * selection.getNumberOfEdges(), 10);
-		tracker.setStatusByString("HET_MeshOp", "Flipping edges.", counter);
+		tracker.setStatusStr("HET_MeshOp", "Flipping edges.", counter);
 
 		final HE_EdgeIterator eItr = selection.eItr();
 		while (eItr.hasNext()) {
@@ -155,7 +155,7 @@ public class HEM_FlipFaces extends HEM_Modifier {
 			counter.increment();
 		}
 
-		tracker.setStatusByString("HET_MeshOp", "Faces flipped.", -1);
+		tracker.setStatusStr("HET_MeshOp", "Faces flipped.", -1);
 		return selection.parent;
 	}
 }

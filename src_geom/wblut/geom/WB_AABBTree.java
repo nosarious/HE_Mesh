@@ -224,6 +224,42 @@ public class WB_AABBTree {
 
 	}
 
+	public HE_Face getClosestFace(final WB_Coord p) {
+		PriorityQueue<Entry> entries = new PriorityQueue<Entry>(new EntryOrder());
+		double closest2 = Double.POSITIVE_INFINITY;
+		closest2 = addNode(p, root, entries, closest2);
+		Entry top = entries.poll();
+		while (top.type == 0) {
+			if (top.node.getChildA() != null) {
+				closest2 = addNode(p, top.node.getChildA(), entries, closest2);
+			}
+			if (top.node.getChildB() != null) {
+				closest2 = addNode(p, top.node.getChildB(), entries, closest2);
+			}
+			top = entries.poll();
+		}
+		return top.face;
+
+	}
+
+	public Entry getClosestEntry(final WB_Coord p) {
+		PriorityQueue<Entry> entries = new PriorityQueue<Entry>(new EntryOrder());
+		double closest2 = Double.POSITIVE_INFINITY;
+		closest2 = addNode(p, root, entries, closest2);
+		Entry top = entries.poll();
+		while (top.type == 0) {
+			if (top.node.getChildA() != null) {
+				closest2 = addNode(p, top.node.getChildA(), entries, closest2);
+			}
+			if (top.node.getChildB() != null) {
+				closest2 = addNode(p, top.node.getChildB(), entries, closest2);
+			}
+			top = entries.poll();
+		}
+		return top;
+
+	}
+
 	private double addNode(final WB_Coord p, final WB_AABBNode node, final PriorityQueue<Entry> entries,
 			double closest2) {
 		double d2 = WB_GeometryOp.getSqDistance3D(p, node.aabb);

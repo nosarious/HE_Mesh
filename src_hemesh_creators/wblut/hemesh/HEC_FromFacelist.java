@@ -32,10 +32,12 @@ import wblut.math.WB_Epsilon;
 public class HEC_FromFacelist extends HEC_Creator {
 	/** Vertices. */
 	private WB_Coord[] vertices;
+	private WB_Coord[] vertexuvws;
 	private WB_Coord[] uvws;
 	private int[] faceTextureIds;
 	/** Face indices. */
 	private int[][] faces;
+	private int[][] faceuvws;
 	/** Duplicate vertices?. */
 	private boolean duplicate;
 	/** Check face normal consistency?. */
@@ -93,7 +95,51 @@ public class HEC_FromFacelist extends HEC_Creator {
 	 * @param vs
 	 * @return
 	 */
-	public HEC_FromFacelist setUVW(final Collection<? extends WB_Coord> vs) {
+	public HEC_FromFacelist setVertexUVW(final Collection<? extends WB_Coord> vs) {
+		final int n = vs.size();
+		final Iterator<? extends WB_Coord> itr = vs.iterator();
+		vertexuvws = new WB_Coord[n];
+		int i = 0;
+		while (itr.hasNext()) {
+			vertexuvws[i] = itr.next();
+			i++;
+		}
+		return this;
+	}
+
+	/**
+	 *
+	 *
+	 * @param vs
+	 * @return
+	 */
+	public HEC_FromFacelist setVertexUVW(final WB_Coord[] vs) {
+		final int n = vs.length;
+		vertexuvws = new WB_Coord[n];
+		int i = 0;
+		for (final WB_Coord v : vs) {
+			vertexuvws[i] = v;
+			i++;
+		}
+		return this;
+	}
+
+	/**
+	 *
+	 *
+	 * @param vs
+	 * @return
+	 */
+	public HEC_FromFacelist setVertexUVW(final double[][] vs) {
+		final int n = vs.length;
+		vertexuvws = new WB_Point[n];
+		for (int i = 0; i < n; i++) {
+			vertexuvws[i] = new WB_Point(vs[i][0], vs[i][1], vs[i][2]);
+		}
+		return this;
+	}
+
+	public HEC_FromFacelist setFaceVertexUVW(final Collection<? extends WB_Coord> vs) {
 		final int n = vs.size();
 		final Iterator<? extends WB_Coord> itr = vs.iterator();
 		uvws = new WB_Coord[n];
@@ -105,13 +151,7 @@ public class HEC_FromFacelist extends HEC_Creator {
 		return this;
 	}
 
-	/**
-	 *
-	 *
-	 * @param vs
-	 * @return
-	 */
-	public HEC_FromFacelist setUVW(final WB_Coord[] vs) {
+	public HEC_FromFacelist setFaceVertexUVW(final WB_Coord[] vs) {
 		final int n = vs.length;
 		uvws = new WB_Coord[n];
 		int i = 0;
@@ -122,13 +162,7 @@ public class HEC_FromFacelist extends HEC_Creator {
 		return this;
 	}
 
-	/**
-	 *
-	 *
-	 * @param vs
-	 * @return
-	 */
-	public HEC_FromFacelist setUVW(final double[][] vs) {
+	public HEC_FromFacelist setFaceVertexUVW(final double[][] vs) {
 		final int n = vs.length;
 		uvws = new WB_Point[n];
 		for (int i = 0; i < n; i++) {
@@ -252,18 +286,34 @@ public class HEC_FromFacelist extends HEC_Creator {
 		return this;
 	}
 
-	/**
-	 * Set faces from 2D array of int: 1st index=face, 2nd=index of vertex.
-	 *
-	 * @param fs
-	 *            2D array of vertex indices
-	 * @return self
-	 */
 	public HEC_FromFacelist setFaces(final List<int[]> fs) {
 		faces = new int[fs.size()][];
 		int i = 0;
 		for (final int[] indices : fs) {
 			faces[i] = indices;
+			i++;
+		}
+		return this;
+	}
+
+	public HEC_FromFacelist setFacesUVW(final int[][] fs) {
+		faceuvws = fs;
+		return this;
+	}
+
+	public HEC_FromFacelist setFacesUVW(final int[] fs) {
+		faceuvws = new int[fs.length / 3][3];
+		for (int i = 0; i < fs.length; i += 3) {
+			faceuvws[i / 3] = new int[] { fs[i], fs[i + 1], fs[i + 2] };
+		}
+		return this;
+	}
+
+	public HEC_FromFacelist setFacesUVW(final List<int[]> fs) {
+		faceuvws = new int[fs.size()][];
+		int i = 0;
+		for (final int[] indices : fs) {
+			faceuvws[i] = indices;
 			i++;
 		}
 		return this;
@@ -326,15 +376,16 @@ public class HEC_FromFacelist extends HEC_Creator {
 			if (faces.length == 0) {
 				return mesh;
 			}
-			final boolean useUVW = uvws != null && uvws.length == vertices.length;
+			final boolean useVertexUVW = vertexuvws != null && vertexuvws.length == vertices.length;
+			final boolean useFaceUVW = uvws != null && faceuvws != null && faceuvws.length == faces.length;
 			final HE_Vertex[] uniqueVertices = new HE_Vertex[vertices.length];
 			final boolean[] duplicated = new boolean[vertices.length];
 			if (duplicate) {
 				final WB_KDTreeInteger<WB_Coord> kdtree = new WB_KDTreeInteger<WB_Coord>();
 				WB_KDEntryInteger<WB_Coord>[] neighbors;
 				HE_Vertex v = new HE_Vertex(vertices[0]);
-				if (useUVW) {
-					v.setUVW(uvws[0]);
+				if (useVertexUVW) {
+					v.setUVW(vertexuvws[0]);
 				}
 				kdtree.add(v, 0);
 				uniqueVertices[0] = v;
@@ -342,8 +393,8 @@ public class HEC_FromFacelist extends HEC_Creator {
 				mesh.add(v);
 				for (int i = 1; i < vertices.length; i++) {
 					v = new HE_Vertex(vertices[i]);
-					if (useUVW) {
-						v.setUVW(uvws[i]);
+					if (useVertexUVW) {
+						v.setUVW(vertexuvws[i]);
 					}
 					neighbors = kdtree.getNearestNeighbors(v, 1);
 					if (neighbors[0].d2 < WB_Epsilon.SQEPSILON) {
@@ -360,8 +411,8 @@ public class HEC_FromFacelist extends HEC_Creator {
 				HE_Vertex v;
 				for (int i = 0; i < vertices.length; i++) {
 					v = new HE_Vertex(vertices[i]);
-					if (useUVW) {
-						v.setUVW(uvws[i]);
+					if (useVertexUVW) {
+						v.setUVW(vertexuvws[i]);
 					}
 					v.setInternalLabel(i);
 					uniqueVertices[i] = v;
@@ -377,6 +428,7 @@ public class HEC_FromFacelist extends HEC_Creator {
 				final FastMap<Long, int[]> edges = new FastMap<Long, int[]>();
 				for (int i = 0; i < faces.length; i++) {
 					final int[] face = faces[i];
+
 					final int fl = face.length;
 					for (int j = 0; j < fl; j++) {
 						final long ohash = ohash(face[j], face[(j + 1) % fl]);
@@ -391,10 +443,7 @@ public class HEC_FromFacelist extends HEC_Creator {
 						}
 					}
 				}
-				/*
-				 * for (Long nmedge : nmedges) { edges.remove(nmedge); }
-				 */
-				//
+
 				final boolean[] visited = new boolean[faces.length];
 				final LinkedList<Integer> queue = new LinkedList<Integer>();
 				boolean facesleft = false;
@@ -448,7 +497,13 @@ public class HEC_FromFacelist extends HEC_Creator {
 				} while (facesleft);
 			}
 			final boolean useFaceTextures = faceTextureIds != null && faceTextureIds.length == faces.length;
+
+			int faceid = 0;
 			for (final int[] face : faces) {
+				int[] faceuvw = null;
+				if (useFaceUVW) {
+					faceuvw = faceuvws[faceid];
+				}
 				if (face != null) {
 					final ArrayList<HE_Halfedge> faceEdges = new ArrayList<HE_Halfedge>();
 					final HE_Face hef = new HE_Face();
@@ -459,16 +514,29 @@ public class HEC_FromFacelist extends HEC_Creator {
 					id++;
 					final int fl = face.length;
 					final int[] locface = new int[fl];
+					final int[] locfaceuvw = new int[fl];
 					int li = 0;
-					locface[li++] = face[0];
+					locface[li] = face[0];
+					if (useFaceUVW) {
+						locfaceuvw[li] = faceuvw[0];
+					}
+					li++;
 					for (int i = 1; i < fl - 1; i++) {
 						if (uniqueVertices[face[i]] != uniqueVertices[face[i - 1]]) {
-							locface[li++] = face[i];
+							locface[li] = face[i];
+							if (useFaceUVW) {
+								locfaceuvw[li] = faceuvw[i];
+							}
+							li++;
 						}
 					}
 					if (uniqueVertices[face[fl - 1]] != uniqueVertices[face[fl - 2]]
 							&& uniqueVertices[face[fl - 1]] != uniqueVertices[face[0]]) {
-						locface[li++] = face[fl - 1];
+						locface[li] = face[fl - 1];
+						if (useFaceUVW) {
+							locfaceuvw[li] = faceuvw[fl - 1];
+						}
+						li++;
 					}
 					if (li > 2) {
 						for (int i = 0; i < li; i++) {
@@ -479,12 +547,16 @@ public class HEC_FromFacelist extends HEC_Creator {
 								mesh.setHalfedge(hef, he);
 							}
 							mesh.setVertex(he, uniqueVertices[locface[i]]);
-							if (useUVW) {
+							if (useFaceUVW) {
+								he.setUVW(uvws[locfaceuvw[i]]);
+							}
+							if (useVertexUVW) {
 								if (duplicated[locface[i]]) {
 									final HE_TextureCoordinate uvw = uniqueVertices[locface[i]].getVertexUVW();
-									if (uvw.ud() != uvws[locface[i]].xd() || uvw.vd() != uvws[locface[i]].yd()
-											|| uvw.wd() != uvws[locface[i]].zd()) {
-										he.setUVW(uvws[locface[i]]);
+									if (uvw.ud() != vertexuvws[locface[i]].xd()
+											|| uvw.vd() != vertexuvws[locface[i]].yd()
+											|| uvw.wd() != vertexuvws[locface[i]].zd()) {
+										he.setUVW(vertexuvws[locface[i]]);
 
 									}
 								}
@@ -496,8 +568,10 @@ public class HEC_FromFacelist extends HEC_Creator {
 						mesh.addHalfedges(faceEdges);
 					}
 				}
+				faceid++;
 			}
 			mesh.pairHalfedges();
+
 			if (cleanunused) {
 				mesh.cleanUnusedElementsByFace();
 			}

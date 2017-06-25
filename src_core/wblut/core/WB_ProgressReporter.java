@@ -18,6 +18,15 @@ public class WB_ProgressReporter extends Thread {
 	/**
 	 *
 	 */
+	public WB_ProgressReporter() {
+		super();
+		tracker = WB_ProgressTracker.instance();
+		tracker.setDepth(0);
+	}
+
+	/**
+	 *
+	 */
 	public WB_ProgressReporter(final int depth) {
 		super();
 		tracker = WB_ProgressTracker.instance();
@@ -26,7 +35,7 @@ public class WB_ProgressReporter extends Thread {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Thread#start()
 	 */
 	@Override
@@ -37,7 +46,7 @@ public class WB_ProgressReporter extends Thread {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Thread#run()
 	 */
 	@Override

@@ -21,7 +21,6 @@ import processing.core.PMatrix3D;
 import processing.opengl.PGraphicsOpenGL;
 import wblut.core.WB_ProgressTracker;
 import wblut.geom.WB_AABB;
-import wblut.geom.WB_AABB2D;
 import wblut.geom.WB_AABBTree;
 import wblut.geom.WB_AABBTree.WB_AABBNode;
 import wblut.geom.WB_Circle;
@@ -205,10 +204,6 @@ public class WB_Render3D extends WB_Render2D {
 
 	public void drawAABBTree(final WB_AABBTree tree, final int level) {
 		drawAABBNode(tree.getRoot(), level);
-	}
-
-	public void drawAABB2D(final WB_AABB2D AABB) {
-		home.rect((float) AABB.getMinX(), (float) AABB.getMinY(), (float) AABB.getWidth(), (float) AABB.getHeight());
 	}
 
 	/**

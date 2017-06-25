@@ -16,9 +16,17 @@ import java.util.List;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
+import wblut.geom.WB_AABB2D;
+import wblut.geom.WB_AABBTree2D;
+import wblut.geom.WB_AABBTree2D.WB_AABBNode2D;
+import wblut.geom.WB_AlphaTriangulation2D;
 import wblut.geom.WB_Circle;
 import wblut.geom.WB_Coord;
+import wblut.geom.WB_IndexedAABBTree2D;
+import wblut.geom.WB_IndexedAABBTree2D.WB_IndexedAABBNode2D;
 import wblut.geom.WB_Line;
+import wblut.geom.WB_Map2D;
+import wblut.geom.WB_Point;
 import wblut.geom.WB_PolyLine;
 import wblut.geom.WB_Polygon;
 import wblut.geom.WB_Ray;
@@ -26,6 +34,7 @@ import wblut.geom.WB_Ring;
 import wblut.geom.WB_Segment;
 import wblut.geom.WB_Triangle;
 import wblut.geom.WB_Triangulation2D;
+import wblut.geom.WB_Triangulation2DWithPoints;
 
 /**
  *
@@ -543,5 +552,601 @@ public class WB_Render2D extends WB_Processing {
 		vertex2D(p);
 		vertex2D(q);
 		home.endShape();
+	}
+
+	public void drawAABB2D(final WB_AABB2D AABB) {
+		home.rect((float) AABB.getMinX(), (float) AABB.getMinY(), (float) AABB.getWidth(), (float) AABB.getHeight());
+	}
+
+	/**
+	 * /** Draw WB_AABBTree node.
+	 *
+	 *
+	 * @param node
+	 *            the node
+	 */
+	public void drawAABBNode2D(final WB_AABBNode2D node) {
+		drawAABB2D(node.getAABB());
+		if (node.getChildA() != null) {
+			drawAABBNode2D(node.getChildA());
+		}
+		if (node.getChildB() != null) {
+			drawAABBNode2D(node.getChildB());
+		}
+	}
+
+	/**
+	 * Draw WB_AABBTree node.
+	 *
+	 * @param node
+	 *            the node
+	 * @param level
+	 *            the level
+	 */
+	private void drawAABBNode2D(final WB_AABBNode2D node, final int level) {
+		if (node.getLevel() == level) {
+			drawAABB2D(node.getAABB());
+		}
+		if (node.getLevel() < level) {
+			if (node.getChildA() != null) {
+				drawAABBNode2D(node.getChildA(), level);
+			}
+			if (node.getChildB() != null) {
+				drawAABBNode2D(node.getChildB(), level);
+			}
+		}
+	}
+
+	/**
+	 * Draw leaf node.
+	 *
+	 * @param node
+	 *            the node
+	 */
+	private void drawAABBLeafNode2D(final WB_AABBNode2D node) {
+		if (node.isLeaf()) {
+			drawAABB2D(node.getAABB());
+		} else {
+			if (node.getChildA() != null) {
+				drawAABBLeafNode2D(node.getChildA());
+			}
+			if (node.getChildB() != null) {
+				drawAABBLeafNode2D(node.getChildB());
+			}
+		}
+	}
+
+	/**
+	 * Draw leafs.
+	 *
+	 * @param tree
+	 *            the tree
+	 */
+	public void drawAABBLeafNodes2D(final WB_AABBTree2D tree) {
+		drawAABBLeafNode2D(tree.getRoot());
+	}
+
+	public void drawAABBTree2D(final WB_AABBTree2D tree) {
+		drawAABBNode2D(tree.getRoot());
+	}
+
+	public void drawAABBTree2D(final WB_AABBTree2D tree, final int level) {
+		drawAABBNode2D(tree.getRoot(), level);
+	}
+
+	/**
+	 * Draw WB_AABBTree node.
+	 *
+	 *
+	 * @param node
+	 *            the node
+	 */
+	public void drawAABBNode2D(final WB_IndexedAABBNode2D node) {
+		drawAABB2D(node.getAABB());
+		if (node.getChildA() != null) {
+			drawAABBNode2D(node.getChildA());
+		}
+		if (node.getChildB() != null) {
+			drawAABBNode2D(node.getChildB());
+		}
+	}
+
+	/**
+	 * Draw WB_AABBTree node.
+	 *
+	 * @param node
+	 *            the node
+	 * @param level
+	 *            the level
+	 */
+	private void drawAABBNode2D(final WB_IndexedAABBNode2D node, final int level) {
+		if (node.getLevel() == level) {
+			drawAABB2D(node.getAABB());
+		}
+		if (node.getLevel() < level) {
+			if (node.getChildA() != null) {
+				drawAABBNode2D(node.getChildA(), level);
+			}
+			if (node.getChildB() != null) {
+				drawAABBNode2D(node.getChildB(), level);
+			}
+		}
+	}
+
+	/**
+	 * Draw leaf node.
+	 *
+	 * @param node
+	 *            the node
+	 */
+	private void drawAABBLeafNode2D(final WB_IndexedAABBNode2D node) {
+		if (node.isLeaf()) {
+			drawAABB2D(node.getAABB());
+		} else {
+			if (node.getChildA() != null) {
+				drawAABBLeafNode2D(node.getChildA());
+			}
+			if (node.getChildB() != null) {
+				drawAABBLeafNode2D(node.getChildB());
+			}
+		}
+	}
+
+	/**
+	 * Draw leafs.
+	 *
+	 * @param tree
+	 *            the tree
+	 */
+	public void drawAABBLeafNodes2D(final WB_IndexedAABBTree2D tree) {
+		drawAABBLeafNode2D(tree.getRoot());
+	}
+
+	public void drawAABBTree2D(final WB_IndexedAABBTree2D tree) {
+		drawAABBNode2D(tree.getRoot());
+	}
+
+	public void drawAABBTree2D(final WB_IndexedAABBTree2D tree, final int level) {
+		drawAABBNode2D(tree.getRoot(), level);
+	}
+
+	public void drawTriangulation2D(final WB_AlphaTriangulation2D tri) {
+		final int[] triangles = tri.getTriangles();
+		home.beginShape(PConstants.TRIANGLES);
+		for (int i = 0; i < triangles.length; i += 3) {
+			vertex2D(tri.getPoints().get(triangles[i]));
+			vertex2D(tri.getPoints().get(triangles[i + 1]));
+			vertex2D(tri.getPoints().get(triangles[i + 2]));
+		}
+		home.endShape();
+	}
+
+	public void drawTriangulation2D(final WB_AlphaTriangulation2D tri, final double alpha) {
+		final int[] triangles = tri.getTriangles();
+		home.beginShape(PConstants.TRIANGLES);
+		for (int i = 0; i < triangles.length; i += 3) {
+			if (tri.getAlpha()[i / 3] <= alpha) {
+				vertex2D(tri.getPoints().get(triangles[i]));
+				vertex2D(tri.getPoints().get(triangles[i + 1]));
+				vertex2D(tri.getPoints().get(triangles[i + 2]));
+			}
+		}
+		home.endShape();
+	}
+
+	public void drawTriangulationEdges2D(final WB_AlphaTriangulation2D tri) {
+		final int[] edges = tri.getEdges();
+		for (int i = 0; i < edges.length; i += 2) {
+			drawSegment2D(tri.getPoints().get(edges[i]), tri.getPoints().get(edges[i + 1]));
+		}
+	}
+
+	public void drawTriangulation2D(final WB_Triangulation2DWithPoints tri) {
+		final int[] triangles = tri.getTriangles();
+		home.beginShape(PConstants.TRIANGLES);
+		for (int i = 0; i < triangles.length; i += 3) {
+			vertex2D(tri.getPoints().get(triangles[i]));
+			vertex2D(tri.getPoints().get(triangles[i + 1]));
+			vertex2D(tri.getPoints().get(triangles[i + 2]));
+		}
+		home.endShape();
+	}
+
+	public void drawTriangulationEdges2D(final WB_Triangulation2DWithPoints tri) {
+		final int[] edges = tri.getEdges();
+		for (int i = 0; i < edges.length; i += 2) {
+			drawSegment2D(tri.getPoints().get(edges[i]), tri.getPoints().get(edges[i + 1]));
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param L
+	 * @param d
+	 * @param map
+	 */
+	public void drawLineMapped(final WB_Line L, final double d, final WB_Map2D map) {
+		drawSegmentMapped(WB_Point.addMul(L.getOrigin(), -d, L.getDirection()),
+				WB_Point.addMul(L.getOrigin(), d, L.getDirection()), map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param points
+	 * @param r
+	 * @param map
+	 */
+	public void drawPointMapped(final Collection<? extends WB_Coord> points, final double r, final WB_Map2D map) {
+		for (final WB_Coord p : points) {
+			drawPointMapped(p, r, map);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param points
+	 * @param map
+	 */
+	public void drawPointMapped(final Collection<? extends WB_Coord> points, final WB_Map2D map) {
+		for (final WB_Coord p : points) {
+			drawPointMapped(p, map);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param r
+	 * @param map
+	 */
+
+	public void drawPointMapped(final WB_Coord p, final double r, final WB_Map2D map) {
+		WB_Point q = new WB_Point();
+		map.mapPoint3D(p, q);
+		drawPoint2D(q, r);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param map
+	 */
+
+	public void drawPointMapped(final WB_Coord p, final WB_Map2D map) {
+		WB_Point q = new WB_Point();
+		map.mapPoint3D(p, q);
+		drawPoint2D(q);
+	}
+
+	/**
+	 *
+	 *
+	 * @param points
+	 * @param r
+	 * @param map
+	 */
+	public void drawPointMapped(final WB_Coord[] points, final double r, final WB_Map2D map) {
+		for (final WB_Coord p : points) {
+			drawPointMapped(p, r, map);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param points
+	 * @param map
+	 */
+	public void drawPointMapped(final WB_Coord[] points, final WB_Map2D map) {
+		for (final WB_Coord p : points) {
+			drawPointMapped(p, map);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param P
+	 * @param map
+	 */
+	public void drawPolygonEdgesMapped(final WB_Polygon P, final WB_Map2D map) {
+		final int[] npc = P.getNumberOfPointsPerContour();
+		int index = 0;
+		for (int i = 0; i < P.getNumberOfContours(); i++) {
+			home.beginShape();
+			for (int j = 0; j < npc[i]; j++) {
+				vertexMapped(P.getPoint(index++), map);
+			}
+			home.endShape(PConstants.CLOSE);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param P
+	 * @param map
+	 */
+	public void drawPolygonMapped(final WB_Polygon P, final WB_Map2D map) {
+		final int[] tris = P.getTriangles();
+		for (int i = 0; i < tris.length; i += 3) {
+			drawTriangleMapped(P.getPoint(tris[i]), P.getPoint(tris[i + 1]), P.getPoint(tris[i + 2]), map);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param P
+	 * @param map
+	 */
+	public void drawPolyLineMapped(final WB_PolyLine P, final WB_Map2D map) {
+		for (int i = 0; i < P.getNumberOfPoints() - 1; i++) {
+			drawSegmentMapped(P.getPoint(i), P.getPoint(i + 1), map);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param R
+	 * @param d
+	 * @param map
+	 */
+	public void drawRayMapped(final WB_Ray R, final double d, final WB_Map2D map) {
+		drawSegmentMapped(R.getOrigin(), WB_Point.addMul(R.getOrigin(), d, R.getDirection()), map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param P
+	 * @param map
+	 */
+	public void drawRingMapped(final WB_Ring P, final WB_Map2D map) {
+		for (int i = 0, j = P.getNumberOfPoints() - 1; i < P.getNumberOfPoints(); j = i++) {
+			drawSegmentMapped(P.getPoint(j), P.getPoint(i), map);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param segments
+	 * @param map
+	 */
+	public void drawSegmentMapped(final Collection<? extends WB_Segment> segments, final WB_Map2D map) {
+		final Iterator<? extends WB_Segment> segItr = segments.iterator();
+		while (segItr.hasNext()) {
+			drawSegmentMapped(segItr.next(), map);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param q
+	 * @param map
+	 */
+	public void drawSegmentMapped(final WB_Coord p, final WB_Coord q, final WB_Map2D map) {
+		home.beginShape();
+		vertexMapped(p, map);
+		vertexMapped(q, map);
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param segment
+	 * @param map
+	 */
+	public void drawSegmentMapped(final WB_Segment segment, final WB_Map2D map) {
+		drawSegmentMapped(segment.getOrigin(), segment.getEndpoint(), map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param segments
+	 * @param map
+	 */
+	public void drawSegmentMapped(final WB_Segment[] segments, final WB_Map2D map) {
+		for (final WB_Segment segment : segments) {
+			drawSegmentMapped(segment, map);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param triangles
+	 * @param map
+	 */
+	public void drawTriangleEdgesMapped(final Collection<? extends WB_Triangle> triangles, final WB_Map2D map) {
+		final Iterator<? extends WB_Triangle> triItr = triangles.iterator();
+		while (triItr.hasNext()) {
+			drawTriangleEdgesMapped(triItr.next(), map);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param triangle
+	 * @param map
+	 */
+	public void drawTriangleEdgesMapped(final WB_Triangle triangle, final WB_Map2D map) {
+		drawSegmentMapped(triangle.p1(), triangle.p2(), map);
+		drawSegmentMapped(triangle.p2(), triangle.p3(), map);
+		drawSegmentMapped(triangle.p3(), triangle.p1(), map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param triangles
+	 * @param map
+	 */
+	public void drawTriangleEdgesMapped(final WB_Triangle[] triangles, final WB_Map2D map) {
+		for (final WB_Triangle triangle : triangles) {
+			drawTriangleEdgesMapped(triangle, map);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param triangles
+	 * @param map
+	 */
+	public void drawTriangleMapped(final Collection<? extends WB_Triangle> triangles, final WB_Map2D map) {
+		final Iterator<? extends WB_Triangle> triItr = triangles.iterator();
+		while (triItr.hasNext()) {
+			drawTriangleMapped(triItr.next(), map);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param tri
+	 * @param points
+	 * @param map
+	 */
+	public void drawTriangleMapped(final int[] tri, final List<? extends WB_Coord> points, final WB_Map2D map) {
+		for (int i = 0; i < tri.length; i += 3) {
+			home.beginShape(PConstants.TRIANGLES);
+			vertexMapped(points.get(tri[i]), map);
+			vertexMapped(points.get(tri[i + 1]), map);
+			vertexMapped(points.get(tri[i + 2]), map);
+			home.endShape();
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param tri
+	 * @param points
+	 * @param map
+	 */
+	public void drawTriangleMapped(final int[] tri, final WB_Coord[] points, final WB_Map2D map) {
+		for (int i = 0; i < tri.length; i += 3) {
+			home.beginShape(PConstants.TRIANGLES);
+			vertexMapped(points[tri[i]], map);
+			vertexMapped(points[tri[i + 1]], map);
+			vertexMapped(points[tri[i + 2]], map);
+			home.endShape();
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @param map
+	 */
+	public void drawTriangleMapped(final WB_Coord p1, final WB_Coord p2, final WB_Coord p3, final WB_Map2D map) {
+		home.beginShape(PConstants.TRIANGLES);
+		vertexMapped(p1, map);
+		vertexMapped(p2, map);
+		vertexMapped(p3, map);
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param T
+	 * @param map
+	 */
+	public void drawTriangleMapped(final WB_Triangle T, final WB_Map2D map) {
+		home.beginShape(PConstants.TRIANGLES);
+		vertexMapped(T.p1(), map);
+		vertexMapped(T.p2(), map);
+		vertexMapped(T.p3(), map);
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param triangles
+	 * @param map
+	 */
+	public void drawTriangleMapped(final WB_Triangle[] triangles, final WB_Map2D map) {
+		for (final WB_Triangle triangle : triangles) {
+			drawTriangleMapped(triangle, map);
+		}
+	}
+
+	/**
+	 *
+	 *
+	 * @param tri
+	 * @param points
+	 * @param map
+	 */
+	public void drawTriangulationMapped(final WB_Triangulation2D tri, final List<? extends WB_Coord> points,
+			final WB_Map2D map) {
+		final int[] triangles = tri.getTriangles();
+		home.beginShape(PConstants.TRIANGLES);
+		for (int i = 0; i < triangles.length; i += 3) {
+			vertexMapped(points.get(triangles[i]), map);
+			vertexMapped(points.get(triangles[i + 1]), map);
+			vertexMapped(points.get(triangles[i + 2]), map);
+		}
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param tri
+	 * @param points
+	 * @param map
+	 */
+	public void drawTriangulationMapped(final WB_Triangulation2D tri, final WB_Coord[] points, final WB_Map2D map) {
+		final int[] triangles = tri.getTriangles();
+		home.beginShape(PConstants.TRIANGLES);
+		for (int i = 0; i < triangles.length; i += 3) {
+			vertexMapped(points[triangles[i]], map);
+			vertexMapped(points[triangles[i + 1]], map);
+			vertexMapped(points[triangles[i + 2]], map);
+		}
+		home.endShape();
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param v
+	 * @param r
+	 * @param map
+	 */
+	public void drawVectorMapped(final WB_Coord p, final WB_Coord v, final double r, final WB_Map2D map) {
+		drawSegmentMapped(p, WB_Point.addMul(p, r, v), map);
+	}
+
+	/**
+	 *
+	 *
+	 * @param p
+	 * @param map
+	 */
+	public void vertexMapped(final WB_Coord p, final WB_Map2D map) {
+		WB_Point q = new WB_Point();
+		map.mapPoint3D(p, q);
+		vertex2D(q);
 	}
 }

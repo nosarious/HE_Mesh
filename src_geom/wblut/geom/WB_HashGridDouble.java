@@ -50,7 +50,7 @@ public class WB_HashGridDouble {
 		this.L = L;
 		this.M = M;
 		KL = K * L;
-		defaultValue = -10000000;
+		defaultValue = 0;
 		values = new TLongDoubleHashMap(10, 0.5f, -1L, defaultValue);
 	}
 
@@ -64,6 +64,9 @@ public class WB_HashGridDouble {
 	 * @return
 	 */
 	public boolean setValue(final double value, final int i, final int j, final int k) {
+		if (value != defaultValue) {
+			return false;
+		}
 		final long id = safeIndex(i, j, k);
 		if (id > 0) {
 			values.put(id, value);
@@ -125,7 +128,7 @@ public class WB_HashGridDouble {
 		if (id == -1) {
 			return defaultValue;
 		}
-		if (id > 0) {
+		if (id >= 0) {
 			return values.get(id);
 		}
 		return defaultValue;
@@ -166,7 +169,7 @@ public class WB_HashGridDouble {
 	 *
 	 * @return
 	 */
-	public int getW() {
+	public int getWidth() {
 		return K;
 	}
 
@@ -175,7 +178,7 @@ public class WB_HashGridDouble {
 	 *
 	 * @return
 	 */
-	public int getH() {
+	public int getHeight() {
 		return L;
 	}
 
@@ -184,7 +187,7 @@ public class WB_HashGridDouble {
 	 *
 	 * @return
 	 */
-	public int getD() {
+	public int getDepth() {
 		return M;
 	}
 

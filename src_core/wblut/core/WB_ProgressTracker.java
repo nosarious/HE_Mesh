@@ -13,12 +13,16 @@ package wblut.core;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import wblut.hemesh.HE_Element;
+
 public class WB_ProgressTracker {
 
 	protected Queue<Status> statuses;
 	protected volatile int depth;
 	private static int indent = 3;
 	protected volatile int maxdepth;
+	public final int STARTLVL = +1;
+	public final int STOPLVL = -1;
 
 	/**
 	 *
@@ -75,7 +79,11 @@ public class WB_ProgressTracker {
 			depth = Math.max(0, depth + inc);
 		}
 		if (depth <= maxdepth) {
-			statuses.add(new Status(caller.getClass().getSimpleName(), status, depth));
+			String key = "";
+			if (caller instanceof HE_Element) {
+				key = " (key: " + ((HE_Element) caller).getKey() + ")";
+			}
+			statuses.add(new Status(caller.getClass().getSimpleName() + key, status, depth));
 		}
 		if (inc > 0) {
 			depth = Math.max(0, depth + inc);
@@ -89,7 +97,7 @@ public class WB_ProgressTracker {
 	 * @param status
 	 * @param inc
 	 */
-	public void setStatusByString(final String caller, final String status, final int inc) {
+	public void setStatusStr(final String caller, final String status, final int inc) {
 		if (inc < 0) {
 			depth = Math.max(0, depth + inc);
 		}
@@ -111,10 +119,15 @@ public class WB_ProgressTracker {
 	public void setStatus(final Object caller, final String status, final WB_ProgressCounter counter) {
 
 		if (counter.getLimit() > 0) {
-			counter.caller = caller.getClass().getSimpleName();
+			String key = "";
+			if (caller instanceof HE_Element) {
+				key = " (key: " + ((HE_Element) caller).getKey() + ")";
+			}
+			counter.caller = caller.getClass().getSimpleName() + key;
 			counter.text = status;
 			if (depth <= maxdepth) {
-				statuses.add(new Status(caller.getClass().getSimpleName(), status, counter, depth));
+
+				statuses.add(new Status(caller.getClass().getSimpleName() + key, status, counter, depth));
 			}
 		}
 	}
@@ -126,7 +139,7 @@ public class WB_ProgressTracker {
 	 * @param status
 	 * @param counter
 	 */
-	public void setStatusByString(final String caller, final String status, final WB_ProgressCounter counter) {
+	public void setStatusStr(final String caller, final String status, final WB_ProgressCounter counter) {
 		if (counter.getLimit() > 0) {
 			if (depth <= maxdepth) {
 				statuses.add(new Status(caller, status, counter, depth));

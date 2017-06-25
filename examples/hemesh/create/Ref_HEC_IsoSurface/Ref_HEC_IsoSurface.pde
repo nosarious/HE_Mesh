@@ -19,7 +19,7 @@ void setup() {
   for (int i = 0; i < 51; i++) {
     for (int j = 0; j < 51; j++) {
       for (int k = 0; k < 51; k++) {
-        values[i][j][k]=2.1*noise(0.07*i, 0.07*j, 0.07*k);
+        values[i][j][k]=noise(0.07*i, 0.07*j, 0.07*k);
       }
     }
   }
@@ -29,11 +29,16 @@ void setup() {
   creator.setSize(8, 8, 8);// cell size
   creator.setValues(values);// values corresponding to the grid points
   // values can also be double[][][]
-  creator.setIsolevel(1);// isolevel to mesh
+  creator.setIsolevel(.6);// isolevel to mesh
   creator.setInvert(false);// invert mesh
-  creator.setBoundary(100);// value of isoFunction outside grid
+  creator.setBoundary(-200);// value of isoFunction outside grid
   // use creator.clearBoundary() to rest boundary values to "no value".
   // A boundary value of "no value" results in an open mesh
+  
+  //Gamma controls level of grid snap, 0.0-0.5. Can improve the 
+  //quality of the triangles, but can give small changes in topology.
+  creator.setGamma(0.3); 
+  
 
   mesh=new HE_Mesh(creator);
 

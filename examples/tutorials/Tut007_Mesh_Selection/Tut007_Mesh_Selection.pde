@@ -8,11 +8,12 @@ import wblut.geom.*;
 import processing.opengl.*;
 
 HE_Selection selection;
+HE_Selection invselection;
 HE_Mesh box;
 WB_Render render;
 
 void setup() {
-  size(600, 600, OPENGL);
+  size(800,800,P3D);
   HEC_Box boxCreator=new HEC_Box().setWidth(400).setWidthSegments(10)
     .setHeight(200).setHeightSegments(4)
       .setDepth(200).setDepthSegments(4);
@@ -26,9 +27,10 @@ void setup() {
   HE_Face f;
   while (fItr.hasNext ()) {
     f=fItr.next();
-    if (random(100)<30) selection.add(f);
+    if (random(100)<50) selection.add(f);
   }
-
+  invselection=selection.get();
+  invselection.invertFaces();
   HES_CatmullClark cc=new HES_CatmullClark().setKeepEdges(false).setKeepBoundary(false);
 
   //only modify selection (if applicable)
@@ -37,14 +39,15 @@ void setup() {
   //modifiers try to preserve selections whenever possible
 
 
-  selection.modify(new HEM_Extrude().setDistance(10).setChamfer(.5));
+  selection.modify(new HEM_Extrude().setDistance(25).setChamfer(.4));
+invselection.modify(new HEM_Extrude().setDistance(-5).setChamfer(.4));
   render=new WB_Render(this);
 }
 
 void draw() {
-  background(120);
+  background(25);
   lights();
-  translate(300, 300, 0);
+  translate(width/2, height/2, 0);
   rotateY(mouseX*1.0f/width*TWO_PI);
   rotateX(mouseY*1.0f/height*TWO_PI);
   fill(255);

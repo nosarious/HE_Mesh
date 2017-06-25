@@ -311,7 +311,19 @@ public class HEC_Cone extends HEC_Creator {
 			}
 		}
 		final HEC_FromFacelist fl = new HEC_FromFacelist();
-		fl.setVertices(vertices).setUVW(uvws).setFaces(faces).setFaceTextureIds(faceTextureIds);
+		fl.setVertices(vertices).setVertexUVW(uvws).setFaces(faces).setFaceTextureIds(faceTextureIds);
 		return fl.createBase();
+	}
+
+	public static void main(final String[] args) {
+		HEC_Cone creator = new HEC_Cone();
+		creator.setRadius(200).setHeight(400);
+		creator.setFacets(7).setSteps(5);
+		creator.setCap(true);
+		creator.setReverse(false);
+		creator.setZAxis(0, 0, 1);
+		HE_Mesh mesh = new HE_Mesh(creator);
+		mesh.validate();
+
 	}
 }

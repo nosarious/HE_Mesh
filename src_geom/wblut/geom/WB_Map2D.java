@@ -3,23 +3,23 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.geom;
 
 /**
  *
  * WB_Map2D is an interface for classes that transform between 3D coordinates
- * and 2D coordinates through some from of mapping or projection.
+ * and 2D coordinates through some form of mapping or projection.
  *
  *
  */
 public interface WB_Map2D extends WB_Map {
 
 	/**
-	 * Unmap 2D point.
+	 * Unmap 2D point: map(x,y)->p
 	 *
 	 * @param p
 	 * @param result
@@ -29,7 +29,7 @@ public interface WB_Map2D extends WB_Map {
 	public void unmapPoint2D(WB_Coord p, WB_MutableCoord result);
 
 	/**
-	 * Unmap 2D point.
+	 * Unmap 2D point: map(u,v)->p
 	 *
 	 * @param u
 	 * @param v
@@ -40,7 +40,7 @@ public interface WB_Map2D extends WB_Map {
 	public void unmapPoint2D(double u, double v, WB_MutableCoord result);
 
 	/**
-	 * Unmap 2D vector.
+	 * Unmap 2D vector: map(x,y)->p
 	 *
 	 * @param v
 	 * @param result
@@ -50,7 +50,7 @@ public interface WB_Map2D extends WB_Map {
 	public void unmapVector2D(WB_Coord v, WB_MutableCoord result);
 
 	/**
-	 * Unmap 2D vector.
+	 * Unmap 2D vector: map(u,v)->p
 	 *
 	 * @param u
 	 * @param v

@@ -13,14 +13,11 @@ package wblut.geom;
 import wblut.math.WB_Epsilon;
 import wblut.math.WB_Math;
 
-public class WB_Circle implements WB_Curve {
+public class WB_Circle {
 
 	private WB_Point center;
-
 	private WB_Vector normal;
-
 	private double radius, r2;
-
 	private WB_GeometryFactory geometryfactory = new WB_GeometryFactory();
 
 	/**
@@ -252,61 +249,6 @@ public class WB_Circle implements WB_Curve {
 	public boolean contains(final WB_Coord p) {
 		return center.getSqDistance2D(p) <= r2;
 
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.geom.WB_Curve#curvePoint(double)
-	 */
-	@Override
-	public WB_Point curvePoint(final double u) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.geom.WB_Curve#curveDirection(double)
-	 */
-	@Override
-	public WB_Vector curveDirection(final double u) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.geom.WB_Curve#curveDerivative(double)
-	 */
-	@Override
-	public WB_Vector curveDerivative(final double u) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.geom.WB_Curve#getLowerU()
-	 */
-	@Override
-	public double getLowerU() {
-
-		return 0;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wblut.geom.WB_Curve#getUpperU()
-	 */
-	@Override
-	public double getUpperU() {
-
-		return 1;
 	}
 
 }

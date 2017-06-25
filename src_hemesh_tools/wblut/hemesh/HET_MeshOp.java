@@ -39,6 +39,9 @@ import wblut.math.WB_M33;
 import wblut.math.WB_Math;
 
 public class HET_MeshOp {
+	private HET_MeshOp() {
+	}
+
 	private static WB_GeometryFactory gf = new WB_GeometryFactory();
 	public static final WB_ProgressTracker tracker = WB_ProgressTracker.instance();
 
@@ -1949,10 +1952,10 @@ public class HET_MeshOp {
 	public static HE_MeshStructure cleanUnusedElementsByFace(final HE_MeshStructure mesh) {
 		final HE_RAS<HE_Vertex> cleanedVertices = new HE_RAS.HE_RASTrove<HE_Vertex>();
 		final HE_RAS<HE_Halfedge> cleanedHalfedges = new HE_RAS.HE_RASTrove<HE_Halfedge>();
-		tracker.setStatusByString("HET_MeshOp", "Cleaning unused elements.", +1);
+		tracker.setStatusStr("HET_MeshOp", "Cleaning unused elements.", tracker.STARTLVL);
 		HE_Halfedge he;
 		WB_ProgressCounter counter = new WB_ProgressCounter(mesh.getNumberOfFaces(), 10);
-		tracker.setStatusByString("HET_MeshOp", "Processing faces.", counter);
+		tracker.setStatusStr("HET_MeshOp", "Processing faces.", counter);
 		HE_Face f;
 		final Iterator<HE_Face> fItr = mesh.fItr();
 		while (fItr.hasNext()) {
@@ -1971,7 +1974,7 @@ public class HET_MeshOp {
 			counter.increment();
 		}
 		counter = new WB_ProgressCounter(cleanedHalfedges.size(), 10);
-		tracker.setStatusByString("HET_MeshOp", "Processing halfedges.", counter);
+		tracker.setStatusStr("HET_MeshOp", "Processing halfedges.", counter);
 		final int n = cleanedHalfedges.size();
 		for (int i = 0; i < n; i++) {
 			he = cleanedHalfedges.get(i);
@@ -1983,7 +1986,7 @@ public class HET_MeshOp {
 		}
 		mesh.replaceVertices(cleanedVertices.getObjects());
 		mesh.replaceHalfedges(cleanedHalfedges.getObjects());
-		tracker.setStatusByString("HET_MeshOp", "Done cleaning unused elements.", -1);
+		tracker.setStatusStr("HET_MeshOp", "Done cleaning unused elements.", tracker.STOPLVL);
 		return mesh;
 	}
 

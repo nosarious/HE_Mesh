@@ -1843,8 +1843,9 @@ public class WB_GeometryFactory2D {
 	 */
 	public List<WB_Polygon> createRibbonPolygons2D(final WB_Polygon poly, final double d) {
 		final Polygon JTSpoly = toJTSPolygon2D(poly);
-		final Geometry outer = BufferOp.bufferOp(JTSpoly, d * 0.5);
-		final Geometry inner = BufferOp.bufferOp(JTSpoly, -d * 0.5);
+		final Geometry clean = BufferOp.bufferOp(JTSpoly, 0);
+		final Geometry outer = BufferOp.bufferOp(clean, d * 0.5);
+		final Geometry inner = BufferOp.bufferOp(clean, -d * 0.5);
 		final Geometry result = outer.difference(inner);
 		return createPolygonsFromJTSGeometry2D(result);
 	}
@@ -1863,8 +1864,9 @@ public class WB_GeometryFactory2D {
 			allPoly[i++] = toJTSPolygon2D(pol);
 		}
 		final MultiPolygon collPoly = JTSgf.createMultiPolygon(allPoly);
-		final Geometry outer = BufferOp.bufferOp(collPoly, d * 0.5);
-		final Geometry inner = BufferOp.bufferOp(collPoly, -d * 0.5);
+		final Geometry clean = BufferOp.bufferOp(collPoly, 0);
+		final Geometry outer = BufferOp.bufferOp(clean, d * 0.5);
+		final Geometry inner = BufferOp.bufferOp(clean, -d * 0.5);
 		final Geometry result = outer.difference(inner);
 		return createPolygonsFromJTSGeometry2D(result);
 	}
@@ -1878,8 +1880,9 @@ public class WB_GeometryFactory2D {
 	 */
 	public List<WB_Polygon> createRibbonPolygons2D(final WB_Polygon poly, final double o, final double i) {
 		final Polygon JTSpoly = toJTSPolygon2D(poly);
-		final Geometry outer = BufferOp.bufferOp(JTSpoly, o);
-		final Geometry inner = BufferOp.bufferOp(JTSpoly, -i);
+		final Geometry clean = BufferOp.bufferOp(JTSpoly, 0);
+		final Geometry outer = BufferOp.bufferOp(clean, o);
+		final Geometry inner = BufferOp.bufferOp(clean, -i);
 		final Geometry result = outer.difference(inner);
 		return createPolygonsFromJTSGeometry2D(result);
 	}
@@ -1899,8 +1902,9 @@ public class WB_GeometryFactory2D {
 			allPoly[j++] = toJTSPolygon2D(pol);
 		}
 		final MultiPolygon collPoly = JTSgf.createMultiPolygon(allPoly);
-		final Geometry outer = BufferOp.bufferOp(collPoly, o);
-		final Geometry inner = BufferOp.bufferOp(collPoly, -i);
+		final Geometry clean = BufferOp.bufferOp(collPoly, 0);
+		final Geometry outer = BufferOp.bufferOp(clean, o);
+		final Geometry inner = BufferOp.bufferOp(clean, -i);
 		final Geometry result = outer.difference(inner);
 		return createPolygonsFromJTSGeometry2D(result);
 	}

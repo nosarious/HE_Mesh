@@ -125,7 +125,7 @@ public class WB_HashGridInteger {
 		if (id == -1) {
 			return defaultValue;
 		}
-		if (id > 0) {
+		if (id >= 0) {
 			return values.get(id);
 		}
 		return defaultValue;
@@ -166,7 +166,7 @@ public class WB_HashGridInteger {
 	 *
 	 * @return
 	 */
-	public int getW() {
+	public int getWidth() {
 		return K;
 	}
 
@@ -175,7 +175,7 @@ public class WB_HashGridInteger {
 	 *
 	 * @return
 	 */
-	public int getH() {
+	public int getHeight() {
 		return L;
 	}
 
@@ -184,7 +184,7 @@ public class WB_HashGridInteger {
 	 *
 	 * @return
 	 */
-	public int getD() {
+	public int getDepth() {
 		return M;
 	}
 

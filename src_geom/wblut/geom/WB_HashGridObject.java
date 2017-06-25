@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 
 package wblut.geom;
@@ -13,19 +13,14 @@ package wblut.geom;
 import gnu.trove.map.TLongObjectMap;
 import gnu.trove.map.hash.TLongObjectHashMap;
 
-
 public class WB_HashGridObject {
-
 
 	@SuppressWarnings("rawtypes")
 	private final TLongObjectMap values;
 
-
 	private final Object defaultValue;
 
-
 	private final int K, L, M, KL;
-
 
 	/**
 	 *
@@ -45,7 +40,6 @@ public class WB_HashGridObject {
 		values = new TLongObjectHashMap(10, 0.5f, -1L);
 	}
 
-
 	/**
 	 *
 	 *
@@ -62,7 +56,6 @@ public class WB_HashGridObject {
 		defaultValue = null;
 		values = new TLongObjectHashMap(10, 0.5f, -1L);
 	}
-
 
 	/**
 	 *
@@ -83,7 +76,6 @@ public class WB_HashGridObject {
 		return false;
 	}
 
-
 	/**
 	 *
 	 *
@@ -101,7 +93,6 @@ public class WB_HashGridObject {
 		return false;
 	}
 
-
 	/**
 	 *
 	 *
@@ -115,13 +106,12 @@ public class WB_HashGridObject {
 		if (id == -1) {
 			return defaultValue;
 		}
-		if (id > 0) {
+		if (id >= 0) {
 			final Object val = values.get(id);
 			return val;
 		}
 		return defaultValue;
 	}
-
 
 	/**
 	 *
@@ -135,54 +125,50 @@ public class WB_HashGridObject {
 		if (i < 0) {
 			return -1;
 		}
-		if (i > (K - 1)) {
+		if (i > K - 1) {
 			return -1;
 		}
 		if (j < 0) {
 			return -1;
 		}
-		if (j > (L - 1)) {
+		if (j > L - 1) {
 			return -1;
 		}
 		if (k < 0) {
 			return -1;
 		}
-		if (k > (M - 1)) {
+		if (k > M - 1) {
 			return -1;
 		}
-		return i + (j * K) + (k * KL);
+		return i + j * K + k * KL;
 	}
-
 
 	/**
 	 *
 	 *
 	 * @return
 	 */
-	public int getW() {
+	public int getWidth() {
 		return K;
 	}
 
-
 	/**
 	 *
 	 *
 	 * @return
 	 */
-	public int getH() {
+	public int getHeight() {
 		return L;
 	}
 
-
 	/**
 	 *
 	 *
 	 * @return
 	 */
-	public int getD() {
+	public int getDepth() {
 		return M;
 	}
-
 
 	/**
 	 *
@@ -193,7 +179,6 @@ public class WB_HashGridObject {
 		return defaultValue;
 	}
 
-
 	/**
 	 *
 	 *
@@ -202,7 +187,6 @@ public class WB_HashGridObject {
 	public long[] getKeys() {
 		return values.keys();
 	}
-
 
 	/**
 	 *

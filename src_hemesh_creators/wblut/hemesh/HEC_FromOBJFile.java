@@ -3,9 +3,9 @@
  * It is dedicated to the public domain. To the extent possible under law,
  * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
  * rights.
- * 
+ *
  * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
- * 
+ *
  */
 package wblut.hemesh;
 
@@ -15,28 +15,29 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 
+import javolution.util.FastTable;
 import wblut.geom.WB_Point;
 
 /**
- * 
+ *
  */
 public class HEC_FromOBJFile extends HEC_Creator {
 
 	/**
-	 * 
+	 *
 	 */
 	private String path;
 
 	/**
-	 * 
+	 *
 	 */
 	private double scale;
 
 	/**
-	 * 
+	 *
 	 */
 	public HEC_FromOBJFile() {
 		super();
@@ -46,7 +47,7 @@ public class HEC_FromOBJFile extends HEC_Creator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param path
 	 */
@@ -58,7 +59,7 @@ public class HEC_FromOBJFile extends HEC_Creator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param path
 	 * @return
@@ -69,7 +70,7 @@ public class HEC_FromOBJFile extends HEC_Creator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param f
 	 * @return
@@ -82,7 +83,7 @@ public class HEC_FromOBJFile extends HEC_Creator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see wblut.hemesh.creators.HEC_Creator#createBase()
 	 */
 	@Override
@@ -95,11 +96,14 @@ public class HEC_FromOBJFile extends HEC_Creator {
 		if (is == null) {
 			return new HE_Mesh();
 		}
-		final ArrayList<WB_Point> vertexList = new ArrayList<WB_Point>();
-		final ArrayList<int[]> faceList = new ArrayList<int[]>();
+		final List<WB_Point> vertexList = new FastTable<WB_Point>();
+		final List<WB_Point> UVWList = new FastTable<WB_Point>();
+		final List<int[]> faceList = new FastTable<int[]>();
+		final List<int[]> faceUVWList = new FastTable<int[]>();
 		int faceCount = 0;
 		// load OBJ file as an array of strings
 		final String objStrings[] = loadStrings(is);
+		boolean hasTexture = false;
 		for (int i = 0; i < objStrings.length; i++) {
 			// split every line in parts divided by spaces
 			final String[] parts = objStrings[i].split("\\s+");
@@ -108,32 +112,59 @@ public class HEC_FromOBJFile extends HEC_Creator {
 			if (parts[0].equals("v")) {
 				final double x1 = scale * Double.parseDouble(parts[1]);
 				final double y1 = scale * Double.parseDouble(parts[2]);
-				final double z1 = scale * Double.parseDouble(parts[3]);
+				final double z1 = parts.length > 3 ? scale * Double.parseDouble(parts[3]) : 0;
 				final WB_Point pointLoc = new WB_Point(x1, y1, z1);
 				vertexList.add(pointLoc);
+			}
+			if (parts[0].equals("vt")) {
+
+				final double u = Double.parseDouble(parts[1]);
+				final double v = parts.length > 2 ? Double.parseDouble(parts[2]) : 0;
+				final double w = parts.length > 3 ? Double.parseDouble(parts[3]) : 0;
+				final WB_Point pointUVW = new WB_Point(u, v, w);
+				UVWList.add(pointUVW);
+				hasTexture = true;
 			}
 			// f stands for facelist data
 			// should work for non triangular faces
 			if (parts[0].equals("f")) {
 				final int[] tempFace = new int[parts.length - 1];
-				for (int j = 0; j < (parts.length - 1); j++) {
+				final int[] tempUVWFace = new int[parts.length - 1];
+				for (int j = 0; j < parts.length - 1; j++) {
 					final String[] num = parts[j + 1].split("/");
 					tempFace[j] = Integer.parseInt(num[0]) - 1;
+					if (num.length > 1) {
+						tempUVWFace[j] = Integer.parseInt(num[1]) - 1;
+					}
 				}
 				faceList.add(tempFace);
+				faceUVWList.add(tempUVWFace);
 				faceCount++;
 			}
 		}
+
 		// the HEC_FromFacelist wants the face data as int[][]
 		final int[][] faceArray = new int[faceCount][];
 		for (int i = 0; i < faceCount; i++) {
 			final int[] tempFace = faceList.get(i);
 			faceArray[i] = tempFace;
 		}
+		final int[][] faceUVWArray = new int[faceCount][];
+		if (hasTexture) {
+			for (int i = 0; i < faceCount; i++) {
+				final int[] tempUVWFace = faceUVWList.get(i);
+				faceUVWArray[i] = tempUVWFace;
+			}
+		}
+
 		// et voila... add to the creator
 		final HEC_FromFacelist creator = new HEC_FromFacelist();
 		creator.setVertices(vertexList);
 		creator.setFaces(faceArray);
+		if (hasTexture) {
+			creator.setFacesUVW(faceUVWArray);
+			creator.setFaceVertexUVW(UVWList);
+		}
 		creator.setDuplicate(true);
 
 		return new HE_Mesh(creator);
@@ -141,7 +172,7 @@ public class HEC_FromOBJFile extends HEC_Creator {
 
 	// Code excerpts form processing.core
 	/**
-	 * 
+	 *
 	 *
 	 * @param file
 	 * @return
@@ -163,7 +194,7 @@ public class HEC_FromOBJFile extends HEC_Creator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param input
 	 * @return
@@ -179,7 +210,7 @@ public class HEC_FromOBJFile extends HEC_Creator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param reader
 	 * @return

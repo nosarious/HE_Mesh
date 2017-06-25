@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 import javolution.util.FastTable;
+import wblut.hemesh.HEMC_Explode;
 import wblut.hemesh.HE_Mesh;
+import wblut.hemesh.HE_MeshCollection;
 
 /**
  *
@@ -98,28 +100,7 @@ public class WB_MeshGraph {
 	 * @param mesh
 	 */
 	public WB_MeshGraph(final HE_Mesh mesh) {
-		vertices = new WB_GraphVertex[mesh.getNumberOfVertices()];
-		for (int i = 0; i < mesh.getNumberOfVertices(); i++) {
-			vertices[i] = new WB_GraphVertex(i, mesh.getVertex(i));
-		}
-		final int[][] meshedges = mesh.getEdgesAsInt();
-		WB_Coord p0;
-		WB_Coord p1;
-		WB_GraphVertex v0;
-		WB_GraphVertex v1;
-		double d;
-		for (int i = 0; i < meshedges.length; i++) {
-			if (meshedges[i][0] != meshedges[i][1]) {
-				p0 = mesh.getVertex(meshedges[i][0]);
-				p1 = mesh.getVertex(meshedges[i][1]);
-				d = WB_GeometryOp3D.getDistance3D(p0, p1);
-				v0 = vertices[meshedges[i][0]];
-				v1 = vertices[meshedges[i][1]];
-				v0.neighbors.add(new WB_GraphEdge(v1, d));
-				v1.neighbors.add(new WB_GraphEdge(v0, d));
-			}
-		}
-		lastSource = -1;
+		this(mesh, 0.0);
 	}
 
 	/**
@@ -129,10 +110,18 @@ public class WB_MeshGraph {
 	 * @param offset
 	 */
 	public WB_MeshGraph(final HE_Mesh mesh, final double offset) {
+
 		vertices = new WB_GraphVertex[mesh.getNumberOfVertices()];
-		for (int i = 0; i < mesh.getNumberOfVertices(); i++) {
-			vertices[i] = new WB_GraphVertex(i,
-					new WB_Point(mesh.getVertex(i)).addMulSelf(offset, mesh.getVertexNormal(i)));
+		if (offset == 0.0) {
+			for (int i = 0; i < mesh.getNumberOfVertices(); i++) {
+				vertices[i] = new WB_GraphVertex(i, new WB_Point(mesh.getVertex(i)));
+			}
+		} else {
+			for (int i = 0; i < mesh.getNumberOfVertices(); i++) {
+				vertices[i] = new WB_GraphVertex(i,
+						new WB_Point(mesh.getVertex(i)).addMulSelf(offset, mesh.getVertexNormal(i)));
+			}
+
 		}
 		final int[][] meshedges = mesh.getEdgesAsInt();
 		WB_Coord p0;
@@ -525,5 +514,15 @@ public class WB_MeshGraph {
 			this.target = target;
 			this.weight = weight;
 		}
+	}
+
+	public static List<WB_MeshGraph> getAllGraphs(final HE_Mesh mesh) {
+		HE_MeshCollection meshes = new HEMC_Explode().setMesh(mesh).create();
+		List<WB_MeshGraph> graphs = new ArrayList<WB_MeshGraph>();
+		for (int i = 0; i < meshes.getNumberOfMeshes(); i++) {
+			graphs.add(new WB_MeshGraph(meshes.getMesh(i)));
+		}
+		return graphs;
+
 	}
 }

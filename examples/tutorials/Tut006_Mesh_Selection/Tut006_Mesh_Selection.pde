@@ -5,13 +5,11 @@ import wblut.hemesh.*;
 import wblut.geom.*;
 
 
-import processing.opengl.*;
-
 HE_Mesh box;
 WB_Render render;
 void setup() {
-  size(600, 600, OPENGL);
-  smooth();
+  size(800, 800, P3D);
+  smooth(8);
 
   HEC_Box boxCreator=new HEC_Box().setWidth(400).setWidthSegments(10)
     .setHeight(200).setHeightSegments(4)
@@ -45,9 +43,9 @@ void setup() {
 }
 
 void draw() {
-  background(120);
+  background(25);
   lights();
-  translate(300, 300, 0);
+  translate(width/2,height/2);
   rotateY(mouseX*1.0f/width*TWO_PI);
   rotateX(mouseY*1.0f/height*TWO_PI);
   noStroke();

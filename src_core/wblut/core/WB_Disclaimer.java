@@ -12,11 +12,14 @@ package wblut.core;
 
 public class WB_Disclaimer {
 
+	private WB_Disclaimer() {
+	};
+
 	public static final WB_Disclaimer CURRENT_DISCLAIMER = new WB_Disclaimer();
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
