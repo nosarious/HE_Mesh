@@ -19,7 +19,7 @@ void setup() {
   render=new WB_Render2D(this);
   shell= new ArrayList<WB_Point>();
    for (int i=0; i<40; i++) {
-    shell.add(gf.createPointFromPolar(50+75*(i%2+1+random(1.0)), TWO_PI/40.0*i));
+    shell.add(gf.createPointFromPolar(50+75*(i%2+1+random(2.0)), TWO_PI/40.0*i));
   }
   holes= new ArrayList[2];
   ArrayList<WB_Point> hole=new ArrayList<WB_Point>();

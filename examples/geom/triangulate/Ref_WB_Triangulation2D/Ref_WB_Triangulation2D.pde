@@ -9,7 +9,7 @@ int[] triangles;
 int[] edges;
 void setup() {
   size(1000, 1000, P3D);
-  source=new WB_RandomDisk().setRadius(250);
+  source=new WB_RandomDisk().setRadius(350);
   render=new WB_Render2D(this);
   numPoints=5000;
   points=new WB_Point[numPoints];

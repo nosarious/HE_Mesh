@@ -22,7 +22,7 @@ void setup() {
   }
  
 
-  voronoiXY= WB_Voronoi.getVoronoi2D(points);
+  voronoiXY= WB_Voronoi.getVoronoi2D(points,2);
   textAlign(CENTER);
 }
 
@@ -48,5 +48,5 @@ void mousePressed() {
   for (WB_Point p : points) {
     p.addSelf(random(-5, 5), random(-5, 5), 0);
   } 
-  voronoiXY= WB_Voronoi.getVoronoi2D(points);
+  voronoiXY= WB_Voronoi.getVoronoi2D(points,2);
 }

@@ -34,7 +34,8 @@ void setup() {
   
   // WB_PlanarMap is a  coordinate system transform, it converts 3D world coordinates to local 3D coordinates in the system of a plane, and vice versa. 
   // This is for example useful to 2D triangulate a polygon with an arbitrary orientation in space. The origin of 3D space is mapped to the origin of the plane.
-  // WB_PlanarMap is not the same as projection, it preserves the distance of the point to the plane while projection discards this.
+  // WB_PlanarMap is not the same as projection. WB_PlanarMap recalculates the point's coordinates (x,y,z) in the coordinate system of the plane, (u,v,w). The distance of
+  // of the point to the plane is given by w. However projection moves the point to the plane discarding w (x,y,z)->(u,v,0).
   // Therefor, WB_PlanarMap is reversible while a projection is not.
   
   triangulationOnXY=WB_Triangulate.triangulate2D(points, mapToXY);

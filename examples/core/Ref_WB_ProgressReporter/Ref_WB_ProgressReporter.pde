@@ -11,7 +11,7 @@ WB_ProgressReporter pr;
 void setup() {
   size(1000,1000,P3D);
   smooth(8);
-  pr=new WB_ProgressReporter(1);
+  pr=new WB_ProgressReporter(5);// maximum depth of reporting
   pr.start();
   createMesh();
 
@@ -45,5 +45,10 @@ void createMesh(){
   modifier.setFuseAngle(0.1*HALF_PI);// threshold angle to be considered coplanar
   HE_Selection sel=HE_Selection.selectRandomFaces(mesh,0.4);
   sel.modify(modifier);
-  
+  mesh.smooth(2);
+}
+
+void stop(){
+ pr.interrupt();
+ super.stop(); 
 }

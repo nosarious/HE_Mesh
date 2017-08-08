@@ -1,7 +1,6 @@
 var classwblut_1_1hemesh_1_1_h_e_m_c___split_mesh =
 [
     [ "HEMC_SplitMesh", "classwblut_1_1hemesh_1_1_h_e_m_c___split_mesh.html#a99f628499c96c3e9234d72ed5da1f7b2", null ],
-    [ "create", "classwblut_1_1hemesh_1_1_h_e_m_c___split_mesh.html#ac379b324da017121c15119282d6d152c", null ],
     [ "setCap", "classwblut_1_1hemesh_1_1_h_e_m_c___split_mesh.html#a33f34ae2e568969b0ea8dff0897cd4f4", null ],
     [ "setMesh", "classwblut_1_1hemesh_1_1_h_e_m_c___split_mesh.html#a00c80e78db847a91a371d30ecd849db1", null ],
     [ "setOffset", "classwblut_1_1hemesh_1_1_h_e_m_c___split_mesh.html#a0b2b84b11b5cadc13f95dfa7849e185b", null ],

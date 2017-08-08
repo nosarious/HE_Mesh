@@ -1,6 +1,8 @@
 var classwblut_1_1geom_1_1_w_b___coordinate_system3_d =
 [
     [ "WB_CoordinateSystem3D", "classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html#a1b7c99892a92f576be3ffca9003a6a37", null ],
+    [ "WB_CoordinateSystem3D", "classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html#a9bbcb7b81659b033e06a9ac4645b93bf", null ],
+    [ "WB_CoordinateSystem3D", "classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html#a7f475a3ab9dc9081625c69bf926260e4", null ],
     [ "WB_CoordinateSystem3D", "classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html#aab7d13079ec6d7517b35d7ab8995a826", null ],
     [ "WB_CoordinateSystem3D", "classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html#a416035292713e95b5f54c3d6a0a0176b", null ],
     [ "WB_CoordinateSystem3D", "classwblut_1_1geom_1_1_w_b___coordinate_system3_d.html#a82aee4e11ce31bd2f9067d8ccb951019", null ],

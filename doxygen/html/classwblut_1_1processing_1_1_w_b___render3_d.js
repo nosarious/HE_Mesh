@@ -82,6 +82,7 @@ var classwblut_1_1processing_1_1_w_b___render3_d =
     [ "drawFrameNode", "classwblut_1_1processing_1_1_w_b___render3_d.html#a1374f6332f9467838cfcdb406cd328d2", null ],
     [ "drawFrameNodes", "classwblut_1_1processing_1_1_w_b___render3_d.html#ad921ad446935f2ccb5484f4b8bf3d89d", null ],
     [ "drawFrameStrut", "classwblut_1_1processing_1_1_w_b___render3_d.html#acdf287f99ca81fd67f56986a310ea0c1", null ],
+    [ "drawGizmo", "classwblut_1_1processing_1_1_w_b___render3_d.html#ab97dbf314a05fdf48f31030391630148", null ],
     [ "drawHalfedge", "classwblut_1_1processing_1_1_w_b___render3_d.html#a9120ca40ce25e75d46c489580d05ae40", null ],
     [ "drawHalfedge", "classwblut_1_1processing_1_1_w_b___render3_d.html#aa6b659d0c37f0b6b943265bf9b3c340e", null ],
     [ "drawHalfedge", "classwblut_1_1processing_1_1_w_b___render3_d.html#a3ffd70194b99cd8f24bcbb65b683b791", null ],

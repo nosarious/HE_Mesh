@@ -29,11 +29,11 @@ void draw() {
   translate(400,400);
   create();
   noFill();
-  stroke(255,0,0, 120);
+  stroke(255,0,0);
   for(WB_Circle circle:circles){
   render.drawCircle2D(circle);
   }
-  stroke(0, 120);
+  stroke(0);
   render.drawPoint2D(point1,5);
   render.drawPoint2D(point2,5);
 }

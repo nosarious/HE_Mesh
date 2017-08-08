@@ -1,8 +1,8 @@
 var classwblut_1_1hemesh_1_1_h_e_m___punch_holes =
 [
     [ "HEM_PunchHoles", "classwblut_1_1hemesh_1_1_h_e_m___punch_holes.html#a0b66df2abf88712f9e6324c013810ef4", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___punch_holes.html#a887595ed1b23cf5997beead27f894129", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___punch_holes.html#aed65b7e1333a89378fb8da5cb14d35ef", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___punch_holes.html#ac24e9995898ae8f2337ac72107508a49", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___punch_holes.html#ad42903b75b040f9fea132fa30100cd2e", null ],
     [ "setFuse", "classwblut_1_1hemesh_1_1_h_e_m___punch_holes.html#a71271f68090d65e6a4e7f922e0540d87", null ],
     [ "setFuseAngle", "classwblut_1_1hemesh_1_1_h_e_m___punch_holes.html#ad5cb08695a168c7ad7ea895b73fe54ca", null ],
     [ "setThresholdAngle", "classwblut_1_1hemesh_1_1_h_e_m___punch_holes.html#a332081c6a6f546a521df9719e5c4b8c1", null ],

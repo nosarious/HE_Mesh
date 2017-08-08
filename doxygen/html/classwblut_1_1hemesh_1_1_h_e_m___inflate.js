@@ -1,8 +1,8 @@
 var classwblut_1_1hemesh_1_1_h_e_m___inflate =
 [
     [ "HEM_Inflate", "classwblut_1_1hemesh_1_1_h_e_m___inflate.html#a7e8443949470e047c4d716cdedfa4bbb", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___inflate.html#ad9575b849dc1b7915926891e59948811", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___inflate.html#a30324722cc9ead9409a32630f14e6fd2", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___inflate.html#a269e9be43457e01a639c2a3759ca4531", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___inflate.html#a72ea1813ade6b9e163fa83e4de316566", null ],
     [ "setAutoRescale", "classwblut_1_1hemesh_1_1_h_e_m___inflate.html#a1d839063ac32b8a599aab584bbb5f375", null ],
     [ "setFactor", "classwblut_1_1hemesh_1_1_h_e_m___inflate.html#acef8b12d0b874416405379d9af1aa0a3", null ],
     [ "setIterations", "classwblut_1_1hemesh_1_1_h_e_m___inflate.html#a9809b8a1402955fb142104aea090d110", null ],

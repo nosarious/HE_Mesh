@@ -28,7 +28,7 @@ void draw() {
   background(55);
   lights();
   translate(width/2, height/2);
-  stroke(255,0,0,100);
+  stroke(200,0,0);
   render.drawEdges(trimesh);
   stroke(0);
   render.drawEdges(hexmesh);

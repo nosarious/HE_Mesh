@@ -43,8 +43,8 @@ void draw() {
   noStroke();
   render.drawPolygon2D(polygon);
   noFill();
-  stroke(0);
-  strokeWeight(2);
+  stroke(0,0,255);
+  strokeWeight(4);
   for (WB_Polygon poly : boundary) {
     render.drawPolygonEdges2D(poly);
   }

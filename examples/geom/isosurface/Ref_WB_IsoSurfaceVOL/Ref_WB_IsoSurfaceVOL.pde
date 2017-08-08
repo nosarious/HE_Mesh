@@ -34,8 +34,10 @@ void draw() {
   translate(width/2, height/2);
   rotateY(mouseX*1.0f/width*TWO_PI);
   rotateX(mouseY*1.0f/height*TWO_PI);
-  stroke(0);
-  fill(255);
-  render.drawTetrahedron(tetra);
+  stroke(255,0,0);
+  for(int i=0;i<tetra.size();i++){
+ 
+  render.drawTetrahedron(tetra.get(i));
+  }
 
 }

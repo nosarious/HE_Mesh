@@ -21,9 +21,15 @@ void setup() {
   render=new WB_Render3D(this);
   numPoints=1000;
   points=new WB_Point[numPoints];
-  for (int i=0; i<numPoints; i++) {
+  for (int i=0; i<numPoints-200; i++) {
     points[i]=source.nextPoint().mulSelf(random(300, 400));
   }
+  
+  source=new WB_RandomInSphere();
+  for (int i=numPoints-200; i<numPoints; i++) {
+    points[i]=source.nextPoint().mulSelf(250);
+  }
+  
   WB_AlphaTriangulation3D triangulation=WB_Triangulate.alphaTriangulate3D(points);
   tetrahedra=triangulation.getAlphaTetrahedra(50.0);// 1D array of indices of tetrahedra, 4 indices per tetrahedron
   triangles=triangulation.getAlphaTriangles(50.0);

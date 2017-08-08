@@ -1,0 +1,363 @@
+/*
+ * This file is part of HE_Mesh, a library for creating and manipulating meshes.
+ * It is dedicated to the public domain. To the extent possible under law,
+ * I , Frederik Vanhoutte, have waived all copyright and related or neighboring
+ * rights.
+ *
+ * This work is published from Belgium. (http://creativecommons.org/publicdomain/zero/1.0/)
+ *
+ */
+package wblut.hemesh;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import javolution.util.FastTable;
+import wblut.geom.WB_AABBTree;
+import wblut.geom.WB_Coord;
+import wblut.geom.WB_Point;
+import wblut.geom.WB_Voronoi;
+import wblut.math.WB_ConstantScalarParameter;
+import wblut.math.WB_ScalarParameter;
+
+/**
+ * Creates the Voronoi cells of a collection of points, constrained by a mesh.
+ * This creator tries to optimize by first creating the Voronoi cells of the
+ * enclosing box. If the cell crosses the container boundary, it is regenrated
+ * using the full container.
+ *
+ * Limitations:
+ *
+ * - this creator does not generate the necessary information for
+ * HEMC_FromVoronoiCells. - intersection tests are only vertex based. Large
+ * cells, or thin container geometry can lead to wrongly classifying a cell as
+ * non-crossing. All vertices can be outside the mesh but still describe an
+ * intersecting volume.
+ *
+ * @author Frederik Vanhoutte (W:Blut)
+ *
+ */
+public class HEMC_VoronoiCellsPre extends HEMC_MultiCreator {
+	/** Points. */
+	private List<WB_Coord> points;
+	/** Number of points. */
+	private int numberOfPoints;
+	/** Container. */
+	private HE_Mesh container;
+	/** The simple cap. */
+	private boolean simpleCap;
+	/**
+	 *
+	 */
+	private boolean bruteForce;
+	/** Offset. */
+	private WB_ScalarParameter offset;
+	public HE_Selection[] inner;
+
+	public HE_Selection[] outer;
+
+	/**
+	 *
+	 */
+	public HEMC_VoronoiCellsPre() {
+		super();
+		simpleCap = true;
+	}
+
+	/**
+	 * Set mesh, defines both points and container.
+	 *
+	 * @param mesh
+	 *            HE_Mesh
+	 * @param addCenter
+	 *            add mesh center as extra point?
+	 * @return self
+	 */
+	public HEMC_VoronoiCellsPre setMesh(final HE_Mesh mesh, final boolean addCenter) {
+		if (addCenter) {
+			points = new FastTable<WB_Coord>();
+			points.addAll(mesh.getVertices());
+			points.add(mesh.getCenter());
+		} else {
+			points = new FastTable<WB_Coord>();
+			points.addAll(mesh.getVertices());
+		}
+		container = mesh;
+		return this;
+	}
+
+	/**
+	 * Set points that define cell centers.
+	 *
+	 * @param points
+	 *            array of vertex positions
+	 * @return self
+	 */
+	public HEMC_VoronoiCellsPre setPoints(final WB_Coord[] points) {
+		this.points = new FastTable<WB_Coord>();
+		for (WB_Coord p : points) {
+			this.points.add(p);
+		}
+		return this;
+	}
+
+	/**
+	 * Set points that define cell centers.
+	 *
+	 * @param points
+	 *            collection of vertex positions
+	 * @return self
+	 */
+	public HEMC_VoronoiCellsPre setPoints(final Collection<? extends WB_Coord> points) {
+		this.points = new FastTable<WB_Coord>();
+		this.points.addAll(points);
+		return this;
+	}
+
+	/**
+	 * Set points that define cell centers.
+	 *
+	 * @param points
+	 *            2D array of double of vertex positions
+	 * @return self
+	 */
+	public HEMC_VoronoiCellsPre setPoints(final double[][] points) {
+		final int n = points.length;
+		this.points = new FastTable<WB_Coord>();
+		for (int i = 0; i < n; i++) {
+			this.points.add(new WB_Point(points[i][0], points[i][1], points[i][2]));
+		}
+		return this;
+	}
+
+	/**
+	 * Set points that define cell centers.
+	 *
+	 * @param points
+	 *            2D array of float of vertex positions
+	 * @return self
+	 */
+	public HEMC_VoronoiCellsPre setPoints(final float[][] points) {
+		final int n = points.length;
+		this.points = new FastTable<WB_Coord>();
+		for (int i = 0; i < n; i++) {
+			this.points.add(new WB_Point(points[i][0], points[i][1], points[i][2]));
+		}
+		return this;
+	}
+
+	/**
+	 * Set voronoi cell offset.
+	 *
+	 * @param o
+	 *            offset
+	 * @return self
+	 */
+	public HEMC_VoronoiCellsPre setOffset(final double o) {
+		offset = new WB_ConstantScalarParameter(o);
+		return this;
+	}
+
+	/**
+	 * Set voronoi cell offset.
+	 *
+	 * @param o
+	 *            offset
+	 * @return self
+	 */
+	public HEMC_VoronoiCellsPre setOffset(final WB_ScalarParameter o) {
+		offset = o;
+		return this;
+	}
+
+	/**
+	 * Set enclosing mesh limiting cells.
+	 *
+	 * @param container
+	 *            enclosing mesh
+	 * @return self
+	 */
+	public HEMC_VoronoiCellsPre setContainer(final HE_Mesh container) {
+		this.container = container;
+		return this;
+	}
+
+	/**
+	 * Sets simple cap option.
+	 *
+	 * @param b
+	 *
+	 * @return self
+	 */
+	public HEMC_VoronoiCellsPre setSimpleCap(final boolean b) {
+		simpleCap = b;
+		return this;
+	}
+
+	/**
+	 *
+	 *
+	 * @param b
+	 * @return
+	 */
+	public HEMC_VoronoiCellsPre setBruteForce(final boolean b) {
+		bruteForce = b;
+		return this;
+	}
+
+	class VorResult {
+		HE_Mesh mesh;
+		HE_Selection inner;
+		HE_Selection outer;
+
+		VorResult(final HE_Mesh mesh, final HE_Selection inner, final HE_Selection outer) {
+			this.mesh = mesh;
+			this.inner = inner;
+			this.outer = outer;
+		}
+	}
+
+	/**
+	 *
+	 */
+	class CellRunner implements Callable<VorResult> {
+		int index;
+		int[] indices;
+
+		CellRunner(final int index, final int[] indices) {
+			this.index = index;
+			this.indices = indices;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 *
+		 * @see java.util.concurrent.Callable#call()
+		 */
+		@Override
+		public VorResult call() {
+
+			final HEC_VoronoiCell cvc = new HEC_VoronoiCell();
+			cvc.setPoints(points).setN(numberOfPoints).setContainer(container).setOffset(offset).setSimpleCap(simpleCap)
+					.setLimitPoints(true);
+			cvc.setCellIndex(index);
+			cvc.setPointsToUse(indices);
+			return new VorResult(cvc.createBase(), cvc.inner, cvc.outer);
+
+		}
+	}
+
+	@Override
+	void create(final HE_MeshCollection result) {
+		tracker.setStatus(this, "Starting HEMC_VoronoiCells", +1);
+
+		if (container == null) {
+			_numberOfMeshes = 0;
+			return;
+		}
+		if (points == null) {
+			result.add(container.copy());
+			_numberOfMeshes = 1;
+			return;
+		}
+
+		numberOfPoints = points.size();
+
+		HEMC_VoronoiBox multiCreator = new HEMC_VoronoiBox();
+		multiCreator.setPoints(points);
+		multiCreator.setContainer(container.getAABB());
+		multiCreator.setOffset(offset);
+		multiCreator.setBruteForce(bruteForce);
+		HE_MeshCollection cells = multiCreator.create();
+		int[][] indices = WB_Voronoi.getVoronoi3DNeighbors(points);
+		final HEC_VoronoiCell cvc = new HEC_VoronoiCell();
+		cvc.setPoints(points).setN(numberOfPoints).setContainer(container).setOffset(offset).setSimpleCap(simpleCap)
+				.setLimitPoints(true);
+		WB_AABBTree tree = new WB_AABBTree(container, 1);
+		final ArrayList<HE_Selection> linnersel = new ArrayList<HE_Selection>();
+		final ArrayList<HE_Selection> loutersel = new ArrayList<HE_Selection>();
+		HE_MeshIterator mItr = cells.mItr();
+		HE_Mesh m;
+		int i = 0;
+		List<Integer> surfaceCells = new ArrayList<Integer>();
+		while (mItr.hasNext()) {
+			m = mItr.next();
+			HE_VertexIterator vItr = m.vItr();
+			HE_Vertex v;
+			int in = 0;
+			int out = 0;
+			boolean inside;
+			while (vItr.hasNext()) {
+				v = vItr.next();
+				inside = HET_MeshOp.isInside(tree, v);
+				if (inside) {
+					in++;
+				} else {
+					out++;
+				}
+			}
+			if (in == 0) {
+				System.out.println(this.getClass().getSimpleName() + ": external cell " + (i + 1) + " of "
+						+ cells.size() + " discarded.");
+			} else if (out == 0) {
+				System.out.println(this.getClass().getSimpleName() + ": internal cell " + (i + 1) + " of "
+						+ cells.size() + " added.");
+				result.add(m);
+				linnersel.add(HE_Selection.selectAllFaces(m));
+				loutersel.add(new HE_Selection(m));
+			} else {
+				System.out.println(this.getClass().getSimpleName() + ": surface cell " + (i + 1) + " of " + cells.size()
+						+ " queued.");
+				int index = m.getInternalLabel();
+				surfaceCells.add(index);
+			}
+			i++;
+		}
+		try {
+			int threadCount = Runtime.getRuntime().availableProcessors();
+			final ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+			final List<Future<VorResult>> list = new ArrayList<Future<VorResult>>();
+			i = 0;
+			for (i = 0; i < surfaceCells.size(); i++) {
+				final Callable<VorResult> runner = new CellRunner(surfaceCells.get(i), indices[surfaceCells.get(i)]);
+				list.add(executor.submit(runner));
+			}
+
+			for (Future<VorResult> future : list) {
+				VorResult vr = future.get();
+				HE_Mesh cell = vr.mesh;
+				result.add(cell);
+				linnersel.add(vr.inner);
+				loutersel.add(vr.outer);
+				System.out.println(this.getClass().getSimpleName() + ": surface cell " + cell.getInternalLabel()
+						+ " retrieved from queue.");
+			}
+
+			executor.shutdown();
+
+		} catch (final InterruptedException ex) {
+			ex.printStackTrace();
+		} catch (final ExecutionException ex) {
+			ex.printStackTrace();
+		}
+
+		_numberOfMeshes = result.size();
+		inner = new HE_Selection[_numberOfMeshes];
+		outer = new HE_Selection[_numberOfMeshes];
+
+		for (i = 0; i < _numberOfMeshes; i++) {
+
+			inner[i] = linnersel.get(i);
+			outer[i] = loutersel.get(i);
+		}
+		tracker.setStatus(this, "Exiting HEMC_VoronoiCells.", -1);
+
+	}
+
+}

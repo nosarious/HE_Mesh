@@ -53,8 +53,8 @@ var hierarchy =
       [ "wblut.math.WB_DoubleDouble", "classwblut_1_1math_1_1_w_b___double_double.html", null ]
     ] ],
     [ "wblut.geom.WB_IndexedAABBTree2D.Entry", "classwblut_1_1geom_1_1_w_b___indexed_a_a_b_b_tree2_d_1_1_entry.html", null ],
-    [ "wblut.geom.WB_AABBTree.Entry", "classwblut_1_1geom_1_1_w_b___a_a_b_b_tree_1_1_entry.html", null ],
     [ "wblut.geom.WB_AABBTree2D.Entry", "classwblut_1_1geom_1_1_w_b___a_a_b_b_tree2_d_1_1_entry.html", null ],
+    [ "wblut.geom.WB_AABBTree.Entry", "classwblut_1_1geom_1_1_w_b___a_a_b_b_tree_1_1_entry.html", null ],
     [ "Exception", null, [
       [ "wblut.hemesh.HEC_From3dsFile.Exception3ds", "classwblut_1_1hemesh_1_1_h_e_c___from3ds_file_1_1_exception3ds.html", null ]
     ] ],
@@ -87,7 +87,6 @@ var hierarchy =
         [ "wblut.hemesh.HEC_Copy", "classwblut_1_1hemesh_1_1_h_e_c___copy.html", null ],
         [ "wblut.hemesh.HEC_Cube", "classwblut_1_1hemesh_1_1_h_e_c___cube.html", null ],
         [ "wblut.hemesh.HEC_Cylinder", "classwblut_1_1hemesh_1_1_h_e_c___cylinder.html", null ],
-        [ "wblut.hemesh.HEC_DataCylinder", "classwblut_1_1hemesh_1_1_h_e_c___data_cylinder.html", null ],
         [ "wblut.hemesh.HEC_Dodecahedron", "classwblut_1_1hemesh_1_1_h_e_c___dodecahedron.html", null ],
         [ "wblut.hemesh.HEC_Dual", "classwblut_1_1hemesh_1_1_h_e_c___dual.html", null ],
         [ "wblut.hemesh.HEC_Ellipsoid", "classwblut_1_1hemesh_1_1_h_e_c___ellipsoid.html", null ],
@@ -99,7 +98,6 @@ var hierarchy =
         ] ],
         [ "wblut.hemesh.HEC_FromFrame", "classwblut_1_1hemesh_1_1_h_e_c___from_frame.html", null ],
         [ "wblut.hemesh.HEC_FromHemeshFile", "classwblut_1_1hemesh_1_1_h_e_c___from_hemesh_file.html", null ],
-        [ "wblut.hemesh.HEC_FromMesh", "classwblut_1_1hemesh_1_1_h_e_c___from_mesh.html", null ],
         [ "wblut.hemesh.HEC_FromOBJFile", "classwblut_1_1hemesh_1_1_h_e_c___from_o_b_j_file.html", null ],
         [ "wblut.hemesh.HEC_FromOBJFileNoCheck", "classwblut_1_1hemesh_1_1_h_e_c___from_o_b_j_file_no_check.html", null ],
         [ "wblut.hemesh.HEC_FromPolygons", "classwblut_1_1hemesh_1_1_h_e_c___from_polygons.html", null ],
@@ -109,6 +107,7 @@ var hierarchy =
         [ "wblut.hemesh.HEC_FromTriangles", "classwblut_1_1hemesh_1_1_h_e_c___from_triangles.html", null ],
         [ "wblut.hemesh.HEC_FromTriangulation", "classwblut_1_1hemesh_1_1_h_e_c___from_triangulation.html", null ],
         [ "wblut.hemesh.HEC_FromVoronoiCells", "classwblut_1_1hemesh_1_1_h_e_c___from_voronoi_cells.html", null ],
+        [ "wblut.hemesh.HEC_FromWBMesh", "classwblut_1_1hemesh_1_1_h_e_c___from_w_b_mesh.html", null ],
         [ "wblut.hemesh.HEC_Geodesic", "classwblut_1_1hemesh_1_1_h_e_c___geodesic.html", null ],
         [ "wblut.hemesh.HEC_Grid", "classwblut_1_1hemesh_1_1_h_e_c___grid.html", null ],
         [ "wblut.hemesh.HEC_Hemisphere", "classwblut_1_1hemesh_1_1_h_e_c___hemisphere.html", null ],
@@ -193,7 +192,9 @@ var hierarchy =
         [ "wblut.hemesh.HEMC_Explode", "classwblut_1_1hemesh_1_1_h_e_m_c___explode.html", null ],
         [ "wblut.hemesh.HEMC_Panelizer", "classwblut_1_1hemesh_1_1_h_e_m_c___panelizer.html", null ],
         [ "wblut.hemesh.HEMC_SplitMesh", "classwblut_1_1hemesh_1_1_h_e_m_c___split_mesh.html", null ],
+        [ "wblut.hemesh.HEMC_VoronoiBox", "classwblut_1_1hemesh_1_1_h_e_m_c___voronoi_box.html", null ],
         [ "wblut.hemesh.HEMC_VoronoiCells", "classwblut_1_1hemesh_1_1_h_e_m_c___voronoi_cells.html", null ],
+        [ "wblut.hemesh.HEMC_VoronoiCellsPre", "classwblut_1_1hemesh_1_1_h_e_m_c___voronoi_cells_pre.html", null ],
         [ "wblut.hemesh.HEMC_VoronoiSpheres", "classwblut_1_1hemesh_1_1_h_e_m_c___voronoi_spheres.html", null ],
         [ "wblut.hemesh.HEMC_WeairePhelan", "classwblut_1_1hemesh_1_1_h_e_m_c___weaire_phelan.html", null ]
       ] ],
@@ -238,6 +239,7 @@ var hierarchy =
     [ "wblut.hemesh.HET_MTVisitorFace< E extends Object >", "classwblut_1_1hemesh_1_1_h_e_t___m_t_visitor_face.html", null ],
     [ "wblut.hemesh.HET_MTVisitorVertex< E extends Object >", "classwblut_1_1hemesh_1_1_h_e_t___m_t_visitor_vertex.html", null ],
     [ "wblut.hemesh.HET_Recorder", "classwblut_1_1hemesh_1_1_h_e_t___recorder.html", null ],
+    [ "wblut.hemesh.HET_TextFactory", "classwblut_1_1hemesh_1_1_h_e_t___text_factory.html", null ],
     [ "wblut.hemesh.HET_Texture", "classwblut_1_1hemesh_1_1_h_e_t___texture.html", null ],
     [ "wblut.hemesh.HET_WriterBinaryHemesh", "classwblut_1_1hemesh_1_1_h_e_t___writer_binary_hemesh.html", null ],
     [ "wblut.hemesh.HET_WriterHemesh", "classwblut_1_1hemesh_1_1_h_e_t___writer_hemesh.html", null ],
@@ -246,11 +248,14 @@ var hierarchy =
     [ "wblut.hemesh.HET_WriterSimpleMesh", "classwblut_1_1hemesh_1_1_h_e_t___writer_simple_mesh.html", null ],
     [ "wblut.hemesh.HET_WriterSTL", "classwblut_1_1hemesh_1_1_h_e_t___writer_s_t_l.html", null ],
     [ "wblut.hemesh.HET_WriterWRL", "classwblut_1_1hemesh_1_1_h_e_t___writer_w_r_l.html", null ],
-    [ "wblut.geom.WB_AlphaTriangulation3D.Key", "classwblut_1_1geom_1_1_w_b___alpha_triangulation3_d_1_1_key.html", null ],
     [ "wblut.geom.WB_AlphaTriangulation2D.Key", "classwblut_1_1geom_1_1_w_b___alpha_triangulation2_d_1_1_key.html", null ],
+    [ "wblut.geom.WB_AlphaTriangulation3D.Key", "classwblut_1_1geom_1_1_w_b___alpha_triangulation3_d_1_1_key.html", null ],
     [ "wblut.geom.WB_KDTree< T extends WB_Coord, V >.QueryResult< T extends WB_Coord, V >", "classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_query_result.html", null ],
+    [ "wblut.geom.WB_KDTree2D< T extends WB_Coord, V >.QueryResult< T extends WB_Coord, V >", "classwblut_1_1geom_1_1_w_b___k_d_tree2_d_1_1_query_result.html", null ],
     [ "wblut.geom.WB_KDTreeDouble< T extends WB_Coord >.QueryResultDouble< T extends WB_Coord >", "classwblut_1_1geom_1_1_w_b___k_d_tree_double_1_1_query_result_double.html", null ],
+    [ "wblut.geom.WB_KDTreeDouble2D< T extends WB_Coord >.QueryResultDouble< T extends WB_Coord >", "classwblut_1_1geom_1_1_w_b___k_d_tree_double2_d_1_1_query_result_double.html", null ],
     [ "wblut.geom.WB_KDTreeInteger< T extends WB_Coord >.QueryResultInteger< T extends WB_Coord >", "classwblut_1_1geom_1_1_w_b___k_d_tree_integer_1_1_query_result_integer.html", null ],
+    [ "wblut.geom.WB_KDTreeInteger2D< T extends WB_Coord >.QueryResultInteger< T extends WB_Coord >", "classwblut_1_1geom_1_1_w_b___k_d_tree_integer2_d_1_1_query_result_integer.html", null ],
     [ "wblut.geom.WB_ShapeReader.RingTree", "classwblut_1_1geom_1_1_w_b___shape_reader_1_1_ring_tree.html", null ],
     [ "wblut.hemesh.HEC_From3dsFile.Scene3ds", "classwblut_1_1hemesh_1_1_h_e_c___from3ds_file_1_1_scene3ds.html", null ],
     [ "Thread", null, [
@@ -272,6 +277,7 @@ var hierarchy =
     [ "wblut.geom.WB_Classification", "enumwblut_1_1geom_1_1_w_b___classification.html", null ],
     [ "wblut.processing.WB_Color", "classwblut_1_1processing_1_1_w_b___color.html", null ],
     [ "wblut.math.WB_Complex", "classwblut_1_1math_1_1_w_b___complex.html", null ],
+    [ "wblut.geom.WB_CoordCollection", "classwblut_1_1geom_1_1_w_b___coord_collection.html", null ],
     [ "wblut.geom.WB_CoordinateMath2D", "interfacewblut_1_1geom_1_1_w_b___coordinate_math2_d.html", [
       [ "wblut.geom.WB_CoordinateFull2D", "interfacewblut_1_1geom_1_1_w_b___coordinate_full2_d.html", null ],
       [ "wblut.geom.WB_CoordinateMath3D", "interfacewblut_1_1geom_1_1_w_b___coordinate_math3_d.html", [
@@ -340,7 +346,9 @@ var hierarchy =
     [ "wblut.geom.WB_Frame", "classwblut_1_1geom_1_1_w_b___frame.html", null ],
     [ "wblut.geom.WB_Frame.WB_FrameStrut", "classwblut_1_1geom_1_1_w_b___frame_1_1_w_b___frame_strut.html", null ],
     [ "wblut.geom.WB_GeometryFactory2D", "classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html", [
-      [ "wblut.geom.WB_GeometryFactory", "classwblut_1_1geom_1_1_w_b___geometry_factory.html", null ]
+      [ "wblut.geom.WB_GeometryFactory3D", "classwblut_1_1geom_1_1_w_b___geometry_factory3_d.html", [
+        [ "wblut.geom.WB_GeometryFactory", "classwblut_1_1geom_1_1_w_b___geometry_factory.html", null ]
+      ] ]
     ] ],
     [ "wblut.geom.WB_GeometryOpGLU", "classwblut_1_1geom_1_1_w_b___geometry_op_g_l_u.html", [
       [ "wblut.geom.WB_GeometryOp2D", "classwblut_1_1geom_1_1_w_b___geometry_op2_d.html", [
@@ -379,14 +387,24 @@ var hierarchy =
       [ "wblut.geom.WB_IsoValues3D.HashGrid3D", "classwblut_1_1geom_1_1_w_b___iso_values3_d_1_1_hash_grid3_d.html", null ]
     ] ],
     [ "wblut.geom.WB_KDTree< T extends WB_Coord, V >.WB_KDNode< T extends WB_Coord, V >", "classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_w_b___k_d_node.html", null ],
+    [ "wblut.geom.WB_KDTree2D< T extends WB_Coord, V >.WB_KDNode< T extends WB_Coord, V >", "classwblut_1_1geom_1_1_w_b___k_d_tree2_d_1_1_w_b___k_d_node.html", null ],
     [ "wblut.geom.WB_KDTree< T extends WB_Coord, V >.WB_KDNode< T, V >", "classwblut_1_1geom_1_1_w_b___k_d_tree_1_1_w_b___k_d_node.html", null ],
+    [ "wblut.geom.WB_KDTree2D< T extends WB_Coord, V >.WB_KDNode< T, V >", "classwblut_1_1geom_1_1_w_b___k_d_tree2_d_1_1_w_b___k_d_node.html", null ],
     [ "wblut.geom.WB_KDTreeDouble< T extends WB_Coord >.WB_KDNodeDouble< T extends WB_Coord >", "classwblut_1_1geom_1_1_w_b___k_d_tree_double_1_1_w_b___k_d_node_double.html", null ],
+    [ "wblut.geom.WB_KDTreeDouble2D< T extends WB_Coord >.WB_KDNodeDouble< T extends WB_Coord >", "classwblut_1_1geom_1_1_w_b___k_d_tree_double2_d_1_1_w_b___k_d_node_double.html", null ],
+    [ "wblut.geom.WB_KDTreeDouble2D< T extends WB_Coord >.WB_KDNodeDouble< T >", "classwblut_1_1geom_1_1_w_b___k_d_tree_double2_d_1_1_w_b___k_d_node_double.html", null ],
     [ "wblut.geom.WB_KDTreeDouble< T extends WB_Coord >.WB_KDNodeDouble< T >", "classwblut_1_1geom_1_1_w_b___k_d_tree_double_1_1_w_b___k_d_node_double.html", null ],
     [ "wblut.geom.WB_KDTreeInteger< T extends WB_Coord >.WB_KDNodeInteger< T extends WB_Coord >", "classwblut_1_1geom_1_1_w_b___k_d_tree_integer_1_1_w_b___k_d_node_integer.html", null ],
+    [ "wblut.geom.WB_KDTreeInteger2D< T extends WB_Coord >.WB_KDNodeInteger< T extends WB_Coord >", "classwblut_1_1geom_1_1_w_b___k_d_tree_integer2_d_1_1_w_b___k_d_node_integer.html", null ],
     [ "wblut.geom.WB_KDTreeInteger< T extends WB_Coord >.WB_KDNodeInteger< T >", "classwblut_1_1geom_1_1_w_b___k_d_tree_integer_1_1_w_b___k_d_node_integer.html", null ],
+    [ "wblut.geom.WB_KDTreeInteger2D< T extends WB_Coord >.WB_KDNodeInteger< T >", "classwblut_1_1geom_1_1_w_b___k_d_tree_integer2_d_1_1_w_b___k_d_node_integer.html", null ],
     [ "wblut.geom.WB_KDTree< T extends WB_Coord, V >", "classwblut_1_1geom_1_1_w_b___k_d_tree.html", null ],
+    [ "wblut.geom.WB_KDTree2D< T extends WB_Coord, V >", "classwblut_1_1geom_1_1_w_b___k_d_tree2_d.html", null ],
     [ "wblut.geom.WB_KDTreeDouble< T extends WB_Coord >", "classwblut_1_1geom_1_1_w_b___k_d_tree_double.html", null ],
+    [ "wblut.geom.WB_KDTreeDouble2D< T extends WB_Coord >", "classwblut_1_1geom_1_1_w_b___k_d_tree_double2_d.html", null ],
     [ "wblut.geom.WB_KDTreeInteger< T extends WB_Coord >", "classwblut_1_1geom_1_1_w_b___k_d_tree_integer.html", null ],
+    [ "wblut.geom.WB_KDTreeInteger2D< T extends WB_Coord >", "classwblut_1_1geom_1_1_w_b___k_d_tree_integer2_d.html", null ],
+    [ "wblut.math.WB_M22", "classwblut_1_1math_1_1_w_b___m22.html", null ],
     [ "wblut.math.WB_M33", "classwblut_1_1math_1_1_w_b___m33.html", null ],
     [ "wblut.math.WB_M44", "classwblut_1_1math_1_1_w_b___m44.html", null ],
     [ "wblut.geom.WB_Map", "interfacewblut_1_1geom_1_1_w_b___map.html", [
@@ -420,6 +438,22 @@ var hierarchy =
     [ "wblut.geom.WB_OctreeInteger", "classwblut_1_1geom_1_1_w_b___octree_integer.html", null ],
     [ "wblut.geom.WB_Pentagon", "classwblut_1_1geom_1_1_w_b___pentagon.html", null ],
     [ "wblut.geom.WB_Plane", "classwblut_1_1geom_1_1_w_b___plane.html", null ],
+    [ "wblut.geom.WB_PlaneCollection", "classwblut_1_1geom_1_1_w_b___plane_collection.html", null ],
+    [ "wblut.geom.WB_PointGenerator", "interfacewblut_1_1geom_1_1_w_b___point_generator.html", [
+      [ "wblut.geom.WB_RandomPoint", "interfacewblut_1_1geom_1_1_w_b___random_point.html", [
+        [ "wblut.geom.WB_RandomBox", "classwblut_1_1geom_1_1_w_b___random_box.html", null ],
+        [ "wblut.geom.WB_RandomCircle", "classwblut_1_1geom_1_1_w_b___random_circle.html", null ],
+        [ "wblut.geom.WB_RandomCurve", "classwblut_1_1geom_1_1_w_b___random_curve.html", null ],
+        [ "wblut.geom.WB_RandomDisk", "classwblut_1_1geom_1_1_w_b___random_disk.html", null ],
+        [ "wblut.geom.WB_RandomInCylinder", "classwblut_1_1geom_1_1_w_b___random_in_cylinder.html", null ],
+        [ "wblut.geom.WB_RandomInSphere", "classwblut_1_1geom_1_1_w_b___random_in_sphere.html", null ],
+        [ "wblut.geom.WB_RandomOnCylinder", "classwblut_1_1geom_1_1_w_b___random_on_cylinder.html", null ],
+        [ "wblut.geom.WB_RandomOnSphere", "classwblut_1_1geom_1_1_w_b___random_on_sphere.html", null ],
+        [ "wblut.geom.WB_RandomRectangle", "classwblut_1_1geom_1_1_w_b___random_rectangle.html", null ],
+        [ "wblut.geom.WB_RandomSegment", "classwblut_1_1geom_1_1_w_b___random_segment.html", null ],
+        [ "wblut.geom.WB_RandomSpherical", "classwblut_1_1geom_1_1_w_b___random_spherical.html", null ]
+      ] ]
+    ] ],
     [ "wblut.geom.WB_PolygonDecomposer", "classwblut_1_1geom_1_1_w_b___polygon_decomposer.html", null ],
     [ "wblut.geom.WB_PolygonSplitter", "classwblut_1_1geom_1_1_w_b___polygon_splitter.html", null ],
     [ "wblut.geom.WB_PolygonTriangulatorEarcut", "classwblut_1_1geom_1_1_w_b___polygon_triangulator_earcut.html", null ],
@@ -444,23 +478,11 @@ var hierarchy =
     [ "wblut.geom.WB_Quadtree< V >", "classwblut_1_1geom_1_1_w_b___quadtree.html", null ],
     [ "wblut.geom.WB_QuadtreeDouble", "classwblut_1_1geom_1_1_w_b___quadtree_double.html", null ],
     [ "wblut.geom.WB_QuadtreeInteger", "classwblut_1_1geom_1_1_w_b___quadtree_integer.html", null ],
-    [ "wblut.geom.WB_RandomPoint", "interfacewblut_1_1geom_1_1_w_b___random_point.html", [
-      [ "wblut.geom.WB_RandomBox", "classwblut_1_1geom_1_1_w_b___random_box.html", null ],
-      [ "wblut.geom.WB_RandomCircle", "classwblut_1_1geom_1_1_w_b___random_circle.html", null ],
-      [ "wblut.geom.WB_RandomCurve", "classwblut_1_1geom_1_1_w_b___random_curve.html", null ],
-      [ "wblut.geom.WB_RandomDisk", "classwblut_1_1geom_1_1_w_b___random_disk.html", null ],
-      [ "wblut.geom.WB_RandomInCylinder", "classwblut_1_1geom_1_1_w_b___random_in_cylinder.html", null ],
-      [ "wblut.geom.WB_RandomInSphere", "classwblut_1_1geom_1_1_w_b___random_in_sphere.html", null ],
-      [ "wblut.geom.WB_RandomOnCylinder", "classwblut_1_1geom_1_1_w_b___random_on_cylinder.html", null ],
-      [ "wblut.geom.WB_RandomOnSphere", "classwblut_1_1geom_1_1_w_b___random_on_sphere.html", null ],
-      [ "wblut.geom.WB_RandomRectangle", "classwblut_1_1geom_1_1_w_b___random_rectangle.html", null ],
-      [ "wblut.geom.WB_RandomSegment", "classwblut_1_1geom_1_1_w_b___random_segment.html", null ],
-      [ "wblut.geom.WB_RandomSpherical", "classwblut_1_1geom_1_1_w_b___random_spherical.html", null ]
-    ] ],
     [ "wblut.math.WB_ScalarParameter", "interfacewblut_1_1math_1_1_w_b___scalar_parameter.html", [
       [ "wblut.math.WB_ConstantScalarParameter", "classwblut_1_1math_1_1_w_b___constant_scalar_parameter.html", null ],
       [ "wblut.math.WB_EaseScalarParameter", "classwblut_1_1math_1_1_w_b___ease_scalar_parameter.html", null ],
       [ "wblut.math.WB_ExpressionScalarParameter", "classwblut_1_1math_1_1_w_b___expression_scalar_parameter.html", null ],
+      [ "wblut.math.WB_FactorScalarParameter", "classwblut_1_1math_1_1_w_b___factor_scalar_parameter.html", null ],
       [ "wblut.math.WB_LinearScalarParameter", "classwblut_1_1math_1_1_w_b___linear_scalar_parameter.html", null ]
     ] ],
     [ "wblut.math.WB_SDF", "classwblut_1_1math_1_1_w_b___s_d_f.html", null ],
@@ -484,13 +506,7 @@ var hierarchy =
     [ "wblut.geom.WB_Triangle", "classwblut_1_1geom_1_1_w_b___triangle.html", [
       [ "wblut.geom.WB_IndexedTriangle", "classwblut_1_1geom_1_1_w_b___indexed_triangle.html", null ]
     ] ],
-    [ "wblut.geom.WB_Triangulate2D", "classwblut_1_1geom_1_1_w_b___triangulate2_d.html", [
-      [ "wblut.geom.WB_Triangulate3D", "classwblut_1_1geom_1_1_w_b___triangulate3_d.html", [
-        [ "wblut.geom.WB_Triangulate4D", "classwblut_1_1geom_1_1_w_b___triangulate4_d.html", [
-          [ "wblut.geom.WB_Triangulate", "classwblut_1_1geom_1_1_w_b___triangulate.html", null ]
-        ] ]
-      ] ]
-    ] ],
+    [ "wblut.geom.WB_Triangulate", "classwblut_1_1geom_1_1_w_b___triangulate.html", null ],
     [ "wblut.geom.WB_Triangulation2D", "classwblut_1_1geom_1_1_w_b___triangulation2_d.html", [
       [ "wblut.geom.WB_Triangulation2DWithPoints", "classwblut_1_1geom_1_1_w_b___triangulation2_d_with_points.html", null ]
     ] ],

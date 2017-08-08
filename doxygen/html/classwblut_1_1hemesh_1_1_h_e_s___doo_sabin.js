@@ -1,8 +1,8 @@
 var classwblut_1_1hemesh_1_1_h_e_s___doo_sabin =
 [
     [ "HES_DooSabin", "classwblut_1_1hemesh_1_1_h_e_s___doo_sabin.html#a15bf32a5e70b014cc41957e3726572af", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_s___doo_sabin.html#a57ff06d034be4deea038e955fc96e2a7", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_s___doo_sabin.html#a92f6fcaabe45dc6756bd77722f64d441", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_s___doo_sabin.html#a946d2de836a0b4dae16fef9eac267634", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_s___doo_sabin.html#a0cec43512075e11a354ae0cafcf3aeb4", null ],
     [ "setAbsolute", "classwblut_1_1hemesh_1_1_h_e_s___doo_sabin.html#af3272e7a7abf81e8d5df620972c62aec", null ],
     [ "setDistance", "classwblut_1_1hemesh_1_1_h_e_s___doo_sabin.html#a73fbc3d99dee84036d3a60fbe6194dc0", null ],
     [ "setFactors", "classwblut_1_1hemesh_1_1_h_e_s___doo_sabin.html#a09f37aa8f433a7b211b69110be2e1545", null ],

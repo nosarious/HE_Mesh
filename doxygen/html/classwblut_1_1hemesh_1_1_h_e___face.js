@@ -5,6 +5,7 @@ var classwblut_1_1hemesh_1_1_h_e___face =
     [ "_setHalfedge", "classwblut_1_1hemesh_1_1_h_e___face.html#a8539d72ea273ec206138355333ad5b5a", null ],
     [ "checkValidity", "classwblut_1_1hemesh_1_1_h_e___face.html#ac012ff698bde17185495d17db7420b14", null ],
     [ "clear", "classwblut_1_1hemesh_1_1_h_e___face.html#aad5330a01b0d79c62ea22e9a60dc002f", null ],
+    [ "clearPrecomputed", "classwblut_1_1hemesh_1_1_h_e___face.html#acc3310864149e4a93c819eeac20a3f8e", null ],
     [ "compareTo", "classwblut_1_1hemesh_1_1_h_e___face.html#a55a3b5354343863b69f4ae22f2384ed7", null ],
     [ "copyProperties", "classwblut_1_1hemesh_1_1_h_e___face.html#a772e2180ecc1907145edc863b4aa77e5", null ],
     [ "feCrc", "classwblut_1_1hemesh_1_1_h_e___face.html#aa56565bafac65c000a14c6bd65f2a096", null ],
@@ -32,6 +33,7 @@ var classwblut_1_1hemesh_1_1_h_e___face =
     [ "getFaceVertices", "classwblut_1_1hemesh_1_1_h_e___face.html#a9a8dfc4d47dfe0957733a90a02983863", null ],
     [ "getHalfedge", "classwblut_1_1hemesh_1_1_h_e___face.html#abe9fa33fa2796b2862d61967f6b7bbf7", null ],
     [ "getHalfedge", "classwblut_1_1hemesh_1_1_h_e___face.html#a74812ac0f9945b8654bcae6f10160934", null ],
+    [ "getHalfedge", "classwblut_1_1hemesh_1_1_h_e___face.html#a4569766387f68a0fc04cdcd187914122", null ],
     [ "getNeighborFaces", "classwblut_1_1hemesh_1_1_h_e___face.html#af7edaee43c9ca4381a8276f2c0cb28cd", null ],
     [ "getNonNormFaceNormal", "classwblut_1_1hemesh_1_1_h_e___face.html#ad4b26a1c4d276c863961f81d544e58ed", null ],
     [ "getPlane", "classwblut_1_1hemesh_1_1_h_e___face.html#ab0f832a6b66dddc93ebb8e3b3a6d18e3", null ],
@@ -42,6 +44,7 @@ var classwblut_1_1hemesh_1_1_h_e___face =
     [ "getUniqueFaceVertices", "classwblut_1_1hemesh_1_1_h_e___face.html#ad5f2af0946d0fe1b1ecf159786bd0a47", null ],
     [ "isBoundary", "classwblut_1_1hemesh_1_1_h_e___face.html#a8e755bdeb9fe9ac64f78972b5ff2319c", null ],
     [ "isDegenerate", "classwblut_1_1hemesh_1_1_h_e___face.html#a2515a68538b26bd113cadc42cd2bf491", null ],
+    [ "isNeighbor", "classwblut_1_1hemesh_1_1_h_e___face.html#af2a0c67c6233e78b73fa81f59ce1eea6", null ],
     [ "isPlanar", "classwblut_1_1hemesh_1_1_h_e___face.html#a4161152c41a0f81f274a879f811d276c", null ],
     [ "key", "classwblut_1_1hemesh_1_1_h_e___face.html#aa7e3ba5c37ed98297d9fac3345ca5f05", null ],
     [ "push", "classwblut_1_1hemesh_1_1_h_e___face.html#ade7a7960b88ca05b6d544b9a3ea6eba4", null ],
@@ -54,7 +57,6 @@ var classwblut_1_1hemesh_1_1_h_e___face =
     [ "toPolygon", "classwblut_1_1hemesh_1_1_h_e___face.html#a3e4e346746622f75de59992c22f492c4", null ],
     [ "toString", "classwblut_1_1hemesh_1_1_h_e___face.html#a58ffad3cd92dd280640dea6e05eb1efc", null ],
     [ "toTriangle", "classwblut_1_1hemesh_1_1_h_e___face.html#aac0438d33a65ce422568d7ea94942361", null ],
-    [ "update", "classwblut_1_1hemesh_1_1_h_e___face.html#ac85696b290966aeff78cc1c83c85cb0a", null ],
     [ "_halfedge", "classwblut_1_1hemesh_1_1_h_e___face.html#ac3681b1aa8a80047b6aaa96617847264", null ],
     [ "textureId", "classwblut_1_1hemesh_1_1_h_e___face.html#a8fd1ce30464571203f3e2b313e0f3c70", null ]
 ];

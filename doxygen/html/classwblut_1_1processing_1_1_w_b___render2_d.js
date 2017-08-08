@@ -17,6 +17,7 @@ var classwblut_1_1processing_1_1_w_b___render2_d =
     [ "drawAABBTree2D", "classwblut_1_1processing_1_1_w_b___render2_d.html#a34d95c061ed32fd72915d4b065c218e1", null ],
     [ "drawAABBTree2D", "classwblut_1_1processing_1_1_w_b___render2_d.html#ad4fc3f66897ebfa9e3b4aa181f5912ac", null ],
     [ "drawCircle2D", "classwblut_1_1processing_1_1_w_b___render2_d.html#a5087d1d1a6cc087c9eb9e747a0970318", null ],
+    [ "drawGizmo", "classwblut_1_1processing_1_1_w_b___render2_d.html#ab3a47f0671af1d56d6987eea92f4280c", null ],
     [ "drawLine2D", "classwblut_1_1processing_1_1_w_b___render2_d.html#a7fa4c485a1a9fa511286d8a26a9c5f35", null ],
     [ "drawLineMapped", "classwblut_1_1processing_1_1_w_b___render2_d.html#a17a703e95746e01f9012c3d3ae2e1663", null ],
     [ "drawPoint2D", "classwblut_1_1processing_1_1_w_b___render2_d.html#a0a1d4835408ffe21984f185baaa06050", null ],

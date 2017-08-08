@@ -11,13 +11,16 @@ void setup() {
   size(1000,1000,P3D);
   smooth(8);
   HEC_Dodecahedron creator=new HEC_Dodecahedron();
-  creator.setEdge(200); 
+  creator.setEdge(100); 
   //alternatively 
   //creator.setRadius(200);
   //creator.setInnerRadius(200);// radius of sphere inscribed in cube
   //creator.setOuterRadius(200);// radius of sphere circumscribing cube
   //creator.setMidRadius(200);// radius of sphere tangential to edges
   mesh=new HE_Mesh(creator); 
+  mesh.modify(new HEM_Crocodile().setDistance(200));
+  
+
   HET_Diagnosis.validate(mesh);
   render=new WB_Render(this);
 }
@@ -34,4 +37,10 @@ void draw() {
    
   noStroke();
   render.drawFaces(mesh);
+}
+
+void mousePressed(){
+  println("click");
+ mesh.modify(new HEM_FaceExpandLS().setDistance(10)); 
+  
 }

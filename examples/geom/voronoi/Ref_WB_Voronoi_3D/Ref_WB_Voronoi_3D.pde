@@ -24,7 +24,7 @@ void setup() {
     }
   }
   box=new WB_AABB(-250,-250,-250,250,250,250);
-  voronoi= WB_Voronoi.getVoronoi3D(points,box);
+  voronoi= WB_Voronoi.getVoronoi3D(points,box,4);
 
   textAlign(CENTER);
 }
@@ -42,8 +42,8 @@ void draw() {
   strokeWeight(2);
   render.drawPoint(points, 1); 
   strokeWeight(1);
+  noFill();
   for (WB_VoronoiCell3D vor : voronoi) {
-
     render.drawMesh(vor.getMesh());
   }
  
@@ -54,5 +54,5 @@ void mousePressed() {
   for (WB_Point p : points) {
     p.addSelf(random(-5, 5), random(-5, 5), random(-5, 5));
   } 
- voronoi= WB_Voronoi.getVoronoi3D(points,box);
+ voronoi= WB_Voronoi.getVoronoi3D(points,box,4);
 }

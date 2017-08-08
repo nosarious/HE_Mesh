@@ -33,6 +33,9 @@ var dir_1140db32f6c52a0189d18d8affbc3b4d =
     [ "WB_ExpressionVectorParameter.java", "_w_b___expression_vector_parameter_8java.html", [
       [ "WB_ExpressionVectorParameter", "classwblut_1_1math_1_1_w_b___expression_vector_parameter.html", "classwblut_1_1math_1_1_w_b___expression_vector_parameter" ]
     ] ],
+    [ "WB_FactorScalarParameter.java", "_w_b___factor_scalar_parameter_8java.html", [
+      [ "WB_FactorScalarParameter", "classwblut_1_1math_1_1_w_b___factor_scalar_parameter.html", "classwblut_1_1math_1_1_w_b___factor_scalar_parameter" ]
+    ] ],
     [ "WB_HashCode.java", "_w_b___hash_code_8java.html", [
       [ "WB_HashCode", "classwblut_1_1math_1_1_w_b___hash_code.html", null ]
     ] ],

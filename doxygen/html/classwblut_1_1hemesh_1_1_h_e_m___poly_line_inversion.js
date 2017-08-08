@@ -2,8 +2,8 @@ var classwblut_1_1hemesh_1_1_h_e_m___poly_line_inversion =
 [
     [ "HEM_PolyLineInversion", "classwblut_1_1hemesh_1_1_h_e_m___poly_line_inversion.html#a96804ef4639c99c8ebee12ae31395ddf", null ],
     [ "HEM_PolyLineInversion", "classwblut_1_1hemesh_1_1_h_e_m___poly_line_inversion.html#a82f4e000ab334770ee3e2658a327400e", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___poly_line_inversion.html#a4007d03080d1d2839212a6baa1824b96", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___poly_line_inversion.html#abd1032f3e2967c3d2a561fb8f48475b6", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___poly_line_inversion.html#a2a029ac983fdc1f950cfeb4523435a59", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___poly_line_inversion.html#a30c1c7f26ab7c8831994ee5e08794bfa", null ],
     [ "setCutoff", "classwblut_1_1hemesh_1_1_h_e_m___poly_line_inversion.html#a2930440a0aeafad81db94637986c0b5f", null ],
     [ "setLinear", "classwblut_1_1hemesh_1_1_h_e_m___poly_line_inversion.html#a7a28c1f1cc19925e7211c31defc8d5b0", null ],
     [ "setPolyLine", "classwblut_1_1hemesh_1_1_h_e_m___poly_line_inversion.html#a51e0b67d1e85060414cf333954cf7393", null ],

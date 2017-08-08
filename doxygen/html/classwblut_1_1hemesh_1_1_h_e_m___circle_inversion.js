@@ -2,8 +2,8 @@ var classwblut_1_1hemesh_1_1_h_e_m___circle_inversion =
 [
     [ "HEM_CircleInversion", "classwblut_1_1hemesh_1_1_h_e_m___circle_inversion.html#a05908aca651c54aa5aab278a2b445972", null ],
     [ "HEM_CircleInversion", "classwblut_1_1hemesh_1_1_h_e_m___circle_inversion.html#ae10a38732a825f32366de7dbb3d50521", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___circle_inversion.html#a17d0e5dac6b05b25fb1a81cca3dc62e9", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___circle_inversion.html#acbe73c1bea311f80417bc09a59f0bd76", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___circle_inversion.html#a80719e23b4065a885f01d82aaa9f61f3", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___circle_inversion.html#a308e9a664cc8f96198c30430b887d843", null ],
     [ "setCircle", "classwblut_1_1hemesh_1_1_h_e_m___circle_inversion.html#aa29de8799e59cc42176781fca4509ceb", null ],
     [ "setCircle", "classwblut_1_1hemesh_1_1_h_e_m___circle_inversion.html#adea71bdd6a2c6d6f3e27be4d80705a58", null ],
     [ "setCircle", "classwblut_1_1hemesh_1_1_h_e_m___circle_inversion.html#a938ee07fa6a85ccb47d5683f95eb90b8", null ],

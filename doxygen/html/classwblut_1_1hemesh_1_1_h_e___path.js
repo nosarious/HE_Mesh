@@ -6,6 +6,7 @@ var classwblut_1_1hemesh_1_1_h_e___path =
     [ "HE_Path", "classwblut_1_1hemesh_1_1_h_e___path.html#a4102f9ac2ef1be2f85ca090ceaf4fa23", null ],
     [ "clear", "classwblut_1_1hemesh_1_1_h_e___path.html#a136a7c003b6a6b873b95e6de9bc3894c", null ],
     [ "clearPathHalfedge", "classwblut_1_1hemesh_1_1_h_e___path.html#a3709bafb6766d5327b30711e3493ad59", null ],
+    [ "clearPrecomputed", "classwblut_1_1hemesh_1_1_h_e___path.html#a1517329035744c5c1853458d897a639e", null ],
     [ "createFromList", "classwblut_1_1hemesh_1_1_h_e___path.html#a88ae6a62e62c9878e1c6057dccbf4ea7", null ],
     [ "getHalfedges", "classwblut_1_1hemesh_1_1_h_e___path.html#a9a52c9c89a9f413a2ac77fb1b236b075", null ],
     [ "getPathEdges", "classwblut_1_1hemesh_1_1_h_e___path.html#a23dc0ac9b1bf86a68fbae78247f81bb7", null ],

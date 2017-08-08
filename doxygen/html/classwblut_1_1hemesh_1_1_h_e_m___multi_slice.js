@@ -1,8 +1,8 @@
 var classwblut_1_1hemesh_1_1_h_e_m___multi_slice =
 [
     [ "HEM_MultiSlice", "classwblut_1_1hemesh_1_1_h_e_m___multi_slice.html#aeafd770a19ef27f872696fb71ce5d83a", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___multi_slice.html#ac7611cbdd8f36ff9221501f3224c2692", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___multi_slice.html#a341d9352fcde31c98e18395a44587581", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___multi_slice.html#a3dad88432774f6fc1c1d0a3d42791a5d", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___multi_slice.html#a02867846423402814c6861d6a46723e3", null ],
     [ "setCap", "classwblut_1_1hemesh_1_1_h_e_m___multi_slice.html#ae762d89d0fcf0f622e23700fc7e12b89", null ],
     [ "setCenter", "classwblut_1_1hemesh_1_1_h_e_m___multi_slice.html#a629832388452436f293803c7ea6b41eb", null ],
     [ "setLabels", "classwblut_1_1hemesh_1_1_h_e_m___multi_slice.html#abb8505e3725de4453b6c02a1410b836a", null ],

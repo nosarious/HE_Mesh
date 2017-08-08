@@ -1,8 +1,8 @@
 var classwblut_1_1hemesh_1_1_h_e_m___taubin_smooth =
 [
     [ "HEM_TaubinSmooth", "classwblut_1_1hemesh_1_1_h_e_m___taubin_smooth.html#aac6c19bb50d745ce95668f3f27c10378", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___taubin_smooth.html#a1bdd4bb2ff2f8d6aea1835133038b8fb", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___taubin_smooth.html#a0885a39a897dc7377406a31a5eec702c", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___taubin_smooth.html#a994bb97cef2924aba1b8663e70d8ef2d", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___taubin_smooth.html#a732a92b81f77c58c8300038ae0ee4591", null ],
     [ "setAutoRescale", "classwblut_1_1hemesh_1_1_h_e_m___taubin_smooth.html#ac439eaae26d107e8a4fc9aca9ac9942e", null ],
     [ "setIterations", "classwblut_1_1hemesh_1_1_h_e_m___taubin_smooth.html#a0e1f86406c2c7cd25c10a6e84a9ec9f5", null ],
     [ "setKeepBoundary", "classwblut_1_1hemesh_1_1_h_e_m___taubin_smooth.html#aa4f89bce0af6fee2db512c11b2e08811", null ],

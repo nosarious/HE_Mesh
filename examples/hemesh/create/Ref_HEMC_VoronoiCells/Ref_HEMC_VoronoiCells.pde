@@ -3,24 +3,32 @@ import wblut.processing.*;
 import wblut.core.*;
 import wblut.hemesh.*;
 import wblut.geom.*;
-
+import java.util.List;
 float[][] points;
 int numpoints;
 HE_Mesh container;
 HE_MeshCollection cells;
 
 WB_Render render;
-
+boolean ASYNC;// create meshes in a separate thread?
 void setup() {
-  size(1000,1000,P3D);
+  size(1000, 1000, P3D);
   smooth(8);
   // Brute force approach to 3D Voronoi inside a container mesh. Very inefficient, useful
   // for prototyping tens to hundreds of points, painfully slow
   // for more...
 
-  //create a container mesh
-  container=new HE_Mesh(new HEC_Geodesic().setRadius(280));
- // container.modify(new HEM_Crocodile().setDistance(10));
+  container=new HE_Mesh(new HEC_Geodesic().setB(4).setC(4).setRadius(360));
+
+HEC_Cube creator=new HEC_Cube();
+  creator.setEdge(400); 
+   container = new HE_Mesh(creator);
+  HE_FaceIterator fitr=container.fItr();
+  while (fitr.hasNext()) {
+    fitr.next().setColor(color(0,0,255));
+  }
+  //make a skin
+  container.modify(new HEM_Shell().setThickness(50));  
 
   //generate points
   numpoints=100;
@@ -30,25 +38,42 @@ void setup() {
     points[i][1]=random(-200, 200);
     points[i][2]=random(-200, 200);
   }
-
+  
+   int B, C;
+  // make a icosahedron
+  B=1;
+  C=0;
+  HEC_Geodesic pointMaker=new HEC_Geodesic();
+  pointMaker.setRadius(20);
+  pointMaker.setB(B+1);
+  pointMaker.setC(C);
+  pointMaker.setType(HEC_Geodesic.ICOSAHEDRON);
+  HE_Mesh thisMesh = new HE_Mesh(pointMaker); 
+List <WB_Coord> thesePoints = thisMesh.getPoints();
   // generate voronoi cells
   HEMC_VoronoiCells multiCreator=new HEMC_VoronoiCells();
-  multiCreator.setPoints(points);
-  // alternatively points can be WB_Point[], any Collection<WB_Point> and double[][];
-  multiCreator.setN(numpoints);//number of points, can be smaller than number of points in input. 
+  multiCreator.setPoints(thesePoints);
+  
+  multiCreator.setN(thesePoints.size()/2);//number of points, can be smaller than number of points in input. 
   multiCreator.setContainer(container);// cutoff mesh for the voronoi cells, complex meshes increase the generation time
   multiCreator.setOffset(10);// offset of the bisector cutting planes, sides of the voronoi cells will be separated by twice this distance
   multiCreator.setSurface(false);// is container mesh a volume (false) or a surface (true)
   multiCreator.setCreateSkin(false);// create the combined outer skin of the cells as an additional mesh? This mesh is the last in the returned array.
+  multiCreator.setSimpleCap(false);
+  // multiCreator.setBruteForce(true);
+  ASYNC=true;
 
-  // can help speed up things for complex container and give more stable results. Creates the voronoi cells for a simple box and
-  // uses this to reduce the number of slicing operations on the actual container. Not fully tested yet.
-
-  cells=multiCreator.create();
+  if (ASYNC) {
+    cells=new HE_MeshCollection();
+    cells.createThreaded(multiCreator);
+  } else {
+    cells=multiCreator.create();
+  }
   render=new WB_Render(this);
 }
 
 void draw() {
+  if (ASYNC) cells.update();
   background(55);
   directionalLight(255, 255, 255, 1, 1, -1);
   directionalLight(127, 127, 127, -1, -1, 1);

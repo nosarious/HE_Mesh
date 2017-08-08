@@ -2,6 +2,7 @@ var classwblut_1_1hemesh_1_1_h_e___element =
 [
     [ "HE_Element", "classwblut_1_1hemesh_1_1_h_e___element.html#a850529c370191a893289a012936ee1e6", null ],
     [ "clear", "classwblut_1_1hemesh_1_1_h_e___element.html#af7d23ca352a5b259c6b59facd23b56d1", null ],
+    [ "clearPrecomputed", "classwblut_1_1hemesh_1_1_h_e___element.html#a4c9c5e421b925ad1fb9524b2b73f6f7c", null ],
     [ "copyProperties", "classwblut_1_1hemesh_1_1_h_e___element.html#a30739ae3f00b567b9e7386e67aaa977d", null ],
     [ "equals", "classwblut_1_1hemesh_1_1_h_e___element.html#af708d9f8cfa4f845c2d72593e3bef7fe", null ],
     [ "getInternalLabel", "classwblut_1_1hemesh_1_1_h_e___element.html#a79a99ecfc7b95e24f206f280e436c0c4", null ],

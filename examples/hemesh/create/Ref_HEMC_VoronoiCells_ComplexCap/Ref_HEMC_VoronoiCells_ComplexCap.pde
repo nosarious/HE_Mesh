@@ -17,7 +17,7 @@ void setup() {
   container=new HE_Mesh(creator);
   creator=new HEC_Torus(40, 200, 6, 16);
   HE_Mesh inner=new HE_Mesh(creator);
-   inner.modify(new HEM_Extrude().setDistance(32).setChamfer(0.8));
+  inner.modify(new HEM_Extrude().setDistance(32).setChamfer(0.8));
   HET_MeshOp.flipFaces(inner);
   container.add(inner);
 
@@ -38,7 +38,6 @@ void setup() {
 
   HEMC_VoronoiCells multiCreator=new HEMC_VoronoiCells();
   multiCreator.setPoints(points);
-  multiCreator.setN(numpoints);
   multiCreator.setContainer(container);
   multiCreator.setOffset(15);
   multiCreator.setSimpleCap(false);

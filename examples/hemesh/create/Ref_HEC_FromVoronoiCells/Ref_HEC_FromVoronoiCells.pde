@@ -24,7 +24,7 @@ void setup() {
 
 void createContainer() {
   container=new HE_Mesh(new HEC_Geodesic().setB(2).setC(0).setRadius(200)); 
-  container.modify(new HEM_Extrude().setDistance(150).setChamfer(0.5));
+  //container.modify(new HEM_Extrude().setDistance(150).setChamfer(0.5));
   HE_FaceIterator fitr=container.fItr();
   while (fitr.hasNext()) {
     fitr.next().setColor(color(0, 200, 50));
@@ -75,11 +75,10 @@ void createMesh() {
     ex.printStackTrace();
     fusedcells=tmp;
   } 
-  fusedcells.triangulate(HE_Selection.selectFacesWithOtherInternalLabel(fusedcells, -1));
-  HE_Selection.selectFacesWithInternalLabel(fusedcells, -1).subdivide(new HES_CatmullClark().setBlendFactor(new XGradient()), 2);
-  HE_Selection.selectFacesWithOtherInternalLabel(fusedcells, -1).subdivide(new HES_CatmullClark().setBlendFactor(new RevXGradient()), 2);
-  fusedcells.modify(new HEM_KeepLargestParts(1));
+  //fusedcells.clean();
+  HE_Selection.selectFacesWithOtherInternalLabel(fusedcells, -1).subdivide(new HES_CatmullClark());
   fusedcells.validate();
+  
 }
 
 void draw() {
@@ -98,16 +97,4 @@ void draw() {
 
 void mousePressed() {
   createMesh();
-}
-
-class XGradient implements WB_ScalarParameter {
-  public double evaluate(double... x) {
-    return constrain((float)WB_Ease.quint.easeInOut(map((float)x[0], -250, 250, 0, 1)), 0, 1);
-  }
-}
-
-class RevXGradient implements WB_ScalarParameter {
-  public double evaluate(double... x) {
-    return constrain((float)WB_Ease.quint.easeInOut(map((float)x[0], -250, 250, 1, 0)), 0, 1);
-  }
 }

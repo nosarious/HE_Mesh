@@ -24,7 +24,7 @@ void setup() {
   creator.setIsolevel(-0.4, 0.4);
   creator.setZFactor(25.0); 
   mesh=creator.create();
-
+  //mesh.modify(new HEM_Shell().setThickness(25));
 
   render=new WB_Render(this);
 }

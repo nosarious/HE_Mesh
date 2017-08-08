@@ -1,8 +1,8 @@
 var classwblut_1_1hemesh_1_1_h_e_m___tangential_smooth =
 [
     [ "HEM_TangentialSmooth", "classwblut_1_1hemesh_1_1_h_e_m___tangential_smooth.html#a4e095c268319e1706ff0f17811f71793", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___tangential_smooth.html#a01969d08c678449e0ff372d8281fa7a5", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___tangential_smooth.html#aecc76ea068363ef9eb0a9193dba2e34c", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___tangential_smooth.html#a3807a5ae9c6766c4840df2fc4cb20253", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___tangential_smooth.html#adefeb94d0ee42453748cf007796dfe73", null ],
     [ "setAutoRescale", "classwblut_1_1hemesh_1_1_h_e_m___tangential_smooth.html#ae595152a9d9001a11f72fda092f1c5af", null ],
     [ "setIterations", "classwblut_1_1hemesh_1_1_h_e_m___tangential_smooth.html#aef071d788a60804620758603b5c3fc20", null ],
     [ "setKeepBoundary", "classwblut_1_1hemesh_1_1_h_e_m___tangential_smooth.html#a7efed93904624d09f75f1b3533a97eaa", null ],

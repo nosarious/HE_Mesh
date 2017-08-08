@@ -28,10 +28,10 @@ void draw() {
   background(55);
   translate(400,400);
   noFill();
-  stroke(255, 0, 0, 120);
+  stroke(255, 0, 0);
   render.drawCircle2D(incircle);
   render.drawCircle2D(circumcircle);
-  stroke(0, 120);
+  stroke(0);
   render.drawTriangle2D(T);
 }
 

@@ -31,6 +31,7 @@ void draw() {
   strokeWeight(3);
   render.drawPolygonEdges2D(polygon);
   stroke(0);
+  fill(255,0,0);
   strokeWeight(0.4);
    render.drawPolygon2D(polygon);
 

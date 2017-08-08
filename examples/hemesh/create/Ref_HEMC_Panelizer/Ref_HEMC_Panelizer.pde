@@ -12,30 +12,34 @@ HE_MeshCollection panels;
 WB_Render render;
 
 void setup() {
-  size(1000,1000,P3D);
+  fullScreen(P3D);
   smooth(8);
   
   //create a hull mesh
-  hull=new HE_Mesh(new HEC_Geodesic().setB(2).setC(0).setRadius(200));
-  HET_MeshOp.splitFacesCenter(hull);
+  hull=new HE_Mesh(new HEC_Beethoven().setScale(11));
   //panelize the hull
   HEMC_Panelizer multiCreator=new HEMC_Panelizer();
   multiCreator.setMesh(hull);
-  multiCreator.setThickness(10);
-  multiCreator.setOffset(0,100);
-  panels=multiCreator.create();
+  multiCreator.setThickness(2);
+  multiCreator.setOffset(new Gradient());
+  panels=new HE_MeshCollection();
+  panels.createThreaded(multiCreator);
 
-  
   render=new WB_Render(this);
 }
 
-void draw() {
+void draw() 
+{
+  panels.update();
   background(55);
   directionalLight(255, 255, 255, 1, 1, -1);
   directionalLight(127, 127, 127, -1, -1, 1);
   translate(width/2, height/2);
   rotateY(mouseX*1.0f/width*TWO_PI);
   rotateX(mouseY*1.0f/height*TWO_PI);
+  fill(255,0,0);
+  noStroke();
+  render.drawFaces(hull);
   drawFaces();
   drawEdges();
 }
@@ -49,4 +53,10 @@ void drawFaces(){
   noStroke();
   fill(255);
   render.drawFaces(panels);
+}
+
+class Gradient implements WB_ScalarParameter {
+  public double evaluate(double... x) {
+    return  max(0,map((float)x[2],-300,300,0,50));
+  }
 }

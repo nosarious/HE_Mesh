@@ -1,8 +1,8 @@
 var classwblut_1_1hemesh_1_1_h_e_m___mirror =
 [
     [ "HEM_Mirror", "classwblut_1_1hemesh_1_1_h_e_m___mirror.html#a62767f15b732f191728592d0d324a5d1", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___mirror.html#afae6021634c6935e652dcbfebdc782fa", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___mirror.html#ae3ef258b9813ae740e1349367c81320f", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___mirror.html#a7c637050898adf4342f66ba89d2d6f84", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___mirror.html#a432172a203b72d839bb67fe18515f201", null ],
     [ "setKeepLargest", "classwblut_1_1hemesh_1_1_h_e_m___mirror.html#aa30c9e0bfd057d387fea7af031772438", null ],
     [ "setOffset", "classwblut_1_1hemesh_1_1_h_e_m___mirror.html#a74c89e7349c778a54533eeebfc804ed3", null ],
     [ "setPlane", "classwblut_1_1hemesh_1_1_h_e_m___mirror.html#a28a8329a8932304661559312ae279dd6", null ],

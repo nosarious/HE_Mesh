@@ -36,6 +36,7 @@ var classwblut_1_1geom_1_1_w_b___polygon =
     [ "negate", "classwblut_1_1geom_1_1_w_b___polygon.html#a33ca6ffb2fa8d4d093d479ca622652d8", null ],
     [ "splitPolygon", "classwblut_1_1geom_1_1_w_b___polygon.html#a7fc9f54b7d6a9703c0c3685a8ed04453", null ],
     [ "toPolygon2D", "classwblut_1_1geom_1_1_w_b___polygon.html#a01f2b8d39708c18e20a4bc56595773c1", null ],
+    [ "toPolygon2DOrtho", "classwblut_1_1geom_1_1_w_b___polygon.html#ac11e46d13f30422a3b3c3c6670cb390b", null ],
     [ "toSegments", "classwblut_1_1geom_1_1_w_b___polygon.html#a806fb79ef8f45c599c62bb0c7633a078", null ],
     [ "toVertices2D", "classwblut_1_1geom_1_1_w_b___polygon.html#a3a036c576b393b164f853bf1cbb7e3ce", null ],
     [ "trimConvexPolygon", "classwblut_1_1geom_1_1_w_b___polygon.html#a16c75f56c2cae27da65797e2684050e5", null ],

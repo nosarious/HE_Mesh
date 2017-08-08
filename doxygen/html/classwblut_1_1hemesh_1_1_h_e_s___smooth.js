@@ -1,8 +1,8 @@
 var classwblut_1_1hemesh_1_1_h_e_s___smooth =
 [
     [ "HES_Smooth", "classwblut_1_1hemesh_1_1_h_e_s___smooth.html#a83f8b89f90562b3dc50f3d2fad9dd4ab", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_s___smooth.html#adf95cd9b766f12c37d8c5ff0902a0502", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_s___smooth.html#a953011f07f9e0c31e18e6eade678a9b5", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_s___smooth.html#a5329f282ce3af6c2b502c3de13645688", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_s___smooth.html#ad034ac7debb9eb7ca740aadabf985897", null ],
     [ "setKeepBoundary", "classwblut_1_1hemesh_1_1_h_e_s___smooth.html#a5647f495de9f24eaf5b12f1b1b243bc9", null ],
     [ "setKeepEdges", "classwblut_1_1hemesh_1_1_h_e_s___smooth.html#a9590f26d97cb3648917c1b6e1b90bf2b", null ],
     [ "setWeight", "classwblut_1_1hemesh_1_1_h_e_s___smooth.html#aa95a1428c3d1727d653c9be9e8f42ce0", null ],

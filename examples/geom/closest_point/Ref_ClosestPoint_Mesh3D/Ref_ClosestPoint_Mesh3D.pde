@@ -20,7 +20,7 @@ void setup() {
   tree=new WB_AABBTree(mesh, 4);
   WB_RandomPoint rp=new WB_RandomOnCylinder().setHeight(700).setRadius(320);
   points=new ArrayList<WB_Point>();
-  for (int i=0; i<2000; i++) {
+  for (int i=0; i<500; i++) {
     points.add(rp.nextPoint().rotateAboutAxisSelf(HALF_PI, 0, 0, 0, 1, 0, 0));
   }
 }

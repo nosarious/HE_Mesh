@@ -15,7 +15,7 @@ void setup() {
   HES_CatmullClark subdividor=new HES_CatmullClark();
   subdividor.setKeepBoundary(true);// preserve position of vertices on a surface boundary
   subdividor.setKeepEdges(true);// preserve position of vertices on edge of selection (only useful if using subdivideSelected)
-
+  subdividor.setBlendFactor(1.0); //controls how much the vertices are moved: 0.0=planar, 1.0=true Catmull-Clark
   mesh.subdivide(subdividor, 3);
 
   render=new WB_Render(this);

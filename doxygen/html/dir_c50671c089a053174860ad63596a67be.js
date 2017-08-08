@@ -1,5 +1,8 @@
 var dir_c50671c089a053174860ad63596a67be =
 [
+    [ "HEC_AlphaShape.java", "_h_e_c___alpha_shape_8java.html", [
+      [ "HEC_AlphaShape", "classwblut_1_1hemesh_1_1_h_e_c___alpha_shape.html", "classwblut_1_1hemesh_1_1_h_e_c___alpha_shape" ]
+    ] ],
     [ "HEC_Antiprism.java", "_h_e_c___antiprism_8java.html", [
       [ "HEC_Antiprism", "classwblut_1_1hemesh_1_1_h_e_c___antiprism.html", "classwblut_1_1hemesh_1_1_h_e_c___antiprism" ]
     ] ],
@@ -67,9 +70,6 @@ var dir_c50671c089a053174860ad63596a67be =
     [ "HEC_FromHemeshFile.java", "_h_e_c___from_hemesh_file_8java.html", [
       [ "HEC_FromHemeshFile", "classwblut_1_1hemesh_1_1_h_e_c___from_hemesh_file.html", "classwblut_1_1hemesh_1_1_h_e_c___from_hemesh_file" ]
     ] ],
-    [ "HEC_FromMesh.java", "_h_e_c___from_mesh_8java.html", [
-      [ "HEC_FromMesh", "classwblut_1_1hemesh_1_1_h_e_c___from_mesh.html", "classwblut_1_1hemesh_1_1_h_e_c___from_mesh" ]
-    ] ],
     [ "HEC_FromOBJFile.java", "_h_e_c___from_o_b_j_file_8java.html", [
       [ "HEC_FromOBJFile", "classwblut_1_1hemesh_1_1_h_e_c___from_o_b_j_file.html", "classwblut_1_1hemesh_1_1_h_e_c___from_o_b_j_file" ]
     ] ],
@@ -96,6 +96,9 @@ var dir_c50671c089a053174860ad63596a67be =
     ] ],
     [ "HEC_FromVoronoiCells.java", "_h_e_c___from_voronoi_cells_8java.html", [
       [ "HEC_FromVoronoiCells", "classwblut_1_1hemesh_1_1_h_e_c___from_voronoi_cells.html", "classwblut_1_1hemesh_1_1_h_e_c___from_voronoi_cells" ]
+    ] ],
+    [ "HEC_FromWBMesh.java", "_h_e_c___from_w_b_mesh_8java.html", [
+      [ "HEC_FromWBMesh", "classwblut_1_1hemesh_1_1_h_e_c___from_w_b_mesh.html", "classwblut_1_1hemesh_1_1_h_e_c___from_w_b_mesh" ]
     ] ],
     [ "HEC_Geodesic.java", "_h_e_c___geodesic_8java.html", [
       [ "HEC_Geodesic", "classwblut_1_1hemesh_1_1_h_e_c___geodesic.html", "classwblut_1_1hemesh_1_1_h_e_c___geodesic" ]

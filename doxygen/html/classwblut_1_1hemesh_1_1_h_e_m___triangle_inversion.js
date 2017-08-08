@@ -2,8 +2,8 @@ var classwblut_1_1hemesh_1_1_h_e_m___triangle_inversion =
 [
     [ "HEM_TriangleInversion", "classwblut_1_1hemesh_1_1_h_e_m___triangle_inversion.html#a89c1d1982aa5b74640cde55f61aa5e71", null ],
     [ "HEM_TriangleInversion", "classwblut_1_1hemesh_1_1_h_e_m___triangle_inversion.html#a10214c581fe7382f5a436eb13e5910e0", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___triangle_inversion.html#af9637a34d961f0ef40add012c871eeb0", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___triangle_inversion.html#a3584c4d189cd21bfe7a165c0f33ec75a", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___triangle_inversion.html#adac955e60632170418fb0f20706f5790", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___triangle_inversion.html#abfac60fd5c7ad1f3203317cc6fc15810", null ],
     [ "setCutoff", "classwblut_1_1hemesh_1_1_h_e_m___triangle_inversion.html#afbb81184a9078247098f5b529327e358", null ],
     [ "setLinear", "classwblut_1_1hemesh_1_1_h_e_m___triangle_inversion.html#ae4f4bbc297506a55ad29a2d8319cdf60", null ],
     [ "setRadius", "classwblut_1_1hemesh_1_1_h_e_m___triangle_inversion.html#a5f4f53bcf0cdc9d7665af319c5dde7b7", null ],

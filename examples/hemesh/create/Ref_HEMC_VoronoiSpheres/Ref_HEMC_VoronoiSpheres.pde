@@ -18,7 +18,7 @@ void setup() {
   smooth(8);
   
   //generate points
-  numpoints=4000;
+  numpoints=500;
   points=new float[numpoints][3];
   for(int i=0;i<numpoints;i++) {
     points[i][0]=random(-300,300);
@@ -29,8 +29,6 @@ void setup() {
   // generate voronoi cells
   HEMC_VoronoiSpheres multiCreator=new HEMC_VoronoiSpheres();
   multiCreator.setPoints(points);
-  // alternatively points can be WB_Point[], any Collection<WB_Point> and double[][];
-  multiCreator.setN(100);//number of points, can be smaller than number of points in input. 
   multiCreator.setLevel(3);// subdivision level for cell spheres
   multiCreator.setCutoff(200);// maximum radius of cell
    multiCreator.setApprox(true);// approximate cells by point expansion or precise cells by sphere slicing

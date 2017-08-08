@@ -446,8 +446,10 @@ var dir_d8e91e4a5b24d21d47b0cca7e5aa33c5 =
       [ "WB_Vector4D", "classwblut_1_1geom_1_1_w_b___vector4_d.html", "classwblut_1_1geom_1_1_w_b___vector4_d" ]
     ] ],
     [ "WB_Voronoi.java", "_w_b___voronoi_8java.html", [
-      [ "WB_Voronoi", "classwblut_1_1geom_1_1_w_b___voronoi.html", null ]
+      [ "WB_Voronoi", "classwblut_1_1geom_1_1_w_b___voronoi.html", "classwblut_1_1geom_1_1_w_b___voronoi" ]
     ] ],
+    [ "WB_Voronoi2D.java", "_w_b___voronoi2_d_8java.html", null ],
+    [ "WB_Voronoi3D.java", "_w_b___voronoi3_d_8java.html", null ],
     [ "WB_VoronoiCell2D.java", "_w_b___voronoi_cell2_d_8java.html", [
       [ "WB_VoronoiCell2D", "classwblut_1_1geom_1_1_w_b___voronoi_cell2_d.html", "classwblut_1_1geom_1_1_w_b___voronoi_cell2_d" ]
     ] ],

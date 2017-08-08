@@ -10,17 +10,19 @@ WB_Line L;
 HEM_Twist modifier;
 void setup() {
   size(1000, 1000, P3D);
+  smooth(8);
   createMesh();
   
   modifier=new HEM_Twist();
   
  
- L=new WB_Line(100,0,0,0,0,1);
+ L=new WB_Line(0,0,0,1,1,0);
   modifier.setTwistAxis(L);// Twist axis
-  //you can also pass the line as two points:  modifier.setBendAxis(0,0,-200,1,0,-200)
+  //you can also pass the line as two points:  modifier.setTwistAxisFromPoints(new WB_Point(0,0,-200),new WB_Point(1,0,-200))
+  //or as a point and a direction :  modifier.setTwistAxis(new WB_Point(0,0,-200),new WB_Vector(0,0,1))
   
   modifier.setAngleFactor(.51);// Angle per unit distance (in degrees) to the twist axis
-  // points which are a distance d from the axis are rotated around it by an angle d*angleFactor;
+  // points which are a distance d from the axis are rotated around it by an angle d*angleFactor°;
   
   mesh.modify(modifier);
   
@@ -32,26 +34,25 @@ void draw() {
   directionalLight(255, 255, 255, 1, 1, -1);
   directionalLight(127, 127, 127, -1, -1, 1);
   translate(width/2,height/2);
-rotateY(.25*TWO_PI);
+
   fill(255);
   noStroke();
-  render.drawFacesSmooth(mesh);
+  render.drawFaces(mesh);
   stroke(0);
-  //render.drawEdges(mesh);
+  render.drawEdges(mesh);
+  stroke(255,0,0);
   render.drawLine(L,800);
   
   
   createMesh();
-  L=new WB_Line(0,0,0,0,cos(PI/800.0*mouseX),sin(PI/800.0*mouseX));
   modifier.setTwistAxis(L);
-  modifier.setAngleFactor(mouseY*0.0025);
+  modifier.setAngleFactor(mouseX*0.001);
   mesh.modify(modifier);
 }
 
 
 void createMesh(){
-  HEC_Cylinder creator=new HEC_Cylinder();
-  creator.setFacets(128).setSteps(32).setRadius(150).setHeight(400).setCap(false,false);
+  HEC_Box creator=new HEC_Box(300,300,300,30,30,30);
   mesh=new HE_Mesh(creator);
 
 }

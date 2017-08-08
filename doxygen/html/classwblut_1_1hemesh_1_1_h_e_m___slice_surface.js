@@ -1,8 +1,8 @@
 var classwblut_1_1hemesh_1_1_h_e_m___slice_surface =
 [
     [ "HEM_SliceSurface", "classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html#ab6a3ad72e57a721b800d7510dc0c7276", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html#a2f62aa966ff22523b59f7adf1574a5a4", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html#a8945d2b2abf2bc976507eaa87adc7e3d", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html#af6c000013cdee584221521d3a7564983", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html#a57876167d1df328aa984549ba4650ac9", null ],
     [ "buildPaths", "classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html#a47c945bd0e806efd6302805727efb86e", null ],
     [ "getPaths", "classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html#ae9df5bf7b20ae3ba5ef162262b81a977", null ],
     [ "setOffset", "classwblut_1_1hemesh_1_1_h_e_m___slice_surface.html#ac9de92ab2d01839ab8e47724e31a3628", null ],

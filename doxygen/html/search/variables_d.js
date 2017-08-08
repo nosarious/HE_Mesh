@@ -1,9 +1,9 @@
 var searchData=
 [
   ['m',['M',['../classwblut_1_1hemesh_1_1_h_e_c___box.html#a7b44959deb1e1134c08159f83393559a',1,'wblut.hemesh.HEC_Box.M()'],['../classwblut_1_1hemesh_1_1_h_e_c___chamfer_box.html#af13f16d1bce5031602cd2e6cbaab8e3e',1,'wblut.hemesh.HEC_ChamferBox.M()'],['../classwblut_1_1hemesh_1_1_h_e_c___cube.html#a2aaaee8a93dfba3fb720408046283aa3',1,'wblut.hemesh.HEC_Cube.M()'],['../classwblut_1_1math_1_1_w_b___m_t_random.html#a279bab9bf061ff71f10b58a6c97e8886',1,'wblut.math.WB_MTRandom.M()'],['../classwblut_1_1nurbs_1_1_w_b___bezier_surface.html#a464db1b0d9217a7fb11721a57a6ddb20',1,'wblut.nurbs.WB_BezierSurface.m()'],['../classwblut_1_1nurbs_1_1_w_b___b_spline_surface.html#ab9f085d02008ca641fc505699cea2d0c',1,'wblut.nurbs.WB_BSplineSurface.m()'],['../classwblut_1_1nurbs_1_1_w_b___nurbs_knot.html#a425d18938be5116df7d277ed92bfb9d6',1,'wblut.nurbs.WB_NurbsKnot.m()']]],
-  ['m11',['m11',['../classwblut_1_1math_1_1_w_b___m33.html#a868fa4ceef0820a27e70c9aec592ac59',1,'wblut.math.WB_M33.m11()'],['../classwblut_1_1math_1_1_w_b___m44.html#a28678236db29ccc799cba4aea250a732',1,'wblut.math.WB_M44.m11()']]],
-  ['m21',['m21',['../classwblut_1_1math_1_1_w_b___m33.html#abd43bbe4056b1d95da8ae3187e5e6f67',1,'wblut.math.WB_M33.m21()'],['../classwblut_1_1math_1_1_w_b___m44.html#a9ef13915cb0a78681cc0ac8e12bfafb5',1,'wblut.math.WB_M44.m21()']]],
-  ['m31',['m31',['../classwblut_1_1math_1_1_w_b___m33.html#a4472d8266268563229ba598565ed07b4',1,'wblut.math.WB_M33.m31()'],['../classwblut_1_1math_1_1_w_b___m44.html#a743b3cafe5f6b04195c5c76e46a91bf5',1,'wblut.math.WB_M44.m31()']]],
+  ['m11',['m11',['../classwblut_1_1math_1_1_w_b___m22.html#ade0a67c0f465912f27e557338047a2ac',1,'wblut.math.WB_M22.m11()'],['../classwblut_1_1math_1_1_w_b___m33.html#a868fa4ceef0820a27e70c9aec592ac59',1,'wblut.math.WB_M33.m11()'],['../classwblut_1_1math_1_1_w_b___m44.html#a28678236db29ccc799cba4aea250a732',1,'wblut.math.WB_M44.m11()']]],
+  ['m21',['m21',['../classwblut_1_1math_1_1_w_b___m22.html#ab77d78064c7ff42ad35619ec890da138',1,'wblut.math.WB_M22.m21()'],['../classwblut_1_1math_1_1_w_b___m33.html#abd43bbe4056b1d95da8ae3187e5e6f67',1,'wblut.math.WB_M33.m21()'],['../classwblut_1_1math_1_1_w_b___m44.html#a9ef13915cb0a78681cc0ac8e12bfafb5',1,'wblut.math.WB_M44.m21()']]],
+  ['m31',['m31',['../classwblut_1_1math_1_1_w_b___m22.html#aacf280046e9ab60d49dfff35583983b3',1,'wblut.math.WB_M22.m31()'],['../classwblut_1_1math_1_1_w_b___m33.html#a4472d8266268563229ba598565ed07b4',1,'wblut.math.WB_M33.m31()'],['../classwblut_1_1math_1_1_w_b___m44.html#a743b3cafe5f6b04195c5c76e46a91bf5',1,'wblut.math.WB_M44.m31()']]],
   ['m41',['m41',['../classwblut_1_1math_1_1_w_b___m44.html#aa73c8e7cb33fffe5c331590397e4a606',1,'wblut::math::WB_M44']]],
   ['machine',['machine',['../classwblut_1_1hemesh_1_1_h_e_c___machine.html#a7953686b768b694159391acb7fe640f8',1,'wblut::hemesh::HEC_Machine']]],
   ['mag01',['mag01',['../classwblut_1_1math_1_1_w_b___m_t_random.html#aa69ac6596805fce978aa9c4f1ad1c6bc',1,'wblut::math::WB_MTRandom']]],
@@ -37,10 +37,5 @@ var searchData=
   ['mt',['mt',['../classwblut_1_1math_1_1_w_b___m_t_random.html#af009420674df0cf54a900759594fcc80',1,'wblut::math::WB_MTRandom']]],
   ['mti',['mti',['../classwblut_1_1math_1_1_w_b___m_t_random.html#a81b722fbe9de8d0d9ad99378a0cf6cd3',1,'wblut::math::WB_MTRandom']]],
   ['mu',['mu',['../classwblut_1_1hemesh_1_1_h_e_m___taubin_smooth.html#a164d78bfbad542507d414131d900657b',1,'wblut::hemesh::HEM_TaubinSmooth']]],
-  ['muf',['muf',['../classwblut_1_1hemesh_1_1_h_e_c___sea_shell.html#a0d4801f34c81bf97c1d6c80c76e42f95',1,'wblut::hemesh::HEC_SeaShell']]],
-  ['mx',['mX',['../classwblut_1_1geom_1_1_w_b___geometry_factory.html#a28fc79dcb0eeb8cebd75362f32be66c1',1,'wblut::geom::WB_GeometryFactory']]],
-  ['mx2d',['mX2D',['../classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#afed0df455c01e40b11e113212518345c',1,'wblut::geom::WB_GeometryFactory2D']]],
-  ['my',['mY',['../classwblut_1_1geom_1_1_w_b___geometry_factory.html#ae766082388c85a787a19c7e4fa9c089c',1,'wblut::geom::WB_GeometryFactory']]],
-  ['my2d',['mY2D',['../classwblut_1_1geom_1_1_w_b___geometry_factory2_d.html#a7a0c73b25dc9eddf0229fccb0537bfac',1,'wblut::geom::WB_GeometryFactory2D']]],
-  ['mz',['mZ',['../classwblut_1_1geom_1_1_w_b___geometry_factory.html#a04771499a515d570480cb659bebf0e50',1,'wblut::geom::WB_GeometryFactory']]]
+  ['muf',['muf',['../classwblut_1_1hemesh_1_1_h_e_c___sea_shell.html#a0d4801f34c81bf97c1d6c80c76e42f95',1,'wblut::hemesh::HEC_SeaShell']]]
 ];

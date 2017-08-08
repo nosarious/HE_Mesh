@@ -59,6 +59,7 @@ void draw() {
 
 void createMesh(){
   HEC_Cylinder creator=new HEC_Cylinder();
-  creator.setFacets(32).setSteps(30).setRadius(100).setHeight(400).setCenter(0,0,0);
+  creator.setFacets(64).setSteps(64).setRadius(180).setHeight(600).setCap(false,false).setCenter(0,0,0);
   mesh=new HE_Mesh(creator);
+  mesh.modify(new HEM_Shell().setThickness(40));
 }

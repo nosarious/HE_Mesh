@@ -1,8 +1,8 @@
 var classwblut_1_1hemesh_1_1_h_e_m___wireframe =
 [
     [ "HEM_Wireframe", "classwblut_1_1hemesh_1_1_h_e_m___wireframe.html#a3b00b4928603bfbe8caaf1a8e0c5fb76", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___wireframe.html#a956af20c16a4bc718f23644aa5ae2c8f", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___wireframe.html#a9634fd5c10d2635b3156a27b2f93dbcd", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___wireframe.html#a2ed3b2e44852745e8e01df489085c05c", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___wireframe.html#a5361bda765148e3d3415f388b48f2fc3", null ],
     [ "setAngleOffset", "classwblut_1_1hemesh_1_1_h_e_m___wireframe.html#a0b8fc12246221ad61661b4306e56023b", null ],
     [ "setAngleOffset", "classwblut_1_1hemesh_1_1_h_e_m___wireframe.html#aaa3007b62776e6d06a5bd8472d464144", null ],
     [ "setCap", "classwblut_1_1hemesh_1_1_h_e_m___wireframe.html#abea5d2df29298b73b2fb504b2d2700cb", null ],

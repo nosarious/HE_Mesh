@@ -4,6 +4,7 @@ var classwblut_1_1hemesh_1_1_h_e___path_halfedge =
     [ "HE_PathHalfedge", "classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a626574abb8af646eab8a4f0ca9de5247", null ],
     [ "clear", "classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a5b9f09c91d40111fad8cfc414c3b465c", null ],
     [ "clearNext", "classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#adc05141cce08436cdc746eec3e3de9b4", null ],
+    [ "clearPrecomputed", "classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a4387c88fbab4fb89efc24632676fabdc", null ],
     [ "clearPrev", "classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a0f9c44bbb6fcfb53d3bbb1543152b2e9", null ],
     [ "getEndVertex", "classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#aad6c46afbf13d7feca999a2e9eabc194", null ],
     [ "getHalfedge", "classwblut_1_1hemesh_1_1_h_e___path_halfedge.html#a6dc4ccf3ff88b0866ecd1d21593c947c", null ],

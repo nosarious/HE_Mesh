@@ -1,7 +1,6 @@
 var classwblut_1_1hemesh_1_1_h_e_m_c___weaire_phelan =
 [
     [ "HEMC_WeairePhelan", "classwblut_1_1hemesh_1_1_h_e_m_c___weaire_phelan.html#a5ff93bbc488907d6c879413219954a8c", null ],
-    [ "create", "classwblut_1_1hemesh_1_1_h_e_m_c___weaire_phelan.html#a56976a9161c3c7dae26dbaee630bb133", null ],
     [ "setCrop", "classwblut_1_1hemesh_1_1_h_e_m_c___weaire_phelan.html#a59f0a83c05a3a3be7cc36c9d3fc4e8a6", null ],
     [ "setCrop", "classwblut_1_1hemesh_1_1_h_e_m_c___weaire_phelan.html#a5e26d49a4c4596b73a182963718a1b0b", null ],
     [ "setCrop", "classwblut_1_1hemesh_1_1_h_e_m_c___weaire_phelan.html#a09e41533a3c34aff863555285be672b1", null ],

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['b',['b',['../classwblut_1_1geom_1_1_w_b___line.html#a775260d60d9d9edd16f833e52242a32f',1,'wblut.geom.WB_Line.b()'],['../classwblut_1_1geom_1_1_w_b___poly_line.html#ab37b7f56a409b5f8e3482c2f491fe1a6',1,'wblut.geom.WB_PolyLine.b()'],['../classwblut_1_1geom_1_1_w_b___ring.html#a9789345bf6b73d8cd530c17ab6afef0d',1,'wblut.geom.WB_Ring.b()'],['../classwblut_1_1geom_1_1_w_b___triangle.html#ad5fd4cfe11f033e2dd7968a28c0ceb5f',1,'wblut.geom.WB_Triangle.b()']]],
+  ['b',['b',['../classwblut_1_1geom_1_1_w_b___line.html#a775260d60d9d9edd16f833e52242a32f',1,'wblut.geom.WB_Line.b()'],['../classwblut_1_1geom_1_1_w_b___plane.html#aa01efd56a32ceb8697d84ca6163ec6a9',1,'wblut.geom.WB_Plane.b()'],['../classwblut_1_1geom_1_1_w_b___poly_line.html#ab37b7f56a409b5f8e3482c2f491fe1a6',1,'wblut.geom.WB_PolyLine.b()'],['../classwblut_1_1geom_1_1_w_b___ring.html#a9789345bf6b73d8cd530c17ab6afef0d',1,'wblut.geom.WB_Ring.b()'],['../classwblut_1_1geom_1_1_w_b___triangle.html#ad5fd4cfe11f033e2dd7968a28c0ceb5f',1,'wblut.geom.WB_Triangle.b()']]],
   ['basisfunctions',['basisFunctions',['../classwblut_1_1nurbs_1_1_w_b___nurbs_knot.html#a7164717576f85035abf2cbe548f5c75e',1,'wblut::nurbs::WB_NurbsKnot']]],
   ['begindraw',['beginDraw',['../classwblut_1_1hemesh_1_1_h_e_t___mesh_buffer.html#abe9284ec06d8478666f1ac922d1b45e3',1,'wblut::hemesh::HET_MeshBuffer']]],
   ['beginindices',['beginIndices',['../classwblut_1_1hemesh_1_1_h_e_t___writer_po_v.html#afc37ebf62b4d3e93a6249d44c1a8cf84',1,'wblut::hemesh::HET_WriterPoV']]],
@@ -13,7 +13,6 @@ var searchData=
   ['bin',['bin',['../classwblut_1_1math_1_1_w_b___binomial.html#a3550c90394ba2e5eb41dfb5e38392c0c',1,'wblut::math::WB_Binomial']]],
   ['binprecalc',['binPrecalc',['../classwblut_1_1math_1_1_w_b___binomial.html#a36ea9ff6378246ce9e4a3fad296e7db1',1,'wblut::math::WB_Binomial']]],
   ['blue',['blue',['../classwblut_1_1hemesh_1_1_h_e_t___writer_p_l_y.html#a74108f799ec2b939cc59f744971d7e41',1,'wblut.hemesh.HET_WriterPLY.blue()'],['../classwblut_1_1hemesh_1_1_h_e_t___writer_w_r_l.html#a9bdef82664699b964f79587595c04623',1,'wblut.hemesh.HET_WriterWRL.blue()']]],
-  ['boundaryarray',['boundaryArray',['../classwblut_1_1geom_1_1_w_b___voronoi_cell3_d.html#aaa33ba7e25367a62fdb121acb337e94d',1,'wblut::geom::WB_VoronoiCell3D']]],
   ['buffertodouble',['bufferToDouble',['../classwblut_1_1hemesh_1_1_h_e_c___from_binary_s_t_l_file.html#a8fb87af561a1b8e6983e07a96e9652c0',1,'wblut::hemesh::HEC_FromBinarySTLFile']]],
   ['buffertoint',['bufferToInt',['../classwblut_1_1hemesh_1_1_h_e_c___from_binary_s_t_l_file.html#ab113a6f0c2eb1c4442ea99e58d89cab6',1,'wblut::hemesh::HEC_FromBinarySTLFile']]],
   ['buildheap',['buildHeap',['../classwblut_1_1hemesh_1_1_h_e_s___tri_dec.html#afcd9e342fb77ff5ebbd38d17a21e22c7',1,'wblut.hemesh.HES_TriDec.buildHeap()'],['../classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit.html#aa03284d736f3363845fd4dbb19b0d062',1,'wblut.hemesh.HES_TriDecLimit.buildHeap()']]],

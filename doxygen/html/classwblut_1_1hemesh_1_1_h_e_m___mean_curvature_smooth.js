@@ -1,8 +1,8 @@
 var classwblut_1_1hemesh_1_1_h_e_m___mean_curvature_smooth =
 [
     [ "HEM_MeanCurvatureSmooth", "classwblut_1_1hemesh_1_1_h_e_m___mean_curvature_smooth.html#a4e86c08dcb362be3b0ce7117dce3c43e", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___mean_curvature_smooth.html#ace94d060a9e8012544dc5287798e09de", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___mean_curvature_smooth.html#a5e20340a234eb7e377f491c283fcdde9", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___mean_curvature_smooth.html#af177db7ad1bf92c5f353324a3c8b1e75", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___mean_curvature_smooth.html#a011c4ec29c396cbaa7c9a56cd46b85b3", null ],
     [ "setAutoRescale", "classwblut_1_1hemesh_1_1_h_e_m___mean_curvature_smooth.html#a635754f399b6c80347444961c6ca5765", null ],
     [ "setIterations", "classwblut_1_1hemesh_1_1_h_e_m___mean_curvature_smooth.html#a25ab20fe5152784352a43c6902668f34", null ],
     [ "setKeepBoundary", "classwblut_1_1hemesh_1_1_h_e_m___mean_curvature_smooth.html#ad1bbc10514827144b85c4d4c6a55aa00", null ],

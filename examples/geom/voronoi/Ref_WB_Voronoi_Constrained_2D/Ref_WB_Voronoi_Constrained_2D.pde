@@ -22,7 +22,7 @@ void setup() {
     }
   }
   createBoundaryPolygon();
-  voronoiXY= WB_Voronoi.getClippedVoronoi2D(points, boundary);
+  voronoiXY= WB_Voronoi.getClippedVoronoi2D(points, boundary,2);
   textAlign(CENTER);
 }
 
@@ -49,7 +49,7 @@ void mousePressed() {
   for (WB_Point p : points) {
     p.addSelf(random(-5, 5), random(-5, 5), 0);
   } 
-  voronoiXY= WB_Voronoi.getClippedVoronoi2D(points, boundary);
+  voronoiXY= WB_Voronoi.getClippedVoronoi2D(points, boundary,2);
 }
 
 void createBoundaryPolygon(){

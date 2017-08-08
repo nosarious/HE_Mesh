@@ -31,7 +31,6 @@ var searchData=
   ['visualimportance',['visualImportance',['../classwblut_1_1hemesh_1_1_h_e_s___tri_dec.html#afe0c9c135767a956a11a451df5281b1f',1,'wblut.hemesh.HES_TriDec.visualImportance()'],['../classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit.html#a9cd9da4d60da409a66ff7c159de2c8fc',1,'wblut.hemesh.HES_TriDecLimit.visualImportance()']]],
   ['vitr',['vItr',['../classwblut_1_1hemesh_1_1_h_e___mesh_structure.html#a88efbb5bb7115b9586a79122aa5e4b32',1,'wblut::hemesh::HE_MeshStructure']]],
   ['vknot',['vknot',['../classwblut_1_1nurbs_1_1_w_b___b_spline_surface.html#af4291c98e80f4047743ab7ca81002783',1,'wblut::nurbs::WB_BSplineSurface']]],
-  ['voronoi2d',['voronoi2D',['../classwblut_1_1geom_1_1_w_b___voronoi.html#aa546af29f8c54808d35e0d9d4a503492',1,'wblut.geom.WB_Voronoi.voronoi2D(final ArrayList&lt; Coordinate &gt; coords, final WB_Map2D context)'],['../classwblut_1_1geom_1_1_w_b___voronoi.html#a4d2141d425a3449b77ce605fe299c707',1,'wblut.geom.WB_Voronoi.voronoi2D(final ArrayList&lt; Coordinate &gt; coords, final double d, final int c, final WB_Map2D context)']]],
   ['vvcrc',['vvCrc',['../classwblut_1_1hemesh_1_1_h_e___vertex.html#adf68986f49ed98b81e621cb636ac9733',1,'wblut::hemesh::HE_Vertex']]],
   ['vvrevcrc',['vvRevCrc',['../classwblut_1_1hemesh_1_1_h_e___vertex.html#adbc1a2fcc759c1510be65b22c67ea7e2',1,'wblut::hemesh::HE_Vertex']]]
 ];

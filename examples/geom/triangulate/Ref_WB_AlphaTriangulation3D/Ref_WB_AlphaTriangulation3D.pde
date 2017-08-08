@@ -10,16 +10,20 @@ int[] triangles;
 void setup() {
   size(1000, 1000, P3D);
   smooth(8);
-  source=new WB_RandomBox().setSize(500, 500, 500);
+  source=new WB_RandomOnSphere();
   render=new WB_Render3D(this);
-  numPoints=100;
-  points=new WB_Point[numPoints];
+  numPoints=400;
+  points=new WB_Point[numPoints+100];
   for (int i=0; i<numPoints; i++) {
+    points[i]=source.nextPoint().mulSelf(random(260,340));
+  }
+  source=new WB_RandomOnCylinder().setRadius(50).setHeight(600);
+  for (int i=numPoints; i<numPoints+100; i++) {
     points[i]=source.nextPoint();
   }
   WB_AlphaTriangulation3D triangulation=WB_Triangulate.alphaTriangulate3D(points);
-  tetrahedra=triangulation.getAlphaTetrahedra(100.0);// 1D array of indices of tetrahedra, 4 indices per tetrahedron
-  triangles=triangulation.getAlphaTriangles(100.0);
+  tetrahedra=triangulation.getAlphaTetrahedra(10000.0);// 1D array of indices of tetrahedra, 4 indices per tetrahedron
+  triangles=triangulation.getAlphaTriangles(65.0);
   println("First tetrahedron: ["+tetrahedra[0]+", "+tetrahedra[1]+", "+tetrahedra[2]+", "+tetrahedra[3]+"]");
 }
 
@@ -42,15 +46,11 @@ void draw() {
     render.drawTetrahedron(points[tetrahedra[i]], points[tetrahedra[i+1]], points[tetrahedra[i+2]], points[tetrahedra[i+3]]);
     popMatrix();
   }
-  fill(255,50);
+  fill(255);
   stroke(255,0,0);
   strokeWeight(3.0);
   for (int i=0; i<triangles.length; i+=3) {
-    pushMatrix();
-    // center=new WB_Point(points[tetrahedra[i]]).addSelf(points[tetrahedra[i+1]]).addSelf(points[tetrahedra[i+2]]).addSelf(points[tetrahedra[i+3]]).mulSelf(0.25+0.25*sin(0.005*frameCount));
-    //render.translate(center);
     render.drawTriangle(points[triangles[i]], points[triangles[i+1]], points[triangles[i+2]]);
-    popMatrix();
   }
   
 }

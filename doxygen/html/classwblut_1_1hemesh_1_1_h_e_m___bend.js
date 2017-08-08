@@ -1,8 +1,8 @@
 var classwblut_1_1hemesh_1_1_h_e_m___bend =
 [
     [ "HEM_Bend", "classwblut_1_1hemesh_1_1_h_e_m___bend.html#acd91b012dc46c9913875bd6e42cc455f", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___bend.html#a925a1d39794116cbb28116d24273362e", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_m___bend.html#a106e1bdf1dd0204e3e7160a364b829f0", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___bend.html#a5ebb22ea02dff2c126fc6bf1c2eba64e", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_m___bend.html#a54da0532700e89c01766a56d174a534b", null ],
     [ "setAngleFactor", "classwblut_1_1hemesh_1_1_h_e_m___bend.html#a9e049c5bbd67fa181c0f698e6d8c29eb", null ],
     [ "setBendAxis", "classwblut_1_1hemesh_1_1_h_e_m___bend.html#ae56d89c8f4956612d764c682bb525312", null ],
     [ "setBendAxis", "classwblut_1_1hemesh_1_1_h_e_m___bend.html#ad4e337738643c50ae098810e21ed959b", null ],

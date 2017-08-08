@@ -2,8 +2,8 @@ var classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit =
 [
     [ "Heap", "classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit_1_1_heap.html", "classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit_1_1_heap" ],
     [ "HES_TriDecLimit", "classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit.html#af374af8dde7c9cc287730ea8342a51d1", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit.html#a8458d3d974ca5ba49e62ef9c4179d196", null ],
-    [ "apply", "classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit.html#af832df0b9e7d6074526e745638165e7e", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit.html#adfa7fa2243e866d67fc8d3e3c242c64c", null ],
+    [ "applyInt", "classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit.html#a94779acd32bcdb805cd946a97a4535d8", null ],
     [ "buildHeap", "classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit.html#aa03284d736f3363845fd4dbb19b0d062", null ],
     [ "halfedgeCollapseCost", "classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit.html#aeb8888f952a7da861481cce8bc74df81", null ],
     [ "setLambda", "classwblut_1_1hemesh_1_1_h_e_s___tri_dec_limit.html#a17e098860bdc86d6b22051d33744fb31", null ],
