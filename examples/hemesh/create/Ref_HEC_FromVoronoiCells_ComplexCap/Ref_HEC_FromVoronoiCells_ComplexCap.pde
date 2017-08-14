@@ -48,7 +48,7 @@ void createMesh() {
   }
 
   // generate voronoi cells
-  HEMC_VoronoiCells multiCreator=new HEMC_VoronoiCells().setPoints(points).setN(numpoints).setContainer(container).setOffset(0).setSimpleCap(false);
+  HEMC_VoronoiCells multiCreator=new HEMC_VoronoiCells().setPoints(points).setContainer(container).setOffset(0).setSimpleCap(false);
   cells=multiCreator.create();
 
   //color the cells
